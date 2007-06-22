@@ -1,4 +1,4 @@
-import sys
+import sys, os
 from ui_icepapcms import IcepapCMS
 from PyQt4 import QtCore, QtGui
 from lib_icepapcms import *
