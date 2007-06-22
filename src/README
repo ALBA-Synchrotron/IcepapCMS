@@ -1,0 +1,7 @@
+Requirements
+
+python 2.4 
+qt 4.2
+pyqt 4.2
+zodb 3.6
+pywin32 extensions (windows only)

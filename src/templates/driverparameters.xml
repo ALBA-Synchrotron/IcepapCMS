@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<parlist>
+        <section name="driver">
+                <par name="IREGI" type="DOUBLE" min="0" max="100">
+                	 <description>Integral Constant PI Current Regulator</description>
+                </par>
+                <par name="IREGP" type="DOUBLE" min="0" max="1000">
+                     <description>Proportional Constant PI Current Regulator</description>
+                </par>
+                <par name="II" type="DOUBLE" min="0" max="8">
+                     <description>Idle Current</description>
+                </par>
+                <par name="IN" type="DOUBLE" min="0" max="8">
+                     <description>Drive Current</description>
+                </par>
+                <par name="IB" type="DOUBLE" min="0" max="8">
+                     <description>Boost Current</description>
+                </par>
+                <par name="SDMAX" type="DOUBLE" min="0" max="80">
+                     <description>Drive Voltage</description>
+                </par>
+                <par name="SD" type="DOUBLE" min="0" max="80">
+                     <description>Stand-by Voltage</description>
+                </par>
+        </section>
+        <section name="motion">
+                <par name="MICRO" type="INTEGER" min="0" max="16">>
+                     <description>MicroStepping</description>
+                </par>
+                <par name="ESW" type="INTEGER" min="0" max="1">>
+                     <description>Enable/Disable Limit Switches</description>
+                </par>
+                <par name="TDIR" type="INTEGER" min="0" max="1">>
+                     <description>Positive Direction (change if there is a mismatch between dir and limits</description>
+                </par>
+                <par name="PSW" type="INTEGER" min="0" max="1">>
+                     <description>Limit Switches Polarity</description>
+                </par>
+                <par name="EEN" type="INTEGER" min="0" max="1">>
+                     <description>Enable/Disable Encoder 5V power supply</description>
+                </par>                
+        </section>
+</parlist>

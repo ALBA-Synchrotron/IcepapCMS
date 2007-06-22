@@ -1,0 +1,24 @@
+Creating distribution for IcepapCMS
+
+Linux -
+
+For tar.gz file:
+
+	python setup.py bdist   
+
+For rpm file:
+	python setup.py bdist_rpm
+
+
+Windows -
+   
+py2exe and Inno Setup 5 are required
+
+1. copy all the dll files from the icepapcms-packages into the src directory
+
+2. run script build_win.bat
+
+3. use inno setup with wininstaller.iss to create the setup.exe
+	(in the iss file, check the path of the files included)
+
+
