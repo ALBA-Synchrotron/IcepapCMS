@@ -1,0 +1,26 @@
+<RCC>
+    <qresource prefix="/leds24" >
+        <file>images24/ledblue.png</file>
+        <file>images24/ledblueoff.png</file>
+        <file>images24/ledgreen.png</file>
+        <file>images24/ledgreenoff.png</file>
+        <file>images24/ledorange.png</file>
+        <file>images24/ledorangeoff.png</file>
+        <file>images24/ledred.png</file>
+        <file>images24/ledredoff.png</file>
+        <file>images24/ledyellow.png</file>
+        <file>images24/ledyellowoff.png</file>
+    </qresource>
+    <qresource prefix="/leds48" >
+        <file>images48/ledblue.png</file>
+        <file>images48/ledblueoff.png</file>
+        <file>images48/ledgreen.png</file>
+        <file>images48/ledgreenoff.png</file>
+        <file>images48/ledorange.png</file>
+        <file>images48/ledorangeoff.png</file>
+        <file>images48/ledred.png</file>
+        <file>images48/ledredoff.png</file>
+        <file>images48/ledyellow.png</file>
+        <file>images48/ledyellowoff.png</file>
+    </qresource>
+</RCC>

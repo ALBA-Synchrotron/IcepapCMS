@@ -1,0 +1,776 @@
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>DialogHistoricCfg</class>
+ <widget class="QDialog" name="DialogHistoricCfg" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>510</width>
+    <height>410</height>
+   </rect>
+  </property>
+  <property name="palette" >
+   <palette>
+    <active>
+     <color>
+      <red>16</red>
+      <green>16</green>
+      <blue>16</blue>
+     </color>
+     <color>
+      <red>239</red>
+      <green>235</green>
+      <blue>231</blue>
+     </color>
+     <color>
+      <red>237</red>
+      <green>237</green>
+      <blue>237</blue>
+     </color>
+     <color>
+      <red>247</red>
+      <green>245</green>
+      <blue>243</blue>
+     </color>
+     <color>
+      <red>119</red>
+      <green>117</green>
+      <blue>115</blue>
+     </color>
+     <color>
+      <red>159</red>
+      <green>157</green>
+      <blue>154</blue>
+     </color>
+     <color>
+      <red>16</red>
+      <green>16</green>
+      <blue>16</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>16</red>
+      <green>16</green>
+      <blue>16</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>239</red>
+      <green>235</green>
+      <blue>231</blue>
+     </color>
+     <color>
+      <red>0</red>
+      <green>0</green>
+      <blue>0</blue>
+     </color>
+     <color>
+      <red>101</red>
+      <green>148</green>
+      <blue>235</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>0</red>
+      <green>0</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>0</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>226</red>
+      <green>228</green>
+      <blue>252</blue>
+     </color>
+    </active>
+    <inactive>
+     <color>
+      <red>16</red>
+      <green>16</green>
+      <blue>16</blue>
+     </color>
+     <color>
+      <red>239</red>
+      <green>235</green>
+      <blue>231</blue>
+     </color>
+     <color>
+      <red>237</red>
+      <green>237</green>
+      <blue>237</blue>
+     </color>
+     <color>
+      <red>247</red>
+      <green>245</green>
+      <blue>243</blue>
+     </color>
+     <color>
+      <red>119</red>
+      <green>117</green>
+      <blue>115</blue>
+     </color>
+     <color>
+      <red>159</red>
+      <green>157</green>
+      <blue>154</blue>
+     </color>
+     <color>
+      <red>16</red>
+      <green>16</green>
+      <blue>16</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>16</red>
+      <green>16</green>
+      <blue>16</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>239</red>
+      <green>235</green>
+      <blue>231</blue>
+     </color>
+     <color>
+      <red>0</red>
+      <green>0</green>
+      <blue>0</blue>
+     </color>
+     <color>
+      <red>101</red>
+      <green>148</green>
+      <blue>235</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>0</red>
+      <green>0</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>0</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>226</red>
+      <green>228</green>
+      <blue>252</blue>
+     </color>
+    </inactive>
+    <disabled>
+     <color>
+      <red>127</red>
+      <green>125</green>
+      <blue>123</blue>
+     </color>
+     <color>
+      <red>239</red>
+      <green>235</green>
+      <blue>231</blue>
+     </color>
+     <color>
+      <red>237</red>
+      <green>237</green>
+      <blue>237</blue>
+     </color>
+     <color>
+      <red>247</red>
+      <green>245</green>
+      <blue>243</blue>
+     </color>
+     <color>
+      <red>119</red>
+      <green>117</green>
+      <blue>115</blue>
+     </color>
+     <color>
+      <red>159</red>
+      <green>157</green>
+      <blue>154</blue>
+     </color>
+     <color>
+      <red>0</red>
+      <green>0</green>
+      <blue>0</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>127</red>
+      <green>125</green>
+      <blue>123</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>239</red>
+      <green>235</green>
+      <blue>231</blue>
+     </color>
+     <color>
+      <red>0</red>
+      <green>0</green>
+      <blue>0</blue>
+     </color>
+     <color>
+      <red>84</red>
+      <green>123</green>
+      <blue>196</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>0</red>
+      <green>0</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>0</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>226</red>
+      <green>228</green>
+      <blue>252</blue>
+     </color>
+    </disabled>
+   </palette>
+  </property>
+  <property name="windowTitle" >
+   <string>Historic configurations</string>
+  </property>
+  <layout class="QVBoxLayout" >
+   <property name="margin" >
+    <number>9</number>
+   </property>
+   <property name="spacing" >
+    <number>6</number>
+   </property>
+   <item>
+    <widget class="QSplitter" name="" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <widget class="QTableWidget" name="tableWidget" >
+      <property name="palette" >
+       <palette>
+        <active>
+         <color>
+          <red>16</red>
+          <green>16</green>
+          <blue>16</blue>
+         </color>
+         <color>
+          <red>239</red>
+          <green>235</green>
+          <blue>231</blue>
+         </color>
+         <color>
+          <red>237</red>
+          <green>237</green>
+          <blue>237</blue>
+         </color>
+         <color>
+          <red>247</red>
+          <green>245</green>
+          <blue>243</blue>
+         </color>
+         <color>
+          <red>119</red>
+          <green>117</green>
+          <blue>115</blue>
+         </color>
+         <color>
+          <red>159</red>
+          <green>157</green>
+          <blue>154</blue>
+         </color>
+         <color>
+          <red>16</red>
+          <green>16</green>
+          <blue>16</blue>
+         </color>
+         <color>
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+         <color>
+          <red>16</red>
+          <green>16</green>
+          <blue>16</blue>
+         </color>
+         <color>
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+         <color>
+          <red>239</red>
+          <green>235</green>
+          <blue>231</blue>
+         </color>
+         <color>
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+         <color>
+          <red>101</red>
+          <green>148</green>
+          <blue>235</blue>
+         </color>
+         <color>
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+         <color>
+          <red>0</red>
+          <green>0</green>
+          <blue>255</blue>
+         </color>
+         <color>
+          <red>255</red>
+          <green>0</green>
+          <blue>255</blue>
+         </color>
+         <color>
+          <red>232</red>
+          <green>232</green>
+          <blue>232</blue>
+         </color>
+        </active>
+        <inactive>
+         <color>
+          <red>16</red>
+          <green>16</green>
+          <blue>16</blue>
+         </color>
+         <color>
+          <red>239</red>
+          <green>235</green>
+          <blue>231</blue>
+         </color>
+         <color>
+          <red>237</red>
+          <green>237</green>
+          <blue>237</blue>
+         </color>
+         <color>
+          <red>247</red>
+          <green>245</green>
+          <blue>243</blue>
+         </color>
+         <color>
+          <red>119</red>
+          <green>117</green>
+          <blue>115</blue>
+         </color>
+         <color>
+          <red>159</red>
+          <green>157</green>
+          <blue>154</blue>
+         </color>
+         <color>
+          <red>16</red>
+          <green>16</green>
+          <blue>16</blue>
+         </color>
+         <color>
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+         <color>
+          <red>16</red>
+          <green>16</green>
+          <blue>16</blue>
+         </color>
+         <color>
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+         <color>
+          <red>239</red>
+          <green>235</green>
+          <blue>231</blue>
+         </color>
+         <color>
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+         <color>
+          <red>101</red>
+          <green>148</green>
+          <blue>235</blue>
+         </color>
+         <color>
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+         <color>
+          <red>0</red>
+          <green>0</green>
+          <blue>255</blue>
+         </color>
+         <color>
+          <red>255</red>
+          <green>0</green>
+          <blue>255</blue>
+         </color>
+         <color>
+          <red>232</red>
+          <green>232</green>
+          <blue>232</blue>
+         </color>
+        </inactive>
+        <disabled>
+         <color>
+          <red>127</red>
+          <green>125</green>
+          <blue>123</blue>
+         </color>
+         <color>
+          <red>239</red>
+          <green>235</green>
+          <blue>231</blue>
+         </color>
+         <color>
+          <red>237</red>
+          <green>237</green>
+          <blue>237</blue>
+         </color>
+         <color>
+          <red>247</red>
+          <green>245</green>
+          <blue>243</blue>
+         </color>
+         <color>
+          <red>119</red>
+          <green>117</green>
+          <blue>115</blue>
+         </color>
+         <color>
+          <red>159</red>
+          <green>157</green>
+          <blue>154</blue>
+         </color>
+         <color>
+          <red>51</red>
+          <green>77</green>
+          <blue>120</blue>
+         </color>
+         <color>
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+         <color>
+          <red>127</red>
+          <green>125</green>
+          <blue>123</blue>
+         </color>
+         <color>
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+         <color>
+          <red>239</red>
+          <green>235</green>
+          <blue>231</blue>
+         </color>
+         <color>
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+         <color>
+          <red>84</red>
+          <green>123</green>
+          <blue>196</blue>
+         </color>
+         <color>
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+         <color>
+          <red>0</red>
+          <green>0</green>
+          <blue>255</blue>
+         </color>
+         <color>
+          <red>255</red>
+          <green>0</green>
+          <blue>255</blue>
+         </color>
+         <color>
+          <red>232</red>
+          <green>232</green>
+          <blue>232</blue>
+         </color>
+        </disabled>
+       </palette>
+      </property>
+      <property name="selectionBehavior" >
+       <enum>QAbstractItemView::SelectRows</enum>
+      </property>
+      <property name="sortingEnabled" >
+       <bool>true</bool>
+      </property>
+      <column>
+       <property name="text" >
+        <string>Name</string>
+       </property>
+      </column>
+      <column>
+       <property name="text" >
+        <string>Date</string>
+       </property>
+      </column>
+     </widget>
+     <widget class="QFrame" name="frame" >
+      <property name="frameShape" >
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow" >
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QGridLayout" >
+       <property name="margin" >
+        <number>9</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item row="1" column="0" colspan="2" >
+        <widget class="QLabel" name="label_2" >
+         <property name="text" >
+          <string>Description</string>
+         </property>
+         <property name="alignment" >
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="3" >
+        <widget class="QTableWidget" name="tableWidgetCfg" >
+         <property name="alternatingRowColors" >
+          <bool>true</bool>
+         </property>
+         <column>
+          <property name="text" >
+           <string>Name</string>
+          </property>
+         </column>
+         <column>
+          <property name="text" >
+           <string>Value</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+       <item row="0" column="1" >
+        <widget class="QLabel" name="label_3" >
+         <property name="text" >
+          <string/>
+         </property>
+         <property name="pixmap" >
+          <pixmap resource="icepapcms.qrc" >:/small_icons/IcepapCfg Icons/redpixel.png</pixmap>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" >
+        <widget class="QLabel" name="label" >
+         <property name="text" >
+          <string>Name</string>
+         </property>
+         <property name="textFormat" >
+          <enum>Qt::AutoText</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2" >
+        <widget class="QLineEdit" name="txtName" />
+       </item>
+       <item row="1" column="2" >
+        <widget class="QTextEdit" name="txtDescription" >
+         <property name="maximumSize" >
+          <size>
+           <width>16777215</width>
+           <height>100</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="2" >
+        <widget class="QLabel" name="label_4" >
+         <property name="text" >
+          <string>Configuration</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>131</width>
+         <height>31</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="loadButton" >
+       <property name="text" >
+        <string>Load</string>
+       </property>
+       <property name="icon" >
+        <iconset resource="icepapcms.qrc" >:/small_icons/IcepapCFG Icons Petits/historic.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="saveButton" >
+       <property name="text" >
+        <string>Save Current</string>
+       </property>
+       <property name="icon" >
+        <iconset resource="icepapcms.qrc" >:/small_icons/IcepapCFG Icons Petits/save.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="deleteButton" >
+       <property name="text" >
+        <string>Delete</string>
+       </property>
+       <property name="icon" >
+        <iconset resource="icepapcms.qrc" >:/small_icons/IcepapCFG Icons Petits/process-stop.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="cancelButton" >
+       <property name="text" >
+        <string>Cancel</string>
+       </property>
+       <property name="icon" >
+        <iconset/>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <pixmapfunction></pixmapfunction>
+ <tabstops>
+  <tabstop>txtName</tabstop>
+  <tabstop>txtDescription</tabstop>
+  <tabstop>tableWidgetCfg</tabstop>
+  <tabstop>tableWidget</tabstop>
+  <tabstop>saveButton</tabstop>
+  <tabstop>loadButton</tabstop>
+  <tabstop>deleteButton</tabstop>
+  <tabstop>cancelButton</tabstop>
+ </tabstops>
+ <resources>
+  <include location="icepapcms.qrc" />
+ </resources>
+ <connections>
+  <connection>
+   <sender>loadButton</sender>
+   <signal>clicked()</signal>
+   <receiver>DialogHistoricCfg</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>188</x>
+     <y>398</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>96</x>
+     <y>254</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cancelButton</sender>
+   <signal>clicked()</signal>
+   <receiver>DialogHistoricCfg</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>499</x>
+     <y>398</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>179</x>
+     <y>282</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
