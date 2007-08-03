@@ -1,6 +1,7 @@
 import socket
 import struct
 from IcePAP import *
+import time
 
 
 class EthIcePAP(IcePAP):
@@ -13,7 +14,7 @@ class EthIcePAP(IcePAP):
         self.IcPaSock.settimeout( self.timeout )
         NOLINGER = struct.pack('ii', 1, 0)
         self.IcPaSock.setsockopt(socket.SOL_SOCKET, socket.SO_LINGER, NOLINGER)
-        
+        #self.IcPaSock.setblocking(0)
         try:
             self.IcPaSock.connect((self.IcePAPhost, self.IcePAPport))
         except socket.error, msg:
@@ -29,12 +30,17 @@ class EthIcePAP(IcePAP):
             cmd = ''
             if not addr is None:
                 cmd = '%d:'% addr
+            
             cmd = cmd + command + "\n"
             #print cmd
             self.lock.acquire()
             self.IcPaSock.send(cmd)
-            newdata = self.IcPaSock.recv(2024)
-            self.lock.release()
+            #b = time.time()
+            #print str(b)+ cmd 
+            newdata = self.IcPaSock.recv(2048)
+            #c = time.time()
+            #print str(c) + "---" + str(c-b) + newdata + "\n"
+            self.lock.release()            
             return newdata
         except socket.error,msg:
             print command 

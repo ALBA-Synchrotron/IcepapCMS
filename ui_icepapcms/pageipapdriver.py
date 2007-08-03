@@ -525,25 +525,25 @@ class PageiPapDriver(QtGui.QWidget):
                 
     def btnGO_on_click(self):
         new_position = self.ui.txtMvAbsolute.text()
-        try:
-            new_position = float(new_position)
-            
-            new_position = new_position * self.StepSize
-            (status, switches, position) = self._manager.getDriverTestStatus(self.icepap_driver.icepap_name, self.icepap_driver.addr)
-            position =  float(position)
-            
-            if ((new_position-float(new_position)) >= 0.5):
-                new_position = new_position + 0.5
+        #try:
+        new_position = float(new_position)
         
-            steps = float(position) - new_position
-            
-            
-            direction = steps < 0
-            if steps != 0:
-                self._manager.stopDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr)
-                self._manager.moveDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr, abs(int(steps)), direction)
-        except:
-            MessageDialogs.showWarningMessage(self, "Driver testing", "Wrong parameter format")
+        new_position = new_position * self.StepSize
+        (disabled, moving, switches, position) = self._manager.getDriverTestStatus(self.icepap_driver.icepap_name, self.icepap_driver.addr)
+
+        
+        if ((new_position-float(new_position)) >= 0.5):
+            new_position = new_position + 0.5
+    
+        steps = int(position) - new_position
+        
+        
+        direction = steps < 0
+        if steps != 0:
+            self._manager.stopDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr)
+            self._manager.moveDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr, abs(int(steps)), direction)
+        #except:
+        #    MessageDialogs.showWarningMessage(self, "Driver testing", "Wrong parameter format")
             
     def btnGORelativePos_on_click(self):
         distance = self.ui.txtGORelative.text()
