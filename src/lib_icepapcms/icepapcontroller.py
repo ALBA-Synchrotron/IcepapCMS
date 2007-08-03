@@ -94,10 +94,16 @@ class IcepapController(Singleton):
         """
             Returns an array with the Status, Limit Switches and Current of the driver
         """
-       
-        register = int(self.iPaps[icepap_name].getStatus(driver_addr))
         
-        status = IcePAPStatus.isDisabled(register) 
+        register = self.iPaps[icepap_name].getStatus(driver_addr)
+        
+        if "X" in register:
+            register = int(register,16)
+        else:
+            register = int(register)
+        
+        status = IcePAPStatus.isDisabled(register + 0) 
+        
         status = (status > 0)
         lower = IcePAPStatus.getLimitNegative(register) 
         upper = IcePAPStatus.getLimitPositive(register) 
@@ -119,7 +125,11 @@ class IcepapController(Singleton):
             Returns an array with the Status, Limit Switches and Position of the driver
         """
         
-        register = int(self.iPaps[icepap_name].getStatus(driver_addr))
+        register = self.iPaps[icepap_name].getStatus(driver_addr)
+        if "X" in register:
+            register = int(register,16)
+        else:
+            register = int(register)
         disabled = IcePAPStatus.isDisabled(register) 
         disabled = (disabled > 0)
         moving = IcePAPStatus.isMoving(register)
