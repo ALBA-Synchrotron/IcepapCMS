@@ -64,8 +64,9 @@ class IcepapController(Singleton):
                     break
         except:
             print "Unexpected error:", sys.exc_info()[0]
-        finally:
-            return driver_list
+            return {}
+
+        return driver_list
     
     def  getDriverConfiguration(self, icepap_name, driver_addr):
         """

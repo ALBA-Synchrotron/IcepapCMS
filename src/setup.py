@@ -10,7 +10,7 @@ if os.name == 'nt': #sys.platform == 'win32':
 	
 
 setup(name = "icepapms",
-      version = "0.1",
+      version = "0.2",
       description = "Icepap Configuration Management System and Test Tool",
       author = "Josep Joan Ribas Prats",
       author_email = "jribas@cells.es",
