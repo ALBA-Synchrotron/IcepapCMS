@@ -38,7 +38,7 @@ class IcePapDriverWidget(QtGui.QWidget):
 
         
     def mouseDoubleClickEvent(self, event):
-        self.emit(QtCore.SIGNAL("icepapDoubleClicked(PyObject *)"), self._driver)
+        self.emit(QtCore.SIGNAL("icepapDoubleClicked(PyQt_PyObject)"), self._driver)
         event.accept()
     
     def mousePressEvent(self, event):

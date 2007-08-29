@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'dialogipapprogram.ui'
 #
-# Created: Wed Jun 13 10:36:01 2007
+# Created: Wed Aug 29 15:53:34 2007
 #      by: PyQt4 UI code generator 4.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -117,13 +117,7 @@ class Ui_DialogIcepapProgram(object):
         self.txtLog.setFont(font)
         self.txtLog.setReadOnly(True)
         self.txtLog.setObjectName("txtLog")
-        self.gridlayout.addWidget(self.txtLog,3,0,3,4)
-
-        self.progressBar = QtGui.QProgressBar(DialogIcepapProgram)
-        self.progressBar.setProperty("value",QtCore.QVariant(0))
-        self.progressBar.setOrientation(QtCore.Qt.Horizontal)
-        self.progressBar.setObjectName("progressBar")
-        self.gridlayout.addWidget(self.progressBar,6,0,1,4)
+        self.gridlayout.addWidget(self.txtLog,3,0,4,4)
 
         self.retranslateUi(DialogIcepapProgram)
         QtCore.QMetaObject.connectSlotsByName(DialogIcepapProgram)

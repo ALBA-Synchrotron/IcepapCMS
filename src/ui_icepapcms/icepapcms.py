@@ -378,6 +378,7 @@ class IcepapCMS(QtGui.QMainWindow):
             self.initGUI()
     
     def actionFimwareUpgrade(self):
+        self.clearLocationBar()
         dlg = DialogIcepapProgram(self)
         dlg.exec_()
         

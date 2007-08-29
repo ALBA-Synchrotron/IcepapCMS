@@ -6,6 +6,7 @@ import sys
 from qrc_icepapcms import *
 import time
 import datetime
+import thread
 
 
 
@@ -52,23 +53,35 @@ class DialogIcepapProgram(QtGui.QDialog):
         self.close()
     
     def btnTest_on_click(self):
-        pass
+        serial = self.ui.rbSerial.isChecked()
+        dst = str(self.ui.txtHost.text())
+        if serial :
+            dst = self.ui.cbSerial.currentText()
+        if self._ipapctrl.testConnection(serial, dst):
+            self.addToLog("Connection OK")
+        else:
+            self.addToLog("Connection error")
+            MessageDialogs.showWarningMessage(self, "Connection error" , "Icepap not reachable.")
     
     def btnProgram_on_click(self):
-        #try:
-            file = str(self.ui.txtFirmwareFile.text())
-            serial = self.ui.rbSerial.isChecked()
-            dst = self.ui.txtHost.text()
-            if serial :
-                dst = self.ui.cbSerial.currentText()
-            addr = self.ui.cbProgram.currentText()
-            if addr == "ADDR":
-                addr = str(self.ui.sbAddr.value())
-            options = self.ui.cbOptions.currentText()
-            self._ipapctrl.upgradeFirmware(serial, dst, file, addr, options, self)
-        #except:
-         #   self.addToLog(str(sys.exc_info()[0]))
+        try:
+            thread.start_new_thread(self.startProgramming, ())
+            MessageDialogs.showWarningMessage(self, "Upgrading firmware" , "Wait until Icepap stops programming ( 1 minute aprox. ).\nThen restart the Icepap.")
+        except:
+            self.addToLog(str(sys.exc_info()[0]))
     
+    def startProgramming(self):
+        file = str(self.ui.txtFirmwareFile.text())
+        serial = self.ui.rbSerial.isChecked()
+        dst = str(self.ui.txtHost.text())
+        if serial :
+            dst = self.ui.cbSerial.currentText()
+        addr = self.ui.cbProgram.currentText()
+        if addr == "ADDR":
+            addr = str(self.ui.sbAddr.value())
+        options = self.ui.cbOptions.currentText()
+        self._ipapctrl.upgradeFirmware(serial, dst, file, addr, options, self)
+        
     def addToLog(self, text):    
         t = datetime.datetime.now().strftime("%H:%M:%S")
         self.ui.txtLog.append(t+"> "+text)

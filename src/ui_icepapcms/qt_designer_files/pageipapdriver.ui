@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>803</width>
-    <height>733</height>
+    <width>734</width>
+    <height>604</height>
    </rect>
   </property>
   <property name="sizePolicy" >
@@ -17,95 +17,262 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
+  <property name="minimumSize" >
+   <size>
+    <width>665</width>
+    <height>604</height>
+   </size>
+  </property>
   <property name="windowTitle" >
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" >
+  <layout class="QGridLayout" >
    <property name="margin" >
     <number>9</number>
    </property>
    <property name="spacing" >
     <number>6</number>
    </property>
-   <item>
-    <widget class="QGroupBox" name="groupBox" >
-     <property name="maximumSize" >
+   <item row="1" column="0" >
+    <widget class="QTabWidget" name="tabWidget" >
+     <property name="minimumSize" >
       <size>
-       <width>16777215</width>
-       <height>69</height>
+       <width>421</width>
+       <height>505</height>
       </size>
      </property>
-     <property name="title" >
-      <string>Driver Description</string>
+     <property name="toolTip" >
+      <string/>
      </property>
-     <layout class="QHBoxLayout" >
-      <property name="margin" >
-       <number>9</number>
-      </property>
-      <property name="spacing" >
-       <number>6</number>
-      </property>
-      <item>
-       <widget class="QLabel" name="label_2" >
-        <property name="text" >
-         <string>Name</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="txtDriverName" />
-      </item>
-      <item>
-       <spacer>
-        <property name="orientation" >
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" >
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_3" >
-        <property name="text" >
-         <string>Nemonic</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="txtDriverNemonic" />
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QFrame" name="frame_main" >
-     <property name="frameShape" >
-      <enum>QFrame::NoFrame</enum>
+     <property name="currentIndex" >
+      <number>0</number>
      </property>
-     <property name="frameShadow" >
-      <enum>QFrame::Raised</enum>
-     </property>
-     <layout class="QHBoxLayout" >
-      <property name="margin" >
-       <number>9</number>
-      </property>
-      <property name="spacing" >
-       <number>6</number>
-      </property>
-      <item>
-       <widget class="QTabWidget" name="tabWidget" >
-        <property name="currentIndex" >
-         <number>0</number>
-        </property>
-        <widget class="QWidget" name="tab" >
-         <attribute name="title" >
-          <string>signals</string>
-         </attribute>
-         <layout class="QVBoxLayout" >
+     <widget class="QWidget" name="tab_2" >
+      <attribute name="title" >
+       <string>Driver</string>
+      </attribute>
+      <layout class="QGridLayout" >
+       <property name="margin" >
+        <number>9</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item row="4" column="3" >
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="0" colspan="2" >
+        <widget class="QGroupBox" name="groupBox_6" >
+         <property name="title" >
+          <string>Current</string>
+         </property>
+         <property name="flat" >
+          <bool>true</bool>
+         </property>
+         <layout class="QGridLayout" >
+          <property name="margin" >
+           <number>9</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+          <item row="0" column="0" >
+           <widget class="QLabel" name="label_16" >
+            <property name="toolTip" >
+             <string/>
+            </property>
+            <property name="text" >
+             <string>Idle</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1" >
+           <widget class="QDoubleSpinBox" name="IB" >
+            <property name="toolTip" >
+             <string>current to the motor when the motor is at rest</string>
+            </property>
+            <property name="singleStep" >
+             <double>0.100000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" >
+           <widget class="QDoubleSpinBox" name="II" >
+            <property name="toolTip" >
+             <string>current to the motor when the motor is at rest</string>
+            </property>
+            <property name="singleStep" >
+             <double>0.100000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1" >
+           <widget class="QDoubleSpinBox" name="IN" >
+            <property name="toolTip" >
+             <string>current to the motor during steady rate speed</string>
+            </property>
+            <property name="singleStep" >
+             <double>0.100000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" >
+           <widget class="QLabel" name="label_17" >
+            <property name="toolTip" >
+             <string/>
+            </property>
+            <property name="text" >
+             <string>Boost</string>
+            </property>
+           </widget>
+          </item>
+          <item rowspan="3" row="0" column="3" >
+           <widget class="QGroupBox" name="groupBox_7" >
+            <property name="title" >
+             <string>PI Current Regulation</string>
+            </property>
+            <property name="flat" >
+             <bool>true</bool>
+            </property>
+            <property name="checkable" >
+             <bool>false</bool>
+            </property>
+            <layout class="QGridLayout" >
+             <property name="margin" >
+              <number>9</number>
+             </property>
+             <property name="spacing" >
+              <number>6</number>
+             </property>
+             <item row="0" column="1" >
+              <widget class="QDoubleSpinBox" name="IREGP" >
+               <property name="toolTip" >
+                <string>proportional constant in the PI current regulator</string>
+               </property>
+               <property name="maximum" >
+                <double>1000.000000000000000</double>
+               </property>
+               <property name="singleStep" >
+                <double>1.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1" >
+              <widget class="QDoubleSpinBox" name="IREGI" >
+               <property name="toolTip" >
+                <string>integral constant in the PI current regulator</string>
+               </property>
+               <property name="decimals" >
+                <number>4</number>
+               </property>
+               <property name="maximum" >
+                <double>1000.000000000000000</double>
+               </property>
+               <property name="singleStep" >
+                <double>0.100000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0" >
+              <widget class="QLabel" name="label_21" >
+               <property name="toolTip" >
+                <string/>
+               </property>
+               <property name="text" >
+                <string>Integral</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0" >
+              <widget class="QLabel" name="label_23" >
+               <property name="toolTip" >
+                <string/>
+               </property>
+               <property name="text" >
+                <string>Proportional</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="1" column="0" >
+           <widget class="QLabel" name="label_18" >
+            <property name="toolTip" >
+             <string/>
+            </property>
+            <property name="text" >
+             <string>Nominal</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2" >
+           <spacer>
+            <property name="orientation" >
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" >
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="0" column="1" colspan="2" >
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>151</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="2" column="1" colspan="3" >
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>181</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="4" column="0" colspan="3" >
+        <widget class="QFrame" name="frame_2" >
+         <property name="minimumSize" >
+          <size>
+           <width>16</width>
+           <height>43</height>
+          </size>
+         </property>
+         <property name="frameShape" >
+          <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="frameShadow" >
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" >
           <property name="margin" >
            <number>9</number>
           </property>
@@ -113,464 +280,316 @@
            <number>6</number>
           </property>
           <item>
-           <widget class="QTabWidget" name="tabSignals" >
-            <property name="currentIndex" >
-             <number>0</number>
+           <widget class="QLabel" name="label_22" >
+            <property name="text" >
+             <string>Micro Stepping</string>
             </property>
-            <widget class="QWidget" name="tab_InOut" >
-             <attribute name="title" >
-              <string>Input/Output</string>
-             </attribute>
-             <widget class="QWidget" native="1" name="inOut_widget" >
-              <property name="geometry" >
-               <rect>
-                <x>20</x>
-                <y>30</y>
-                <width>528</width>
-                <height>388</height>
-               </rect>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="MICRO" >
+            <property name="maximum" >
+             <number>256</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer>
+            <property name="orientation" >
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" >
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="AUXPS" >
+            <property name="text" >
+             <string>Aux Supply 5V</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="0" column="0" >
+        <widget class="QGroupBox" name="groupBox_9" >
+         <property name="title" >
+          <string>Voltage</string>
+         </property>
+         <property name="flat" >
+          <bool>true</bool>
+         </property>
+         <layout class="QGridLayout" >
+          <property name="margin" >
+           <number>9</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+          <item row="0" column="1" >
+           <widget class="QDoubleSpinBox" name="SD" >
+            <property name="toolTip" >
+             <string>Vcc to the motor phases when motor is in rest</string>
+            </property>
+            <property name="singleStep" >
+             <double>1.000000000000000</double>
+            </property>
+            <property name="value" >
+             <double>0.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" >
+           <widget class="QLabel" name="label_19" >
+            <property name="toolTip" >
+             <string/>
+            </property>
+            <property name="text" >
+             <string>Stand-by Voltage</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1" >
+           <widget class="QDoubleSpinBox" name="SDMAX" >
+            <property name="toolTip" >
+             <string>Vcc to the motor phases when motor is moving</string>
+            </property>
+            <property name="singleStep" >
+             <double>0.100000000000000</double>
+            </property>
+            <property name="value" >
+             <double>0.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" >
+           <widget class="QLabel" name="label_20" >
+            <property name="toolTip" >
+             <string/>
+            </property>
+            <property name="text" >
+             <string>Drive Voltage</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="2" column="0" >
+        <widget class="QGroupBox" name="groupBox_8" >
+         <property name="title" >
+          <string>Limit switches</string>
+         </property>
+         <property name="flat" >
+          <bool>true</bool>
+         </property>
+         <layout class="QGridLayout" >
+          <property name="margin" >
+           <number>9</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+          <item row="2" column="0" >
+           <widget class="QCheckBox" name="TDIR" >
+            <property name="toolTip" >
+             <string>change if there is a mismatch between dir and limits</string>
+            </property>
+            <property name="text" >
+             <string>Reverse direction</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" >
+           <widget class="QCheckBox" name="PSW" >
+            <property name="toolTip" >
+             <string>limit switches polarity</string>
+            </property>
+            <property name="text" >
+             <string>Reverse polarity</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" >
+           <widget class="QCheckBox" name="ESW" >
+            <property name="toolTip" >
+             <string>enable/disable hardware limit switches protection</string>
+            </property>
+            <property name="text" >
+             <string>Enabled</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="1" column="2" colspan="2" >
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="5" column="1" >
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="3" column="0" >
+        <widget class="Line" name="line_2" >
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab" >
+      <attribute name="title" >
+       <string>Signals</string>
+      </attribute>
+      <layout class="QHBoxLayout" >
+       <property name="margin" >
+        <number>9</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item>
+        <widget class="QTabWidget" name="tabSignals" >
+         <property name="currentIndex" >
+          <number>0</number>
+         </property>
+         <widget class="QWidget" name="tab_InOut" >
+          <attribute name="title" >
+           <string>Input/Output</string>
+          </attribute>
+          <widget class="QWidget" native="1" name="inOut_widget" >
+           <property name="geometry" >
+            <rect>
+             <x>20</x>
+             <y>30</y>
+             <width>528</width>
+             <height>388</height>
+            </rect>
+           </property>
+           <property name="sizePolicy" >
+            <sizepolicy>
+             <hsizetype>7</hsizetype>
+             <vsizetype>7</vsizetype>
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <layout class="QGridLayout" >
+            <property name="margin" >
+             <number>2</number>
+            </property>
+            <property name="spacing" >
+             <number>2</number>
+            </property>
+            <item row="3" column="0" colspan="3" >
+             <widget class="QGroupBox" name="groupBox_3" >
+              <property name="font" >
+               <font>
+                <pointsize>8</pointsize>
+                <weight>50</weight>
+                <bold>false</bold>
+               </font>
               </property>
-              <property name="sizePolicy" >
-               <sizepolicy>
-                <hsizetype>7</hsizetype>
-                <vsizetype>7</vsizetype>
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
+              <property name="title" >
+               <string>Output Signals</string>
               </property>
               <layout class="QGridLayout" >
                <property name="margin" >
-                <number>2</number>
+                <number>9</number>
                </property>
                <property name="spacing" >
-                <number>2</number>
+                <number>6</number>
                </property>
-               <item row="3" column="0" colspan="3" >
-                <widget class="QGroupBox" name="groupBox_3" >
+               <item row="0" column="5" >
+                <widget class="QLabel" name="label_13" >
                  <property name="font" >
                   <font>
                    <pointsize>8</pointsize>
-                   <weight>50</weight>
-                   <bold>false</bold>
+                   <weight>75</weight>
+                   <bold>true</bold>
                   </font>
                  </property>
-                 <property name="title" >
-                  <string>Output Signals</string>
+                 <property name="text" >
+                  <string>Pulse width</string>
                  </property>
-                 <layout class="QGridLayout" >
-                  <property name="margin" >
-                   <number>9</number>
-                  </property>
-                  <property name="spacing" >
-                   <number>6</number>
-                  </property>
-                  <item row="0" column="5" >
-                   <widget class="QLabel" name="label_13" >
-                    <property name="font" >
-                     <font>
-                      <pointsize>8</pointsize>
-                      <weight>75</weight>
-                      <bold>true</bold>
-                     </font>
-                    </property>
-                    <property name="text" >
-                     <string>Pulse width</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="2" column="5" >
-                   <widget class="QComboBox" name="cbSyncOutPulse" >
-                    <item>
-                     <property name="text" >
-                      <string>50ns</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>200ns</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>2us</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>20us</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item row="1" column="5" >
-                   <widget class="QComboBox" name="cbOutPosPulse" >
-                    <item>
-                     <property name="text" >
-                      <string>50ns</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>200ns</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>2us</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>20us</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item row="0" column="4" >
-                   <widget class="QLabel" name="label_9" >
-                    <property name="font" >
-                     <font>
-                      <weight>75</weight>
-                      <bold>true</bold>
-                     </font>
-                    </property>
-                    <property name="text" >
-                     <string>Direction</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="2" column="0" >
-                   <widget class="QCheckBox" name="chbSyncOut" >
-                    <property name="text" >
-                     <string>SyncOut</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="2" column="4" >
-                   <widget class="QComboBox" name="cbSyncOutDir" >
-                    <item>
-                     <property name="text" >
-                      <string>Normal</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>Inverted</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item row="2" column="3" >
-                   <widget class="QComboBox" name="cbSyncOutEdge" >
-                    <item>
-                     <property name="text" >
-                      <string>Rising</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>Falling</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item row="2" column="2" >
-                   <widget class="QComboBox" name="cbSyncOutMode" >
-                    <item>
-                     <property name="text" >
-                      <string>Quadrature</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>Step/Dir</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item row="2" column="1" >
-                   <widget class="QComboBox" name="cbSyncOutSrc" >
-                    <item>
-                     <property name="text" >
-                      <string>EncIn</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>InPos</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>SyncIn</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>DSPin</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item row="1" column="0" >
-                   <widget class="QCheckBox" name="chbOutPos" >
-                    <property name="text" >
-                     <string>OutPos</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="1" >
-                   <widget class="QComboBox" name="cbOutPosSrc" >
-                    <item>
-                     <property name="text" >
-                      <string>EncIn</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>InPos</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>SyncIn</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>DSPin</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item row="0" column="1" >
-                   <widget class="QLabel" name="label_12" >
-                    <property name="font" >
-                     <font>
-                      <family>Sans Serif</family>
-                      <pointsize>8</pointsize>
-                      <weight>75</weight>
-                      <bold>true</bold>
-                     </font>
-                    </property>
-                    <property name="text" >
-                     <string>Source</string>
-                    </property>
-                    <property name="textFormat" >
-                     <enum>Qt::PlainText</enum>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="2" >
-                   <widget class="QLabel" name="label_11" >
-                    <property name="font" >
-                     <font>
-                      <weight>75</weight>
-                      <bold>true</bold>
-                     </font>
-                    </property>
-                    <property name="text" >
-                     <string>Mode</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="2" >
-                   <widget class="QComboBox" name="cbOutPosMode" >
-                    <property name="minimumSize" >
-                     <size>
-                      <width>0</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <item>
-                     <property name="text" >
-                      <string>Quadrature</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>Step/Dir</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item row="1" column="3" >
-                   <widget class="QComboBox" name="cbOutPosEdge" >
-                    <item>
-                     <property name="text" >
-                      <string>Rising</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>Falling</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item row="1" column="4" >
-                   <widget class="QComboBox" name="cbOutPosDir" >
-                    <item>
-                     <property name="text" >
-                      <string>Normal</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>Inverted</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item row="0" column="3" >
-                   <widget class="QLabel" name="label_10" >
-                    <property name="font" >
-                     <font>
-                      <weight>75</weight>
-                      <bold>true</bold>
-                     </font>
-                    </property>
-                    <property name="text" >
-                     <string>Edge</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
                 </widget>
                </item>
-               <item row="2" column="2" >
-                <widget class="QGroupBox" name="groupBox_4" >
-                 <property name="font" >
-                  <font>
-                   <pointsize>8</pointsize>
-                   <weight>50</weight>
-                   <bold>false</bold>
-                  </font>
-                 </property>
-                 <property name="title" >
-                  <string>Counter registers</string>
-                 </property>
-                 <layout class="QGridLayout" >
-                  <property name="margin" >
-                   <number>9</number>
+               <item row="2" column="5" >
+                <widget class="QComboBox" name="cbSyncOutPulse" >
+                 <item>
+                  <property name="text" >
+                   <string>50ns</string>
                   </property>
-                  <property name="spacing" >
-                   <number>6</number>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>200ns</string>
                   </property>
-                  <item row="3" column="0" >
-                   <widget class="QCheckBox" name="chbAuxPos2" >
-                    <property name="text" >
-                     <string>AuxPos2</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="2" column="0" >
-                   <widget class="QCheckBox" name="chbAuxPos1" >
-                    <property name="text" >
-                     <string>AuxPos1</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="0" >
-                   <widget class="QCheckBox" name="chbTarget" >
-                    <property name="text" >
-                     <string>Target</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="1" >
-                   <widget class="QComboBox" name="cbTargetSrc" >
-                    <item>
-                     <property name="text" >
-                      <string>EncIn</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>InPos</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>SyncIn</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>DSPin</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item row="0" column="1" >
-                   <widget class="QLabel" name="label_14" >
-                    <property name="font" >
-                     <font>
-                      <weight>75</weight>
-                      <bold>true</bold>
-                     </font>
-                    </property>
-                    <property name="text" >
-                     <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
-p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'Sans Serif'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Source&lt;/p>&lt;/body>&lt;/html></string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="2" column="1" >
-                   <widget class="QComboBox" name="cbAuxPos1Src" >
-                    <item>
-                     <property name="text" >
-                      <string>EncIn</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>InPos</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>SyncIn</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>DSPin</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item row="3" column="1" >
-                   <widget class="QComboBox" name="cbAuxPos2Src" >
-                    <item>
-                     <property name="text" >
-                      <string>EncIn</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>InPos</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>SyncIn</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>DSPin</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                 </layout>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>2us</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>20us</string>
+                  </property>
+                 </item>
                 </widget>
                </item>
-               <item row="0" column="0" >
-                <widget class="QLabel" name="label_15" >
+               <item row="1" column="5" >
+                <widget class="QComboBox" name="cbOutPosPulse" >
+                 <item>
+                  <property name="text" >
+                   <string>50ns</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>200ns</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>2us</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>20us</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="0" column="4" >
+                <widget class="QLabel" name="label_9" >
                  <property name="font" >
                   <font>
                    <weight>75</weight>
@@ -578,271 +597,1559 @@ p, li { white-space: pre-wrap; }
                   </font>
                  </property>
                  <property name="text" >
-                  <string>Predefined configurations</string>
+                  <string>Direction</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0" >
+                <widget class="QCheckBox" name="chbSyncOut" >
+                 <property name="text" >
+                  <string>SyncOut</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="4" >
+                <widget class="QComboBox" name="cbSyncOutDir" >
+                 <item>
+                  <property name="text" >
+                   <string>Normal</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Inverted</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="2" column="3" >
+                <widget class="QComboBox" name="cbSyncOutEdge" >
+                 <item>
+                  <property name="text" >
+                   <string>Rising</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Falling</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="2" column="2" >
+                <widget class="QComboBox" name="cbSyncOutMode" >
+                 <item>
+                  <property name="text" >
+                   <string>Quadrature</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Step/Dir</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="2" column="1" >
+                <widget class="QComboBox" name="cbSyncOutSrc" >
+                 <item>
+                  <property name="text" >
+                   <string>EncIn</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>InPos</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>SyncIn</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>DSPin</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="1" column="0" >
+                <widget class="QCheckBox" name="chbOutPos" >
+                 <property name="text" >
+                  <string>OutPos</string>
                  </property>
                 </widget>
                </item>
                <item row="1" column="1" >
-                <spacer>
-                 <property name="orientation" >
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" >
-                  <size>
-                   <width>121</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-               <item row="2" column="0" colspan="2" >
-                <widget class="QGroupBox" name="groupBox_2" >
-                 <property name="font" >
-                  <font>
-                   <pointsize>8</pointsize>
-                   <weight>50</weight>
-                   <bold>false</bold>
-                  </font>
-                 </property>
-                 <property name="title" >
-                  <string>Input Signals</string>
-                 </property>
-                 <layout class="QGridLayout" >
-                  <property name="margin" >
-                   <number>9</number>
+                <widget class="QComboBox" name="cbOutPosSrc" >
+                 <item>
+                  <property name="text" >
+                   <string>EncIn</string>
                   </property>
-                  <property name="spacing" >
-                   <number>6</number>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>InPos</string>
                   </property>
-                  <item row="0" column="3" >
-                   <widget class="QLabel" name="label_8" >
-                    <property name="font" >
-                     <font>
-                      <pointsize>8</pointsize>
-                      <weight>75</weight>
-                      <bold>true</bold>
-                     </font>
-                    </property>
-                    <property name="text" >
-                     <string>Direction</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="2" >
-                   <widget class="QLabel" name="label_7" >
-                    <property name="font" >
-                     <font>
-                      <weight>75</weight>
-                      <bold>true</bold>
-                     </font>
-                    </property>
-                    <property name="text" >
-                     <string>Edge</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="1" >
-                   <widget class="QLabel" name="label_6" >
-                    <property name="font" >
-                     <font>
-                      <weight>75</weight>
-                      <bold>true</bold>
-                     </font>
-                    </property>
-                    <property name="text" >
-                     <string>Mode</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="3" >
-                   <widget class="QComboBox" name="cbInPosDir" >
-                    <item>
-                     <property name="text" >
-                      <string>Normal</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>Inverted</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item row="2" column="3" >
-                   <widget class="QComboBox" name="cbEncInDir" >
-                    <item>
-                     <property name="text" >
-                      <string>Normal</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>Inverted</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item row="3" column="3" >
-                   <widget class="QComboBox" name="cbSyncInDir" >
-                    <item>
-                     <property name="text" >
-                      <string>Normal</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>Inverted</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item row="2" column="2" >
-                   <widget class="QComboBox" name="cbEncInEdge" >
-                    <item>
-                     <property name="text" >
-                      <string>Rising</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>Falling</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item row="3" column="2" >
-                   <widget class="QComboBox" name="cbSyncInEdge" >
-                    <item>
-                     <property name="text" >
-                      <string>Rising</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>Falling</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item row="1" column="2" >
-                   <widget class="QComboBox" name="cbInPosEdge" >
-                    <item>
-                     <property name="text" >
-                      <string>Rising</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>Falling</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item row="1" column="1" >
-                   <widget class="QComboBox" name="cbInPosMode" >
-                    <property name="minimumSize" >
-                     <size>
-                      <width>0</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <item>
-                     <property name="text" >
-                      <string>Quadrature</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>Step/Dir</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item row="1" column="0" >
-                   <widget class="QCheckBox" name="chbInPos" >
-                    <property name="text" >
-                     <string>InPos</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="2" column="0" >
-                   <widget class="QCheckBox" name="chbEncIn" >
-                    <property name="text" >
-                     <string>EncIn</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="3" column="0" >
-                   <widget class="QCheckBox" name="chbSyncIn" >
-                    <property name="text" >
-                     <string>SyncIn</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="3" column="1" >
-                   <widget class="QComboBox" name="cbSyncInMode" >
-                    <item>
-                     <property name="text" >
-                      <string>Quadrature</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>Step/Dir</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item row="2" column="1" >
-                   <widget class="QComboBox" name="cbEncInMode" >
-                    <item>
-                     <property name="text" >
-                      <string>Quadrature</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text" >
-                      <string>Step/Dir</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                 </layout>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>SyncIn</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>DSPin</string>
+                  </property>
+                 </item>
                 </widget>
                </item>
-               <item row="1" column="0" >
-                <widget class="QListWidget" name="listPredefined" >
-                 <property name="maximumSize" >
+               <item row="0" column="1" >
+                <widget class="QLabel" name="label_12" >
+                 <property name="font" >
+                  <font>
+                   <family>Sans Serif</family>
+                   <pointsize>8</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text" >
+                  <string>Source</string>
+                 </property>
+                 <property name="textFormat" >
+                  <enum>Qt::PlainText</enum>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2" >
+                <widget class="QLabel" name="label_11" >
+                 <property name="font" >
+                  <font>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text" >
+                  <string>Mode</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="2" >
+                <widget class="QComboBox" name="cbOutPosMode" >
+                 <property name="minimumSize" >
                   <size>
-                   <width>16777215</width>
-                   <height>100</height>
+                   <width>0</width>
+                   <height>0</height>
                   </size>
                  </property>
-                 <property name="selectionMode" >
-                  <enum>QAbstractItemView::MultiSelection</enum>
+                 <item>
+                  <property name="text" >
+                   <string>Quadrature</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Step/Dir</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="1" column="3" >
+                <widget class="QComboBox" name="cbOutPosEdge" >
+                 <item>
+                  <property name="text" >
+                   <string>Rising</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Falling</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="1" column="4" >
+                <widget class="QComboBox" name="cbOutPosDir" >
+                 <item>
+                  <property name="text" >
+                   <string>Normal</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Inverted</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="0" column="3" >
+                <widget class="QLabel" name="label_10" >
+                 <property name="font" >
+                  <font>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text" >
+                  <string>Edge</string>
                  </property>
                 </widget>
                </item>
               </layout>
              </widget>
-            </widget>
-            <widget class="QWidget" name="tab_aux" >
-             <attribute name="title" >
-              <string>Aux signals</string>
-             </attribute>
-            </widget>
-            <widget class="QWidget" name="tab_connectors" >
-             <attribute name="title" >
-              <string>Connectors</string>
-             </attribute>
-             <widget class="QWidget" native="1" name="labels_widget" >
-              <property name="geometry" >
-               <rect>
-                <x>30</x>
-                <y>20</y>
-                <width>451</width>
-                <height>525</height>
-               </rect>
+            </item>
+            <item row="2" column="2" >
+             <widget class="QGroupBox" name="groupBox_4" >
+              <property name="font" >
+               <font>
+                <pointsize>8</pointsize>
+                <weight>50</weight>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="title" >
+               <string>Counter registers</string>
+              </property>
+              <layout class="QGridLayout" >
+               <property name="margin" >
+                <number>9</number>
+               </property>
+               <property name="spacing" >
+                <number>6</number>
+               </property>
+               <item row="3" column="0" >
+                <widget class="QCheckBox" name="chbAuxPos2" >
+                 <property name="text" >
+                  <string>AuxPos2</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0" >
+                <widget class="QCheckBox" name="chbAuxPos1" >
+                 <property name="text" >
+                  <string>AuxPos1</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0" >
+                <widget class="QCheckBox" name="chbTarget" >
+                 <property name="text" >
+                  <string>Target</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1" >
+                <widget class="QComboBox" name="cbTargetSrc" >
+                 <item>
+                  <property name="text" >
+                   <string>EncIn</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>InPos</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>SyncIn</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>DSPin</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="0" column="1" >
+                <widget class="QLabel" name="label_14" >
+                 <property name="font" >
+                  <font>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text" >
+                  <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+p, li { white-space: pre-wrap; }
+&lt;/style>&lt;/head>&lt;body style=" font-family:'Sans Serif'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;">
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Source&lt;/p>&lt;/body>&lt;/html></string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1" >
+                <widget class="QComboBox" name="cbAuxPos1Src" >
+                 <item>
+                  <property name="text" >
+                   <string>EncIn</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>InPos</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>SyncIn</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>DSPin</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="3" column="1" >
+                <widget class="QComboBox" name="cbAuxPos2Src" >
+                 <item>
+                  <property name="text" >
+                   <string>EncIn</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>InPos</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>SyncIn</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>DSPin</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item row="0" column="0" >
+             <widget class="QLabel" name="label_15" >
+              <property name="font" >
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text" >
+               <string>Predefined configurations</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1" >
+             <spacer>
+              <property name="orientation" >
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" >
+               <size>
+                <width>121</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="2" column="0" colspan="2" >
+             <widget class="QGroupBox" name="groupBox_2" >
+              <property name="font" >
+               <font>
+                <pointsize>8</pointsize>
+                <weight>50</weight>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="title" >
+               <string>Input Signals</string>
+              </property>
+              <layout class="QGridLayout" >
+               <property name="margin" >
+                <number>9</number>
+               </property>
+               <property name="spacing" >
+                <number>6</number>
+               </property>
+               <item row="0" column="3" >
+                <widget class="QLabel" name="label_8" >
+                 <property name="font" >
+                  <font>
+                   <pointsize>8</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text" >
+                  <string>Direction</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2" >
+                <widget class="QLabel" name="label_7" >
+                 <property name="font" >
+                  <font>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text" >
+                  <string>Edge</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1" >
+                <widget class="QLabel" name="label_6" >
+                 <property name="font" >
+                  <font>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text" >
+                  <string>Mode</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="3" >
+                <widget class="QComboBox" name="cbInPosDir" >
+                 <item>
+                  <property name="text" >
+                   <string>Normal</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Inverted</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="2" column="3" >
+                <widget class="QComboBox" name="cbEncInDir" >
+                 <item>
+                  <property name="text" >
+                   <string>Normal</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Inverted</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="3" column="3" >
+                <widget class="QComboBox" name="cbSyncInDir" >
+                 <item>
+                  <property name="text" >
+                   <string>Normal</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Inverted</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="2" column="2" >
+                <widget class="QComboBox" name="cbEncInEdge" >
+                 <item>
+                  <property name="text" >
+                   <string>Rising</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Falling</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="3" column="2" >
+                <widget class="QComboBox" name="cbSyncInEdge" >
+                 <item>
+                  <property name="text" >
+                   <string>Rising</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Falling</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="1" column="2" >
+                <widget class="QComboBox" name="cbInPosEdge" >
+                 <item>
+                  <property name="text" >
+                   <string>Rising</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Falling</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="1" column="1" >
+                <widget class="QComboBox" name="cbInPosMode" >
+                 <property name="minimumSize" >
+                  <size>
+                   <width>0</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <item>
+                  <property name="text" >
+                   <string>Quadrature</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Step/Dir</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="1" column="0" >
+                <widget class="QCheckBox" name="chbInPos" >
+                 <property name="text" >
+                  <string>InPos</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0" >
+                <widget class="QCheckBox" name="chbEncIn" >
+                 <property name="text" >
+                  <string>EncIn</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0" >
+                <widget class="QCheckBox" name="chbSyncIn" >
+                 <property name="text" >
+                  <string>SyncIn</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1" >
+                <widget class="QComboBox" name="cbSyncInMode" >
+                 <item>
+                  <property name="text" >
+                   <string>Quadrature</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Step/Dir</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="2" column="1" >
+                <widget class="QComboBox" name="cbEncInMode" >
+                 <item>
+                  <property name="text" >
+                   <string>Quadrature</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Step/Dir</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item row="1" column="0" >
+             <widget class="QListWidget" name="listPredefined" >
+              <property name="maximumSize" >
+               <size>
+                <width>16777215</width>
+                <height>100</height>
+               </size>
+              </property>
+              <property name="selectionMode" >
+               <enum>QAbstractItemView::SingleSelection</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1" >
+             <widget class="QPushButton" name="btnClear" >
+              <property name="sizePolicy" >
+               <sizepolicy>
+                <hsizetype>0</hsizetype>
+                <vsizetype>0</vsizetype>
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text" >
+               <string>Clear</string>
+              </property>
+              <property name="icon" >
+               <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/gnome-session-halt.png</iconset>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+         <widget class="QWidget" name="tab_aux" >
+          <attribute name="title" >
+           <string>Aux signals</string>
+          </attribute>
+          <widget class="QWidget" native="1" name="aux_widget" >
+           <property name="geometry" >
+            <rect>
+             <x>10</x>
+             <y>20</y>
+             <width>524</width>
+             <height>240</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" >
+            <property name="margin" >
+             <number>9</number>
+            </property>
+            <property name="spacing" >
+             <number>6</number>
+            </property>
+            <item>
+             <widget class="QGroupBox" name="groupBox_5" >
+              <property name="font" >
+               <font>
+                <pointsize>8</pointsize>
+                <weight>50</weight>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="title" >
+               <string>Input Signals</string>
+              </property>
+              <layout class="QGridLayout" >
+               <property name="margin" >
+                <number>9</number>
+               </property>
+               <property name="spacing" >
+                <number>6</number>
+               </property>
+               <item row="6" column="0" >
+                <widget class="QCheckBox" name="chbSyncAuxIn" >
+                 <property name="text" >
+                  <string>SyncAux</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="1" >
+                <widget class="QComboBox" name="cbSyncAuxInPol" >
+                 <item>
+                  <property name="text" >
+                   <string>Normal</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Inverted</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="0" column="1" >
+                <widget class="QLabel" name="label_24" >
+                 <property name="font" >
+                  <font>
+                   <pointsize>8</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text" >
+                  <string>Polarity</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0" >
+                <widget class="QCheckBox" name="chbInPosAux" >
+                 <property name="text" >
+                  <string>InPosAux</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1" >
+                <widget class="QComboBox" name="cbInPosAuxPol" >
+                 <item>
+                  <property name="text" >
+                   <string>Normal</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Inverted</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="2" column="1" >
+                <widget class="QComboBox" name="cbEncAuxPol" >
+                 <item>
+                  <property name="text" >
+                   <string>Normal</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Inverted</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="2" column="0" >
+                <widget class="QCheckBox" name="chbEncAux" >
+                 <property name="text" >
+                  <string>EncAux</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="1" >
+                <widget class="QComboBox" name="cbLimitNegPol" >
+                 <item>
+                  <property name="text" >
+                   <string>Normal</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Inverted</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="4" column="0" >
+                <widget class="QCheckBox" name="chbLimitNeg" >
+                 <property name="text" >
+                  <string>Limit-</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0" >
+                <widget class="QCheckBox" name="chbLimitPos" >
+                 <property name="text" >
+                  <string>Limit+</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1" >
+                <widget class="QComboBox" name="cbLimitPosPol" >
+                 <item>
+                  <property name="text" >
+                   <string>Normal</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Inverted</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="5" column="1" >
+                <widget class="QComboBox" name="cbHomePol" >
+                 <item>
+                  <property name="text" >
+                   <string>Normal</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Inverted</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="5" column="0" >
+                <widget class="QCheckBox" name="chbHome" >
+                 <property name="text" >
+                  <string>Home</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QGroupBox" name="groupBox_10" >
+              <property name="font" >
+               <font>
+                <pointsize>8</pointsize>
+                <weight>50</weight>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="title" >
+               <string>Output Signals</string>
+              </property>
+              <layout class="QGridLayout" >
+               <property name="margin" >
+                <number>9</number>
+               </property>
+               <property name="spacing" >
+                <number>6</number>
+               </property>
+               <item row="2" column="0" >
+                <widget class="QCheckBox" name="chbInfoA" >
+                 <property name="text" >
+                  <string>InfoA</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1" >
+                <widget class="QComboBox" name="cbInfoASrc" >
+                 <item>
+                  <property name="text" >
+                   <string>Fixed 0</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Fixed 1</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Limit-</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Limit+</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Home</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>EncAux</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>InposAux</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>SyncAux</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="2" column="2" >
+                <widget class="QComboBox" name="cbInfoAPol" >
+                 <item>
+                  <property name="text" >
+                   <string>Normal</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Inverted</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="1" column="2" >
+                <widget class="QComboBox" name="cbOutPosAuxPol" >
+                 <item>
+                  <property name="text" >
+                   <string>Normal</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Inverted</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="1" column="1" >
+                <widget class="QComboBox" name="cbOutPosAuxSrc" >
+                 <item>
+                  <property name="text" >
+                   <string>Fixed 0</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Fixed 1</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Limit-</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Limit+</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Home</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>EncAux</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>InposAux</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>SyncAux</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="1" column="0" >
+                <widget class="QCheckBox" name="chbOutPosAux" >
+                 <property name="text" >
+                  <string>OutPosAux</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="2" >
+                <widget class="QComboBox" name="cbInfoBPol" >
+                 <item>
+                  <property name="text" >
+                   <string>Normal</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Inverted</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="3" column="1" >
+                <widget class="QComboBox" name="cbInfoBSrc" >
+                 <item>
+                  <property name="text" >
+                   <string>Fixed 0</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Fixed 1</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Limit-</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Limit+</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Home</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>EncAux</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>InposAux</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>SyncAux</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="3" column="0" >
+                <widget class="QCheckBox" name="chbInfoB" >
+                 <property name="text" >
+                  <string>InfoB</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="0" >
+                <widget class="QCheckBox" name="chbInfoC" >
+                 <property name="text" >
+                  <string>InfoC</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="0" >
+                <widget class="QCheckBox" name="chbSyncAuxOut" >
+                 <property name="text" >
+                  <string>SyncAux</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="1" >
+                <widget class="QComboBox" name="cbInfoCSrc" >
+                 <item>
+                  <property name="text" >
+                   <string>Fixed 0</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Fixed 1</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Limit-</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Limit+</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Home</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>EncAux</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>InposAux</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>SyncAux</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="4" column="2" >
+                <widget class="QComboBox" name="cbInfoCPol" >
+                 <item>
+                  <property name="text" >
+                   <string>Normal</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Inverted</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="5" column="2" >
+                <widget class="QComboBox" name="cbSyncAuxOutPol" >
+                 <item>
+                  <property name="text" >
+                   <string>Normal</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Inverted</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="5" column="1" >
+                <widget class="QComboBox" name="cbSyncAuxOutSrc" >
+                 <item>
+                  <property name="text" >
+                   <string>Fixed 0</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Fixed 1</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Limit-</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Limit+</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Home</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>EncAux</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>InposAux</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>SyncAux</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="0" column="2" >
+                <widget class="QLabel" name="label_26" >
+                 <property name="font" >
+                  <font>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text" >
+                  <string>Polarity</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1" >
+                <widget class="QLabel" name="label_27" >
+                 <property name="font" >
+                  <font>
+                   <family>Sans Serif</family>
+                   <pointsize>8</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text" >
+                  <string>Source</string>
+                 </property>
+                 <property name="textFormat" >
+                  <enum>Qt::PlainText</enum>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+         <widget class="QWidget" name="tab_connectors" >
+          <attribute name="title" >
+           <string>Connectors</string>
+          </attribute>
+          <widget class="QWidget" native="1" name="labels_widget" >
+           <property name="geometry" >
+            <rect>
+             <x>30</x>
+             <y>20</y>
+             <width>451</width>
+             <height>525</height>
+            </rect>
+           </property>
+           <layout class="QGridLayout" >
+            <property name="margin" >
+             <number>2</number>
+            </property>
+            <property name="spacing" >
+             <number>2</number>
+            </property>
+            <item row="1" column="1" >
+             <widget class="QLabel" name="label_5" >
+              <property name="text" >
+               <string/>
+              </property>
+              <property name="pixmap" >
+               <pixmap resource="icepapcms.qrc" >:/images/IcepapCfg Icons/encoder.png</pixmap>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1" >
+             <widget class="QLabel" name="label_4" >
+              <property name="text" >
+               <string/>
+              </property>
+              <property name="pixmap" >
+               <pixmap resource="icepapcms.qrc" >:/images/IcepapCfg Icons/axis.png</pixmap>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2" >
+             <spacer>
+              <property name="orientation" >
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" >
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="0" column="0" >
+             <spacer>
+              <property name="orientation" >
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" >
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item row="0" column="0" >
+    <widget class="QFrame" name="frame_3" >
+     <property name="minimumSize" >
+      <size>
+       <width>16</width>
+       <height>75</height>
+      </size>
+     </property>
+     <property name="palette" >
+      <palette>
+       <active>
+        <colorrole role="Base" >
+         <brush brushstyle="SolidPattern" >
+          <color alpha="255" >
+           <red>255</red>
+           <green>255</green>
+           <blue>255</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Window" >
+         <brush brushstyle="SolidPattern" >
+          <color alpha="255" >
+           <red>224</red>
+           <green>255</green>
+           <blue>255</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </active>
+       <inactive>
+        <colorrole role="Base" >
+         <brush brushstyle="SolidPattern" >
+          <color alpha="255" >
+           <red>255</red>
+           <green>255</green>
+           <blue>255</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Window" >
+         <brush brushstyle="SolidPattern" >
+          <color alpha="255" >
+           <red>224</red>
+           <green>255</green>
+           <blue>255</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </inactive>
+       <disabled>
+        <colorrole role="Base" >
+         <brush brushstyle="SolidPattern" >
+          <color alpha="255" >
+           <red>224</red>
+           <green>255</green>
+           <blue>255</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Window" >
+         <brush brushstyle="SolidPattern" >
+          <color alpha="255" >
+           <red>224</red>
+           <green>255</green>
+           <blue>255</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </disabled>
+      </palette>
+     </property>
+     <property name="autoFillBackground" >
+      <bool>true</bool>
+     </property>
+     <property name="frameShape" >
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow" >
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QGridLayout" >
+      <property name="margin" >
+       <number>9</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item row="2" column="0" >
+       <widget class="QLabel" name="label_2" >
+        <property name="text" >
+         <string>Driver name</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1" >
+       <widget class="QLineEdit" name="txtDriverName" >
+        <property name="minimumSize" >
+         <size>
+          <width>125</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="maximumSize" >
+         <size>
+          <width>125</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2" >
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" >
+         <size>
+          <width>240</width>
+          <height>16</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="1" column="0" colspan="3" >
+       <widget class="Line" name="line" >
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="3" >
+       <widget class="QLabel" name="txtDescription" >
+        <property name="text" >
+         <string>TextLabel</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item rowspan="2" row="0" column="1" >
+    <widget class="QFrame" name="frame_right" >
+     <property name="minimumSize" >
+      <size>
+       <width>220</width>
+       <height>499</height>
+      </size>
+     </property>
+     <property name="maximumSize" >
+      <size>
+       <width>220</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="frameShape" >
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="frameShadow" >
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QVBoxLayout" >
+      <property name="margin" >
+       <number>9</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="label" >
+        <property name="text" >
+         <string/>
+        </property>
+        <property name="pixmap" >
+         <pixmap resource="icepapcms.qrc" >:/logos/IcepapCfg Icons/Icepap.png</pixmap>
+        </property>
+        <property name="alignment" >
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" >
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QFrame" name="frame_test" >
+        <property name="sizePolicy" >
+         <sizepolicy>
+          <hsizetype>0</hsizetype>
+          <vsizetype>0</vsizetype>
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize" >
+         <size>
+          <width>202</width>
+          <height>319</height>
+         </size>
+        </property>
+        <property name="maximumSize" >
+         <size>
+          <width>250</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="frameShape" >
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow" >
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QGridLayout" >
+         <property name="margin" >
+          <number>9</number>
+         </property>
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item row="7" column="6" >
+          <widget class="QPushButton" name="btnGO" >
+           <property name="maximumSize" >
+            <size>
+             <width>24</width>
+             <height>24</height>
+            </size>
+           </property>
+           <property name="text" >
+            <string/>
+           </property>
+           <property name="icon" >
+            <iconset resource="icepapcms.qrc" >:/small_icons/IcepapCFG Icons Petits/go-absolute.png</iconset>
+           </property>
+           <property name="iconSize" >
+            <size>
+             <width>22</width>
+             <height>22</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0" colspan="7" >
+          <widget class="QFrame" name="frame_4" >
+           <property name="frameShape" >
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="frameShadow" >
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QHBoxLayout" >
+            <property name="margin" >
+             <number>0</number>
+            </property>
+            <property name="spacing" >
+             <number>0</number>
+            </property>
+            <item>
+             <spacer>
+              <property name="orientation" >
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" >
+               <size>
+                <width>21</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QFrame" name="frame_leds" >
+              <property name="sizePolicy" >
+               <sizepolicy>
+                <hsizetype>0</hsizetype>
+                <vsizetype>0</vsizetype>
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize" >
+               <size>
+                <width>171</width>
+                <height>48</height>
+               </size>
+              </property>
+              <property name="maximumSize" >
+               <size>
+                <width>171</width>
+                <height>48</height>
+               </size>
+              </property>
+              <property name="frameShape" >
+               <enum>QFrame::NoFrame</enum>
+              </property>
+              <property name="frameShadow" >
+               <enum>QFrame::Raised</enum>
               </property>
               <layout class="QGridLayout" >
                <property name="margin" >
@@ -852,178 +2159,25 @@ p, li { white-space: pre-wrap; }
                 <number>2</number>
                </property>
                <item row="1" column="1" >
-                <widget class="QLabel" name="label_5" >
-                 <property name="text" >
-                  <string/>
+                <widget class="QLabel" name="textLabel1_6_4" >
+                 <property name="font" >
+                  <font>
+                   <pointsize>7</pointsize>
+                  </font>
                  </property>
-                 <property name="pixmap" >
-                  <pixmap resource="icepapcms.qrc" >:/images/IcepapCfg Icons/encoder.png</pixmap>
+                 <property name="text" >
+                  <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+p, li { white-space: pre-wrap; }
+&lt;/style>&lt;/head>&lt;body style=" font-family:'Sans Serif'; font-size:7pt; font-weight:400; font-style:normal; text-decoration:none;">
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Step&lt;/p>&lt;/body>&lt;/html></string>
+                 </property>
+                 <property name="alignment" >
+                  <set>Qt::AlignCenter</set>
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1" >
-                <widget class="QLabel" name="label_4" >
-                 <property name="text" >
-                  <string/>
-                 </property>
-                 <property name="pixmap" >
-                  <pixmap resource="icepapcms.qrc" >:/images/IcepapCfg Icons/axis.png</pixmap>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="2" >
-                <spacer>
-                 <property name="orientation" >
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" >
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-               <item row="0" column="0" >
-                <spacer>
-                 <property name="orientation" >
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" >
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </widget>
-            </widget>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </widget>
-      </item>
-      <item>
-       <widget class="QFrame" name="frame_right" >
-        <property name="minimumSize" >
-         <size>
-          <width>220</width>
-          <height>499</height>
-         </size>
-        </property>
-        <property name="maximumSize" >
-         <size>
-          <width>220</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="frameShape" >
-         <enum>QFrame::NoFrame</enum>
-        </property>
-        <property name="frameShadow" >
-         <enum>QFrame::Raised</enum>
-        </property>
-        <layout class="QVBoxLayout" >
-         <property name="margin" >
-          <number>9</number>
-         </property>
-         <property name="spacing" >
-          <number>6</number>
-         </property>
-         <item>
-          <widget class="QLabel" name="label" >
-           <property name="text" >
-            <string/>
-           </property>
-           <property name="pixmap" >
-            <pixmap resource="icepapcms.qrc" >:/logos/IcepapCfg Icons/Icepap.png</pixmap>
-           </property>
-           <property name="alignment" >
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer>
-           <property name="orientation" >
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" >
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QFrame" name="frame_test" >
-           <property name="sizePolicy" >
-            <sizepolicy>
-             <hsizetype>0</hsizetype>
-             <vsizetype>0</vsizetype>
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize" >
-            <size>
-             <width>202</width>
-             <height>280</height>
-            </size>
-           </property>
-           <property name="maximumSize" >
-            <size>
-             <width>250</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="frameShape" >
-            <enum>QFrame::StyledPanel</enum>
-           </property>
-           <property name="frameShadow" >
-            <enum>QFrame::Raised</enum>
-           </property>
-           <layout class="QGridLayout" >
-            <property name="margin" >
-             <number>9</number>
-            </property>
-            <property name="spacing" >
-             <number>6</number>
-            </property>
-            <item row="5" column="0" colspan="7" >
-             <widget class="QFrame" name="frame_4" >
-              <property name="frameShape" >
-               <enum>QFrame::NoFrame</enum>
-              </property>
-              <property name="frameShadow" >
-               <enum>QFrame::Raised</enum>
-              </property>
-              <layout class="QHBoxLayout" >
-               <property name="margin" >
-                <number>0</number>
-               </property>
-               <property name="spacing" >
-                <number>0</number>
-               </property>
-               <item>
-                <spacer>
-                 <property name="orientation" >
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" >
-                  <size>
-                   <width>21</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-               <item>
-                <widget class="QFrame" name="frame_leds" >
+               <item row="0" column="3" >
+                <widget class="Led" name="LedLimitPos" >
                  <property name="sizePolicy" >
                   <sizepolicy>
                    <hsizetype>0</hsizetype>
@@ -1034,1127 +2188,1110 @@ p, li { white-space: pre-wrap; }
                  </property>
                  <property name="minimumSize" >
                   <size>
-                   <width>171</width>
-                   <height>48</height>
+                   <width>24</width>
+                   <height>24</height>
                   </size>
                  </property>
                  <property name="maximumSize" >
                   <size>
-                   <width>171</width>
-                   <height>48</height>
+                   <width>24</width>
+                   <height>24</height>
                   </size>
                  </property>
-                 <property name="frameShape" >
-                  <enum>QFrame::NoFrame</enum>
+                 <property name="palette" >
+                  <palette>
+                   <active>
+                    <colorrole role="Base" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>255</red>
+                       <green>255</green>
+                       <blue>255</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                    <colorrole role="Window" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>85</red>
+                       <green>255</green>
+                       <blue>127</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                   </active>
+                   <inactive>
+                    <colorrole role="Base" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>255</red>
+                       <green>255</green>
+                       <blue>255</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                    <colorrole role="Window" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>85</red>
+                       <green>255</green>
+                       <blue>127</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                   </inactive>
+                   <disabled>
+                    <colorrole role="Base" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>85</red>
+                       <green>255</green>
+                       <blue>127</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                    <colorrole role="Window" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>85</red>
+                       <green>255</green>
+                       <blue>127</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                   </disabled>
+                  </palette>
                  </property>
-                 <property name="frameShadow" >
-                  <enum>QFrame::Raised</enum>
-                 </property>
-                 <layout class="QGridLayout" >
-                  <property name="margin" >
-                   <number>2</number>
-                  </property>
-                  <property name="spacing" >
-                   <number>2</number>
-                  </property>
-                  <item row="1" column="1" >
-                   <widget class="QLabel" name="textLabel1_6_4" >
-                    <property name="font" >
-                     <font>
-                      <pointsize>7</pointsize>
-                     </font>
-                    </property>
-                    <property name="text" >
-                     <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
-p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'Sans Serif'; font-size:7pt; font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Step&lt;/p>&lt;/body>&lt;/html></string>
-                    </property>
-                    <property name="alignment" >
-                     <set>Qt::AlignCenter</set>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="3" >
-                   <widget class="Led" name="LedLimitPos" >
-                    <property name="sizePolicy" >
-                     <sizepolicy>
-                      <hsizetype>0</hsizetype>
-                      <vsizetype>0</vsizetype>
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize" >
-                     <size>
-                      <width>24</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize" >
-                     <size>
-                      <width>24</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="palette" >
-                     <palette>
-                      <active>
-                       <colorrole role="Base" >
-                        <brush brushstyle="SolidPattern" >
-                         <color alpha="255" >
-                          <red>255</red>
-                          <green>255</green>
-                          <blue>255</blue>
-                         </color>
-                        </brush>
-                       </colorrole>
-                       <colorrole role="Window" >
-                        <brush brushstyle="SolidPattern" >
-                         <color alpha="255" >
-                          <red>85</red>
-                          <green>255</green>
-                          <blue>127</blue>
-                         </color>
-                        </brush>
-                       </colorrole>
-                      </active>
-                      <inactive>
-                       <colorrole role="Base" >
-                        <brush brushstyle="SolidPattern" >
-                         <color alpha="255" >
-                          <red>255</red>
-                          <green>255</green>
-                          <blue>255</blue>
-                         </color>
-                        </brush>
-                       </colorrole>
-                       <colorrole role="Window" >
-                        <brush brushstyle="SolidPattern" >
-                         <color alpha="255" >
-                          <red>85</red>
-                          <green>255</green>
-                          <blue>127</blue>
-                         </color>
-                        </brush>
-                       </colorrole>
-                      </inactive>
-                      <disabled>
-                       <colorrole role="Base" >
-                        <brush brushstyle="SolidPattern" >
-                         <color alpha="255" >
-                          <red>85</red>
-                          <green>255</green>
-                          <blue>127</blue>
-                         </color>
-                        </brush>
-                       </colorrole>
-                       <colorrole role="Window" >
-                        <brush brushstyle="SolidPattern" >
-                         <color alpha="255" >
-                          <red>85</red>
-                          <green>255</green>
-                          <blue>127</blue>
-                         </color>
-                        </brush>
-                       </colorrole>
-                      </disabled>
-                     </palette>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="0" >
-                   <widget class="QLabel" name="textLabel1_6_5" >
-                    <property name="font" >
-                     <font>
-                      <pointsize>7</pointsize>
-                     </font>
-                    </property>
-                    <property name="text" >
-                     <string>Stat</string>
-                    </property>
-                    <property name="alignment" >
-                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="2" >
-                   <widget class="Led" name="LedHome" >
-                    <property name="sizePolicy" >
-                     <sizepolicy>
-                      <hsizetype>0</hsizetype>
-                      <vsizetype>0</vsizetype>
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize" >
-                     <size>
-                      <width>24</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize" >
-                     <size>
-                      <width>24</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="palette" >
-                     <palette>
-                      <active>
-                       <colorrole role="Base" >
-                        <brush brushstyle="SolidPattern" >
-                         <color alpha="255" >
-                          <red>255</red>
-                          <green>255</green>
-                          <blue>255</blue>
-                         </color>
-                        </brush>
-                       </colorrole>
-                       <colorrole role="Window" >
-                        <brush brushstyle="SolidPattern" >
-                         <color alpha="255" >
-                          <red>255</red>
-                          <green>255</green>
-                          <blue>127</blue>
-                         </color>
-                        </brush>
-                       </colorrole>
-                      </active>
-                      <inactive>
-                       <colorrole role="Base" >
-                        <brush brushstyle="SolidPattern" >
-                         <color alpha="255" >
-                          <red>255</red>
-                          <green>255</green>
-                          <blue>255</blue>
-                         </color>
-                        </brush>
-                       </colorrole>
-                       <colorrole role="Window" >
-                        <brush brushstyle="SolidPattern" >
-                         <color alpha="255" >
-                          <red>255</red>
-                          <green>255</green>
-                          <blue>127</blue>
-                         </color>
-                        </brush>
-                       </colorrole>
-                      </inactive>
-                      <disabled>
-                       <colorrole role="Base" >
-                        <brush brushstyle="SolidPattern" >
-                         <color alpha="255" >
-                          <red>255</red>
-                          <green>255</green>
-                          <blue>127</blue>
-                         </color>
-                        </brush>
-                       </colorrole>
-                       <colorrole role="Window" >
-                        <brush brushstyle="SolidPattern" >
-                         <color alpha="255" >
-                          <red>255</red>
-                          <green>255</green>
-                          <blue>127</blue>
-                         </color>
-                        </brush>
-                       </colorrole>
-                      </disabled>
-                     </palette>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="2" >
-                   <widget class="QLabel" name="textLabel1_6_3" >
-                    <property name="font" >
-                     <font>
-                      <pointsize>7</pointsize>
-                     </font>
-                    </property>
-                    <property name="text" >
-                     <string>Home</string>
-                    </property>
-                    <property name="alignment" >
-                     <set>Qt::AlignCenter</set>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="3" >
-                   <widget class="QLabel" name="textLabel1_6" >
-                    <property name="font" >
-                     <font>
-                      <pointsize>7</pointsize>
-                     </font>
-                    </property>
-                    <property name="text" >
-                     <string>Limit+</string>
-                    </property>
-                    <property name="alignment" >
-                     <set>Qt::AlignCenter</set>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="1" >
-                   <widget class="Led" name="LedStep" >
-                    <property name="sizePolicy" >
-                     <sizepolicy>
-                      <hsizetype>0</hsizetype>
-                      <vsizetype>0</vsizetype>
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize" >
-                     <size>
-                      <width>24</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize" >
-                     <size>
-                      <width>24</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="palette" >
-                     <palette>
-                      <active>
-                       <colorrole role="Base" >
-                        <brush brushstyle="SolidPattern" >
-                         <color alpha="255" >
-                          <red>255</red>
-                          <green>255</green>
-                          <blue>255</blue>
-                         </color>
-                        </brush>
-                       </colorrole>
-                       <colorrole role="Window" >
-                        <brush brushstyle="SolidPattern" >
-                         <color alpha="255" >
-                          <red>85</red>
-                          <green>255</green>
-                          <blue>255</blue>
-                         </color>
-                        </brush>
-                       </colorrole>
-                      </active>
-                      <inactive>
-                       <colorrole role="Base" >
-                        <brush brushstyle="SolidPattern" >
-                         <color alpha="255" >
-                          <red>255</red>
-                          <green>255</green>
-                          <blue>255</blue>
-                         </color>
-                        </brush>
-                       </colorrole>
-                       <colorrole role="Window" >
-                        <brush brushstyle="SolidPattern" >
-                         <color alpha="255" >
-                          <red>85</red>
-                          <green>255</green>
-                          <blue>255</blue>
-                         </color>
-                        </brush>
-                       </colorrole>
-                      </inactive>
-                      <disabled>
-                       <colorrole role="Base" >
-                        <brush brushstyle="SolidPattern" >
-                         <color alpha="255" >
-                          <red>85</red>
-                          <green>255</green>
-                          <blue>255</blue>
-                         </color>
-                        </brush>
-                       </colorrole>
-                       <colorrole role="Window" >
-                        <brush brushstyle="SolidPattern" >
-                         <color alpha="255" >
-                          <red>85</red>
-                          <green>255</green>
-                          <blue>255</blue>
-                         </color>
-                        </brush>
-                       </colorrole>
-                      </disabled>
-                     </palette>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="4" >
-                   <widget class="QLabel" name="textLabel1_6_2" >
-                    <property name="font" >
-                     <font>
-                      <pointsize>7</pointsize>
-                     </font>
-                    </property>
-                    <property name="text" >
-                     <string>Limit-</string>
-                    </property>
-                    <property name="alignment" >
-                     <set>Qt::AlignCenter</set>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="4" >
-                   <widget class="Led" name="LedLimitNeg" >
-                    <property name="sizePolicy" >
-                     <sizepolicy>
-                      <hsizetype>0</hsizetype>
-                      <vsizetype>0</vsizetype>
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize" >
-                     <size>
-                      <width>24</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize" >
-                     <size>
-                      <width>24</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="palette" >
-                     <palette>
-                      <active>
-                       <colorrole role="Base" >
-                        <brush brushstyle="SolidPattern" >
-                         <color alpha="255" >
-                          <red>255</red>
-                          <green>255</green>
-                          <blue>255</blue>
-                         </color>
-                        </brush>
-                       </colorrole>
-                       <colorrole role="Window" >
-                        <brush brushstyle="SolidPattern" >
-                         <color alpha="255" >
-                          <red>255</red>
-                          <green>85</green>
-                          <blue>255</blue>
-                         </color>
-                        </brush>
-                       </colorrole>
-                      </active>
-                      <inactive>
-                       <colorrole role="Base" >
-                        <brush brushstyle="SolidPattern" >
-                         <color alpha="255" >
-                          <red>255</red>
-                          <green>255</green>
-                          <blue>255</blue>
-                         </color>
-                        </brush>
-                       </colorrole>
-                       <colorrole role="Window" >
-                        <brush brushstyle="SolidPattern" >
-                         <color alpha="255" >
-                          <red>255</red>
-                          <green>85</green>
-                          <blue>255</blue>
-                         </color>
-                        </brush>
-                       </colorrole>
-                      </inactive>
-                      <disabled>
-                       <colorrole role="Base" >
-                        <brush brushstyle="SolidPattern" >
-                         <color alpha="255" >
-                          <red>255</red>
-                          <green>85</green>
-                          <blue>255</blue>
-                         </color>
-                        </brush>
-                       </colorrole>
-                       <colorrole role="Window" >
-                        <brush brushstyle="SolidPattern" >
-                         <color alpha="255" >
-                          <red>255</red>
-                          <green>85</green>
-                          <blue>255</blue>
-                         </color>
-                        </brush>
-                       </colorrole>
-                      </disabled>
-                     </palette>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="0" >
-                   <widget class="Led" name="LedError" >
-                    <property name="sizePolicy" >
-                     <sizepolicy>
-                      <hsizetype>0</hsizetype>
-                      <vsizetype>0</vsizetype>
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize" >
-                     <size>
-                      <width>24</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize" >
-                     <size>
-                      <width>24</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="palette" >
-                     <palette>
-                      <active>
-                       <colorrole role="Base" >
-                        <brush brushstyle="SolidPattern" >
-                         <color alpha="255" >
-                          <red>255</red>
-                          <green>255</green>
-                          <blue>255</blue>
-                         </color>
-                        </brush>
-                       </colorrole>
-                       <colorrole role="Window" >
-                        <brush brushstyle="SolidPattern" >
-                         <color alpha="255" >
-                          <red>101</red>
-                          <green>148</green>
-                          <blue>235</blue>
-                         </color>
-                        </brush>
-                       </colorrole>
-                      </active>
-                      <inactive>
-                       <colorrole role="Base" >
-                        <brush brushstyle="SolidPattern" >
-                         <color alpha="255" >
-                          <red>255</red>
-                          <green>255</green>
-                          <blue>255</blue>
-                         </color>
-                        </brush>
-                       </colorrole>
-                       <colorrole role="Window" >
-                        <brush brushstyle="SolidPattern" >
-                         <color alpha="255" >
-                          <red>101</red>
-                          <green>148</green>
-                          <blue>235</blue>
-                         </color>
-                        </brush>
-                       </colorrole>
-                      </inactive>
-                      <disabled>
-                       <colorrole role="Base" >
-                        <brush brushstyle="SolidPattern" >
-                         <color alpha="255" >
-                          <red>101</red>
-                          <green>148</green>
-                          <blue>235</blue>
-                         </color>
-                        </brush>
-                       </colorrole>
-                       <colorrole role="Window" >
-                        <brush brushstyle="SolidPattern" >
-                         <color alpha="255" >
-                          <red>101</red>
-                          <green>148</green>
-                          <blue>235</blue>
-                         </color>
-                        </brush>
-                       </colorrole>
-                      </disabled>
-                     </palette>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
                 </widget>
                </item>
-               <item>
-                <spacer>
-                 <property name="orientation" >
-                  <enum>Qt::Horizontal</enum>
+               <item row="1" column="0" >
+                <widget class="QLabel" name="textLabel1_6_5" >
+                 <property name="font" >
+                  <font>
+                   <pointsize>7</pointsize>
+                  </font>
                  </property>
-                 <property name="sizeHint" >
+                 <property name="text" >
+                  <string>Stat</string>
+                 </property>
+                 <property name="alignment" >
+                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2" >
+                <widget class="Led" name="LedHome" >
+                 <property name="sizePolicy" >
+                  <sizepolicy>
+                   <hsizetype>0</hsizetype>
+                   <vsizetype>0</vsizetype>
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize" >
                   <size>
-                   <width>21</width>
-                   <height>20</height>
+                   <width>24</width>
+                   <height>24</height>
                   </size>
                  </property>
-                </spacer>
+                 <property name="maximumSize" >
+                  <size>
+                   <width>24</width>
+                   <height>24</height>
+                  </size>
+                 </property>
+                 <property name="palette" >
+                  <palette>
+                   <active>
+                    <colorrole role="Base" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>255</red>
+                       <green>255</green>
+                       <blue>255</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                    <colorrole role="Window" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>255</red>
+                       <green>255</green>
+                       <blue>127</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                   </active>
+                   <inactive>
+                    <colorrole role="Base" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>255</red>
+                       <green>255</green>
+                       <blue>255</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                    <colorrole role="Window" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>255</red>
+                       <green>255</green>
+                       <blue>127</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                   </inactive>
+                   <disabled>
+                    <colorrole role="Base" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>255</red>
+                       <green>255</green>
+                       <blue>127</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                    <colorrole role="Window" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>255</red>
+                       <green>255</green>
+                       <blue>127</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                   </disabled>
+                  </palette>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="2" >
+                <widget class="QLabel" name="textLabel1_6_3" >
+                 <property name="font" >
+                  <font>
+                   <pointsize>7</pointsize>
+                  </font>
+                 </property>
+                 <property name="text" >
+                  <string>Home</string>
+                 </property>
+                 <property name="alignment" >
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="3" >
+                <widget class="QLabel" name="textLabel1_6" >
+                 <property name="font" >
+                  <font>
+                   <pointsize>7</pointsize>
+                  </font>
+                 </property>
+                 <property name="text" >
+                  <string>Limit+</string>
+                 </property>
+                 <property name="alignment" >
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1" >
+                <widget class="Led" name="LedStep" >
+                 <property name="sizePolicy" >
+                  <sizepolicy>
+                   <hsizetype>0</hsizetype>
+                   <vsizetype>0</vsizetype>
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize" >
+                  <size>
+                   <width>24</width>
+                   <height>24</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize" >
+                  <size>
+                   <width>24</width>
+                   <height>24</height>
+                  </size>
+                 </property>
+                 <property name="palette" >
+                  <palette>
+                   <active>
+                    <colorrole role="Base" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>255</red>
+                       <green>255</green>
+                       <blue>255</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                    <colorrole role="Window" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>85</red>
+                       <green>255</green>
+                       <blue>255</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                   </active>
+                   <inactive>
+                    <colorrole role="Base" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>255</red>
+                       <green>255</green>
+                       <blue>255</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                    <colorrole role="Window" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>85</red>
+                       <green>255</green>
+                       <blue>255</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                   </inactive>
+                   <disabled>
+                    <colorrole role="Base" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>85</red>
+                       <green>255</green>
+                       <blue>255</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                    <colorrole role="Window" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>85</red>
+                       <green>255</green>
+                       <blue>255</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                   </disabled>
+                  </palette>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="4" >
+                <widget class="QLabel" name="textLabel1_6_2" >
+                 <property name="font" >
+                  <font>
+                   <pointsize>7</pointsize>
+                  </font>
+                 </property>
+                 <property name="text" >
+                  <string>Limit-</string>
+                 </property>
+                 <property name="alignment" >
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="4" >
+                <widget class="Led" name="LedLimitNeg" >
+                 <property name="sizePolicy" >
+                  <sizepolicy>
+                   <hsizetype>0</hsizetype>
+                   <vsizetype>0</vsizetype>
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize" >
+                  <size>
+                   <width>24</width>
+                   <height>24</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize" >
+                  <size>
+                   <width>24</width>
+                   <height>24</height>
+                  </size>
+                 </property>
+                 <property name="palette" >
+                  <palette>
+                   <active>
+                    <colorrole role="Base" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>255</red>
+                       <green>255</green>
+                       <blue>255</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                    <colorrole role="Window" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>255</red>
+                       <green>85</green>
+                       <blue>255</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                   </active>
+                   <inactive>
+                    <colorrole role="Base" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>255</red>
+                       <green>255</green>
+                       <blue>255</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                    <colorrole role="Window" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>255</red>
+                       <green>85</green>
+                       <blue>255</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                   </inactive>
+                   <disabled>
+                    <colorrole role="Base" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>255</red>
+                       <green>85</green>
+                       <blue>255</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                    <colorrole role="Window" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>255</red>
+                       <green>85</green>
+                       <blue>255</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                   </disabled>
+                  </palette>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0" >
+                <widget class="Led" name="LedError" >
+                 <property name="sizePolicy" >
+                  <sizepolicy>
+                   <hsizetype>0</hsizetype>
+                   <vsizetype>0</vsizetype>
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize" >
+                  <size>
+                   <width>24</width>
+                   <height>24</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize" >
+                  <size>
+                   <width>24</width>
+                   <height>24</height>
+                  </size>
+                 </property>
+                 <property name="palette" >
+                  <palette>
+                   <active>
+                    <colorrole role="Base" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>255</red>
+                       <green>255</green>
+                       <blue>255</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                    <colorrole role="Window" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>101</red>
+                       <green>148</green>
+                       <blue>235</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                   </active>
+                   <inactive>
+                    <colorrole role="Base" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>255</red>
+                       <green>255</green>
+                       <blue>255</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                    <colorrole role="Window" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>101</red>
+                       <green>148</green>
+                       <blue>235</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                   </inactive>
+                   <disabled>
+                    <colorrole role="Base" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>101</red>
+                       <green>148</green>
+                       <blue>235</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                    <colorrole role="Window" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>101</red>
+                       <green>148</green>
+                       <blue>235</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                   </disabled>
+                  </palette>
+                 </property>
+                </widget>
                </item>
               </layout>
              </widget>
             </item>
-            <item row="3" column="3" colspan="2" >
-             <widget class="QPushButton" name="BtnSetPos" >
-              <property name="maximumSize" >
+            <item>
+             <spacer>
+              <property name="orientation" >
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" >
                <size>
-                <width>40</width>
-                <height>24</height>
+                <width>21</width>
+                <height>20</height>
                </size>
               </property>
-              <property name="font" >
-               <font>
-                <pointsize>7</pointsize>
-               </font>
-              </property>
-              <property name="text" >
-               <string>Set</string>
-              </property>
-             </widget>
+             </spacer>
             </item>
-            <item row="8" column="0" >
-             <widget class="QPushButton" name="btnEnable" >
-              <property name="maximumSize" >
-               <size>
-                <width>50</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="font" >
-               <font>
-                <family>Sans Serif</family>
-                <pointsize>8</pointsize>
-               </font>
-              </property>
-              <property name="text" >
-               <string>enable</string>
-              </property>
-              <property name="checkable" >
-               <bool>true</bool>
-              </property>
-              <property name="checked" >
+           </layout>
+          </widget>
+         </item>
+         <item row="2" column="0" colspan="5" >
+          <widget class="QLabel" name="textLabel1_3_3_2" >
+           <property name="font" >
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text" >
+            <string>Acceleration</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="5" colspan="2" >
+          <widget class="QLineEdit" name="txtAcceleration" >
+           <property name="maximumSize" >
+            <size>
+             <width>16777215</width>
+             <height>24</height>
+            </size>
+           </property>
+           <property name="font" >
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="0" >
+          <widget class="QLabel" name="textLabel3" >
+           <property name="font" >
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text" >
+            <string>Position</string>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="1" colspan="2" >
+          <widget class="QPushButton" name="btnStopMotor" >
+           <property name="maximumSize" >
+            <size>
+             <width>24</width>
+             <height>24</height>
+            </size>
+           </property>
+           <property name="text" >
+            <string/>
+           </property>
+           <property name="icon" >
+            <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/gnome-session-halt.png</iconset>
+           </property>
+           <property name="iconSize" >
+            <size>
+             <width>22</width>
+             <height>22</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="4" colspan="2" >
+          <widget class="QLineEdit" name="txtMvAbsolute" >
+           <property name="maximumSize" >
+            <size>
+             <width>100</width>
+             <height>24</height>
+            </size>
+           </property>
+           <property name="font" >
+            <font>
+             <pointsize>7</pointsize>
+            </font>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="5" colspan="2" >
+          <widget class="QSpinBox" name="sbFactor" >
+           <property name="enabled" >
+            <bool>true</bool>
+           </property>
+           <property name="maximumSize" >
+            <size>
+             <width>16777215</width>
+             <height>24</height>
+            </size>
+           </property>
+           <property name="font" >
+            <font>
+             <pointsize>7</pointsize>
+            </font>
+           </property>
+           <property name="maximum" >
+            <number>99999</number>
+           </property>
+           <property name="minimum" >
+            <number>1</number>
+           </property>
+           <property name="value" >
+            <number>1</number>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0" colspan="5" >
+          <widget class="QLabel" name="textLabel1_3_3" >
+           <property name="font" >
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text" >
+            <string>Speed (steps/sec)</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0" colspan="7" >
+          <widget class="QFrame" name="frame" >
+           <property name="frameShape" >
+            <enum>QFrame::HLine</enum>
+           </property>
+           <property name="frameShadow" >
+            <enum>QFrame::Raised</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="1" colspan="6" >
+          <widget class="QLCDNumber" name="LCDPosition" >
+           <property name="minimumSize" >
+            <size>
+             <width>0</width>
+             <height>24</height>
+            </size>
+           </property>
+           <property name="maximumSize" >
+            <size>
+             <width>16777215</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="palette" >
+            <palette>
+             <active>
+              <colorrole role="WindowText" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>40</red>
+                 <green>59</green>
+                 <blue>93</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Text" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>45</red>
+                 <green>68</green>
+                 <blue>106</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Base" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>255</red>
+                 <green>255</green>
+                 <blue>255</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Window" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>178</red>
+                 <green>200</green>
+                 <blue>235</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </active>
+             <inactive>
+              <colorrole role="WindowText" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>40</red>
+                 <green>59</green>
+                 <blue>93</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Text" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>45</red>
+                 <green>68</green>
+                 <blue>106</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Base" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>255</red>
+                 <green>255</green>
+                 <blue>255</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Window" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>178</red>
+                 <green>200</green>
+                 <blue>235</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </inactive>
+             <disabled>
+              <colorrole role="WindowText" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>118</red>
+                 <green>116</green>
+                 <blue>113</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Text" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>118</red>
+                 <green>116</green>
+                 <blue>113</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Base" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>178</red>
+                 <green>200</green>
+                 <blue>235</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Window" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>178</red>
+                 <green>200</green>
+                 <blue>235</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </disabled>
+            </palette>
+           </property>
+           <property name="font" >
+            <font>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="autoFillBackground" >
+            <bool>true</bool>
+           </property>
+           <property name="frameShape" >
+            <enum>QFrame::Panel</enum>
+           </property>
+           <property name="frameShadow" >
+            <enum>QFrame::Raised</enum>
+           </property>
+           <property name="numDigits" >
+            <number>9</number>
+           </property>
+           <property name="segmentStyle" >
+            <enum>QLCDNumber::Flat</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="5" colspan="2" >
+          <widget class="QSpinBox" name="sbPosition" >
+           <property name="maximumSize" >
+            <size>
+             <width>16777215</width>
+             <height>24</height>
+            </size>
+           </property>
+           <property name="font" >
+            <font>
+             <pointsize>7</pointsize>
+            </font>
+           </property>
+           <property name="maximum" >
+            <number>99999</number>
+           </property>
+           <property name="value" >
+            <number>0</number>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0" colspan="2" >
+          <widget class="QLabel" name="textLabel1_3_4" >
+           <property name="font" >
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text" >
+            <string>Position</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0" colspan="5" >
+          <widget class="QLabel" name="textLabel1_3_3_2_2" >
+           <property name="font" >
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text" >
+            <string>Steps x mm/degree</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="5" colspan="2" >
+          <widget class="QLineEdit" name="txtSpeed" >
+           <property name="maximumSize" >
+            <size>
+             <width>16777215</width>
+             <height>24</height>
+            </size>
+           </property>
+           <property name="font" >
+            <font>
+             <pointsize>8</pointsize>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="3" colspan="2" >
+          <widget class="QPushButton" name="BtnSetPos" >
+           <property name="maximumSize" >
+            <size>
+             <width>40</width>
+             <height>24</height>
+            </size>
+           </property>
+           <property name="font" >
+            <font>
+             <pointsize>7</pointsize>
+            </font>
+           </property>
+           <property name="text" >
+            <string>Set</string>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="0" >
+          <widget class="QPushButton" name="btnEnable" >
+           <property name="maximumSize" >
+            <size>
+             <width>50</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="font" >
+            <font>
+             <family>Sans Serif</family>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text" >
+            <string>enable</string>
+           </property>
+           <property name="checkable" >
+            <bool>true</bool>
+           </property>
+           <property name="checked" >
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="6" >
+          <widget class="QPushButton" name="btnGORelativePos" >
+           <property name="maximumSize" >
+            <size>
+             <width>24</width>
+             <height>24</height>
+            </size>
+           </property>
+           <property name="text" >
+            <string/>
+           </property>
+           <property name="icon" >
+            <iconset resource="icepapcms.qrc" >:/small_icons/IcepapCFG Icons Petits/go-relative.png</iconset>
+           </property>
+           <property name="iconSize" >
+            <size>
+             <width>22</width>
+             <height>22</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="3" >
+          <widget class="QPushButton" name="btnGORelativeNeg" >
+           <property name="maximumSize" >
+            <size>
+             <width>24</width>
+             <height>24</height>
+            </size>
+           </property>
+           <property name="text" >
+            <string/>
+           </property>
+           <property name="icon" >
+            <iconset resource="icepapcms.qrc" >:/small_icons/IcepapCFG Icons Petits/go-relative2.png</iconset>
+           </property>
+           <property name="iconSize" >
+            <size>
+             <width>22</width>
+             <height>22</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="0" colspan="4" >
+          <widget class="QLabel" name="textLabel1_3" >
+           <property name="font" >
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text" >
+            <string>Move absolute</string>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="4" colspan="2" >
+          <widget class="QLineEdit" name="txtGORelative" >
+           <property name="maximumSize" >
+            <size>
+             <width>100</width>
+             <height>24</height>
+            </size>
+           </property>
+           <property name="font" >
+            <font>
+             <pointsize>7</pointsize>
+            </font>
+           </property>
+          </widget>
+         </item>
+         <item row="9" column="0" colspan="7" >
+          <widget class="QGroupBox" name="groupBox" >
+           <property name="minimumSize" >
+            <size>
+             <width>0</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="title" >
+            <string>Jog</string>
+           </property>
+           <property name="flat" >
+            <bool>true</bool>
+           </property>
+           <layout class="QHBoxLayout" >
+            <property name="margin" >
+             <number>2</number>
+            </property>
+            <property name="spacing" >
+             <number>2</number>
+            </property>
+            <item>
+             <widget class="QSlider" name="sliderJog" >
+              <property name="mouseTracking" >
                <bool>false</bool>
               </property>
-             </widget>
-            </item>
-            <item row="8" column="3" >
-             <widget class="QPushButton" name="btnGORelativeNeg" >
-              <property name="maximumSize" >
-               <size>
-                <width>24</width>
-                <height>24</height>
-               </size>
-              </property>
-              <property name="text" >
-               <string/>
-              </property>
-              <property name="icon" >
-               <iconset resource="icepapcms.qrc" >:/small_icons/IcepapCFG Icons Petits/go-relative2.png</iconset>
-              </property>
-              <property name="iconSize" >
-               <size>
-                <width>22</width>
-                <height>22</height>
-               </size>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="0" colspan="2" >
-             <widget class="QLabel" name="textLabel1_3_4" >
-              <property name="font" >
-               <font>
-                <pointsize>8</pointsize>
-               </font>
-              </property>
-              <property name="text" >
-               <string>Position</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0" colspan="5" >
-             <widget class="QLabel" name="textLabel1_3_3_2" >
-              <property name="font" >
-               <font>
-                <pointsize>8</pointsize>
-               </font>
-              </property>
-              <property name="text" >
-               <string>Acceleration</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="5" colspan="2" >
-             <widget class="QLineEdit" name="txtSpeed" >
-              <property name="maximumSize" >
-               <size>
-                <width>16777215</width>
-                <height>24</height>
-               </size>
-              </property>
-              <property name="font" >
-               <font>
-                <pointsize>8</pointsize>
-                <weight>50</weight>
-                <bold>false</bold>
-               </font>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="1" colspan="6" >
-             <widget class="QLCDNumber" name="LCDPosition" >
-              <property name="minimumSize" >
-               <size>
-                <width>0</width>
-                <height>24</height>
-               </size>
-              </property>
-              <property name="maximumSize" >
-               <size>
-                <width>16777215</width>
-                <height>50</height>
-               </size>
-              </property>
-              <property name="palette" >
-               <palette>
-                <active>
-                 <colorrole role="WindowText" >
-                  <brush brushstyle="SolidPattern" >
-                   <color alpha="255" >
-                    <red>40</red>
-                    <green>59</green>
-                    <blue>93</blue>
-                   </color>
-                  </brush>
-                 </colorrole>
-                 <colorrole role="Text" >
-                  <brush brushstyle="SolidPattern" >
-                   <color alpha="255" >
-                    <red>45</red>
-                    <green>68</green>
-                    <blue>106</blue>
-                   </color>
-                  </brush>
-                 </colorrole>
-                 <colorrole role="Base" >
-                  <brush brushstyle="SolidPattern" >
-                   <color alpha="255" >
-                    <red>255</red>
-                    <green>255</green>
-                    <blue>255</blue>
-                   </color>
-                  </brush>
-                 </colorrole>
-                 <colorrole role="Window" >
-                  <brush brushstyle="SolidPattern" >
-                   <color alpha="255" >
-                    <red>178</red>
-                    <green>200</green>
-                    <blue>235</blue>
-                   </color>
-                  </brush>
-                 </colorrole>
-                </active>
-                <inactive>
-                 <colorrole role="WindowText" >
-                  <brush brushstyle="SolidPattern" >
-                   <color alpha="255" >
-                    <red>40</red>
-                    <green>59</green>
-                    <blue>93</blue>
-                   </color>
-                  </brush>
-                 </colorrole>
-                 <colorrole role="Text" >
-                  <brush brushstyle="SolidPattern" >
-                   <color alpha="255" >
-                    <red>45</red>
-                    <green>68</green>
-                    <blue>106</blue>
-                   </color>
-                  </brush>
-                 </colorrole>
-                 <colorrole role="Base" >
-                  <brush brushstyle="SolidPattern" >
-                   <color alpha="255" >
-                    <red>255</red>
-                    <green>255</green>
-                    <blue>255</blue>
-                   </color>
-                  </brush>
-                 </colorrole>
-                 <colorrole role="Window" >
-                  <brush brushstyle="SolidPattern" >
-                   <color alpha="255" >
-                    <red>178</red>
-                    <green>200</green>
-                    <blue>235</blue>
-                   </color>
-                  </brush>
-                 </colorrole>
-                </inactive>
-                <disabled>
-                 <colorrole role="WindowText" >
-                  <brush brushstyle="SolidPattern" >
-                   <color alpha="255" >
-                    <red>118</red>
-                    <green>116</green>
-                    <blue>113</blue>
-                   </color>
-                  </brush>
-                 </colorrole>
-                 <colorrole role="Text" >
-                  <brush brushstyle="SolidPattern" >
-                   <color alpha="255" >
-                    <red>118</red>
-                    <green>116</green>
-                    <blue>113</blue>
-                   </color>
-                  </brush>
-                 </colorrole>
-                 <colorrole role="Base" >
-                  <brush brushstyle="SolidPattern" >
-                   <color alpha="255" >
-                    <red>178</red>
-                    <green>200</green>
-                    <blue>235</blue>
-                   </color>
-                  </brush>
-                 </colorrole>
-                 <colorrole role="Window" >
-                  <brush brushstyle="SolidPattern" >
-                   <color alpha="255" >
-                    <red>178</red>
-                    <green>200</green>
-                    <blue>235</blue>
-                   </color>
-                  </brush>
-                 </colorrole>
-                </disabled>
-               </palette>
-              </property>
-              <property name="font" >
-               <font>
-                <pointsize>9</pointsize>
-               </font>
-              </property>
-              <property name="autoFillBackground" >
-               <bool>true</bool>
-              </property>
-              <property name="frameShape" >
-               <enum>QFrame::Panel</enum>
-              </property>
-              <property name="frameShadow" >
-               <enum>QFrame::Raised</enum>
-              </property>
-              <property name="numDigits" >
-               <number>9</number>
-              </property>
-              <property name="segmentStyle" >
-               <enum>QLCDNumber::Flat</enum>
-              </property>
-             </widget>
-            </item>
-            <item row="8" column="1" colspan="2" >
-             <widget class="QPushButton" name="btnStopMotor" >
-              <property name="maximumSize" >
-               <size>
-                <width>24</width>
-                <height>24</height>
-               </size>
-              </property>
-              <property name="text" >
-               <string/>
-              </property>
-              <property name="icon" >
-               <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/gnome-session-halt.png</iconset>
-              </property>
-              <property name="iconSize" >
-               <size>
-                <width>22</width>
-                <height>22</height>
-               </size>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="0" >
-             <widget class="QLabel" name="textLabel3" >
-              <property name="font" >
-               <font>
-                <pointsize>8</pointsize>
-               </font>
-              </property>
-              <property name="text" >
-               <string>Position</string>
-              </property>
-             </widget>
-            </item>
-            <item row="7" column="0" colspan="4" >
-             <widget class="QLabel" name="textLabel1_3" >
-              <property name="font" >
-               <font>
-                <pointsize>8</pointsize>
-               </font>
-              </property>
-              <property name="text" >
-               <string>Move absolute</string>
-              </property>
-             </widget>
-            </item>
-            <item row="8" column="4" colspan="2" >
-             <widget class="QLineEdit" name="txtGORelative" >
-              <property name="maximumSize" >
-               <size>
-                <width>100</width>
-                <height>24</height>
-               </size>
-              </property>
-              <property name="font" >
-               <font>
-                <pointsize>7</pointsize>
-               </font>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="5" colspan="2" >
-             <widget class="QSpinBox" name="sbFactor" >
-              <property name="enabled" >
-               <bool>true</bool>
-              </property>
-              <property name="maximumSize" >
-               <size>
-                <width>16777215</width>
-                <height>24</height>
-               </size>
-              </property>
-              <property name="font" >
-               <font>
-                <pointsize>7</pointsize>
-               </font>
-              </property>
-              <property name="maximum" >
-               <number>99999</number>
-              </property>
               <property name="minimum" >
-               <number>1</number>
-              </property>
-              <property name="value" >
-               <number>1</number>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="5" colspan="2" >
-             <widget class="QSpinBox" name="sbPosition" >
-              <property name="maximumSize" >
-               <size>
-                <width>16777215</width>
-                <height>24</height>
-               </size>
-              </property>
-              <property name="font" >
-               <font>
-                <pointsize>7</pointsize>
-               </font>
+               <number>-4</number>
               </property>
               <property name="maximum" >
-               <number>99999</number>
+               <number>4</number>
+              </property>
+              <property name="pageStep" >
+               <number>1</number>
               </property>
               <property name="value" >
                <number>0</number>
               </property>
-             </widget>
-            </item>
-            <item row="7" column="4" colspan="2" >
-             <widget class="QLineEdit" name="txtMvAbsolute" >
-              <property name="maximumSize" >
-               <size>
-                <width>100</width>
-                <height>24</height>
-               </size>
+              <property name="sliderPosition" >
+               <number>0</number>
               </property>
-              <property name="font" >
-               <font>
-                <pointsize>7</pointsize>
-               </font>
+              <property name="orientation" >
+               <enum>Qt::Horizontal</enum>
               </property>
-             </widget>
-            </item>
-            <item row="0" column="0" colspan="5" >
-             <widget class="QLabel" name="textLabel1_3_3_2_2" >
-              <property name="font" >
-               <font>
-                <pointsize>8</pointsize>
-               </font>
+              <property name="invertedAppearance" >
+               <bool>false</bool>
               </property>
-              <property name="text" >
-               <string>Steps x mm/degree</string>
+              <property name="invertedControls" >
+               <bool>false</bool>
               </property>
-             </widget>
-            </item>
-            <item row="1" column="0" colspan="5" >
-             <widget class="QLabel" name="textLabel1_3_3" >
-              <property name="font" >
-               <font>
-                <pointsize>8</pointsize>
-               </font>
+              <property name="tickPosition" >
+               <enum>QSlider::TicksBelow</enum>
               </property>
-              <property name="text" >
-               <string>Speed (steps/sec)</string>
-              </property>
-             </widget>
-            </item>
-            <item row="7" column="6" >
-             <widget class="QPushButton" name="btnGO" >
-              <property name="maximumSize" >
-               <size>
-                <width>24</width>
-                <height>24</height>
-               </size>
-              </property>
-              <property name="text" >
-               <string/>
-              </property>
-              <property name="icon" >
-               <iconset resource="icepapcms.qrc" >:/small_icons/IcepapCFG Icons Petits/go-absolute.png</iconset>
-              </property>
-              <property name="iconSize" >
-               <size>
-                <width>22</width>
-                <height>22</height>
-               </size>
-              </property>
-             </widget>
-            </item>
-            <item row="8" column="6" >
-             <widget class="QPushButton" name="btnGORelativePos" >
-              <property name="maximumSize" >
-               <size>
-                <width>24</width>
-                <height>24</height>
-               </size>
-              </property>
-              <property name="text" >
-               <string/>
-              </property>
-              <property name="icon" >
-               <iconset resource="icepapcms.qrc" >:/small_icons/IcepapCFG Icons Petits/go-relative.png</iconset>
-              </property>
-              <property name="iconSize" >
-               <size>
-                <width>22</width>
-                <height>22</height>
-               </size>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="5" colspan="2" >
-             <widget class="QLineEdit" name="txtAcceleration" >
-              <property name="maximumSize" >
-               <size>
-                <width>16777215</width>
-                <height>24</height>
-               </size>
-              </property>
-              <property name="font" >
-               <font>
-                <pointsize>8</pointsize>
-               </font>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="0" colspan="7" >
-             <widget class="QFrame" name="frame" >
-              <property name="frameShape" >
-               <enum>QFrame::HLine</enum>
-              </property>
-              <property name="frameShadow" >
-               <enum>QFrame::Raised</enum>
+              <property name="tickInterval" >
+               <number>2</number>
               </property>
              </widget>
             </item>
            </layout>
           </widget>
          </item>
-         <item>
-          <spacer>
-           <property name="orientation" >
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" >
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btnApplyCfg" >
-           <property name="text" >
-            <string>Apply Config</string>
-           </property>
-           <property name="icon" >
-            <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/gnome-dev-floppy.png</iconset>
-           </property>
-           <property name="iconSize" >
-            <size>
-             <width>20</width>
-             <height>20</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btnUndo" >
-           <property name="text" >
-            <string>Undo</string>
-           </property>
-           <property name="icon" >
-            <iconset resource="icepapcms.qrc" >:/small_icons/IcepapCFG Icons Petits/undo.png</iconset>
-           </property>
-           <property name="iconSize" >
-            <size>
-             <width>20</width>
-             <height>20</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btnTemplates" >
-           <property name="text" >
-            <string>Driver Templates</string>
-           </property>
-           <property name="icon" >
-            <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/notes.png</iconset>
-           </property>
-           <property name="iconSize" >
-            <size>
-             <width>20</width>
-             <height>20</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btnHistoric" >
-           <property name="layoutDirection" >
-            <enum>Qt::LeftToRight</enum>
-           </property>
-           <property name="text" >
-            <string>Historic Cfgs</string>
-           </property>
-           <property name="icon" >
-            <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/calendar.png</iconset>
-           </property>
-           <property name="iconSize" >
-            <size>
-             <width>20</width>
-             <height>20</height>
-            </size>
-           </property>
-          </widget>
-         </item>
         </layout>
+       </widget>
+      </item>
+      <item>
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" >
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnApplyCfg" >
+        <property name="text" >
+         <string>Apply Config</string>
+        </property>
+        <property name="icon" >
+         <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/gnome-dev-floppy.png</iconset>
+        </property>
+        <property name="iconSize" >
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnUndo" >
+        <property name="text" >
+         <string>Undo</string>
+        </property>
+        <property name="icon" >
+         <iconset resource="icepapcms.qrc" >:/small_icons/IcepapCFG Icons Petits/undo.png</iconset>
+        </property>
+        <property name="iconSize" >
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnTemplates" >
+        <property name="text" >
+         <string>Driver Templates</string>
+        </property>
+        <property name="icon" >
+         <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/notes.png</iconset>
+        </property>
+        <property name="iconSize" >
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnHistoric" >
+        <property name="layoutDirection" >
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="text" >
+         <string>Historic Cfgs</string>
+        </property>
+        <property name="icon" >
+         <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/calendar.png</iconset>
+        </property>
+        <property name="iconSize" >
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
        </widget>
       </item>
      </layout>

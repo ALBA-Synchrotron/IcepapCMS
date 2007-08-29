@@ -37,7 +37,8 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
         #self.item_dict = {}
         self.item_location = {}
         
-        rootData = [QtCore.QVariant("Icepaps"), QtCore.QVariant("Description")]
+        #rootData = [QtCore.QVariant("Icepaps"), QtCore.QVariant("Description")]
+        rootData = [QtCore.QVariant("IcepapDB")]
         self.rootItem = TreeItem(rootData, IcepapTreeModel.ROOT, "")
         self.setupModelData(IcepapsList, self.rootItem)
         self._dec_roles = (QtGui.QPixmap(":/icons/IcepapCfg Icons/ipapsys.png"),
@@ -67,6 +68,12 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
                 return QtCore.QVariant(self._dec_roles[item.role])
             else:
                 return QtCore.QVariant()
+                
+        elif role == QtCore.Qt.ToolTipRole:
+            item = index.internalPointer()
+            if item.description is None:
+                return QtCore.QVariant()
+            return QtCore.QVariant(item.description)
         elif role != QtCore.Qt.DisplayRole:
             return QtCore.QVariant()
     
@@ -142,9 +149,9 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
             if driver.cratenr  <> crate:
                 crate = driver.cratenr
                 location = "%s/%s" % (icepap_name, crate)
-                new_item_crate = self.addItem([QtCore.QVariant(driver.cratenr), QtCore.QVariant("")], IcepapTreeModel.CRATE, location,None, new_item_system)
+                new_item_crate = self.addItem([QtCore.QVariant(driver.cratenr)], IcepapTreeModel.CRATE, location,None, new_item_system)
             location = "%s/%s/%s" % (icepap_name, crate, addr)    
-            self.addItem([QtCore.QVariant(addr), QtCore.QVariant(driver.name)], IcepapTreeModel.DRIVER, location, driver, new_item_crate)    
+            self.addItem([QtCore.QVariant(str(addr)+" "+driver.name)], IcepapTreeModel.DRIVER, location, driver, new_item_crate)    
             
     
     def addItem(self, labels, role, location, data, parent):
@@ -187,7 +194,11 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
 class TreeItem:
     def __init__(self, label, role, location, data= None, parent=None):
         self.childItems = []
-        self.itemLabel = label
+        self.description = None
+        self.itemLabel = [label[0]]
+        if len(label) > 1:
+            if label[1].toString() != "":
+                self.description = label[1].toString() 
         self.role = role
         if role == IcepapTreeModel.SYSTEM:
             if data.conflict == Conflict.NO_CONNECTION:

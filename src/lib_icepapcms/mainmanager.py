@@ -147,6 +147,13 @@ class MainManager(Singleton):
             MessageDialogs.showWarningMessage(self._form, "Icepap error", "Connection error")
             self._form.checkIcepapConnection()
     
+    def jogDriver(self, icepap_name, addr, speed, dir):
+        try:
+            self._ctrl_icepap.jogDriver(icepap_name, addr, speed, dir)
+        except:
+            MessageDialogs.showWarningMessage(self._form, "Icepap error", "Connection error")
+            self._form.checkIcepapConnection()
+    
     def enableDriver(self, icepap_name, driver_addr):
         self._ctrl_icepap.enableDriver(icepap_name, driver_addr)
 
@@ -158,6 +165,12 @@ class MainManager(Singleton):
     
     def configureOutputSignal(self, icepap_name, driver_addr, signal, source, mode, edge, dir, pulse):
         self._ctrl_icepap.configureOutputSignal(icepap_name, driver_addr, signal, source, mode, edge, dir, pulse)
+    
+    def configureAuxInputSignal(self, icepap_name, driver_addr, signal, polarity):
+        self._ctrl_icepap.configureAuxInputSignal(icepap_name, driver_addr, signal, polarity)
+    
+    def configureAuxOutputSignal(self, icepap_name, driver_addr, signal, source, polarity):
+        self._ctrl_icepap.configureAuxOutputSignal(icepap_name, driver_addr, signal, source, polarity)
     
     def setCounterSource(self, icepap_name, driver_addr, counter, src):
         self._ctrl_icepap.setCounterSource(icepap_name, driver_addr, counter, src)

@@ -24,6 +24,10 @@ class IcepapDriverCfg(Persistent):
         
     
     def __cmp__(self, other):
+        
+        if len(other.parList) <> len(self.parList):
+            return False
+        
         equals = True
         for name, value in self.parList.items():
             if other.parList.has_key(name):
@@ -37,4 +41,7 @@ class IcepapDriverCfg(Persistent):
                     else:
                         #print name + " = " + value + " not " + other.parList[name]
                         equals = False
+            else:
+                return false
+                
         return equals
