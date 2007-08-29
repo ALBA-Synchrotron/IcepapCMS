@@ -32,6 +32,7 @@ class EthIcePAP(IcePAP):
                 cmd = '%d:'% addr
             
             cmd = cmd + command + "\n"
+            
             #print cmd
             self.lock.acquire()
             self.IcPaSock.send(cmd)
@@ -58,7 +59,7 @@ class EthIcePAP(IcePAP):
             if not addr is None:
                 cmd = '%d:'% int(addr)
             cmd = cmd + command + "\n"
-	    #print cmd
+            
             self.lock.acquire()
             self.IcPaSock.send(cmd)
             self.lock.release()            

@@ -92,6 +92,12 @@ class IcePAP:
         if (self.Status == CStatus.Disconnected):
             return -1
         self.sendCommand2(addr, name+ " " + val)
+        
+    def getVersionDsp(self, addr):
+        if (self.Status == CStatus.Disconnected):
+            return -1
+        ans = self.sendCommand(addr, '?VER DSP')
+        return self.parseResponse(str(addr),"VER", ans)
     
     def getStatus(self, addr):
         if (self.Status == CStatus.Disconnected):
@@ -179,6 +185,13 @@ class IcePAP:
         #self.preStart(addr)
         self.sendCommand2(addr, 'GO '+str(steps))
     
+    def jog(self, addr, speed):
+        if (self.Status == CStatus.Disconnected):
+            return -1
+        #self.sendCommand2(addr, 'STOP')
+        #self.sendCommand2(addr, 'GO 2')
+        self.sendCommand2(addr, 'J '+str(speed))
+    
     def configureInputSignal(self, addr, signal, cfg):
         if (self.Status == CStatus.Disconnected):
             return -1
@@ -198,7 +211,17 @@ class IcePAP:
         if (self.Status == CStatus.Disconnected):
             return -1
         self.sendCommand2(addr, 'SET_SRC '+str(counter) + ' ' + str(src))
+        
+    def configureAuxInputSignal(self, addr, signal, polarity):
+        if (self.Status == CStatus.Disconnected):
+            return -1
+        self.sendCommand2(addr, 'IN1_C '+str(signal) + ' ' + str(polarity))
     
+    def configureAuxOutputSignal(self, addr, signal, source, polarity):
+        if (self.Status == CStatus.Disconnected):
+            return -1
+        self.sendCommand2(addr, 'OUT1_C '+str(signal) + ' ' + str(source) + ' ' + str(polarity))
+        
     def setSilent(self, addr, mode):
         if (self.Status == CStatus.Disconnected):
             return -1
@@ -207,7 +230,7 @@ class IcePAP:
     def disable(self, addr):
         if (self.Status == CStatus.Disconnected):
             return -1
-        self.sendCommand2(addr , 'CLR')
+        #self.sendCommand2(addr , 'CLR')
         self.sendCommand2(addr , 'DIS')
     
     def enable(self, addr):
@@ -236,14 +259,14 @@ class IcePAP:
         #print "checking driver"
         if (self.Status == CStatus.Disconnected):
             return -1
-        self.sendCommand2(0 , 'CFE')
+        #self.sendCommand2(0 , 'CFE')
         
         ans= self.sendCommand(addr , '?ID')
         #print ans
         if self.IceFindError(ans):
             return -1
-        self.sendCommand2(addr , 'CLR')
-        self.sendCommand2(addr , 'DIS') 
+        #self.sendCommand2(addr , 'CLR')
+        #self.sendCommand2(addr , 'DIS') 
         self.sendCommand2(addr , 'SD 10.0')
 	
         #ans= self.sendCommand(0 , '?FERR 1')

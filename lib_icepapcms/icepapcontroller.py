@@ -79,6 +79,8 @@ class IcepapController(Singleton):
             value = value.lstrip()
             value = value.lstrip(name)
             driver_cfg.setAttribute(name, value)
+        ver = self.iPaps[icepap_name].getVersionDsp(driver_addr)
+        driver_cfg.setAttribute("VER", ver)
         return driver_cfg
     
     def setDriverConfiguration(self, icepap_name, driver_addr, new_values):
@@ -197,9 +199,31 @@ class IcepapController(Singleton):
     
     def setCounterSource(self, icepap_name, driver_addr, counter, src):
         try:
-            if counter == IcepapSignalSrc.Target and src <> IcepapSignalSrc.DSPin:
-                self.iPaps[icepap_name].setSilent(driver_addr, 0)
+            if counter == IcepapSignalSrc.Target: 
+                if src <> IcepapSignalSrc.DSPin:
+                    self.iPaps[icepap_name].setSilent(driver_addr, 0)
+                    self.iPas[icepap_name].sendCommand2(addr, "IDX_EXT 1")
+                else:
+                    self.iPas[icepap_name].sendCommand2(addr, "IDX_EXT 0")
             self.iPaps[icepap_name].setCounterSource(driver_addr, counter, src)
+            return 0
+        except:
+            return -1
+    
+    def configureAuxInputSignal(self, icepap_name, driver_addr, signal, polarity):
+        try:
+            self.iPaps[icepap_name].configureAuxInputSignal(driver_addr, signal, polarity)
+            if (signal == IcepapSignal.SyncAuxIn):
+                self.iPaps[icepap_name].setSignalDirection(driver_addr, IcepapSignal.SyncAuxIn, IcepapSignalCfg.INPUT)
+            return 0
+        except:
+            return -1
+    
+    def configureAuxOutputSignal(self, icepap_name, driver_addr, signal, src, polarity):
+        try:
+            self.iPaps[icepap_name].configureAuxOutputSignal(driver_addr, signal, src, polarity)
+            if (signal == IcepapSignal.SyncAuxOut):
+                self.iPaps[icepap_name].setSignalDirection(driver_addr, IcepapSignal.SyncAuxIn, IcepapSignalCfg.OUTPUT)
             return 0
         except:
             return -1
@@ -211,8 +235,9 @@ class IcepapController(Singleton):
     def stopDriver(self, icepap_name, driver_addr):
         self.iPaps[icepap_name].stopMotor(driver_addr)
     
-    def stopDriver(self, icepap_name, driver_addr):
-        self.iPaps[icepap_name].stopMotor(driver_addr)
+    def jogDriver(self, icepap_name, driver_addr, speed, direction):
+        self.iPaps[icepap_name].setDirection(driver_addr, direction)
+        self.iPaps[icepap_name].jog(driver_addr, speed)
     
     def enableDriver(self, icepap_name, driver_addr):
         self.iPaps[icepap_name].enable(driver_addr)
@@ -259,7 +284,7 @@ class IcepapController(Singleton):
         logger.addToLog("Reading file "+ filename)
         f = file(filename,'rb')
         data = f.read()
-	data = array.array('H', data)
+        data = array.array('H', data)
         f.close()
         nwords = (len(data)) 
         #a = Numeric.array(data, typecode='b')
@@ -270,8 +295,17 @@ class IcepapController(Singleton):
         if serial:
             ipap = SerialIcePAP(dst, 0)
         else:
-            aux = dst.split(':')
-            ipap = EthIcePAP(aux[0], aux[1])
+            
+            if dst.find(":") >= 0:
+                aux = dst.split(':')
+                host = aux[0]
+                port = aux[1]
+            else:
+                host = dst
+                port = "5000"
+            
+            ipap = EthIcePAP(host , port)
+            
         if addr == "NONE":
             addr = ""
         if options == "NONE":
@@ -284,12 +318,29 @@ class IcepapController(Singleton):
         ipap.sendData(struct.pack('L',nwords))
         ipap.sendData(struct.pack('L',chksum))
         ipap.sendData(data.tostring())
-        logger.addToLog("Binary data transferred, wating for drivers")
-        time.sleep(30)
-        ipap.sendCommand2(None, ":RACKRST")
-        ipap.sendCommand2(None, ":ISGT 7")
-        ipap.sendCommand2(None, ":RACKRST")
-        logger.addToLog("Firmware upgraded")
+        logger.addToLog("Wait for progammming ends")
+    
+    def testConnection(self, serial, dst):
+        try:
+            if serial:
+                ipap = SerialIcePAP(dst, 0)
+            else:
+                if dst.find(":") >= 0:
+                    aux = dst.split(':')
+                    host = aux[0]
+                    port = aux[1]
+                else:
+                    host = dst
+                    port = "5000"
+                ipap = EthIcePAP(host , port)
+            ipap.connect()
+            ver = ipap.getVersionDsp(0)
+            ipap.disconnect()
+            return True
+        except:
+            return False
+        
+        
                           
 
 
@@ -299,6 +350,18 @@ class IcepapSignal:
     SyncIn = 10
     SyncOut = 18
     EncIn = 8
+    InPosAux=6
+    OutPosAux=17
+    SyncAuxIn=7
+    SyncAuxOut=13
+    EncAux=5
+    LimitPos=3
+    LimitNeg=2
+    Home=4
+    InfoA=14
+    InfoB=15
+    InfoC=16
+    
 class IcepapSignalCfg:
     QUADRATURE, STEPDIR = range(2)
     RISING, FALLING = range(2)

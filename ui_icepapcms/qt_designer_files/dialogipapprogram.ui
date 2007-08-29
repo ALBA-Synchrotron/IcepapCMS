@@ -249,7 +249,7 @@
      </property>
     </widget>
    </item>
-   <item rowspan="3" row="3" column="0" colspan="4" >
+   <item rowspan="4" row="3" column="0" colspan="4" >
     <widget class="QTextEdit" name="txtLog" >
      <property name="font" >
       <font>
@@ -258,16 +258,6 @@
      </property>
      <property name="readOnly" >
       <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="0" colspan="4" >
-    <widget class="QProgressBar" name="progressBar" >
-     <property name="value" >
-      <number>0</number>
-     </property>
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>

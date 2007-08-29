@@ -55,13 +55,3 @@ class IcepapSystem(Persistent):
                 conflictsList.append([Conflict.NEW_DRIVER, self, addr])
 
         return conflictsList
-                    
-                    
-                
-                
-            
-            
-            
-    
-
-    

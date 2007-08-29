@@ -19,6 +19,7 @@ class PageiPapDriver(QtGui.QWidget):
         self._mainwin = mainwin
         self.ui = Ui_PageiPapDriver()
         self.ui.setupUi(self)
+        
         #self.ui.toolBox.setItemIcon(self.ui.toolBox.indexOf(self.ui.page_test), QtGui.QIcon(":/icons/IcepapCfg Icons/ipapdriver.png"))
         #self.ui.toolBox.setItemIcon(self.ui.toolBox.indexOf(self.ui.page_cfg), QtGui.QIcon(":/icons/IcepapCfg Icons/preferences-system.png"))
         pathname = os.path.dirname(sys.argv[0])
@@ -26,16 +27,37 @@ class PageiPapDriver(QtGui.QWidget):
         #self.ui.tabWidget.removeTab(0)
         self.config_template = path+'/templates/driverparameters.xml'
         self.sectionTables = {}
-        self._createTableView()
+        
+        # Dictionary of input/output signals configurations
+        # key = configuration name
+        # item = [[type, [cfg]], ...] 
+        self.inout_cfgs = {}
+        # Dictionary of variables
+        # key = variable name
+        # item = [section, widget (section = 0) or row (section > 0)
+        self.var_dict = {}
+        self.main_modified = []
+        
+        self.refreshTimer = Qt.QTimer(self)
+        self.sliderTimer = Qt.QTimer(self)
+        self.sliderTimer.setInterval(100)
+        
+        self.signalConnections()
+        self.signalMapper = QtCore.QSignalMapper(self)
+        
+        self._readConfigTemplate()
         self._manager = MainManager()
         self.ui.btnUndo.setEnabled(False)
-        self.refreshTimer = Qt.QTimer(self)
-        self.signalConnections()
+
         self.setLedsOff()
         self.icepap_driver = None
         self.inMotion = -1
-        self.status = -1  
+        self.status = -1
         
+        self.setScrollBars()  
+        self.ui.tabWidget.setCurrentIndex(0)
+        
+    def setScrollBars(self):
         self.ui.sahboxlayout = QtGui.QHBoxLayout(self.ui.tab_connectors)
         self.ui.sahboxlayout.setMargin(9)
         self.ui.sahboxlayout.setSpacing(6)
@@ -63,13 +85,22 @@ class PageiPapDriver(QtGui.QWidget):
         self.ui.sa2.setFrameStyle(QtGui.QFrame.NoFrame)
         self.ui.sahboxlayout2.addWidget(self.ui.sa2)
         
-        
-        self.ui.tabWidget.setCurrentIndex(0)
+        self.ui.sahboxlayout3 = QtGui.QHBoxLayout(self.ui.tab_aux)
+        self.ui.sahboxlayout3.setMargin(9)
+        self.ui.sahboxlayout3.setSpacing(6)
+        self.ui.sahboxlayout3.setObjectName("sahboxlayout3")
+        self.ui.sa3 = QtGui.QScrollArea(self.ui.tab_aux) 
+        self.ui.sa3.setAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignHCenter)
+        self.ui.aux_widget.setParent(None)
+        self.ui.sa3.setWidget(self.ui.aux_widget)
+        self.ui.sa3.setHorizontalScrollBarPolicy(Qt.Qt.ScrollBarAsNeeded)
+        self.ui.sa3.setVerticalScrollBarPolicy(Qt.Qt.ScrollBarAsNeeded)
+        self.ui.sa3.setFrameStyle(QtGui.QFrame.NoFrame)
+        self.ui.sahboxlayout3.addWidget(self.ui.sa3)
+
         
         #self.ui.txtDriverName.setValidator(QtGui.QIntValidator(1,100,self))
-         
-
-    
+        
     def signalConnections(self):
         QtCore.QObject.connect(self.ui.btnApplyCfg,QtCore.SIGNAL("clicked()"),self.btnApplyCfg_on_click)
         QtCore.QObject.connect(self.ui.btnHistoric,QtCore.SIGNAL("clicked()"),self.Historic_on_click)
@@ -88,6 +119,47 @@ class PageiPapDriver(QtGui.QWidget):
         QtCore.QObject.connect(self.ui.chbSyncIn, QtCore.SIGNAL("stateChanged(int)"), self.chbSyncInChanged)
         QtCore.QObject.connect(self.ui.chbSyncOut, QtCore.SIGNAL("stateChanged(int)"), self.chbSyncOutChanged)
         
+        QtCore.QObject.connect(self.ui.listPredefined, QtCore.SIGNAL("currentTextChanged (const QString&)"), self.loadPredefinedSignalCfg)
+        QtCore.QObject.connect(self.ui.btnClear,QtCore.SIGNAL("clicked()"),self.resetSignalsTab)
+        
+        #QtCore.QObject.connect(self.ui.sliderJog,QtCore.SIGNAL("sliderMoved(int)"),self.startJogging)
+        QtCore.QObject.connect(self.ui.sliderJog,QtCore.SIGNAL("valueChanged(int)"),self.sliderChanged)
+        QtCore.QObject.connect(self.ui.sliderJog,QtCore.SIGNAL("sliderReleased()"),self.stopJogging)
+        
+        QtCore.QObject.connect(self.sliderTimer,QtCore.SIGNAL("timeout()"),self.resetSlider)
+        
+        #QtCore.QObject.connect(self.signalMapper, QtCore.SIGNAL("mapped(int)"), self.highlightWidget)
+    
+    
+
+    def highlightWidget(self, widget):
+        highlight = False
+        if isinstance(widget, QtGui.QDoubleSpinBox) or isinstance(widget, QtGui.QSpinBox):
+                if widget.defaultvalue != widget.value():
+                    highlight = True
+        elif isinstance(widget, QtGui.QCheckBox):
+                if widget.defaultvalue != widget.isChecked():
+                    highlight = True
+        if highlight:
+            widget.setStyleSheet("background-color: rgb(255, 255, 0)")
+            if not widget in self.main_modified:
+                self.main_modified.append(widget)
+            
+        else:
+            self.main_modified.remove(widget)
+            widget.setStyleSheet("")
+        
+
+    def _connectHighlighting(self):
+        #clear previous state
+        QtCore.QObject.connect(self.signalMapper, QtCore.SIGNAL("mapped(QWidget*)"), self.highlightWidget)
+    
+    def _disconnectHighlighting(self):
+        for nsection, widget in self.var_dict.itervalues():
+            if nsection == 0:
+                widget.setStyleSheet("")
+        QtCore.QObject.disconnect(self.signalMapper, QtCore.SIGNAL("mapped(QWidget*)"),self.highlightWidget)
+          
     def toolBox_current_changed(self, index):
         if index == 0:
             self.stopTesting()
@@ -111,10 +183,11 @@ class PageiPapDriver(QtGui.QWidget):
          self.ui.chbTarget.setChecked(False)
          self.ui.chbAuxPos1.setChecked(False)
          self.ui.chbAuxPos2.setChecked(False)
+         self.ui.listPredefined.clearSelection()
+         #self.ui.listPredefined.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
          
 # ------------------------------  Configuration ----------------------------------------------------------    
-    def _createTableView(self):
-        self.var_dict = {}
+    def _readConfigTemplate(self):
         doc = minidom.parse(self.config_template)
         root  = doc.documentElement
         row = 0
@@ -122,29 +195,83 @@ class PageiPapDriver(QtGui.QWidget):
         for section in root.getElementsByTagName("section"):
             if section.nodeType == Node.ELEMENT_NODE:
                     section_name =  section.attributes.get('name').value
-            self.addSectionTab(section_name)
+            inMainSection = (section_name == "main") 
+            if not inMainSection:
+                self._addSectionTab(section_name)
+                
             for pars in section.getElementsByTagName("par"):
                 if pars.nodeType == Node.ELEMENT_NODE:
-                    self.sectionTables[nsection].insertRow(row)
+                    parid =  pars.attributes.get('id').value
+                    parid = parid.strip()
                     parname =  pars.attributes.get('name').value
                     parname = parname.strip()
-                    self.var_dict[parname] = [nsection, row]
-                    self._addItemToTable(nsection, row, 0, parname, False)
                     partype =  pars.attributes.get('type').value
                     partype = partype.strip()
-                    parmin =  pars.attributes.get('min').value
-                    parmin = parmin.strip()
-                    parmax =  pars.attributes.get('max').value
-                    parmax = parmax.strip()
-                    self._addWidgetToTable(nsection, row, 2, partype, parmin, parmax)
+                    if partype != "BOOL":
+                        parmin =  pars.attributes.get('min').value
+                        parmin = parmin.strip()
+                        parmax =  pars.attributes.get('max').value
+                        parmax = parmax.strip()
                     pardesc = self._getText(pars.getElementsByTagName("description")[0].firstChild)
-                    self._addItemToTable(nsection, row, 3, pardesc, False)
-                    row = row + 1
+                    if inMainSection:
+                        widget = getattr(self.ui, parid)
+                        self._connectWidgetToSignalMap(widget)
+                        if widget == None:
+                            print parid + " not found in GUI"
+                        else:                            
+                            self.var_dict[parname] = [nsection, widget]
+                    else:
+                        self.var_dict[parname] = [nsection, row]
+                    
+                    if not inMainSection:
+                        
+                        self.sectionTables[nsection].insertRow(row)
+                        self._addItemToTable(nsection, row, 0, parname, False)
+                        self._addWidgetToTable(nsection, row, 2, partype, parmin, parmax)
+                        self._addItemToTable(nsection, row, 3, pardesc, False)
+                        row = row + 1
             row = 0
             nsection = nsection + 1
+            
+        for inout in root.getElementsByTagName("inout"):
+            for cfg in inout.getElementsByTagName("cfg"):
+                if cfg.nodeType == Node.ELEMENT_NODE:
+                    cfgname =  cfg.attributes.get('name').value
+                    self.ui.listPredefined.addItem(cfgname)
+                    cfg_list = []
+                    
+                    for input in cfg.getElementsByTagName("input"):
+                        if input.nodeType == Node.ELEMENT_NODE:
+                            name =  input.attributes.get('name').value
+                            mode =  input.attributes.get('mode').value
+                            edge =  input.attributes.get('edge').value
+                            direction =  input.attributes.get('direction').value
+                            cfg_list.append(["input", name, [int(mode),int(edge),int(direction)]])
+                            
+                    
+                    for output in cfg.getElementsByTagName("output"):
+                        if output.nodeType == Node.ELEMENT_NODE:
+                            name =  output.attributes.get('name').value
+                            src =  output.attributes.get('src').value
+                            mode =  output.attributes.get('mode').value
+                            edge =  output.attributes.get('edge').value
+                            pulse_width =  output.attributes.get('pulse_width').value
+                            direction =  output.attributes.get('direction').value
+                            cfg_list.append(["output", name, [int(src), int(mode),int(edge),int(direction), int(pulse_width)]])
+                            
+                    
+                    for counter in cfg.getElementsByTagName("counter"):
+                        if counter.nodeType == Node.ELEMENT_NODE:
+                            name = counter.attributes.get('name').value
+                            src = counter.attributes.get('src').value
+                            cfg_list.append(["counter", name , [int(src)]])
+                            
+                    self.inout_cfgs[cfgname] = cfg_list
+        
+            
         
 
-    def addSectionTab(self, section_name):
+    def _addSectionTab(self, section_name):
         tab = QtGui.QWidget()
         tab.setObjectName("tab_"+section_name)
 
@@ -197,6 +324,7 @@ class PageiPapDriver(QtGui.QWidget):
         tableWidget.setHorizontalHeaderItem(3,headerItem3)
         self.ui.tabWidget.setTabText(self.ui.tabWidget.indexOf(tab), section_name)
         
+        
         self.sectionTables[self.ui.tabWidget.indexOf(tab)] = tableWidget
         
 
@@ -227,26 +355,67 @@ class PageiPapDriver(QtGui.QWidget):
         #table.setItem(row, column, item)
     
     def fillData(self, icepap_driver):
-        self.ui.tabWidget.setCurrentIndex(0)
+        #self.ui.tabWidget.setCurrentIndex(0)
+        self._disconnectHighlighting()
         self.resetSignalsTab()
         self.icepap_driver = icepap_driver
+        self.ui.txtDescription.setText("Icepap: %s  -  Crate: %s  -  Addr: %s  -  Firmware version: %s" % (icepap_driver.icepap_name, icepap_driver.cratenr, icepap_driver.addr, icepap_driver.currentCfg.getAttribute("VER")))
         self.ui.txtDriverName.setText(self.icepap_driver.name)
-        self.ui.txtDriverNemonic.setText(self.icepap_driver.nemonic)
+        #self.ui.txtDriverNemonic.setText(self.icepap_driver.nemonic)
         for name, value in icepap_driver.currentCfg.parList.items():
             if self.var_dict.has_key(name):
-                [nsection, row] = self.var_dict[name]
-                self._addItemToTable(nsection, row, 1, value, False)
-                self.sectionTables[nsection].cellWidget(row,2).setText("")
+                [nsection, element] = self.var_dict[name]
+                if nsection == 0:
+                    # In main tab
+                    self._setWidgetValue(element, value)                    
+                else:
+                    self._addItemToTable(nsection, element, 1, value, False)
+                    self.sectionTables[nsection].cellWidget(element,2).setText("")
                 #self._addItemToTable(nsection, row, 2, "", True)
+        self._connectHighlighting()
+    
+    def _connectWidgetToSignalMap(self, widget):
+        self.signalMapper.setMapping(widget, widget)
+        if isinstance(widget, QtGui.QDoubleSpinBox) or isinstance(widget, QtGui.QSpinBox):
+            QtCore.QObject.connect(widget, QtCore.SIGNAL("valueChanged (const QString&)"), self.signalMapper, QtCore.SLOT("map()"))
+        elif isinstance(widget, QtGui.QCheckBox):
+            QtCore.QObject.connect(widget, QtCore.SIGNAL("stateChanged(int)"), self.signalMapper, QtCore.SLOT("map()"))
+    
+    def _setWidgetValue(self, widget, value):
+        try:
+            if isinstance(widget, QtGui.QDoubleSpinBox) or isinstance(widget, QtGui.QSpinBox):
+                widget.setValue(float(value))
+                widget.defaultvalue = widget.value()
+            elif isinstance(widget, QtGui.QCheckBox):
+                state = value == "1"
+                widget.defaultvalue = state 
+                widget.setChecked(state)
+        except:
+            print "error in _setWidgetValue"
+    
+    def _getWidgetValue(self, widget):
+        try:
+            if isinstance(widget, QtGui.QDoubleSpinBox) or isinstance(widget, QtGui.QSpinBox):
+                return widget.value()
+            elif isinstance(widget, QtGui.QCheckBox):
+                if widget.isChecked():
+                    return 1
+                else:
+                    return 0
+        except:
+            print "error in _getWidgetValue"
         
     
     def addNewCfg(self, cfg):
         #self.ui.toolBox.setCurrentIndex(0)
         for name, value in cfg.parList.items():
             if self.var_dict.has_key(name):
-                [nsection, row] = self.var_dict[name]
-                self.sectionTables[nsection].cellWidget(row,2).setText(value)
-                #self._addItemToTable(nsection, row, 2, value, True)
+                [nsection, element] = self.var_dict[name]
+                if nsection == 0:
+                    self._setWidgetValue(element, value) 
+                else:
+                    self.sectionTables[nsection].cellWidget(element,2).setText(value)
+                    #self._addItemToTable(nsection, row, 2, value, True)
 
         
 
@@ -260,9 +429,17 @@ class PageiPapDriver(QtGui.QWidget):
         
     def btnApplyCfg_on_click(self):
         self.icepap_driver.name = str(self.ui.txtDriverName.text())
-        self.icepap_driver.nemonic = str(self.ui.txtDriverNemonic.text())
+        #self.icepap_driver.nemonic = str(self.ui.txtDriverNemonic.text())
         new_values = []
         values_ok = True
+        # First get modified items in main section
+        for name, [nsection, widget] in self.var_dict.items():
+            if nsection == 0:
+                if widget in self.main_modified:
+                    value = self._getWidgetValue(widget)
+                    new_values.append([name, value])
+                  
+        
         for tableWidget in self.sectionTables.itervalues():
             for row in range(tableWidget.rowCount()):
                 #val = tableWidget.item(row,2).text()
@@ -290,20 +467,53 @@ class PageiPapDriver(QtGui.QWidget):
             if ok:
                 self.fillData(self.icepap_driver)
                 self.ui.btnUndo.setEnabled(True)
+                self._disconnectHighlighting()
+                self._connectHighlighting()
+                
             else:
                 MessageDialogs.showWarningMessage(self, "Driver configuration", "Error saving configuration")
         elif not values_ok:
             MessageDialogs.showWarningMessage(self, "Driver configuration", "Wrong parameter format")
     
+    def loadPredefinedSignalCfg(self, cfg_name):
+        if self.inout_cfgs.has_key(str(cfg_name)):
+            self.resetSignalsTab()
+            cfg_list = self.inout_cfgs[str(cfg_name)]
+            for cfg in cfg_list:
+                type = cfg[0]
+                name = cfg[1]
+                if type == "input":
+                    self.loadInputSignalCfg(name, cfg[2])
+                elif type == "output":
+                    self.loadOutputSignalCfg(name, cfg[2])
+                elif type == "counter":
+                    self.loadCounterSignalCfg(name, cfg[2])
+
+    def loadInputSignalCfg(self, name, cfg):
+        getattr(self.ui, "chb"+name).setChecked(True)        
+        getattr(self.ui, "cb"+name+"Mode").setCurrentIndex(cfg[0])
+        getattr(self.ui, "cb"+name+"Edge").setCurrentIndex(cfg[1])
+        getattr(self.ui, "cb"+name+"Dir").setCurrentIndex(cfg[2])
+    
+    def loadOutputSignalCfg(self, name, cfg):
+        getattr(self.ui, "chb"+name).setChecked(True)        
+        getattr(self.ui, "cb"+name+"Src").setCurrentIndex(cfg[0])
+        getattr(self.ui, "cb"+name+"Mode").setCurrentIndex(cfg[1])
+        getattr(self.ui, "cb"+name+"Edge").setCurrentIndex(cfg[2])
+        getattr(self.ui, "cb"+name+"Dir").setCurrentIndex(cfg[3])
+        getattr(self.ui, "cb"+name+"Pulse").setCurrentIndex(cfg[4])
+        
+    def loadCounterSignalCfg(self, name, cfg):
+        getattr(self.ui, "chb"+name).setChecked(True)        
+        getattr(self.ui, "cb"+name+"Src").setCurrentIndex(cfg[0])
+            
     def configureSignals(self):
         
-        # Configure Inputs
-        
+        # Configure Inputs        
         if self.ui.chbInPos.isChecked():
             mode = self.ui.cbInPosMode.currentIndex()
             edge = self.ui.cbInPosEdge.currentIndex()
             dir = self.ui.cbInPosDir.currentIndex()
-            print "inpos here"
             self._manager.configureInputSignal(self.icepap_driver.icepap_name, self.icepap_driver.addr, IcepapSignal.InPos, mode, edge, dir)
         
         if self.ui.chbEncIn.isChecked():
@@ -343,14 +553,68 @@ class PageiPapDriver(QtGui.QWidget):
             
         
         if self.ui.chbAuxPos1.isChecked():
-            src = self.ui.cbAuxPos1.currentIndex()
+            src = self.ui.cbAuxPos1Src.currentIndex()
             self._manager.setCounterSource(self.icepap_driver.icepap_name, self.icepap_driver.addr, IcepapSignalSrc.AuxPos1, src)
         
         if self.ui.chbAuxPos2.isChecked():
-            src = self.ui.cbAuxPos2.currentIndex()
+            src = self.ui.cbAuxPos2Src.currentIndex()
             self._manager.setCounterSource(self.icepap_driver.icepap_name, self.icepap_driver.addr, IcepapSignalSrc.AuxPos2, src)
         
+        self.configureAuxSignals()
+    
+    def configureSignals(self):
+        # Configure Aux Inputs        
+        if self.ui.chbInPosAux.isChecked():
+            polarity = self.ui.cbInPosPol.currentIndex()
+            self._manager.configureAuxInputSignal(self.icepap_driver.icepap_name, self.icepap_driver.addr, IcepapSignal.InPosAux, polarity)
         
+        if self.ui.chbEncAux.isChecked():
+            polarity = self.ui.cbEncAuxPol.currentIndex()
+            self._manager.configureAuxInputSignal(self.icepap_driver.icepap_name, self.icepap_driver.addr, IcepapSignal.EncAux, polarity)
+        
+        if self.ui.chbLimitPos.isChecked():
+            polarity = self.ui.cbLimitPosPol.currentIndex()
+            self._manager.configureAuxInputSignal(self.icepap_driver.icepap_name, self.icepap_driver.addr, IcepapSignal.LimitPos, polarity)
+        
+        if self.ui.chbLimitNeg.isChecked():
+            polarity = self.ui.cbLimitNegPol.currentIndex()
+            self._manager.configureAuxInputSignal(self.icepap_driver.icepap_name, self.icepap_driver.addr, IcepapSignal.LimitNeg, polarity)
+        
+        if self.ui.chbHome.isChecked():
+            polarity = self.ui.cbHomePol.currentIndex()
+            self._manager.configureAuxInputSignal(self.icepap_driver.icepap_name, self.icepap_driver.addr, IcepapSignal.Home, polarity)
+        
+        if self.ui.chbSyncAuxIn.isChecked():
+            polarity = self.ui.cbSyncAuxInPol.currentIndex()
+            self._manager.configureAuxInputSignal(self.icepap_driver.icepap_name, self.icepap_driver.addr, IcepapSignal.SyncAuxIn, polarity)
+        
+        # Configure Aux Inputs        
+        if self.ui.chbSyncAuxOut.isChecked():
+            polarity = self.ui.cbSyncAuxOutPol.currentIndex()
+            src = self.ui.cbSyncAuxOutSrc.currentIndex()
+            self._manager.configureAuxOutputSignal(self.icepap_driver.icepap_name, self.icepap_driver.addr, IcepapSignal.SyncAuxOut, src, polarity)
+        
+        if self.ui.chbOutPosAux.isChecked():
+            polarity = self.ui.cbOutPosAuxPol.currentIndex()
+            src = self.ui.cbOutPosAuxSrc.currentIndex()
+            self._manager.configureAuxOutputSignal(self.icepap_driver.icepap_name, self.icepap_driver.addr, IcepapSignal.OutPosAux, src, polarity)
+               
+        if self.ui.chbInfoA.isChecked():
+            polarity = self.ui.cbInfoAPol.currentIndex()
+            src = self.ui.cbInfoASrc.currentIndex()
+            self._manager.configureAuxOutputSignal(self.icepap_driver.icepap_name, self.icepap_driver.addr, IcepapSignal.InfoA, src, polarity)
+        
+        if self.ui.chbInfoB.isChecked():
+            polarity = self.ui.cbInfoBPol.currentIndex()
+            src = self.ui.cbInfoBSrc.currentIndex()
+            self._manager.configureAuxOutputSignal(self.icepap_driver.icepap_name, self.icepap_driver.addr, IcepapSignal.InfoB, src, polarity)
+        
+        if self.ui.chbInfoC.isChecked():
+            polarity = self.ui.cbInfoCPol.currentIndex()
+            src = self.ui.cbInfoCSrc.currentIndex()
+            self._manager.configureAuxOutputSignal(self.icepap_driver.icepap_name, self.icepap_driver.addr, IcepapSignal.InfoC, src, polarity)
+        
+           
     def btnUndo_on_click(self):
         self._manager.undoDriverConfiguration(self.icepap_driver)
         self.fillData(self.icepap_driver)
@@ -391,9 +655,12 @@ class PageiPapDriver(QtGui.QWidget):
                     parname = parname.strip()
                     parval =  pars.attributes.get('value').value
                     parval = parval.strip()
-                    [nsection, row] = self.var_dict[parname]
+                    [nsection, element] = self.var_dict[parname]
                     #self._addItemToTable(nsection, row, 2, parval, True)
-                    self.sectionTables[nsection].cellWidget(row,2).setText(parval)
+                    if nsection == 0:
+                        self._setWidgetValue(element, parval) 
+                    else:
+                        self.sectionTables[nsection].cellWidget(element,2).setText(parval)
                     
                      
                     
@@ -415,6 +682,18 @@ class PageiPapDriver(QtGui.QWidget):
     def getXmlData(self):
         impl = getDOMImplementation()
         newdoc = impl.createDocument(None, "Driver", None)
+        esection = newdoc.createElement("section")
+        esection.setAttribute("name", "main")
+        for name, [nsection, widget] in self.var_dict.items():
+            if nsection == 0:
+                value = self._getWidgetValue(widget)
+                print name + " _ " + str(value)
+                epar = newdoc.createElement("par")
+                epar.setAttribute("name", name)
+                epar.setAttribute("value", str(value))
+                esection.appendChild(epar)
+        newdoc.documentElement.appendChild(esection)
+         
         for tableWidget in self.sectionTables.itervalues():
             esection = newdoc.createElement("section")
             esection.setAttribute("name", tableWidget.objectName())
@@ -540,7 +819,7 @@ class PageiPapDriver(QtGui.QWidget):
         
         direction = steps < 0
         if steps != 0:
-            self._manager.stopDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr)
+            #self._manager.stopDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr)
             self._manager.moveDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr, abs(int(steps)), direction)
         #except:
         #    MessageDialogs.showWarningMessage(self, "Driver testing", "Wrong parameter format")
@@ -557,7 +836,7 @@ class PageiPapDriver(QtGui.QWidget):
             steps = distance
 
             if steps != 0:
-                self._manager.stopDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr)
+                #self._manager.stopDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr)
                 self._manager.moveDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr, abs(int(steps)), direction)
 
         except:
@@ -576,7 +855,7 @@ class PageiPapDriver(QtGui.QWidget):
             steps = distance
 	    
             if steps != 0:
-                self._manager.stopDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr)
+                #self._manager.stopDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr)
                 self._manager.moveDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr, abs(int(steps)), direction)
 
         except:
@@ -588,6 +867,41 @@ class PageiPapDriver(QtGui.QWidget):
     def BtnSetPos_on_click(self):
         self._manager.setDriverPosition(self.icepap_driver.icepap_name, self.icepap_driver.addr, self.ui.sbPosition.value())
     
+    def sliderChanged(self, div):
+        if self.ui.sliderJog.isSliderDown() or not self.sliderTimer.isActive():
+            self.startJogging(div)
+            
+    def startJogging(self, div):
+        #try:
+        if div <> 0:
+            if not self.ui.btnEnable.isChecked():
+                self._manager.enableDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr)
+            speed = float(self.ui.txtSpeed.text())
+            factor = (self.ui.sliderJog.maximum() - abs(div)) + 1 
+            speed = int(speed / factor)
+            dir = (div > 0)
+            self._manager.jogDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr, str(speed), dir)
+        else:
+            self.stopJogging()
+        #except:
+        #    pass
+    
+    def stopJogging(self):
+        self._manager.jogDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr, "0", True)
+        #self._manager.stopDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr)
+        
+        self.sliderTimer.start()
+        
+    
+    def resetSlider(self):
+        value = self.ui.sliderJog.value()
+        if value == 0:
+            self.sliderTimer.stop()
+        elif value > 0:
+            self.ui.sliderJog.triggerAction(QtGui.QSlider.SliderSingleStepSub)
+        else:
+            self.ui.sliderJog.triggerAction(QtGui.QSlider.SliderSingleStepAdd)
+        
     def endisDriver(self, bool):
          if bool:
             self.ui.btnEnable.setText("disable")

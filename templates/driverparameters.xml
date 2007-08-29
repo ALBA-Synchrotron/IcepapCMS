@@ -1,43 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<parlist>
-        <section name="driver">
-                <par name="IREGI" type="DOUBLE" min="0" max="100">
+<icepapcms>
+        <section name="main">
+                <par id="IREGI" name="IREGI" type="DOUBLE" min="0" max="100">
                 	 <description>Integral Constant PI Current Regulator</description>
                 </par>
-                <par name="IREGP" type="DOUBLE" min="0" max="1000">
+                <par id="IREGP" name="IREGP" type="DOUBLE" min="0" max="1000">
                      <description>Proportional Constant PI Current Regulator</description>
                 </par>
-                <par name="II" type="DOUBLE" min="0" max="8">
+                <par id="II" name="II" type="DOUBLE" min="0" max="8">
                      <description>Idle Current</description>
                 </par>
-                <par name="IN" type="DOUBLE" min="0" max="8">
+                <par id="IN" name="IN" type="DOUBLE" min="0" max="8">
                      <description>Drive Current</description>
                 </par>
-                <par name="IB" type="DOUBLE" min="0" max="8">
+                <par id="IB" name="IB" type="DOUBLE" min="0" max="8">
                      <description>Boost Current</description>
                 </par>
-                <par name="SDMAX" type="DOUBLE" min="0" max="80">
+                <par id="SDMAX" name="SDMAX" type="DOUBLE" min="0" max="80">
                      <description>Drive Voltage</description>
                 </par>
-                <par name="SD" type="DOUBLE" min="0" max="80">
+                <par id="SD" name="SD" type="DOUBLE" min="0" max="80">
                      <description>Stand-by Voltage</description>
                 </par>
-        </section>
-        <section name="motion">
-                <par name="MICRO" type="INTEGER" min="0" max="16">>
+                <par id="MICRO" name="MICRO" type="INTEGER" min="0" max="256">
                      <description>MicroStepping</description>
                 </par>
-                <par name="ESW" type="INTEGER" min="0" max="1">>
+                <par id="ESW" name="ESW" type="BOOL">
                      <description>Enable/Disable Limit Switches</description>
                 </par>
-                <par name="TDIR" type="INTEGER" min="0" max="1">>
-                     <description>Positive Direction (change if there is a mismatch between dir and limits</description>
+                <par id="TDIR" name="TDIR" type="BOOL">
+                     <description>Positive Direction (change if there is a mismatch between dir and limits)</description>
                 </par>
-                <par name="PSW" type="INTEGER" min="0" max="1">>
+                <par id="PSW" name="PSW" type="BOOL">
                      <description>Limit Switches Polarity</description>
                 </par>
-                <par name="EEN" type="INTEGER" min="0" max="1">>
-                     <description>Enable/Disable Encoder 5V power supply</description>
+                <par id="AUXPS" name="AUXPS" type="BOOL">
+                     <description>Enable/Disable aux 5V power supply</description>
                 </par>                
         </section>
-</parlist>
+        <inout>
+        	<cfg name="External Indexer">
+				<input name="InPos" mode="1" edge="0" direction="0"/>
+				<counter name="Target" src="1"/>
+			</cfg>
+			<cfg name="Internal Indexer">
+				<counter name="Target" src="3"/>
+			</cfg>
+			<cfg name="External Driver">
+				<output name="OutPos" src="3" mode="1" edge="0" direction="0" pulse_width="3"/>
+			</cfg>
+		</inout>
+</icepapcms>
+
+

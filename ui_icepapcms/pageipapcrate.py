@@ -124,7 +124,7 @@ class PageiPapCrate(QtGui.QWidget):
                         #    return
                         self.driverswidgets[addr]  = wdriver
                         self.tableWidget.setCellWidget(crate, drivernr, wdriver)
-                        QtCore.QObject.connect(wdriver,QtCore.SIGNAL("icepapDoubleClicked(PyObject *)"),self.driverDoubleclick)
+                        QtCore.QObject.connect(wdriver,QtCore.SIGNAL("icepapDoubleClicked(PyQt_PyObject)"),self.driverDoubleclick)
                 break
         
         self.tableWidget.horizontalHeader().setUpdatesEnabled(True)
