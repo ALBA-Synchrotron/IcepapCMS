@@ -1,7 +1,7 @@
 from PyQt4 import QtCore, QtGui, Qt
 from ui_dialoghistoriccfg import Ui_DialogHistoricCfg
 from messagedialogs import MessageDialogs
-import datetime
+import datetime, time
 import os
 import sys
 from xml.dom import minidom, Node
@@ -78,9 +78,9 @@ class DialogHistoricCfg(QtGui.QDialog):
         desc = str(self.ui.txtDescription.toPlainText())
         if name == "":
             MessageDialogs.showWarningMessage(self, "Store historic configuration", "Fill all required data.")
-        now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        #now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         if MessageDialogs.showYesNoMessage(self, "Store historic configuration", "Save current configuration ?"):
-            self._driver.saveHistoricCfg(now, name, desc)
+            self._driver.saveHistoricCfg(str(time.time()), name, desc)
         self.close()
     
     def _fillTableCfg(self,cfg):
@@ -98,7 +98,7 @@ class DialogHistoricCfg(QtGui.QDialog):
         row = 0
         for date, cfg in self._driver.historicCfg.items():
             self.ui.tableWidget.insertRow(row)
-            self._addItemToTable(self.ui.tableWidget, row, 1, date, False)
+            self._addItemToTable(self.ui.tableWidget, row, 1, str(date), False)
             self._addItemToTable(self.ui.tableWidget, row, 0, cfg.name, False)
             row += 1
                 

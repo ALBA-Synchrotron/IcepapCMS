@@ -11,6 +11,7 @@ from dialogtemplate import DialogTemplate
 import sys
 import os
 from qvalidatelineedit import QValidateLineEdit
+import time
 
 
 class PageiPapDriver(QtGui.QWidget):
@@ -103,8 +104,8 @@ class PageiPapDriver(QtGui.QWidget):
         
     def signalConnections(self):
         QtCore.QObject.connect(self.ui.btnApplyCfg,QtCore.SIGNAL("clicked()"),self.btnApplyCfg_on_click)
-        QtCore.QObject.connect(self.ui.btnHistoric,QtCore.SIGNAL("clicked()"),self.Historic_on_click)
-        QtCore.QObject.connect(self.ui.btnTemplates,QtCore.SIGNAL("clicked()"),self.btnTemplates_on_click)
+        #QtCore.QObject.connect(self.ui.btnHistoric,QtCore.SIGNAL("clicked()"),self.Historic_on_click)
+        #QtCore.QObject.connect(self.ui.btnTemplates,QtCore.SIGNAL("clicked()"),self.btnTemplates_on_click)
         QtCore.QObject.connect(self.ui.btnUndo,QtCore.SIGNAL("clicked()"),self.btnUndo_on_click)
         QtCore.QObject.connect(self.ui.btnGO,QtCore.SIGNAL("clicked()"),self.btnGO_on_click)
         QtCore.QObject.connect(self.ui.btnGORelativePos,QtCore.SIGNAL("clicked()"),self.btnGORelativePos_on_click)
@@ -359,7 +360,14 @@ class PageiPapDriver(QtGui.QWidget):
         self._disconnectHighlighting()
         self.resetSignalsTab()
         self.icepap_driver = icepap_driver
-        self.ui.txtDescription.setText("Icepap: %s  -  Crate: %s  -  Addr: %s  -  Firmware version: %s" % (icepap_driver.icepap_name, icepap_driver.cratenr, icepap_driver.addr, icepap_driver.currentCfg.getAttribute("VER")))
+        description = "Icepap: %s  -  Crate: %s  -  Addr: %s  -  Firmware version: %s\n" % (icepap_driver.icepap_name, icepap_driver.cratenr, icepap_driver.addr, icepap_driver.currentCfg.getAttribute("VER"))
+        if self.icepap_driver.currentCfg.signature:
+            aux = self.icepap_driver.currentCfg.signature.split('_')
+            description = description + "Signed on %s %s" % (aux[0], time.ctime(float(aux[1])))
+        else:
+            self._mainwin.addDriverToSign(self.icepap_driver)
+            description = description + "Current configuration not signed"
+        self.ui.txtDescription.setText(description)
         self.ui.txtDriverName.setText(self.icepap_driver.name)
         #self.ui.txtDriverNemonic.setText(self.icepap_driver.nemonic)
         for name, value in icepap_driver.currentCfg.parList.items():
@@ -469,7 +477,7 @@ class PageiPapDriver(QtGui.QWidget):
                 self.ui.btnUndo.setEnabled(True)
                 self._disconnectHighlighting()
                 self._connectHighlighting()
-                
+                #self._mainwin.addDriverToSign(self.icepap_driver)                
             else:
                 MessageDialogs.showWarningMessage(self, "Driver configuration", "Error saving configuration")
         elif not values_ok:
@@ -622,6 +630,8 @@ class PageiPapDriver(QtGui.QWidget):
             self.ui.btnUndo.setEnabled(False)    
     
     def Historic_on_click(self):
+        MessageDialogs.showWarningMessage(self, "HistoricCfg", "Historic configurations are in a implmentation upgrade \n")
+        return
         dlg = DialogHistoricCfg(self, self.icepap_driver)
         dlg.exec_()
         if dlg.result():
@@ -708,7 +718,9 @@ class PageiPapDriver(QtGui.QWidget):
             newdoc.documentElement.appendChild(esection)    
         return newdoc
             
-                    
+    def signDriver(self):
+        self.icepap_driver.signDriver()
+               
 # ------------------------------  Testing ----------------------------------------------------------            
     def startTesting(self):
 	if not self.icepap_driver is None:

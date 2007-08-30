@@ -7,6 +7,7 @@ class IcepapDriverCfg(Persistent):
             self.parList = parlist
         self.name = name
         self.description = description
+        self.signature = None
     
     def setAttribute(self, name, value):
         self.parList[name] = value
@@ -15,12 +16,14 @@ class IcepapDriverCfg(Persistent):
     def getAttribute(self, name):
         return self.parList[name]
     
+    def signConfig(self, signature):
+        self.signature = signature
+    
     def __str__(self):
         text = "Configuration"
         for name, value in self.parList.items():
              text = text + "\n" + name +":\t" +value
         return text
-        
         
     
     def __cmp__(self, other):

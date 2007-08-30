@@ -45,6 +45,8 @@ class IcepapCMS(QtGui.QMainWindow):
         self.ui.actionGoPrevious.setEnabled(False)
         self.ui.actionExport.setEnabled(False)
         self.ui.actionImport.setEnabled(False)
+        self.ui.actionHistoricCfg.setEnabled(False)
+        self.ui.actionTemplates.setEnabled(False)
         self.ui.treeView.setItemsExpandable(True)
         self.ui.stackedWidget.setCurrentIndex(0)
         self.ui.txtLocation.setText("")
@@ -63,6 +65,7 @@ class IcepapCMS(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.actionImport,QtCore.SIGNAL("activated()"),self.actionImport)         
         QtCore.QObject.connect(self.ui.actionConsole,QtCore.SIGNAL("activated()"),self.actionConsole)         
         QtCore.QObject.connect(self.ui.actionFirmwareUpgrade,QtCore.SIGNAL("activated()"),self.actionFimwareUpgrade)         
+        QtCore.QObject.connect(self.ui.actionSignConfig,QtCore.SIGNAL("activated()"),self.actionSignConfig)
         QtCore.QObject.connect(self.ui.treeView,QtCore.SIGNAL("clicked(QModelIndex)"),self.treeview_on_click)
         QtCore.QObject.connect(self.ui.treeView,QtCore.SIGNAL("doubleClicked(QModelIndex)"),self.treeview_on_doubleclick)
         self.ui.treeView.setContextMenuPolicy(Qt.Qt.CustomContextMenu)
@@ -102,7 +105,6 @@ class IcepapCMS(QtGui.QMainWindow):
         self._tree_model = IcepapTreeModel(self._manager.IcepapSystemList)
         self.ui.treeView.setModel(self._tree_model)
         for name in expand_system.keys():
-            print name
             self.expandAll(name)
         
     def performSystemScan(self):
@@ -217,7 +219,7 @@ class IcepapCMS(QtGui.QMainWindow):
         location = str(self.ui.txtLocation.text())
         location = location.rstrip('/')
         self.treeSelectByLocation(location)
-        
+     
     
     def treeSelectByLocation(self, location):
         self.currentLocation = location
@@ -237,16 +239,25 @@ class IcepapCMS(QtGui.QMainWindow):
         self.ui.actionExport.setEnabled(False)
         self.ui.actionImport.setEnabled(False)
         self.ui.actionRefresh.setEnabled(False)
+        self.ui.actionHistoricCfg.setEnabled(False)
+        self.ui.actionTemplates.setEnabled(False)
+        self.ui.actionSignConfig.setEnabled(True)
         self.ui.pageiPapDriver.stopTesting()
         if not self.refreshTimer is None:
             self.refreshTimer.stop()
-        if item.role == IcepapTreeModel.DRIVER or item.role == IcepapTreeModel.DRIVER_NEW:
+        if item.role == IcepapTreeModel.DRIVER or item.role == IcepapTreeModel.DRIVER_NEW or item.role == IcepapTreeModel.DRIVER_CFG:
             self.ui.pageiPapDriver.fillData(item.itemData)
             self.ui.pageiPapDriver.startTesting()      
             self.ui.stackedWidget.setCurrentIndex(3)
             self.ui.actionRefresh.setEnabled(False)
             self.ui.actionExport.setEnabled(True)
             self.ui.actionImport.setEnabled(True)
+            self.ui.actionHistoricCfg.setEnabled(True)
+            self.ui.actionTemplates.setEnabled(True)
+            if item.role == IcepapTreeModel.DRIVER_CFG:
+                self.ui.actionSignConfig.setEnabled(True)
+            else:
+                self.ui.actionSignConfig.setEnabled(False)
         elif item.role == IcepapTreeModel.SYSTEM or item.role == IcepapTreeModel.SYSTEM_WARNING:
             self.ui.pageiPapSystem.fillData(item.itemData)      
             self.ui.stackedWidget.setCurrentIndex(1)
@@ -261,7 +272,7 @@ class IcepapCMS(QtGui.QMainWindow):
             self.ui.stackedWidget.setCurrentIndex(0)
         self.expandIndex(modelindex)
     
-    
+           
     
     def actionGoPrevious(self):
         location = self.locationsPrevious.pop()
@@ -329,6 +340,14 @@ class IcepapCMS(QtGui.QMainWindow):
             
             
     def closeEvent(self, event):
+        signList = self._manager.getDriversToSign()
+        if len(signList) > 0:
+            if MessageDialogs.showYesNoMessage(self, "Sign Drivers", "The are drivers pending to be signed.\nAll changes will be lost\nSign drivers?."):
+                for driver in signList:
+                    driver.signDriver()
+            else:
+                for driver in signList:
+                    self._manager.discardDriverChanges(driver)
         self.ui.stackedWidget.setCurrentIndex(0)
         if not self._manager.closeAllConnections():
             if MessageDialogs.showYesNoMessage(self, "Storage", "Error closing storage.\nDiscard changes and close?."):
@@ -381,6 +400,38 @@ class IcepapCMS(QtGui.QMainWindow):
         self.clearLocationBar()
         dlg = DialogIcepapProgram(self)
         dlg.exec_()
+    
+    def addDriverToSign(self, driver):
+        location = str(self.ui.txtLocation.text())
+        location = location.rstrip('/')
+        self._tree_model.changeItemIcon(location, IcepapTreeModel.DRIVER_CFG)
+        driver.conflict = Conflict.DRIVER_CFG
+        self.ui.actionSignConfig.setEnabled(True)
+         
+    def actionSignConfig(self):
+        if self.ui.stackedWidget.currentIndex() == 0:
+            #sign all drivers
+            icepap_list = self._manager.getIcepapList()
+            for icepap_name, icepap_system in icepap_list.items():
+                icepap_system.signSystem()
+                self._tree_model.emit(QtCore.SIGNAL('layoutChanged ()'))
+        elif self.ui.stackedWidget.currentIndex() == 1:        
+            #sign all icepap system
+            self.ui.pageiPapSystem.icepap_system.signSystem()
+            self._tree_model.emit(QtCore.SIGNAL('layoutChanged ()'))
+        elif self.ui.stackedWidget.currentIndex() == 2:
+            #sign all icepap crate
+            self.ui.pageiPapCrate.icepap_system.signCrate(self.ui.pageiPapCrate.cratenr)
+            self._tree_model.emit(QtCore.SIGNAL('layoutChanged ()'))
+        elif self.ui.stackedWidget.currentIndex() == 3:
+            #sign driver
+            self.ui.pageiPapDriver.signDriver()
+            location = str(self.ui.txtLocation.text())
+            location = location.rstrip('/')
+            self._tree_model.changeItemIcon(location, IcepapTreeModel.DRIVER)
+            self.ui.actionSignConfig.setEnabled(False)
+        MessageDialogs.showInformationMessage(self, "Signature", "Driver/s signed succesfully")
+            
         
   
 

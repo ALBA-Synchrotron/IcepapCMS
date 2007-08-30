@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'pageipapdriver.ui'
 #
-# Created: Wed Aug 29 15:53:34 2007
+# Created: Thu Aug 30 18:48:51 2007
 #      by: PyQt4 UI code generator 4.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -740,7 +740,7 @@ class Ui_PageiPapDriver(object):
         self.gridlayout.addWidget(self.tabWidget,1,0,1,1)
 
         self.frame_3 = QtGui.QFrame(PageiPapDriver)
-        self.frame_3.setMinimumSize(QtCore.QSize(16,75))
+        self.frame_3.setMinimumSize(QtCore.QSize(16,80))
 
         palette = QtGui.QPalette()
 
@@ -779,12 +779,20 @@ class Ui_PageiPapDriver(object):
         self.gridlayout13.setObjectName("gridlayout13")
 
         self.label_2 = QtGui.QLabel(self.frame_3)
+
+        font = QtGui.QFont()
+        font.setPointSize(8)
+        self.label_2.setFont(font)
         self.label_2.setObjectName("label_2")
         self.gridlayout13.addWidget(self.label_2,2,0,1,1)
 
         self.txtDriverName = QtGui.QLineEdit(self.frame_3)
-        self.txtDriverName.setMinimumSize(QtCore.QSize(125,25))
+        self.txtDriverName.setMinimumSize(QtCore.QSize(125,20))
         self.txtDriverName.setMaximumSize(QtCore.QSize(125,16777215))
+
+        font = QtGui.QFont()
+        font.setPointSize(8)
+        self.txtDriverName.setFont(font)
         self.txtDriverName.setObjectName("txtDriverName")
         self.gridlayout13.addWidget(self.txtDriverName,2,1,1,1)
 
@@ -798,6 +806,11 @@ class Ui_PageiPapDriver(object):
         self.gridlayout13.addWidget(self.line,1,0,1,3)
 
         self.txtDescription = QtGui.QLabel(self.frame_3)
+        self.txtDescription.setMinimumSize(QtCore.QSize(0,28))
+
+        font = QtGui.QFont()
+        font.setPointSize(8)
+        self.txtDescription.setFont(font)
         self.txtDescription.setObjectName("txtDescription")
         self.gridlayout13.addWidget(self.txtDescription,0,0,1,3)
         self.gridlayout.addWidget(self.frame_3,0,0,1,1)
@@ -1389,19 +1402,6 @@ class Ui_PageiPapDriver(object):
         self.btnUndo.setIconSize(QtCore.QSize(20,20))
         self.btnUndo.setObjectName("btnUndo")
         self.vboxlayout.addWidget(self.btnUndo)
-
-        self.btnTemplates = QtGui.QPushButton(self.frame_right)
-        self.btnTemplates.setIcon(QtGui.QIcon(":/icons/IcepapCfg Icons/notes.png"))
-        self.btnTemplates.setIconSize(QtCore.QSize(20,20))
-        self.btnTemplates.setObjectName("btnTemplates")
-        self.vboxlayout.addWidget(self.btnTemplates)
-
-        self.btnHistoric = QtGui.QPushButton(self.frame_right)
-        self.btnHistoric.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.btnHistoric.setIcon(QtGui.QIcon(":/icons/IcepapCfg Icons/calendar.png"))
-        self.btnHistoric.setIconSize(QtCore.QSize(20,20))
-        self.btnHistoric.setObjectName("btnHistoric")
-        self.vboxlayout.addWidget(self.btnHistoric)
         self.gridlayout.addWidget(self.frame_right,0,1,2,1)
 
         self.retranslateUi(PageiPapDriver)
@@ -1604,7 +1604,8 @@ class Ui_PageiPapDriver(object):
         self.tabSignals.setTabText(self.tabSignals.indexOf(self.tab_connectors), QtGui.QApplication.translate("PageiPapDriver", "Connectors", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QtGui.QApplication.translate("PageiPapDriver", "Signals", None, QtGui.QApplication.UnicodeUTF8))
         self.label_2.setText(QtGui.QApplication.translate("PageiPapDriver", "Driver name", None, QtGui.QApplication.UnicodeUTF8))
-        self.txtDescription.setText(QtGui.QApplication.translate("PageiPapDriver", "TextLabel", None, QtGui.QApplication.UnicodeUTF8))
+        self.txtDescription.setText(QtGui.QApplication.translate("PageiPapDriver", "TextLabel\n"
+        "hhhknmlknlk", None, QtGui.QApplication.UnicodeUTF8))
         self.textLabel1_6_4.setText(QtGui.QApplication.translate("PageiPapDriver", "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
         "p, li { white-space: pre-wrap; }\n"
         "</style></head><body style=\" font-family:\'Sans Serif\'; font-size:7pt; font-weight:400; font-style:normal; text-decoration:none;\">\n"
@@ -1624,8 +1625,6 @@ class Ui_PageiPapDriver(object):
         self.groupBox.setTitle(QtGui.QApplication.translate("PageiPapDriver", "Jog", None, QtGui.QApplication.UnicodeUTF8))
         self.btnApplyCfg.setText(QtGui.QApplication.translate("PageiPapDriver", "Apply Config", None, QtGui.QApplication.UnicodeUTF8))
         self.btnUndo.setText(QtGui.QApplication.translate("PageiPapDriver", "Undo", None, QtGui.QApplication.UnicodeUTF8))
-        self.btnTemplates.setText(QtGui.QApplication.translate("PageiPapDriver", "Driver Templates", None, QtGui.QApplication.UnicodeUTF8))
-        self.btnHistoric.setText(QtGui.QApplication.translate("PageiPapDriver", "Historic Cfgs", None, QtGui.QApplication.UnicodeUTF8))
 
 
 

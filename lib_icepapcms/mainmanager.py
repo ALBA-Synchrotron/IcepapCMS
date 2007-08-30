@@ -89,6 +89,15 @@ class MainManager(Singleton):
             conflictsList.append([Conflict.NO_CONNECTION, icepap_system, 0])
   
         return conflictsList
+    
+    def getDriversToSign(self):
+        signList = []
+        for icepap_system in self.IcepapSystemList.values():
+            for addr, driver in icepap_system.IcepapDriverList.items():
+                if driver.conflict == Conflict.DRIVER_CFG:
+                    signList.append(driver)
+        return signList
+         
         
     
     def getDriverConfiguration(self, icepap_name, addr):
@@ -184,6 +193,16 @@ class MainManager(Singleton):
         else:
             icepap_driver.setConfiguration(new_cfg)
             return True
+    
+    def discardDriverChanges(self, icepap_driver):
+        new_cfg = self._ctrl_icepap.setDriverConfiguration(icepap_driver.icepap_name, icepap_driver.addr, icepap_driver.startupCfg.parList.items())
+        if new_cfg is None:
+            MessageDialogs.showWarningMessage(self._form, "Icepap error", "Connection error")
+            self._form.checkIcepapConnection()
+        else:
+            icepap_driver.setStartupCfg()
+            return True
+        
     def undoDriverConfiguration(self, icepap_driver):
         undo_cfg = icepap_driver.getUndoList()
         new_cfg = self._ctrl_icepap.setDriverConfiguration(icepap_driver.icepap_name, icepap_driver.addr, undo_cfg.parList.items())

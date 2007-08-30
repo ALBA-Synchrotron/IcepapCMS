@@ -30,7 +30,7 @@ from lib_icepapcms import IcepapSystem, IcepapDriver, Conflict
 
 
 class IcepapTreeModel(QtCore.QAbstractItemModel):
-    SYSTEM, DRIVER, SYSTEM_WARNING, DRIVER_WARNING, SYSTEM_ERROR, DRIVER_ERROR, CRATE, DRIVER_NEW, ROOT = range(9)
+    SYSTEM, DRIVER, SYSTEM_WARNING, DRIVER_WARNING, SYSTEM_ERROR, DRIVER_ERROR, CRATE, DRIVER_NEW, DRIVER_CFG, ROOT = range(10)
     def __init__(self, IcepapsList, parent=None):
         QtCore.QAbstractItemModel.__init__(self, parent)
         
@@ -48,7 +48,8 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
                            QtGui.QPixmap(":/icons/IcepapCfg Icons/ipapsyserror.png"),
                            QtGui.QPixmap(":/icons/IcepapCfg Icons/ipapdrivererror.png"),
                            QtGui.QPixmap(":/icons/IcepapCfg Icons/ipapcrate.png"),
-                           QtGui.QPixmap(":/icons/IcepapCfg Icons/ipapdrivernew.png"))
+                           QtGui.QPixmap(":/icons/IcepapCfg Icons/ipapdrivernew.png"), 
+                           QtGui.QPixmap(":/icons/IcepapCfg Icons/ipapdrivercfg.png"))
         
     def columnCount(self, parent=QtCore.QModelIndex()):
         if parent.isValid():
@@ -65,6 +66,7 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
         elif role == QtCore.Qt.DecorationRole:
             if (index.column() == 0):
                 item = index.internalPointer()
+                item.updateRole()
                 return QtCore.QVariant(self._dec_roles[item.role])
             else:
                 return QtCore.QVariant()
@@ -188,8 +190,13 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
         del self.item_location[item.location]
         item.parentItem.removeChild(index.row())
         self.endRemoveRows()
-            
-       
+    
+    def changeItemIcon(self, location, role):
+        index = self.indexByLocation(location)
+        if not index is None:
+            modelitem = self.item(index)
+            modelitem.role = role
+            self.emit(QtCore.SIGNAL('dataChanged(const QModelIndex &, const QModelIndex &)'), index, index)
 
 class TreeItem:
     def __init__(self, label, role, location, data= None, parent=None):
@@ -200,21 +207,30 @@ class TreeItem:
             if label[1].toString() != "":
                 self.description = label[1].toString() 
         self.role = role
-        if role == IcepapTreeModel.SYSTEM:
-            if data.conflict == Conflict.NO_CONNECTION:
-                self.role = IcepapTreeModel.SYSTEM_ERROR
-            elif data.child_conflicts > 0:
-                self.role = IcepapTreeModel.SYSTEM_WARNING
-        elif role == IcepapTreeModel.DRIVER:
-            if data.conflict == Conflict.DRIVER_NOT_PRESENT:
-                self.role = IcepapTreeModel.DRIVER_ERROR
-            elif data.conflict == Conflict.NEW_DRIVER:
-                self.role = IcepapTreeModel.DRIVER_NEW
-            elif data.conflict == Conflict.DRIVER_CHANGED:
-                self.role = IcepapTreeModel.DRIVER_WARNING
-        self.parentItem = parent
         self.itemData = data
+        self.updateRole()
+        self.parentItem = parent
+        
         self.location = location
+    
+    def updateRole(self):
+        if self.role == IcepapTreeModel.SYSTEM:
+            if self.itemData.conflict == Conflict.NO_CONNECTION:
+                self.role = IcepapTreeModel.SYSTEM_ERROR
+            elif self.itemData.child_conflicts > 0:
+                self.role = IcepapTreeModel.SYSTEM_WARNING
+        elif self.role == IcepapTreeModel.DRIVER or self.role == IcepapTreeModel.DRIVER_CFG:
+            if self.itemData.conflict == Conflict.NO_CONFLICT:
+                self.role = IcepapTreeModel.DRIVER
+            if self.itemData.conflict == Conflict.DRIVER_NOT_PRESENT:
+                self.role = IcepapTreeModel.DRIVER_ERROR
+            elif self.itemData.conflict == Conflict.NEW_DRIVER:
+                self.role = IcepapTreeModel.DRIVER_NEW
+            elif self.itemData.conflict == Conflict.DRIVER_CHANGED:
+                self.role = IcepapTreeModel.DRIVER_WARNING
+            elif self.itemData.conflict == Conflict.DRIVER_CFG:
+                self.role = IcepapTreeModel.DRIVER_CFG
+        
         
     def appendChild(self, child):
         self.childItems.append(child)

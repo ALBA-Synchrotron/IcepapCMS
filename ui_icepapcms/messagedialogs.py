@@ -10,6 +10,10 @@ class MessageDialogs:
         QtGui.QMessageBox.warning(parent,caption, warning)
     showWarningMessage = classmethod(showWarningMessage)
     
+    def showInformationMessage(self, parent, caption, info):
+        QtGui.QMessageBox.information(parent,caption, info)
+    showInformationMessage = classmethod(showInformationMessage)
+    
     def showErrorMessage(self, parent, caption, error):
         QtGui.QMessageBox.critical(parent,caption, error)
     showErrorMessage = classmethod(showErrorMessage)
