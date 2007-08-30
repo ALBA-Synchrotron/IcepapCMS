@@ -58,6 +58,7 @@ class IcepapController(Singleton):
                         driver = IcepapDriver(icepap_name, addr, cratenr, drivernr)
                         driver_cfg = self.getDriverConfiguration(icepap_name, addr)
                         driver.setConfiguration(driver_cfg)
+                        driver.signDriver()
                         driver_list[addr] = driver
                         cratepresent = True
                 if not cratepresent:

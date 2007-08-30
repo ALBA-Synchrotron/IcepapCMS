@@ -17,8 +17,9 @@ class IcePapDriverWidget(QtGui.QWidget):
         self.coloroff = QtGui.QColor(225,255,200)
         self.colorerror = QtGui.QColor(255,179,179)
         self.colorok = QtGui.QColor(223,223,237)
-        self.colorwarning = QtGui.QColor(255,226,179)
+        self.colorwarning = QtGui.QColor(255,255,0)
         self.colorconfig = QtGui.QColor(255,206,162)
+        #self.colorconf = QtGui.QColor(0,255,255)
         if Big:
             self.ui = Ui_IcePapDriverWidget()
             self.ui.setupUi(self)
@@ -85,6 +86,8 @@ class IcePapDriverWidget(QtGui.QWidget):
             self.setPaletteColor(self.ui.frame,self.colorerror ,Qt.Qt.black)
         elif self._driver.conflict == Conflict.DRIVER_CHANGED:
             self.setPaletteColor(self.ui.frame,self.colorwarning,Qt.Qt.black)
+        elif self._driver.conflict == Conflict.DRIVER_CFG:
+            self.setPaletteColor(self.ui.frame,self.colorconfig,Qt.Qt.black)
         else:
             self.setPaletteColor(self.ui.frame,self.colorok,Qt.Qt.black)
             

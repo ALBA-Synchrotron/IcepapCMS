@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'icepapcms.ui'
 #
-# Created: Wed Aug 29 12:20:21 2007
+# Created: Thu Aug 30 18:41:51 2007
 #      by: PyQt4 UI code generator 4.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -250,7 +250,7 @@ class Ui_IcepapCMS(object):
         self.actionToolbar.setObjectName("actionToolbar")
 
         self.actionSignConfig = QtGui.QAction(IcepapCMS)
-        self.actionSignConfig.setIcon(QtGui.QIcon(":/icons/IcepapCfg Icons/keys.png"))
+        self.actionSignConfig.setIcon(QtGui.QIcon(":/icons/IcepapCfg Icons/emblem-keys.png"))
         self.actionSignConfig.setObjectName("actionSignConfig")
 
         self.actionFirmwareUpgrade = QtGui.QAction(IcepapCMS)
@@ -260,6 +260,14 @@ class Ui_IcepapCMS(object):
         self.actionConsole = QtGui.QAction(IcepapCMS)
         self.actionConsole.setIcon(QtGui.QIcon(":/icons/IcepapCfg Icons/gnome-terminal.png"))
         self.actionConsole.setObjectName("actionConsole")
+
+        self.actionHistoricCfg = QtGui.QAction(IcepapCMS)
+        self.actionHistoricCfg.setIcon(QtGui.QIcon(":/icons/IcepapCfg Icons/calendar.png"))
+        self.actionHistoricCfg.setObjectName("actionHistoricCfg")
+
+        self.actionTemplates = QtGui.QAction(IcepapCMS)
+        self.actionTemplates.setIcon(QtGui.QIcon(":/icons/IcepapCfg Icons/notes.png"))
+        self.actionTemplates.setObjectName("actionTemplates")
         self.menuEdit.addAction(self.actionPreferences)
         self.menuGo.addAction(self.actionGoPrevious)
         self.menuGo.addAction(self.actionGoNext)
@@ -288,6 +296,8 @@ class Ui_IcepapCMS(object):
         self.toolBar.addAction(self.actionExport)
         self.toolBar.addAction(self.actionImport)
         self.toolBar.addAction(self.actionSignConfig)
+        self.toolBar.addAction(self.actionHistoricCfg)
+        self.toolBar.addAction(self.actionTemplates)
         self.toolBar.addSeparator()
         self.toolBar.addAction(self.actionPreferences)
         self.toolBar.addAction(self.actionConsole)
@@ -338,5 +348,5 @@ class Ui_IcepapCMS(object):
         self.actionSignConfig.setText(QtGui.QApplication.translate("IcepapCMS", "Sign Configuration", None, QtGui.QApplication.UnicodeUTF8))
         self.actionFirmwareUpgrade.setText(QtGui.QApplication.translate("IcepapCMS", "Firmware upgrade", None, QtGui.QApplication.UnicodeUTF8))
         self.actionConsole.setText(QtGui.QApplication.translate("IcepapCMS", "Console", None, QtGui.QApplication.UnicodeUTF8))
-
-
+        self.actionHistoricCfg.setText(QtGui.QApplication.translate("IcepapCMS", "HistoricCfg", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionTemplates.setText(QtGui.QApplication.translate("IcepapCMS", "Templates", None, QtGui.QApplication.UnicodeUTF8))

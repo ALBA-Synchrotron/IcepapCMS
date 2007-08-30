@@ -33,6 +33,20 @@ class IcepapSystem(Persistent):
         else:
             return None
     
+    def signSystem(self):
+        for addr, driver in self.IcepapDriverList.items():
+            driver.signDriver()
+    
+    def signCrate(self, cratenr):
+        min = cratenr * 10
+        max =  (cratenr + 1)* 10 
+        for addr, driver in self.IcepapDriverList.items():
+            if addr > min and addr < max:
+                driver.signDriver()            
+            if addr > max:
+                return
+        
+    
     def compareDriverList(self, driver_list):
         self.child_conflicts = 0
         conflictsList = []

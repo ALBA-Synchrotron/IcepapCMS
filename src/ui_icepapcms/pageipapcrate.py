@@ -102,6 +102,7 @@ class PageiPapCrate(QtGui.QWidget):
             self.tableWidget.horizontalHeader().setResizeMode(i, Qt.QHeaderView.Custom)
             
         self.icepap_system = icepap_system
+        self.cratenr = selected_crate
         self.driverswidgets = {}
         crate = -1
         

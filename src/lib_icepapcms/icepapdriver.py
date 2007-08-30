@@ -1,6 +1,7 @@
 from persistent import Persistent
 from icepapdrivercfg import IcepapDriverCfg
 from conflict import Conflict
+import socket, time
 
 class IcepapDriver(Persistent):
     def __init__(self, icepap_name, addr, cratenr, drivernr, name = None, nemonic = None):
@@ -15,6 +16,7 @@ class IcepapDriver(Persistent):
         self.cratenr = cratenr
         self.drivernr = drivernr
         self.currentCfg = None
+        self.startupCfg = None
         self.historicCfg = {}
         self.conflict = Conflict.NO_CONFLICT
         
@@ -27,8 +29,24 @@ class IcepapDriver(Persistent):
             self._v_undoCfg = []
         if not self.currentCfg is None:
             self._v_undoCfg.append(self.currentCfg)
+        else:
+            self.startupCfg = config
+         
         self.currentCfg = config
-        self._p_changed = True        
+        self._p_changed = True     
+    
+    def signDriver(self):
+        signature = socket.gethostname() + "_" + str(time.time())
+        self.currentCfg.name = time.ctime()
+        self.currentCfg.signConfig(signature)
+        
+        self.startupCfg = self.currentCfg
+        self.conflict = Conflict.NO_CONFLICT
+        self.historicCfg[(time.time())] = self.currentCfg
+    
+    def setStartupCfg(self):
+        self.currentCfg = self.startupCfg
+        self.conflict = Conflict.NO_CONFLICT
     
     def undo(self, config):
         self.currentCfg = config
@@ -54,9 +72,14 @@ class IcepapDriver(Persistent):
         self._p_changed = True
         
     def __cmp__(self, other):
+        
         res = (self.currentCfg == other.currentCfg)
+        
         if not res:
-            self.setConflict(Conflict.NO_CONFLICT)
+            if self.currentCfg.signature is None:
+                self.setConflict(Conflict.DRIVER_CFG)
+            else:
+                self.setConflict(Conflict.NO_CONFLICT)
 
         return res
         
