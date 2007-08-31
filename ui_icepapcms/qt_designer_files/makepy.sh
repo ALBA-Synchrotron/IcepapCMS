@@ -12,6 +12,7 @@ pyrcc4 icepapcms.qrc -o qrc_icepapcms.py
 /usr/bin/pyuic4  pageipapdriver.ui -o ui_pageipapdriver.py
 /usr/bin/pyuic4  icepapcms.ui -o ui_icepapcms.py
 /usr/bin/pyuic4  ipapconsole.ui -o ui_ipapconsole.py
+/usr/bin/pyuic4  historiccfgwidget.ui -o ui_historiccfgwidget.py
 
 
 #gedit ui_icepapdriverwidget.py &

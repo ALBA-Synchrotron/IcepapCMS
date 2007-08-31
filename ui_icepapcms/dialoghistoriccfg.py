@@ -7,55 +7,33 @@ import sys
 from xml.dom import minidom, Node
 
 class DialogHistoricCfg(QtGui.QDialog):
-    def __init__(self, parent, driver):
+    def __init__(self, parent, pagedriver):
         QtGui.QDialog.__init__(self, parent)
         pathname = os.path.dirname(sys.argv[0])
         path = os.path.abspath(pathname)
         self.config_template = path+'/templates/driverparameters.xml'
         self.ui = Ui_DialogHistoricCfg()
-        self.modal = True
+        self.modal = False
         self.ui.setupUi(self)
-        self._driver = driver
-        self.ui.tableWidget.horizontalHeader().setStretchLastSection(True)
-        self.ui.tableWidgetCfg.horizontalHeader().setResizeMode(0, Qt.QHeaderView.Stretch)
-        self.ui.tableWidgetCfg.horizontalHeader().setResizeMode(1, Qt.QHeaderView.Stretch)
-        self._createTableCfgView()
-        self._fillTable()
-        self._fillTableCfg(self._driver.currentCfg)
+        self._pagedriver = pagedriver
+        self._driver = None
+        
         self.ui.saveButton.setEnabled(True)
         self.ui.loadButton.setEnabled(False)
         self.ui.deleteButton.setEnabled(False)
         QtCore.QObject.connect(self.ui.loadButton, QtCore.SIGNAL("clicked()"),self.loadButton_on_click)
         QtCore.QObject.connect(self.ui.saveButton, QtCore.SIGNAL("clicked()"),self.saveButton_on_click)
         QtCore.QObject.connect(self.ui.deleteButton, QtCore.SIGNAL("clicked()"),self.deleteButton_on_click)
-        QtCore.QObject.connect(self.ui.tableWidget, QtCore.SIGNAL("cellClicked(int,int)"),self.tableCell_on_click)
-    
-    def _createTableCfgView(self):
         
-        doc = minidom.parse(self.config_template)
-        root  = doc.documentElement
-        row = 0
-        for section in root.getElementsByTagName("section"):
-            for pars in section.getElementsByTagName("par"):
-                if pars.nodeType == Node.ELEMENT_NODE:
-                    self.ui.tableWidgetCfg.insertRow(row)
-                    parname =  pars.attributes.get('name').value
-                    parname = parname.strip()
-                    self._addItemToTable(self.ui.tableWidgetCfg, row, 0, parname, False)
-                    row +=1
-                    
-    def tableCell_on_click(self, row, col):
-        self.selecteddate = str(self.ui.tableWidget.item(row, 1).text())
-        cfg = self._driver.historicCfg[self.selecteddate]
-        self.ui.txtName.setText(cfg.name)
-        self.ui.txtDescription.clear()
-        self.ui.txtDescription.insertPlainText(cfg.description)
-        self.ui.saveButton.setEnabled(False)
-        self.ui.txtName.setEnabled(False)
-        self.ui.txtDescription.setEnabled(False)
-        self._fillTableCfg(cfg)
-        self.ui.loadButton.setEnabled(True)
-        self.ui.deleteButton.setEnabled(True)
+    def fillDriverData(self, driver):
+        self._driver = driver
+        description = "Icepap: %s  -  Crate: %s  -  Addr: %s %s  -  Firmware version: %s\n" % (self._driver.icepap_name, self._driver.cratenr, self._driver.addr, self._driver.name, self._driver.currentCfg.getAttribute("VER"))
+        if self._driver.currentCfg.signature:
+            aux = self._driver.currentCfg.signature.split('_')
+            description = description + "Current configuration signed on %s %s" % (aux[0], time.ctime(float(aux[1])))
+        else:
+            description = description + "Current configuration not signed"
+        self.ui.txtDriverDescription.setText(description)
     
     def loadButton_on_click(self):
         self.loadcfg = self._driver.historicCfg[self.selecteddate]

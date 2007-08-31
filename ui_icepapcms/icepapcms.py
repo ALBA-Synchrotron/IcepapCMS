@@ -13,6 +13,8 @@ from dialogpreferences import DialogPreferences
 from dialogipapprogram import DialogIcepapProgram
 from ipapconsole import IcepapConsole
 from messagedialogs import MessageDialogs
+from dialoghistoriccfg import DialogHistoricCfg
+from dialogtemplate import DialogTemplate
 
 
 class IcepapCMS(QtGui.QMainWindow):
@@ -31,6 +33,7 @@ class IcepapCMS(QtGui.QMainWindow):
         self.ui.stackedWidget.addWidget(self.ui.pageiPapDriver)
         self.signalConnections()
         self.refreshTimer = Qt.QTimer(self)
+        #self.historicDlg = DialogHistoricCfg(self, self.ui.pageiPapDriver)
         
     
     def initGUI(self):
@@ -50,6 +53,7 @@ class IcepapCMS(QtGui.QMainWindow):
         self.ui.treeView.setItemsExpandable(True)
         self.ui.stackedWidget.setCurrentIndex(0)
         self.ui.txtLocation.setText("")
+        
     
     def signalConnections(self):
         
@@ -66,6 +70,8 @@ class IcepapCMS(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.actionConsole,QtCore.SIGNAL("activated()"),self.actionConsole)         
         QtCore.QObject.connect(self.ui.actionFirmwareUpgrade,QtCore.SIGNAL("activated()"),self.actionFimwareUpgrade)         
         QtCore.QObject.connect(self.ui.actionSignConfig,QtCore.SIGNAL("activated()"),self.actionSignConfig)
+        QtCore.QObject.connect(self.ui.actionHistoricCfg,QtCore.SIGNAL("activated()"),self.actionHistoricCfg)
+        QtCore.QObject.connect(self.ui.actionTemplates,QtCore.SIGNAL("activated()"),self.actionTemplates)
         QtCore.QObject.connect(self.ui.treeView,QtCore.SIGNAL("clicked(QModelIndex)"),self.treeview_on_click)
         QtCore.QObject.connect(self.ui.treeView,QtCore.SIGNAL("doubleClicked(QModelIndex)"),self.treeview_on_doubleclick)
         self.ui.treeView.setContextMenuPolicy(Qt.Qt.CustomContextMenu)
@@ -254,6 +260,8 @@ class IcepapCMS(QtGui.QMainWindow):
             self.ui.actionImport.setEnabled(True)
             self.ui.actionHistoricCfg.setEnabled(True)
             self.ui.actionTemplates.setEnabled(True)
+            #if self.historicDlg.isVisible():
+            #    self.historicDlg.fillDriverData(item.itemData)
             if item.role == IcepapTreeModel.DRIVER_CFG:
                 self.ui.actionSignConfig.setEnabled(True)
             else:
@@ -431,6 +439,14 @@ class IcepapCMS(QtGui.QMainWindow):
             self._tree_model.changeItemIcon(location, IcepapTreeModel.DRIVER)
             self.ui.actionSignConfig.setEnabled(False)
         MessageDialogs.showInformationMessage(self, "Signature", "Driver/s signed succesfully")
+    
+    def actionHistoricCfg(self):
+        if self.ui.actionHistoricCfg.isChecked():
+            self.ui.pageiPapDriver.showHistoricWidget()
+        else:
+            self.ui.pageiPapDriver.hideHistoricWidget()
+    def actionTemplates(self):
+        pass
             
         
   

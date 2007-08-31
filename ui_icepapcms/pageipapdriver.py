@@ -12,7 +12,7 @@ import sys
 import os
 from qvalidatelineedit import QValidateLineEdit
 import time
-
+from historiccfgwidget import HistoricCfgWidget
 
 class PageiPapDriver(QtGui.QWidget):
     def __init__(self, mainwin):
@@ -54,9 +54,10 @@ class PageiPapDriver(QtGui.QWidget):
         self.icepap_driver = None
         self.inMotion = -1
         self.status = -1
-        
         self.setScrollBars()  
         self.ui.tabWidget.setCurrentIndex(0)
+        self.ui.historicWidget.setCfgPage(self)
+        self.hideHistoricWidget()
         
     def setScrollBars(self):
         self.ui.sahboxlayout = QtGui.QHBoxLayout(self.ui.tab_connectors)
@@ -381,6 +382,8 @@ class PageiPapDriver(QtGui.QWidget):
                     self.sectionTables[nsection].cellWidget(element,2).setText("")
                 #self._addItemToTable(nsection, row, 2, "", True)
         self._connectHighlighting()
+        if self.ui.historicWidget.isVisible():
+            self.ui.historicWidget.fillData(self.icepap_driver)
     
     def _connectWidgetToSignalMap(self, widget):
         self.signalMapper.setMapping(widget, widget)
@@ -389,14 +392,16 @@ class PageiPapDriver(QtGui.QWidget):
         elif isinstance(widget, QtGui.QCheckBox):
             QtCore.QObject.connect(widget, QtCore.SIGNAL("stateChanged(int)"), self.signalMapper, QtCore.SLOT("map()"))
     
-    def _setWidgetValue(self, widget, value):
+    def _setWidgetValue(self, widget, value, default=True):
         try:
             if isinstance(widget, QtGui.QDoubleSpinBox) or isinstance(widget, QtGui.QSpinBox):
                 widget.setValue(float(value))
-                widget.defaultvalue = widget.value()
+                if default:
+                    widget.defaultvalue = widget.value()
             elif isinstance(widget, QtGui.QCheckBox):
                 state = value == "1"
-                widget.defaultvalue = state 
+                if default:
+                    widget.defaultvalue = state 
                 widget.setChecked(state)
         except:
             print "error in _setWidgetValue"
@@ -420,7 +425,7 @@ class PageiPapDriver(QtGui.QWidget):
             if self.var_dict.has_key(name):
                 [nsection, element] = self.var_dict[name]
                 if nsection == 0:
-                    self._setWidgetValue(element, value) 
+                    self._setWidgetValue(element, value, False) 
                 else:
                     self.sectionTables[nsection].cellWidget(element,2).setText(value)
                     #self._addItemToTable(nsection, row, 2, value, True)
@@ -441,6 +446,7 @@ class PageiPapDriver(QtGui.QWidget):
         new_values = []
         values_ok = True
         # First get modified items in main section
+        self.hideHistoricWidget()
         for name, [nsection, widget] in self.var_dict.items():
             if nsection == 0:
                 if widget in self.main_modified:
@@ -922,3 +928,12 @@ class PageiPapDriver(QtGui.QWidget):
             self.ui.btnEnable.setText("enable")
             self._manager.disableDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr)
         
+
+    # ---------------------- Historic Widget -------------------
+    def showHistoricWidget(self):
+        self.ui.frame_test.hide()
+        self.ui.historicWidget.show()
+        self.ui.historicWidget.fillData(self.icepap_driver)
+    def hideHistoricWidget(self):
+        self.ui.historicWidget.hide()
+        self.ui.frame_test.show()
