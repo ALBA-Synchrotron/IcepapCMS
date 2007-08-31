@@ -446,6 +446,7 @@ class PageiPapDriver(QtGui.QWidget):
         new_values = []
         values_ok = True
         # First get modified items in main section
+        self._mainwin.ui.actionHistoricCfg.setChecked(False)
         self.hideHistoricWidget()
         for name, [nsection, widget] in self.var_dict.items():
             if nsection == 0:
