@@ -85,9 +85,23 @@
        </property>
        <item>
         <widget class="QFrame" name="frLocationBarText" >
+         <property name="sizePolicy" >
+          <sizepolicy>
+           <hsizetype>5</hsizetype>
+           <vsizetype>0</vsizetype>
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="minimumSize" >
           <size>
            <width>16</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="maximumSize" >
+          <size>
+           <width>16777215</width>
            <height>40</height>
           </size>
          </property>
@@ -288,6 +302,8 @@
    <addaction name="actionExport" />
    <addaction name="actionImport" />
    <addaction name="actionSignConfig" />
+   <addaction name="actionHistoricCfg" />
+   <addaction name="actionTemplates" />
    <addaction name="separator" />
    <addaction name="actionPreferences" />
    <addaction name="actionConsole" />
@@ -562,7 +578,7 @@
   </action>
   <action name="actionSignConfig" >
    <property name="icon" >
-    <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/keys.png</iconset>
+    <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/emblem-keys.png</iconset>
    </property>
    <property name="text" >
     <string>Sign Configuration</string>
@@ -582,6 +598,25 @@
    </property>
    <property name="text" >
     <string>Console</string>
+   </property>
+  </action>
+  <action name="actionHistoricCfg" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="icon" >
+    <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/calendar.png</iconset>
+   </property>
+   <property name="text" >
+    <string>HistoricCfg</string>
+   </property>
+  </action>
+  <action name="actionTemplates" >
+   <property name="icon" >
+    <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/notes.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Templates</string>
    </property>
   </action>
  </widget>

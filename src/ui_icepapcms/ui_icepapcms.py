@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'icepapcms.ui'
 #
-# Created: Thu Aug 30 18:41:51 2007
+# Created: Fri Aug 31 15:35:38 2007
 #      by: PyQt4 UI code generator 4.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -55,7 +55,14 @@ class Ui_IcepapCMS(object):
         self.vboxlayout1.setObjectName("vboxlayout1")
 
         self.frLocationBarText = QtGui.QFrame(self.frLocationBar)
+
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Policy(5),QtGui.QSizePolicy.Policy(0))
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.frLocationBarText.sizePolicy().hasHeightForWidth())
+        self.frLocationBarText.setSizePolicy(sizePolicy)
         self.frLocationBarText.setMinimumSize(QtCore.QSize(16,40))
+        self.frLocationBarText.setMaximumSize(QtCore.QSize(16777215,40))
         self.frLocationBarText.setFrameShape(QtGui.QFrame.NoFrame)
         self.frLocationBarText.setFrameShadow(QtGui.QFrame.Raised)
         self.frLocationBarText.setObjectName("frLocationBarText")
@@ -262,6 +269,7 @@ class Ui_IcepapCMS(object):
         self.actionConsole.setObjectName("actionConsole")
 
         self.actionHistoricCfg = QtGui.QAction(IcepapCMS)
+        self.actionHistoricCfg.setCheckable(True)
         self.actionHistoricCfg.setIcon(QtGui.QIcon(":/icons/IcepapCfg Icons/calendar.png"))
         self.actionHistoricCfg.setObjectName("actionHistoricCfg")
 
@@ -350,3 +358,4 @@ class Ui_IcepapCMS(object):
         self.actionConsole.setText(QtGui.QApplication.translate("IcepapCMS", "Console", None, QtGui.QApplication.UnicodeUTF8))
         self.actionHistoricCfg.setText(QtGui.QApplication.translate("IcepapCMS", "HistoricCfg", None, QtGui.QApplication.UnicodeUTF8))
         self.actionTemplates.setText(QtGui.QApplication.translate("IcepapCMS", "Templates", None, QtGui.QApplication.UnicodeUTF8))
+
