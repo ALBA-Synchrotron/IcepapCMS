@@ -226,16 +226,6 @@ p, li { white-space: pre-wrap; }
       <number>6</number>
      </property>
      <item>
-      <widget class="QPushButton" name="loadButton" >
-       <property name="text" >
-        <string>Load</string>
-       </property>
-       <property name="icon" >
-        <iconset resource="icepapcms.qrc" >:/small_icons/IcepapCFG Icons Petits/historic.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="saveButton" >
        <property name="text" >
         <string>Save</string>

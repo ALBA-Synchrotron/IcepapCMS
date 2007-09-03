@@ -49,6 +49,7 @@ class PageiPapDriver(QtGui.QWidget):
         self._readConfigTemplate()
         self._manager = MainManager()
         self.ui.btnUndo.setEnabled(False)
+        
 
         self.setLedsOff()
         self.icepap_driver = None
@@ -108,6 +109,7 @@ class PageiPapDriver(QtGui.QWidget):
         #QtCore.QObject.connect(self.ui.btnHistoric,QtCore.SIGNAL("clicked()"),self.Historic_on_click)
         #QtCore.QObject.connect(self.ui.btnTemplates,QtCore.SIGNAL("clicked()"),self.btnTemplates_on_click)
         QtCore.QObject.connect(self.ui.btnUndo,QtCore.SIGNAL("clicked()"),self.btnUndo_on_click)
+        QtCore.QObject.connect(self.ui.btnRestore,QtCore.SIGNAL("clicked()"),self.btnRestore_on_click)
         QtCore.QObject.connect(self.ui.btnGO,QtCore.SIGNAL("clicked()"),self.btnGO_on_click)
         QtCore.QObject.connect(self.ui.btnGORelativePos,QtCore.SIGNAL("clicked()"),self.btnGORelativePos_on_click)
         QtCore.QObject.connect(self.ui.btnGORelativeNeg,QtCore.SIGNAL("clicked()"),self.btnGORelativeNeg_on_click)
@@ -166,6 +168,7 @@ class PageiPapDriver(QtGui.QWidget):
         if index == 0:
             self.stopTesting()
         else:
+            print "here"
             self.startTesting()
     
     def chbSyncInChanged(self, st):
@@ -429,6 +432,7 @@ class PageiPapDriver(QtGui.QWidget):
                 else:
                     self.sectionTables[nsection].cellWidget(element,2).setText(value)
                     #self._addItemToTable(nsection, row, 2, value, True)
+        
 
         
 
@@ -636,19 +640,9 @@ class PageiPapDriver(QtGui.QWidget):
         if not self.icepap_driver.hasUndoList():
             self.ui.btnUndo.setEnabled(False)    
     
-    def Historic_on_click(self):
-        MessageDialogs.showWarningMessage(self, "HistoricCfg", "Historic configurations are in a implmentation upgrade \n")
-        return
-        dlg = DialogHistoricCfg(self, self.icepap_driver)
-        dlg.exec_()
-        if dlg.result():
-            self.addNewCfg(dlg.loadcfg)
-    
-    def btnTemplates_on_click(self):
-        dlg = DialogTemplate(self, self.icepap_driver)
-        dlg.exec_()
-        if dlg.result():
-            self.addNewCfg(dlg.loadcfg)
+    def btnRestore_on_click(self):
+        self.fillData(self.icepap_driver)
+        
     
     def doImport(self):
         try:
@@ -730,7 +724,7 @@ class PageiPapDriver(QtGui.QWidget):
                
 # ------------------------------  Testing ----------------------------------------------------------            
     def startTesting(self):
-	if not self.icepap_driver is None:
+        if not self.icepap_driver is None:
             self.getMotionValues()
             self.inMotion = -1
             self.status = -1
@@ -932,9 +926,7 @@ class PageiPapDriver(QtGui.QWidget):
 
     # ---------------------- Historic Widget -------------------
     def showHistoricWidget(self):
-        self.ui.frame_test.hide()
-        self.ui.historicWidget.show()
+        self.ui.stackedWidget.setCurrentIndex(1)
         self.ui.historicWidget.fillData(self.icepap_driver)
     def hideHistoricWidget(self):
-        self.ui.historicWidget.hide()
-        self.ui.frame_test.show()
+        self.ui.stackedWidget.setCurrentIndex(0)

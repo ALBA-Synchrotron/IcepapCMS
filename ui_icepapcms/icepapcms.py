@@ -1,4 +1,4 @@
-import sys
+import sys, os, webbrowser
 from PyQt4 import QtCore, QtGui, Qt
 from ui_icepapcms import Ui_IcepapCMS
 from qrc_icepapcms import *
@@ -71,6 +71,7 @@ class IcepapCMS(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.actionFirmwareUpgrade,QtCore.SIGNAL("activated()"),self.actionFimwareUpgrade)         
         QtCore.QObject.connect(self.ui.actionSignConfig,QtCore.SIGNAL("activated()"),self.actionSignConfig)
         QtCore.QObject.connect(self.ui.actionHistoricCfg,QtCore.SIGNAL("activated()"),self.actionHistoricCfg)
+        QtCore.QObject.connect(self.ui.actionHelp,QtCore.SIGNAL("activated()"),self.actionHelp)
         QtCore.QObject.connect(self.ui.actionTemplates,QtCore.SIGNAL("activated()"),self.actionTemplates)
         QtCore.QObject.connect(self.ui.treeView,QtCore.SIGNAL("clicked(QModelIndex)"),self.treeview_on_click)
         QtCore.QObject.connect(self.ui.treeView,QtCore.SIGNAL("doubleClicked(QModelIndex)"),self.treeview_on_doubleclick)
@@ -447,7 +448,13 @@ class IcepapCMS(QtGui.QMainWindow):
             self.ui.pageiPapDriver.hideHistoricWidget()
     def actionTemplates(self):
         pass
-            
+    
+    def actionHelp(self):
+        pathname = os.path.dirname(sys.argv[0])
+        path = os.path.abspath(pathname)
+        #self.ui.tabWidget.removeTab(0)
+        
+        webbrowser.open(path+'/doc/IcepapCMSUserManual.pdf')      
         
   
 
