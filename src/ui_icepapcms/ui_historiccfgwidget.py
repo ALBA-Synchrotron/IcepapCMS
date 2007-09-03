@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'historiccfgwidget.ui'
 #
-# Created: Fri Aug 31 17:16:54 2007
+# Created: Mon Sep  3 09:42:39 2007
 #      by: PyQt4 UI code generator 4.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -146,11 +146,6 @@ class Ui_HistoricCfgWidget(object):
         self.hboxlayout.setSpacing(6)
         self.hboxlayout.setObjectName("hboxlayout")
 
-        self.loadButton = QtGui.QPushButton(HistoricCfgWidget)
-        self.loadButton.setIcon(QtGui.QIcon(":/small_icons/IcepapCFG Icons Petits/historic.png"))
-        self.loadButton.setObjectName("loadButton")
-        self.hboxlayout.addWidget(self.loadButton)
-
         self.saveButton = QtGui.QPushButton(HistoricCfgWidget)
         self.saveButton.setIcon(QtGui.QIcon(":/small_icons/IcepapCFG Icons Petits/save.png"))
         self.saveButton.setObjectName("saveButton")
@@ -173,7 +168,6 @@ class Ui_HistoricCfgWidget(object):
         "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">Historic Configuration Tool</span></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.label.setText(QtGui.QApplication.translate("HistoricCfgWidget", "Name", None, QtGui.QApplication.UnicodeUTF8))
         self.label_2.setText(QtGui.QApplication.translate("HistoricCfgWidget", "Description", None, QtGui.QApplication.UnicodeUTF8))
-        self.loadButton.setText(QtGui.QApplication.translate("HistoricCfgWidget", "Load", None, QtGui.QApplication.UnicodeUTF8))
         self.saveButton.setText(QtGui.QApplication.translate("HistoricCfgWidget", "Save", None, QtGui.QApplication.UnicodeUTF8))
         self.deleteButton.setText(QtGui.QApplication.translate("HistoricCfgWidget", "Delete", None, QtGui.QApplication.UnicodeUTF8))
 

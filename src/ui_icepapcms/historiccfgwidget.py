@@ -18,7 +18,6 @@ class HistoricCfgWidget(QtGui.QWidget):
         QtCore.QObject.connect(self.ui.calendarWidget, QtCore.SIGNAL("clicked(const QDate&)"),self.daySelected)
         QtCore.QObject.connect(self.ui.btnBack, QtCore.SIGNAL("clicked()"),self.btnBackClicked)
         QtCore.QObject.connect(self.ui.listWidget, QtCore.SIGNAL("currentTextChanged (const QString&)"),self.listWidgetChanged)
-        QtCore.QObject.connect(self.ui.loadButton, QtCore.SIGNAL("clicked()"),self.loadButton_on_click)
         QtCore.QObject.connect(self.ui.saveButton, QtCore.SIGNAL("clicked()"),self.saveButton_on_click)
         QtCore.QObject.connect(self.ui.deleteButton, QtCore.SIGNAL("clicked()"),self.deleteButton_on_click)
     
@@ -28,8 +27,8 @@ class HistoricCfgWidget(QtGui.QWidget):
     def fillData(self, driver):
         self.ui.stackedWidget.setCurrentIndex(0)
         self.ui.saveButton.setEnabled(True)
-        self.ui.loadButton.setEnabled(False)
         self.ui.deleteButton.setEnabled(False)
+        
         for date in self.ui.calendarWidget.dateTextFormat():
             self.ui.calendarWidget.setDateTextFormat(date, QtGui.QTextCharFormat())
         self.selectedDays = {}
@@ -47,6 +46,7 @@ class HistoricCfgWidget(QtGui.QWidget):
                 format.setBackground(QtGui.QColor(255,255,0))
                 self.ui.calendarWidget.setDateTextFormat(qdate, format)
                 self.selectedDays[cfgdate] = [[date, cfg]]
+        self.daySelected(self.ui.calendarWidget.selectedDate())
     
     def daySelected(self, qdate):
         date = qdate.toPyDate().ctime()
@@ -73,17 +73,15 @@ class HistoricCfgWidget(QtGui.QWidget):
     
     def fillCfgData(self, cfg):
         self.ui.saveButton.setEnabled(False)
-        self.ui.loadButton.setEnabled(True)
         self.ui.deleteButton.setEnabled(True)
         self.selectedCfg = cfg
         self.ui.txtName.setText(cfg[1].name)
         self.ui.txtDescription.setText(str(cfg[1].description))
+        self.pagedriver.addNewCfg(self.selectedCfg[1])
     
     def btnBackClicked(self):
         self.ui.stackedWidget.setCurrentIndex(0)
     
-    def loadButton_on_click(self):
-        self.pagedriver.addNewCfg(self.selectedCfg[1])
     
     def deleteButton_on_click(self):
         if MessageDialogs.showYesNoMessage(self, "Historic configuration", "Delete selected configuration ?"):
@@ -91,7 +89,6 @@ class HistoricCfgWidget(QtGui.QWidget):
             self.fillData(self.icepap_driver)
         self.ui.txtName.setText("")
         self.ui.txtDescription.clear()
-        self.ui.loadButton.setEnabled(False)
         self.ui.deleteButton.setEnabled(False)
         
     def saveButton_on_click(self):

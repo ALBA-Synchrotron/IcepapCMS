@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'dialogsystemscan.ui'
 #
-# Created: Fri Aug 31 17:16:52 2007
+# Created: Mon Sep  3 10:01:32 2007
 #      by: PyQt4 UI code generator 4.2
 #
 # WARNING! All changes made in this file will be lost!

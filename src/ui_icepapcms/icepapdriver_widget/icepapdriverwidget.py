@@ -77,8 +77,8 @@ class IcePapDriverWidget(QtGui.QWidget):
     def fillStatus(self):
         if self._driver.nemonic == None:
             self.ui.lblName.setText("- %d -" % self._driver.addr)
-        elif self._driver.nemonic <> "":
-            self.ui.lblName.setText(self._driver.nemonic)
+        elif self._driver.name <> "":
+            self.ui.lblName.setText("%d- %s" % (self._driver.addr,self._driver.name))
         else:
             self.ui.lblName.setText("- %d -" % self._driver.addr)
         
