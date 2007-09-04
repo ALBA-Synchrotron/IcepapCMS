@@ -156,7 +156,7 @@ class PyConsoleText(QTextEdit):
             cursor = self.textCursor()
             cursor.movePosition(QTextCursor.NextCharacter, QTextCursor.KeepAnchor)
             cursor.removeSelectedText()
-            self.color_line()
+            #self.color_line()
                         
             self.line.remove(self.point, 1)
             

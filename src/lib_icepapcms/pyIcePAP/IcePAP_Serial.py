@@ -24,7 +24,7 @@ class SerialIcePAP(IcePAP):
 	self.buf = ''
         return 0
     
-    def sendCommand(self, addr, command):
+    def sendWriteReadCommand(self, addr, command):
          
         try:
             cmd = ''
@@ -42,7 +42,7 @@ class SerialIcePAP(IcePAP):
             iex = IcePAPException(IcePAPException.Error, "Error sending command to the IcePAP(Serial)")
             raise iex
     
-    def sendCommand2(self, addr, command):
+    def sendWriteCommand(self, addr, command):
                 
         #try:
         cmd = ''

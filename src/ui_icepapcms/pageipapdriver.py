@@ -581,7 +581,7 @@ class PageiPapDriver(QtGui.QWidget):
         
         self.configureAuxSignals()
     
-    def configureSignals(self):
+    def configureAuxSignals(self):
         # Configure Aux Inputs        
         if self.ui.chbInPosAux.isChecked():
             polarity = self.ui.cbInPosPol.currentIndex()
@@ -641,7 +641,8 @@ class PageiPapDriver(QtGui.QWidget):
             self.ui.btnUndo.setEnabled(False)    
     
     def btnRestore_on_click(self):
-        self.fillData(self.icepap_driver)
+        self.addNewCfg(self.icepap_driver.currentCfg)
+        #.fillData(self.icepap_driver)
         
     
     def doImport(self):
