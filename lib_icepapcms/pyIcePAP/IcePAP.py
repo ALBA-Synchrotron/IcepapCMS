@@ -64,10 +64,10 @@ class IcePAP:
     def connect(self):
         pass
     
-    def sendCommand(self, addr, command):
+    def sendWriteReadCommand(self, addr, command):
         pass
     
-    def sendCommand2(self, addr, command):
+    def sendWriteCommand(self, addr, command):
         pass
     
     def sendData(self, data):
@@ -79,52 +79,52 @@ class IcePAP:
     def getPosition(self, addr):
         if (self.Status == CStatus.Disconnected):
             return -1
-        ans = self.sendCommand(addr, '?P')
+        ans = self.sendWriteReadCommand(addr, '?P')
         return self.parseResponse(str(addr),"P", ans)
     
     def readPar(self, addr, name):
         if (self.Status == CStatus.Disconnected):
             return -1
-        ans = self.sendCommand(addr, '?'+name)
+        ans = self.sendWriteReadCommand(addr, '?'+name)
         return self.parseResponse(str(addr),name, ans)
     
     def writePar(self, addr, name, val):
         if (self.Status == CStatus.Disconnected):
             return -1
-        self.sendCommand2(addr, name+ " " + val)
+        self.sendWriteCommand(addr, name+ " " + val)
         
     def getVersionDsp(self, addr):
         if (self.Status == CStatus.Disconnected):
             return -1
-        ans = self.sendCommand(addr, '?VER DSP')
+        ans = self.sendWriteReadCommand(addr, '?VER DSP')
         return self.parseResponse(str(addr),"VER", ans)
     
     def getStatus(self, addr):
         if (self.Status == CStatus.Disconnected):
             return -1
-        ans = self.sendCommand(None, '?STAT '+ str(addr))
+        ans = self.sendWriteReadCommand(None, '?STAT '+ str(addr))
         return self.parseResponse(None,"STAT", ans)
     
     def isMoving(self, addr):
-        ans = self.sendCommand(addr, '?ST')
+        ans = self.sendWriteReadCommand(addr, '?ST')
         return self.parseResponse(str(addr),"ST", ans)
     
     def getSpeed(self, addr):
         if (self.Status == CStatus.Disconnected):
             return -1
-        ans = self.sendCommand(addr, '?VSR')
+        ans = self.sendWriteReadCommand(addr, '?VSR')
         return self.parseResponse(str(addr),"VSR", ans)
     
     def getBaseRate(self, addr):
         if (self.Status == CStatus.Disconnected):
             return -1
-        ans = self.sendCommand(addr, '?V0')
+        ans = self.sendWriteReadCommand(addr, '?V0')
         return self.parseResponse(str(addr),"V0", ans)
     
     def getLimitSwitches(self, addr):
         if (self.Status == CStatus.Disconnected):
             return -1
-        ans = self.sendCommand(addr, '?SW')
+        ans = self.sendWriteReadCommand(addr, '?SW')
         ans = self.parseResponse(str(addr),"SW", ans)
         return ans.split()
         
@@ -132,124 +132,124 @@ class IcePAP:
     def getAcceleration(self, addr):
         if (self.Status == CStatus.Disconnected):
             return -1
-        ans = self.sendCommand(addr, '?A0')
+        ans = self.sendWriteReadCommand(addr, '?A0')
         return self.parseResponse(str(addr),"A0", ans)
     
     def getCurrent(self, addr):
         if (self.Status == CStatus.Disconnected):
             return -1
-        ans = self.sendCommand(addr, '?IN')
+        ans = self.sendWriteReadCommand(addr, '?IN')
         return self.parseResponse(str(addr),"IN", ans)
         
     def setSpeed(self, addr, Speed):
         if (self.Status == CStatus.Disconnected):
             return -1
-        self.sendCommand2(addr , 'VSR %d' % Speed)
+        self.sendWriteCommand(addr , 'VSR %d' % Speed)
     
     def setBaseRate(self, addr, Speed):
         if (self.Status == CStatus.Disconnected):
             return -1
-        self.sendCommand2(addr , 'V0 %d' % Speed)
+        self.sendWriteCommand(addr , 'V0 %d' % Speed)
     
     def setAcceleration(self, addr, Acc):
         if (self.Status == CStatus.Disconnected):
             return -1
-        self.sendCommand2(addr , 'A0 %d' % Acc)
+        self.sendWriteCommand(addr , 'A0 %d' % Acc)
     
     def setPosition(self, addr, Pos):
         if (self.Status == CStatus.Disconnected):
             return -1
-        self.sendCommand2(addr , 'P %d' % Pos)
+        self.sendWriteCommand(addr , 'P %d' % Pos)
     
     def setDirection(self, addr, Dir):
         if (self.Status == CStatus.Disconnected):
             return -1
         
-        self.sendCommand2(addr , 'DIR %d' % Dir)
+        self.sendWriteCommand(addr , 'DIR %d' % Dir)
 
     
     def stopMotor(self, addr):
         if (self.Status == CStatus.Disconnected):
             return -1
-        self.sendCommand2(addr , 'STOP')
+        self.sendWriteCommand(addr , 'STOP')
 
     def abortMotor(self, addr):
         if (self.Status == CStatus.Disconnected):
             return -1
-        self.sendCommand2(addr , 'ABORT')
+        self.sendWriteCommand(addr , 'ABORT')
     
     def go(self, addr, steps):
         if (self.Status == CStatus.Disconnected):
             return -1
         #print 'GO '+str(steps)
         #self.preStart(addr)
-        self.sendCommand2(addr, 'GO '+str(steps))
+        self.sendWriteCommand(addr, 'GO '+str(steps))
     
     def jog(self, addr, speed):
         if (self.Status == CStatus.Disconnected):
             return -1
-        #self.sendCommand2(addr, 'STOP')
-        #self.sendCommand2(addr, 'GO 2')
-        self.sendCommand2(addr, 'J '+str(speed))
+        #self.sendWriteCommand(addr, 'STOP')
+        #self.sendWriteCommand(addr, 'GO 2')
+        self.sendWriteCommand(addr, 'J '+str(speed))
     
     def configureInputSignal(self, addr, signal, cfg):
         if (self.Status == CStatus.Disconnected):
             return -1
-        self.sendCommand2(addr, 'IN2_C '+str(signal) + ' ' + str(cfg))
+        self.sendWriteCommand(addr, 'IN2_C '+str(signal) + ' ' + str(cfg))
     
     def configureOutputSignal(self, addr, signal, source, cfg):
         if (self.Status == CStatus.Disconnected):
             return -1
-        self.sendCommand2(addr, 'OUT2_C '+str(signal) + ' ' + str(source) + ' ' + str(cfg))
+        self.sendWriteCommand(addr, 'OUT2_C '+str(signal) + ' ' + str(source) + ' ' + str(cfg))
     
     def setSignalDirection(self, addr, signal, dir):
         if (self.Status == CStatus.Disconnected):
             return -1
-        self.sendCommand2(addr, 'SIG_DIR '+str(signal) + ' ' + str(dir)) 
+        self.sendWriteCommand(addr, 'SIG_DIR '+str(signal) + ' ' + str(dir)) 
     
     def setCounterSource(self, addr, counter, src):
         if (self.Status == CStatus.Disconnected):
             return -1
-        self.sendCommand2(addr, 'SET_SRC '+str(counter) + ' ' + str(src))
+        self.sendWriteCommand(addr, 'SET_SRC '+str(counter) + ' ' + str(src))
         
     def configureAuxInputSignal(self, addr, signal, polarity):
         if (self.Status == CStatus.Disconnected):
             return -1
-        self.sendCommand2(addr, 'IN1_C '+str(signal) + ' ' + str(polarity))
+        self.sendWriteCommand(addr, 'IN1_C '+str(signal) + ' ' + str(polarity))
     
     def configureAuxOutputSignal(self, addr, signal, source, polarity):
         if (self.Status == CStatus.Disconnected):
             return -1
-        self.sendCommand2(addr, 'OUT1_C '+str(signal) + ' ' + str(source) + ' ' + str(polarity))
+        self.sendWriteCommand(addr, 'OUT1_C '+str(signal) + ' ' + str(source) + ' ' + str(polarity))
         
     def setSilent(self, addr, mode):
         if (self.Status == CStatus.Disconnected):
             return -1
-        self.sendCommand2(addr , 'SILENT %d' % mode)
+        self.sendWriteCommand(addr , 'SILENT %d' % mode)
                 
     def disable(self, addr):
         if (self.Status == CStatus.Disconnected):
             return -1
-        #self.sendCommand2(addr , 'CLR')
-        self.sendCommand2(addr , 'DIS')
+        #self.sendWriteCommand(addr , 'CLR')
+        self.sendWriteCommand(addr , 'DIS')
     
     def enable(self, addr):
         if (self.Status == CStatus.Disconnected):
             return -1
-        self.sendCommand2(addr , 'CLR')
-        self.sendCommand2(addr , 'EN')         
+        self.sendWriteCommand(addr , 'CLR')
+        self.sendWriteCommand(addr , 'EN')         
         
     
     def preStart(self, addr):
         if (self.Status == CStatus.Disconnected):
             return -1
-        ans= self.sendCommand(addr , '?CPLD 0')
+        ans= self.sendWriteReadCommand(addr , '?CPLD 0')
         try:
             vans = ans.split()
             #print 'prestart %s' % ans
             if int(vans[2]) & 0x0020:
-                self.sendCommand2(addr , 'CLR')
-                self.sendCommand2(addr , 'EN')
+                self.sendWriteCommand(addr , 'CLR')
+                self.sendWriteCommand(addr , 'EN')
         except:
             ans = self.IceCheckError(ans)
             iex = IcePAPException(IcePAPException.Error, ans)
@@ -259,17 +259,17 @@ class IcePAP:
         #print "checking driver"
         if (self.Status == CStatus.Disconnected):
             return -1
-        #self.sendCommand2(0 , 'CFE')
+        #self.sendWriteCommand(0 , 'CFE')
         
-        ans= self.sendCommand(addr , '?ID')
+        ans= self.sendWriteReadCommand(addr , '?ID')
         #print ans
         if self.IceFindError(ans):
             return -1
-        #self.sendCommand2(addr , 'CLR')
-        #self.sendCommand2(addr , 'DIS') 
-        self.sendCommand2(addr , 'SD 10.0')
+        #self.sendWriteCommand(addr , 'CLR')
+        #self.sendWriteCommand(addr , 'DIS') 
+        self.sendWriteCommand(addr , 'SD 10.0')
 	
-        #ans= self.sendCommand(0 , '?FERR 1')
+        #ans= self.sendWriteReadCommand(0 , '?FERR 1')
         #print 'check %s' % ans
         #if  not ans.startswith(" FERR"):
         #    self.icepapfiforst()
@@ -284,7 +284,7 @@ class IcePAP:
     
     def icepapfiforst(self):
         print ""
-        #self.sendCommand2(0 , 'fiforst')
+        #self.sendWriteCommand(0 , 'fiforst')
       
     
     def parseResponse(self, addr, command, ans):
@@ -318,7 +318,7 @@ class IcePAP:
         
     def IceCheckError(self,ice_answer):
         if (ice_answer.find("ERROR") != -1):
-            new_ans = self.sendCommand(0, "?ERR 1")
+            new_ans = self.sendWriteReadCommand(0, "?ERR 1")
             print new_ans + " in IceCheckError"
             return new_ans
         else:
@@ -327,27 +327,27 @@ class IcePAP:
     def configureInputSignal(self, addr, signal, cfg):
         if (self.Status == CStatus.Disconnected):
             return -1
-        self.sendCommand2(addr, 'IN2_C '+str(signal) + ' ' + str(cfg))
+        self.sendWriteCommand(addr, 'IN2_C '+str(signal) + ' ' + str(cfg))
     
     def configureOutputSignal(self, addr, signal, source, cfg):
         if (self.Status == CStatus.Disconnected):
             return -1
-        self.sendCommand2(addr, 'OUT2_C '+str(signal) + ' ' + str(source) + ' ' + str(cfg))
+        self.sendWriteCommand(addr, 'OUT2_C '+str(signal) + ' ' + str(source) + ' ' + str(cfg))
     
     def setSignalDirection(self, addr, signal, dir):
         if (self.Status == CStatus.Disconnected):
             return -1
-        self.sendCommand2(addr, 'SIG_DIR '+str(signal) + ' ' + str(dir)) 
+        self.sendWriteCommand(addr, 'SIG_DIR '+str(signal) + ' ' + str(dir)) 
     
     def setCounterSource(self, addr, counter, src):
         if (self.Status == CStatus.Disconnected):
             return -1
-        self.sendCommand2(addr, 'SET_SRC '+str(counter) + ' ' + str(src))
+        self.sendWriteCommand(addr, 'SET_SRC '+str(counter) + ' ' + str(src))
     
     def setSilent(self, addr, mode):
         if (self.Status == CStatus.Disconnected):
             return -1
-        self.sendCommand2(addr , 'SILENT %d' % mode)
+        self.sendWriteCommand(addr , 'SILENT %d' % mode)
         
     
     def selectMotor(self, crate, motor):

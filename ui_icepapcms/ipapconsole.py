@@ -17,7 +17,7 @@ class IcepapConsole(QtGui.QDialog):
         self.ui.console.setDisabled(True)
         QtCore.QObject.connect(self.ui.btnConnect,QtCore.SIGNAL("clicked()"),self.btnConnect_on_click)
         QtCore.QObject.connect(self.ui.btnDisconnect,QtCore.SIGNAL("clicked()"),self.btnDisconnect_on_click)
-        QtCore.QObject.connect(self.ui.console,QtCore.SIGNAL("commandReceived(const QString &)"),self.sendCommand)
+        QtCore.QObject.connect(self.ui.console,QtCore.SIGNAL("commandReceived(const QString &)"),self.sendWriteReadCommand)
         self.prompt = "icepap >"
         self.ui.console.setPrompt(self.prompt)
         
@@ -36,9 +36,9 @@ class IcepapConsole(QtGui.QDialog):
             self.ipap.connect()
             self.ui.console.clear()
             self.writeConsole("Connected to Icepap :  " + addr)
-            rsp = self.ipap.sendCommand(None, "help")
+            rsp = self.ipap.sendWriteReadCommand(None, "help")
             self.writeConsole(rsp)
-            rsp = self.ipap.sendCommand(None, "sockhelp")
+            rsp = self.ipap.sendWriteReadCommand(None, "sockhelp")
             self.writeConsole(rsp)
             self.ui.btnDisconnect.setDisabled(False)
             self.ui.btnConnect.setDisabled(True)
@@ -65,7 +65,7 @@ class IcepapConsole(QtGui.QDialog):
     def writePrompt(self):
         self.ui.console.write(self.prompt)
         
-    def sendCommand(self, cmd):
+    def sendWriteReadCommand(self, cmd):
         cmd = str(cmd)
         # determine if the command has an answer
         cmd = cmd.upper()
@@ -74,11 +74,11 @@ class IcepapConsole(QtGui.QDialog):
             self.close()
             return
 
-        if cmd.find("?") >= 0 or cmd.find("#")>= 0:
-            res = self.ipap.sendCommand(None,cmd)
+        if cmd.find("?") >= 0 or cmd.find("#")>= 0 or cmd.find("HELP")>=0:
+            res = self.ipap.sendWriteReadCommand(None,cmd)
             self.writeConsole(res)
         else:
-             res = self.ipap.sendCommand2(None,cmd)
+             res = self.ipap.sendWriteCommand(None,cmd)
 
     
     def closeEvent(self, event):

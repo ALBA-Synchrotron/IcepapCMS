@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'pageipapdriver.ui'
 #
-# Created: Mon Sep  3 10:01:33 2007
+# Created: Tue Sep  4 09:41:28 2007
 #      by: PyQt4 UI code generator 4.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -661,7 +661,7 @@ class Ui_PageiPapDriver(object):
         self.vboxlayout.addItem(spacerItem3)
 
         self.btnApplyCfg = QtGui.QPushButton(self.frame_right)
-        self.btnApplyCfg.setIcon(QtGui.QIcon(":/icons/IcepapCfg Icons/gnome-dev-floppy.png"))
+        self.btnApplyCfg.setIcon(QtGui.QIcon(":/small_icons/IcepapCfg Icons/Icepapicon.png"))
         self.btnApplyCfg.setIconSize(QtCore.QSize(20,20))
         self.btnApplyCfg.setObjectName("btnApplyCfg")
         self.vboxlayout.addWidget(self.btnApplyCfg)

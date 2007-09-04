@@ -217,20 +217,30 @@
      <height>29</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuEdit" >
+   <widget class="QMenu" name="menuFile" >
     <property name="title" >
-     <string>Edit</string>
+     <string>File</string>
     </property>
+    <addaction name="actionAddIcepap" />
+    <addaction name="actionDeleteIcepap" />
+    <addaction name="separator" />
+    <addaction name="actionFirmwareUpgrade" />
+    <addaction name="actionConsole" />
+    <addaction name="separator" />
     <addaction name="actionPreferences" />
+    <addaction name="actionQuit" />
    </widget>
-   <widget class="QMenu" name="menuGo" >
+   <widget class="QMenu" name="menuDriver" >
     <property name="title" >
-     <string>Go</string>
+     <string>Driver</string>
     </property>
-    <addaction name="actionGoPrevious" />
-    <addaction name="actionGoNext" />
-    <addaction name="actionGoUp" />
-    <addaction name="actionRefresh" />
+    <addaction name="actionSignConfig" />
+    <addaction name="separator" />
+    <addaction name="actionHistoricCfg" />
+    <addaction name="actionTemplates" />
+    <addaction name="separator" />
+    <addaction name="actionExport" />
+    <addaction name="actionImport" />
    </widget>
    <widget class="QMenu" name="menuView" >
     <property name="title" >
@@ -246,20 +256,8 @@
     <addaction name="actionHelp" />
     <addaction name="actionAbout" />
    </widget>
-   <widget class="QMenu" name="menuFile" >
-    <property name="title" >
-     <string>File</string>
-    </property>
-    <addaction name="actionExport" />
-    <addaction name="actionImport" />
-    <addaction name="actionFirmwareUpgrade" />
-    <addaction name="actionConsole" />
-    <addaction name="separator" />
-    <addaction name="actionQuit" />
-   </widget>
    <addaction name="menuFile" />
-   <addaction name="menuEdit" />
-   <addaction name="menuGo" />
+   <addaction name="menuDriver" />
    <addaction name="menuView" />
    <addaction name="menuHelp" />
   </widget>
@@ -358,22 +356,6 @@
         <property name="spacing" >
          <number>4</number>
         </property>
-        <item>
-         <widget class="QToolButton" name="btnTreeRefresh" >
-          <property name="text" >
-           <string>...</string>
-          </property>
-          <property name="icon" >
-           <iconset resource="icepapcms.qrc" >:/small_icons/IcepapCFG Icons Petits/view-refresh.png</iconset>
-          </property>
-          <property name="iconSize" >
-           <size>
-            <width>16</width>
-            <height>16</height>
-           </size>
-          </property>
-         </widget>
-        </item>
         <item>
          <widget class="QToolButton" name="btnTreeAdd" >
           <property name="text" >
@@ -528,7 +510,13 @@
     <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/gnome-dev-floppy.png</iconset>
    </property>
    <property name="text" >
-    <string>Export</string>
+    <string>Export configuration</string>
+   </property>
+   <property name="iconText" >
+    <string>Export configuration</string>
+   </property>
+   <property name="toolTip" >
+    <string>Export driver configuration to file</string>
    </property>
    <property name="shortcut" >
     <string>Ctrl+E</string>
@@ -539,7 +527,13 @@
     <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/folder.png</iconset>
    </property>
    <property name="text" >
-    <string>Import</string>
+    <string>Import configuration</string>
+   </property>
+   <property name="iconText" >
+    <string>Import configuration</string>
+   </property>
+   <property name="toolTip" >
+    <string>Import driver configuration from file</string>
    </property>
    <property name="shortcut" >
     <string>Ctrl+I</string>
@@ -583,6 +577,15 @@
    <property name="text" >
     <string>Sign Configuration</string>
    </property>
+   <property name="toolTip" >
+    <string>Sign driver configuration</string>
+   </property>
+   <property name="statusTip" >
+    <string>Ctrl+s</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+s</string>
+   </property>
   </action>
   <action name="actionFirmwareUpgrade" >
    <property name="icon" >
@@ -591,6 +594,9 @@
    <property name="text" >
     <string>Firmware upgrade</string>
    </property>
+   <property name="toolTip" >
+    <string>Open Firmware upgrade dialog</string>
+   </property>
   </action>
   <action name="actionConsole" >
    <property name="icon" >
@@ -598,6 +604,9 @@
    </property>
    <property name="text" >
     <string>Console</string>
+   </property>
+   <property name="toolTip" >
+    <string>Icepap Console</string>
    </property>
   </action>
   <action name="actionHistoricCfg" >
@@ -608,7 +617,16 @@
     <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/calendar.png</iconset>
    </property>
    <property name="text" >
-    <string>HistoricCfg</string>
+    <string>Historic Configurations</string>
+   </property>
+   <property name="iconText" >
+    <string>Historic Configurations</string>
+   </property>
+   <property name="toolTip" >
+    <string>Historic configurations per driver</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+h</string>
    </property>
   </action>
   <action name="actionTemplates" >
@@ -617,6 +635,34 @@
    </property>
    <property name="text" >
     <string>Templates</string>
+   </property>
+   <property name="toolTip" >
+    <string>Template managment</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+t</string>
+   </property>
+  </action>
+  <action name="actionAddIcepap" >
+   <property name="icon" >
+    <iconset resource="icepapcms.qrc" >:/small_icons/IcepapCFG Icons Petits/list-add.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Add Icepap</string>
+   </property>
+   <property name="toolTip" >
+    <string>Add Icepap System to CMS Database</string>
+   </property>
+  </action>
+  <action name="actionDeleteIcepap" >
+   <property name="icon" >
+    <iconset resource="icepapcms.qrc" >:/small_icons/IcepapCFG Icons Petits/list-remove.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Delete Icepap</string>
+   </property>
+   <property name="toolTip" >
+    <string>Delete Icepap System from the CMS Database</string>
    </property>
   </action>
  </widget>

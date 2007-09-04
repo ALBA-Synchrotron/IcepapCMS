@@ -1392,7 +1392,7 @@ p, li { white-space: pre-wrap; }
          <string>Apply Config</string>
         </property>
         <property name="icon" >
-         <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/gnome-dev-floppy.png</iconset>
+         <iconset resource="icepapcms.qrc" >:/small_icons/IcepapCfg Icons/Icepapicon.png</iconset>
         </property>
         <property name="iconSize" >
          <size>

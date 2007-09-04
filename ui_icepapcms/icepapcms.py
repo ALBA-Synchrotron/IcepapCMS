@@ -82,7 +82,7 @@ class IcepapCMS(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.txtLocation,QtCore.SIGNAL("returnPressed()"),self.txtLocation_on_return)
         QtCore.QObject.connect(self.ui.btnTreeAdd,QtCore.SIGNAL("clicked()"),self.btnTreeAdd_on_click)
         QtCore.QObject.connect(self.ui.btnTreeRemove,QtCore.SIGNAL("clicked()"),self.btnTreeRemove_on_click)
-        QtCore.QObject.connect(self.ui.btnTreeRefresh,QtCore.SIGNAL("clicked()"),self.btnTreeRefresh_on_click)
+        #QtCore.QObject.connect(self.ui.btnTreeRefresh,QtCore.SIGNAL("clicked()"),self.btnTreeRefresh_on_click)
         QtCore.QObject.connect(self.ui.menuView,QtCore.SIGNAL("aboutToShow()"),self.menuView_before_show)
     
     def __contextMenu(self, point):
@@ -164,6 +164,9 @@ class IcepapCMS(QtGui.QMainWindow):
                 self.btnTreeRefresh_on_click()
     
     def btnTreeRefresh_on_click(self):
+        self.refreshTree()
+        
+    def refreshTree(self):
         self.ui.txtLocation.setText("")
         self._manager.reset(self)
         #if not self._manager.dbStatusOK:
@@ -245,7 +248,6 @@ class IcepapCMS(QtGui.QMainWindow):
         self.currentLocation = item.location
         self.ui.actionExport.setEnabled(False)
         self.ui.actionImport.setEnabled(False)
-        self.ui.actionRefresh.setEnabled(False)
         self.ui.actionHistoricCfg.setEnabled(False)
         self.ui.actionTemplates.setEnabled(False)
         self.ui.actionSignConfig.setEnabled(True)
@@ -256,7 +258,6 @@ class IcepapCMS(QtGui.QMainWindow):
             self.ui.pageiPapDriver.fillData(item.itemData)
             self.ui.pageiPapDriver.startTesting()      
             self.ui.stackedWidget.setCurrentIndex(3)
-            self.ui.actionRefresh.setEnabled(False)
             self.ui.actionExport.setEnabled(True)
             self.ui.actionImport.setEnabled(True)
             self.ui.actionHistoricCfg.setEnabled(True)
@@ -339,11 +340,12 @@ class IcepapCMS(QtGui.QMainWindow):
             
         
     def actionRefresh(self):
-        index = self.ui.stackedWidget.currentIndex()
-        if index == 1:
-            self.ui.pageiPapSystem.refresh()
-        elif index == 2:
-            self.ui.pageiPapCrate.refresh()
+        self.refreshTree()
+        #index = self.ui.stackedWidget.currentIndex()
+        #if index == 1:
+        #    self.ui.pageiPapSystem.refresh()
+        #elif index == 2:
+        #    self.ui.pageiPapCrate.refresh()
         #elif index == 3:
             #self.ui.pageiPapSystem.refresh()
             

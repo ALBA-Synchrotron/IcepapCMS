@@ -5,7 +5,6 @@ from xml.dom import minidom, Node
 import os
 import sys
 from singleton import Singleton
-import Numeric
 import struct
 import time
 import array
@@ -203,9 +202,9 @@ class IcepapController(Singleton):
             if counter == IcepapSignalSrc.Target: 
                 if src <> IcepapSignalSrc.DSPin:
                     self.iPaps[icepap_name].setSilent(driver_addr, 0)
-                    self.iPas[icepap_name].sendCommand2(addr, "IDX_EXT 1")
+                    self.iPas[icepap_name].sendWriteCommand(addr, "IDX_EXT 1")
                 else:
-                    self.iPas[icepap_name].sendCommand2(addr, "IDX_EXT 0")
+                    self.iPas[icepap_name].sendWriteCommand(addr, "IDX_EXT 0")
             self.iPaps[icepap_name].setCounterSource(driver_addr, counter, src)
             return 0
         except:
@@ -287,11 +286,11 @@ class IcepapController(Singleton):
         data = f.read()
         data = array.array('H', data)
         f.close()
-        nwords = (len(data)) 
-        #a = Numeric.array(data, typecode='b')
-        chksum = Numeric.sum(data) 
+        nwordata = (len(data)) 
+        
+        chksum = sum(data) 
         logger.addToLog("File size: "+ str(len(data))+ " bytes, checksum: "+str(chksum))
-        #startmark = Numeric.array('h')
+        
         startmark = 0xa5aa555a
         if serial:
             ipap = SerialIcePAP(dst, 0)
@@ -313,7 +312,7 @@ class IcepapController(Singleton):
             options = ""
         ipap.connect()
         logger.addToLog("Configuring connection")
-        ipap.sendCommand2(None, "*PROG %s %s" %(addr, options))
+        ipap.sendWriteCommand(None, "*PROG %s %s" %(addr, options))
         logger.addToLog("Transferring firmware")        
         ipap.sendData(struct.pack('L',startmark))
         ipap.sendData(struct.pack('L',nwords))
