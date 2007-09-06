@@ -11,7 +11,7 @@ class IcePapDriverWidget(QtGui.QWidget):
         self.initView(BigSize)
         self.MaxCurrent = 7
         self._driver = None
-        
+        self.setMouseTracking(True)
     def initView(self, Big):
         self.BigSize = Big
         self.coloroff = QtGui.QColor(225,255,200)
@@ -46,7 +46,11 @@ class IcePapDriverWidget(QtGui.QWidget):
         tooltip = str(self._driver.currentCfg)
         QtGui.QToolTip.showText(event.globalPos(), tooltip)
         event.accept()
-        
+    
+    def mouseMoveEvent(self, event):
+        tooltip = str(self._driver.currentCfg)
+        QtGui.QToolTip.showText(event.globalPos(), tooltip)
+        event.accept()
     
     def btnEnDis_on_click(self,bool):
         if bool:

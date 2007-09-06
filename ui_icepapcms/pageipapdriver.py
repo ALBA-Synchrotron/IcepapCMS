@@ -584,7 +584,7 @@ class PageiPapDriver(QtGui.QWidget):
     def configureAuxSignals(self):
         # Configure Aux Inputs        
         if self.ui.chbInPosAux.isChecked():
-            polarity = self.ui.cbInPosPol.currentIndex()
+            polarity = self.ui.cbInPosAuxPol.currentIndex()
             self._manager.configureAuxInputSignal(self.icepap_driver.icepap_name, self.icepap_driver.addr, IcepapSignal.InPosAux, polarity)
         
         if self.ui.chbEncAux.isChecked():
