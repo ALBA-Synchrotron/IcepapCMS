@@ -73,8 +73,10 @@ class IcepapConsole(QtGui.QDialog):
             self.btnDisconnect_on_click()
             self.close()
             return
-
-        if cmd.find("?") >= 0 or cmd.find("#")>= 0 or cmd.find("HELP")>=0:
+        if cmd.find("?") >= 0 or cmd.find("#")>= 0:
+            res = self.ipap.sendWriteReadCommand(None,cmd)
+            self.writeConsole(res)
+        elif cmd.find("HELP")>=0:
             res = self.ipap.sendWriteReadCommand(None,cmd)
             self.writeConsole(res)
         else:

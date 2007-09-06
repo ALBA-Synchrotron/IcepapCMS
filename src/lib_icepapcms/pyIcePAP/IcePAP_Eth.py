@@ -29,12 +29,11 @@ class EthIcePAP(IcePAP):
         #print "connected"
         return 0
     
-    def sendWriteReadCommand(self, addr, command):
+    def sendWriteReadCommand(self, addr, command, size = 8192):
         try:
             cmd = ''
             if not addr is None:
                 cmd = '%d:'% addr
-            
             cmd = cmd + command + "\n"
             
             
@@ -44,7 +43,7 @@ class EthIcePAP(IcePAP):
             #print str(b) + "  " + cmd 
             
             #try:
-            data = self.IcPaSock.recv(8192)
+            data = self.IcPaSock.recv(size)
            
             c = time.time()
             #print str(c) + "---" + str(c-b)
@@ -70,7 +69,6 @@ class EthIcePAP(IcePAP):
             if not addr is None:
                 cmd = '%d:'% int(addr)
             cmd = cmd + command + "\n"
-            
             self.lock.acquire()
             self.IcPaSock.send(cmd)
             self.lock.release()            
