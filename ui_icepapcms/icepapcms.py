@@ -82,6 +82,8 @@ class IcepapCMS(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.txtLocation,QtCore.SIGNAL("returnPressed()"),self.txtLocation_on_return)
         QtCore.QObject.connect(self.ui.btnTreeAdd,QtCore.SIGNAL("clicked()"),self.btnTreeAdd_on_click)
         QtCore.QObject.connect(self.ui.btnTreeRemove,QtCore.SIGNAL("clicked()"),self.btnTreeRemove_on_click)
+        QtCore.QObject.connect(self.ui.actionAddIcepap ,QtCore.SIGNAL("activated()"),self.btnTreeAdd_on_click)         
+        QtCore.QObject.connect(self.ui.actionDeleteIcepap,QtCore.SIGNAL("activated()"),self.btnTreeRemove_on_click)
         #QtCore.QObject.connect(self.ui.btnTreeRefresh,QtCore.SIGNAL("clicked()"),self.btnTreeRefresh_on_click)
         QtCore.QObject.connect(self.ui.menuView,QtCore.SIGNAL("aboutToShow()"),self.menuView_before_show)
     
