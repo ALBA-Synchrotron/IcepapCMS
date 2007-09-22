@@ -3,7 +3,7 @@ from ui_icepapdriverwidget import Ui_IcePapDriverWidget
 from ui_icepapdriverwidgetsmall import Ui_IcePapDriverWidgetSmall
 from ui_icepapcms.qrc_icepapcms import *
 from ui_icepapcms.Led import Led
-from  lib_icepapcms import MainManager, IcepapDriver, Conflict
+from  lib_icepapcms import MainManager, IcepapDriver, Conflict, IcepapMode, IcepapStatus
 
 class IcePapDriverWidget(QtGui.QWidget):
     def __init__(self, parent=None, BigSize = True):
@@ -79,7 +79,7 @@ class IcePapDriverWidget(QtGui.QWidget):
             return True
     
     def fillStatus(self):
-        if self._driver.nemonic == None:
+        if self._driver.name == None:
             self.ui.lblName.setText("- %d -" % self._driver.addr)
         elif self._driver.name <> "":
             self.ui.lblName.setText("%d- %s" % (self._driver.addr,self._driver.name))
@@ -90,35 +90,41 @@ class IcePapDriverWidget(QtGui.QWidget):
             self.setPaletteColor(self.ui.frame,self.colorerror ,Qt.Qt.black)
         elif self._driver.conflict == Conflict.DRIVER_CHANGED:
             self.setPaletteColor(self.ui.frame,self.colorwarning,Qt.Qt.black)
-        elif self._driver.conflict == Conflict.DRIVER_CFG:
+        elif self._driver.mode == IcepapMode.CONFIG:
             self.setPaletteColor(self.ui.frame,self.colorconfig,Qt.Qt.black)
         else:
             self.setPaletteColor(self.ui.frame,self.colorok,Qt.Qt.black)
             
-        (status, switches, current) = self._manager.getDriverStatus(self._driver.icepap_name, self._driver.addr)
+        (status, current) = self._manager.getDriverStatus(self._driver.icepap_name, self._driver.addr)
         
-        if status == 0:
+        self.ui.pushButton.setEnabled(True)
+        if IcepapStatus.isDisabled(status) == 0:
             self.ui.ledStatus.changeColor(Led.GREEN)
             self.ui.ledStatus.on()
             self.ui.pushButton.setText("disable")
             self.ui.pushButton.setChecked(True)
-        elif status == 1:
+        elif IcepapStatus.isDisabled(status) > 0:
             self.ui.ledStatus.changeColor(Led.RED)
             self.ui.ledStatus.on()
+            if IcepapStatus.isDisabled(status) == 1:
+                self.ui.pushButton.setEnabled(False)
             self.ui.pushButton.setText("enable")
             self.ui.pushButton.setChecked(False)
         elif status == -1:
             return True
-        
-        if switches == 2:
+        lower = IcepapStatus.getLimitNegative(status) 
+        upper = IcepapStatus.getLimitPositive(status)
+        if lower:
             self.ui.ledLimitNeg.on()
-            self.ui.ledLimitPos.off()
-        elif switches == 4:
-            self.ui.ledLimitPos.on()
+        else:
             self.ui.ledLimitNeg.off()
-        elif switches == 6:
+        
+        if upper:
             self.ui.ledLimitPos.on()
-            self.ui.ledLimitNeg.on()
+        else:
+            self.ui.ledLimitPos.off()
+            
+        
         if self.BigSize:
             self.setCurrent(current)
         return True

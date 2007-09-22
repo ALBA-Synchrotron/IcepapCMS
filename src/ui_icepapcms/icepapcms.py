@@ -72,6 +72,8 @@ class IcepapCMS(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.actionSignConfig,QtCore.SIGNAL("activated()"),self.actionSignConfig)
         QtCore.QObject.connect(self.ui.actionHistoricCfg,QtCore.SIGNAL("activated()"),self.actionHistoricCfg)
         QtCore.QObject.connect(self.ui.actionHelp,QtCore.SIGNAL("activated()"),self.actionHelp)
+        QtCore.QObject.connect(self.ui.actionUser_manual,QtCore.SIGNAL("activated()"),self.actionUser_Manual)
+        QtCore.QObject.connect(self.ui.actionHardware_manual,QtCore.SIGNAL("activated()"),self.actionHardware_Manual)
         QtCore.QObject.connect(self.ui.actionTemplates,QtCore.SIGNAL("activated()"),self.actionTemplates)
         QtCore.QObject.connect(self.ui.treeView,QtCore.SIGNAL("clicked(QModelIndex)"),self.treeview_on_click)
         QtCore.QObject.connect(self.ui.treeView,QtCore.SIGNAL("doubleClicked(QModelIndex)"),self.treeview_on_doubleclick)
@@ -418,7 +420,7 @@ class IcepapCMS(QtGui.QMainWindow):
         location = str(self.ui.txtLocation.text())
         location = location.rstrip('/')
         self._tree_model.changeItemIcon(location, IcepapTreeModel.DRIVER_CFG)
-        driver.conflict = Conflict.DRIVER_CFG
+        #driver.conflict = Conflict.DRIVER_CFG
         self.ui.actionSignConfig.setEnabled(True)
          
     def actionSignConfig(self):
@@ -456,10 +458,17 @@ class IcepapCMS(QtGui.QMainWindow):
     def actionHelp(self):
         pathname = os.path.dirname(sys.argv[0])
         path = os.path.abspath(pathname)
-        #self.ui.tabWidget.removeTab(0)
-        
         webbrowser.open(path+'/doc/IcepapCMSUserManual.pdf')      
-        
+    
+    def actionUser_Manual(self):
+        pathname = os.path.dirname(sys.argv[0])
+        path = os.path.abspath(pathname)
+        webbrowser.open(path+'/doc/IcePAP_UserManual_working.pdf')
+    
+    def actionHardware_Manual(self):
+        pathname = os.path.dirname(sys.argv[0])
+        path = os.path.abspath(pathname)
+        webbrowser.open(path+'/doc/IcePAP_HardwareManual.pdf')    
   
 
 if __name__ == "__main__":

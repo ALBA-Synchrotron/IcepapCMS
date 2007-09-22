@@ -29,46 +29,26 @@ class EthIcePAP(IcePAP):
         #print "connected"
         return 0
     
-    def sendWriteReadCommand(self, addr, command, size = 8192):
+    def sendWriteReadCommand(self, cmd, size = 8192):
         try:
-            cmd = ''
-            if not addr is None:
-                cmd = '%d:'% addr
-            cmd = cmd + command + "\n"
-            
-            
+            cmd = cmd + "\n"
             self.lock.acquire()
-            self.IcPaSock.send(cmd)
-            #b = time.time()
-            #print str(b) + "  " + cmd 
-            
-            #try:
+            self.IcPaSock.send(cmd)          
             data = self.IcPaSock.recv(size)
-           
-            c = time.time()
-            #print str(c) + "---" + str(c-b)
-            #print cmd + answer
-            self.lock.release()  
-                      
+            self.lock.release()                      
             return data
         except socket.error,msg:
-            #print command 
-            #print msg
-            print "Unexpected error:", sys.exc_info()
+            print "Unexpected error:", sys.exc_info(), msg
             #if se.args[0] == EWOULDBLOCK:
             #    return 
             iex = IcePAPException(IcePAPException.Error, "Error sending command to the Icepap")
-            raise iex
-            
+            raise iex          
         
 
     
-    def sendWriteCommand(self, addr, command):
+    def sendWriteCommand(self, cmd):
         try:
-            cmd = ''
-            if not addr is None:
-                cmd = '%d:'% int(addr)
-            cmd = cmd + command + "\n"
+            cmd = cmd + "\n"
             self.lock.acquire()
             self.IcPaSock.send(cmd)
             self.lock.release()            

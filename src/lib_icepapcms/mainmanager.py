@@ -6,6 +6,8 @@ from zodbmanager import ZODBManager
 from PyQt4 import QtGui
 from conflict import Conflict
 from ui_icepapcms.messagedialogs import MessageDialogs
+import sys
+from icepapdef import *
 
 
 class MainManager(Singleton):
@@ -49,7 +51,6 @@ class MainManager(Singleton):
             self._ctrl_icepap.openConnection(icepap_name, host, port)
             print "scanning icepaps drivers" 
             driver_list = self._ctrl_icepap.scanIcepapSystem(icepap_name)
-            print driver_list
             icepap_system.addDriverList(driver_list)
             self.IcepapSystemList[icepap_name] = icepap_system
             self._zodb.addIcepapSystem(icepap_system)
@@ -94,7 +95,7 @@ class MainManager(Singleton):
         signList = []
         for icepap_system in self.IcepapSystemList.values():
             for addr, driver in icepap_system.IcepapDriverList.items():
-                if driver.conflict == Conflict.DRIVER_CFG:
+                if driver.mode == IcepapMode.CONFIG:
                     signList.append(driver)
         return signList
          
@@ -114,22 +115,21 @@ class MainManager(Singleton):
         except:
             #MessageDialogs.showWarningMessage(self._form, "Icepap error", "Connection error")
             #self._form.checkIcepapConnection()
+            print "Unexpected error:", sys.exc_info()
             print "error getting status : %s %d" % (icepap_name,addr) 
-            return (-1,-1,-1)
+            return (-1,-1)
     
     def getDriverTestStatus(self, icepap_name, addr):
         try:
             return self._ctrl_icepap.getDriverTestStatus(icepap_name, addr)
         except:
-            return (-1,-1,-1,-1)
+            return (-1,-1, -1)
             
     
     def getDriverMotionValues(self, icepap_name, addr):
         try:
             return self._ctrl_icepap.getDriverMotionValues(icepap_name, addr)
         except:
-            MessageDialogs.showWarningMessage(self._form, "Icepap error", "Connection error")
-            self._form.checkIcepapConnection()
             return (-1,-1)
             
     def setDriverMotionValues(self, icepap_name, addr, values):
@@ -137,31 +137,37 @@ class MainManager(Singleton):
             return self._ctrl_icepap.setDriverMotionValues(icepap_name, addr, values)
         except:
             MessageDialogs.showWarningMessage(self._form, "Icepap error", "Connection error")
-            self._form.checkIcepapConnection()
     
     def setDriverPosition(self, icepap_name, addr, position):
         return self._ctrl_icepap.setDriverPosition(icepap_name, addr, position)
     
-    def moveDriver(self, icepap_name, addr, steps, direction):
+    def moveDriver(self, icepap_name, addr, steps):
         try:
-            self._ctrl_icepap.moveDriver(icepap_name, addr, steps, direction)
+            self._ctrl_icepap.moveDriver(icepap_name, addr, steps)
         except:
+            print "Unexpected error:", sys.exc_info()
             MessageDialogs.showWarningMessage(self._form, "Icepap error", "Connection error")
-            self._form.checkIcepapConnection()
+            
+    def moveDriverAbsolute(self, icepap_name, addr, position):
+        try:
+            self._ctrl_icepap.moveDriverAbsolute(icepap_name, addr, position)
+        except:
+            print "Unexpected error:", sys.exc_info()
+            MessageDialogs.showWarningMessage(self._form, "Icepap error", "Connection error")
     
     def stopDriver(self, icepap_name, addr):
         try:
             self._ctrl_icepap.stopDriver(icepap_name, addr)
         except:
             MessageDialogs.showWarningMessage(self._form, "Icepap error", "Connection error")
-            self._form.checkIcepapConnection()
+            
     
     def jogDriver(self, icepap_name, addr, speed, dir):
         try:
             self._ctrl_icepap.jogDriver(icepap_name, addr, speed, dir)
         except:
             MessageDialogs.showWarningMessage(self._form, "Icepap error", "Connection error")
-            self._form.checkIcepapConnection()
+            
     
     def enableDriver(self, icepap_name, driver_addr):
         self._ctrl_icepap.enableDriver(icepap_name, driver_addr)
@@ -169,39 +175,20 @@ class MainManager(Singleton):
     def disableDriver(self, icepap_name, driver_addr):
         self._ctrl_icepap.disableDriver(icepap_name, driver_addr)
     
-    def configureInputSignal(self, icepap_name, driver_addr, signal, mode, edge, dir):
-        self._ctrl_icepap.configureInputSignal(icepap_name, driver_addr, signal, mode, edge, dir)
-    
-    def configureOutputSignal(self, icepap_name, driver_addr, signal, source, mode, edge, dir, pulse):
-        self._ctrl_icepap.configureOutputSignal(icepap_name, driver_addr, signal, source, mode, edge, dir, pulse)
-    
-    def configureAuxInputSignal(self, icepap_name, driver_addr, signal, polarity):
-        self._ctrl_icepap.configureAuxInputSignal(icepap_name, driver_addr, signal, polarity)
-    
-    def configureAuxOutputSignal(self, icepap_name, driver_addr, signal, source, polarity):
-        self._ctrl_icepap.configureAuxOutputSignal(icepap_name, driver_addr, signal, source, polarity)
-    
-    def setCounterSource(self, icepap_name, driver_addr, counter, src):
-        self._ctrl_icepap.setCounterSource(icepap_name, driver_addr, counter, src)
-
-    
     def saveValuesInIcepap(self, icepap_driver, new_values):
         new_cfg = self._ctrl_icepap.setDriverConfiguration(icepap_driver.icepap_name, icepap_driver.addr, new_values)
         if new_cfg is None:
-            self._form.checkIcepapConnection()
+            #self._form.checkIcepapConnection()
             return False
         else:
+            icepap_driver.mode = IcepapMode.CONFIG
             icepap_driver.setConfiguration(new_cfg)
             return True
     
     def discardDriverChanges(self, icepap_driver):
-        new_cfg = self._ctrl_icepap.setDriverConfiguration(icepap_driver.icepap_name, icepap_driver.addr, icepap_driver.startupCfg.parList.items())
-        if new_cfg is None:
-            MessageDialogs.showWarningMessage(self._form, "Icepap error", "Connection error")
-            self._form.checkIcepapConnection()
-        else:
-            icepap_driver.setStartupCfg()
-            return True
+        icepap_driver.setStartupCfg()
+        self._ctrl_icepap.discardDriverCfg(icepap_driver.icepap_name, icepap_driver.addr)
+        
         
     def undoDriverConfiguration(self, icepap_driver):
         undo_cfg = icepap_driver.getUndoList()

@@ -24,14 +24,9 @@ class SerialIcePAP(IcePAP):
 	self.buf = ''
         return 0
     
-    def sendWriteReadCommand(self, addr, command):
+    def sendWriteReadCommand(self, command):
          
         try:
-            cmd = ''
-            if not addr is None:
-                cmd = '%d:'% addr
-            cmd = cmd + command 
-            print command+'\r'
             self.tty.write(command+'\r\n')
             time.sleep(0.02)
             newdata = self.readline()
@@ -42,14 +37,11 @@ class SerialIcePAP(IcePAP):
             iex = IcePAPException(IcePAPException.Error, "Error sending command to the IcePAP(Serial)")
             raise iex
     
-    def sendWriteCommand(self, addr, command):
+    def sendWriteCommand(self, command):
                 
         #try:
-        cmd = ''
-        if not addr is None:
-        	cmd = '%d:'% addr
-        cmd = cmd + command 
-        print cmd
+        
+        
         #self.tty.write('\r\n'.join(command.split()))
     	self.tty.write(command+'\r\n')
 	#newdata = self.readline()

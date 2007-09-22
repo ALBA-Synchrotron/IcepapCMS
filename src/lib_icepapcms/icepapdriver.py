@@ -2,16 +2,15 @@ from persistent import Persistent
 from icepapdrivercfg import IcepapDriverCfg
 from conflict import Conflict
 import socket, time
+from icepapdef import *
+import icepapcontroller
 
 class IcepapDriver(Persistent):
-    def __init__(self, icepap_name, addr, cratenr, drivernr, name = None, nemonic = None):
+    def __init__(self, icepap_name, addr, cratenr, drivernr, name = None):
         if name == None:
             name = ""
-        if nemonic == None:
-            nemonic = ""
         self.icepap_name = icepap_name
         self.name = name
-        self.nemonic = nemonic
         self.addr = addr
         self.cratenr = cratenr
         self.drivernr = drivernr
@@ -19,6 +18,7 @@ class IcepapDriver(Persistent):
         self.startupCfg = None
         self.historicCfg = {}
         self.conflict = Conflict.NO_CONFLICT
+        self.mode = None
         
     def setConflict(self, conflict):
         self.conflict = conflict
@@ -36,12 +36,13 @@ class IcepapDriver(Persistent):
         self._p_changed = True     
     
     def signDriver(self):
-        signature = socket.gethostname() + "_" + str(time.time())
+        signature = socket.gethostname() #+ "_" + str(time.time())
+        icepapcontroller.IcepapController().signDriverConfiguration(self.icepap_name, self.addr, signature)
         self.currentCfg.name = time.ctime()
-        self.currentCfg.signConfig(signature)
-        
+        self.currentCfg.signConfig(signature)        
         self.startupCfg = self.currentCfg
         self.conflict = Conflict.NO_CONFLICT
+        self.mode = IcepapMode.OPER
         self.historicCfg[(time.time())] = self.currentCfg
     
     def setStartupCfg(self):
@@ -72,14 +73,10 @@ class IcepapDriver(Persistent):
         self._p_changed = True
         
     def __cmp__(self, other):
+        self.mode = other.mode
         
-        res = (self.currentCfg == other.currentCfg)
-        
-        if not res:
-            if self.currentCfg.signature is None:
-                self.setConflict(Conflict.DRIVER_CFG)
-            else:
-                self.setConflict(Conflict.NO_CONFLICT)
-
+        res = (self.currentCfg == other.currentCfg)        
+        if not res:            
+            self.setConflict(Conflict.NO_CONFLICT)
         return res
         

@@ -32,6 +32,11 @@ class DialogDriverConflict(QtGui.QDialog):
         root  = doc.documentElement
         row = 0
         for section in root.getElementsByTagName("section"):
+            if section.nodeType == Node.ELEMENT_NODE:
+                    section_name =  section.attributes.get('name').value
+            inTestSection = (section_name == "test")
+            if inTestSection:
+                return
             for pars in section.getElementsByTagName("par"):
                 if pars.nodeType == Node.ELEMENT_NODE:
                     self.ui.tableWidget.insertRow(row)
