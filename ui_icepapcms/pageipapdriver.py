@@ -4,7 +4,7 @@ from qrc_icepapcms import *
 from xml.dom import minidom, Node
 from xml.dom.minidom import getDOMImplementation
 from Led import Led
-from  lib_icepapcms import MainManager, IcepapSignal, IcepapSignalCfg, IcepapSignalSrc
+from lib_icepapcms import *
 from messagedialogs import MessageDialogs
 from dialoghistoriccfg import DialogHistoricCfg
 from dialogtemplate import DialogTemplate
@@ -88,18 +88,7 @@ class PageiPapDriver(QtGui.QWidget):
         self.ui.sa2.setFrameStyle(QtGui.QFrame.NoFrame)
         self.ui.sahboxlayout2.addWidget(self.ui.sa2)
         
-        self.ui.sahboxlayout3 = QtGui.QHBoxLayout(self.ui.tab_aux)
-        self.ui.sahboxlayout3.setMargin(9)
-        self.ui.sahboxlayout3.setSpacing(6)
-        self.ui.sahboxlayout3.setObjectName("sahboxlayout3")
-        self.ui.sa3 = QtGui.QScrollArea(self.ui.tab_aux) 
-        self.ui.sa3.setAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignHCenter)
-        self.ui.aux_widget.setParent(None)
-        self.ui.sa3.setWidget(self.ui.aux_widget)
-        self.ui.sa3.setHorizontalScrollBarPolicy(Qt.Qt.ScrollBarAsNeeded)
-        self.ui.sa3.setVerticalScrollBarPolicy(Qt.Qt.ScrollBarAsNeeded)
-        self.ui.sa3.setFrameStyle(QtGui.QFrame.NoFrame)
-        self.ui.sahboxlayout3.addWidget(self.ui.sa3)
+        
 
         
         #self.ui.txtDriverName.setValidator(QtGui.QIntValidator(1,100,self))
@@ -115,16 +104,16 @@ class PageiPapDriver(QtGui.QWidget):
         QtCore.QObject.connect(self.ui.btnGORelativeNeg,QtCore.SIGNAL("clicked()"),self.btnGORelativeNeg_on_click)
         QtCore.QObject.connect(self.ui.btnEnable,QtCore.SIGNAL("clicked(bool)"),self.endisDriver)
         QtCore.QObject.connect(self.ui.btnStopMotor,QtCore.SIGNAL("clicked()"),self.btnStopMotor_on_click)
-        QtCore.QObject.connect(self.ui.BtnSetPos,QtCore.SIGNAL("clicked()"),self.BtnSetPos_on_click)
+        #QtCore.QObject.connect(self.ui.BtnSetPos,QtCore.SIGNAL("clicked()"),self.BtnSetPos_on_click)
         #QtCore.QObject.connect(self.ui.toolBox,QtCore.SIGNAL("currentChanged(int)"),self.toolBox_current_changed)
         QtCore.QObject.connect(self.ui.txtSpeed,QtCore.SIGNAL("editingFinished()"),self.setMotionValues)
         QtCore.QObject.connect(self.ui.txtAcceleration,QtCore.SIGNAL("editingFinished()"),self.setMotionValues)
         QtCore.QObject.connect(self.refreshTimer,QtCore.SIGNAL("timeout()"),self.updateTestStatus)
-        QtCore.QObject.connect(self.ui.chbSyncIn, QtCore.SIGNAL("stateChanged(int)"), self.chbSyncInChanged)
-        QtCore.QObject.connect(self.ui.chbSyncOut, QtCore.SIGNAL("stateChanged(int)"), self.chbSyncOutChanged)
+        #QtCore.QObject.connect(self.ui.chbSyncIn, QtCore.SIGNAL("stateChanged(int)"), self.chbSyncInChanged)
+        #QtCore.QObject.connect(self.ui.chbSyncOut, QtCore.SIGNAL("stateChanged(int)"), self.chbSyncOutChanged)
         
-        QtCore.QObject.connect(self.ui.listPredefined, QtCore.SIGNAL("currentTextChanged (const QString&)"), self.loadPredefinedSignalCfg)
-        QtCore.QObject.connect(self.ui.btnClear,QtCore.SIGNAL("clicked()"),self.resetSignalsTab)
+        #QtCore.QObject.connect(self.ui.listPredefined, QtCore.SIGNAL("currentTextChanged (const QString&)"), self.loadPredefinedSignalCfg)
+        #QtCore.QObject.connect(self.ui.btnClear,QtCore.SIGNAL("clicked()"),self.resetSignalsTab)
         
         #QtCore.QObject.connect(self.ui.sliderJog,QtCore.SIGNAL("sliderMoved(int)"),self.startJogging)
         QtCore.QObject.connect(self.ui.sliderJog,QtCore.SIGNAL("valueChanged(int)"),self.sliderChanged)
@@ -141,11 +130,17 @@ class PageiPapDriver(QtGui.QWidget):
         if isinstance(widget, QtGui.QDoubleSpinBox) or isinstance(widget, QtGui.QSpinBox):
                 if widget.defaultvalue != widget.value():
                     highlight = True
+                    widget.setStyleSheet("background-color: rgb(255, 255, 0)")
         elif isinstance(widget, QtGui.QCheckBox):
                 if widget.defaultvalue != widget.isChecked():
                     highlight = True
+                    widget.setStyleSheet("background-color: rgb(255, 255, 0)")
+        elif isinstance(widget, QtGui.QComboBox):
+            if widget.defaultvalue != str(widget.currentText()).upper():
+                highlight = True
+                widget.setStyleSheet(" QComboBox::drop-down {background-color: yellow;}")
+                
         if highlight:
-            widget.setStyleSheet("background-color: rgb(255, 255, 0)")
             if not widget in self.main_modified:
                 self.main_modified.append(widget)
             
@@ -164,33 +159,6 @@ class PageiPapDriver(QtGui.QWidget):
                 widget.setStyleSheet("")
         QtCore.QObject.disconnect(self.signalMapper, QtCore.SIGNAL("mapped(QWidget*)"),self.highlightWidget)
           
-    def toolBox_current_changed(self, index):
-        if index == 0:
-            self.stopTesting()
-        else:
-            print "here"
-            self.startTesting()
-    
-    def chbSyncInChanged(self, st):
-        if st:
-            self.ui.chbSyncOut.setChecked(False)
-            
-    def chbSyncOutChanged(self, st):
-        if st:
-            self.ui.chbSyncIn.setChecked(False)
-        
-    def resetSignalsTab(self):
-         self.ui.chbInPos.setChecked(False)
-         self.ui.chbEncIn.setChecked(False)
-         self.ui.chbSyncIn.setChecked(False)
-         self.ui.chbSyncOut.setChecked(False)
-         self.ui.chbOutPos.setChecked(False)
-         self.ui.chbTarget.setChecked(False)
-         self.ui.chbAuxPos1.setChecked(False)
-         self.ui.chbAuxPos2.setChecked(False)
-         self.ui.listPredefined.clearSelection()
-         #self.ui.listPredefined.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
-         
 # ------------------------------  Configuration ----------------------------------------------------------    
     def _readConfigTemplate(self):
         doc = minidom.parse(self.config_template)
@@ -200,8 +168,9 @@ class PageiPapDriver(QtGui.QWidget):
         for section in root.getElementsByTagName("section"):
             if section.nodeType == Node.ELEMENT_NODE:
                     section_name =  section.attributes.get('name').value
-            inMainSection = (section_name == "main") 
-            if not inMainSection:
+            inMainSection = (section_name == "main")
+            inTest =  (section_name == "test")
+            if not inMainSection and not inTest:
                 self._addSectionTab(section_name)
                 
             for pars in section.getElementsByTagName("par"):
@@ -212,7 +181,7 @@ class PageiPapDriver(QtGui.QWidget):
                     parname = parname.strip()
                     partype =  pars.attributes.get('type').value
                     partype = partype.strip()
-                    if partype != "BOOL":
+                    if partype != "BOOL" and partype != "STRING":
                         parmin =  pars.attributes.get('min').value
                         parmin = parmin.strip()
                         parmax =  pars.attributes.get('max').value
@@ -225,10 +194,12 @@ class PageiPapDriver(QtGui.QWidget):
                             print parid + " not found in GUI"
                         else:                            
                             self.var_dict[parname] = [nsection, widget]
+                    elif inTest:
+                        pass
                     else:
                         self.var_dict[parname] = [nsection, row]
                     
-                    if not inMainSection:
+                    if not inMainSection and not inTest:
                         
                         self.sectionTables[nsection].insertRow(row)
                         self._addItemToTable(nsection, row, 0, parname, False)
@@ -238,40 +209,40 @@ class PageiPapDriver(QtGui.QWidget):
             row = 0
             nsection = nsection + 1
             
-        for inout in root.getElementsByTagName("inout"):
-            for cfg in inout.getElementsByTagName("cfg"):
-                if cfg.nodeType == Node.ELEMENT_NODE:
-                    cfgname =  cfg.attributes.get('name').value
-                    self.ui.listPredefined.addItem(cfgname)
-                    cfg_list = []
-                    
-                    for input in cfg.getElementsByTagName("input"):
-                        if input.nodeType == Node.ELEMENT_NODE:
-                            name =  input.attributes.get('name').value
-                            mode =  input.attributes.get('mode').value
-                            edge =  input.attributes.get('edge').value
-                            direction =  input.attributes.get('direction').value
-                            cfg_list.append(["input", name, [int(mode),int(edge),int(direction)]])
-                            
-                    
-                    for output in cfg.getElementsByTagName("output"):
-                        if output.nodeType == Node.ELEMENT_NODE:
-                            name =  output.attributes.get('name').value
-                            src =  output.attributes.get('src').value
-                            mode =  output.attributes.get('mode').value
-                            edge =  output.attributes.get('edge').value
-                            pulse_width =  output.attributes.get('pulse_width').value
-                            direction =  output.attributes.get('direction').value
-                            cfg_list.append(["output", name, [int(src), int(mode),int(edge),int(direction), int(pulse_width)]])
-                            
-                    
-                    for counter in cfg.getElementsByTagName("counter"):
-                        if counter.nodeType == Node.ELEMENT_NODE:
-                            name = counter.attributes.get('name').value
-                            src = counter.attributes.get('src').value
-                            cfg_list.append(["counter", name , [int(src)]])
-                            
-                    self.inout_cfgs[cfgname] = cfg_list
+#        for inout in root.getElementsByTagName("inout"):
+#            for cfg in inout.getElementsByTagName("cfg"):
+#                if cfg.nodeType == Node.ELEMENT_NODE:
+#                    cfgname =  cfg.attributes.get('name').value
+#                    self.ui.listPredefined.addItem(cfgname)
+#                    cfg_list = []
+#                    
+#                    for input in cfg.getElementsByTagName("input"):
+#                        if input.nodeType == Node.ELEMENT_NODE:
+#                            name =  input.attributes.get('name').value
+#                            mode =  input.attributes.get('mode').value
+#                            edge =  input.attributes.get('edge').value
+#                            direction =  input.attributes.get('direction').value
+#                            cfg_list.append(["input", name, [int(mode),int(edge),int(direction)]])
+#                            
+#                    
+#                    for output in cfg.getElementsByTagName("output"):
+#                        if output.nodeType == Node.ELEMENT_NODE:
+#                            name =  output.attributes.get('name').value
+#                            src =  output.attributes.get('src').value
+#                            mode =  output.attributes.get('mode').value
+#                            edge =  output.attributes.get('edge').value
+#                            pulse_width =  output.attributes.get('pulse_width').value
+#                            direction =  output.attributes.get('direction').value
+#                            cfg_list.append(["output", name, [int(src), int(mode),int(edge),int(direction), int(pulse_width)]])
+#                            
+#                    
+#                    for counter in cfg.getElementsByTagName("counter"):
+#                        if counter.nodeType == Node.ELEMENT_NODE:
+#                            name = counter.attributes.get('name').value
+#                            src = counter.attributes.get('src').value
+#                            cfg_list.append(["counter", name , [int(src)]])
+#                            
+#                    self.inout_cfgs[cfgname] = cfg_list
         
             
         
@@ -352,7 +323,10 @@ class PageiPapDriver(QtGui.QWidget):
             type = QValidateLineEdit.INTEGER
         elif type == "DOUBLE":
             type = QValidateLineEdit.DOUBLE
-            
+        elif type == "STRING":
+            le = QtGui.QLineEdit(Table)
+            table.setCellWidget(row, column, le)
+            return
         le = QValidateLineEdit(table, type , min, max)
         table.setCellWidget(row, column, le)
             
@@ -362,15 +336,18 @@ class PageiPapDriver(QtGui.QWidget):
     def fillData(self, icepap_driver):
         #self.ui.tabWidget.setCurrentIndex(0)
         self._disconnectHighlighting()
-        self.resetSignalsTab()
+        #self.resetSignalsTab()
         self.icepap_driver = icepap_driver
         description = "Icepap: %s  -  Crate: %s  -  Addr: %s  -  Firmware version: %s\n" % (icepap_driver.icepap_name, icepap_driver.cratenr, icepap_driver.addr, icepap_driver.currentCfg.getAttribute("VER"))
         if self.icepap_driver.currentCfg.signature:
-            aux = self.icepap_driver.currentCfg.signature.split('_')
-            description = description + "Signed on %s %s" % (aux[0], time.ctime(float(aux[1])))
+            description = description + "Last signature %s " % self.icepap_driver.currentCfg.signature
+            #aux = self.icepap_driver.currentCfg.signature.split('_')
+            #description = description + "Signed on %s %s" % (aux[0], time.ctime(float(aux[1])))
         else:
-            self._mainwin.addDriverToSign(self.icepap_driver)
+            
             description = description + "Current configuration not signed"
+        if self.icepap_driver.mode == IcepapMode.CONFIG:
+            self._mainwin.addDriverToSign(self.icepap_driver)
         self.ui.txtDescription.setText(description)
         self.ui.txtDriverName.setText(self.icepap_driver.name)
         #self.ui.txtDriverNemonic.setText(self.icepap_driver.nemonic)
@@ -394,6 +371,9 @@ class PageiPapDriver(QtGui.QWidget):
             QtCore.QObject.connect(widget, QtCore.SIGNAL("valueChanged (const QString&)"), self.signalMapper, QtCore.SLOT("map()"))
         elif isinstance(widget, QtGui.QCheckBox):
             QtCore.QObject.connect(widget, QtCore.SIGNAL("stateChanged(int)"), self.signalMapper, QtCore.SLOT("map()"))
+        elif isinstance(widget, QtGui.QComboBox):
+            QtCore.QObject.connect(widget, QtCore.SIGNAL("editTextChanged(const QString&)"), self.signalMapper, QtCore.SLOT("map()"))
+            QtCore.QObject.connect(widget, QtCore.SIGNAL("currentIndexChanged(const QString&)"), self.signalMapper, QtCore.SLOT("map()"))
     
     def _setWidgetValue(self, widget, value, default=True):
         try:
@@ -402,10 +382,14 @@ class PageiPapDriver(QtGui.QWidget):
                 if default:
                     widget.defaultvalue = widget.value()
             elif isinstance(widget, QtGui.QCheckBox):
-                state = value == "1"
+                state = (value == "1" or value == "YES")
                 if default:
                     widget.defaultvalue = state 
                 widget.setChecked(state)
+            elif isinstance(widget, QtGui.QComboBox):
+                widget.setCurrentIndex(widget.findText(value, QtCore.Qt.MatchFixedString))
+                widget.defaultvalue = value
+                
         except:
             print "error in _setWidgetValue"
     
@@ -415,9 +399,11 @@ class PageiPapDriver(QtGui.QWidget):
                 return widget.value()
             elif isinstance(widget, QtGui.QCheckBox):
                 if widget.isChecked():
-                    return 1
+                    return "YES"
                 else:
-                    return 0
+                    return "NO"
+            elif isinstance(widget, QtGui.QComboBox):
+                return str(widget.currentText()).upper()
         except:
             print "error in _getWidgetValue"
         
@@ -468,17 +454,18 @@ class PageiPapDriver(QtGui.QWidget):
                     try:
                         name = str(tableWidget.item(row,0).text())
                         #print str(le.type)
-                        if le.type == 0:
-                        #if name == "MICRO" or name =="PSW":
-                            val = int(val)
-                        else:
-                            val = float(val)
+                        if isinstance(le, QValidateLineEdit):
+                            if le.type == 0:
+                            #if name == "MICRO" or name =="PSW":
+                                val = int(val)
+                            else:
+                                val = float(val)
                         new_values.append([name, val])                    
                     except:
                         print "Unexpected error:", sys.exc_info()[0]
                         values_ok = False
                         break
-        self.configureSignals()
+        #self.configureSignals()
         if values_ok and len(new_values) > 0:
             
             ok = self._manager.saveValuesInIcepap(self.icepap_driver, new_values)
@@ -507,133 +494,7 @@ class PageiPapDriver(QtGui.QWidget):
                     self.loadOutputSignalCfg(name, cfg[2])
                 elif type == "counter":
                     self.loadCounterSignalCfg(name, cfg[2])
-
-    def loadInputSignalCfg(self, name, cfg):
-        getattr(self.ui, "chb"+name).setChecked(True)        
-        getattr(self.ui, "cb"+name+"Mode").setCurrentIndex(cfg[0])
-        getattr(self.ui, "cb"+name+"Edge").setCurrentIndex(cfg[1])
-        getattr(self.ui, "cb"+name+"Dir").setCurrentIndex(cfg[2])
-    
-    def loadOutputSignalCfg(self, name, cfg):
-        getattr(self.ui, "chb"+name).setChecked(True)        
-        getattr(self.ui, "cb"+name+"Src").setCurrentIndex(cfg[0])
-        getattr(self.ui, "cb"+name+"Mode").setCurrentIndex(cfg[1])
-        getattr(self.ui, "cb"+name+"Edge").setCurrentIndex(cfg[2])
-        getattr(self.ui, "cb"+name+"Dir").setCurrentIndex(cfg[3])
-        getattr(self.ui, "cb"+name+"Pulse").setCurrentIndex(cfg[4])
-        
-    def loadCounterSignalCfg(self, name, cfg):
-        getattr(self.ui, "chb"+name).setChecked(True)        
-        getattr(self.ui, "cb"+name+"Src").setCurrentIndex(cfg[0])
-            
-    def configureSignals(self):
-        
-        # Configure Inputs        
-        if self.ui.chbInPos.isChecked():
-            mode = self.ui.cbInPosMode.currentIndex()
-            edge = self.ui.cbInPosEdge.currentIndex()
-            dir = self.ui.cbInPosDir.currentIndex()
-            self._manager.configureInputSignal(self.icepap_driver.icepap_name, self.icepap_driver.addr, IcepapSignal.InPos, mode, edge, dir)
-        
-        if self.ui.chbEncIn.isChecked():
-            mode = self.ui.cbEncInMode.currentIndex()
-            edge = self.ui.cbEncInEdge.currentIndex()
-            dir = self.ui.cbEncInDir.currentIndex()
-            self._manager.configureInputSignal(self.icepap_driver.icepap_name, self.icepap_driver.addr, IcepapSignal.EncIn, mode, edge, dir)
-        
-        if self.ui.chbSyncIn.isChecked():
-            mode = self.ui.cbSyncInMode.currentIndex()
-            edge = self.ui.cbSyncInEdge.currentIndex()
-            dir = self.ui.cbSyncInDir.currentIndex()
-            self._manager.configureInputSignal(self.icepap_driver.icepap_name, self.icepap_driver.addr, IcepapSignal.SyncIn, mode, edge, dir)
-        
-        # Configure Outputs
-        if self.ui.chbSyncOut.isChecked():
-            mode = self.ui.cbSyncOutMode.currentIndex()
-            src = self.ui.cbSyncOutSrc.currentIndex()
-            edge = self.ui.cbSyncOutEdge.currentIndex()
-            dir = self.ui.cbSyncOutDir.currentIndex()
-            pulse = self.ui.cbSyncOutPulse.currentIndex()
-            self._manager.configureOutputSignal(self.icepap_driver.icepap_name, self.icepap_driver.addr, IcepapSignal.SyncOut, src, mode, edge, dir, pulse)
-        
-        if self.ui.chbOutPos.isChecked():
-            src = self.ui.cbOutPosSrc.currentIndex()
-            mode = self.ui.cbOutPosMode.currentIndex()
-            edge = self.ui.cbOutPosEdge.currentIndex()
-            dir = self.ui.cbOutPosDir.currentIndex()
-            pulse = self.ui.cbOutPosPulse.currentIndex()
-            self._manager.configureOutputSignal(self.icepap_driver.icepap_name, self.icepap_driver.addr, IcepapSignal.OutPos, src, mode, edge, dir, pulse)
-        
-        
-        # Configure Counters
-        if self.ui.chbTarget.isChecked():
-            src = self.ui.cbTargetSrc.currentIndex()
-            self._manager.setCounterSource(self.icepap_driver.icepap_name, self.icepap_driver.addr, IcepapSignalSrc.Target, src)
-            
-        
-        if self.ui.chbAuxPos1.isChecked():
-            src = self.ui.cbAuxPos1Src.currentIndex()
-            self._manager.setCounterSource(self.icepap_driver.icepap_name, self.icepap_driver.addr, IcepapSignalSrc.AuxPos1, src)
-        
-        if self.ui.chbAuxPos2.isChecked():
-            src = self.ui.cbAuxPos2Src.currentIndex()
-            self._manager.setCounterSource(self.icepap_driver.icepap_name, self.icepap_driver.addr, IcepapSignalSrc.AuxPos2, src)
-        
-        self.configureAuxSignals()
-    
-    def configureAuxSignals(self):
-        # Configure Aux Inputs        
-        if self.ui.chbInPosAux.isChecked():
-            polarity = self.ui.cbInPosAuxPol.currentIndex()
-            self._manager.configureAuxInputSignal(self.icepap_driver.icepap_name, self.icepap_driver.addr, IcepapSignal.InPosAux, polarity)
-        
-        if self.ui.chbEncAux.isChecked():
-            polarity = self.ui.cbEncAuxPol.currentIndex()
-            self._manager.configureAuxInputSignal(self.icepap_driver.icepap_name, self.icepap_driver.addr, IcepapSignal.EncAux, polarity)
-        
-        if self.ui.chbLimitPos.isChecked():
-            polarity = self.ui.cbLimitPosPol.currentIndex()
-            self._manager.configureAuxInputSignal(self.icepap_driver.icepap_name, self.icepap_driver.addr, IcepapSignal.LimitPos, polarity)
-        
-        if self.ui.chbLimitNeg.isChecked():
-            polarity = self.ui.cbLimitNegPol.currentIndex()
-            self._manager.configureAuxInputSignal(self.icepap_driver.icepap_name, self.icepap_driver.addr, IcepapSignal.LimitNeg, polarity)
-        
-        if self.ui.chbHome.isChecked():
-            polarity = self.ui.cbHomePol.currentIndex()
-            self._manager.configureAuxInputSignal(self.icepap_driver.icepap_name, self.icepap_driver.addr, IcepapSignal.Home, polarity)
-        
-        if self.ui.chbSyncAuxIn.isChecked():
-            polarity = self.ui.cbSyncAuxInPol.currentIndex()
-            self._manager.configureAuxInputSignal(self.icepap_driver.icepap_name, self.icepap_driver.addr, IcepapSignal.SyncAuxIn, polarity)
-        
-        # Configure Aux Inputs        
-        if self.ui.chbSyncAuxOut.isChecked():
-            polarity = self.ui.cbSyncAuxOutPol.currentIndex()
-            src = self.ui.cbSyncAuxOutSrc.currentIndex()
-            self._manager.configureAuxOutputSignal(self.icepap_driver.icepap_name, self.icepap_driver.addr, IcepapSignal.SyncAuxOut, src, polarity)
-        
-        if self.ui.chbOutPosAux.isChecked():
-            polarity = self.ui.cbOutPosAuxPol.currentIndex()
-            src = self.ui.cbOutPosAuxSrc.currentIndex()
-            self._manager.configureAuxOutputSignal(self.icepap_driver.icepap_name, self.icepap_driver.addr, IcepapSignal.OutPosAux, src, polarity)
                
-        if self.ui.chbInfoA.isChecked():
-            polarity = self.ui.cbInfoAPol.currentIndex()
-            src = self.ui.cbInfoASrc.currentIndex()
-            self._manager.configureAuxOutputSignal(self.icepap_driver.icepap_name, self.icepap_driver.addr, IcepapSignal.InfoA, src, polarity)
-        
-        if self.ui.chbInfoB.isChecked():
-            polarity = self.ui.cbInfoBPol.currentIndex()
-            src = self.ui.cbInfoBSrc.currentIndex()
-            self._manager.configureAuxOutputSignal(self.icepap_driver.icepap_name, self.icepap_driver.addr, IcepapSignal.InfoB, src, polarity)
-        
-        if self.ui.chbInfoC.isChecked():
-            polarity = self.ui.cbInfoCPol.currentIndex()
-            src = self.ui.cbInfoCSrc.currentIndex()
-            self._manager.configureAuxOutputSignal(self.icepap_driver.icepap_name, self.icepap_driver.addr, IcepapSignal.InfoC, src, polarity)
-        
-           
     def btnUndo_on_click(self):
         self._manager.undoDriverConfiguration(self.icepap_driver)
         self.fillData(self.icepap_driver)
@@ -726,9 +587,11 @@ class PageiPapDriver(QtGui.QWidget):
 # ------------------------------  Testing ----------------------------------------------------------            
     def startTesting(self):
         if not self.icepap_driver is None:
-            self.getMotionValues()
             self.inMotion = -1
             self.status = -1
+            self.ready = -1
+            self.mode = -1
+            self.power = -1
             #self._manager.enableDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr)
             self.updateTestStatus()
             self.refreshTimer.start(1500)
@@ -741,6 +604,7 @@ class PageiPapDriver(QtGui.QWidget):
     
     def getMotionValues(self):
         (speed, acc) = self._manager.getDriverMotionValues(self.icepap_driver.icepap_name, self.icepap_driver.addr)
+        print "getting motion valuies"
         self.ui.txtSpeed.setText(str(speed))
         self.ui.txtAcceleration.setText(str(acc))
     
@@ -764,13 +628,42 @@ class PageiPapDriver(QtGui.QWidget):
         self.ui.LedHome.off()
         self.ui.LedLimitPos.off()
         self.ui.LedLimitNeg.off()
-
         self.ui.LCDPosition.display(0)
-        self.ui.sbFactor.setValue(1)
+        #self.ui.sbFactor.setValue(1)
+    
+    def disableAllControl(self):
+        self.ui.txtSpeed.setEnabled(False)
+        self.ui.txtAcceleration.setEnabled(False)
+        self.ui.btnGO.setEnabled(False)
+        self.ui.btnGORelativeNeg.setEnabled(False)
+        self.ui.btnGORelativePos.setEnabled(False)
+        self.ui.sliderJog.setEnabled(False)
+        self.ui.btnEnable.setEnabled(False)
+        self.ui.btnStopMotor.setEnabled(False)
+    
+    def enableAllControl(self):
+        self.ui.txtSpeed.setEnabled(True)
+        self.ui.txtAcceleration.setEnabled(True)
+        self.ui.btnGO.setEnabled(True)
+        self.ui.btnGORelativeNeg.setEnabled(True)
+        if self.mode == 0:
+            self.ui.btnGO.setEnabled(True)
+            self.ui.sliderJog.setEnabled(True)
+        else:
+            self.ui.btnGO.setEnabled(False)
+            self.ui.sliderJog.setEnabled(False)
+        self.ui.btnEnable.setEnabled(True)
+        self.ui.btnStopMotor.setEnabled(True)
         
+                
     def updateTestStatus(self):
-        (disabled, moving, switches, position) = self._manager.getDriverTestStatus(self.icepap_driver.icepap_name, self.icepap_driver.addr)
-        self.StepSize = self.ui.sbFactor.value()           
+        (status, power, position) = self._manager.getDriverTestStatus(self.icepap_driver.icepap_name, self.icepap_driver.addr)
+        
+        #self.StepSize = self.ui.sbFactor.value()           
+        disabled = IcepapStatus.isDisabled(status)
+        moving = IcepapStatus.isMoving(status)
+        ready = IcepapStatus.isReady(status)
+        mode = IcepapStatus.getMode(status)
         if self.inMotion <> moving:
             if moving == 1:
                 self.refreshTimer.setInterval(750)
@@ -781,77 +674,77 @@ class PageiPapDriver(QtGui.QWidget):
                 self.refreshTimer.setInterval(1500)
                 self.ui.LedStep.off()
         self.inMotion = moving                
-        if self.status <> disabled:
+        
+        if self.status <> disabled or self.mode <> mode or self.power <> power or self.ready <> ready:
             if disabled == 0:
-                self.ui.LedError.changeColor(Led.GREEN)
-                self.ui.btnEnable.setText("disable")
-                self.ui.btnEnable.setChecked(True)
-                self.ui.LedError.on()
-            else:
+                if power:
+                    self.ui.LedError.changeColor(Led.GREEN)
+                    self.ui.LedError.on()
+                    self.ui.btnEnable.setEnabled(True)
+                    self.getMotionValues()
+                    self.mode = mode
+                    self.enableAllControl()
+                    self.ui.btnEnable.setText("disable")
+                    self.ui.btnEnable.setChecked(True)
+                else:
+                    self.ui.btnEnable.setEnabled(True)
+                    self.ui.btnEnable.setText("enable")
+                    self.ui.btnEnable.setChecked(False)
+                    self.ui.LedError.changeColor(Led.RED)
+                    self.ui.LedError.on()                    
+            elif disabled == 1:
+                # driver is not active disable motion and enable
+                self.disableAllControl()
                 self.ui.LedError.changeColor(Led.RED)
                 self.ui.LedError.on()
+            else:
+                self.ui.btnEnable.setEnabled(True)
                 self.ui.btnEnable.setText("enable")
                 self.ui.btnEnable.setChecked(False)
+                self.ui.LedError.changeColor(Led.RED)
+                self.ui.LedError.on()
+
+               
         
         self.status = disabled
+        self.ready = ready   
+        self.power = power 
             
-            
-        position =  position / self.StepSize
-        if int(position) == 0:
+        #position =  position / self.StepSize
+        if IcePAPStatus.inHome(status):
             self.ui.LedHome.on()
         else:
             self.ui.LedHome.off()
-        if switches == 0:
-            self.ui.LedLimitNeg.off()
-            self.ui.LedLimitPos.off()
-        elif switches == 2:
+        
+        lower = IcePAPStatus.getLimitNegative(status) 
+        upper = IcePAPStatus.getLimitPositive(status)
+        if lower:
             self.ui.LedLimitNeg.on()
-            self.ui.LedLimitPos.off()
-        elif switches == 4:
-            self.ui.LedLimitPos.on()
+        else:
             self.ui.LedLimitNeg.off()
-        elif switches == 6:
+        
+        if upper:
             self.ui.LedLimitPos.on()
-            self.ui.LedLimitNeg.on()            
+        else:
+            self.ui.LedLimitPos.off()
+        
         self.ui.LCDPosition.display(position)
 
                 
     def btnGO_on_click(self):
         new_position = self.ui.txtMvAbsolute.text()
-        #try:
-        new_position = float(new_position)
-        
-        new_position = new_position * self.StepSize
-        (disabled, moving, switches, position) = self._manager.getDriverTestStatus(self.icepap_driver.icepap_name, self.icepap_driver.addr)
-
-        
-        if ((new_position-float(new_position)) >= 0.5):
-            new_position = new_position + 0.5
-    
-        steps = int(position) - new_position
-        
-        
-        direction = steps < 0
-        if steps != 0:
-            #self._manager.stopDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr)
-            self._manager.moveDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr, abs(int(steps)), direction)
-        #except:
-        #    MessageDialogs.showWarningMessage(self, "Driver testing", "Wrong parameter format")
+        try:
+            new_position = int(new_position)
+            self._manager.moveDriverAbsolute(self.icepap_driver.icepap_name, self.icepap_driver.addr, new_position)
+        except:
+            MessageDialogs.showWarningMessage(self, "Driver testing", "Wrong parameter format")
             
     def btnGORelativePos_on_click(self):
         distance = self.ui.txtGORelative.text()
         try:
-            direction = True
-            distance = abs(float(distance))
-            distance = distance * self.StepSize
-            if ((distance-float(distance)) >= 0.5):
-                distance = distance + 0.5
-        
-            steps = distance
-
-            if steps != 0:
-                #self._manager.stopDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr)
-                self._manager.moveDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr, abs(int(steps)), direction)
+            distance = int(distance)
+            steps = +distance
+            self._manager.moveDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr, steps)
 
         except:
             MessageDialogs.showWarningMessage(self, "Driver testing", "Wrong parameter format")
@@ -860,17 +753,9 @@ class PageiPapDriver(QtGui.QWidget):
     def btnGORelativeNeg_on_click(self):
         distance = self.ui.txtGORelative.text()
         try:
-            direction = False
-            distance = abs(float(distance))
-            distance = distance * self.StepSize
-            if ((distance-float(distance)) >= 0.5):
-                distance = distance + 0.5
-        
-            steps = distance
-	    
-            if steps != 0:
-                #self._manager.stopDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr)
-                self._manager.moveDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr, abs(int(steps)), direction)
+            distance = int(distance)
+            steps = -distance
+            self._manager.moveDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr, steps)
 
         except:
             MessageDialogs.showWarningMessage(self, "Driver testing", "Wrong parameter format")
@@ -878,8 +763,7 @@ class PageiPapDriver(QtGui.QWidget):
     def btnStopMotor_on_click(self):
         self._manager.stopDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr)
         
-    def BtnSetPos_on_click(self):
-        self._manager.setDriverPosition(self.icepap_driver.icepap_name, self.icepap_driver.addr, self.ui.sbPosition.value())
+    
     
     def sliderChanged(self, div):
         if self.ui.sliderJog.isSliderDown() or not self.sliderTimer.isActive():

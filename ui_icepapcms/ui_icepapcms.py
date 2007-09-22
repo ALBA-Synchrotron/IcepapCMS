@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'icepapcms.ui'
 #
-# Created: Tue Sep  4 09:41:28 2007
+# Created: Sat Sep 22 16:30:11 2007
 #      by: PyQt4 UI code generator 4.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -275,6 +275,12 @@ class Ui_IcepapCMS(object):
         self.actionDeleteIcepap = QtGui.QAction(IcepapCMS)
         self.actionDeleteIcepap.setIcon(QtGui.QIcon(":/small_icons/IcepapCFG Icons Petits/list-remove.png"))
         self.actionDeleteIcepap.setObjectName("actionDeleteIcepap")
+
+        self.actionUser_manual = QtGui.QAction(IcepapCMS)
+        self.actionUser_manual.setObjectName("actionUser_manual")
+
+        self.actionHardware_manual = QtGui.QAction(IcepapCMS)
+        self.actionHardware_manual.setObjectName("actionHardware_manual")
         self.menuFile.addAction(self.actionAddIcepap)
         self.menuFile.addAction(self.actionDeleteIcepap)
         self.menuFile.addSeparator()
@@ -292,6 +298,8 @@ class Ui_IcepapCMS(object):
         self.menuDriver.addAction(self.actionImport)
         self.menuView.addAction(self.actionTree_Explorer)
         self.menuView.addAction(self.actionToolbar)
+        self.menuHelp.addAction(self.actionUser_manual)
+        self.menuHelp.addAction(self.actionHardware_manual)
         self.menuHelp.addAction(self.actionHelp)
         self.menuHelp.addAction(self.actionAbout)
         self.menubar.addAction(self.menuFile.menuAction())
@@ -360,7 +368,7 @@ class Ui_IcepapCMS(object):
         self.actionSignConfig.setText(QtGui.QApplication.translate("IcepapCMS", "Sign Configuration", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSignConfig.setToolTip(QtGui.QApplication.translate("IcepapCMS", "Sign driver configuration", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSignConfig.setStatusTip(QtGui.QApplication.translate("IcepapCMS", "Ctrl+s", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionSignConfig.setShortcut(QtGui.QApplication.translate("IcepapCMS", "Ctrl+s", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionSignConfig.setShortcut(QtGui.QApplication.translate("IcepapCMS", "Ctrl+S", None, QtGui.QApplication.UnicodeUTF8))
         self.actionFirmwareUpgrade.setText(QtGui.QApplication.translate("IcepapCMS", "Firmware upgrade", None, QtGui.QApplication.UnicodeUTF8))
         self.actionFirmwareUpgrade.setToolTip(QtGui.QApplication.translate("IcepapCMS", "Open Firmware upgrade dialog", None, QtGui.QApplication.UnicodeUTF8))
         self.actionConsole.setText(QtGui.QApplication.translate("IcepapCMS", "Console", None, QtGui.QApplication.UnicodeUTF8))
@@ -368,12 +376,15 @@ class Ui_IcepapCMS(object):
         self.actionHistoricCfg.setText(QtGui.QApplication.translate("IcepapCMS", "Historic Configurations", None, QtGui.QApplication.UnicodeUTF8))
         self.actionHistoricCfg.setIconText(QtGui.QApplication.translate("IcepapCMS", "Historic Configurations", None, QtGui.QApplication.UnicodeUTF8))
         self.actionHistoricCfg.setToolTip(QtGui.QApplication.translate("IcepapCMS", "Historic configurations per driver", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionHistoricCfg.setShortcut(QtGui.QApplication.translate("IcepapCMS", "Ctrl+h", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionHistoricCfg.setShortcut(QtGui.QApplication.translate("IcepapCMS", "Ctrl+H", None, QtGui.QApplication.UnicodeUTF8))
         self.actionTemplates.setText(QtGui.QApplication.translate("IcepapCMS", "Templates", None, QtGui.QApplication.UnicodeUTF8))
         self.actionTemplates.setToolTip(QtGui.QApplication.translate("IcepapCMS", "Template managment", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionTemplates.setShortcut(QtGui.QApplication.translate("IcepapCMS", "Ctrl+t", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionTemplates.setShortcut(QtGui.QApplication.translate("IcepapCMS", "Ctrl+T", None, QtGui.QApplication.UnicodeUTF8))
         self.actionAddIcepap.setText(QtGui.QApplication.translate("IcepapCMS", "Add Icepap", None, QtGui.QApplication.UnicodeUTF8))
         self.actionAddIcepap.setToolTip(QtGui.QApplication.translate("IcepapCMS", "Add Icepap System to CMS Database", None, QtGui.QApplication.UnicodeUTF8))
         self.actionDeleteIcepap.setText(QtGui.QApplication.translate("IcepapCMS", "Delete Icepap", None, QtGui.QApplication.UnicodeUTF8))
         self.actionDeleteIcepap.setToolTip(QtGui.QApplication.translate("IcepapCMS", "Delete Icepap System from the CMS Database", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionUser_manual.setText(QtGui.QApplication.translate("IcepapCMS", "User manual", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionHardware_manual.setText(QtGui.QApplication.translate("IcepapCMS", "Hardware manual", None, QtGui.QApplication.UnicodeUTF8))
+
 

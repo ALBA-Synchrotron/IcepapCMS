@@ -1,6 +1,8 @@
 from pyIcePAP import EthIcePAP, IcePAPException, IcePAPStatus, IcePAP, SerialIcePAP
 from icepapdriver import IcepapDriver
 from icepapdrivercfg import IcepapDriverCfg
+from icepapdef import *
+from conflict import Conflict
 from xml.dom import minidom, Node
 import os
 import sys
@@ -46,22 +48,21 @@ class IcepapController(Singleton):
         """
         driver_list = {}
         try:
+            cratespresent = self.iPaps[icepap_name].getSysStatus()
+            cratespresent = int(cratespresent, 16)
             for cratenr in range(16):
-                cratepresent = False
-                for drivernr in range(1,9):
-                    addr = self._getDriverAddr(cratenr, drivernr)
-                    status = self._checkDriverStatus(icepap_name, addr)
-                    
-                    if status >= 0:
-                        # Driver Present
-                        driver = IcepapDriver(icepap_name, addr, cratenr, drivernr)
-                        driver_cfg = self.getDriverConfiguration(icepap_name, addr)
-                        driver.setConfiguration(driver_cfg)
-                        driver.signDriver()
-                        driver_list[addr] = driver
-                        cratepresent = True
-                if not cratepresent:
-                    break
+                if ((cratespresent >> cratenr) & 1) == 1:
+                    driversalive =  self.iPaps[icepap_name].getRackStatus(cratenr)[1]
+                    driversalive = int(driversalive, 16)
+                    for drivernr in range(0,8):
+                        if ((driversalive >> drivernr) & 1) == 1:
+                            addr = self._getDriverAddr(cratenr, drivernr+1)
+                            driver = IcepapDriver(icepap_name, addr, cratenr, drivernr)
+                            driver_cfg = self.getDriverConfiguration(icepap_name, addr)
+                            driver.setConfiguration(driver_cfg)
+                            mode = self.iPaps[icepap_name].getMode(addr)
+                            driver.mode = mode                            
+                            driver_list[addr] = driver
         except:
             print "Unexpected error:", sys.exc_info()[0]
             return {}
@@ -73,24 +74,40 @@ class IcepapController(Singleton):
             Returns a IcepaDriverCfg object of the attributes predefined in
             driverparameters.xml
         """
-        driver_cfg = IcepapDriverCfg()           
-        for name in self.config_parameters:
-            value = self.iPaps[icepap_name].readPar(driver_addr, name)
-            value = value.lstrip()
-            value = value.lstrip(name)
-            driver_cfg.setAttribute(name, value)
+        driver_cfg = IcepapDriverCfg()
+        driver_cfg.signature = self.iPaps[icepap_name].getConfigSignature(driver_addr)
         ver = self.iPaps[icepap_name].getVersionDsp(driver_addr)
-        driver_cfg.setAttribute("VER", ver)
+        driver_cfg.setAttribute("VER", ver)         
+        for name in self.config_parameters:
+            #print name
+            try:
+                value = self.iPaps[icepap_name].getCfgParamenter(driver_addr, name)
+            except:
+                value = "ERROR"
+            #print value
+            #value = value.lstrip()
+            #value = value.lstrip(name)
+            driver_cfg.setAttribute(name, value)
+        
         return driver_cfg
     
     def setDriverConfiguration(self, icepap_name, driver_addr, new_values):
         try:
+            if self.iPaps[icepap_name].getMode(driver_addr) != IcepapMode.CONFIG:
+                self.iPaps[icepap_name].startConfig(driver_addr)
             for (name, value) in new_values:
-                self.iPaps[icepap_name].writePar(driver_addr, name, str(value))
+                if name != "VER":
+                    self.iPaps[icepap_name].setCfgParameter(driver_addr, name, str(value))
             driver_cfg = self.getDriverConfiguration(icepap_name, driver_addr)    
             return driver_cfg
         except:
             return None
+        
+    def discardDriverCfg(self,icepap_name, driver_addr):
+        self.iPaps[icepap_name].signConfig(driver_addr, "")
+        
+    def signDriverConfiguration(self,icepap_name, driver_addr, signature):
+        self.iPaps[icepap_name].signConfig(driver_addr, signature)
    
     def getDriverStatus(self, icepap_name, driver_addr):
         """
@@ -99,26 +116,18 @@ class IcepapController(Singleton):
         
         register = self.iPaps[icepap_name].getStatus(driver_addr)
         
-        if "X" in register:
+        if "x" in register:
             register = int(register,16)
         else:
             register = int(register)
         
-        status = IcePAPStatus.isDisabled(register + 0) 
+        #status = IcePAPStatus.isDisabled(register) 
         
-        status = (status > 0)
-        lower = IcePAPStatus.getLimitNegative(register) 
-        upper = IcePAPStatus.getLimitPositive(register) 
-        #(lower, upper) = self.iPaps[icepap_name].getLimitSwitches(driver_addr)
-        switchstate = 0
-        if int(lower) == 1 and int(upper) == 1:
-            switchstate = 6
-        elif int(lower) == 1:
-            switchstate = 2
-        elif int(upper) == 1:
-            switchstate = 4
+        #status = (status > 0)
+        
         current = self.iPaps[icepap_name].getCurrent(driver_addr)
-        state = (int(status), switchstate, float(current))
+        
+        state = (int(register), float(current))
         return state
             
         
@@ -128,30 +137,25 @@ class IcepapController(Singleton):
         """
         
         register = self.iPaps[icepap_name].getStatus(driver_addr)
-        if "X" in register:
+        if "x" in register:
             register = int(register,16)
         else:
             register = int(register)
-        disabled = IcePAPStatus.isDisabled(register) 
-        disabled = (disabled > 0)
-        moving = IcePAPStatus.isMoving(register)
-        #(lower, upper) = self.iPaps[icepap_name].getLimitSwitches(driver_addr)
-        lower = IcePAPStatus.getLimitNegative(register) 
-        upper = IcePAPStatus.getLimitPositive(register) 
-        switchstate = 0
-        if int(lower) == 1 and int(upper) == 1:
-            switchstate = 6
-        elif int(lower) == 1:
-            switchstate = 2
-        elif int(upper) == 1:
-            switchstate = 4
-        position = self.iPaps[icepap_name].getPosition(driver_addr)
-        state = (int(disabled), moving, switchstate, float(position))
+        disabled = IcepapStatus.isDisabled(register)
+        if disabled <> 1:
+            # only if driver is active
+            position = self.iPaps[icepap_name].getPosition(driver_addr)
+            power = self.iPaps[icepap_name].getPower(driver_addr)
+            power = (power == IcepapAnswers.ON)
+        else:
+            position = -1
+            power = -1
+            
+        state = (int(register), power, float(position))
         return state
         
             
     def getDriverMotionValues(self, icepap_name, driver_addr):
-    
         speed = self.iPaps[icepap_name].getSpeed(driver_addr)
         acc = self.iPaps[icepap_name].getAcceleration(driver_addr)
         state = (speed, acc)
@@ -172,71 +176,24 @@ class IcepapController(Singleton):
             return 0
         except:
             return -1
-    
-    def configureInputSignal(self, icepap_name, driver_addr, signal, mode, edge, dir):
-        try:
-            cfg = mode | (edge << 1) | (dir << 2)
-            self.iPaps[icepap_name].configureInputSignal(driver_addr, signal, cfg)
-            if (signal == IcepapSignal.SyncIn):
-                self.iPaps[icepap_name].setSignalDirection(driver_addr, IcepapSignal.SyncIn, IcepapSignalCfg.INPUT)
-            return 0
-        except:
-            return -1
-    
-    def configureOutputSignal(self, icepap_name, driver_addr, signal, source, mode, edge, dir, pulse):
-        try:
-            cfg = mode | (edge << 1) | (dir << 2) | (pulse << 3)
-            self.iPaps[icepap_name].configureOutputSignal(driver_addr, signal, source, cfg)
-
-            if signal == IcepapSignal.SyncOut:
-                
-                self.iPaps[icepap_name].setSignalDirection(driver_addr, IcepapSignal.SyncIn, IcepapSignalCfg.OUTPUT)
-                
-            return 0
-        except:
-            
-            return -1
-    
-    def setCounterSource(self, icepap_name, driver_addr, counter, src):
-        try:
-            if counter == IcepapSignalSrc.Target: 
-                if src <> IcepapSignalSrc.DSPin:
-                    self.iPaps[icepap_name].setSilent(driver_addr, 0)
-                    self.iPas[icepap_name].sendWriteCommand(addr, "IDX_EXT 1")
-                else:
-                    self.iPas[icepap_name].sendWriteCommand(addr, "IDX_EXT 0")
-            self.iPaps[icepap_name].setCounterSource(driver_addr, counter, src)
-            return 0
-        except:
-            return -1
-    
-    def configureAuxInputSignal(self, icepap_name, driver_addr, signal, polarity):
-        try:
-            self.iPaps[icepap_name].configureAuxInputSignal(driver_addr, signal, polarity)
-            if (signal == IcepapSignal.SyncAuxIn):
-                self.iPaps[icepap_name].setSignalDirection(driver_addr, IcepapSignal.SyncAuxIn, IcepapSignalCfg.INPUT)
-            return 0
-        except:
-            return -1
-    
-    def configureAuxOutputSignal(self, icepap_name, driver_addr, signal, src, polarity):
-        try:
-            self.iPaps[icepap_name].configureAuxOutputSignal(driver_addr, signal, src, polarity)
-            if (signal == IcepapSignal.SyncAuxOut):
-                self.iPaps[icepap_name].setSignalDirection(driver_addr, IcepapSignal.SyncAuxIn, IcepapSignalCfg.OUTPUT)
-            return 0
-        except:
-            return -1
         
-    def moveDriver(self, icepap_name, driver_addr, steps, direction):
-        self.iPaps[icepap_name].setDirection(driver_addr, direction)
-        self.iPaps[icepap_name].go(driver_addr, steps)
+    def moveDriver(self, icepap_name, driver_addr, steps):
+        
+        if self.iPaps[icepap_name].getMode(driver_addr) == IcepapMode.CONFIG:
+            self.iPaps[icepap_name].cmove(driver_addr, steps)
+        else:
+            self.iPaps[icepap_name].rmove(driver_addr, steps)
+        
+    def moveDriverAbsolute(self, icepap_name, driver_addr, pos):
+        self.iPaps[icepap_name].move(driver_addr, pos)
         
     def stopDriver(self, icepap_name, driver_addr):
         self.iPaps[icepap_name].stopMotor(driver_addr)
     
-    def jogDriver(self, icepap_name, driver_addr, speed, direction):
-        self.iPaps[icepap_name].setDirection(driver_addr, direction)
+    def abortDriver(self, icepap_name, driver_addr):
+        self.iPaps[icepap_name].abortMotor(driver_addr)
+    
+    def jogDriver(self, icepap_name, driver_addr, speed):
         self.iPaps[icepap_name].jog(driver_addr, speed)
     
     def enableDriver(self, icepap_name, driver_addr):
@@ -269,10 +226,15 @@ class IcepapController(Singleton):
         doc = minidom.parse(self.config_template)
         root  = doc.documentElement
         for section in root.getElementsByTagName("section"):
+            if section.nodeType == Node.ELEMENT_NODE:
+                    section_name =  section.attributes.get('name').value
+            inTestSection = (section_name == "test")
+            if inTestSection:
+                return                
             for pars in section.getElementsByTagName("par"):
                 if pars.nodeType == Node.ELEMENT_NODE:
                     parname =  pars.attributes.get('name').value
-                    self.config_parameters.append(parname)
+                    self.config_parameters.append(str(parname))
     
     def getSerialPorts(self):
         try:
@@ -340,42 +302,3 @@ class IcepapController(Singleton):
         except:
             return False
         
-        
-                          
-
-
-class IcepapSignal:
-    InPos = 9
-    OutPos = 19
-    SyncIn = 10
-    SyncOut = 18
-    EncIn = 8
-    InPosAux=6
-    OutPosAux=17
-    SyncAuxIn=7
-    SyncAuxOut=13
-    EncAux=5
-    LimitPos=3
-    LimitNeg=2
-    Home=4
-    InfoA=14
-    InfoB=15
-    InfoC=16
-    
-class IcepapSignalCfg:
-    QUADRATURE, STEPDIR = range(2)
-    RISING, FALLING = range(2)
-    NORMAL, INVERTED = range(2)
-    W50NS, W200NS, W2US, W20US = range(4)
-    INPUT, OUTPUT = range(2)
-class IcepapSignalSrc:
-    EncIn, InPos, SyncIn, DSPin = range(4)
-    Target, AuxPos1, AuxPos2 = range(3)
-
-    
-                    
-                    
-                    
-        
-
-

@@ -253,6 +253,8 @@
     <property name="title" >
      <string>Help</string>
     </property>
+    <addaction name="actionUser_manual" />
+    <addaction name="actionHardware_manual" />
     <addaction name="actionHelp" />
     <addaction name="actionAbout" />
    </widget>
@@ -584,7 +586,7 @@
     <string>Ctrl+s</string>
    </property>
    <property name="shortcut" >
-    <string>Ctrl+s</string>
+    <string>Ctrl+S</string>
    </property>
   </action>
   <action name="actionFirmwareUpgrade" >
@@ -626,7 +628,7 @@
     <string>Historic configurations per driver</string>
    </property>
    <property name="shortcut" >
-    <string>Ctrl+h</string>
+    <string>Ctrl+H</string>
    </property>
   </action>
   <action name="actionTemplates" >
@@ -640,7 +642,7 @@
     <string>Template managment</string>
    </property>
    <property name="shortcut" >
-    <string>Ctrl+t</string>
+    <string>Ctrl+T</string>
    </property>
   </action>
   <action name="actionAddIcepap" >
@@ -663,6 +665,16 @@
    </property>
    <property name="toolTip" >
     <string>Delete Icepap System from the CMS Database</string>
+   </property>
+  </action>
+  <action name="actionUser_manual" >
+   <property name="text" >
+    <string>User manual</string>
+   </property>
+  </action>
+  <action name="actionHardware_manual" >
+   <property name="text" >
+    <string>Hardware manual</string>
    </property>
   </action>
  </widget>

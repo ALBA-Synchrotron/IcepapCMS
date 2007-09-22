@@ -2,6 +2,7 @@ from persistent import Persistent
 from icepapdriver import IcepapDriver
 from conflict import Conflict
 
+
 class IcepapSystem(Persistent):
     def __init__(self, name, host, port, description = None):
         self.name = name

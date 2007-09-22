@@ -1,42 +1,170 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <icepapcms>
         <section name="main">
-                <par id="IREGI" name="IREGI" type="DOUBLE" min="0" max="100">
-                	 <description>Integral Constant PI Current Regulator</description>
+        		<par id="ACTIVE" name="ACTIVE" type="BOOL">
+                	 <description></description>
                 </par>
-                <par id="IREGP" name="IREGP" type="DOUBLE" min="0" max="1000">
-                     <description>Proportional Constant PI Current Regulator</description>
+                <par id="PROTLEVEL" name="PROTLEVEL" type="INTEGER" min="0" max="256">
+                	 <description></description>
                 </par>
-                <par id="II" name="II" type="DOUBLE" min="0" max="8">
-                     <description>Idle Current</description>
+                <par id="POWERON" name="POWERON" type="BOOL">
+                	 <description></description>
                 </par>
-                <par id="IN" name="IN" type="DOUBLE" min="0" max="8">
+                <par id="MOTPHASES" name="MOTPHASES" type="INTEGER" min="0" max="3">
+                	 <description></description>
+                </par>
+                <par id="MOTSENSE" name="MOTSENSE" type="STRING">
+                	 <description></description>
+                </par>
+                <par id="MOTPOLES" name="MOTPOLES" type="INTEGER" min="0" max="256">
+                	 <description></description>
+                </par>
+                <par id="MREGMODE" name="MREGMODE" type="STRING">
+                	 <description></description>
+                </par>
+                <par id="NVOLT" name="NVOLT" type="DOUBLE" min="0" max="80">
+                     <description>Operation Voltage</description>
+                </par>
+                <par id="ICURR" name="ICURR" type="DOUBLE" min="0" max="100">
+                     <description>Idle Current %</description>
+                </par>
+                <par id="NCURR" name="NCURR" type="DOUBLE" min="0" max="8">
                      <description>Drive Current</description>
                 </par>
-                <par id="IB" name="IB" type="DOUBLE" min="0" max="8">
-                     <description>Boost Current</description>
+                <par id="BCURR" name="BCURR" type="DOUBLE" min="0" max="100">
+                     <description>Boost Current %</description>
                 </par>
-                <par id="SDMAX" name="SDMAX" type="DOUBLE" min="0" max="80">
-                     <description>Drive Voltage</description>
+                <par id="MREGI" name="MREGI" type="DOUBLE" min="0" max="100">
+                	 <description>Integral Constant PI Current Regulator</description>
                 </par>
-                <par id="SD" name="SD" type="DOUBLE" min="0" max="80">
-                     <description>Stand-by Voltage</description>
+                <par id="MREGP" name="MREGP" type="DOUBLE" min="0" max="1000">
+                     <description>Proportional Constant PID Current Regulator</description>
                 </par>
-                <par id="MICRO" name="MICRO" type="INTEGER" min="0" max="256">
-                     <description>MicroStepping</description>
-                </par>
-                <par id="ESW" name="ESW" type="BOOL">
-                     <description>Enable/Disable Limit Switches</description>
-                </par>
-                <par id="TDIR" name="TDIR" type="BOOL">
-                     <description>Positive Direction (change if there is a mismatch between dir and limits)</description>
-                </par>
-                <par id="PSW" name="PSW" type="BOOL">
-                     <description>Limit Switches Polarity</description>
-                </par>
-                <par id="AUXPS" name="AUXPS" type="BOOL">
-                     <description>Enable/Disable aux 5V power supply</description>
+                <par id="MREGD" name="MREGD" type="DOUBLE" min="0" max="1000">
+                     <description>Derivative Constant PID Current Regulator</description>
                 </par>                
+                <par id="DEFVEL" name="DEFVEL" type="DOUBLE" min="0" max="99999999">
+                     <description></description>
+                </par>
+                <par id="DEFIVEL" name="DEFIVEL" type="DOUBLE" min="0" max="99999999">
+                     <description></description>
+                </par>
+                <par id="DEFACCT" name="DEFACCT" type="DOUBLE" min="0" max="99999999">
+                     <description></description>
+                </par>
+                <par id="INDEXER" name="INDEXER" type="STRING">
+                	 <description></description>
+                </par>                
+                <par id="SHFTENC" name="SHFTENC" type="STRING">
+                	 <description></description>
+                </par>
+                <par id="TGTENC" name="TGTENC" type="STRING">
+                	 <description></description>
+                </par>
+                <par id="CLOOP" name="CLOOPENC" type="STRING">
+                	 <description></description>
+                </par>
+                <par id="LPPOL" name="LPPOL" type="STRING">
+                     <description>Limit + Polarity</description>
+                </par>
+                <par id="LMPOL" name="LMPOL" type="STRING">
+                     <description>Limit - Polarity</description>
+                </par>
+                <par id="EINNTURN" name="EINNTURN" type="INTEGER" min="0" max="9999999">
+                	 <description></description>
+                </par>
+                <par id="EINNSTEP" name="EINNSTEP" type="INTEGER" min="0" max="9999999">
+                	 <description></description>
+                </par>
+                <par id="INPNTURN" name="INPNTURN" type="INTEGER" min="0" max="9999999">
+                	 <description></description>
+                </par>
+                <par id="INPNSTEP" name="INPNSTEP" type="INTEGER" min="0" max="9999999">
+                	 <description></description>
+                </par>
+                <par id="ABSNTURN" name="ABSNTURN" type="INTEGER" min="0" max="9999999">
+                	 <description></description>
+                </par>
+                <par id="ABSNSTEP" name="ABSNSTEP" type="INTEGER" min="0" max="9999999">
+                	 <description></description>
+                </par>
+                <par id="EINMODE" name="EINMODE" type="STRING">
+                     <description></description>
+                </par>                              
+                <par id="EINSENSE" name="EINSENSE" type="STRING">
+                     <description></description>
+                </par>
+                <par id="INPMODE" name="INPMODE" type="STRING">
+                     <description></description>
+                </par>                              
+                <par id="INPSENSE" name="INPSENSE" type="STRING">
+                     <description></description>
+                </par>
+                <par id="ABSOFFSET" name="ABSOFFSET" type="INTEGER" min="0" max="9999999">
+                     <description></description>
+                </par>                              
+                <par id="ABSSENSE" name="ABSSENSE" type="STRING">
+                     <description></description>
+                </par>
+                <par id="OUTPSRC" name="OUTPSRC" type="STRING">
+                     <description></description>
+                </par>
+                <par id="OUTPMODE" name="OUTPMODE" type="STRING">
+                     <description></description>
+                </par>
+                <par id="OUTPPULSE" name="OUTPPULSE" type="STRING">
+                     <description></description>
+                </par>
+                <par id="OUTPSENSE" name="OUTPSENSE" type="STRING">
+                     <description></description>
+                </par>
+                <par id="INFOASRC" name="INFOASRC" type="STRING">
+                     <description></description>
+                </par>
+                <par id="INFOBSRC" name="INFOBSRC" type="STRING">
+                     <description></description>
+                </par>
+                <par id="INFOCSRC" name="INFOCSRC" type="STRING">
+                     <description></description>
+                </par>
+                <par id="INFOAPOL" name="INFOAPOL" type="STRING">
+                     <description></description>
+                </par>
+                <par id="INFOBPOL" name="INFOBPOL" type="STRING">
+                     <description></description>
+                </par>
+                <par id="INFOCPOL" name="INFOCPOL" type="STRING">
+                     <description></description>
+                </par>                
+        </section>
+        <section name="test">
+        		<par id="MICRO" name="MICRO" type="INTEGER" min="0" max="256">
+                	 <description></description>
+                </par>
+                <par id="TINDEXER" name="INDEXER" type="STRING">
+                     <description></description>
+                </par> 
+                <par id="AUXPS" name="AUXPS" type="STRING">
+                     <description></description>                     
+                </par>
+                <par id="TINFASRC" name="INFASRC" type="STRING">
+                     <description></description>
+                </par>
+                <par id="TINFBSRC" name="INFBSRC" type="STRING">
+                     <description></description>
+                </par>
+                <par id="TINFCSRC" name="INFCSRC" type="STRING">
+                     <description></description>
+                </par>
+                <par id="TINFAPOL" name="INFAPOL" type="STRING">
+                     <description></description>
+                </par>
+                <par id="TINFBPOL" name="INFBPOL" type="STRING">
+                     <description></description>
+                </par>
+                <par id="TINFCPOL" name="INFCPOL" type="STRING">
+                     <description></description>
+                </par>
         </section>
         <inout>
         	<cfg name="External Indexer">

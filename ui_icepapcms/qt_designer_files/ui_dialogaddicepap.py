@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'dialogaddicepap.ui'
 #
-# Created: Tue Sep  4 09:41:27 2007
+# Created: Sat Sep 22 16:30:09 2007
 #      by: PyQt4 UI code generator 4.2
 #
 # WARNING! All changes made in this file will be lost!
