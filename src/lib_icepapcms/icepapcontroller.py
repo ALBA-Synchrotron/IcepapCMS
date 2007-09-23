@@ -60,6 +60,7 @@ class IcepapController(Singleton):
                             driver = IcepapDriver(icepap_name, addr, cratenr, drivernr)
                             driver_cfg = self.getDriverConfiguration(icepap_name, addr)
                             driver.setConfiguration(driver_cfg)
+                            driver.name = self.iPaps[icepap_name].getName(addr)
                             mode = self.iPaps[icepap_name].getMode(addr)
                             driver.mode = mode                            
                             driver_list[addr] = driver
@@ -131,7 +132,7 @@ class IcepapController(Singleton):
         return state
             
         
-    def getDriverTestStatus(self, icepap_name, driver_addr):
+    def getDriverTestStatus(self, icepap_name, driver_addr, pos_sel, enc_sel):
         """
             Returns an array with the Status, Limit Switches and Position of the driver
         """
@@ -144,17 +145,41 @@ class IcepapController(Singleton):
         disabled = IcepapStatus.isDisabled(register)
         if disabled <> 1:
             # only if driver is active
-            position = self.iPaps[icepap_name].getPosition(driver_addr)
+            position = self.iPaps[icepap_name].getPosition(driver_addr, pos_sel)
+            encoder = self.iPaps[icepap_name].getEncoder(driver_addr, enc_sel)
             power = self.iPaps[icepap_name].getPower(driver_addr)
             power = (power == IcepapAnswers.ON)
+            try:
+                encoder = float(encoder)
+            except:
+                encoder = -1
+            try:
+                position = float(position)
+            except:
+                position = -1
+            posarray = [position, encoder]
         else:
-            position = -1
+            posarray = [-1, -1]
             power = -1
             
-        state = (int(register), power, float(position))
+        state = (int(register), power, posarray)
         return state
         
-            
+    def readIcepapParameters(self, icepap_name, driver_addr, par_list):
+        values = []
+        for name in par_list:
+            if type(name) == type(values):
+                value = self.iPaps[icepap_name].readParameter(driver_addr, name[0], name[1])
+            else:
+                value = self.iPaps[icepap_name].readParameter(driver_addr, name)
+            values.append([name, value])
+        return values
+    
+    def writeIcepapParameters(self, icepap_name, driver_addr, par_var_list):
+        values = []
+        for name, value in  par_var_list:
+            self.iPaps[icepap_name].writeParameter(driver_addr, name, value)
+    
     def getDriverMotionValues(self, icepap_name, driver_addr):
         speed = self.iPaps[icepap_name].getSpeed(driver_addr)
         acc = self.iPaps[icepap_name].getAcceleration(driver_addr)
@@ -170,9 +195,16 @@ class IcepapController(Singleton):
             return 0
         except:
             return -1
-    def setDriverPosition(self, icepap_name, driver_addr, position):
+    def setDriverPosition(self, icepap_name, driver_addr, pos_sel, position):
         try:
-            self.iPaps[icepap_name].setPosition(driver_addr, position)
+            self.iPaps[icepap_name].setPosition(driver_addr, position, pos_sel)
+            return 0
+        except:
+            return -1
+    
+    def setEncoderPosition(self, icepap_name, driver_addr, enc_sel, position):
+        try:
+            self.iPaps[icepap_name].setPosition(driver_addr, position, enc_sel)
             return 0
         except:
             return -1

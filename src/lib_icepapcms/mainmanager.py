@@ -119,13 +119,29 @@ class MainManager(Singleton):
             print "error getting status : %s %d" % (icepap_name,addr) 
             return (-1,-1)
     
-    def getDriverTestStatus(self, icepap_name, addr):
+    def getDriverTestStatus(self, icepap_name, addr, pos_sel, enc_sel):
         try:
-            return self._ctrl_icepap.getDriverTestStatus(icepap_name, addr)
+            return self._ctrl_icepap.getDriverTestStatus(icepap_name, addr, pos_sel, enc_sel)
         except:
-            return (-1,-1, -1)
+            print "Unexpected error:", sys.exc_info()
+            return (-1,-1, [-1,-1])
             
+    def readIcepapParameters(self, icepap_name, addr, par_list):
+        try:
+            return self._ctrl_icepap.readIcepapParameters(icepap_name, addr, par_list)
+        except:
+            print "Unexpected error:", sys.exc_info()
+            print "error in : %s %d" % (icepap_name,addr)
+            return []
+        
     
+    def writeIcepapParameters(self, icepap_name, addr, par_var_list):
+        try:
+            self._ctrl_icepap.writeIcepapParameters(icepap_name, addr, par_var_list)
+        except:
+            pass
+    
+            
     def getDriverMotionValues(self, icepap_name, addr):
         try:
             return self._ctrl_icepap.getDriverMotionValues(icepap_name, addr)
@@ -138,8 +154,11 @@ class MainManager(Singleton):
         except:
             MessageDialogs.showWarningMessage(self._form, "Icepap error", "Connection error")
     
-    def setDriverPosition(self, icepap_name, addr, position):
-        return self._ctrl_icepap.setDriverPosition(icepap_name, addr, position)
+    def setDriverPosition(self, icepap_name, addr, pos_sel, position):
+        return self._ctrl_icepap.setDriverPosition(icepap_name, addr, pos_sel, position)
+    
+    def setEncoderPosition(self, icepap_name, addr, pos_sel, position):
+        return self._ctrl_icepap.setDriverPosition(icepap_name, addr, pos_sel, position)
     
     def moveDriver(self, icepap_name, addr, steps):
         try:

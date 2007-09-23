@@ -4,6 +4,9 @@
         		<par id="ACTIVE" name="ACTIVE" type="BOOL">
                 	 <description></description>
                 </par>
+                <par id="NAMELOCK" name="NAMELOCK" type="BOOL">
+                	 <description></description>
+                </par>
                 <par id="PROTLEVEL" name="PROTLEVEL" type="INTEGER" min="0" max="256">
                 	 <description></description>
                 </par>
@@ -147,24 +150,27 @@
                 <par id="AUXPS" name="AUXPS" type="STRING">
                      <description></description>                     
                 </par>
-                <par id="TINFASRC" name="INFASRC" type="STRING">
+                <par id="txtDriverName" name="NAME" type="STRING">
+                     <description></description>
+                </par>  
+                <par id="TINFASRC" name="INFOA" type="ARRAY" pos="0">
                      <description></description>
                 </par>
-                <par id="TINFBSRC" name="INFBSRC" type="STRING">
+                <par id="TINFAPOL" name="INFOA" type="ARRAY" pos="1">
+                     <description></description>
+                </par>                
+                <par id="TINFBSRC" name="INFOB" type="ARRAY" pos="0">
                      <description></description>
                 </par>
-                <par id="TINFCSRC" name="INFCSRC" type="STRING">
+                <par id="TINFBPOL" name="INFOB" type="ARRAY" pos="1">
                      <description></description>
                 </par>
-                <par id="TINFAPOL" name="INFAPOL" type="STRING">
+                <par id="TINFCSRC" name="INFOC" type="ARRAY" pos="0">
                      <description></description>
                 </par>
-                <par id="TINFBPOL" name="INFBPOL" type="STRING">
+                <par id="TINFCPOL" name="INFOC" type="ARRAY" pos="1">
                      <description></description>
-                </par>
-                <par id="TINFCPOL" name="INFCPOL" type="STRING">
-                     <description></description>
-                </par>
+                </par>              
         </section>
         <inout>
         	<cfg name="External Indexer">

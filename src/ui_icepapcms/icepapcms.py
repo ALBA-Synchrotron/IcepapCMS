@@ -260,7 +260,6 @@ class IcepapCMS(QtGui.QMainWindow):
             self.refreshTimer.stop()
         if item.role == IcepapTreeModel.DRIVER or item.role == IcepapTreeModel.DRIVER_NEW or item.role == IcepapTreeModel.DRIVER_CFG:
             self.ui.pageiPapDriver.fillData(item.itemData)
-            self.ui.pageiPapDriver.startTesting()      
             self.ui.stackedWidget.setCurrentIndex(3)
             self.ui.actionExport.setEnabled(True)
             self.ui.actionImport.setEnabled(True)

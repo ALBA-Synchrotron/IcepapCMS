@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>748</width>
-    <height>612</height>
+    <width>774</width>
+    <height>611</height>
    </rect>
   </property>
   <property name="sizePolicy" >
@@ -825,871 +825,886 @@ p, li { white-space: pre-wrap; }
       <attribute name="title" >
        <string>Signals</string>
       </attribute>
-      <widget class="QTabWidget" name="tabSignals" >
-       <property name="geometry" >
-        <rect>
-         <x>9</x>
-         <y>9</y>
-         <width>538</width>
-         <height>456</height>
-        </rect>
+      <layout class="QGridLayout" >
+       <property name="margin" >
+        <number>9</number>
        </property>
-       <property name="currentIndex" >
-        <number>0</number>
+       <property name="spacing" >
+        <number>6</number>
        </property>
-       <widget class="QWidget" name="tab_InOut" >
-        <attribute name="title" >
-         <string>Input/Output</string>
-        </attribute>
-        <widget class="QWidget" native="1" name="inOut_widget" >
-         <property name="geometry" >
-          <rect>
-           <x>9</x>
-           <y>9</y>
-           <width>516</width>
-           <height>406</height>
-          </rect>
+       <item row="0" column="0" >
+        <widget class="QTabWidget" name="tabSignals" >
+         <property name="currentIndex" >
+          <number>0</number>
          </property>
-         <property name="sizePolicy" >
-          <sizepolicy>
-           <hsizetype>7</hsizetype>
-           <vsizetype>7</vsizetype>
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <layout class="QGridLayout" >
-          <property name="margin" >
-           <number>9</number>
-          </property>
-          <property name="spacing" >
-           <number>6</number>
-          </property>
-          <item row="3" column="0" colspan="3" >
-           <widget class="QGroupBox" name="groupBox_3" >
-            <property name="font" >
-             <font>
-              <pointsize>8</pointsize>
-              <weight>50</weight>
-              <bold>false</bold>
-             </font>
+         <widget class="QWidget" name="tab_InOut" >
+          <attribute name="title" >
+           <string>Input/Output</string>
+          </attribute>
+          <widget class="QWidget" native="1" name="inOut_widget" >
+           <property name="geometry" >
+            <rect>
+             <x>10</x>
+             <y>10</y>
+             <width>413</width>
+             <height>411</height>
+            </rect>
+           </property>
+           <property name="sizePolicy" >
+            <sizepolicy>
+             <hsizetype>7</hsizetype>
+             <vsizetype>7</vsizetype>
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <layout class="QGridLayout" >
+            <property name="margin" >
+             <number>9</number>
             </property>
-            <property name="title" >
-             <string>Output Signals</string>
+            <property name="spacing" >
+             <number>6</number>
             </property>
-            <layout class="QGridLayout" >
-             <property name="margin" >
-              <number>9</number>
-             </property>
-             <property name="spacing" >
-              <number>6</number>
-             </property>
-             <item row="0" column="5" >
-              <widget class="QLabel" name="label_13" >
-               <property name="font" >
-                <font>
-                 <pointsize>8</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
+            <item row="0" column="1" >
+             <spacer>
+              <property name="orientation" >
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" >
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="1" column="0" colspan="2" >
+             <widget class="QGroupBox" name="groupBox_2" >
+              <property name="font" >
+               <font>
+                <pointsize>8</pointsize>
+                <weight>50</weight>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="title" >
+               <string>Input Signals</string>
+              </property>
+              <layout class="QGridLayout" >
+               <property name="margin" >
+                <number>9</number>
                </property>
-               <property name="text" >
-                <string>Pulse width</string>
+               <property name="spacing" >
+                <number>6</number>
                </property>
-              </widget>
-             </item>
-             <item row="0" column="1" >
-              <widget class="QLabel" name="label_12" >
-               <property name="font" >
-                <font>
-                 <family>Sans Serif</family>
-                 <pointsize>8</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text" >
-                <string>Source</string>
-               </property>
-               <property name="textFormat" >
-                <enum>Qt::PlainText</enum>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0" >
-              <widget class="QLabel" name="label_50" >
-               <property name="text" >
-                <string>OutPos</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="1" >
-              <widget class="QComboBox" name="OUTPSRC" >
-               <item>
-                <property name="text" >
-                 <string>Axis</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Indexer</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>EncIn</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>InPos</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Sync</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>TgtEnc</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>ShfEnc</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-             <item row="1" column="2" >
-              <widget class="QComboBox" name="OUTPMODE" >
-               <property name="minimumSize" >
-                <size>
-                 <width>0</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <item>
-                <property name="text" >
-                 <string>Quad</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Pulse+</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Pulse-</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-             <item row="1" column="3" colspan="2" >
-              <widget class="QComboBox" name="OUTPSENSE" >
-               <item>
-                <property name="text" >
-                 <string>Normal</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Inverted</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-             <item row="1" column="5" >
-              <widget class="QComboBox" name="OUTPPULSE" >
-               <item>
-                <property name="text" >
-                 <string>20ns</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>200ns</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>2us</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>20us</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-             <item row="0" column="2" >
-              <widget class="QLabel" name="label_11" >
-               <property name="font" >
-                <font>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text" >
-                <string>Mode</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="3" colspan="2" >
-              <widget class="QLabel" name="label_9" >
-               <property name="font" >
-                <font>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text" >
-                <string>Sense</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item row="2" column="0" colspan="3" >
-           <widget class="QGroupBox" name="groupBox_2" >
-            <property name="font" >
-             <font>
-              <pointsize>8</pointsize>
-              <weight>50</weight>
-              <bold>false</bold>
-             </font>
-            </property>
-            <property name="title" >
-             <string>Input Signals</string>
-            </property>
-            <layout class="QGridLayout" >
-             <property name="margin" >
-              <number>9</number>
-             </property>
-             <property name="spacing" >
-              <number>6</number>
-             </property>
-             <item row="0" column="3" >
-              <widget class="QLabel" name="label_47" >
-               <property name="font" >
-                <font>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text" >
-                <string>Ref. nr.
+               <item row="0" column="3" >
+                <widget class="QLabel" name="label_47" >
+                 <property name="font" >
+                  <font>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text" >
+                  <string>Ref. nr.
 Turns</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="5" >
-              <widget class="QLabel" name="label_49" >
-               <property name="font" >
-                <font>
-                 <pointsize>8</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text" >
-                <string>Offset</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="4" >
-              <widget class="QLabel" name="label_48" >
-               <property name="font" >
-                <font>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text" >
-                <string>Ref. nr.
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="5" >
+                <widget class="QLabel" name="label_49" >
+                 <property name="font" >
+                  <font>
+                   <pointsize>8</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text" >
+                  <string>Offset</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="4" >
+                <widget class="QLabel" name="label_48" >
+                 <property name="font" >
+                  <font>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text" >
+                  <string>Ref. nr.
 Steps</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2" >
+                <widget class="QLabel" name="label_8" >
+                 <property name="font" >
+                  <font>
+                   <pointsize>8</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text" >
+                  <string>Sense</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1" >
+                <widget class="QLabel" name="label_6" >
+                 <property name="font" >
+                  <font>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text" >
+                  <string>Mode</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0" >
+                <widget class="QLabel" name="label_45" >
+                 <property name="text" >
+                  <string>AbsEnc</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1" >
+                <widget class="QComboBox" name="INPMODE" >
+                 <property name="minimumSize" >
+                  <size>
+                   <width>0</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <item>
+                  <property name="text" >
+                   <string>Quad</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Pulse+</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Pulse-</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="1" column="2" >
+                <widget class="QComboBox" name="INPSENSE" >
+                 <item>
+                  <property name="text" >
+                   <string>Normal</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Inverted</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="2" column="1" >
+                <widget class="QComboBox" name="EINMODE" >
+                 <property name="minimumSize" >
+                  <size>
+                   <width>0</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <item>
+                  <property name="text" >
+                   <string>Quad</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Pulse+</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Pulse-</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="2" column="2" >
+                <widget class="QComboBox" name="EINSENSE" >
+                 <item>
+                  <property name="text" >
+                   <string>Normal</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Inverted</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="3" column="2" >
+                <widget class="QComboBox" name="ABSSENSE" >
+                 <item>
+                  <property name="text" >
+                   <string>Normal</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Inverted</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="3" column="3" >
+                <widget class="QSpinBox" name="ABSNTURN" />
+               </item>
+               <item row="1" column="4" >
+                <widget class="QSpinBox" name="INPNSTEP" />
+               </item>
+               <item row="2" column="4" >
+                <widget class="QSpinBox" name="EINNSTEP" />
+               </item>
+               <item row="2" column="3" >
+                <widget class="QSpinBox" name="EINNTURN" />
+               </item>
+               <item row="1" column="3" >
+                <widget class="QSpinBox" name="INPNTURN" />
+               </item>
+               <item row="3" column="4" >
+                <widget class="QSpinBox" name="ABSNSTEP" />
+               </item>
+               <item row="3" column="5" >
+                <widget class="QSpinBox" name="ABSOFFSET" />
+               </item>
+               <item row="2" column="0" >
+                <widget class="QLabel" name="label_44" >
+                 <property name="text" >
+                  <string>EncIn</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0" >
+                <widget class="QLabel" name="label_7" >
+                 <property name="text" >
+                  <string>InPos</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item row="2" column="0" colspan="2" >
+             <widget class="QGroupBox" name="groupBox_3" >
+              <property name="font" >
+               <font>
+                <pointsize>8</pointsize>
+                <weight>50</weight>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="title" >
+               <string>Output Signals</string>
+              </property>
+              <layout class="QGridLayout" >
+               <property name="margin" >
+                <number>9</number>
                </property>
-              </widget>
-             </item>
-             <item row="0" column="2" >
-              <widget class="QLabel" name="label_8" >
-               <property name="font" >
-                <font>
-                 <pointsize>8</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
+               <property name="spacing" >
+                <number>6</number>
                </property>
-               <property name="text" >
-                <string>Sense</string>
+               <item row="0" column="5" >
+                <widget class="QLabel" name="label_13" >
+                 <property name="font" >
+                  <font>
+                   <pointsize>8</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text" >
+                  <string>Pulse width</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1" >
+                <widget class="QLabel" name="label_12" >
+                 <property name="font" >
+                  <font>
+                   <family>Sans Serif</family>
+                   <pointsize>8</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text" >
+                  <string>Source</string>
+                 </property>
+                 <property name="textFormat" >
+                  <enum>Qt::PlainText</enum>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0" >
+                <widget class="QLabel" name="label_50" >
+                 <property name="text" >
+                  <string>OutPos</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1" >
+                <widget class="QComboBox" name="OUTPSRC" >
+                 <item>
+                  <property name="text" >
+                   <string>Axis</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Indexer</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>EncIn</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>InPos</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Sync</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>TgtEnc</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>ShfEnc</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="1" column="2" >
+                <widget class="QComboBox" name="OUTPMODE" >
+                 <property name="minimumSize" >
+                  <size>
+                   <width>0</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <item>
+                  <property name="text" >
+                   <string>Quad</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Pulse+</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Pulse-</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="1" column="3" colspan="2" >
+                <widget class="QComboBox" name="OUTPSENSE" >
+                 <item>
+                  <property name="text" >
+                   <string>Normal</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Inverted</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="1" column="5" >
+                <widget class="QComboBox" name="OUTPPULSE" >
+                 <item>
+                  <property name="text" >
+                   <string>20ns</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>200ns</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>2us</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>20us</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="0" column="2" >
+                <widget class="QLabel" name="label_11" >
+                 <property name="font" >
+                  <font>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text" >
+                  <string>Mode</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="3" colspan="2" >
+                <widget class="QLabel" name="label_9" >
+                 <property name="font" >
+                  <font>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text" >
+                  <string>Sense</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item row="0" column="0" >
+             <widget class="QGroupBox" name="groupBox_10" >
+              <property name="font" >
+               <font>
+                <pointsize>8</pointsize>
+                <weight>50</weight>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="title" >
+               <string>Info Singals</string>
+              </property>
+              <layout class="QGridLayout" >
+               <property name="margin" >
+                <number>9</number>
                </property>
-              </widget>
-             </item>
-             <item row="0" column="1" >
-              <widget class="QLabel" name="label_6" >
-               <property name="font" >
-                <font>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
+               <property name="spacing" >
+                <number>6</number>
                </property>
-               <property name="text" >
-                <string>Mode</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="0" >
-              <widget class="QLabel" name="label_45" >
-               <property name="text" >
-                <string>AbsEnc</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="1" >
-              <widget class="QComboBox" name="INPMODE" >
-               <property name="minimumSize" >
-                <size>
-                 <width>0</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <item>
-                <property name="text" >
-                 <string>Quad</string>
-                </property>
+               <item row="3" column="1" >
+                <widget class="QComboBox" name="INFOCSRC" >
+                 <item>
+                  <property name="text" >
+                   <string>Low</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>High</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Lim-</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Lim+</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Home</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>EncAux</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>InposAux</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>SyncAux</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Enable</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Alarm</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Ready</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Moving</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Boost</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Steady</string>
+                  </property>
+                 </item>
+                </widget>
                </item>
-               <item>
-                <property name="text" >
-                 <string>Pulse+</string>
-                </property>
+               <item row="3" column="2" >
+                <widget class="QComboBox" name="INFOCPOL" >
+                 <item>
+                  <property name="text" >
+                   <string>Normal</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Inverted</string>
+                  </property>
+                 </item>
+                </widget>
                </item>
-               <item>
-                <property name="text" >
-                 <string>Pulse-</string>
-                </property>
+               <item row="2" column="1" >
+                <widget class="QComboBox" name="INFOBSRC" >
+                 <item>
+                  <property name="text" >
+                   <string>Low</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>High</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Lim-</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Lim+</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Home</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>EncAux</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>InposAux</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>SyncAux</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Enable</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Alarm</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Ready</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Moving</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Boost</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Steady</string>
+                  </property>
+                 </item>
+                </widget>
                </item>
-              </widget>
-             </item>
-             <item row="1" column="2" >
-              <widget class="QComboBox" name="INPSENSE" >
-               <item>
-                <property name="text" >
-                 <string>Normal</string>
-                </property>
+               <item row="2" column="2" >
+                <widget class="QComboBox" name="INFOBPOL" >
+                 <item>
+                  <property name="text" >
+                   <string>Normal</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Inverted</string>
+                  </property>
+                 </item>
+                </widget>
                </item>
-               <item>
-                <property name="text" >
-                 <string>Inverted</string>
-                </property>
+               <item row="1" column="1" >
+                <widget class="QComboBox" name="INFOASRC" >
+                 <item>
+                  <property name="text" >
+                   <string>Low</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>High</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Lim-</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Lim+</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Home</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>EncAux</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>InposAux</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>SyncAux</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Enable</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Alarm</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Ready</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Moving</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Boost</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Steady</string>
+                  </property>
+                 </item>
+                </widget>
                </item>
-              </widget>
-             </item>
-             <item row="2" column="1" >
-              <widget class="QComboBox" name="EINMODE" >
-               <property name="minimumSize" >
-                <size>
-                 <width>0</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <item>
-                <property name="text" >
-                 <string>Quad</string>
-                </property>
+               <item row="1" column="2" >
+                <widget class="QComboBox" name="INFOAPOL" >
+                 <item>
+                  <property name="text" >
+                   <string>Normal</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Inverted</string>
+                  </property>
+                 </item>
+                </widget>
                </item>
-               <item>
-                <property name="text" >
-                 <string>Pulse+</string>
-                </property>
+               <item row="3" column="0" >
+                <widget class="QLabel" name="label_24" >
+                 <property name="text" >
+                  <string>InfoC</string>
+                 </property>
+                </widget>
                </item>
-               <item>
-                <property name="text" >
-                 <string>Pulse-</string>
-                </property>
+               <item row="2" column="0" >
+                <widget class="QLabel" name="label_51" >
+                 <property name="text" >
+                  <string>InfoB</string>
+                 </property>
+                </widget>
                </item>
-              </widget>
-             </item>
-             <item row="2" column="2" >
-              <widget class="QComboBox" name="EINSENSE" >
-               <item>
-                <property name="text" >
-                 <string>Normal</string>
-                </property>
+               <item row="1" column="0" >
+                <widget class="QLabel" name="label_10" >
+                 <property name="text" >
+                  <string>InfoA</string>
+                 </property>
+                </widget>
                </item>
-               <item>
-                <property name="text" >
-                 <string>Inverted</string>
-                </property>
+               <item row="0" column="1" >
+                <widget class="QLabel" name="label_27" >
+                 <property name="font" >
+                  <font>
+                   <family>Sans Serif</family>
+                   <pointsize>8</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text" >
+                  <string>Source</string>
+                 </property>
+                 <property name="textFormat" >
+                  <enum>Qt::PlainText</enum>
+                 </property>
+                </widget>
                </item>
-              </widget>
-             </item>
-             <item row="3" column="2" >
-              <widget class="QComboBox" name="ABSSENSE" >
-               <item>
-                <property name="text" >
-                 <string>Normal</string>
-                </property>
+               <item row="0" column="2" >
+                <widget class="QLabel" name="label_26" >
+                 <property name="font" >
+                  <font>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text" >
+                  <string>Polarity</string>
+                 </property>
+                </widget>
                </item>
-               <item>
-                <property name="text" >
-                 <string>Inverted</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-             <item row="3" column="3" >
-              <widget class="QSpinBox" name="ABSNTURN" />
-             </item>
-             <item row="1" column="4" >
-              <widget class="QSpinBox" name="INPNSTEP" />
-             </item>
-             <item row="2" column="4" >
-              <widget class="QSpinBox" name="EINNSTEP" />
-             </item>
-             <item row="2" column="3" >
-              <widget class="QSpinBox" name="EINNTURN" />
-             </item>
-             <item row="1" column="3" >
-              <widget class="QSpinBox" name="INPNTURN" />
-             </item>
-             <item row="3" column="4" >
-              <widget class="QSpinBox" name="ABSNSTEP" />
-             </item>
-             <item row="3" column="5" >
-              <widget class="QSpinBox" name="ABSOFFSET" />
-             </item>
-             <item row="2" column="0" >
-              <widget class="QLabel" name="label_44" >
-               <property name="text" >
-                <string>EncIn</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0" >
-              <widget class="QLabel" name="label_7" >
-               <property name="text" >
-                <string>InPos</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item rowspan="2" row="0" column="0" >
-           <widget class="QGroupBox" name="groupBox_10" >
-            <property name="font" >
-             <font>
-              <pointsize>8</pointsize>
-              <weight>50</weight>
-              <bold>false</bold>
-             </font>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+         <widget class="QWidget" name="tab_connectors" >
+          <attribute name="title" >
+           <string>Connectors</string>
+          </attribute>
+          <widget class="QWidget" native="1" name="labels_widget" >
+           <property name="geometry" >
+            <rect>
+             <x>30</x>
+             <y>20</y>
+             <width>451</width>
+             <height>525</height>
+            </rect>
+           </property>
+           <layout class="QGridLayout" >
+            <property name="margin" >
+             <number>2</number>
             </property>
-            <property name="title" >
-             <string>Info Singals</string>
+            <property name="spacing" >
+             <number>2</number>
             </property>
-            <layout class="QGridLayout" >
-             <property name="margin" >
-              <number>9</number>
-             </property>
-             <property name="spacing" >
-              <number>6</number>
-             </property>
-             <item row="3" column="1" >
-              <widget class="QComboBox" name="INFOCSRC" >
-               <item>
-                <property name="text" >
-                 <string>Low</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>High</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Lim-</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Lim+</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Home</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>EncAux</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>InposAux</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>SyncAux</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Enable</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Alarm</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Ready</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Moving</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Boost</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Steady</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-             <item row="3" column="2" >
-              <widget class="QComboBox" name="INFOCPOL" >
-               <item>
-                <property name="text" >
-                 <string>Normal</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Inverted</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-             <item row="2" column="1" >
-              <widget class="QComboBox" name="INFOBSRC" >
-               <item>
-                <property name="text" >
-                 <string>Low</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>High</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Lim-</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Lim+</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Home</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>EncAux</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>InposAux</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>SyncAux</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Enable</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Alarm</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Ready</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Moving</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Boost</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Steady</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-             <item row="2" column="2" >
-              <widget class="QComboBox" name="INFOBPOL" >
-               <item>
-                <property name="text" >
-                 <string>Normal</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Inverted</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-             <item row="1" column="1" >
-              <widget class="QComboBox" name="INFOASRC" >
-               <item>
-                <property name="text" >
-                 <string>Low</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>High</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Lim-</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Lim+</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Home</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>EncAux</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>InposAux</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>SyncAux</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Enable</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Alarm</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Ready</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Moving</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Boost</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Steady</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-             <item row="1" column="2" >
-              <widget class="QComboBox" name="INFOAPOL" >
-               <item>
-                <property name="text" >
-                 <string>Normal</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>Inverted</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-             <item row="3" column="0" >
-              <widget class="QLabel" name="label_24" >
-               <property name="text" >
-                <string>InfoC</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0" >
-              <widget class="QLabel" name="label_51" >
-               <property name="text" >
-                <string>InfoB</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0" >
-              <widget class="QLabel" name="label_10" >
-               <property name="text" >
-                <string>InfoA</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1" >
-              <widget class="QLabel" name="label_27" >
-               <property name="font" >
-                <font>
-                 <family>Sans Serif</family>
-                 <pointsize>8</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text" >
-                <string>Source</string>
-               </property>
-               <property name="textFormat" >
-                <enum>Qt::PlainText</enum>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="2" >
-              <widget class="QLabel" name="label_26" >
-               <property name="font" >
-                <font>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text" >
-                <string>Polarity</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-         </layout>
+            <item row="1" column="1" >
+             <widget class="QLabel" name="label_5" >
+              <property name="text" >
+               <string/>
+              </property>
+              <property name="pixmap" >
+               <pixmap resource="icepapcms.qrc" >:/images/IcepapCfg Icons/encoder.png</pixmap>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1" >
+             <widget class="QLabel" name="label_4" >
+              <property name="text" >
+               <string/>
+              </property>
+              <property name="pixmap" >
+               <pixmap resource="icepapcms.qrc" >:/images/IcepapCfg Icons/axis.png</pixmap>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2" >
+             <spacer>
+              <property name="orientation" >
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" >
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="0" column="0" >
+             <spacer>
+              <property name="orientation" >
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" >
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </widget>
+         </widget>
         </widget>
-       </widget>
-       <widget class="QWidget" name="tab_connectors" >
-        <attribute name="title" >
-         <string>Connectors</string>
-        </attribute>
-        <widget class="QWidget" native="1" name="labels_widget" >
-         <property name="geometry" >
-          <rect>
-           <x>30</x>
-           <y>20</y>
-           <width>451</width>
-           <height>525</height>
-          </rect>
-         </property>
-         <layout class="QGridLayout" >
-          <property name="margin" >
-           <number>2</number>
-          </property>
-          <property name="spacing" >
-           <number>2</number>
-          </property>
-          <item row="1" column="1" >
-           <widget class="QLabel" name="label_5" >
-            <property name="text" >
-             <string/>
-            </property>
-            <property name="pixmap" >
-             <pixmap resource="icepapcms.qrc" >:/images/IcepapCfg Icons/encoder.png</pixmap>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1" >
-           <widget class="QLabel" name="label_4" >
-            <property name="text" >
-             <string/>
-            </property>
-            <property name="pixmap" >
-             <pixmap resource="icepapcms.qrc" >:/images/IcepapCfg Icons/axis.png</pixmap>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2" >
-           <spacer>
-            <property name="orientation" >
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" >
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="0" column="0" >
-           <spacer>
-            <property name="orientation" >
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" >
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </widget>
-       </widget>
-      </widget>
+       </item>
+      </layout>
      </widget>
      <widget class="QWidget" name="tab_3" >
       <attribute name="title" >
