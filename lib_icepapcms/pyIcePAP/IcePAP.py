@@ -163,7 +163,15 @@ class IcePAP:
         self.sendWriteCommand(command)
         
     # ------------ Power and Motion control Commands ------------------------------      
-    
+    def readParameter(self, addr, name, args = ""):
+        command = "%d:?%s %s" % (addr, name, args)
+        ans = self.sendWriteReadCommand(command)
+        return self.parseResponse("%d:?%s" % (addr, name) , ans)
+        
+    def writeParameter(self, addr, name, value):
+        command = "%d:%s %s" % (addr, name, value)
+        self.sendWriteCommand(command)
+        
     def getPower(self, addr):
         command = "%d:?POWER" % addr
         ans = self.sendWriteReadCommand(command)
@@ -200,7 +208,7 @@ class IcePAP:
     def getEncoder(self, addr, pos_sel = "AXIS"):
         command = "%d:?ENC %s" % (addr, pos_sel)
         ans = self.sendWriteReadCommand(command)
-        return self.parseResponse(command, ans)
+        return self.parseResponse("%d:?ENC" % addr, ans)
     
     def setEncoder(self, addr, pos_val, pos_sel = "AXIS"):
         command = "%d:ENC %s %d" % (addr, pos_sel, pos_val)

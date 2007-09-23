@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ipaptestpage.ui'
 #
-# Created: Sat Sep 22 16:30:09 2007
+# Created: Sun Sep 23 15:43:22 2007
 #      by: PyQt4 UI code generator 4.2
 #
 # WARNING! All changes made in this file will be lost!
