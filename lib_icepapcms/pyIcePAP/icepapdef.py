@@ -4,7 +4,13 @@ class IcepapMode:
 
 class IcepapAnswers:
     ON, OFF = "ON", "OFF"
-    
+
+class IcepapRegisters:
+    INTERNAL, SYNC, INPOS, ENCIN = "INTERNAL", "SYNC", "INPOS", "ENCIN"
+    IndexerRegisters = [INTERNAL, SYNC, INPOS, ENCIN]
+    AXIS, INDEXER, EXTERR, SHFTENC, TGTENC, ENCIN, INPOS, ABSENC = "AXIS", "INDEXER", "EXTERR", "SHFTENC", "TGTENC", "ENCIN", "INPOS", "ABSENC"
+    PositionRegisters = [AXIS, INDEXER, EXTERR, SHFTENC, TGTENC, ENCIN, INPOS, ABSENC]
+        
 class IcepapStatus:
     @staticmethod
     def isPresent(register):
