@@ -3,7 +3,7 @@ import struct
 from IcePAP import *
 import time
 from errno import EWOULDBLOCK
-
+import icepapdef
 
 class EthIcePAP(IcePAP):
 

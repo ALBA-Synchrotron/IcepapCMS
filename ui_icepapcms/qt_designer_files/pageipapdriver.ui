@@ -603,7 +603,7 @@ p, li { white-space: pre-wrap; }
              <string/>
             </property>
             <property name="text" >
-             <string>Boost</string>
+             <string>Boost (%)</string>
             </property>
            </widget>
           </item>
@@ -633,7 +633,7 @@ p, li { white-space: pre-wrap; }
              <string/>
             </property>
             <property name="text" >
-             <string>Idle</string>
+             <string>Idle (%)</string>
             </property>
            </widget>
           </item>

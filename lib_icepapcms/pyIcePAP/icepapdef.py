@@ -51,3 +51,4 @@ class IcepapStatus:
         val = register >> 20
         val = val & 1
         return val
+

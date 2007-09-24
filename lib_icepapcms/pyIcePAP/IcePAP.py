@@ -3,57 +3,10 @@ import serial
 import sys
 from threading import Lock
 import time
+import icepapdef
 
 class CStatus:
     Disconnected, Connected, Error = range(3)
-
-
-class IcePAPStatus:
-    @staticmethod
-    def isPresent(register):
-        val = register >> 0
-        val = val & 1
-        return val
-    @staticmethod
-    def isAlive(register):
-        val = register >> 1
-        val = val & 1
-        return val
-    @staticmethod
-    def getMode(register):
-        val = register >> 2
-        val = val & 3
-        return val
-    @staticmethod
-    def isDisabled(register):
-        val = register >> 4
-        val = val & 7
-        return val
-    @staticmethod
-    def isReady(register):
-        val = register >> 9
-        val = val & 1
-        return val
-    @staticmethod
-    def isMoving(register):
-        val = register >> 10
-        val = val & 1
-        return val
-    @staticmethod
-    def getLimitPositive(register):
-        val = register >> 18
-        val = val & 1
-        return val
-    @staticmethod
-    def getLimitNegative(register):
-        val = register >> 19
-        val = val & 1
-        return val
-    @staticmethod
-    def inHome(register):
-        val = register >> 20
-        val = val & 1
-        return val
             
 class IcePAPException:
     Error = range(1)
@@ -62,8 +15,7 @@ class IcePAPException:
         self.name = name
 
 
-class IcePAP:
-    
+class IcePAP:    
     
     def __init__(self, host,port, timeout = 1):
         #print "IcePAP object created"
@@ -200,7 +152,7 @@ class IcePAP:
         command = "%d:?POS %s" % (addr, pos_sel)
         ans = self.sendWriteReadCommand(command)
         return self.parseResponse("%d:?POS" % addr, ans)
-    
+                
     def setPosition(self, addr, pos_val, pos_sel = "AXIS"):
         command = "%d:POS %s %d" % (addr, pos_sel, pos_val)
         self.sendWriteCommand(command)
@@ -261,7 +213,7 @@ class IcePAP:
         command = "%d:RMOVE %d " % (addr, steps)
         self.sendWriteCommand(command)
     
-    def rmove(self, addr, steps):
+    def cmove(self, addr, steps):
         command = "%d:CMOVE %d " % (addr, steps)
         self.sendWriteCommand(command)
     
@@ -273,6 +225,126 @@ class IcePAP:
     def jog(self, addr, speed):
         self.sendWriteCommand(addr, 'J '+str(speed))
     
+    # ---- multiple axis commands ----------
+    def getMultiplePositions(self, axis_list, pos_sel = "AXIS"):
+        axis = ""
+        for addr in axis_list:
+            axis = axis + str(addr) + " " 
+        command = "?POS %s %s" % (pos_sel, axis)
+        ans = self.sendWriteReadCommand(command)
+        ans = self.parseResponse("?POS", ans)
+        ans = ans.split()
+        pos_values = []
+        i = 0
+        for addr in axis_list:
+            pos_values.append([addr, ans[i]])
+            i = i + 1
+        return pos_values     
+        
+                
+    def setMultiplePosition(self, pos_val_list, pos_sel = "AXIS"):
+        values = ""
+        for addr, value in pos_val_list:
+            values = values + str(addr) + " " + str(value) + " "
+        command = "POS %s %s" % (pos_sel, values)
+        self.sendWriteCommand(command)
+    
+    def getMultipleEncoder(self, axis_list, pos_sel = "AXIS"):
+        axis = ""
+        for addr in axis_list:
+            axis = axis + str(addr) + " " 
+        command = "?ENC %s %s" % (pos_sel, axis)
+        ans = self.sendWriteReadCommand(command)
+        ans = self.parseResponse("?ENC", ans)
+        ans = ans.split()
+        pos_values = []
+        i = 0
+        for addr in axis_list:
+            pos_values.append([addr, ans[i]])
+            i = i + 1
+        return pos_values
+    
+    def setMultipleEncoder(self, pos_val_list, pos_sel = "AXIS"):
+        values = ""
+        for addr, value in pos_val_list:
+            values = values + str(addr) + " " + str(value) + " "
+        command = "ENC %s %s" % (pos_sel, values)
+        self.sendWriteCommand(command)
+    
+    def getMultipleSpeeds(self, axis_list):
+        axis = ""
+        for addr in axis_list:
+            axis = axis + str(addr) + " " 
+        command = "?VELOCITY %s" % axis
+        ans = self.sendWriteReadCommand(command)
+        ans = self.parseResponse("?VELOCITY", ans)
+        ans = ans.split()
+        values = []
+        i = 0
+        for addr in axis_list:
+            values.append([addr, ans[i]])
+            i = i + 1
+        return values 
+        
+    def setMultipleSpeeds(self, val_list):
+        values = ""
+        for addr, value in val_list:
+            values = values + str(addr) + " " + str(value) + " "
+        command = "VELOCITY %s" % values
+        self.sendWriteCommand(command)
+    
+    def getMultipleAccelerations(self, axis_list):
+        axis = ""
+        for addr in axis_list:
+            axis = axis + str(addr) + " " 
+        command = "?ACCTIME %s" % axis
+        ans = self.sendWriteReadCommand(command)
+        ans = self.parseResponse("?ACCTIME", ans)
+        ans = ans.split()
+        values = []
+        i = 0
+        for addr in axis_list:
+            values.append([addr, ans[i]])
+            i = i + 1
+        return values 
+        
+    def setMultipleAccelerations(self, val_list):
+        values = ""
+        for addr, value in val_list:
+            values = values + str(addr) + " " + str(value) + " "
+        command = "ACCTIME %s" % values
+        self.sendWriteCommand(command)
+    
+    def stopMultipleMotor(self, axis_list):
+        axis = ""
+        for addr in axis_list:
+            axis = axis + str(addr) + " " 
+        command = "STOP %s" % axis
+        self.sendWriteCommand(command)
+
+    def abortMultipleMotor(self, axis_list):
+        axis = ""
+        for addr in axis_list:
+            axis = axis + str(addr) + " " 
+        command = "ABORT %s" % axis
+        self.sendWriteCommand(command)
+    
+    def rmoveMultiple(self, val_list):
+        values = ""
+        for addr, value in val_list:
+            values = values + str(addr) + " " + str(value) + " "
+        command = "RMOVE %s " % values
+        self.sendWriteCommand(command)
+    
+    
+    def moveMultiple(self, val_list):
+        values = ""
+        for addr, value in val_list:
+            values = values + str(addr) + " " + str(value) + " "
+        command = "MOVE %s " % values
+        self.sendWriteCommand(command)
+    
+        
     # ------------- Input/Output commands ------------------------
     def setIndexerSource(self, addr, src):
         command = "%d:ACCTIME %s" % (addr, src)
@@ -291,26 +363,7 @@ class IcePAP:
         command = "%d:?%s" % (addr, info)
         ans = self.sendWriteReadCommand(command)
         return self.parseResponse(command, ans)
-    
-        
-    def setSilent(self, addr, mode):
-        self.sendWriteCommand(addr , 'SILENT %d' % mode)
-                
      
-    def preStart(self, addr):
-        if (self.Status == CStatus.Disconnected):
-            return -1
-        ans= self.sendWriteReadCommand(addr , '?CPLD 0')
-        try:
-            vans = ans.split()
-            #print 'prestart %s' % ans
-            if int(vans[2]) & 0x0020:
-                self.sendWriteCommand(addr , 'CLR')
-                self.sendWriteCommand(addr , 'EN')
-        except:
-            ans = self.IceCheckError(ans)
-            iex = IcePAPException(IcePAPException.Error, ans)
-            raise iex
     
     def checkDriver(self, addr):
         #print "checking driver"
@@ -341,10 +394,7 @@ class IcePAP:
             return "IcePAPError. Not Identified"
       
     
-    def setSilent(self, addr, mode):
-        if (self.Status == CStatus.Disconnected):
-            return -1
-        self.sendWriteCommand(addr , 'SILENT %d' % mode)
+    
         
    
         
