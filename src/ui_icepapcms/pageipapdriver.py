@@ -760,13 +760,13 @@ class PageiPapDriver(QtGui.QWidget):
         self.power = power 
             
         #position =  position / self.StepSize
-        if IcePAPStatus.inHome(status):
+        if IcepapStatus.inHome(status):
             self.ui.LedHome.on()
         else:
             self.ui.LedHome.off()
         
-        lower = IcePAPStatus.getLimitNegative(status) 
-        upper = IcePAPStatus.getLimitPositive(status)
+        lower = IcepapStatus.getLimitNegative(status) 
+        upper = IcepapStatus.getLimitPositive(status)
         if lower:
             self.ui.LedLimitNeg.on()
         else:

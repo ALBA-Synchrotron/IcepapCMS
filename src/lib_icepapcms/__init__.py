@@ -5,5 +5,4 @@ from conflict import Conflict
 from configmanager import ConfigManager
 from timer import Timer
 from icepapcontroller import IcepapController
-from pyIcePAP import EthIcePAP, IcePAPException, IcePAPStatus, IcePAP, SerialIcePAP
-from icepapdef import *
+from pyIcePAP import *

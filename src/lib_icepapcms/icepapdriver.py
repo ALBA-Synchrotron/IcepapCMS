@@ -2,7 +2,7 @@ from persistent import Persistent
 from icepapdrivercfg import IcepapDriverCfg
 from conflict import Conflict
 import socket, time
-from icepapdef import *
+from pyIcePAP import *
 import icepapcontroller
 
 class IcepapDriver(Persistent):

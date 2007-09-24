@@ -1,6 +1,7 @@
 from IcePAP import *
 from serial import Serial
 import time
+import icepapdef
 
 
 class SerialIcePAP(IcePAP):

@@ -1,7 +1,7 @@
-from pyIcePAP import EthIcePAP, IcePAPException, IcePAPStatus, IcePAP, SerialIcePAP
+from pyIcePAP import EthIcePAP, IcePAPException, IcePAP, SerialIcePAP
 from icepapdriver import IcepapDriver
 from icepapdrivercfg import IcepapDriverCfg
-from icepapdef import *
+from pyIcePAP import *
 from conflict import Conflict
 from xml.dom import minidom, Node
 import os
@@ -116,7 +116,6 @@ class IcepapController(Singleton):
         """
         
         register = self.iPaps[icepap_name].getStatus(driver_addr)
-        
         if "x" in register:
             register = int(register,16)
         else:

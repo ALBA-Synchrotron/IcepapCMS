@@ -7,7 +7,7 @@ from PyQt4 import QtGui
 from conflict import Conflict
 from ui_icepapcms.messagedialogs import MessageDialogs
 import sys
-from icepapdef import *
+from pyIcePAP import *
 
 
 class MainManager(Singleton):
