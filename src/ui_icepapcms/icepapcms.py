@@ -33,13 +33,17 @@ class IcepapCMS(QtGui.QMainWindow):
         self.ui.stackedWidget.addWidget(self.ui.pageiPapDriver)
         self.signalConnections()
         self.refreshTimer = Qt.QTimer(self)
-        #self.historicDlg = DialogHistoricCfg(self, self.ui.pageiPapDriver)
+        self.checkTimer = Qt.QTimer(self)
+        QtCore.QObject.connect(self.checkTimer,QtCore.SIGNAL("timeout()"),self.checkIcepapConnection)
+        self.checkTimer.start(10000)
+        
         
     
     def initGUI(self):
         self._manager = MainManager(self)
         if not self._manager.dbStatusOK:
             MessageDialogs.showErrorMessage(self, "Storage", "Error accessing storage.\nCheck storage preferences.")
+        
         self.buildTree()
         self.locationsNext = []
         self.locationsPrevious = []
@@ -116,7 +120,8 @@ class IcepapCMS(QtGui.QMainWindow):
         self._tree_model = IcepapTreeModel(self._manager.IcepapSystemList)
         self.ui.treeView.setModel(self._tree_model)
         for name in expand_system.keys():
-            self.expandAll(name)
+            self.expandAll(name)    
+    
         
     def performSystemScan(self):
         icepap_list = self._manager.getIcepapList()
@@ -125,7 +130,7 @@ class IcepapCMS(QtGui.QMainWindow):
         conflicts_list = []
         for icepap_name, icepap_system in icepap_list.items():
             self.setStatusMessage("Scanning ... " + icepap_name)
-            expand_system[icepap_system.name] = icepap_system
+            expand_system[icepap_system.name] = icepap_system            
             conflicts_list.extend(self._manager.scanIcepap(icepap_system))
         
         if len(conflicts_list) > 0:
@@ -146,7 +151,26 @@ class IcepapCMS(QtGui.QMainWindow):
         return expand_system
     
     def checkIcepapConnection(self):
-        self.btnTreeRefresh_on_click()
+        icepap_systems_changed = self._manager.checkIcepapSystems()
+        for icepap_system in icepap_systems_changed:
+            if icepap_system.conflict != Conflict.NO_CONFLICT:
+                conflicts_list = []
+                conflicts_list.extend(self._manager.scanIcepap(icepap_system))
+                if len(conflicts_list) > 0:
+                    self.setStatusMessage("Configuration conflics found.")
+                    for conflict in conflicts_list:
+                        icepap_system = conflict[1]
+                        #expand_system[icepap_system.name] = icepap_system
+                        if conflict[0] == Conflict.NO_CONNECTION:
+                            icepap_system.setConflict(conflict[0])
+                            self.setStatusMessage(icepap_system.name + ": Connection Error")
+                        else:
+                            if not conflict[2] is None:
+                                self.setStatusMessage("Configuration conflics found.")
+                                driver = icepap_system.getDriver(conflict[2])
+                                driver.setConflict(conflict[0])
+            self._tree_model.updateIcepapSystem(icepap_system)
+                
         
     def solveConflict(self, item):
         dlg = DialogDriverConflict(self, item.itemData)
@@ -171,6 +195,9 @@ class IcepapCMS(QtGui.QMainWindow):
         self.refreshTree()
         
     def refreshTree(self):
+        self.ui.pageiPapDriver.stopTesting()
+        if not self.refreshTimer is None:
+            self.refreshTimer.stop()
         self.ui.txtLocation.setText("")
         self._manager.reset(self)
         #if not self._manager.dbStatusOK:

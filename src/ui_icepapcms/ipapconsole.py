@@ -36,9 +36,9 @@ class IcepapConsole(QtGui.QDialog):
             self.ipap.connect()
             self.ui.console.clear()
             self.writeConsole("Connected to Icepap :  " + addr)
-            rsp = self.ipap.sendWriteReadCommand(None, "help")
+            rsp = self.ipap.sendWriteReadCommand("help")
             self.writeConsole(rsp)
-            rsp = self.ipap.sendWriteReadCommand(None, "sockhelp")
+            rsp = self.ipap.sendWriteReadCommand( "sockhelp")
             self.writeConsole(rsp)
             self.ui.btnDisconnect.setDisabled(False)
             self.ui.btnConnect.setDisabled(True)
@@ -74,13 +74,13 @@ class IcepapConsole(QtGui.QDialog):
             self.close()
             return
         if cmd.find("?") >= 0 or cmd.find("#")>= 0:
-            res = self.ipap.sendWriteReadCommand(None,cmd)
+            res = self.ipap.sendWriteReadCommand(cmd)
             self.writeConsole(res)
         elif cmd.find("HELP")>=0:
-            res = self.ipap.sendWriteReadCommand(None,cmd)
+            res = self.ipap.sendWriteReadCommand(cmd)
             self.writeConsole(res)
         else:
-             res = self.ipap.sendWriteCommand(None,cmd)
+             res = self.ipap.sendWriteCommand(cmd)
 
     
     def closeEvent(self, event):

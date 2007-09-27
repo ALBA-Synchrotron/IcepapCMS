@@ -12,6 +12,10 @@ class IcePapDriverWidget(QtGui.QWidget):
         self.MaxCurrent = 7
         self._driver = None
         self.setMouseTracking(True)
+        self.status = -1
+        self.ready = -1   
+        self.power = -1
+        self.mode = -1
     def initView(self, Big):
         self.BigSize = Big
         self.coloroff = QtGui.QColor(225,255,200)
@@ -95,23 +99,54 @@ class IcePapDriverWidget(QtGui.QWidget):
         else:
             self.setPaletteColor(self.ui.frame,self.colorok,Qt.Qt.black)
             
-        (status, current) = self._manager.getDriverStatus(self._driver.icepap_name, self._driver.addr)
-        
-        self.ui.pushButton.setEnabled(True)
-        if IcepapStatus.isDisabled(status) == 0:
-            self.ui.ledStatus.changeColor(Led.GREEN)
-            self.ui.ledStatus.on()
-            self.ui.pushButton.setText("disable")
-            self.ui.pushButton.setChecked(True)
-        elif IcepapStatus.isDisabled(status) > 0:
+        (status, power, current) = self._manager.getDriverStatus(self._driver.icepap_name, self._driver.addr)
+        if status == -1:                
+            self.ui.pushButton.setEnabled(False)
             self.ui.ledStatus.changeColor(Led.RED)
             self.ui.ledStatus.on()
-            if IcepapStatus.isDisabled(status) == 1:
+            return
+        
+        disabled = IcepapStatus.isDisabled(status)
+        ready = IcepapStatus.isReady(status)
+        mode = IcepapStatus.getMode(status)
+        if self.status <> disabled or self.mode <> mode or self.power <> power or self.ready <> ready:
+            if disabled == 0:
+                if power:
+                    self.ui.ledStatus.changeColor(Led.GREEN)
+                    self.ui.ledStatus.on()
+                    self.ui.pushButton.setText("disable")
+                    self.ui.pushButton.setChecked(True)
+                    self.ui.pushButton.setEnabled(True)
+                    self.mode = mode                    
+                else:
+                    self.ui.pushButton.setEnabled(True)
+                    self.ui.pushButton.setText("enable")
+                    self.ui.pushButton.setChecked(False)
+                    self.ui.ledStatus.changeColor(Led.RED)
+                    self.ui.ledStatus.on()                    
+            elif disabled == 1:
+                # driver is not active disable motion and enable
                 self.ui.pushButton.setEnabled(False)
-            self.ui.pushButton.setText("enable")
-            self.ui.pushButton.setChecked(False)
-        elif status == -1:
-            return True
+                self.ui.ledStatus.changeColor(Led.RED)
+                self.ui.ledStatus.on()
+            else:
+                self.ui.pushButton.setEnabled(True)
+                self.ui.pushButton.setText("enable")
+                self.ui.pushButton.setChecked(False)
+                self.ui.ledStatus.changeColor(Led.RED)
+                self.ui.ledStatus.on()
+        
+        if status == -1:                
+            self.ui.pushButton.setEnabled(False)
+            self.ui.ledStatus.changeColor(Led.RED)
+            self.ui.ledStatus.on()
+
+               
+        
+        self.status = disabled
+        self.ready = ready   
+        self.power = power
+
         lower = IcepapStatus.getLimitNegative(status) 
         upper = IcepapStatus.getLimitPositive(status)
         if lower:

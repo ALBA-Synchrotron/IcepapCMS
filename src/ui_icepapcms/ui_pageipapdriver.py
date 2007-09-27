@@ -497,10 +497,12 @@ class Ui_PageiPapDriver(object):
         self.gridlayout11.addWidget(self.ABSNTURN,3,3,1,1)
 
         self.INPNSTEP = QtGui.QSpinBox(self.groupBox_2)
+        self.INPNSTEP.setMaximum(999999)
         self.INPNSTEP.setObjectName("INPNSTEP")
         self.gridlayout11.addWidget(self.INPNSTEP,1,4,1,1)
 
         self.EINNSTEP = QtGui.QSpinBox(self.groupBox_2)
+        self.EINNSTEP.setMaximum(999999)
         self.EINNSTEP.setObjectName("EINNSTEP")
         self.gridlayout11.addWidget(self.EINNSTEP,2,4,1,1)
 
@@ -513,6 +515,7 @@ class Ui_PageiPapDriver(object):
         self.gridlayout11.addWidget(self.INPNTURN,1,3,1,1)
 
         self.ABSNSTEP = QtGui.QSpinBox(self.groupBox_2)
+        self.ABSNSTEP.setMaximum(999999)
         self.ABSNSTEP.setObjectName("ABSNSTEP")
         self.gridlayout11.addWidget(self.ABSNSTEP,3,4,1,1)
 
