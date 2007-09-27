@@ -29,7 +29,7 @@ class IcepapController(Singleton):
         self.iPaps = {}
         
     def openConnection(self, icepap_name, host, port):
-        self.iPaps[icepap_name] = EthIcePAP(host, port)
+        self.iPaps[icepap_name] = EthIcePAP(host, port)        
         self.iPaps[icepap_name].connect()
         
     def closeConnection(self, icepap_name):
@@ -124,10 +124,17 @@ class IcepapController(Singleton):
         #status = IcePAPStatus.isDisabled(register) 
         
         #status = (status > 0)
+        disabled = IcepapStatus.isDisabled(register)
+        if disabled <> 1:
+            # only if driver is active
+            power = self.iPaps[icepap_name].getPower(driver_addr)
+            power = (power == IcepapAnswers.ON)
+        else:
+            power = False
         
         current = self.iPaps[icepap_name].getCurrent(driver_addr)
         
-        state = (int(register), float(current))
+        state = (int(register), power, float(current))
         return state
             
         
@@ -159,7 +166,7 @@ class IcepapController(Singleton):
             posarray = [position, encoder]
         else:
             posarray = [-1, -1]
-            power = -1
+            power = False
             
         state = (int(register), power, posarray)
         return state
@@ -232,6 +239,17 @@ class IcepapController(Singleton):
     
     def disableDriver(self, icepap_name, driver_addr):
         self.iPaps[icepap_name].disable(driver_addr)
+    
+    def checkIcepapStatus(self, icepap_name):
+        try:
+            if self.iPaps[icepap_name].Status == CStatus.Connected:
+                self.iPaps[icepap_name].getSysStatus()
+            else:
+                self.iPaps[icepap_name].connect()
+            return True
+        except IcePAPException, e:
+            if e.code == IcePAPException.TIMEOUT:
+                return False
         
     def _checkDriverStatus(self, icepap_name, driver_addr):
         """

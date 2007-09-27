@@ -62,6 +62,7 @@ class PageiPapDriver(QtGui.QWidget):
         self.ui.tabWidget.setCurrentIndex(0)
         self.ui.historicWidget.setCfgPage(self)
         self.hideHistoricWidget()
+        self.ui.sliderJog.setEnabled(False)
         
     def setScrollBars(self):
         self.ui.sahboxlayout = QtGui.QHBoxLayout(self.ui.tab_connectors)
@@ -410,10 +411,13 @@ class PageiPapDriver(QtGui.QWidget):
                 widget.setChecked(state)
             elif isinstance(widget, QtGui.QComboBox):
                 widget.setCurrentIndex(widget.findText(value, QtCore.Qt.MatchFixedString))
-                widget.defaultvalue = value
+                if default:
+                    widget.defaultvalue = str(value)                
             elif isinstance(widget, QtGui.QLineEdit):
                 widget.setText(str(value))
-                widget.defaultvalue = str(value)
+                if default:
+                    widget.defaultvalue = str(value)
+                
                 
         except:
             print "error in _setWidgetValue"
@@ -468,6 +472,8 @@ class PageiPapDriver(QtGui.QWidget):
         #self.icepap_driver.nemonic = str(self.ui.txtDriverNemonic.text())
         new_values = []
         values_ok = True
+        save_ok = True
+        test_values_ok = True
         # First get modified items in main section
         self._mainwin.ui.actionHistoricCfg.setChecked(False)
         self.hideHistoricWidget()
@@ -499,6 +505,12 @@ class PageiPapDriver(QtGui.QWidget):
                         values_ok = False
                         break
         
+        if values_ok and len(new_values) > 0:
+            save_ok = self._manager.saveValuesInIcepap(self.icepap_driver, new_values)
+        elif not values_ok:
+            save_ok = False
+            MessageDialogs.showWarningMessage(self, "Driver configuration", "Wrong parameter format")
+        
         # save testing values
         if not (self.status == -1 or self.status == 1):
             test_values_list = []
@@ -518,22 +530,19 @@ class PageiPapDriver(QtGui.QWidget):
                             value = self._getWidgetValue(widget)
                             test_values_list.append([name, value])
                 except:
-                    pass
+                    test_values_ok = False
+                    break
                     
             self._manager.writeIcepapParameters(self.icepap_driver.icepap_name, self.icepap_driver.addr, test_values_list)
         
         #self.configureSignals()
-        if values_ok and len(new_values) > 0:
-            ok = self._manager.saveValuesInIcepap(self.icepap_driver, new_values)
-            if ok:
-                self.fillData(self.icepap_driver)
-                self.ui.btnUndo.setEnabled(True)
-                
-                #self._mainwin.addDriverToSign(self.icepap_driver)                
-            else:
-                MessageDialogs.showWarningMessage(self, "Driver configuration", "Error saving configuration")
-        elif not values_ok:
-            MessageDialogs.showWarningMessage(self, "Driver configuration", "Wrong parameter format")
+        if save_ok and test_values_ok:
+            self.fillData(self.icepap_driver)
+            self.ui.btnUndo.setEnabled(True)
+        else:
+            MessageDialogs.showWarningMessage(self, "Driver configuration", "Error saving configuration")
+        
+        
         
         
         self._disconnectHighlighting()
@@ -642,11 +651,15 @@ class PageiPapDriver(QtGui.QWidget):
             self.refreshTimer.start(1500)
         
     def stopTesting(self):
-        if not self.icepap_driver is None:
+        try:
             self.refreshTimer.stop()
             #self._manager.disableDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr)
             self.setLedsOff()
-    
+        except:
+            print "Unexpected error:", sys.exc_info()
+            
+        
+        
     def getMotionValues(self):
         (speed, acc) = self._manager.getDriverMotionValues(self.icepap_driver.icepap_name, self.icepap_driver.addr)
         print "getting motion valuies"
@@ -694,7 +707,8 @@ class PageiPapDriver(QtGui.QWidget):
         self.ui.btnGORelativeNeg.setEnabled(True)
         if self.mode == 0:
             self.ui.btnGO.setEnabled(True)
-            self.ui.sliderJog.setEnabled(True)
+            """ Jog not working now """
+            #self.ui.sliderJog.setEnabled(True)
         else:
             self.ui.btnGO.setEnabled(False)
             self.ui.sliderJog.setEnabled(False)
@@ -703,7 +717,7 @@ class PageiPapDriver(QtGui.QWidget):
         self.ui.tab_3.setEnabled(True)
         
                 
-    def updateTestStatus(self):        
+    def updateTestStatus(self):  
         pos_sel = str(self.ui.cb_pos_sel.currentText()).upper()
         enc_sel = str(self.ui.cb_enc_sel.currentText()).upper()
         (status, power, position) = self._manager.getDriverTestStatus(self.icepap_driver.icepap_name, self.icepap_driver.addr, pos_sel, enc_sel)

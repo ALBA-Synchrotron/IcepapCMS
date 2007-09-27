@@ -50,7 +50,7 @@
       <string/>
      </property>
      <property name="currentIndex" >
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab_2" >
       <attribute name="title" >
@@ -1069,10 +1069,18 @@ Steps</string>
                 <widget class="QSpinBox" name="ABSNTURN" />
                </item>
                <item row="1" column="4" >
-                <widget class="QSpinBox" name="INPNSTEP" />
+                <widget class="QSpinBox" name="INPNSTEP" >
+                 <property name="maximum" >
+                  <number>999999</number>
+                 </property>
+                </widget>
                </item>
                <item row="2" column="4" >
-                <widget class="QSpinBox" name="EINNSTEP" />
+                <widget class="QSpinBox" name="EINNSTEP" >
+                 <property name="maximum" >
+                  <number>9999999</number>
+                 </property>
+                </widget>
                </item>
                <item row="2" column="3" >
                 <widget class="QSpinBox" name="EINNTURN" />
@@ -1081,7 +1089,11 @@ Steps</string>
                 <widget class="QSpinBox" name="INPNTURN" />
                </item>
                <item row="3" column="4" >
-                <widget class="QSpinBox" name="ABSNSTEP" />
+                <widget class="QSpinBox" name="ABSNSTEP" >
+                 <property name="maximum" >
+                  <number>9999999</number>
+                 </property>
+                </widget>
                </item>
                <item row="3" column="5" >
                 <widget class="QSpinBox" name="ABSOFFSET" />

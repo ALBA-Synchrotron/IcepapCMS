@@ -46,6 +46,12 @@
                 <par id="MREGD" name="MREGD" type="DOUBLE" min="0" max="1000">
                      <description>Derivative Constant PID Current Regulator</description>
                 </par>                
+                <par id="ANTURN" name="ANTURN" type="INTEGER" min="0" max="9999999">
+                	 <description></description>
+                </par>
+                <par id="ANSTEP" name="ANSTEP" type="INTEGER" min="0" max="9999999">
+                	 <description></description>
+                </par>
                 <par id="DEFVEL" name="DEFVEL" type="DOUBLE" min="0" max="99999999">
                      <description></description>
                 </par>

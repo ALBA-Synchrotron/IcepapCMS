@@ -9,7 +9,7 @@ class CStatus:
     Disconnected, Connected, Error = range(3)
             
 class IcePAPException:
-    Error = range(1)
+    ERROR, TIMEOUT, CMD = range(3)
     def __init__(self, code, name):
         self.code = code
         self.name = name
@@ -51,7 +51,7 @@ class IcePAP:
             return  ans
         else:
             print ans + " " + command
-            iex = IcePAPException(IcePAPException.Error,ans)
+            iex = IcePAPException(IcePAPException.CMD, ans)
             raise iex
     
     def setCfgParameter(self, addr, parameter, value):
