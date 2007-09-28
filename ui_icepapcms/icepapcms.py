@@ -370,15 +370,7 @@ class IcepapCMS(QtGui.QMainWindow):
             
         
     def actionRefresh(self):
-        self.refreshTree()
-        #index = self.ui.stackedWidget.currentIndex()
-        #if index == 1:
-        #    self.ui.pageiPapSystem.refresh()
-        #elif index == 2:
-        #    self.ui.pageiPapCrate.refresh()
-        #elif index == 3:
-            #self.ui.pageiPapSystem.refresh()
-            
+        self.refreshTree()            
             
     def closeEvent(self, event):
         signList = self._manager.getDriversToSign()
