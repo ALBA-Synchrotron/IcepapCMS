@@ -347,7 +347,7 @@ class IcePAP:
         
     # ------------- Input/Output commands ------------------------
     def setIndexerSource(self, addr, src):
-        command = "%d:ACCTIME %s" % (addr, src)
+        command = "%d:INDEXER %s" % (addr, src)
         self.sendWriteCommand(command)
         
     def getIndexerSource(self, addr):
