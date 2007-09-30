@@ -662,7 +662,7 @@ class PageiPapDriver(QtGui.QWidget):
         
     def getMotionValues(self):
         (speed, acc) = self._manager.getDriverMotionValues(self.icepap_driver.icepap_name, self.icepap_driver.addr)
-        print "getting motion valuies"
+        
         self.ui.txtSpeed.setText(str(speed))
         self.ui.txtAcceleration.setText(str(acc))
     
