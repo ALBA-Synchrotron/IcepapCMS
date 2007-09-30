@@ -177,7 +177,6 @@ class IcePAP:
     
     def getAcceleration(self, addr):
         command = "%d:?ACCTIME" % addr
-        print command
         ans = self.sendWriteReadCommand(command)
         return self.parseResponse(command, ans)
         
