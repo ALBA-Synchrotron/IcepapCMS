@@ -703,8 +703,9 @@ class PageiPapDriver(QtGui.QWidget):
     def enableAllControl(self):
         self.ui.txtSpeed.setEnabled(True)
         self.ui.txtAcceleration.setEnabled(True)
-        self.ui.btnGO.setEnabled(True)
+        
         self.ui.btnGORelativeNeg.setEnabled(True)
+        self.ui.btnGORelativePos.setEnabled(True)
         if self.mode == 0:
             self.ui.btnGO.setEnabled(True)
             """ Jog not working now """
