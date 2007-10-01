@@ -1,0 +1,4 @@
+#!/bin/bash
+# front script for icepapcms (to be installed in sicilia and put on the path)
+. blissrc 
+python $BLISSADM/applications/icepapcms/icepapcms $*
