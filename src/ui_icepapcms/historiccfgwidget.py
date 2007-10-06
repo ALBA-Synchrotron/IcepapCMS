@@ -25,8 +25,9 @@ class HistoricCfgWidget(QtGui.QWidget):
         self.pagedriver = pagedriver
         
     def fillData(self, driver):
+        """ TO-DO STORM review"""
         self.ui.stackedWidget.setCurrentIndex(0)
-        self.ui.saveButton.setEnabled(True)
+        self.ui.saveButton.setEnabled(False)
         self.ui.deleteButton.setEnabled(False)
         
         for date in self.ui.calendarWidget.dateTextFormat():
@@ -35,17 +36,20 @@ class HistoricCfgWidget(QtGui.QWidget):
         self.icepap_driver = driver
         self.ui.txtName.setText("")
         self.ui.txtDescription.setText("")
-        for date, cfg in self.icepap_driver.historicCfg.items():
-            datetime = time.localtime(date)
-            qdate = QtCore.QDate(datetime.tm_year,datetime.tm_mon,datetime.tm_mday)
+        for cfg in self.icepap_driver.historic_cfgs:
+            datetime = cfg.date            
+            
+            #datetime = time.localtime(date)
+            #qdate = QtCore.QDate(datetime.tm_year,datetime.tm_mon,datetime.tm_mday)
+            qdate = QtCore.QDate(datetime.year,datetime.month,datetime.day)
             cfgdate = qdate.toPyDate().ctime()
             if self.selectedDays.has_key(cfgdate):
-                self.selectedDays[cfgdate].append([date, cfg])
+                self.selectedDays[cfgdate].append([cfg.date, cfg])
             else:
                 format=QtGui.QTextCharFormat()
                 format.setBackground(QtGui.QColor(255,255,0))
                 self.ui.calendarWidget.setDateTextFormat(qdate, format)
-                self.selectedDays[cfgdate] = [[date, cfg]]
+                self.selectedDays[cfgdate] = [[cfg.date, cfg]]
         self.daySelected(self.ui.calendarWidget.selectedDate())
     
     def daySelected(self, qdate):
@@ -62,7 +66,7 @@ class HistoricCfgWidget(QtGui.QWidget):
         self.ui.listWidget.clear()
         self.listDict = {}
         for date, cfg in cfgs:
-            key = time.ctime(date)
+            key = date.ctime()
             self.listDict[key] = [date, cfg]
             self.ui.listWidget.addItem(key)
             
@@ -72,8 +76,11 @@ class HistoricCfgWidget(QtGui.QWidget):
             self.fillCfgData(self.listDict[name])
     
     def fillCfgData(self, cfg):
-        self.ui.saveButton.setEnabled(False)
-        self.ui.deleteButton.setEnabled(True)
+        self.ui.saveButton.setEnabled(True)
+        if self.icepap_driver.current_cfg.name == cfg[1].name:
+            self.ui.deleteButton.setEnabled(False)
+        else:
+            self.ui.deleteButton.setEnabled(True)
         self.selectedCfg = cfg
         self.ui.txtName.setText(cfg[1].name)
         self.ui.txtDescription.setText(str(cfg[1].description))
@@ -85,21 +92,24 @@ class HistoricCfgWidget(QtGui.QWidget):
     
     def deleteButton_on_click(self):
         if MessageDialogs.showYesNoMessage(self, "Historic configuration", "Delete selected configuration ?"):
-            self.icepap_driver.deleteHistoricCfg(self.selectedCfg[0])
+            self.icepap_driver.deleteHistoricCfg(self.selectedCfg[1])
             self.fillData(self.icepap_driver)
         self.ui.txtName.setText("")
         self.ui.txtDescription.clear()
         self.ui.deleteButton.setEnabled(False)
         
     def saveButton_on_click(self):
-        name = str(self.ui.txtName.text())
-        desc = str(self.ui.txtDescription.toPlainText())
-        if name == "":
+        name = unicode(self.ui.txtName.text())
+        desc = unicode(self.ui.txtDescription.toPlainText())
+        if name == "" or not self.selectedCfg:
             MessageDialogs.showWarningMessage(self, "Store historic configuration", "Fill all required data.")
+            return
         #now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        if MessageDialogs.showYesNoMessage(self, "Store historic configuration", "Save current configuration ?"):
-            self.icepap_driver.saveHistoricCfg(time.time(), name, desc)
-            self.fillData(self.icepap_driver)
+        if MessageDialogs.showYesNoMessage(self, "Store historic configuration", "Save configuration information?"):
+            self.selectedCfg[1].name = name
+            self.selectedCfg[1].description = desc
+            #self.icepap_driver.saveHistoricCfg(time.time(), name, desc)
+            #self.fillData(self.icepap_driver)
         
         
         

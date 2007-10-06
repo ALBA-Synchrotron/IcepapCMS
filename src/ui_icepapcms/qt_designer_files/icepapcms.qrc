@@ -4,6 +4,7 @@
         <file>IcepapCfg Icons/calendar.png</file>
         <file>IcepapCfg Icons/close.png</file>
         <file>IcepapCfg Icons/connect.png</file>
+        <file>IcepapCfg Icons/database.png</file>
         <file>IcepapCfg Icons/disconnect.png</file>
         <file>IcepapCfg Icons/emblem-keys.png</file>
         <file>IcepapCfg Icons/emblem-people.png</file>
@@ -36,16 +37,20 @@
         <file>IcepapCfg Icons/ipapdriverwarning.png</file>
         <file>IcepapCfg Icons/ipapsys.png</file>
         <file>IcepapCfg Icons/ipapsyserror.png</file>
+        <file>IcepapCfg Icons/ipapsysoffline.png</file>
         <file>IcepapCfg Icons/ipapsyswarning.png</file>
         <file>IcepapCfg Icons/keys.png</file>
         <file>IcepapCfg Icons/list-add.png</file>
         <file>IcepapCfg Icons/list-remove.png</file>
+        <file>IcepapCfg Icons/mysql.gif</file>
         <file>IcepapCfg Icons/network-server.png</file>
         <file>IcepapCfg Icons/notes.png</file>
         <file>IcepapCfg Icons/package-x-generic.png</file>
+        <file>IcepapCfg Icons/postgresql.png</file>
         <file>IcepapCfg Icons/preferences-system.png</file>
         <file>IcepapCfg Icons/quit.png</file>
         <file>IcepapCfg Icons/sign.png</file>
+        <file>IcepapCfg Icons/sqlite.png</file>
         <file>IcepapCfg Icons/system-users.png</file>
         <file>IcepapCfg Icons/update-manager.png</file>
         <file>IcepapCfg Icons/view-refresh.png</file>

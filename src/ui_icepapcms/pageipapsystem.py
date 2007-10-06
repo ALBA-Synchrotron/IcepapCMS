@@ -90,6 +90,7 @@ class PageiPapSystem(QtGui.QWidget):
 
         
     def fillData(self, icepap_system):
+        """ TO-DO STORM review"""
         if self.icepap_system == icepap_system:
             self.refresh()
             return
@@ -111,7 +112,9 @@ class PageiPapSystem(QtGui.QWidget):
         self.icepap_system = icepap_system
         self.driverswidgets = {}
         crate = -1
-        for addr, driver in icepap_system.IcepapDriverList.items():
+        for driver in icepap_system.getDrivers():
+            addr = driver.addr
+            print addr
             if driver.cratenr  <> crate:
                 crate = driver.cratenr 
                 self.tableWidget.insertRow(crate)
