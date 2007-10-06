@@ -168,7 +168,7 @@ class Ui_HistoricCfgWidget(object):
         "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">Historic Configuration Tool</span></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.label.setText(QtGui.QApplication.translate("HistoricCfgWidget", "Name", None, QtGui.QApplication.UnicodeUTF8))
         self.label_2.setText(QtGui.QApplication.translate("HistoricCfgWidget", "Description", None, QtGui.QApplication.UnicodeUTF8))
-        self.saveButton.setText(QtGui.QApplication.translate("HistoricCfgWidget", "Save", None, QtGui.QApplication.UnicodeUTF8))
+        self.saveButton.setText(QtGui.QApplication.translate("HistoricCfgWidget", "Update", None, QtGui.QApplication.UnicodeUTF8))
         self.deleteButton.setText(QtGui.QApplication.translate("HistoricCfgWidget", "Delete", None, QtGui.QApplication.UnicodeUTF8))
 
 

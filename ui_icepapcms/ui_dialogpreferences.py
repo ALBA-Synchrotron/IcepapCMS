@@ -2,18 +2,17 @@
 
 # Form implementation generated from reading ui file 'dialogpreferences.ui'
 #
-# Created: Tue Mar 27 10:34:49 2007
-#      by: PyQt4 UI code generator 4.1
+# Created: Sat Oct  6 21:41:03 2007
+#      by: PyQt4 UI code generator 4.2
 #
 # WARNING! All changes made in this file will be lost!
 
-import sys
 from PyQt4 import QtCore, QtGui
 
 class Ui_DialogPreferences(object):
     def setupUi(self, DialogPreferences):
         DialogPreferences.setObjectName("DialogPreferences")
-        DialogPreferences.resize(QtCore.QSize(QtCore.QRect(0,0,558,404).size()).expandedTo(DialogPreferences.minimumSizeHint()))
+        DialogPreferences.resize(QtCore.QSize(QtCore.QRect(0,0,558,468).size()).expandedTo(DialogPreferences.minimumSizeHint()))
 
         palette = QtGui.QPalette()
 
@@ -223,10 +222,165 @@ class Ui_DialogPreferences(object):
         DialogPreferences.setPalette(palette)
         DialogPreferences.setWindowIcon(QtGui.QIcon(":/icons/IcepapCfg Icons/preferences-system.png"))
 
-        self.vboxlayout = QtGui.QVBoxLayout(DialogPreferences)
-        self.vboxlayout.setMargin(9)
-        self.vboxlayout.setSpacing(6)
-        self.vboxlayout.setObjectName("vboxlayout")
+        self.gridlayout = QtGui.QGridLayout(DialogPreferences)
+        self.gridlayout.setMargin(9)
+        self.gridlayout.setSpacing(6)
+        self.gridlayout.setObjectName("gridlayout")
+
+        self.stackedWidget = QtGui.QStackedWidget(DialogPreferences)
+        self.stackedWidget.setObjectName("stackedWidget")
+
+        self.pageStorage = QtGui.QWidget()
+        self.pageStorage.setObjectName("pageStorage")
+
+        self.gridlayout1 = QtGui.QGridLayout(self.pageStorage)
+        self.gridlayout1.setMargin(9)
+        self.gridlayout1.setSpacing(6)
+        self.gridlayout1.setObjectName("gridlayout1")
+
+        spacerItem = QtGui.QSpacerItem(20,40,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Expanding)
+        self.gridlayout1.addItem(spacerItem,4,0,1,1)
+
+        self.lblModules = QtGui.QLabel(self.pageStorage)
+
+        palette = QtGui.QPalette()
+
+        brush = QtGui.QBrush(QtGui.QColor(255,0,0))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.WindowText,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(255,0,0))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Text,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(255,0,0))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.WindowText,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(255,0,0))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Text,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(127,125,123))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.WindowText,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(127,125,123))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.Text,brush)
+        self.lblModules.setPalette(palette)
+
+        font = QtGui.QFont()
+        font.setPointSize(8)
+        self.lblModules.setFont(font)
+        self.lblModules.setObjectName("lblModules")
+        self.gridlayout1.addWidget(self.lblModules,3,0,1,1)
+
+        self.gbLocal = QtGui.QGroupBox(self.pageStorage)
+        self.gbLocal.setObjectName("gbLocal")
+
+        self.hboxlayout = QtGui.QHBoxLayout(self.gbLocal)
+        self.hboxlayout.setMargin(9)
+        self.hboxlayout.setSpacing(6)
+        self.hboxlayout.setObjectName("hboxlayout")
+
+        self.label = QtGui.QLabel(self.gbLocal)
+        self.label.setObjectName("label")
+        self.hboxlayout.addWidget(self.label)
+
+        self.txtLocalFolder = QtGui.QLineEdit(self.gbLocal)
+        self.txtLocalFolder.setMaximumSize(QtCore.QSize(1666666,16777215))
+        self.txtLocalFolder.setObjectName("txtLocalFolder")
+        self.hboxlayout.addWidget(self.txtLocalFolder)
+
+        self.btnBrowser = QtGui.QToolButton(self.gbLocal)
+        self.btnBrowser.setObjectName("btnBrowser")
+        self.hboxlayout.addWidget(self.btnBrowser)
+        self.gridlayout1.addWidget(self.gbLocal,1,0,1,1)
+
+        self.gbRemote = QtGui.QGroupBox(self.pageStorage)
+        self.gbRemote.setObjectName("gbRemote")
+
+        self.gridlayout2 = QtGui.QGridLayout(self.gbRemote)
+        self.gridlayout2.setMargin(9)
+        self.gridlayout2.setSpacing(6)
+        self.gridlayout2.setObjectName("gridlayout2")
+
+        spacerItem1 = QtGui.QSpacerItem(71,20,QtGui.QSizePolicy.Expanding,QtGui.QSizePolicy.Minimum)
+        self.gridlayout2.addItem(spacerItem1,1,5,1,1)
+
+        self.txtPassword = QtGui.QLineEdit(self.gbRemote)
+        self.txtPassword.setMinimumSize(QtCore.QSize(150,0))
+        self.txtPassword.setMaximumSize(QtCore.QSize(150,16777215))
+        self.txtPassword.setEchoMode(QtGui.QLineEdit.Password)
+        self.txtPassword.setObjectName("txtPassword")
+        self.gridlayout2.addWidget(self.txtPassword,1,3,1,2)
+
+        self.txtPort = QtGui.QLineEdit(self.gbRemote)
+        self.txtPort.setMaximumSize(QtCore.QSize(50,16777215))
+        self.txtPort.setObjectName("txtPort")
+        self.gridlayout2.addWidget(self.txtPort,0,3,1,1)
+
+        self.label_3 = QtGui.QLabel(self.gbRemote)
+        self.label_3.setObjectName("label_3")
+        self.gridlayout2.addWidget(self.label_3,0,2,1,1)
+
+        self.txtHost = QtGui.QLineEdit(self.gbRemote)
+        self.txtHost.setMaximumSize(QtCore.QSize(200,16777215))
+        self.txtHost.setObjectName("txtHost")
+        self.gridlayout2.addWidget(self.txtHost,0,1,1,1)
+
+        spacerItem2 = QtGui.QSpacerItem(40,20,QtGui.QSizePolicy.Expanding,QtGui.QSizePolicy.Minimum)
+        self.gridlayout2.addItem(spacerItem2,0,4,1,2)
+
+        self.label_2 = QtGui.QLabel(self.gbRemote)
+        self.label_2.setObjectName("label_2")
+        self.gridlayout2.addWidget(self.label_2,0,0,1,1)
+
+        self.label_4 = QtGui.QLabel(self.gbRemote)
+        self.label_4.setObjectName("label_4")
+        self.gridlayout2.addWidget(self.label_4,1,0,1,1)
+
+        self.txtUser = QtGui.QLineEdit(self.gbRemote)
+        self.txtUser.setMaximumSize(QtCore.QSize(150,16777215))
+        self.txtUser.setObjectName("txtUser")
+        self.gridlayout2.addWidget(self.txtUser,1,1,1,1)
+
+        self.txPasswo = QtGui.QLabel(self.gbRemote)
+        self.txPasswo.setObjectName("txPasswo")
+        self.gridlayout2.addWidget(self.txPasswo,1,2,1,1)
+        self.gridlayout1.addWidget(self.gbRemote,2,0,1,1)
+
+        self.hboxlayout1 = QtGui.QHBoxLayout()
+        self.hboxlayout1.setMargin(0)
+        self.hboxlayout1.setSpacing(6)
+        self.hboxlayout1.setObjectName("hboxlayout1")
+
+        self.rbsqlite = QtGui.QRadioButton(self.pageStorage)
+        self.rbsqlite.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.rbsqlite.setIcon(QtGui.QIcon(":/icons/IcepapCfg Icons/sqlite.png"))
+        self.rbsqlite.setIconSize(QtCore.QSize(50,50))
+        self.rbsqlite.setObjectName("rbsqlite")
+        self.hboxlayout1.addWidget(self.rbsqlite)
+
+        self.rbmysql = QtGui.QRadioButton(self.pageStorage)
+        self.rbmysql.setIcon(QtGui.QIcon(":/icons/IcepapCfg Icons/mysql.gif"))
+        self.rbmysql.setIconSize(QtCore.QSize(50,50))
+        self.rbmysql.setObjectName("rbmysql")
+        self.hboxlayout1.addWidget(self.rbmysql)
+
+        self.rbpostgres = QtGui.QRadioButton(self.pageStorage)
+        self.rbpostgres.setIcon(QtGui.QIcon(":/icons/IcepapCfg Icons/postgresql.png"))
+        self.rbpostgres.setIconSize(QtCore.QSize(40,40))
+        self.rbpostgres.setObjectName("rbpostgres")
+        self.hboxlayout1.addWidget(self.rbpostgres)
+        self.gridlayout1.addLayout(self.hboxlayout1,0,0,1,1)
+        self.stackedWidget.addWidget(self.pageStorage)
+
+        self.pageUsers = QtGui.QWidget()
+        self.pageUsers.setObjectName("pageUsers")
+        self.stackedWidget.addWidget(self.pageUsers)
+        self.gridlayout.addWidget(self.stackedWidget,1,0,1,1)
 
         self.listWidget = QtGui.QListWidget(DialogPreferences)
 
@@ -245,134 +399,59 @@ class Ui_DialogPreferences(object):
         self.listWidget.setModelColumn(0)
         self.listWidget.setUniformItemSizes(False)
         self.listWidget.setObjectName("listWidget")
-        self.vboxlayout.addWidget(self.listWidget)
+        self.gridlayout.addWidget(self.listWidget,0,0,1,1)
 
-        self.stackedWidget = QtGui.QStackedWidget(DialogPreferences)
-        self.stackedWidget.setObjectName("stackedWidget")
-
-        self.pageStorage = QtGui.QWidget()
-        self.pageStorage.setObjectName("pageStorage")
-
-        self.vboxlayout1 = QtGui.QVBoxLayout(self.pageStorage)
-        self.vboxlayout1.setMargin(9)
-        self.vboxlayout1.setSpacing(6)
-        self.vboxlayout1.setObjectName("vboxlayout1")
-
-        self.hboxlayout = QtGui.QHBoxLayout()
-        self.hboxlayout.setMargin(0)
-        self.hboxlayout.setSpacing(6)
-        self.hboxlayout.setObjectName("hboxlayout")
-
-        self.rbLocal = QtGui.QRadioButton(self.pageStorage)
-        self.rbLocal.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.rbLocal.setIcon(QtGui.QIcon(":/icons/IcepapCfg Icons/gnome-dev-harddisk.png"))
-        self.rbLocal.setIconSize(QtCore.QSize(40,40))
-        self.rbLocal.setObjectName("rbLocal")
-        self.hboxlayout.addWidget(self.rbLocal)
-
-        self.rbRemote = QtGui.QRadioButton(self.pageStorage)
-        self.rbRemote.setIcon(QtGui.QIcon(":/icons/IcepapCfg Icons/gnome-dev-network.png"))
-        self.rbRemote.setIconSize(QtCore.QSize(40,40))
-        self.rbRemote.setObjectName("rbRemote")
-        self.hboxlayout.addWidget(self.rbRemote)
-        self.vboxlayout1.addLayout(self.hboxlayout)
-
-        self.gbLocal = QtGui.QGroupBox(self.pageStorage)
-        self.gbLocal.setObjectName("gbLocal")
-
-        self.hboxlayout1 = QtGui.QHBoxLayout(self.gbLocal)
-        self.hboxlayout1.setMargin(9)
-        self.hboxlayout1.setSpacing(6)
-        self.hboxlayout1.setObjectName("hboxlayout1")
-
-        self.label = QtGui.QLabel(self.gbLocal)
-        self.label.setObjectName("label")
-        self.hboxlayout1.addWidget(self.label)
-
-        self.txtLocalFolder = QtGui.QLineEdit(self.gbLocal)
-        self.txtLocalFolder.setMaximumSize(QtCore.QSize(1666666,16777215))
-        self.txtLocalFolder.setObjectName("txtLocalFolder")
-        self.hboxlayout1.addWidget(self.txtLocalFolder)
-
-        self.btnBrowser = QtGui.QToolButton(self.gbLocal)
-        self.btnBrowser.setObjectName("btnBrowser")
-        self.hboxlayout1.addWidget(self.btnBrowser)
-        self.vboxlayout1.addWidget(self.gbLocal)
-
-        self.gbRemote = QtGui.QGroupBox(self.pageStorage)
-        self.gbRemote.setObjectName("gbRemote")
-
-        self.hboxlayout2 = QtGui.QHBoxLayout(self.gbRemote)
-        self.hboxlayout2.setMargin(9)
+        self.hboxlayout2 = QtGui.QHBoxLayout()
+        self.hboxlayout2.setMargin(0)
         self.hboxlayout2.setSpacing(6)
         self.hboxlayout2.setObjectName("hboxlayout2")
 
-        self.label_2 = QtGui.QLabel(self.gbRemote)
-        self.label_2.setObjectName("label_2")
-        self.hboxlayout2.addWidget(self.label_2)
-
-        self.txtHost = QtGui.QLineEdit(self.gbRemote)
-        self.txtHost.setMaximumSize(QtCore.QSize(200,16777215))
-        self.txtHost.setObjectName("txtHost")
-        self.hboxlayout2.addWidget(self.txtHost)
-
-        self.label_3 = QtGui.QLabel(self.gbRemote)
-        self.label_3.setObjectName("label_3")
-        self.hboxlayout2.addWidget(self.label_3)
-
-        self.txtPort = QtGui.QLineEdit(self.gbRemote)
-        self.txtPort.setMaximumSize(QtCore.QSize(50,16777215))
-        self.txtPort.setObjectName("txtPort")
-        self.hboxlayout2.addWidget(self.txtPort)
-
-        spacerItem = QtGui.QSpacerItem(40,20,QtGui.QSizePolicy.Expanding,QtGui.QSizePolicy.Minimum)
-        self.hboxlayout2.addItem(spacerItem)
-        self.vboxlayout1.addWidget(self.gbRemote)
-
-        spacerItem1 = QtGui.QSpacerItem(20,40,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Expanding)
-        self.vboxlayout1.addItem(spacerItem1)
-        self.stackedWidget.addWidget(self.pageStorage)
-
-        self.pageUsers = QtGui.QWidget()
-        self.pageUsers.setObjectName("pageUsers")
-        self.stackedWidget.addWidget(self.pageUsers)
-        self.vboxlayout.addWidget(self.stackedWidget)
-
-        self.hboxlayout3 = QtGui.QHBoxLayout()
-        self.hboxlayout3.setMargin(0)
-        self.hboxlayout3.setSpacing(6)
-        self.hboxlayout3.setObjectName("hboxlayout3")
-
-        spacerItem2 = QtGui.QSpacerItem(131,31,QtGui.QSizePolicy.Expanding,QtGui.QSizePolicy.Minimum)
-        self.hboxlayout3.addItem(spacerItem2)
+        spacerItem3 = QtGui.QSpacerItem(131,31,QtGui.QSizePolicy.Expanding,QtGui.QSizePolicy.Minimum)
+        self.hboxlayout2.addItem(spacerItem3)
 
         self.closeButton = QtGui.QPushButton(DialogPreferences)
         self.closeButton.setIcon(QtGui.QIcon(":/icons/IcepapCfg Icons/close.png"))
         self.closeButton.setIconSize(QtCore.QSize(22,22))
         self.closeButton.setObjectName("closeButton")
-        self.hboxlayout3.addWidget(self.closeButton)
-        self.vboxlayout.addLayout(self.hboxlayout3)
+        self.hboxlayout2.addWidget(self.closeButton)
+        self.gridlayout.addLayout(self.hboxlayout2,2,0,1,1)
 
         self.retranslateUi(DialogPreferences)
-        self.listWidget.setCurrentRow(-1)
         self.stackedWidget.setCurrentIndex(0)
+        self.listWidget.setCurrentRow(-1)
         QtCore.QMetaObject.connectSlotsByName(DialogPreferences)
+        DialogPreferences.setTabOrder(self.rbsqlite,self.rbmysql)
+        DialogPreferences.setTabOrder(self.rbmysql,self.rbpostgres)
+        DialogPreferences.setTabOrder(self.rbpostgres,self.txtLocalFolder)
+        DialogPreferences.setTabOrder(self.txtLocalFolder,self.btnBrowser)
+        DialogPreferences.setTabOrder(self.btnBrowser,self.txtHost)
+        DialogPreferences.setTabOrder(self.txtHost,self.txtPort)
+        DialogPreferences.setTabOrder(self.txtPort,self.txtUser)
+        DialogPreferences.setTabOrder(self.txtUser,self.txtPassword)
+        DialogPreferences.setTabOrder(self.txtPassword,self.closeButton)
+        DialogPreferences.setTabOrder(self.closeButton,self.listWidget)
 
     def retranslateUi(self, DialogPreferences):
         DialogPreferences.setWindowTitle(QtGui.QApplication.translate("DialogPreferences", "Preferences", None, QtGui.QApplication.UnicodeUTF8))
-        self.listWidget.clear()
-
-        item = QtGui.QListWidgetItem(self.listWidget)
-        item.setText(QtGui.QApplication.translate("DialogPreferences", "Storage", None, QtGui.QApplication.UnicodeUTF8))
-        item.setIcon(QtGui.QIcon(":/icons/IcepapCfg Icons/file-roller.png"))
-        self.rbLocal.setText(QtGui.QApplication.translate("DialogPreferences", "Local storage", None, QtGui.QApplication.UnicodeUTF8))
-        self.rbRemote.setText(QtGui.QApplication.translate("DialogPreferences", "Remote storage", None, QtGui.QApplication.UnicodeUTF8))
+        self.lblModules.setText(QtGui.QApplication.translate("DialogPreferences", "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+        "p, li { white-space: pre-wrap; }\n"
+        "</style></head><body style=\" font-family:\'Sans Serif\'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;\">\n"
+        "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">import modules</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.gbLocal.setTitle(QtGui.QApplication.translate("DialogPreferences", "Local storage", None, QtGui.QApplication.UnicodeUTF8))
         self.label.setText(QtGui.QApplication.translate("DialogPreferences", "Local folder", None, QtGui.QApplication.UnicodeUTF8))
         self.btnBrowser.setText(QtGui.QApplication.translate("DialogPreferences", "...", None, QtGui.QApplication.UnicodeUTF8))
         self.gbRemote.setTitle(QtGui.QApplication.translate("DialogPreferences", "Remote storage", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_2.setText(QtGui.QApplication.translate("DialogPreferences", "Host", None, QtGui.QApplication.UnicodeUTF8))
         self.label_3.setText(QtGui.QApplication.translate("DialogPreferences", "Port", None, QtGui.QApplication.UnicodeUTF8))
-        self.closeButton.setText(QtGui.QApplication.translate("DialogPreferences", "Close", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_2.setText(QtGui.QApplication.translate("DialogPreferences", "Host", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_4.setText(QtGui.QApplication.translate("DialogPreferences", "User", None, QtGui.QApplication.UnicodeUTF8))
+        self.txPasswo.setText(QtGui.QApplication.translate("DialogPreferences", "Password", None, QtGui.QApplication.UnicodeUTF8))
+        self.rbsqlite.setText(QtGui.QApplication.translate("DialogPreferences", "Sqlite", None, QtGui.QApplication.UnicodeUTF8))
+        self.rbmysql.setText(QtGui.QApplication.translate("DialogPreferences", "MySql", None, QtGui.QApplication.UnicodeUTF8))
+        self.rbpostgres.setText(QtGui.QApplication.translate("DialogPreferences", "Postgres", None, QtGui.QApplication.UnicodeUTF8))
+        self.listWidget.clear()
 
+        item = QtGui.QListWidgetItem(self.listWidget)
+        item.setText(QtGui.QApplication.translate("DialogPreferences", "Storage", None, QtGui.QApplication.UnicodeUTF8))
+        item.setIcon(QtGui.QIcon(":/icons/IcepapCfg Icons/database.png"))
+        self.closeButton.setText(QtGui.QApplication.translate("DialogPreferences", "Close", None, QtGui.QApplication.UnicodeUTF8))
 

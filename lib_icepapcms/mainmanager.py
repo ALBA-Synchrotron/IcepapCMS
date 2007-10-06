@@ -1,13 +1,16 @@
 from singleton import Singleton
-from icepapcontroller import IcepapController
-from icepapdrivertemplate import IcepapDriverTemplate
-from icepapsystem import IcepapSystem
-from zodbmanager import ZODBManager
-from PyQt4 import QtGui
-from conflict import Conflict
+#from icepapsystem import *
+#from icepapdriver import *
+#from icepapcontroller import IcepapController
+#from icepapdrivertemplate import IcepapDriverTemplate
+#from zodbmanager import ZODBManager
+#from PyQt4 import QtGui
+
+#from conflict import Conflict
+from pyIcePAP import *
 from ui_icepapcms.messagedialogs import MessageDialogs
 import sys
-from pyIcePAP import *
+from stormmanager import StormManager
 
 
 class MainManager(Singleton):
@@ -18,48 +21,53 @@ class MainManager(Singleton):
     def init(self, *args):
         self.IcepapSystemList = {}                
         self._ctrl_icepap = IcepapController()
-        self._zodb = ZODBManager()
-        self.dbStatusOK = self._zodb.dbOK
+        self._db = StormManager()
+        self.dbStatusOK = self._db.dbOK
         if len(args) > 0:
             self._form = args[0]
-            self.IcepapSystemList = self._zodb.getAllIcepapSystem()
+            self.IcepapSystemList = self._db.getAllIcepapSystem()
         else:
             self._toolInitialization()       
     
     def reset(self, form):
         self._ctrl_icepap.reset()
-        self._zodb.reset()
-        self.dbStatusOK = self._zodb.dbOK
+        self._db.reset()
+        self.dbStatusOK = self._db.dbOK
         self.IcepapSystemList = {}
         self._form = form
-        self.IcepapSystemList = self._zodb.getAllIcepapSystem()
+        self.IcepapSystemList = self._db.getAllIcepapSystem()
         
         
     def addIcepapSystem(self, host, port, description = None):
         try:
             icepap_name = host
-            
+            """ *TO-DO STORM review"""
             if self.IcepapSystemList.has_key(icepap_name):
                 return None
-            
-            icepap_system = IcepapSystem(icepap_name, host, port, description)
+            icepap_system = IcepapSystem(icepap_name, host, port, description)                        
             self._ctrl_icepap.openConnection(icepap_name, host, port)
             driver_list = self._ctrl_icepap.scanIcepapSystem(icepap_name)
+            for driver in driver_list.values():
+                self._db.store(driver)            
             icepap_system.addDriverList(driver_list)
+            self._db.addIcepapSystem(icepap_system)
             self.IcepapSystemList[icepap_name] = icepap_system
-            self._zodb.addIcepapSystem(icepap_system)
+            print icepap_name
             return icepap_system
+            
         except:
+            print "Unexpected error:", sys.exc_info()[1]
             return None
 
         
     def deleteIcepapSystem(self, icepap_name):
-        self._zodb.deleteIcepapSystem(self.IcepapSystemList[icepap_name])
-
+        self._db.deleteIcepapSystem(self.IcepapSystemList[icepap_name])
+        del self.IcepapSystemList[icepap_name]
+        
            
     def closeAllConnections(self):
         self._ctrl_icepap.closeAllConnections()
-        return self._zodb.closeDB()
+        return self._db.closeDB()
             
     
     def getIcepapSystem(self, icepap_name):
@@ -69,7 +77,7 @@ class MainManager(Singleton):
         """
             Get all the IcepapSystems stored and check consistency with the acutal configuration
         """
-        self.IcepapSystemList = self._zodb.getAllIcepapSystem()
+        self.IcepapSystemList = self._db.getAllIcepapSystem()
         for icepap_system in self.IcepapSystemList.values():
             self.scanIcepap(icepap_system)
     
@@ -77,9 +85,9 @@ class MainManager(Singleton):
         changed_list = []
         for icepap_system in self.IcepapSystemList.values():            
             connected = self._ctrl_icepap.checkIcepapStatus(icepap_system.name)
-            if connected:
-                
+            if connected:                
                 if icepap_system.conflict == Conflict.NO_CONNECTION:
+                    print "case here"
                     icepap_system.conflict = Conflict.NO_CONFLICT
                     changed_list.append(icepap_system)
             else:
@@ -92,12 +100,12 @@ class MainManager(Singleton):
     def scanIcepap(self, icepap_system):
         icepap_name = icepap_system.name
         conflictsList = []
-        try:
-            
+        try:            
             self._ctrl_icepap.openConnection(icepap_name, icepap_system.name, icepap_system.port)
-            driver_list = self._ctrl_icepap.scanIcepapSystem(icepap_name)
+            driver_list = self._ctrl_icepap.scanIcepapSystem(icepap_name, True)
             conflictsList = icepap_system.compareDriverList(driver_list)
         except:
+            print "Unexpected error:", sys.exc_info()[1]
             conflictsList.append([Conflict.NO_CONNECTION, icepap_system, 0])
   
         return conflictsList
@@ -105,7 +113,8 @@ class MainManager(Singleton):
     def getDriversToSign(self):
         signList = []
         for icepap_system in self.IcepapSystemList.values():
-            for addr, driver in icepap_system.IcepapDriverList.items():
+            """ TO-DO STORM review"""
+            for driver in icepap_system.getDrivers():
                 if driver.mode == IcepapMode.CONFIG:
                     signList.append(driver)
         return signList
@@ -216,23 +225,25 @@ class MainManager(Singleton):
         self._ctrl_icepap.disableDriver(icepap_name, driver_addr)
     
     def saveValuesInIcepap(self, icepap_driver, new_values):
-        new_cfg = self._ctrl_icepap.setDriverConfiguration(icepap_driver.icepap_name, icepap_driver.addr, new_values)
+        new_cfg = self._ctrl_icepap.setDriverConfiguration(icepap_driver.icepapsystem_name, icepap_driver.addr, new_values)
         if new_cfg is None:
             #self._form.checkIcepapConnection()
             return False
         else:
-            icepap_driver.mode = IcepapMode.CONFIG
-            icepap_driver.setConfiguration(new_cfg)
+            icepap_driver.mode = unicode(IcepapMode.CONFIG)
+            icepap_driver.addConfiguration(new_cfg)
             return True
     
     def discardDriverChanges(self, icepap_driver):
+        """ TO-DO STORM review"""
         icepap_driver.setStartupCfg()
-        self._ctrl_icepap.discardDriverCfg(icepap_driver.icepap_name, icepap_driver.addr)
+        self._ctrl_icepap.discardDriverCfg(icepap_driver.icepapsystem_name, icepap_driver.addr)
         
         
     def undoDriverConfiguration(self, icepap_driver):
+        """ TO-DO STORM review"""
         undo_cfg = icepap_driver.getUndoList()
-        new_cfg = self._ctrl_icepap.setDriverConfiguration(icepap_driver.icepap_name, icepap_driver.addr, undo_cfg.parList.items())
+        new_cfg = self._ctrl_icepap.setDriverConfiguration(icepap_driver.icepapsystem_name, icepap_driver.addr, undo_cfg.parList.items())
         if new_cfg is None:
             MessageDialogs.showWarningMessage(self._form, "Icepap error", "Connection error")
             #self._form.checkIcepapConnection()
@@ -251,25 +262,14 @@ class MainManager(Singleton):
     
     def deleteDriverTemplate(self, name):
         self._zodb.deleteDriverTemplate(name)
-    
-    
 
-#===============================================================================
-#if __name__ == "__main__":
-#    print "Testing ZODB"
-#    
-#    print "Test Icepap Scan at icepap:5000"
-#    manager = MainManager()
-#    try:
-#        manager.addIcepapSystem("icepap", "icepap", 5000)
-#        system = manager.getIcepapSystem("icepap")
-#        for addr, driver in system.IcepapDriverList.items():
-#            print "Driver = " + str(driver.addr) + " - cratenr = " + str(driver.cratenr) + " - drivernr = " + str(driver.drivernr)
-#            for name, value in driver.currentCfg.parList.items():
-#                print name + " = " + value
-#    finally:
-#        manager.closeAllConnections()
-#===============================================================================
+from icepapsystem import IcepapSystem
+from icepapdriver import IcepapDriver
+from conflict import *
+from icepapcontroller import *    
+
+
+
 
     
 

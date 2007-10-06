@@ -11,15 +11,15 @@ class DialogAddIcepap(QtGui.QDialog):
         self.ui.txtPort.setText("5000")
 
     def getData(self):
-        host = str(self.ui.txtHost.text())
-        port = str(self.ui.txtPort.text())
-        desc = str(self.ui.txtDescription.toPlainText())
+        host = unicode(self.ui.txtHost.text())
+        port = unicode(self.ui.txtPort.text())
+        desc = unicode(self.ui.txtDescription.toPlainText())
         return [host, port, desc]
     
     def setData(self, name, host, port, description):
         self.ui.txtHost.setEnabled(False)
         self.ui.txtPort.setEnabled(False)
         self.ui.txtHost.setText(host)
-        self.ui.txtPort.setText(port)
+        self.ui.txtPort.setText(str(port))
         self.ui.txtDescription.insertPlainText(description)
         

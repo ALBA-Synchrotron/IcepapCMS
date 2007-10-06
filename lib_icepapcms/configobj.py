@@ -24,10 +24,30 @@ if INTP_VER < (2, 2):
     raise RuntimeError("Python v.2.2 or later needed")
 
 import os, re
-import compiler
+compiler = None
+try:
+    import compiler
+except ImportError:
+    # for IronPython
+    pass
 from types import StringTypes
 from warnings import warn
-from codecs import BOM_UTF8, BOM_UTF16, BOM_UTF16_BE, BOM_UTF16_LE
+try:
+    from codecs import BOM_UTF8, BOM_UTF16, BOM_UTF16_BE, BOM_UTF16_LE
+except ImportError:
+    # Python 2.2 does not have these
+    # UTF-8
+    BOM_UTF8 = '\xef\xbb\xbf'
+    # UTF-16, little endian
+    BOM_UTF16_LE = '\xff\xfe'
+    # UTF-16, big endian
+    BOM_UTF16_BE = '\xfe\xff'
+    if sys.byteorder == 'little':
+        # UTF-16, native endianness
+        BOM_UTF16 = BOM_UTF16_LE
+    else:
+        # UTF-16, native endianness
+        BOM_UTF16 = BOM_UTF16_BE
 
 # A dictionary mapping BOM to
 # the encoding to decode with, and what to set the
@@ -89,21 +109,16 @@ except NameError:
     True, False = 1, 0
 
 
-__version__ = '4.3.2'
+__version__ = '4.4.0'
 
 __revision__ = '$Id$'
 
 __docformat__ = "restructuredtext en"
 
-# NOTE: Does it make sense to have the following in __all__ ?
-# NOTE: DEFAULT_INDENT_TYPE, NUM_INDENT_SPACES, MAX_INTERPOL_DEPTH
-# NOTE: If used via ``from configobj import...``
-# NOTE: They are effectively read only
 __all__ = (
     '__version__',
     'DEFAULT_INDENT_TYPE',
-    'NUM_INDENT_SPACES',
-    'MAX_INTERPOL_DEPTH',
+    'DEFAULT_INTERPOLATION',
     'ConfigObjError',
     'NestingError',
     'ParseError',
@@ -112,7 +127,7 @@ __all__ = (
     'ConfigObj',
     'SimpleVal',
     'InterpolationError',
-    'InterpolationDepthError',
+    'InterpolationLoopError',
     'MissingInterpolationOption',
     'RepeatSectionError',
     'UnreprError',
@@ -121,8 +136,8 @@ __all__ = (
     'flatten_errors',
 )
 
-DEFAULT_INDENT_TYPE = ' '
-NUM_INDENT_SPACES = 4
+DEFAULT_INTERPOLATION = 'configparser'
+DEFAULT_INDENT_TYPE = '    '
 MAX_INTERPOL_DEPTH = 10
 
 OPTION_DEFAULTS = {
@@ -144,6 +159,8 @@ OPTION_DEFAULTS = {
 
 def getObj(s):
     s = "a=" + s
+    if compiler is None:
+        raise ImportError('compiler module not available')
     p = compiler.parse(s)
     return p.getChildren()[1].getChildren()[0].getChildren()[1]
 
@@ -250,13 +267,13 @@ class ConfigspecError(ConfigObjError):
 class InterpolationError(ConfigObjError):
     """Base class for the two interpolation errors."""
 
-class InterpolationDepthError(InterpolationError):
+class InterpolationLoopError(InterpolationError):
     """Maximum interpolation depth exceeded in string interpolation."""
 
     def __init__(self, option):
         InterpolationError.__init__(
             self,
-            'max interpolation depth exceeded in value "%s".' % option)
+            'interpolation loop detected in value "%s".' % option)
 
 class RepeatSectionError(ConfigObjError):
     """
@@ -276,15 +293,170 @@ class UnreprError(ConfigObjError):
     """An error parsing in unrepr mode."""
 
 
+class InterpolationEngine(object):
+    """
+    A helper class to help perform string interpolation.
+
+    This class is an abstract base class; its descendants perform
+    the actual work.
+    """
+
+    # compiled regexp to use in self.interpolate()
+    _KEYCRE = re.compile(r"%\(([^)]*)\)s")
+
+    def __init__(self, section):
+        # the Section instance that "owns" this engine
+        self.section = section
+
+    def interpolate(self, key, value):
+        def recursive_interpolate(key, value, section, backtrail):
+            """The function that does the actual work.
+
+            ``value``: the string we're trying to interpolate.
+            ``section``: the section in which that string was found
+            ``backtrail``: a dict to keep track of where we've been,
+            to detect and prevent infinite recursion loops
+
+            This is similar to a depth-first-search algorithm.
+            """
+            # Have we been here already?
+            if backtrail.has_key((key, section.name)):
+                # Yes - infinite loop detected
+                raise InterpolationLoopError(key)
+            # Place a marker on our backtrail so we won't come back here again
+            backtrail[(key, section.name)] = 1
+
+            # Now start the actual work
+            match = self._KEYCRE.search(value)
+            while match:
+                # The actual parsing of the match is implementation-dependent,
+                # so delegate to our helper function
+                k, v, s = self._parse_match(match)
+                if k is None:
+                    # That's the signal that no further interpolation is needed
+                    replacement = v
+                else:
+                    # Further interpolation may be needed to obtain final value
+                    replacement = recursive_interpolate(k, v, s, backtrail)
+                # Replace the matched string with its final value
+                start, end = match.span()
+                value = ''.join((value[:start], replacement, value[end:]))
+                new_search_start = start + len(replacement)
+                # Pick up the next interpolation key, if any, for next time
+                # through the while loop
+                match = self._KEYCRE.search(value, new_search_start)
+
+            # Now safe to come back here again; remove marker from backtrail
+            del backtrail[(key, section.name)]
+
+            return value
+
+        # Back in interpolate(), all we have to do is kick off the recursive
+        # function with appropriate starting values
+        value = recursive_interpolate(key, value, self.section, {})
+        return value
+
+    def _fetch(self, key):
+        """Helper function to fetch values from owning section.
+
+        Returns a 2-tuple: the value, and the section where it was found.
+        """
+        # switch off interpolation before we try and fetch anything !
+        save_interp = self.section.main.interpolation
+        self.section.main.interpolation = False
+
+        # Start at section that "owns" this InterpolationEngine
+        current_section = self.section
+        while True:
+            # try the current section first
+            val = current_section.get(key)
+            if val is not None:
+                break
+            # try "DEFAULT" next
+            val = current_section.get('DEFAULT', {}).get(key)
+            if val is not None:
+                break
+            # move up to parent and try again
+            # top-level's parent is itself
+            if current_section.parent is current_section:
+                # reached top level, time to give up
+                break
+            current_section = current_section.parent
+
+        # restore interpolation to previous value before returning
+        self.section.main.interpolation = save_interp
+        if val is None:
+            raise MissingInterpolationOption(key)
+        return val, current_section
+
+    def _parse_match(self, match):
+        """Implementation-dependent helper function.
+
+        Will be passed a match object corresponding to the interpolation
+        key we just found (e.g., "%(foo)s" or "$foo"). Should look up that
+        key in the appropriate config file section (using the ``_fetch()``
+        helper function) and return a 3-tuple: (key, value, section)
+
+        ``key`` is the name of the key we're looking for
+        ``value`` is the value found for that key
+        ``section`` is a reference to the section where it was found
+
+        ``key`` and ``section`` should be None if no further
+        interpolation should be performed on the resulting value
+        (e.g., if we interpolated "$$" and returned "$").
+        """
+        raise NotImplementedError
+    
+
+class ConfigParserInterpolation(InterpolationEngine):
+    """Behaves like ConfigParser."""
+    _KEYCRE = re.compile(r"%\(([^)]*)\)s")
+
+    def _parse_match(self, match):
+        key = match.group(1)
+        value, section = self._fetch(key)
+        return key, value, section
+
+
+class TemplateInterpolation(InterpolationEngine):
+    """Behaves like string.Template."""
+    _delimiter = '$'
+    _KEYCRE = re.compile(r"""
+        \$(?:
+          (?P<escaped>\$)              |   # Two $ signs
+          (?P<named>[_a-z][_a-z0-9]*)  |   # $name format
+          {(?P<braced>[^}]*)}              # ${name} format
+        )
+        """, re.IGNORECASE | re.VERBOSE)
+
+    def _parse_match(self, match):
+        # Valid name (in or out of braces): fetch value from section
+        key = match.group('named') or match.group('braced')
+        if key is not None:
+            value, section = self._fetch(key)
+            return key, value, section
+        # Escaped delimiter (e.g., $$): return single delimiter
+        if match.group('escaped') is not None:
+            # Return None for key and section to indicate it's time to stop
+            return None, self._delimiter, None
+        # Anything else: ignore completely, just return it unchanged
+        return None, match.group(), None
+
+interpolation_engines = {
+    'configparser': ConfigParserInterpolation,
+    'template': TemplateInterpolation,
+}
+
 class Section(dict):
     """
     A dictionary-like object that represents a section in a config file.
     
-    It does string interpolation if the 'interpolate' attribute
+    It does string interpolation if the 'interpolation' attribute
     of the 'main' object is set to True.
     
-    Interpolation is tried first from the 'DEFAULT' section of this object,
-    next from the 'DEFAULT' section of the parent, lastly the main object.
+    Interpolation is tried first from this object, then from the 'DEFAULT'
+    section of this object, next from the parent and its 'DEFAULT' section,
+    and so on until the main object is reached.
     
     A Section will behave like an ordered dictionary - following the
     order of the ``scalars`` and ``sections`` attributes.
@@ -292,8 +464,6 @@ class Section(dict):
     
     Iteration follows the order: scalars, then sections.
     """
-
-    _KEYCRE = re.compile(r"%\(([^)]*)\)s|.")
 
     def __init__(self, parent, depth, main, indict=None, name=None):
         """
@@ -335,46 +505,33 @@ class Section(dict):
         for entry in indict:
             self[entry] = indict[entry]
 
-    def _interpolate(self, value):
-        """Nicked from ConfigParser."""
-        depth = MAX_INTERPOL_DEPTH
-        # loop through this until it's done
-        while depth:
-            depth -= 1
-            if value.find("%(") != -1:
-                value = self._KEYCRE.sub(self._interpolation_replace, value)
+    def _interpolate(self, key, value):
+        try:
+            # do we already have an interpolation engine?
+            engine = self._interpolation_engine
+        except AttributeError:
+            # not yet: first time running _interpolate(), so pick the engine
+            name = self.main.interpolation
+            if name == True:  # note that "if name:" would be incorrect here
+                # backwards-compatibility: interpolation=True means use default
+                name = DEFAULT_INTERPOLATION
+            name = name.lower()  # so that "Template", "template", etc. all work
+            class_ = interpolation_engines.get(name, None)
+            if class_ is None:
+                # invalid value for self.main.interpolation
+                self.main.interpolation = False
+                return value
             else:
-                break
-        else:
-            raise InterpolationDepthError(value)
-        return value
-
-    def _interpolation_replace(self, match):
-        """ """
-        s = match.group(1)
-        if s is None:
-            return match.group()
-        else:
-            # switch off interpolation before we try and fetch anything !
-            self.main.interpolation = False
-            # try the 'DEFAULT' member of *this section* first
-            val = self.get('DEFAULT', {}).get(s)
-            # try the 'DEFAULT' member of the *parent section* next
-            if val is None:
-                val = self.parent.get('DEFAULT', {}).get(s)
-            # last, try the 'DEFAULT' member of the *main section*
-            if val is None:
-                val = self.main.get('DEFAULT', {}).get(s)
-            self.main.interpolation = True
-            if val is None:
-                raise MissingInterpolationOption(s)
-            return val
+                # save reference to engine so we don't have to do this again
+                engine = self._interpolation_engine = class_(self)
+        # let the engine do the actual work
+        return engine.interpolate(key, value)
 
     def __getitem__(self, key):
         """Fetch the item and do string interpolation."""
         val = dict.__getitem__(self, key)
         if self.main.interpolation and isinstance(val, StringTypes):
-            return self._interpolate(val)
+            return self._interpolate(key, val)
         return val
 
     def __setitem__(self, key, value, unrepr=False):
@@ -471,7 +628,7 @@ class Section(dict):
             del self.inline_comments[key]
             self.sections.remove(key)
         if self.main.interpolation and isinstance(val, StringTypes):
-            return self._interpolate(val)
+            return self._interpolate(key, val)
         return val
 
     def popitem(self):
@@ -1066,14 +1223,14 @@ class ConfigObj(Section):
             # Set the newlines attribute (first line ending it finds)
             # and strip trailing '\n' or '\r' from lines
             for line in infile:
-                if (not line) or (line[-1] not in '\r\n'):
+                if (not line) or (line[-1] not in ('\r', '\n', '\r\n')):
                     continue
                 for end in ('\r\n', '\n', '\r'):
                     if line.endswith(end):
                         self.newlines = end
                         break
                 break
-            if infile[-1] and infile[-1] in '\r\n':
+            if infile[-1] and infile[-1] in ('\r', '\n', '\r\n'):
                 self._terminated = True
             infile = [line.rstrip('\r\n') for line in infile]
         #
@@ -1207,12 +1364,12 @@ class ConfigObj(Section):
         else:
             return infile
 
-    def _a_to_u(self, string):
-        """Decode ascii strings to unicode if a self.encoding is specified."""
-        if not self.encoding:
-            return string
+    def _a_to_u(self, aString):
+        """Decode ASCII strings to unicode if a self.encoding is specified."""
+        if self.encoding:
+            return aString.decode('ascii')
         else:
-            return string.decode('ascii')
+            return aString
 
     def _decode(self, infile, encoding):
         """
@@ -1285,7 +1442,7 @@ class ConfigObj(Section):
                 (indent, sect_open, sect_name, sect_close, comment) = (
                     mat.groups())
                 if indent and (self.indent_type is None):
-                    self.indent_type = indent[0]
+                    self.indent_type = indent
                 cur_depth = sect_open.count('[')
                 if cur_depth != sect_close.count(']'):
                     self._handle_error(
@@ -1346,7 +1503,7 @@ class ConfigObj(Section):
                 # value will include any inline comment
                 (indent, key, value) = mat.groups()
                 if indent and (self.indent_type is None):
-                    self.indent_type = indent[0]
+                    self.indent_type = indent
                 # check for a multiline value
                 if value[:3] in ['"""', "'''"]:
                     try:
@@ -1724,26 +1881,10 @@ class ConfigObj(Section):
         """Deal with a comment."""
         if not comment:
             return ''
-        if self.indent_type == '\t':
-            start = self._a_to_u('\t')
-        else:
-            start = self._a_to_u(' ' * NUM_INDENT_SPACES)
+        start = self.indent_type
         if not comment.startswith('#'):
-            start += _a_to_u('# ')
+            start += self._a_to_u(' # ')
         return (start + comment)
-
-    def _compute_indent_string(self, depth):
-        """
-        Compute the indent string, according to current indent_type and depth
-        """
-        if self.indent_type == '':
-            # no indentation at all
-            return ''
-        if self.indent_type == '\t':
-            return '\t' * depth
-        if self.indent_type == ' ':
-            return ' ' * NUM_INDENT_SPACES * depth
-        raise SyntaxError
 
     # Public methods
 
@@ -1778,8 +1919,7 @@ class ConfigObj(Section):
                     line = csp + line
                 out.append(line)
         #
-        indent_string = self._a_to_u(
-            self._compute_indent_string(section.depth))
+        indent_string = self.indent_type * section.depth
         for entry in (section.scalars + section.sections):
             if entry in section.defaults:
                 # don't write out default values

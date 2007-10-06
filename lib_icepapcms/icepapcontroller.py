@@ -1,23 +1,22 @@
-from pyIcePAP import EthIcePAP, IcePAPException, IcePAP, SerialIcePAP
-from icepapdriver import IcepapDriver
-from icepapdrivercfg import IcepapDriverCfg
+#from pyIcePAP import EthIcePAP, IcePAPException, IcePAP, SerialIcePAP
 from pyIcePAP import *
-from conflict import Conflict
 from xml.dom import minidom, Node
 import os
 import sys
 from singleton import Singleton
 import struct
-import time
+import time, datetime
 import array
+from icepapdrivercfg import IcepapDriverCfg, CfgParameter
+import icepapdriver
+from conflict import Conflict
  
 class IcepapController(Singleton):
-
+    
     def __init__(self):
         pass
-
-    def init(self, *args):
-        
+    
+    def init(self, *args):        
         self.iPaps = {}
         pathname = os.path.dirname(sys.argv[0])
         path = os.path.abspath(pathname)
@@ -38,14 +37,21 @@ class IcepapController(Singleton):
     
     def closeAllConnections(self):
         for iPap in self.iPaps.values():
-            iPap.disconnect()
+            try:
+                iPap.disconnect()
+            except:
+                pass
         self.iPaps = {}
         
-    def scanIcepapSystem(self, icepap_name):
+    def scanIcepapSystem(self, icepap_name, compare = False):
         """ 
             Get the status of the icepap system, the drivers present, and its
             configuration.
         """
+        driver_name = icepap_name
+        if compare:
+            driver_name = "compare"
+        
         driver_list = {}
         try:
             cratespresent = self.iPaps[icepap_name].getSysStatus()
@@ -57,15 +63,17 @@ class IcepapController(Singleton):
                     for drivernr in range(0,8):
                         if ((driversalive >> drivernr) & 1) == 1:
                             addr = self._getDriverAddr(cratenr, drivernr+1)
-                            driver = IcepapDriver(icepap_name, addr, cratenr, drivernr)
+                            """ TO-DO STORM review"""
+                            driver = icepapdriver.IcepapDriver(driver_name, addr)
                             driver_cfg = self.getDriverConfiguration(icepap_name, addr)
-                            driver.setConfiguration(driver_cfg)
-                            driver.name = self.iPaps[icepap_name].getName(addr)
+                            driver.addConfiguration(driver_cfg)
+                            driver.setName(self.iPaps[icepap_name].getName(addr))
                             mode = self.iPaps[icepap_name].getMode(addr)
-                            driver.mode = mode                            
+                            driver.setMode(mode)
                             driver_list[addr] = driver
+                            
         except:
-            print "Unexpected error:", sys.exc_info()[0]
+            print "Unexpected errors:", sys.exc_info()[1]
             return {}
 
         return driver_list
@@ -75,10 +83,13 @@ class IcepapController(Singleton):
             Returns a IcepaDriverCfg object of the attributes predefined in
             driverparameters.xml
         """
-        driver_cfg = IcepapDriverCfg()
-        driver_cfg.signature = self.iPaps[icepap_name].getConfigSignature(driver_addr)
+        
+        """ TO-DO STORM review"""   
+              
+        driver_cfg = IcepapDriverCfg(unicode(datetime.datetime.now()))
+        driver_cfg.setSignature(self.iPaps[icepap_name].getConfigSignature(driver_addr))
         ver = self.iPaps[icepap_name].getVersionDsp(driver_addr)
-        driver_cfg.setAttribute("VER", ver)         
+        driver_cfg.setParameter("VER", ver)
         for name in self.config_parameters:
             #print name
             try:
@@ -88,12 +99,12 @@ class IcepapController(Singleton):
             #print value
             #value = value.lstrip()
             #value = value.lstrip(name)
-            driver_cfg.setAttribute(name, value)
-        
+            driver_cfg.setParameter(name, value)
         return driver_cfg
     
     def setDriverConfiguration(self, icepap_name, driver_addr, new_values):
         try:
+            """ TO-DO STORM review"""
             if self.iPaps[icepap_name].getMode(driver_addr) != IcepapMode.CONFIG:
                 self.iPaps[icepap_name].startConfig(driver_addr)
             for (name, value) in new_values:
@@ -242,11 +253,15 @@ class IcepapController(Singleton):
     
     def checkIcepapStatus(self, icepap_name):
         try:
-            if self.iPaps[icepap_name].Status == CStatus.Connected:
-                self.iPaps[icepap_name].getSysStatus()
+            if self.iPaps.has_key(icepap_name):
+                if self.iPaps[icepap_name].Status == CStatus.Connected:
+                    self.iPaps[icepap_name].getSysStatus()
+                else:
+                    self.iPaps[icepap_name].connect()
+                return True
             else:
-                self.iPaps[icepap_name].connect()
-            return True
+                """ nothing to check, driver it's not monitored """
+                return True
         except IcePAPException, e:
             if e.code == IcePAPException.TIMEOUT:
                 return False

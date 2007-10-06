@@ -30,17 +30,18 @@ from lib_icepapcms import IcepapSystem, IcepapDriver, Conflict, IcepapMode
 
 
 class IcepapTreeModel(QtCore.QAbstractItemModel):
-    SYSTEM, DRIVER, SYSTEM_WARNING, DRIVER_WARNING, SYSTEM_ERROR, DRIVER_ERROR, CRATE, DRIVER_NEW, DRIVER_CFG, ROOT = range(10)
-    def __init__(self, IcepapsList, parent=None):
+    SYSTEM, DRIVER, SYSTEM_WARNING, DRIVER_WARNING, SYSTEM_ERROR, DRIVER_ERROR, CRATE, DRIVER_NEW, DRIVER_CFG, SYSTEM_OFFLINE, ROOT = range(11)
+    def __init__(self, IcepapsList, no_expand = False, parent=None):
         QtCore.QAbstractItemModel.__init__(self, parent)
         
         #self.item_dict = {}
         self.item_location = {}
         
         #rootData = [QtCore.QVariant("Icepaps"), QtCore.QVariant("Description")]
-        rootData = [QtCore.QVariant("IcepapDB")]
-        self.rootItem = TreeItem(rootData, IcepapTreeModel.ROOT, "")
-        self.setupModelData(IcepapsList, self.rootItem)
+        rootData = [QtCore.QVariant("IcepapCMS DB")]
+        self.rootItem = TreeItem(rootData, IcepapTreeModel.ROOT, "DB")        
+        
+        self.setupModelData(IcepapsList, self.rootItem, no_expand)
         self._dec_roles = (QtGui.QPixmap(":/icons/IcepapCfg Icons/ipapsys.png"),
                            QtGui.QPixmap(":/icons/IcepapCfg Icons/ipapdriver.png"),
                            QtGui.QPixmap(":/icons/IcepapCfg Icons/ipapsyswarning.png"),
@@ -49,7 +50,9 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
                            QtGui.QPixmap(":/icons/IcepapCfg Icons/ipapdrivererror.png"),
                            QtGui.QPixmap(":/icons/IcepapCfg Icons/ipapcrate.png"),
                            QtGui.QPixmap(":/icons/IcepapCfg Icons/ipapdrivernew.png"), 
-                           QtGui.QPixmap(":/icons/IcepapCfg Icons/ipapdrivercfg.png"))
+                           QtGui.QPixmap(":/icons/IcepapCfg Icons/ipapdrivercfg.png"),
+                           QtGui.QPixmap(":/icons/IcepapCfg Icons/ipapsysoffline.png"),
+                           QtGui.QPixmap(":/icons/IcepapCfg Icons/gnome-nettool.png"))
         
     def columnCount(self, parent=QtCore.QModelIndex()):
         if parent.isValid():
@@ -102,13 +105,11 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
     
     def index(self, row, column, parent=QtCore.QModelIndex()):
         if row < 0 or column < 0 or row >= self.rowCount(parent) or column >= self.columnCount(parent):
-            return QtCore.QModelIndex()
-        
+            return QtCore.QModelIndex()        
         if not parent.isValid():
             parentItem = self.rootItem
         else:
-            parentItem = parent.internalPointer()
-        
+            parentItem = parent.internalPointer()        
         childItem = parentItem.child(row)
         if childItem:
             return self.createIndex(row, column, childItem)
@@ -117,42 +118,45 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
         
     def parent(self, index):
         if not index.isValid():
-            return QtCore.QModelIndex()
-        
+            return QtCore.QModelIndex()        
         childItem = index.internalPointer()
-        parentItem = childItem.parent()
-        
+        parentItem = childItem.parent()        
         if parentItem == self.rootItem:
-            return QtCore.QModelIndex()
-        
+            return QtCore.QModelIndex()        
         return self.createIndex(parentItem.row(), 0, parentItem)
     
     def rowCount(self, parent = QtCore.QModelIndex()):
         if not parent.isValid():
             parentItem = self.rootItem
         else:
-            parentItem = parent.internalPointer()
-        
+            parentItem = parent.internalPointer()        
         return parentItem.childCount()
         
-    def setupModelData(self, IcepapsList, parent):
+    def setupModelData(self, IcepapsList, parent, no_expand):
         for icepap_name, icepap_system in IcepapsList.items():
-            self.addIcepapSysten(icepap_name, icepap_system, parent)
+            self.addIcepapSysten(icepap_name, icepap_system, no_expand, parent)
             
-    def addIcepapSysten(self, icepap_name, icepap_system, parent = None):
+    def addIcepapSysten(self, icepap_name, icepap_system, no_expand, parent = None):
+        """ TO-DO STORM review"""
         if parent == None:
             parent = self.rootItem
         crate = -1
         location = icepap_name
-        new_item_system = self.addItem([QtCore.QVariant(icepap_name), QtCore.QVariant(icepap_system.description)], IcepapTreeModel.SYSTEM, location, icepap_system, parent)
-        if icepap_system.conflict == Conflict.NO_CONNECTION:
-            return
-        for addr, driver in sorted(icepap_system.IcepapDriverList.items()):
+        role = IcepapTreeModel.SYSTEM
+        if no_expand:
+            role = IcepapTreeModel.SYSTEM_OFFLINE            
+        
+        new_item_system = self.addItem([QtCore.QVariant(icepap_name), QtCore.QVariant(icepap_system.description)], role, location, icepap_system, parent)
+        
+        if icepap_system.conflict == Conflict.NO_CONNECTION or no_expand:
+            return        
+        for driver in icepap_system.getDrivers(False):            
+            addr = driver.addr            
             if driver.cratenr  <> crate:
                 crate = driver.cratenr
                 location = "%s/%s" % (icepap_name, crate)
                 new_item_crate = self.addItem([QtCore.QVariant(driver.cratenr)], IcepapTreeModel.CRATE, location,None, new_item_system)
-            location = "%s/%s/%s" % (icepap_name, crate, addr)    
+            location = "%s/%s/%s" % (icepap_name, crate, addr)
             self.addItem([QtCore.QVariant(str(addr)+" "+driver.name)], IcepapTreeModel.DRIVER, location, driver, new_item_crate)    
             
     def deleteIcepapSystem(self, icepap_name):
@@ -161,12 +165,16 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
     
     def updateIcepapSystem(self, icepap_system):
         self.deleteIcepapSystem(icepap_system.name)
-        self.addIcepapSysten(icepap_system.name, icepap_system)
+        self.addIcepapSysten(icepap_system.name, icepap_system, False)
+        
     def addItem(self, labels, role, location, data, parent):
         new_item = TreeItem(labels, role, location, data, parent)
         #self.item_dict[id(new_item)] = new_item
-        self.item_location[location] = new_item
         parent.appendChild(new_item)
+        self.item_location[location] = new_item
+        index = self.indexByLocation(location)
+        self.beginInsertRows(self.parent(index), index.row(), index.row())
+        self.endInsertRows()
         return new_item
     
     def indexByLocation(self, location):
@@ -183,8 +191,7 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
         if self.item_location.has_key(location):
             return self.item_location[location]
         else:
-            return None
-        
+            return None        
     
     
     def deleteItem(self, item):
@@ -213,8 +220,7 @@ class TreeItem:
         self.role = role
         self.itemData = data
         self.updateRole()
-        self.parentItem = parent
-        
+        self.parentItem = parent        
         self.location = location
     
     def updateRole(self):
@@ -257,8 +263,12 @@ class TreeItem:
     def parent(self):
         return self.parentItem
     
-    def changeLabel(self, labels):
-        self.itemLabel = labels
+    def changeLabel(self, label):
+        if len(label) > 1:
+            if label[1] != "":
+                self.description = label[1]
+        
+        self.itemLabel = [label[0]]
 
     def row(self):
         if self.parentItem:
@@ -283,7 +293,7 @@ class TreeItem:
         
     def getIcepapSystem(self):
         
-        if self.role == IcepapTreeModel.SYSTEM or self.role == IcepapTreeModel.SYSTEM_WARNING or self.role == IcepapTreeModel.SYSTEM_ERROR:
+        if self.role == IcepapTreeModel.SYSTEM or self.role == IcepapTreeModel.SYSTEM_WARNING or self.role == IcepapTreeModel.SYSTEM_ERROR or self.role == IcepapTreeModel.SYSTEM_OFFLINE:
             return self.itemData
         if self.role ==  IcepapTreeModel.CRATE:
             return self.parentItem.getIcepapSystem()

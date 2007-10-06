@@ -13,6 +13,9 @@ class DialogDriverConflict(QtGui.QDialog):
         self.ui = Ui_DialogDriverConflict()
         self.modal = True
         self.ui.setupUi(self)
+        font = QtGui.QFont()
+        font.setPointSize(7.5)
+        self.setFont(font)
         pathname = os.path.dirname(sys.argv[0])
         path = os.path.abspath(pathname)
         self.config_template = path+'/templates/driverparameters.xml'
@@ -47,34 +50,22 @@ class DialogDriverConflict(QtGui.QDialog):
     
     def _fillTable(self):
         self._createTableView()
-        self.icepap_values = self._manager.getDriverConfiguration(self._driver.icepap_name, self._driver.addr)
+        self.icepap_values = self._manager.getDriverConfiguration(self._driver.icepapsystem_name, self._driver.addr)
         row = 0
         current = False
         
         for row in range(self.ui.tableWidget.rowCount()):
-            name = str(self.ui.tableWidget.item(row,0).text())
+            name = unicode(self.ui.tableWidget.item(row,0).text())
 
-            if self._driver.currentCfg.parList.has_key(name):
-                stored_value = self._driver.currentCfg.parList[name]
-            else:
+            stored_value = self._driver.current_cfg.getParameter(name)
+            if stored_value is None:
                 stored_value = ""
             
-            if self.icepap_values.parList.has_key(name):
-                icepap_value = self.icepap_values.parList[name]
-            else:
+            icepap_value = self.icepap_values.getParameter(name, True)
+            if icepap_value is None:
                 icepap_value = ""
-            color = False
-            
-            if name == "SD":
-                x = float(stored_value)
-                y = float(icepap_value)
-                if abs(x - y) > 3:
-                    color = True
-            elif stored_value <> icepap_value:
-                color = True
-                if name == "IN" or name == "II" or name == "IB":
-                    current = True
-                   
+            color = stored_value != icepap_value
+                               
             self._addItemToTable(row, 1, stored_value, color)
             self._addItemToTable(row, 2, icepap_value, color)
         
@@ -82,11 +73,11 @@ class DialogDriverConflict(QtGui.QDialog):
             MessageDialogs.showWarningMessage(self, "Driver conflict", "Warning!!\nCurrent values (IN, IB, II) have changed!!\n")
     
     def btnIcepap_on_click(self):
-        self._driver.setConfiguration(self.icepap_values)
+        self._driver.addConfiguration(self.icepap_values)
         self.accept()
     
     def btnStored_on_click(self):
-        self._manager.saveValuesInIcepap(self._driver, self._driver.currentCfg.parList.items())
+        self._manager.saveValuesInIcepap(self._driver, self._driver.current_cfg.toList())
         self.accept()
            
     def _addItemToTable(self, row, column, text, colored):

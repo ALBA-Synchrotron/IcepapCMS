@@ -16,6 +16,7 @@ class IcePapDriverWidget(QtGui.QWidget):
         self.ready = -1   
         self.power = -1
         self.mode = -1
+        
     def initView(self, Big):
         self.BigSize = Big
         self.coloroff = QtGui.QColor(225,255,200)
@@ -47,22 +48,28 @@ class IcePapDriverWidget(QtGui.QWidget):
         event.accept()
     
     def mousePressEvent(self, event):
-        tooltip = str(self._driver.currentCfg)
+        tooltip = str(self._driver.current_cfg)
         QtGui.QToolTip.showText(event.globalPos(), tooltip)
         event.accept()
     
     def mouseMoveEvent(self, event):
-        tooltip = str(self._driver.currentCfg)
-        QtGui.QToolTip.showText(event.globalPos(), tooltip)
+        tooltip = str(self._driver.current_cfg)
+        
+        font = QtGui.QFont()
+        font.setPointSize(6)
+        
+        #QtGui.QToolTip().showText(event.globalPos(), tooltip)
+        self.setToolTip(tooltip)
+        QtGui.QToolTip.setFont(font)
         event.accept()
     
     def btnEnDis_on_click(self,bool):
         if bool:
             self.ui.pushButton.setText("disable")
-            self._manager.enableDriver(self._driver.icepap_name, self._driver.addr)
+            self._manager.enableDriver(self._driver.icepapsystem_name, self._driver.addr)
         else:
             self.ui.pushButton.setText("enable")
-            self._manager.disableDriver(self._driver.icepap_name, self._driver.addr)
+            self._manager.disableDriver(self._driver.icepapsystem_name, self._driver.addr)
 
     def getDriver(self):
         return self._driver
@@ -99,7 +106,7 @@ class IcePapDriverWidget(QtGui.QWidget):
         else:
             self.setPaletteColor(self.ui.frame,self.colorok,Qt.Qt.black)
             
-        (status, power, current) = self._manager.getDriverStatus(self._driver.icepap_name, self._driver.addr)
+        (status, power, current) = self._manager.getDriverStatus(self._driver.icepapsystem_name, self._driver.addr)
         if status == -1:                
             self.ui.pushButton.setEnabled(False)
             self.ui.ledStatus.changeColor(Led.RED)

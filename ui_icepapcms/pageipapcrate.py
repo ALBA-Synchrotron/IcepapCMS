@@ -105,8 +105,9 @@ class PageiPapCrate(QtGui.QWidget):
         self.cratenr = selected_crate
         self.driverswidgets = {}
         crate = -1
-        
-        for addr, driver in icepap_system.IcepapDriverList.items():
+        """ TO-DO STORM review"""
+        for driver in icepap_system.getDrivers():
+            addr = driver.addr
             if driver.cratenr == selected_crate:
                 crate = driver.cratenr 
                 self.tableWidget.insertRow(crate)

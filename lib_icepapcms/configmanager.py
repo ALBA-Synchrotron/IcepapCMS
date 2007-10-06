@@ -5,8 +5,15 @@ from configobj import ConfigObj
 
 
 class ConfigManager(Singleton):
+    Sqlite = "sqlite"
+    MySql = "mysql"
+    Postgres = "postgres"
+    database = "database"
+    
+    
     def __init__(self):
         pass
+    
     
     def init(self, *args):
         
@@ -34,14 +41,15 @@ class ConfigManager(Singleton):
     def loadDefaults(self):
         self.config = ConfigObj()
         self.config.filename = self.config_filename
-        folder = os.path.expanduser('~/.icepapcms/storage')
+        folder = os.path.expanduser('~/.icepapcms/sqlitedb')
         if not os.path.exists(folder):
-            os.mkdir(folder)
-               
-        zodb = {'remote_storage' : "False", 
-            'local_folder' : folder, 
-            'remote_server' : ":"}
-        self.config['zodb'] = zodb
+            os.mkdir(folder)               
+        db = {'database' : ConfigManager.Sqlite, 
+            'folder' : folder, 
+            'server' : ":",
+            'user' : "",
+            'password': ""}
+        self.config[ConfigManager.database] = db
         self.config.write()
         
     def saveConfig(self):

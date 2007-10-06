@@ -24,6 +24,8 @@ class IcepapCMS(QtGui.QMainWindow):
         self.ui.setupUi(self)
         self._config = ConfigManager()
         
+        self.checkTimer = Qt.QTimer(self)
+        
         self.initGUI()
         self.ui.pageiPapSystem = PageiPapSystem(self)
         self.ui.stackedWidget.addWidget(self.ui.pageiPapSystem)
@@ -33,34 +35,11 @@ class IcepapCMS(QtGui.QMainWindow):
         self.ui.stackedWidget.addWidget(self.ui.pageiPapDriver)
         self.signalConnections()
         self.refreshTimer = Qt.QTimer(self)
-        self.checkTimer = Qt.QTimer(self)
+        
         QtCore.QObject.connect(self.checkTimer,QtCore.SIGNAL("timeout()"),self.checkIcepapConnection)
-        self.checkTimer.start(10000)
-        
-        
-    
-    def initGUI(self):
-        self._manager = MainManager(self)
-        if not self._manager.dbStatusOK:
-            MessageDialogs.showErrorMessage(self, "Storage", "Error accessing storage.\nCheck storage preferences.")
-        
-        self.buildTree()
-        self.locationsNext = []
-        self.locationsPrevious = []
-        self.currentLocation = ""
-        self.ui.actionGoNext.setEnabled(False)
-        self.ui.actionGoPrevious.setEnabled(False)
-        self.ui.actionExport.setEnabled(False)
-        self.ui.actionImport.setEnabled(False)
-        self.ui.actionHistoricCfg.setEnabled(False)
-        self.ui.actionTemplates.setEnabled(False)
-        self.ui.treeView.setItemsExpandable(True)
-        self.ui.stackedWidget.setCurrentIndex(0)
-        self.ui.txtLocation.setText("")
-        
+               
     
     def signalConnections(self):
-        
         QtCore.QObject.connect(self.ui.actionQuit,QtCore.SIGNAL("activated()"),self.close)
         QtCore.QObject.connect(self.ui.actionPreferences,QtCore.SIGNAL("activated()"),self.actionPreferences)
         QtCore.QObject.connect(self.ui.actionGoNext,QtCore.SIGNAL("activated()"),self.actionGoNext)
@@ -93,46 +72,108 @@ class IcepapCMS(QtGui.QMainWindow):
         #QtCore.QObject.connect(self.ui.btnTreeRefresh,QtCore.SIGNAL("clicked()"),self.btnTreeRefresh_on_click)
         QtCore.QObject.connect(self.ui.menuView,QtCore.SIGNAL("aboutToShow()"),self.menuView_before_show)
     
+    def initGUI(self):
+        self._manager = MainManager(self)
+        if not self._manager.dbStatusOK:
+            MessageDialogs.showErrorMessage(self, "Storage", "Error accessing database.\nCheck storage preferences.")
+        
+        #self.buildTree()
+        self.buildInitialTree()
+        self.checkTimer.start(5000)        
+        self.locationsNext = []
+        self.locationsPrevious = []
+        self.currentLocation = ""
+        self.ui.actionGoNext.setEnabled(False)
+        self.ui.actionGoPrevious.setEnabled(False)
+        self.ui.actionExport.setEnabled(False)
+        self.ui.actionImport.setEnabled(False)
+        self.ui.actionHistoricCfg.setEnabled(False)
+        self.ui.actionTemplates.setEnabled(False)
+        self.ui.treeView.setItemsExpandable(True)        
+        self.ui.stackedWidget.setCurrentIndex(0)
+        self.ui.txtLocation.setText("")
+        
+     
+#    def buildTree(self):
+#        expand_system = self.performSystemScan()
+#        self._tree_model = IcepapTreeModel(self._manager.IcepapSystemList)
+#        self.ui.treeView.setModel(self._tree_model)
+#        for name in expand_system.keys():
+#            self.expandAll(name)
+    
+    def buildInitialTree(self):
+        self._tree_model = IcepapTreeModel(self._manager.IcepapSystemList, True)
+        self.ui.treeView.setModel(self._tree_model)   
+    
+    
     def __contextMenu(self, point):
         self.menu= Qt.QMenu()
-        self.menu.addAction("Show scan header", self.performSystemScan)
+        self.menu.addAction("Scan Icepap for changes", self.contextIcepapScan)
+        #self.menu.addAction("Scan All Icepaps", self.performSystemScan)
         self.menu.popup(self.cursor().pos())  
-                
-    def menuView_before_show(self):
-        self.ui.actionToolbar.setChecked(not self.ui.toolBar.isHidden())
-        self.ui.actionTree_Explorer.setChecked(not self.ui.dockTree.isHidden())
-        
-    def actionToolbar(self):
-        self.ui.actionToolbar.setChecked(not self.ui.toolBar.isHidden())
-        if not self.ui.actionToolbar.isChecked():
-            self.ui.toolBar.show()
-        else:
-            self.ui.toolBar.close()
-    def actionTreeExplorer(self):
-        self.ui.actionTree_Explorer.setChecked(not self.ui.dockTree.isHidden())
-        if not self.ui.actionTree_Explorer.isChecked():
-            self.ui.dockTree.show()
-        else:
-            self.ui.dockTree.close()
-     
-    def buildTree(self):
-        expand_system = self.performSystemScan()
-        self._tree_model = IcepapTreeModel(self._manager.IcepapSystemList)
-        self.ui.treeView.setModel(self._tree_model)
-        for name in expand_system.keys():
-            self.expandAll(name)    
     
+    def btnTreeAdd_on_click(self):
+        dlg = DialogAddIcepap(self)
+        dlg.exec_()
+        if dlg.result():
+            data = dlg.getData()
+            icepap_system = self._manager.addIcepapSystem(data[0], data[1], data[2])
+            if icepap_system is None:
+                MessageDialogs.showErrorMessage(self, "Add Icepap", "Error adding Icepap")
+            else:                
+                self._tree_model.addIcepapSysten(icepap_system.name, icepap_system, False)
+                self.expandAll(icepap_system.name)
+                
+                      
+#    def performSystemScan(self):
+#        icepap_list = self._manager.getIcepapList()
+#        self.current_icepap = 0
+#        expand_system = {}
+#        conflicts_list = []
+#        for icepap_name, icepap_system in icepap_list.items():
+#            self.setStatusMessage("Scanning ... " + icepap_name)
+#            expand_system[icepap_system.name] = icepap_system            
+#            conflicts_list.extend(self._manager.scanIcepap(icepap_system))
+#        
+#        if len(conflicts_list) > 0:
+#            self.setStatusMessage("Configuration conflics found.")
+#            for conflict in conflicts_list:
+#                icepap_system = conflict[1]
+#                #expand_system[icepap_system.name] = icepap_system
+#                if conflict[0] == Conflict.NO_CONNECTION:
+#                    icepap_system.setConflict(conflict[0])
+#                    self.setStatusMessage(icepap_system.name + ": Connection Error")
+#                else:
+#                    if not conflict[2] is None:
+#                        self.setStatusMessage("Configuration conflics found.")
+#                        driver = icepap_system.getDriver(conflict[2])
+#                        driver.setConflict(conflict[0])
+#        else:
+#            self.setStatusMessage("Scanning complete!. No conflicts found")
+#        return expand_system
+    
+    def checkIcepapConnection(self):
+        """ this function checks the icepap connection, notifying the user for
+        losing or getting connection """
         
-    def performSystemScan(self):
-        icepap_list = self._manager.getIcepapList()
-        self.current_icepap = 0
-        expand_system = {}
+        icepap_systems_changed = self._manager.checkIcepapSystems()
+        for icepap_system in icepap_systems_changed:
+            print icepap_system
+            #if icepap_system.conflict != Conflict.NO_CONFLICT:
+            self.scanIcepap(icepap_system)
+            
+    def contextIcepapScan(self):
+        for modelindex in self.ui.treeView.selectedIndexes():
+            item = self._tree_model.item(modelindex)
+            if item.role == IcepapTreeModel.SYSTEM_OFFLINE or item.role == IcepapTreeModel.SYSTEM or item.role == IcepapTreeModel.SYSTEM_WARNING or item.role == IcepapTreeModel.SYSTEM_ERROR:
+                self.scanIcepap(item.itemData)
+                    
+    def scanIcepap(self, icepap_system):
+        """This function scans and Icepap. This means comparing 
+        the database configurations and the ones in the hardware """
+        self.setStatusMessage("Scanning ...")
         conflicts_list = []
-        for icepap_name, icepap_system in icepap_list.items():
-            self.setStatusMessage("Scanning ... " + icepap_name)
-            expand_system[icepap_system.name] = icepap_system            
-            conflicts_list.extend(self._manager.scanIcepap(icepap_system))
-        
+        conflicts_list.extend(self._manager.scanIcepap(icepap_system))
         if len(conflicts_list) > 0:
             self.setStatusMessage("Configuration conflics found.")
             for conflict in conflicts_list:
@@ -148,51 +189,15 @@ class IcepapCMS(QtGui.QMainWindow):
                         driver.setConflict(conflict[0])
         else:
             self.setStatusMessage("Scanning complete!. No conflicts found")
-        return expand_system
-    
-    def checkIcepapConnection(self):
-        icepap_systems_changed = self._manager.checkIcepapSystems()
-        for icepap_system in icepap_systems_changed:
-            if icepap_system.conflict != Conflict.NO_CONFLICT:
-                conflicts_list = []
-                conflicts_list.extend(self._manager.scanIcepap(icepap_system))
-                if len(conflicts_list) > 0:
-                    self.setStatusMessage("Configuration conflics found.")
-                    for conflict in conflicts_list:
-                        icepap_system = conflict[1]
-                        #expand_system[icepap_system.name] = icepap_system
-                        if conflict[0] == Conflict.NO_CONNECTION:
-                            icepap_system.setConflict(conflict[0])
-                            self.setStatusMessage(icepap_system.name + ": Connection Error")
-                        else:
-                            if not conflict[2] is None:
-                                self.setStatusMessage("Configuration conflics found.")
-                                driver = icepap_system.getDriver(conflict[2])
-                                driver.setConflict(conflict[0])
-            self._tree_model.updateIcepapSystem(icepap_system)
-                
-        
+        self._tree_model.updateIcepapSystem(icepap_system)
+        self.expandAll(icepap_system.name)
+          
     def solveConflict(self, item):
         dlg = DialogDriverConflict(self, item.itemData)
         dlg.exec_()
         if dlg.result():
             item.solveConflict()
         
-    def btnTreeAdd_on_click(self):
-        dlg = DialogAddIcepap(self)
-        dlg.exec_()
-        if dlg.result():
-            data = dlg.getData()
-            icepap_system = self._manager.addIcepapSystem(data[0], data[1], data[2])
-            if icepap_system is None:
-                MessageDialogs.showWarningMessage(self, "Add Icepap", "Error adding Icepap")
-            else:
-                self._tree_model.addIcepapSysten(icepap_system.name, icepap_system)
-                self.ui.treeView.setModel(self._tree_model)
-                self.btnTreeRefresh_on_click()
-    
-    def btnTreeRefresh_on_click(self):
-        self.refreshTree()
         
     def refreshTree(self):
         self.ui.pageiPapDriver.stopTesting()
@@ -204,7 +209,7 @@ class IcepapCMS(QtGui.QMainWindow):
         #    MessageDialogs.showErrorMessage(self, "Storage", "Error accessing storage.\nCheck storage preferences.")
         self.initGUI()        
         #self.buildTree()
-        #self.ui.stackedWidget.setCurrentIndex(0)
+        self.ui.stackedWidget.setCurrentIndex(0)
     
         
     def btnTreeRemove_on_click(self):
@@ -232,9 +237,11 @@ class IcepapCMS(QtGui.QMainWindow):
             dlg.exec_()
             if dlg.result():
                 data = dlg.getData()   
-                item.itemData.description = data[3]
-                item.changeLabel([data[0], data[3]])
+                item.itemData.description = unicode(data[2])
+                item.changeLabel([data[0], data[2]])
                 self.ui.stackedWidget.setCurrentIndex(0)
+        elif item.role == IcepapTreeModel.SYSTEM_OFFLINE or item.role == IcepapTreeModel.SYSTEM_ERROR:
+            self.scanIcepap(item.itemData)
         elif item.role == IcepapTreeModel.DRIVER_WARNING:
             self.solveConflict(item)
         elif item.role == IcepapTreeModel.DRIVER_ERROR:
@@ -244,7 +251,6 @@ class IcepapCMS(QtGui.QMainWindow):
                 icepap_system.removeDriver(item.itemData.addr)
                 item.solveConflict()
                 self._tree_model.deleteItem(item)
-
             
         
     def treeview_on_click(self, modelindex):
@@ -310,15 +316,13 @@ class IcepapCMS(QtGui.QMainWindow):
             self.refreshTimer.start(2000)
         else:
             self.ui.stackedWidget.setCurrentIndex(0)
-        self.expandIndex(modelindex)
-    
+        self.expandIndex(modelindex)    
            
     
     def actionGoPrevious(self):
         location = self.locationsPrevious.pop()
         self.addToNext(self.currentLocation)
-        self.treeSelectByLocation(location)
-        
+        self.treeSelectByLocation(location)        
     
     def actionGoNext(self):
         location = self.locationsNext.pop()
@@ -370,7 +374,10 @@ class IcepapCMS(QtGui.QMainWindow):
             
         
     def actionRefresh(self):
-        self.refreshTree()            
+        refresh = MessageDialogs.showYesNoMessage(self, "Init CMS", "Get all data from Database and lose changes?")
+        if refresh:
+            self.refreshTree()
+                    
             
     def closeEvent(self, event):
         signList = self._manager.getDriversToSign()
@@ -487,6 +494,26 @@ class IcepapCMS(QtGui.QMainWindow):
         pathname = os.path.dirname(sys.argv[0])
         path = os.path.abspath(pathname)
         webbrowser.open(path+'/doc/IcePAP_HardwareManual.pdf')    
+    
+
+                
+    def menuView_before_show(self):
+        self.ui.actionToolbar.setChecked(not self.ui.toolBar.isHidden())
+        self.ui.actionTree_Explorer.setChecked(not self.ui.dockTree.isHidden())
+        
+    def actionToolbar(self):
+        self.ui.actionToolbar.setChecked(not self.ui.toolBar.isHidden())
+        if not self.ui.actionToolbar.isChecked():
+            self.ui.toolBar.show()
+        else:
+            self.ui.toolBar.close()
+            
+    def actionTreeExplorer(self):
+        self.ui.actionTree_Explorer.setChecked(not self.ui.dockTree.isHidden())
+        if not self.ui.actionTree_Explorer.isChecked():
+            self.ui.dockTree.show()
+        else:
+            self.ui.dockTree.close()
   
 
 if __name__ == "__main__":

@@ -1,0 +1,2 @@
+remove currentcfg_id
+varchar(40) in name for driver_cfg

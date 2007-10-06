@@ -337,23 +337,25 @@ class PageiPapDriver(QtGui.QWidget):
         #table.setItem(row, column, item)
     
     def fillData(self, icepap_driver):
+        """ TO-DO STORM review"""
         #self.ui.tabWidget.setCurrentIndex(0)
         self._disconnectHighlighting()
         #self.resetSignalsTab()
         self.icepap_driver = icepap_driver
-        description = "Icepap: %s  -  Crate: %s  -  Addr: %s  -  Firmware version: %s\n" % (icepap_driver.icepap_name, icepap_driver.cratenr, icepap_driver.addr, icepap_driver.currentCfg.getAttribute("VER"))
-        if self.icepap_driver.currentCfg.signature:
-            description = description + "Last signature %s " % self.icepap_driver.currentCfg.signature
+        description = "Icepap: %s  -  Crate: %s  -  Addr: %s  -  Firmware version: %s\n" % (icepap_driver.icepapsystem_name, icepap_driver.cratenr, icepap_driver.addr, icepap_driver.current_cfg.getParameter("VER", True))
+        if self.icepap_driver.current_cfg.signature:
+            description = description + "Last signature %s " % self.icepap_driver.current_cfg.signature
             #aux = self.icepap_driver.currentCfg.signature.split('_')
             #description = description + "Signed on %s %s" % (aux[0], time.ctime(float(aux[1])))
         else:            
             description = description + "Current configuration not signed"
+        
         if self.icepap_driver.mode == IcepapMode.CONFIG:
             self._mainwin.addDriverToSign(self.icepap_driver)
         self.ui.txtDescription.setText(description)
         self.ui.txtDriverName.setText(self.icepap_driver.name)
         #self.ui.txtDriverNemonic.setText(self.icepap_driver.nemonic)
-        for name, value in icepap_driver.currentCfg.parList.items():
+        for name, value in icepap_driver.current_cfg.toList():
             if self.var_dict.has_key(name):
                 [nsection, element] = self.var_dict[name]
                 if nsection == 0:
@@ -366,7 +368,7 @@ class PageiPapDriver(QtGui.QWidget):
         # get testing values
         self.startTesting()
         if not (self.status == -1 or self.status == 1):
-            result = self._manager.readIcepapParameters(self.icepap_driver.icepap_name,self.icepap_driver.addr, self.test_var_dict.keys())
+            result = self._manager.readIcepapParameters(self.icepap_driver.icepapsystem_name,self.icepap_driver.addr, self.test_var_dict.keys())
             for [name, value] in result:
                 if self.test_var_dict.has_key(name):
                     widget = self.test_var_dict[name]
@@ -447,7 +449,7 @@ class PageiPapDriver(QtGui.QWidget):
     
     def addNewCfg(self, cfg):
         #self.ui.toolBox.setCurrentIndex(0)
-        for name, value in cfg.parList.items():
+        for name, value in cfg.toList():
             if self.var_dict.has_key(name):
                 [nsection, element] = self.var_dict[name]
                 if nsection == 0:
@@ -468,7 +470,7 @@ class PageiPapDriver(QtGui.QWidget):
 
         
     def btnApplyCfg_on_click(self):
-        self.icepap_driver.name = str(self.ui.txtDriverName.text())
+        self.icepap_driver.name = unicode(self.ui.txtDriverName.text())
         #self.icepap_driver.nemonic = str(self.ui.txtDriverNemonic.text())
         new_values = []
         values_ok = True
@@ -533,7 +535,7 @@ class PageiPapDriver(QtGui.QWidget):
                     test_values_ok = False
                     break
                     
-            self._manager.writeIcepapParameters(self.icepap_driver.icepap_name, self.icepap_driver.addr, test_values_list)
+            self._manager.writeIcepapParameters(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, test_values_list)
         
         #self.configureSignals()
         if save_ok and test_values_ok:
@@ -556,7 +558,7 @@ class PageiPapDriver(QtGui.QWidget):
             self.ui.btnUndo.setEnabled(False)    
     
     def btnRestore_on_click(self):
-        self.addNewCfg(self.icepap_driver.currentCfg)
+        self.addNewCfg(self.icepap_driver.current_cfg)
         #.fillData(self.icepap_driver)
         
     
@@ -721,7 +723,7 @@ class PageiPapDriver(QtGui.QWidget):
     def updateTestStatus(self):  
         pos_sel = str(self.ui.cb_pos_sel.currentText()).upper()
         enc_sel = str(self.ui.cb_enc_sel.currentText()).upper()
-        (status, power, position) = self._manager.getDriverTestStatus(self.icepap_driver.icepap_name, self.icepap_driver.addr, pos_sel, enc_sel)
+        (status, power, position) = self._manager.getDriverTestStatus(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, pos_sel, enc_sel)
         
         #self.StepSize = self.ui.sbFactor.value()           
         disabled = IcepapStatus.isDisabled(status)
