@@ -22,7 +22,9 @@ class MainManager(Singleton):
         self.IcepapSystemList = {}                
         self._ctrl_icepap = IcepapController()
         self._db = StormManager()
+        
         self.dbStatusOK = self._db.dbOK
+        
         if len(args) > 0:
             self._form = args[0]
             self.IcepapSystemList = self._db.getAllIcepapSystem()
@@ -87,7 +89,6 @@ class MainManager(Singleton):
             connected = self._ctrl_icepap.checkIcepapStatus(icepap_system.name)
             if connected:                
                 if icepap_system.conflict == Conflict.NO_CONNECTION:
-                    print "case here"
                     icepap_system.conflict = Conflict.NO_CONFLICT
                     changed_list.append(icepap_system)
             else:
@@ -100,12 +101,12 @@ class MainManager(Singleton):
     def scanIcepap(self, icepap_system):
         icepap_name = icepap_system.name
         conflictsList = []
-        try:            
+        try:
             self._ctrl_icepap.openConnection(icepap_name, icepap_system.name, icepap_system.port)
             driver_list = self._ctrl_icepap.scanIcepapSystem(icepap_name, True)
             conflictsList = icepap_system.compareDriverList(driver_list)
         except:
-            print "Unexpected error:", sys.exc_info()[1]
+            print "Unexpected error:", sys.exc_info()
             conflictsList.append([Conflict.NO_CONNECTION, icepap_system, 0])
   
         return conflictsList

@@ -1,8 +1,8 @@
 -- 
 -- Created by SQL::Translator::Producer::SQLite
--- Created on Sat Oct  6 21:32:46 2007
+-- Created on Sun Oct  7 13:30:54 2007
 -- 
-BEGIN TRANSACTION;
+
 
 --
 -- Table: cfgparameter
@@ -62,4 +62,4 @@ CREATE TABLE icepapsystem (
 CREATE INDEX CfgParameter_FKIndex1_cfgparam on cfgparameter (cfg_id);
 CREATE INDEX IcepapDriver_FKIndex1_icepapdr on icepapdriver (icepapsystem_name);
 CREATE INDEX IcepapDriverCfg_FKIndex1_icepa on icepapdrivercfg (driver_addr, icepapsystem_name);
-COMMIT;
+

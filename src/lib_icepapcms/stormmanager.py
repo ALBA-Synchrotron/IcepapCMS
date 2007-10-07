@@ -2,7 +2,7 @@
 from configmanager import ConfigManager
 from storm.locals import *
 from singleton import Singleton
-import os
+import os, re
 import sys
 import time
 
@@ -23,10 +23,11 @@ class StormManager(Singleton):
         try:
             self._config = ConfigManager()
             db = self._config.config[self._config.database]["database"]
-                        
+            create_db = False            
             if db == self._config.Sqlite:
                 folder = self._config.config[self._config.database]["folder"]
                 loc = folder + '/icepapcms.db'
+                create_db = not os.path.exists(loc)
                 self._database =  create_database("%s:%s" % (db, loc))
             else:
                 server = self._config.config[self._config.database]["server"]
@@ -35,11 +36,36 @@ class StormManager(Singleton):
                 self._database =  create_database("%s://%s:%s@%s/icepapcms" % (db, user, pwd, server))
                         
             self._store = Store(self._database)
-            self.dbOK = True
+            if create_db:
+                self.dbOK = self.createSqliteDB()
+            else:
+                self.dbOK = True            
+            
         except:
             print "Unexpected error:", sys.exc_info()
             self.dbOK = False
-
+    
+    def createSqliteDB(self):
+        try:
+            pathname = os.path.dirname(sys.argv[0])
+            path = os.path.abspath(pathname)
+            sql_file = path+'/db/creates_sqlite.sql'
+            f = file(sql_file,'rb')
+            sql_script = f.read()
+            f.close()
+            statements = re.compile(r";[ \t]*$", re.M)
+            # Find custom SQL, if it's available.
+            for statement in statements.split(sql_script):
+                # Remove any comments from the file
+                statement = re.sub(r"--.*[\n\Z]", "", statement)
+                if statement.strip():
+                    create = statement + ";"    
+                    self._store.execute(create)
+            self._store.commit()
+            return True
+        except:
+            print "Unexpected error:", sys.exc_info()
+            return False
         
     def closeDB(self):
         try:
@@ -57,6 +83,7 @@ class StormManager(Singleton):
     
     def remove(self, obj):
         self._store.remove(obj)
+        
         
     def addIcepapSystem(self, icepap_system):
         try:
@@ -83,7 +110,9 @@ class StormManager(Singleton):
             print "Unexpected error:", sys.exc_info()[1]
             return {}
        
-    
+    def rollback(self):
+        self._store.rollback()
+            
     def commitTransaction(self):
         try:
             self._store.commit()
