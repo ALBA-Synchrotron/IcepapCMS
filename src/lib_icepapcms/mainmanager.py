@@ -97,7 +97,13 @@ class MainManager(Singleton):
                     changed_list.append(icepap_system)
         return changed_list
             
-                        
+    def stopIcepap(self, icepap_system):    
+        try:
+            self._ctrl_icepap.closeConnection(icepap_system.name)
+            self._db.commitTransaction()
+        except:
+            print "Unexpected error:", sys.exc_info()   
+                
     def scanIcepap(self, icepap_system):
         icepap_name = icepap_system.name
         conflictsList = []
@@ -244,7 +250,7 @@ class MainManager(Singleton):
     def undoDriverConfiguration(self, icepap_driver):
         """ TO-DO STORM review"""
         undo_cfg = icepap_driver.getUndoList()
-        new_cfg = self._ctrl_icepap.setDriverConfiguration(icepap_driver.icepapsystem_name, icepap_driver.addr, undo_cfg.parList.items())
+        new_cfg = self._ctrl_icepap.setDriverConfiguration(icepap_driver.icepapsystem_name, icepap_driver.addr, undo_cfg.toList())
         if new_cfg is None:
             MessageDialogs.showWarningMessage(self._form, "Icepap error", "Connection error")
             #self._form.checkIcepapConnection()

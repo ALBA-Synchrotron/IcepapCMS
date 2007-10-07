@@ -13,7 +13,7 @@ CREATE DATABASE IF NOT EXISTS `icepapcms`
 DROP TABLE IF EXISTS `icepapcms`.`cfgparameter`;
 CREATE TABLE `icepapcms`.`cfgparameter` (
   `name` VARCHAR(20) NOT NULL DEFAULT '',
-  `cfg_id` INT(10) unsigned NOT NULL DEFAULT '0',
+  `cfg_id` INT(10) unsigned NOT NULL,
   `value` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`name`, `cfg_id`),
   INDEX `CfgParameter_FKIndex1` (`cfg_id`),

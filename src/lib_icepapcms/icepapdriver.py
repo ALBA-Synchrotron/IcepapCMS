@@ -49,6 +49,8 @@ class IcepapDriver(Storm):
             self.current_cfg = cfg
             cfg.setDriver(self)
         self.historic_cfgs.add(cfg)
+        #db = StormManager()
+        #db.commitTransaction()
     
     def setConflict(self, conflict):
         self.conflict = conflict
@@ -85,6 +87,7 @@ class IcepapDriver(Storm):
     def saveHistoricCfg(self, now, name, desc):
         self.current_cfg.name = unicode(name)
         self.current_cfg.description = unicode(desc)
+
     
     def deleteHistoricCfg(self, cfg):
         #self.historic_cfgs.remove(self.historic_cfgs.find(IcepapDriverCfg.date == date).one())
@@ -92,7 +95,7 @@ class IcepapDriver(Storm):
 
     def __cmp__(self, other):
         self.mode = other.mode
-        db = StormManager()
+        #db = StormManager()
         #cfg = other.current_cfg
         #cfg.resetDriver()
         #other.historic_cfgs.remove(cfg)

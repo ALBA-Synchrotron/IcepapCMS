@@ -22,18 +22,18 @@ class StormManager(Singleton):
     def openDB(self):
         try:
             self._config = ConfigManager()
-            db = self._config.config[self._config.database]["database"]
+            self.db = self._config.config[self._config.database]["database"]
             create_db = False            
-            if db == self._config.Sqlite:
+            if self.db == self._config.Sqlite:
                 folder = self._config.config[self._config.database]["folder"]
                 loc = folder + '/icepapcms.db'
                 create_db = not os.path.exists(loc)
-                self._database =  create_database("%s:%s" % (db, loc))
+                self._database =  create_database("%s:%s" % (self.db, loc))
             else:
                 server = self._config.config[self._config.database]["server"]
                 user = self._config.config[self._config.database]["user"]
                 pwd = self._config.config[self._config.database]["password"]
-                self._database =  create_database("%s://%s:%s@%s/icepapcms" % (db, user, pwd, server))
+                self._database =  create_database("%s://%s:%s@%s/icepapcms" % (self.db, user, pwd, server))
                         
             self._store = Store(self._database)
             if create_db:
@@ -74,6 +74,7 @@ class StormManager(Singleton):
                 self._store.close()
             return True
         except:
+            print "Unexpected error:", sys.exc_info()
             self.dbOK = False
             return False
             
@@ -93,6 +94,13 @@ class StormManager(Singleton):
             return False
     
     def deleteIcepapSystem(self, icepap_system):
+        if self.db == self._config.Sqlite:
+            for driver in icepap_system.drivers:
+                for cfg in driver.historic_cfgs:
+                    for par in cfg.parameters:
+                        self._store.remove(par)
+                    self._store.remove(cfg)
+                self._store.remove(driver)            
         self._store.remove(icepap_system)
         self.commitTransaction()
     
@@ -116,7 +124,6 @@ class StormManager(Singleton):
     def commitTransaction(self):
         try:
             self._store.commit()
-            self._store.flush()
             return True
         except:
             return False
