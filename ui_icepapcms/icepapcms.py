@@ -104,19 +104,78 @@ class IcepapCMS(QtGui.QMainWindow):
     def buildInitialTree(self):
         self._tree_model = IcepapTreeModel(self._manager.IcepapSystemList, True)
         self.ui.treeView.setModel(self._tree_model)   
+        self.context_menu_item = None
     
     
     def __contextMenu(self, point):
         modelindex = self.ui.treeView.indexAt(point)
         item = self._tree_model.item(modelindex)                
         if item:
+            actions = [
+            """self.menu.addAction("Sign driver configuration", self.actionSignConfig)""",
+            """self.menu.addAction("Solve driver configuration conflict", self.contextSolveConflict)""",
+            """self.menu.addAction("Delete driver not present", self.contextDeleteDriverError)""",
+            """self.menu.addSeparator()""",
+            """self.menu.addAction("Start Icepap systen configuration", self.contextIcepapStart)""",
+            """self.menu.addAction("Rescan Icepap systen", self.contextIcepapStart)""",
+            """self.menu.addAction("Finish Icepap systen configuration", self.contextIcepapStop)""",
+            """self.menu.addSeparator()""",
+            """self.menu.addAction("Edit Icepap systen information", self.contextEditIcepap)""",
+            """self.menu.addAction("Delete Icepap systen configuration", self.btnTreeRemove_on_click)"""  
+            ]
             self.menu= Qt.QMenu(self)
             font = QtGui.QFont()
-            font.setPointSize(7.5)
-            self.menu.setFont(font)        
-            self.menu.addAction("Scan Icepap for changes", self.contextIcepapScan)
+            font.setPointSize(8)
+            self.menu.setFont(font)                    
+            self.context_menu_item = item
+            shown_actions = []            
+            if item.role == IcepapTreeModel.SYSTEM_OFFLINE:
+                shown_actions = [4,7,8,9]
+            if item.role == IcepapTreeModel.DRIVER or item.role == IcepapTreeModel.DRIVER_NEW:
+                shown_actions = [5,6,7,8,9]
+            elif item.role == IcepapTreeModel.DRIVER_CFG:
+                shown_actions = [0,3,5,6,7,8,9]
+            elif item.role == IcepapTreeModel.DRIVER_ERROR:
+                shown_actions = [2,3,5,6,7,8,9]
+            elif item.role == IcepapTreeModel.DRIVER_WARNING:
+                shown_actions = [1,3,5,6,7,8,9]                    
+            elif item.role == IcepapTreeModel.SYSTEM or item.role == IcepapTreeModel.CRATE or item.role == IcepapTreeModel.SYSTEM_ERROR or item.role == IcepapTreeModel.SYSTEM_WARNING:
+                shown_actions = [5,6,7,8,9]             
+            for i in shown_actions:
+                exec(actions[i])
             self.menu.popup(self.cursor().pos())  
     
+    def contextIcepapStart(self):        
+        if self.context_menu_item:
+            item = self.context_menu_item
+            self.scanIcepap(item.getIcepapSystem())       
+        self.context_menu_item = None
+    
+    def contextIcepapStop(self):        
+        if self.context_menu_item:
+            item = self.context_menu_item
+            self.stopIcepap(item.getIcepapSystem())       
+        self.context_menu_item = None  
+    
+    def contextEditIcepap(self):        
+        if self.context_menu_item:
+            item = self.context_menu_item
+            self.editIcepap(item)       
+        self.context_menu_item = None        
+        
+    def contextSolveConflict(self): 
+        if self.context_menu_item:
+            item = self.context_menu_item
+            self.solveConflict(item)       
+        self.context_menu_item = None
+    
+    def contextDeleteDriverError(self): 
+        if self.context_menu_item:
+            item = self.context_menu_item
+            self.deleteDriverError(item)       
+        self.context_menu_item = None
+            
+        
     def btnTreeAdd_on_click(self):
         dlg = DialogAddIcepap(self)
         dlg.exec_()
@@ -167,12 +226,16 @@ class IcepapCMS(QtGui.QMainWindow):
             #if icepap_system.conflict != Conflict.NO_CONFLICT:
             self.scanIcepap(icepap_system)
             
-    def contextIcepapScan(self):
-        for modelindex in self.ui.treeView.selectedIndexes():
-            item = self._tree_model.item(modelindex)
-            if item.role == IcepapTreeModel.SYSTEM_OFFLINE or item.role == IcepapTreeModel.SYSTEM or item.role == IcepapTreeModel.SYSTEM_WARNING or item.role == IcepapTreeModel.SYSTEM_ERROR:
-                self.scanIcepap(item.itemData)
-                    
+
+    def stopIcepap(self, icepap_system):
+        self.ui.pageiPapDriver.stopTesting()
+        if not self.refreshTimer is None:
+            self.refreshTimer.stop()
+        self.ui.txtLocation.setText("")
+        self.ui.stackedWidget.setCurrentIndex(0)
+        self._manager.stopIcepap(icepap_system)
+        self._tree_model.updateIcepapSystem(icepap_system, True)
+                       
     def scanIcepap(self, icepap_system):
         """This function scans and Icepap. This means comparing 
         the database configurations and the ones in the hardware """
@@ -201,8 +264,7 @@ class IcepapCMS(QtGui.QMainWindow):
         dlg = DialogDriverConflict(self, item.itemData)
         dlg.exec_()
         if dlg.result():
-            item.solveConflict()
-        
+            item.solveConflict()        
         
     def refreshTree(self):
         self.ui.pageiPapDriver.stopTesting()
@@ -216,7 +278,25 @@ class IcepapCMS(QtGui.QMainWindow):
         #self.buildTree()
         self.ui.stackedWidget.setCurrentIndex(0)
     
-        
+    def editIcepap(self, item):
+        dlg = DialogAddIcepap(self)
+        dlg.setData(item.itemData.name, item.itemData.host, item.itemData.port, item.itemData.description)
+        dlg.exec_()
+        if dlg.result():
+            item = item.getIcepapSystem()
+            data = dlg.getData()   
+            item.itemData.description = unicode(data[2])
+            item.changeLabel([data[0], data[2]])
+            self.ui.stackedWidget.setCurrentIndex(0)
+    
+    def deleteDriverError(self, item):
+        delete = MessageDialogs.showYesNoMessage(self, "Driver error", "Driver not present.\nRemove driver from DB?")
+        if delete:
+            icepap_system = item.getIcepapSystem()
+            icepap_system.removeDriver(item.itemData.addr)
+            item.solveConflict()
+            self._tree_model.deleteItem(item)   
+              
     def btnTreeRemove_on_click(self):
         selectmodel = self.ui.treeView.selectionModel()
         indexes = selectmodel.selectedIndexes()
@@ -232,28 +312,18 @@ class IcepapCMS(QtGui.QMainWindow):
                 self.refreshTimer.stop()
                 
 
-    
+            
     def treeview_on_doubleclick(self, modelindex):
         self.locationsPrevious.extend(self.locationsNext)
         item = self._tree_model.item(modelindex)
         if item.role == IcepapTreeModel.SYSTEM:
-            dlg = DialogAddIcepap(self)
-            dlg.setData(item.itemData.name, item.itemData.host, item.itemData.port, item.itemData.description)
-            dlg.exec_()
-            if dlg.result():
-                data = dlg.getData()   
-                item.itemData.description = unicode(data[2])
-                item.changeLabel([data[0], data[2]])
-                self.ui.stackedWidget.setCurrentIndex(0)
+            self.editIcepap(item)
         elif item.role == IcepapTreeModel.DRIVER_WARNING:
             self.solveConflict(item)
         elif item.role == IcepapTreeModel.DRIVER_ERROR:
-            delete = MessageDialogs.showYesNoMessage(self, "Driver error", "Driver not present.\nRemove driver from DB?")
-            if delete:
-                icepap_system = item.getIcepapSystem()
-                icepap_system.removeDriver(item.itemData.addr)
-                item.solveConflict()
-                self._tree_model.deleteItem(item)
+            self.deleteDriverError(item)
+        elif item.role == IcepapTreeModel.SYSTEM_OFFLINE or item.role == IcepapTreeModel.SYSTEM_ERROR:
+            self.scanIcepap(item.itemData)
             
         
     def treeview_on_click(self, modelindex):
@@ -312,8 +382,6 @@ class IcepapCMS(QtGui.QMainWindow):
             self.ui.stackedWidget.setCurrentIndex(1)
             QtCore.QObject.connect(self.refreshTimer,QtCore.SIGNAL("timeout()"),self.ui.pageiPapSystem.refresh)
             self.refreshTimer.start(2000)
-        elif item.role == IcepapTreeModel.SYSTEM_OFFLINE or item.role == IcepapTreeModel.SYSTEM_ERROR:
-            self.scanIcepap(item.itemData)
         elif item.role == IcepapTreeModel.CRATE:
             self.ui.pageiPapCrate.fillData(item.getIcepapSystem(), int(item.itemLabel[0].toString()))
             self.ui.stackedWidget.setCurrentIndex(2)

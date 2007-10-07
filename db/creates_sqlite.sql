@@ -9,7 +9,7 @@
 --
 CREATE TABLE cfgparameter (
   name varchar(20) NOT NULL DEFAULT '',
-  cfg_id int(10) NOT NULL DEFAULT '0',
+  cfg_id int(10) NOT NULL,
   value varchar(45) NOT NULL DEFAULT '',
   PRIMARY KEY (name, cfg_id)
 );

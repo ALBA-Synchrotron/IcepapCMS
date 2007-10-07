@@ -1,7 +1,7 @@
 from PyQt4 import QtCore, QtGui, Qt
 from ui_dialogdriverconflict import Ui_DialogDriverConflict
 from messagedialogs import MessageDialogs
-from lib_icepapcms import MainManager
+from lib_icepapcms import MainManager, StormManager
 from xml.dom import minidom, Node
 import os
 import sys
@@ -57,7 +57,7 @@ class DialogDriverConflict(QtGui.QDialog):
         for row in range(self.ui.tableWidget.rowCount()):
             name = unicode(self.ui.tableWidget.item(row,0).text())
 
-            stored_value = self._driver.current_cfg.getParameter(name)
+            stored_value = self._driver.current_cfg.getParameter(name, True)
             if stored_value is None:
                 stored_value = ""
             
@@ -73,10 +73,14 @@ class DialogDriverConflict(QtGui.QDialog):
             MessageDialogs.showWarningMessage(self, "Driver conflict", "Warning!!\nCurrent values (IN, IB, II) have changed!!\n")
     
     def btnIcepap_on_click(self):
+        db = StormManager()
+        db.store(self.icepap_values)
+        # bug sqlite
         self._driver.addConfiguration(self.icepap_values)
         self.accept()
     
     def btnStored_on_click(self):
+        del self.icepap_values
         self._manager.saveValuesInIcepap(self._driver, self._driver.current_cfg.toList())
         self.accept()
            

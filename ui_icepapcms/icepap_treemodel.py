@@ -150,7 +150,7 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
         
         if icepap_system.conflict == Conflict.NO_CONNECTION or no_expand:
             return        
-        for driver in icepap_system.getDrivers(False):            
+        for driver in icepap_system.getDrivers(True):            
             addr = driver.addr            
             if driver.cratenr  <> crate:
                 crate = driver.cratenr
@@ -163,9 +163,9 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
         item = self.itemByLocation(icepap_name)
         self.deleteItem(item)
     
-    def updateIcepapSystem(self, icepap_system):
+    def updateIcepapSystem(self, icepap_system, no_expand = False):
         self.deleteIcepapSystem(icepap_system.name)
-        self.addIcepapSysten(icepap_system.name, icepap_system, False)
+        self.addIcepapSysten(icepap_system.name, icepap_system, no_expand)
         
     def addItem(self, labels, role, location, data, parent):
         new_item = TreeItem(labels, role, location, data, parent)
