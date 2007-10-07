@@ -107,10 +107,15 @@ class IcepapCMS(QtGui.QMainWindow):
     
     
     def __contextMenu(self, point):
-        self.menu= Qt.QMenu()
-        self.menu.addAction("Scan Icepap for changes", self.contextIcepapScan)
-        #self.menu.addAction("Scan All Icepaps", self.performSystemScan)
-        self.menu.popup(self.cursor().pos())  
+        modelindex = self.ui.treeView.indexAt(point)
+        item = self._tree_model.item(modelindex)                
+        if item:
+            self.menu= Qt.QMenu(self)
+            font = QtGui.QFont()
+            font.setPointSize(7.5)
+            self.menu.setFont(font)        
+            self.menu.addAction("Scan Icepap for changes", self.contextIcepapScan)
+            self.menu.popup(self.cursor().pos())  
     
     def btnTreeAdd_on_click(self):
         dlg = DialogAddIcepap(self)
@@ -240,8 +245,6 @@ class IcepapCMS(QtGui.QMainWindow):
                 item.itemData.description = unicode(data[2])
                 item.changeLabel([data[0], data[2]])
                 self.ui.stackedWidget.setCurrentIndex(0)
-        elif item.role == IcepapTreeModel.SYSTEM_OFFLINE or item.role == IcepapTreeModel.SYSTEM_ERROR:
-            self.scanIcepap(item.itemData)
         elif item.role == IcepapTreeModel.DRIVER_WARNING:
             self.solveConflict(item)
         elif item.role == IcepapTreeModel.DRIVER_ERROR:
@@ -309,6 +312,8 @@ class IcepapCMS(QtGui.QMainWindow):
             self.ui.stackedWidget.setCurrentIndex(1)
             QtCore.QObject.connect(self.refreshTimer,QtCore.SIGNAL("timeout()"),self.ui.pageiPapSystem.refresh)
             self.refreshTimer.start(2000)
+        elif item.role == IcepapTreeModel.SYSTEM_OFFLINE or item.role == IcepapTreeModel.SYSTEM_ERROR:
+            self.scanIcepap(item.itemData)
         elif item.role == IcepapTreeModel.CRATE:
             self.ui.pageiPapCrate.fillData(item.getIcepapSystem(), int(item.itemLabel[0].toString()))
             self.ui.stackedWidget.setCurrentIndex(2)
@@ -380,6 +385,8 @@ class IcepapCMS(QtGui.QMainWindow):
                     
             
     def closeEvent(self, event):
+        self.refreshTimer.stop()
+        self.ui.stackedWidget.setCurrentIndex(0)
         signList = self._manager.getDriversToSign()
         if len(signList) > 0:
             if MessageDialogs.showYesNoMessage(self, "Sign Drivers", "The are drivers pending to be signed.\nAll changes will be lost\nSign drivers?."):
@@ -388,7 +395,8 @@ class IcepapCMS(QtGui.QMainWindow):
             else:
                 for driver in signList:
                     self._manager.discardDriverChanges(driver)
-        self.ui.stackedWidget.setCurrentIndex(0)
+        
+
         if not self._manager.closeAllConnections():
             if MessageDialogs.showYesNoMessage(self, "Storage", "Error closing storage.\nDiscard changes and close?."):
                 event.accept()
@@ -477,6 +485,7 @@ class IcepapCMS(QtGui.QMainWindow):
             self.ui.pageiPapDriver.showHistoricWidget()
         else:
             self.ui.pageiPapDriver.hideHistoricWidget()
+            
     def actionTemplates(self):
         pass
     

@@ -64,7 +64,7 @@ class IcepapSystem(Storm):
         self.conflict = conflict
     
     def signSystem(self):
-        for driver in self.drivers:
+        for driver in self.getDrivers():
             driver.signDriver()
     
     def signCrate(self, cratenr):
@@ -85,7 +85,7 @@ class IcepapSystem(Storm):
                 self.child_conflicts += 1
             else:
                 driver_cmp = driver_list[addr]
-                if not driver == driver_cmp:
+                if not driver == driver_cmp :
                     conflictsList.append([Conflict.DRIVER_CHANGED, self, addr])
                     self.child_conflicts += 1                   
         ''' checking for new drivers '''        

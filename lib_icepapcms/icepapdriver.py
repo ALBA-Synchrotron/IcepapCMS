@@ -92,18 +92,19 @@ class IcepapDriver(Storm):
 
     def __cmp__(self, other):
         self.mode = other.mode
-        db = StormManager()  
-        cfg = other.current_cfg
-        cfg.resetDriver()
-        other.historic_cfgs.remove(cfg)
-        db.store(cfg)
+        db = StormManager()
+        #cfg = other.current_cfg
+        #cfg.resetDriver()
+        #other.historic_cfgs.remove(cfg)
+        #db.store(cfg)
         res = (self.current_cfg == other.current_cfg)        
         if not res:            
             self.setConflict(Conflict.NO_CONFLICT)
         else:
             self.setConflict(Conflict.DRIVER_CHANGED)
-            
-        db.remove(cfg)
+        #db.remove(cfg)
+        
         return res
+     
 
             

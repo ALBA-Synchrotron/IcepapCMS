@@ -18,7 +18,10 @@ class IcepapConsole(QtGui.QDialog):
         QtCore.QObject.connect(self.ui.btnConnect,QtCore.SIGNAL("clicked()"),self.btnConnect_on_click)
         QtCore.QObject.connect(self.ui.btnDisconnect,QtCore.SIGNAL("clicked()"),self.btnDisconnect_on_click)
         QtCore.QObject.connect(self.ui.console,QtCore.SIGNAL("commandReceived(const QString &)"),self.sendWriteReadCommand)
-        self.prompt = "icepap >"
+        self.prompt = "icepap:>"
+        font = QtGui.QFont()
+        font.setPointSize(8)
+        self.setFont(font)
         self.ui.console.setPrompt(self.prompt)
         
     def btnConnect_on_click(self):
