@@ -89,7 +89,9 @@ class IcepapController(Singleton):
         driver_cfg = IcepapDriverCfg(unicode(datetime.datetime.now()))
         driver_cfg.setSignature(self.iPaps[icepap_name].getConfigSignature(driver_addr))
         ver = self.iPaps[icepap_name].getVersionDsp(driver_addr)
+        id = self.iPaps[icepap_name].getId(driver_addr)
         driver_cfg.setParameter("VER", ver)
+        driver_cfg.setParameter("ID", id)
         for name in self.config_parameters:
             #print name
             try:

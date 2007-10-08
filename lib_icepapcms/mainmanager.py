@@ -117,6 +117,20 @@ class MainManager(Singleton):
   
         return conflictsList
     
+    def importMovedDriver(self, icepap_driver):
+        """ function to import the information from a moved driver, to avoid losing historic cfgs"""
+        id = icepap_driver.current_cfg.getParameter("ID", True)
+        moved_driver = self._db.existsDriver(icepap_driver, id)
+        move = MessageDialogs.showYesNoMessage(self._form, "Import moved driver", "Import all historic configurations from %s axis %d" % (moved_driver.icepapsystem_name, moved_driver.addr))
+        moved_sys = moved_driver.icepap_system
+        if move:
+            for cfg in moved_driver.historic_cfgs:
+                cfg.setDriver(icepap_driver)
+                icepap_driver.historic_cfgs.add(cfg)
+        moved_driver.icepap_system.removeDriver(moved_driver.addr)     
+        return moved_sys
+        
+        
     def getDriversToSign(self):
         signList = []
         for icepap_system in self.IcepapSystemList.values():
