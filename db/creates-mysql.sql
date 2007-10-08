@@ -13,7 +13,7 @@ CREATE DATABASE IF NOT EXISTS `icepapcms`
 DROP TABLE IF EXISTS `icepapcms`.`cfgparameter`;
 CREATE TABLE `icepapcms`.`cfgparameter` (
   `name` VARCHAR(20) NOT NULL DEFAULT '',
-  `cfg_id` INT(10) unsigned NOT NULL,
+  `cfg_id` INT(10) unsigned NOT NULL DEFAULT '0',
   `value` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`name`, `cfg_id`),
   INDEX `CfgParameter_FKIndex1` (`cfg_id`),
@@ -23,7 +23,7 @@ CREATE TABLE `icepapcms`.`cfgparameter` (
     ON UPDATE CASCADE
 )
 ENGINE = InnoDB
-ROW_FORMAT = Dynamic
+ROW_FORMAT = Compact
 CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 
 DROP TABLE IF EXISTS `icepapcms`.`cfgparameterinfo`;
@@ -33,7 +33,7 @@ CREATE TABLE `icepapcms`.`cfgparameterinfo` (
   PRIMARY KEY (`name`)
 )
 ENGINE = InnoDB
-ROW_FORMAT = Dynamic
+ROW_FORMAT = Compact
 CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 
 DROP TABLE IF EXISTS `icepapcms`.`icepapdriver`;
@@ -42,21 +42,15 @@ CREATE TABLE `icepapcms`.`icepapdriver` (
   `addr` INT(10) unsigned NOT NULL,
   `name` VARCHAR(25) NULL,
   `mode` VARCHAR(10) NULL,
-  `currentcfg_id` INT(10) unsigned NOT NULL,
   PRIMARY KEY (`addr`, `icepapsystem_name`),
   INDEX `IcepapDriver_FKIndex1` (`icepapsystem_name`),
-  INDEX `icepapdriver_ibfk_2` (`currentcfg_id`),
-  CONSTRAINT `icepapdriver_ibfk_2` FOREIGN KEY `icepapdriver_ibfk_2` (`currentcfg_id`)
-    REFERENCES `icepapcms`.`icepapdrivercfg` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
   CONSTRAINT `icepapdriver_ibfk_1` FOREIGN KEY `icepapdriver_ibfk_1` (`icepapsystem_name`)
     REFERENCES `icepapcms`.`icepapsystem` (`name`)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 )
 ENGINE = InnoDB
-ROW_FORMAT = Dynamic
+ROW_FORMAT = Compact
 CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 
 DROP TABLE IF EXISTS `icepapcms`.`icepapdrivercfg`;
@@ -76,20 +70,35 @@ CREATE TABLE `icepapcms`.`icepapdrivercfg` (
     ON UPDATE CASCADE
 )
 ENGINE = InnoDB
-ROW_FORMAT = Dynamic
+ROW_FORMAT = Compact
 CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 
 DROP TABLE IF EXISTS `icepapcms`.`icepapsystem`;
 CREATE TABLE `icepapcms`.`icepapsystem` (
   `name` VARCHAR(25) NOT NULL DEFAULT '',
   `host` VARCHAR(25) NOT NULL DEFAULT '',
-  `port` INT(10) unsigned NOT NULL DEFAULT 5000,
+  `port` INT(10) unsigned NOT NULL DEFAULT '5000',
   `description` VARCHAR(250) NULL,
   `version` VARCHAR(10) NULL,
+  `location_name` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`name`),
+  INDEX `FKLocation` (`location_name`),
+  CONSTRAINT `FKLocation` FOREIGN KEY `FKLocation` (`location_name`)
+    REFERENCES `icepapcms`.`location` (`name`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+)
+ENGINE = InnoDB
+ROW_FORMAT = Compact
+CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+
+DROP TABLE IF EXISTS `icepapcms`.`location`;
+CREATE TABLE `icepapcms`.`location` (
+  `name` VARCHAR(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`name`)
 )
 ENGINE = InnoDB
-ROW_FORMAT = Dynamic
+ROW_FORMAT = Compact
 CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 
 

@@ -108,7 +108,7 @@ class IcePAP:
         self.sendWriteCommand(command)
 
     def getCurrent(self, addr):
-        return self.getCfgParamenter(addr, "NCURR")
+        return self.getCfgParameter(addr, "NCURR")
     
     def move_in_config(self, addr, steps):
         command = "%d:CMOVE %d " % (addr, steps)

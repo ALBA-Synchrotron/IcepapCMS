@@ -376,7 +376,7 @@ class PageiPapDriver(QtGui.QWidget):
                         if type(widget) == type(result):
                             value = value.split()
                             i = 0
-                            for w in widget:
+                            for w in widget:                                
                                 self._setWidgetValue(w, value[i])
                                 i = i +1
                         else:
@@ -421,8 +421,9 @@ class PageiPapDriver(QtGui.QWidget):
                     widget.defaultvalue = str(value)
                 
                 
-        except:
-            print "error in _setWidgetValue"
+        except:           
+            pass
+            #print "_setWidgetValue():", sys.exc_info() , " " , value 
     
     def _getWidgetValue(self, widget):
         try:

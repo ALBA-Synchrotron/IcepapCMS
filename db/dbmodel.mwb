@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <data>
   <value type="dict" struct-name="db.workbench.Workbench">
-    <value type="string" key="_id">{B54751D7-0724-4166-A3BE-076F70E5D847}</value>
+    <value type="string" key="_id">{4B58911B-6665-4A17-9A93-E8F1AD7F4586}</value>
     <value type="dict" struct-name="db.mysql.Catalog" key="catalog">
-      <value type="string" key="_id">{A89273AF-7081-455C-9C40-1660803182CC}</value>
+      <value type="string" key="_id">{54DF8F28-75BB-4059-AD97-A7BF57460A51}</value>
       <value type="list" content-type="string" content-struct-name="db.CharacterSet" key="characterSets" option="ref">
         <value type="string">{43903B6E-F2D0-4529-9B67-E0717BF4EF9F}</value>
         <value type="string">{3AC6FA9A-82A4-4F7A-98B9-1F12CFB202BF}</value>
@@ -47,17 +47,17 @@
       <value type="string" key="defaultCollationName"></value>
       <value type="string" key="name">default</value>
       <value type="string" key="oldName">default</value>
-      <value type="string" key="owner" option="ref">{FEEDF8F7-0C50-40DD-9342-E51FD645B4AE}</value>
+      <value type="string" key="owner" option="ref">{4B58911B-6665-4A17-9A93-E8F1AD7F4586}</value>
       <value type="list" content-type="dict" content-struct-name="db.mysql.Schema" key="schemata">
         <value type="dict" struct-name="db.mysql.Schema">
-          <value type="string" key="_id">{4DEC323E-9049-432C-813C-1EC4FD346381}</value>
+          <value type="string" key="_id">{F10FA505-5BA7-4B69-8D8C-9166ADF13BEE}</value>
           <value type="string" key="comment"></value>
           <value type="int" key="commentedOut">0</value>
           <value type="string" key="defaultCharacterSetName">latin1</value>
           <value type="string" key="defaultCollationName"></value>
           <value type="string" key="name">icepapcms</value>
           <value type="string" key="oldName">icepapcms</value>
-          <value type="string" key="owner" option="ref">{A89273AF-7081-455C-9C40-1660803182CC}</value>
+          <value type="string" key="owner" option="ref">{54DF8F28-75BB-4059-AD97-A7BF57460A51}</value>
           <value type="list" content-type="dict" content-struct-name="db.mysql.RoutineGroup" key="routineGroups"/>
           <value type="list" content-type="dict" content-struct-name="db.mysql.Routine" key="routines"/>
           <value type="list" content-type="dict" content-struct-name="db.mysql.Sequence" key="sequences"/>
@@ -67,10 +67,10 @@
           <value type="list" content-type="dict" content-struct-name="db.mysql.Synonym" key="synonyms"/>
           <value type="list" content-type="dict" content-struct-name="db.mysql.Table" key="tables">
             <value type="dict" struct-name="db.mysql.Table">
-              <value type="string" key="_id">{B220E561-4BAE-4BBC-A0F1-9FC10634A666}</value>
+              <value type="string" key="_id">{4B27E4DA-C8BA-4FBF-8A60-3E0D5DF429A0}</value>
               <value type="list" content-type="dict" content-struct-name="db.mysql.Column" key="columns">
                 <value type="dict" struct-name="db.mysql.Column">
-                  <value type="string" key="_id">{069AAD6D-4B29-4021-AEC2-C7E389D7E2C6}</value>
+                  <value type="string" key="_id">{7A98558C-3B0F-4F2E-B3E4-96D6149BBF68}</value>
                   <value type="int" key="autoIncrement">0</value>
                   <value type="string" key="collationName">latin1_swedish_ci</value>
                   <value type="string" key="comment"></value>
@@ -85,7 +85,7 @@
                   <value type="string" key="simpleType" option="ref">{7198A7BD-968D-4BD9-B85C-4DE7504F0D83}</value>
                 </value>
                 <value type="dict" struct-name="db.mysql.Column">
-                  <value type="string" key="_id">{3E7B9C19-4FE6-4ED8-8F9E-DBBBDED4B1DE}</value>
+                  <value type="string" key="_id">{9FAE190A-D902-46F8-ABBF-A8798751B97A}</value>
                   <value type="int" key="autoIncrement">0</value>
                   <value type="string" key="comment"></value>
                   <value type="string" key="datatypeName">INT</value>
@@ -102,7 +102,7 @@
                   <value type="string" key="simpleType" option="ref">{014AB6FC-CA8A-4FA2-8BD9-E97D7F8D53AE}</value>
                 </value>
                 <value type="dict" struct-name="db.mysql.Column">
-                  <value type="string" key="_id">{E3FD1A06-965C-472C-89C0-A5367110B071}</value>
+                  <value type="string" key="_id">{690DB7F1-26B4-47C1-B973-A4995BD5F4C9}</value>
                   <value type="int" key="autoIncrement">0</value>
                   <value type="string" key="collationName">latin1_swedish_ci</value>
                   <value type="string" key="comment"></value>
@@ -117,14 +117,14 @@
                   <value type="string" key="simpleType" option="ref">{7198A7BD-968D-4BD9-B85C-4DE7504F0D83}</value>
                 </value>
               </value>
-              <value type="string" key="comment">InnoDB free: 11264 kB; (`cfg_id`) REFER `icepapcms/icepapdrivercfg`(`id`) ON UPDATE CASCADE</value>
+              <value type="string" key="comment">InnoDB free: 11264 kB; (`cfg_id`) REFER `icepapcms/icepapdrivercfg`(`id`) ON UPD</value>
               <value type="string" key="defaultCharacterSetName">latin1</value>
               <value type="string" key="defaultCollationName">latin1_swedish_ci</value>
               <value type="list" content-type="dict" content-struct-name="db.mysql.ForeignKey" key="foreignKeys">
                 <value type="dict" struct-name="db.mysql.ForeignKey">
-                  <value type="string" key="_id">{1F23EE47-E1ED-440A-8467-4AA7D1C5E9D5}</value>
+                  <value type="string" key="_id">{CC27D536-F91A-4F3F-983A-48BAD6445507}</value>
                   <value type="list" content-type="string" content-struct-name="db.mysql.Column" key="columns" option="ref">
-                    <value type="string">{3E7B9C19-4FE6-4ED8-8F9E-DBBBDED4B1DE}</value>
+                    <value type="string">{9FAE190A-D902-46F8-ABBF-A8798751B97A}</value>
                   </value>
                   <value type="string" key="deleteRule">CASCADE</value>
                   <value type="string" key="name">cfgparameter_ibfk_1</value>
@@ -133,30 +133,30 @@
                     <value type="string">id</value>
                   </value>
                   <value type="list" content-type="string" content-struct-name="db.mysql.Column" key="referedColumns" option="ref">
-                    <value type="string">{C0A74ED8-023F-4F15-BA2A-34BAE04DC35B}</value>
+                    <value type="string">{EBE9E6D2-E568-475B-B288-1B915FF131DF}</value>
                   </value>
-                  <value type="string" key="referedTable" option="ref">{0C4B19DF-01F5-4F87-8067-40969E8DCB8D}</value>
+                  <value type="string" key="referedTable" option="ref">{515F41B6-8049-4FBE-A658-B414A268218F}</value>
                   <value type="string" key="referedTableName">icepapdrivercfg</value>
                   <value type="string" key="updateRule">CASCADE</value>
                 </value>
               </value>
               <value type="list" content-type="dict" content-struct-name="db.mysql.Index" key="indices">
                 <value type="dict" struct-name="db.mysql.Index">
-                  <value type="string" key="_id">{A6126C9D-2147-440C-95A3-B8321881B697}</value>
+                  <value type="string" key="_id">{5ECDFB21-87F0-4DD3-9CB4-B6FA347D4142}</value>
                   <value type="list" content-type="dict" content-struct-name="db.IndexColumn" key="columns">
                     <value type="dict" struct-name="db.mysql.IndexColumn">
-                      <value type="string" key="_id">{A28A9D36-9002-43EE-A80B-A4ABB6DF8A5A}</value>
+                      <value type="string" key="_id">{0C8CFBFF-E3A3-4F0F-AE88-4B500FADD883}</value>
                       <value type="int" key="descend">0</value>
                       <value type="string" key="name">name</value>
-                      <value type="string" key="owner" option="ref">{A6126C9D-2147-440C-95A3-B8321881B697}</value>
-                      <value type="string" key="referedColumn" option="ref">{069AAD6D-4B29-4021-AEC2-C7E389D7E2C6}</value>
+                      <value type="string" key="owner" option="ref">{5ECDFB21-87F0-4DD3-9CB4-B6FA347D4142}</value>
+                      <value type="string" key="referedColumn" option="ref">{7A98558C-3B0F-4F2E-B3E4-96D6149BBF68}</value>
                     </value>
                     <value type="dict" struct-name="db.mysql.IndexColumn">
-                      <value type="string" key="_id">{C0E727D4-A563-406D-9FF7-635703E28982}</value>
+                      <value type="string" key="_id">{F924D99C-82E1-4779-AC50-B1390A290EFD}</value>
                       <value type="int" key="descend">0</value>
                       <value type="string" key="name">cfg_id</value>
-                      <value type="string" key="owner" option="ref">{A6126C9D-2147-440C-95A3-B8321881B697}</value>
-                      <value type="string" key="referedColumn" option="ref">{3E7B9C19-4FE6-4ED8-8F9E-DBBBDED4B1DE}</value>
+                      <value type="string" key="owner" option="ref">{5ECDFB21-87F0-4DD3-9CB4-B6FA347D4142}</value>
+                      <value type="string" key="referedColumn" option="ref">{9FAE190A-D902-46F8-ABBF-A8798751B97A}</value>
                     </value>
                   </value>
                   <value type="string" key="comment"></value>
@@ -165,18 +165,18 @@
                   <value type="int" key="isPrimary">1</value>
                   <value type="string" key="name">PRIMARY</value>
                   <value type="string" key="oldName">PRIMARY</value>
-                  <value type="string" key="owner" option="ref">{B220E561-4BAE-4BBC-A0F1-9FC10634A666}</value>
+                  <value type="string" key="owner" option="ref">{4B27E4DA-C8BA-4FBF-8A60-3E0D5DF429A0}</value>
                   <value type="int" key="unique">1</value>
                 </value>
                 <value type="dict" struct-name="db.mysql.Index">
-                  <value type="string" key="_id">{3E884BDB-7472-4F88-9A51-9C1001269F8F}</value>
+                  <value type="string" key="_id">{49E82191-2E50-4375-91BB-B0E5E25DD92E}</value>
                   <value type="list" content-type="dict" content-struct-name="db.IndexColumn" key="columns">
                     <value type="dict" struct-name="db.mysql.IndexColumn">
-                      <value type="string" key="_id">{3CF4F067-82DA-490C-A627-017754C8776D}</value>
+                      <value type="string" key="_id">{70CEB8BF-FA05-4347-B9A2-89C3C1C49F1C}</value>
                       <value type="int" key="descend">0</value>
                       <value type="string" key="name">cfg_id</value>
-                      <value type="string" key="owner" option="ref">{3E884BDB-7472-4F88-9A51-9C1001269F8F}</value>
-                      <value type="string" key="referedColumn" option="ref">{3E7B9C19-4FE6-4ED8-8F9E-DBBBDED4B1DE}</value>
+                      <value type="string" key="owner" option="ref">{49E82191-2E50-4375-91BB-B0E5E25DD92E}</value>
+                      <value type="string" key="referedColumn" option="ref">{9FAE190A-D902-46F8-ABBF-A8798751B97A}</value>
                     </value>
                   </value>
                   <value type="string" key="comment"></value>
@@ -184,16 +184,16 @@
                   <value type="string" key="indexType">BTREE</value>
                   <value type="string" key="name">CfgParameter_FKIndex1</value>
                   <value type="string" key="oldName">CfgParameter_FKIndex1</value>
-                  <value type="string" key="owner" option="ref">{B220E561-4BAE-4BBC-A0F1-9FC10634A666}</value>
+                  <value type="string" key="owner" option="ref">{4B27E4DA-C8BA-4FBF-8A60-3E0D5DF429A0}</value>
                   <value type="int" key="unique">0</value>
                 </value>
               </value>
               <value type="int" key="isTemporary">0</value>
               <value type="string" key="name">cfgparameter</value>
               <value type="string" key="oldName">cfgparameter</value>
-              <value type="string" key="owner" option="ref">{4DEC323E-9049-432C-813C-1EC4FD346381}</value>
-              <value type="string" key="primaryKey" option="ref">{A6126C9D-2147-440C-95A3-B8321881B697}</value>
-              <value type="string" key="rowFormat">Dynamic</value>
+              <value type="string" key="owner" option="ref">{F10FA505-5BA7-4B69-8D8C-9166ADF13BEE}</value>
+              <value type="string" key="primaryKey" option="ref">{5ECDFB21-87F0-4DD3-9CB4-B6FA347D4142}</value>
+              <value type="string" key="rowFormat">Compact</value>
               <value type="string" key="sql">DROP TABLE IF EXISTS `icepapcms`.`cfgparameter`;&#13;
 CREATE TABLE `icepapcms`.`cfgparameter` (&#13;
   `name` VARCHAR(20) NOT NULL DEFAULT '',&#13;
@@ -207,15 +207,16 @@ CREATE TABLE `icepapcms`.`cfgparameter` (&#13;
     ON UPDATE CASCADE&#13;
 )&#13;
 ENGINE = InnoDB&#13;
-ROW_FORMAT = Dynamic&#13;
+ROW_FORMAT = Compact&#13;
 CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
               <value type="string" key="tableEngine">InnoDB</value>
+              <value type="list" content-type="dict" content-struct-name="db.mysql.Trigger" key="triggers"/>
             </value>
             <value type="dict" struct-name="db.mysql.Table">
-              <value type="string" key="_id">{1DCCC861-16F1-47FD-A8F4-4EAABBE85032}</value>
+              <value type="string" key="_id">{2FA34175-E8A9-45D3-8756-12C8286F1015}</value>
               <value type="list" content-type="dict" content-struct-name="db.mysql.Column" key="columns">
                 <value type="dict" struct-name="db.mysql.Column">
-                  <value type="string" key="_id">{EBD85B3B-C724-4486-9F71-C293A4937556}</value>
+                  <value type="string" key="_id">{D89632A7-94DE-4AC3-AC49-8EF16A0224F2}</value>
                   <value type="int" key="autoIncrement">0</value>
                   <value type="string" key="collationName">latin1_swedish_ci</value>
                   <value type="string" key="comment"></value>
@@ -230,7 +231,7 @@ CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
                   <value type="string" key="simpleType" option="ref">{7198A7BD-968D-4BD9-B85C-4DE7504F0D83}</value>
                 </value>
                 <value type="dict" struct-name="db.mysql.Column">
-                  <value type="string" key="_id">{0A0948E3-FE51-4061-96F9-35C0687E2709}</value>
+                  <value type="string" key="_id">{D61D6743-C1AE-4037-92C2-6E8801D8A631}</value>
                   <value type="int" key="autoIncrement">0</value>
                   <value type="string" key="collationName">latin1_swedish_ci</value>
                   <value type="string" key="comment"></value>
@@ -251,14 +252,14 @@ CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
               <value type="list" content-type="dict" content-struct-name="db.mysql.ForeignKey" key="foreignKeys"/>
               <value type="list" content-type="dict" content-struct-name="db.mysql.Index" key="indices">
                 <value type="dict" struct-name="db.mysql.Index">
-                  <value type="string" key="_id">{54EB4C12-6A4B-4E23-836A-0DED18D6679D}</value>
+                  <value type="string" key="_id">{1D38A917-3519-42E2-AF89-1A3DB8CEF1C3}</value>
                   <value type="list" content-type="dict" content-struct-name="db.IndexColumn" key="columns">
                     <value type="dict" struct-name="db.mysql.IndexColumn">
-                      <value type="string" key="_id">{6120D3AE-B937-4C1A-BA3B-522A06475FE8}</value>
+                      <value type="string" key="_id">{216175A8-E1FB-4B04-9D60-F03F87054425}</value>
                       <value type="int" key="descend">0</value>
                       <value type="string" key="name">name</value>
-                      <value type="string" key="owner" option="ref">{54EB4C12-6A4B-4E23-836A-0DED18D6679D}</value>
-                      <value type="string" key="referedColumn" option="ref">{EBD85B3B-C724-4486-9F71-C293A4937556}</value>
+                      <value type="string" key="owner" option="ref">{1D38A917-3519-42E2-AF89-1A3DB8CEF1C3}</value>
+                      <value type="string" key="referedColumn" option="ref">{D89632A7-94DE-4AC3-AC49-8EF16A0224F2}</value>
                     </value>
                   </value>
                   <value type="string" key="comment"></value>
@@ -267,16 +268,16 @@ CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
                   <value type="int" key="isPrimary">1</value>
                   <value type="string" key="name">PRIMARY</value>
                   <value type="string" key="oldName">PRIMARY</value>
-                  <value type="string" key="owner" option="ref">{1DCCC861-16F1-47FD-A8F4-4EAABBE85032}</value>
+                  <value type="string" key="owner" option="ref">{2FA34175-E8A9-45D3-8756-12C8286F1015}</value>
                   <value type="int" key="unique">1</value>
                 </value>
               </value>
               <value type="int" key="isTemporary">0</value>
               <value type="string" key="name">cfgparameterinfo</value>
               <value type="string" key="oldName">cfgparameterinfo</value>
-              <value type="string" key="owner" option="ref">{4DEC323E-9049-432C-813C-1EC4FD346381}</value>
-              <value type="string" key="primaryKey" option="ref">{54EB4C12-6A4B-4E23-836A-0DED18D6679D}</value>
-              <value type="string" key="rowFormat">Dynamic</value>
+              <value type="string" key="owner" option="ref">{F10FA505-5BA7-4B69-8D8C-9166ADF13BEE}</value>
+              <value type="string" key="primaryKey" option="ref">{1D38A917-3519-42E2-AF89-1A3DB8CEF1C3}</value>
+              <value type="string" key="rowFormat">Compact</value>
               <value type="string" key="sql">DROP TABLE IF EXISTS `icepapcms`.`cfgparameterinfo`;&#13;
 CREATE TABLE `icepapcms`.`cfgparameterinfo` (&#13;
   `name` VARCHAR(20) NOT NULL DEFAULT '',&#13;
@@ -284,15 +285,16 @@ CREATE TABLE `icepapcms`.`cfgparameterinfo` (&#13;
   PRIMARY KEY (`name`)&#13;
 )&#13;
 ENGINE = InnoDB&#13;
-ROW_FORMAT = Dynamic&#13;
+ROW_FORMAT = Compact&#13;
 CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
               <value type="string" key="tableEngine">InnoDB</value>
+              <value type="list" content-type="dict" content-struct-name="db.mysql.Trigger" key="triggers"/>
             </value>
             <value type="dict" struct-name="db.mysql.Table">
-              <value type="string" key="_id">{065DDF2B-4A08-4C78-8B91-ECC424AC4E6C}</value>
+              <value type="string" key="_id">{0AB585F5-A23C-425E-9AF6-4B016780F425}</value>
               <value type="list" content-type="dict" content-struct-name="db.mysql.Column" key="columns">
                 <value type="dict" struct-name="db.mysql.Column">
-                  <value type="string" key="_id">{E0FB2F03-6960-4F05-8437-67CA02C3E5EF}</value>
+                  <value type="string" key="_id">{67785A35-103C-4CCF-BDA7-0DFFBC4D157A}</value>
                   <value type="int" key="autoIncrement">0</value>
                   <value type="string" key="collationName">latin1_swedish_ci</value>
                   <value type="string" key="comment"></value>
@@ -307,11 +309,11 @@ CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
                   <value type="string" key="simpleType" option="ref">{7198A7BD-968D-4BD9-B85C-4DE7504F0D83}</value>
                 </value>
                 <value type="dict" struct-name="db.mysql.Column">
-                  <value type="string" key="_id">{A4E40491-F499-4A77-ACBA-8E5445B75FAB}</value>
+                  <value type="string" key="_id">{4097CD7A-63BF-4760-8718-05849F567C60}</value>
                   <value type="int" key="autoIncrement">0</value>
                   <value type="string" key="comment"></value>
                   <value type="string" key="datatypeName">INT</value>
-                  <value type="string" key="defaultValue"></value>
+                  <value type="string" key="defaultValue">''</value>
                   <value type="int" key="defaultValueIsNull">0</value>
                   <value type="list" content-type="string" key="flags">
                     <value type="string">unsigned</value>
@@ -324,7 +326,7 @@ CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
                   <value type="string" key="simpleType" option="ref">{014AB6FC-CA8A-4FA2-8BD9-E97D7F8D53AE}</value>
                 </value>
                 <value type="dict" struct-name="db.mysql.Column">
-                  <value type="string" key="_id">{A0CD46A6-63BA-4E47-B7F3-55A2592DD1E9}</value>
+                  <value type="string" key="_id">{6A597BD0-A24B-4CCD-A859-9FD209F8A653}</value>
                   <value type="int" key="autoIncrement">0</value>
                   <value type="string" key="collationName">latin1_swedish_ci</value>
                   <value type="string" key="comment"></value>
@@ -338,7 +340,7 @@ CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
                   <value type="string" key="simpleType" option="ref">{7198A7BD-968D-4BD9-B85C-4DE7504F0D83}</value>
                 </value>
                 <value type="dict" struct-name="db.mysql.Column">
-                  <value type="string" key="_id">{8BE05B9A-2DA3-4770-A9DD-B013F8CAB07F}</value>
+                  <value type="string" key="_id">{6757D3DA-6CC0-43D3-A6F2-618A48AD5476}</value>
                   <value type="int" key="autoIncrement">0</value>
                   <value type="string" key="collationName">latin1_swedish_ci</value>
                   <value type="string" key="comment"></value>
@@ -351,50 +353,15 @@ CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
                   <value type="string" key="oldName">mode</value>
                   <value type="string" key="simpleType" option="ref">{7198A7BD-968D-4BD9-B85C-4DE7504F0D83}</value>
                 </value>
-                <value type="dict" struct-name="db.mysql.Column">
-                  <value type="string" key="_id">{17DC443A-FBA3-411D-A07C-40D403BB6D1F}</value>
-                  <value type="int" key="autoIncrement">0</value>
-                  <value type="string" key="comment"></value>
-                  <value type="string" key="datatypeName">INT</value>
-                  <value type="string" key="defaultValue"></value>
-                  <value type="int" key="defaultValueIsNull">0</value>
-                  <value type="list" content-type="string" key="flags">
-                    <value type="string">unsigned</value>
-                  </value>
-                  <value type="int" key="isNullable">0</value>
-                  <value type="string" key="name">currentcfg_id</value>
-                  <value type="string" key="oldName">currentcfg_id</value>
-                  <value type="int" key="precision">10</value>
-                  <value type="int" key="scale">0</value>
-                  <value type="string" key="simpleType" option="ref">{014AB6FC-CA8A-4FA2-8BD9-E97D7F8D53AE}</value>
-                </value>
               </value>
-              <value type="string" key="comment">InnoDB free: 11264 kB; (`currentcfg_id`) REFER `icepapcms/icepapdrivercfg`(`id`) ON UPDATE CASCADE; (`icepapsystem_name`) REFER `icepapcms/icepapsystem`(`name`) ON UPDATE CASCADE</value>
+              <value type="string" key="comment">InnoDB free: 11264 kB; (`icepapsystem_name`) REFER `icepapcms/icepapsystem`(`nam</value>
               <value type="string" key="defaultCharacterSetName">latin1</value>
               <value type="string" key="defaultCollationName">latin1_swedish_ci</value>
               <value type="list" content-type="dict" content-struct-name="db.mysql.ForeignKey" key="foreignKeys">
                 <value type="dict" struct-name="db.mysql.ForeignKey">
-                  <value type="string" key="_id">{6D5ED394-0605-4FA7-BCC4-B1E4A59A5E1B}</value>
+                  <value type="string" key="_id">{226FE4F3-7BDD-4B4D-8690-355641C01901}</value>
                   <value type="list" content-type="string" content-struct-name="db.mysql.Column" key="columns" option="ref">
-                    <value type="string">{17DC443A-FBA3-411D-A07C-40D403BB6D1F}</value>
-                  </value>
-                  <value type="string" key="deleteRule">CASCADE</value>
-                  <value type="string" key="name">icepapdriver_ibfk_2</value>
-                  <value type="string" key="oldName">icepapdriver_ibfk_2</value>
-                  <value type="list" content-type="string" key="referedColumnNames">
-                    <value type="string">id</value>
-                  </value>
-                  <value type="list" content-type="string" content-struct-name="db.mysql.Column" key="referedColumns" option="ref">
-                    <value type="string">{C0A74ED8-023F-4F15-BA2A-34BAE04DC35B}</value>
-                  </value>
-                  <value type="string" key="referedTable" option="ref">{0C4B19DF-01F5-4F87-8067-40969E8DCB8D}</value>
-                  <value type="string" key="referedTableName">icepapdrivercfg</value>
-                  <value type="string" key="updateRule">CASCADE</value>
-                </value>
-                <value type="dict" struct-name="db.mysql.ForeignKey">
-                  <value type="string" key="_id">{4D90278B-6EDD-4D87-90C2-FDEC805DA769}</value>
-                  <value type="list" content-type="string" content-struct-name="db.mysql.Column" key="columns" option="ref">
-                    <value type="string">{E0FB2F03-6960-4F05-8437-67CA02C3E5EF}</value>
+                    <value type="string">{67785A35-103C-4CCF-BDA7-0DFFBC4D157A}</value>
                   </value>
                   <value type="string" key="deleteRule">CASCADE</value>
                   <value type="string" key="name">icepapdriver_ibfk_1</value>
@@ -403,30 +370,30 @@ CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
                     <value type="string">name</value>
                   </value>
                   <value type="list" content-type="string" content-struct-name="db.mysql.Column" key="referedColumns" option="ref">
-                    <value type="string">{BBCD8AF5-88A6-492D-8CFC-78C75CC42A1B}</value>
+                    <value type="string">{2525A068-191E-4F56-A953-05F4A4764918}</value>
                   </value>
-                  <value type="string" key="referedTable" option="ref">{13C9B847-0BDD-4CBC-9FB6-A609B857D7BA}</value>
+                  <value type="string" key="referedTable" option="ref">{6672E810-A554-4451-854C-4CE4772FB687}</value>
                   <value type="string" key="referedTableName">icepapsystem</value>
                   <value type="string" key="updateRule">CASCADE</value>
                 </value>
               </value>
               <value type="list" content-type="dict" content-struct-name="db.mysql.Index" key="indices">
                 <value type="dict" struct-name="db.mysql.Index">
-                  <value type="string" key="_id">{F6135AD6-D601-4A03-AB00-4BACEFDDE0BD}</value>
+                  <value type="string" key="_id">{852CBCD6-1C04-4C48-9C74-30DA7D1EA6EC}</value>
                   <value type="list" content-type="dict" content-struct-name="db.IndexColumn" key="columns">
                     <value type="dict" struct-name="db.mysql.IndexColumn">
-                      <value type="string" key="_id">{BEBBE9CF-AD38-4093-BC7E-FD89C0263F73}</value>
+                      <value type="string" key="_id">{4B01EEEB-9632-4F07-9CEE-E19E193BB0BC}</value>
                       <value type="int" key="descend">0</value>
                       <value type="string" key="name">addr</value>
-                      <value type="string" key="owner" option="ref">{F6135AD6-D601-4A03-AB00-4BACEFDDE0BD}</value>
-                      <value type="string" key="referedColumn" option="ref">{A4E40491-F499-4A77-ACBA-8E5445B75FAB}</value>
+                      <value type="string" key="owner" option="ref">{852CBCD6-1C04-4C48-9C74-30DA7D1EA6EC}</value>
+                      <value type="string" key="referedColumn" option="ref">{4097CD7A-63BF-4760-8718-05849F567C60}</value>
                     </value>
                     <value type="dict" struct-name="db.mysql.IndexColumn">
-                      <value type="string" key="_id">{6E5C5EB8-5613-4578-9917-9F1E3ECA4827}</value>
+                      <value type="string" key="_id">{2890BCF6-2D50-4D0B-8A96-B78ADFE414C9}</value>
                       <value type="int" key="descend">0</value>
                       <value type="string" key="name">icepapsystem_name</value>
-                      <value type="string" key="owner" option="ref">{F6135AD6-D601-4A03-AB00-4BACEFDDE0BD}</value>
-                      <value type="string" key="referedColumn" option="ref">{E0FB2F03-6960-4F05-8437-67CA02C3E5EF}</value>
+                      <value type="string" key="owner" option="ref">{852CBCD6-1C04-4C48-9C74-30DA7D1EA6EC}</value>
+                      <value type="string" key="referedColumn" option="ref">{67785A35-103C-4CCF-BDA7-0DFFBC4D157A}</value>
                     </value>
                   </value>
                   <value type="string" key="comment"></value>
@@ -435,18 +402,18 @@ CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
                   <value type="int" key="isPrimary">1</value>
                   <value type="string" key="name">PRIMARY</value>
                   <value type="string" key="oldName">PRIMARY</value>
-                  <value type="string" key="owner" option="ref">{065DDF2B-4A08-4C78-8B91-ECC424AC4E6C}</value>
+                  <value type="string" key="owner" option="ref">{0AB585F5-A23C-425E-9AF6-4B016780F425}</value>
                   <value type="int" key="unique">1</value>
                 </value>
                 <value type="dict" struct-name="db.mysql.Index">
-                  <value type="string" key="_id">{429CA115-C4D8-4009-B662-416DA284461D}</value>
+                  <value type="string" key="_id">{48A6D4F2-7F0D-48D1-8897-BD59F319127E}</value>
                   <value type="list" content-type="dict" content-struct-name="db.IndexColumn" key="columns">
                     <value type="dict" struct-name="db.mysql.IndexColumn">
-                      <value type="string" key="_id">{6BC314B2-8676-4D1A-A21C-0DC9BF2C8F0C}</value>
+                      <value type="string" key="_id">{C8D5E71B-D05F-4D45-AAEC-DF936E694A11}</value>
                       <value type="int" key="descend">0</value>
                       <value type="string" key="name">icepapsystem_name</value>
-                      <value type="string" key="owner" option="ref">{429CA115-C4D8-4009-B662-416DA284461D}</value>
-                      <value type="string" key="referedColumn" option="ref">{E0FB2F03-6960-4F05-8437-67CA02C3E5EF}</value>
+                      <value type="string" key="owner" option="ref">{48A6D4F2-7F0D-48D1-8897-BD59F319127E}</value>
+                      <value type="string" key="referedColumn" option="ref">{67785A35-103C-4CCF-BDA7-0DFFBC4D157A}</value>
                     </value>
                   </value>
                   <value type="string" key="comment"></value>
@@ -454,70 +421,40 @@ CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
                   <value type="string" key="indexType">BTREE</value>
                   <value type="string" key="name">IcepapDriver_FKIndex1</value>
                   <value type="string" key="oldName">IcepapDriver_FKIndex1</value>
-                  <value type="string" key="owner" option="ref">{065DDF2B-4A08-4C78-8B91-ECC424AC4E6C}</value>
-                  <value type="int" key="unique">0</value>
-                </value>
-                <value type="dict" struct-name="db.mysql.Index">
-                  <value type="string" key="_id">{0ECE71AD-9856-46AC-A724-E3F5CC83DD7F}</value>
-                  <value type="list" content-type="dict" content-struct-name="db.IndexColumn" key="columns">
-                    <value type="dict" struct-name="db.mysql.IndexColumn">
-                      <value type="string" key="_id">{54B1413D-7773-4FD2-84E3-7409A74623FC}</value>
-                      <value type="int" key="descend">0</value>
-                      <value type="string" key="name">currentcfg_id</value>
-                      <value type="string" key="owner" option="ref">{0ECE71AD-9856-46AC-A724-E3F5CC83DD7F}</value>
-                      <value type="string" key="referedColumn" option="ref">{17DC443A-FBA3-411D-A07C-40D403BB6D1F}</value>
-                    </value>
-                  </value>
-                  <value type="string" key="comment"></value>
-                  <value type="string" key="indexKind"></value>
-                  <value type="string" key="indexType">BTREE</value>
-                  <value type="string" key="name">icepapdriver_ibfk_2</value>
-                  <value type="string" key="oldName">icepapdriver_ibfk_2</value>
-                  <value type="string" key="owner" option="ref">{065DDF2B-4A08-4C78-8B91-ECC424AC4E6C}</value>
+                  <value type="string" key="owner" option="ref">{0AB585F5-A23C-425E-9AF6-4B016780F425}</value>
                   <value type="int" key="unique">0</value>
                 </value>
               </value>
               <value type="int" key="isTemporary">0</value>
               <value type="string" key="name">icepapdriver</value>
               <value type="string" key="oldName">icepapdriver</value>
-              <value type="string" key="owner" option="ref">{4DEC323E-9049-432C-813C-1EC4FD346381}</value>
-              <value type="string" key="primaryKey" option="ref">{F6135AD6-D601-4A03-AB00-4BACEFDDE0BD}</value>
-              <value type="list" content-type="int" key="routineExpandedHeights">
-                <value type="int">130</value>
-              </value>
-              <value type="list" content-type="int" key="routineExpandedStates">
-                <value type="int">1</value>
-              </value>
-              <value type="string" key="rowFormat">Dynamic</value>
+              <value type="string" key="owner" option="ref">{F10FA505-5BA7-4B69-8D8C-9166ADF13BEE}</value>
+              <value type="string" key="primaryKey" option="ref">{852CBCD6-1C04-4C48-9C74-30DA7D1EA6EC}</value>
+              <value type="string" key="rowFormat">Compact</value>
               <value type="string" key="sql">DROP TABLE IF EXISTS `icepapcms`.`icepapdriver`;&#13;
 CREATE TABLE `icepapcms`.`icepapdriver` (&#13;
   `icepapsystem_name` VARCHAR(25) NOT NULL DEFAULT '',&#13;
   `addr` INT(10) unsigned NOT NULL,&#13;
   `name` VARCHAR(25) NULL,&#13;
   `mode` VARCHAR(10) NULL,&#13;
-  `currentcfg_id` INT(10) unsigned NOT NULL,&#13;
   PRIMARY KEY (`addr`, `icepapsystem_name`),&#13;
   INDEX `IcepapDriver_FKIndex1` (`icepapsystem_name`),&#13;
-  INDEX `icepapdriver_ibfk_2` (`currentcfg_id`),&#13;
-  CONSTRAINT `icepapdriver_ibfk_2` FOREIGN KEY `icepapdriver_ibfk_2` (`currentcfg_id`)&#13;
-    REFERENCES `icepapcms`.`icepapdrivercfg` (`id`)&#13;
-    ON DELETE CASCADE&#13;
-    ON UPDATE CASCADE,&#13;
   CONSTRAINT `icepapdriver_ibfk_1` FOREIGN KEY `icepapdriver_ibfk_1` (`icepapsystem_name`)&#13;
     REFERENCES `icepapcms`.`icepapsystem` (`name`)&#13;
     ON DELETE CASCADE&#13;
     ON UPDATE CASCADE&#13;
 )&#13;
 ENGINE = InnoDB&#13;
-ROW_FORMAT = Dynamic&#13;
+ROW_FORMAT = Compact&#13;
 CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
               <value type="string" key="tableEngine">InnoDB</value>
+              <value type="list" content-type="dict" content-struct-name="db.mysql.Trigger" key="triggers"/>
             </value>
             <value type="dict" struct-name="db.mysql.Table">
-              <value type="string" key="_id">{0C4B19DF-01F5-4F87-8067-40969E8DCB8D}</value>
+              <value type="string" key="_id">{515F41B6-8049-4FBE-A658-B414A268218F}</value>
               <value type="list" content-type="dict" content-struct-name="db.mysql.Column" key="columns">
                 <value type="dict" struct-name="db.mysql.Column">
-                  <value type="string" key="_id">{C0A74ED8-023F-4F15-BA2A-34BAE04DC35B}</value>
+                  <value type="string" key="_id">{EBE9E6D2-E568-475B-B288-1B915FF131DF}</value>
                   <value type="int" key="autoIncrement">1</value>
                   <value type="string" key="comment"></value>
                   <value type="string" key="datatypeName">INT</value>
@@ -533,13 +470,12 @@ CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
                   <value type="string" key="simpleType" option="ref">{014AB6FC-CA8A-4FA2-8BD9-E97D7F8D53AE}</value>
                 </value>
                 <value type="dict" struct-name="db.mysql.Column">
-                  <value type="string" key="_id">{39EF3C3F-B219-4B21-8A67-74D4125F6F06}</value>
+                  <value type="string" key="_id">{5F99363A-64B6-47E0-A3DD-FD33A6077AA7}</value>
                   <value type="int" key="autoIncrement">0</value>
                   <value type="string" key="collationName">latin1_swedish_ci</value>
                   <value type="string" key="comment"></value>
                   <value type="string" key="datatypeName">VARCHAR</value>
-                  <value type="string" key="defaultValue">''</value>
-                  <value type="int" key="defaultValueIsNull">0</value>
+                  <value type="int" key="defaultValueIsNull">1</value>
                   <value type="list" content-type="string" key="flags"/>
                   <value type="int" key="isNullable">1</value>
                   <value type="int" key="length">25</value>
@@ -548,12 +484,11 @@ CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
                   <value type="string" key="simpleType" option="ref">{7198A7BD-968D-4BD9-B85C-4DE7504F0D83}</value>
                 </value>
                 <value type="dict" struct-name="db.mysql.Column">
-                  <value type="string" key="_id">{F58E33D4-03E8-48F4-B96B-2F1696956AB4}</value>
+                  <value type="string" key="_id">{E1C5BBBE-FC66-4984-B990-8B156B321DE6}</value>
                   <value type="int" key="autoIncrement">0</value>
                   <value type="string" key="comment"></value>
                   <value type="string" key="datatypeName">INT</value>
-                  <value type="string" key="defaultValue"></value>
-                  <value type="int" key="defaultValueIsNull">0</value>
+                  <value type="int" key="defaultValueIsNull">1</value>
                   <value type="list" content-type="string" key="flags">
                     <value type="string">unsigned</value>
                   </value>
@@ -565,7 +500,7 @@ CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
                   <value type="string" key="simpleType" option="ref">{014AB6FC-CA8A-4FA2-8BD9-E97D7F8D53AE}</value>
                 </value>
                 <value type="dict" struct-name="db.mysql.Column">
-                  <value type="string" key="_id">{853C7FB0-6044-484D-A646-D51D084A770E}</value>
+                  <value type="string" key="_id">{8923CA0A-5669-4975-99C8-79FEBA560BF1}</value>
                   <value type="int" key="autoIncrement">0</value>
                   <value type="string" key="collationName">latin1_swedish_ci</value>
                   <value type="string" key="comment"></value>
@@ -574,13 +509,13 @@ CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
                   <value type="int" key="defaultValueIsNull">0</value>
                   <value type="list" content-type="string" key="flags"/>
                   <value type="int" key="isNullable">0</value>
-                  <value type="int" key="length">20</value>
+                  <value type="int" key="length">40</value>
                   <value type="string" key="name">name</value>
                   <value type="string" key="oldName">name</value>
                   <value type="string" key="simpleType" option="ref">{7198A7BD-968D-4BD9-B85C-4DE7504F0D83}</value>
                 </value>
                 <value type="dict" struct-name="db.mysql.Column">
-                  <value type="string" key="_id">{BC322E2F-7B1E-45A1-9720-68AF52CFFF14}</value>
+                  <value type="string" key="_id">{B1B44D87-48A1-4FCE-A90B-304A9581B019}</value>
                   <value type="int" key="autoIncrement">0</value>
                   <value type="string" key="collationName">latin1_swedish_ci</value>
                   <value type="string" key="comment"></value>
@@ -594,7 +529,7 @@ CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
                   <value type="string" key="simpleType" option="ref">{7198A7BD-968D-4BD9-B85C-4DE7504F0D83}</value>
                 </value>
                 <value type="dict" struct-name="db.mysql.Column">
-                  <value type="string" key="_id">{D078B48E-2983-4E81-912C-839C941A5819}</value>
+                  <value type="string" key="_id">{62F7C5E5-208B-402D-8468-CC7CF253E70A}</value>
                   <value type="int" key="autoIncrement">0</value>
                   <value type="string" key="collationName">latin1_swedish_ci</value>
                   <value type="string" key="comment"></value>
@@ -608,11 +543,12 @@ CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
                   <value type="string" key="simpleType" option="ref">{7198A7BD-968D-4BD9-B85C-4DE7504F0D83}</value>
                 </value>
                 <value type="dict" struct-name="db.mysql.Column">
-                  <value type="string" key="_id">{D718D1D4-9973-4AFC-B6A9-7FA6104C4D64}</value>
+                  <value type="string" key="_id">{A586C969-FFB7-4FB5-969C-83736ED79E4F}</value>
                   <value type="int" key="autoIncrement">0</value>
                   <value type="string" key="comment"></value>
                   <value type="string" key="datatypeName">DATETIME</value>
-                  <value type="int" key="defaultValueIsNull">1</value>
+                  <value type="string" key="defaultValue">''</value>
+                  <value type="int" key="defaultValueIsNull">0</value>
                   <value type="list" content-type="string" key="flags"/>
                   <value type="int" key="isNullable">0</value>
                   <value type="string" key="name">date</value>
@@ -620,15 +556,15 @@ CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
                   <value type="string" key="simpleType" option="ref">{9A2399C8-F3EA-4B6C-AAB1-830D3BFF164B}</value>
                 </value>
               </value>
-              <value type="string" key="comment">InnoDB free: 11264 kB; (`driver_addr` `icepapsystem_name`) REFER `icepapcms/icepapdriver`(`addr` `icepapsystem_name`) ON UPDATE CASCADE</value>
+              <value type="string" key="comment">InnoDB free: 11264 kB; (`driver_addr` `icepapsystem_name`) REFER `icepapcms/icep</value>
               <value type="string" key="defaultCharacterSetName">latin1</value>
               <value type="string" key="defaultCollationName">latin1_swedish_ci</value>
               <value type="list" content-type="dict" content-struct-name="db.mysql.ForeignKey" key="foreignKeys">
                 <value type="dict" struct-name="db.mysql.ForeignKey">
-                  <value type="string" key="_id">{C85F37AF-58B8-4F2E-8B2A-94C39FE3EA23}</value>
+                  <value type="string" key="_id">{190417F8-ED25-405B-87E6-78D90DBB314B}</value>
                   <value type="list" content-type="string" content-struct-name="db.mysql.Column" key="columns" option="ref">
-                    <value type="string">{F58E33D4-03E8-48F4-B96B-2F1696956AB4}</value>
-                    <value type="string">{39EF3C3F-B219-4B21-8A67-74D4125F6F06}</value>
+                    <value type="string">{E1C5BBBE-FC66-4984-B990-8B156B321DE6}</value>
+                    <value type="string">{5F99363A-64B6-47E0-A3DD-FD33A6077AA7}</value>
                   </value>
                   <value type="string" key="deleteRule">CASCADE</value>
                   <value type="string" key="name">icepapdrivercfg_ibfk_1</value>
@@ -638,24 +574,24 @@ CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
                     <value type="string">icepapsystem_name</value>
                   </value>
                   <value type="list" content-type="string" content-struct-name="db.mysql.Column" key="referedColumns" option="ref">
-                    <value type="string">{A4E40491-F499-4A77-ACBA-8E5445B75FAB}</value>
-                    <value type="string">{E0FB2F03-6960-4F05-8437-67CA02C3E5EF}</value>
+                    <value type="string">{4097CD7A-63BF-4760-8718-05849F567C60}</value>
+                    <value type="string">{67785A35-103C-4CCF-BDA7-0DFFBC4D157A}</value>
                   </value>
-                  <value type="string" key="referedTable" option="ref">{065DDF2B-4A08-4C78-8B91-ECC424AC4E6C}</value>
+                  <value type="string" key="referedTable" option="ref">{0AB585F5-A23C-425E-9AF6-4B016780F425}</value>
                   <value type="string" key="referedTableName">icepapdriver</value>
                   <value type="string" key="updateRule">CASCADE</value>
                 </value>
               </value>
               <value type="list" content-type="dict" content-struct-name="db.mysql.Index" key="indices">
                 <value type="dict" struct-name="db.mysql.Index">
-                  <value type="string" key="_id">{7BD487FF-B362-4A43-AA80-0D2287EEC1F9}</value>
+                  <value type="string" key="_id">{1C5B057C-7C98-4285-BCFA-AC1FB2152E5A}</value>
                   <value type="list" content-type="dict" content-struct-name="db.IndexColumn" key="columns">
                     <value type="dict" struct-name="db.mysql.IndexColumn">
-                      <value type="string" key="_id">{DBD76FFD-5053-43FF-8B20-52859483D664}</value>
+                      <value type="string" key="_id">{6DE5F1AD-6252-4752-AB17-2D297AE36E1F}</value>
                       <value type="int" key="descend">0</value>
                       <value type="string" key="name">id</value>
-                      <value type="string" key="owner" option="ref">{7BD487FF-B362-4A43-AA80-0D2287EEC1F9}</value>
-                      <value type="string" key="referedColumn" option="ref">{C0A74ED8-023F-4F15-BA2A-34BAE04DC35B}</value>
+                      <value type="string" key="owner" option="ref">{1C5B057C-7C98-4285-BCFA-AC1FB2152E5A}</value>
+                      <value type="string" key="referedColumn" option="ref">{EBE9E6D2-E568-475B-B288-1B915FF131DF}</value>
                     </value>
                   </value>
                   <value type="string" key="comment"></value>
@@ -664,25 +600,25 @@ CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
                   <value type="int" key="isPrimary">1</value>
                   <value type="string" key="name">PRIMARY</value>
                   <value type="string" key="oldName">PRIMARY</value>
-                  <value type="string" key="owner" option="ref">{0C4B19DF-01F5-4F87-8067-40969E8DCB8D}</value>
+                  <value type="string" key="owner" option="ref">{515F41B6-8049-4FBE-A658-B414A268218F}</value>
                   <value type="int" key="unique">1</value>
                 </value>
                 <value type="dict" struct-name="db.mysql.Index">
-                  <value type="string" key="_id">{C6C75674-E390-4B4C-AF63-2A7F60C0550E}</value>
+                  <value type="string" key="_id">{AE098EEA-C40E-43F5-A6F5-262C25ECC4A1}</value>
                   <value type="list" content-type="dict" content-struct-name="db.IndexColumn" key="columns">
                     <value type="dict" struct-name="db.mysql.IndexColumn">
-                      <value type="string" key="_id">{A23399FC-34C5-47D1-B92A-B0017D3AA26C}</value>
+                      <value type="string" key="_id">{9CD0A79A-4811-472C-8635-1CB65B4AADBF}</value>
                       <value type="int" key="descend">0</value>
                       <value type="string" key="name">driver_addr</value>
-                      <value type="string" key="owner" option="ref">{C6C75674-E390-4B4C-AF63-2A7F60C0550E}</value>
-                      <value type="string" key="referedColumn" option="ref">{F58E33D4-03E8-48F4-B96B-2F1696956AB4}</value>
+                      <value type="string" key="owner" option="ref">{AE098EEA-C40E-43F5-A6F5-262C25ECC4A1}</value>
+                      <value type="string" key="referedColumn" option="ref">{E1C5BBBE-FC66-4984-B990-8B156B321DE6}</value>
                     </value>
                     <value type="dict" struct-name="db.mysql.IndexColumn">
-                      <value type="string" key="_id">{7AF76BF6-A42B-4E42-A699-E55E0F454DFF}</value>
+                      <value type="string" key="_id">{8D7076C5-A785-4B7C-931A-6792482AE95F}</value>
                       <value type="int" key="descend">0</value>
                       <value type="string" key="name">icepapsystem_name</value>
-                      <value type="string" key="owner" option="ref">{C6C75674-E390-4B4C-AF63-2A7F60C0550E}</value>
-                      <value type="string" key="referedColumn" option="ref">{39EF3C3F-B219-4B21-8A67-74D4125F6F06}</value>
+                      <value type="string" key="owner" option="ref">{AE098EEA-C40E-43F5-A6F5-262C25ECC4A1}</value>
+                      <value type="string" key="referedColumn" option="ref">{5F99363A-64B6-47E0-A3DD-FD33A6077AA7}</value>
                     </value>
                   </value>
                   <value type="string" key="comment"></value>
@@ -690,7 +626,7 @@ CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
                   <value type="string" key="indexType">BTREE</value>
                   <value type="string" key="name">IcepapDriverCfg_FKIndex1</value>
                   <value type="string" key="oldName">IcepapDriverCfg_FKIndex1</value>
-                  <value type="string" key="owner" option="ref">{0C4B19DF-01F5-4F87-8067-40969E8DCB8D}</value>
+                  <value type="string" key="owner" option="ref">{515F41B6-8049-4FBE-A658-B414A268218F}</value>
                   <value type="int" key="unique">0</value>
                 </value>
               </value>
@@ -698,21 +634,15 @@ CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
               <value type="string" key="name">icepapdrivercfg</value>
               <value type="string" key="nextAutoInc">1</value>
               <value type="string" key="oldName">icepapdrivercfg</value>
-              <value type="string" key="owner" option="ref">{4DEC323E-9049-432C-813C-1EC4FD346381}</value>
-              <value type="string" key="primaryKey" option="ref">{7BD487FF-B362-4A43-AA80-0D2287EEC1F9}</value>
-              <value type="list" content-type="int" key="routineExpandedHeights">
-                <value type="int">130</value>
-              </value>
-              <value type="list" content-type="int" key="routineExpandedStates">
-                <value type="int">1</value>
-              </value>
-              <value type="string" key="rowFormat">Dynamic</value>
+              <value type="string" key="owner" option="ref">{F10FA505-5BA7-4B69-8D8C-9166ADF13BEE}</value>
+              <value type="string" key="primaryKey" option="ref">{1C5B057C-7C98-4285-BCFA-AC1FB2152E5A}</value>
+              <value type="string" key="rowFormat">Compact</value>
               <value type="string" key="sql">DROP TABLE IF EXISTS `icepapcms`.`icepapdrivercfg`;&#13;
 CREATE TABLE `icepapcms`.`icepapdrivercfg` (&#13;
   `id` INT(10) unsigned NOT NULL AUTO_INCREMENT,&#13;
   `icepapsystem_name` VARCHAR(25) NULL,&#13;
   `driver_addr` INT(10) unsigned NULL,&#13;
-  `name` VARCHAR(20) NOT NULL,&#13;
+  `name` VARCHAR(40) NOT NULL,&#13;
   `description` VARCHAR(255) NULL,&#13;
   `signature` VARCHAR(20) NULL,&#13;
   `date` DATETIME NOT NULL,&#13;
@@ -724,15 +654,16 @@ CREATE TABLE `icepapcms`.`icepapdrivercfg` (&#13;
     ON UPDATE CASCADE&#13;
 )&#13;
 ENGINE = InnoDB&#13;
-ROW_FORMAT = Dynamic&#13;
+ROW_FORMAT = Compact&#13;
 CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
               <value type="string" key="tableEngine">InnoDB</value>
+              <value type="list" content-type="dict" content-struct-name="db.mysql.Trigger" key="triggers"/>
             </value>
             <value type="dict" struct-name="db.mysql.Table">
-              <value type="string" key="_id">{13C9B847-0BDD-4CBC-9FB6-A609B857D7BA}</value>
+              <value type="string" key="_id">{6672E810-A554-4451-854C-4CE4772FB687}</value>
               <value type="list" content-type="dict" content-struct-name="db.mysql.Column" key="columns">
                 <value type="dict" struct-name="db.mysql.Column">
-                  <value type="string" key="_id">{BBCD8AF5-88A6-492D-8CFC-78C75CC42A1B}</value>
+                  <value type="string" key="_id">{2525A068-191E-4F56-A953-05F4A4764918}</value>
                   <value type="int" key="autoIncrement">0</value>
                   <value type="string" key="collationName">latin1_swedish_ci</value>
                   <value type="string" key="comment"></value>
@@ -747,7 +678,7 @@ CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
                   <value type="string" key="simpleType" option="ref">{7198A7BD-968D-4BD9-B85C-4DE7504F0D83}</value>
                 </value>
                 <value type="dict" struct-name="db.mysql.Column">
-                  <value type="string" key="_id">{33207469-B608-4FF3-B318-85848981464C}</value>
+                  <value type="string" key="_id">{DF5D38F0-2138-4B79-9BB0-61320CF50F37}</value>
                   <value type="int" key="autoIncrement">0</value>
                   <value type="string" key="collationName">latin1_swedish_ci</value>
                   <value type="string" key="comment"></value>
@@ -762,11 +693,11 @@ CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
                   <value type="string" key="simpleType" option="ref">{7198A7BD-968D-4BD9-B85C-4DE7504F0D83}</value>
                 </value>
                 <value type="dict" struct-name="db.mysql.Column">
-                  <value type="string" key="_id">{AAB5B22E-7449-42F3-BAFF-7988C4BAF385}</value>
+                  <value type="string" key="_id">{2E030E54-10C6-4741-8F5B-CA4F2454DF1A}</value>
                   <value type="int" key="autoIncrement">0</value>
                   <value type="string" key="comment"></value>
                   <value type="string" key="datatypeName">INT</value>
-                  <value type="string" key="defaultValue">5000</value>
+                  <value type="string" key="defaultValue">'5000'</value>
                   <value type="int" key="defaultValueIsNull">0</value>
                   <value type="list" content-type="string" key="flags">
                     <value type="string">unsigned</value>
@@ -779,7 +710,7 @@ CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
                   <value type="string" key="simpleType" option="ref">{014AB6FC-CA8A-4FA2-8BD9-E97D7F8D53AE}</value>
                 </value>
                 <value type="dict" struct-name="db.mysql.Column">
-                  <value type="string" key="_id">{B2EE5031-5B9A-45B6-94AF-B240AC671855}</value>
+                  <value type="string" key="_id">{985A45DF-FAFE-4D4D-9323-D89DDA867179}</value>
                   <value type="int" key="autoIncrement">0</value>
                   <value type="string" key="collationName">latin1_swedish_ci</value>
                   <value type="string" key="comment"></value>
@@ -793,7 +724,7 @@ CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
                   <value type="string" key="simpleType" option="ref">{7198A7BD-968D-4BD9-B85C-4DE7504F0D83}</value>
                 </value>
                 <value type="dict" struct-name="db.mysql.Column">
-                  <value type="string" key="_id">{72285251-172B-4DEF-9DD8-5B56C9181867}</value>
+                  <value type="string" key="_id">{19D153F7-3578-4D96-87CE-EF5482631B27}</value>
                   <value type="int" key="autoIncrement">0</value>
                   <value type="string" key="collationName">latin1_swedish_ci</value>
                   <value type="string" key="comment"></value>
@@ -806,21 +737,55 @@ CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
                   <value type="string" key="oldName">version</value>
                   <value type="string" key="simpleType" option="ref">{7198A7BD-968D-4BD9-B85C-4DE7504F0D83}</value>
                 </value>
+                <value type="dict" struct-name="db.mysql.Column">
+                  <value type="string" key="_id">{2053AC8D-9000-4B48-B894-3225532AF3D5}</value>
+                  <value type="int" key="autoIncrement">0</value>
+                  <value type="string" key="collationName">latin1_swedish_ci</value>
+                  <value type="string" key="comment"></value>
+                  <value type="string" key="datatypeName">VARCHAR</value>
+                  <value type="string" key="defaultValue">''</value>
+                  <value type="int" key="defaultValueIsNull">0</value>
+                  <value type="list" content-type="string" key="flags"/>
+                  <value type="int" key="isNullable">0</value>
+                  <value type="int" key="length">100</value>
+                  <value type="string" key="name">location_name</value>
+                  <value type="string" key="oldName">location_name</value>
+                  <value type="string" key="simpleType" option="ref">{7198A7BD-968D-4BD9-B85C-4DE7504F0D83}</value>
+                </value>
               </value>
-              <value type="string" key="comment">InnoDB free: 11264 kB</value>
+              <value type="string" key="comment">InnoDB free: 11264 kB; (`location_name`) REFER `icepapcms/location`(`name`) ON U</value>
               <value type="string" key="defaultCharacterSetName">latin1</value>
               <value type="string" key="defaultCollationName">latin1_swedish_ci</value>
-              <value type="list" content-type="dict" content-struct-name="db.mysql.ForeignKey" key="foreignKeys"/>
+              <value type="list" content-type="dict" content-struct-name="db.mysql.ForeignKey" key="foreignKeys">
+                <value type="dict" struct-name="db.mysql.ForeignKey">
+                  <value type="string" key="_id">{EB1E74D6-6892-433D-BF59-3F52FBAE2C88}</value>
+                  <value type="list" content-type="string" content-struct-name="db.mysql.Column" key="columns" option="ref">
+                    <value type="string">{2053AC8D-9000-4B48-B894-3225532AF3D5}</value>
+                  </value>
+                  <value type="string" key="deleteRule">CASCADE</value>
+                  <value type="string" key="name">FKLocation</value>
+                  <value type="string" key="oldName">FKLocation</value>
+                  <value type="list" content-type="string" key="referedColumnNames">
+                    <value type="string">name</value>
+                  </value>
+                  <value type="list" content-type="string" content-struct-name="db.mysql.Column" key="referedColumns" option="ref">
+                    <value type="string">{C5BE392D-2F52-442B-AB83-1CE3E253C10B}</value>
+                  </value>
+                  <value type="string" key="referedTable" option="ref">{CDF6A4D9-3035-4964-B31B-3C140BDCAF98}</value>
+                  <value type="string" key="referedTableName">location</value>
+                  <value type="string" key="updateRule">CASCADE</value>
+                </value>
+              </value>
               <value type="list" content-type="dict" content-struct-name="db.mysql.Index" key="indices">
                 <value type="dict" struct-name="db.mysql.Index">
-                  <value type="string" key="_id">{F0B5328F-2DE7-47B8-8B22-B07A65852812}</value>
+                  <value type="string" key="_id">{E58D330F-4C2E-42AF-A83E-0158A2853C9A}</value>
                   <value type="list" content-type="dict" content-struct-name="db.IndexColumn" key="columns">
                     <value type="dict" struct-name="db.mysql.IndexColumn">
-                      <value type="string" key="_id">{EEABBA82-2E2E-4ABF-97C6-6A800FCF230D}</value>
+                      <value type="string" key="_id">{A3D70472-17B4-4838-90B7-E9CF896E8A3A}</value>
                       <value type="int" key="descend">0</value>
                       <value type="string" key="name">name</value>
-                      <value type="string" key="owner" option="ref">{F0B5328F-2DE7-47B8-8B22-B07A65852812}</value>
-                      <value type="string" key="referedColumn" option="ref">{BBCD8AF5-88A6-492D-8CFC-78C75CC42A1B}</value>
+                      <value type="string" key="owner" option="ref">{E58D330F-4C2E-42AF-A83E-0158A2853C9A}</value>
+                      <value type="string" key="referedColumn" option="ref">{2525A068-191E-4F56-A953-05F4A4764918}</value>
                     </value>
                   </value>
                   <value type="string" key="comment"></value>
@@ -829,35 +794,117 @@ CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
                   <value type="int" key="isPrimary">1</value>
                   <value type="string" key="name">PRIMARY</value>
                   <value type="string" key="oldName">PRIMARY</value>
-                  <value type="string" key="owner" option="ref">{13C9B847-0BDD-4CBC-9FB6-A609B857D7BA}</value>
+                  <value type="string" key="owner" option="ref">{6672E810-A554-4451-854C-4CE4772FB687}</value>
                   <value type="int" key="unique">1</value>
+                </value>
+                <value type="dict" struct-name="db.mysql.Index">
+                  <value type="string" key="_id">{993CA37D-B5D9-421E-AE61-29DBFB7FC846}</value>
+                  <value type="list" content-type="dict" content-struct-name="db.IndexColumn" key="columns">
+                    <value type="dict" struct-name="db.mysql.IndexColumn">
+                      <value type="string" key="_id">{68D5215C-5589-4C6A-BEC7-7C9AF5CED896}</value>
+                      <value type="int" key="descend">0</value>
+                      <value type="string" key="name">location_name</value>
+                      <value type="string" key="owner" option="ref">{993CA37D-B5D9-421E-AE61-29DBFB7FC846}</value>
+                      <value type="string" key="referedColumn" option="ref">{2053AC8D-9000-4B48-B894-3225532AF3D5}</value>
+                    </value>
+                  </value>
+                  <value type="string" key="comment"></value>
+                  <value type="string" key="indexKind"></value>
+                  <value type="string" key="indexType">BTREE</value>
+                  <value type="string" key="name">FKLocation</value>
+                  <value type="string" key="oldName">FKLocation</value>
+                  <value type="string" key="owner" option="ref">{6672E810-A554-4451-854C-4CE4772FB687}</value>
+                  <value type="int" key="unique">0</value>
                 </value>
               </value>
               <value type="int" key="isTemporary">0</value>
               <value type="string" key="name">icepapsystem</value>
               <value type="string" key="oldName">icepapsystem</value>
-              <value type="string" key="owner" option="ref">{4DEC323E-9049-432C-813C-1EC4FD346381}</value>
-              <value type="string" key="primaryKey" option="ref">{F0B5328F-2DE7-47B8-8B22-B07A65852812}</value>
-              <value type="list" content-type="int" key="routineExpandedHeights">
-                <value type="int">130</value>
-              </value>
-              <value type="list" content-type="int" key="routineExpandedStates">
-                <value type="int">1</value>
-              </value>
-              <value type="string" key="rowFormat">Dynamic</value>
+              <value type="string" key="owner" option="ref">{F10FA505-5BA7-4B69-8D8C-9166ADF13BEE}</value>
+              <value type="string" key="primaryKey" option="ref">{E58D330F-4C2E-42AF-A83E-0158A2853C9A}</value>
+              <value type="string" key="rowFormat">Compact</value>
               <value type="string" key="sql">DROP TABLE IF EXISTS `icepapcms`.`icepapsystem`;&#13;
 CREATE TABLE `icepapcms`.`icepapsystem` (&#13;
   `name` VARCHAR(25) NOT NULL DEFAULT '',&#13;
   `host` VARCHAR(25) NOT NULL DEFAULT '',&#13;
-  `port` INT(10) unsigned NOT NULL DEFAULT 5000,&#13;
+  `port` INT(10) unsigned NOT NULL DEFAULT '5000',&#13;
   `description` VARCHAR(250) NULL,&#13;
   `version` VARCHAR(10) NULL,&#13;
+  `location_name` VARCHAR(100) NOT NULL,&#13;
+  PRIMARY KEY (`name`),&#13;
+  INDEX `FKLocation` (`location_name`),&#13;
+  CONSTRAINT `FKLocation` FOREIGN KEY `FKLocation` (`location_name`)&#13;
+    REFERENCES `icepapcms`.`location` (`name`)&#13;
+    ON DELETE CASCADE&#13;
+    ON UPDATE CASCADE&#13;
+)&#13;
+ENGINE = InnoDB&#13;
+ROW_FORMAT = Compact&#13;
+CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
+              <value type="string" key="tableEngine">InnoDB</value>
+              <value type="list" content-type="dict" content-struct-name="db.mysql.Trigger" key="triggers"/>
+            </value>
+            <value type="dict" struct-name="db.mysql.Table">
+              <value type="string" key="_id">{CDF6A4D9-3035-4964-B31B-3C140BDCAF98}</value>
+              <value type="list" content-type="dict" content-struct-name="db.mysql.Column" key="columns">
+                <value type="dict" struct-name="db.mysql.Column">
+                  <value type="string" key="_id">{C5BE392D-2F52-442B-AB83-1CE3E253C10B}</value>
+                  <value type="int" key="autoIncrement">0</value>
+                  <value type="string" key="collationName">latin1_swedish_ci</value>
+                  <value type="string" key="comment"></value>
+                  <value type="string" key="datatypeName">VARCHAR</value>
+                  <value type="string" key="defaultValue">''</value>
+                  <value type="int" key="defaultValueIsNull">0</value>
+                  <value type="list" content-type="string" key="flags"/>
+                  <value type="int" key="isNullable">0</value>
+                  <value type="int" key="length">100</value>
+                  <value type="string" key="name">name</value>
+                  <value type="string" key="oldName">name</value>
+                  <value type="string" key="simpleType" option="ref">{7198A7BD-968D-4BD9-B85C-4DE7504F0D83}</value>
+                </value>
+              </value>
+              <value type="string" key="comment">InnoDB free: 11264 kB</value>
+              <value type="string" key="defaultCharacterSetName">latin1</value>
+              <value type="string" key="defaultCollationName">latin1_swedish_ci</value>
+              <value type="list" content-type="dict" content-struct-name="db.mysql.ForeignKey" key="foreignKeys"/>
+              <value type="list" content-type="dict" content-struct-name="db.mysql.Index" key="indices">
+                <value type="dict" struct-name="db.mysql.Index">
+                  <value type="string" key="_id">{0D95B912-DBD7-4212-97A4-ED5647E0BDFA}</value>
+                  <value type="list" content-type="dict" content-struct-name="db.IndexColumn" key="columns">
+                    <value type="dict" struct-name="db.mysql.IndexColumn">
+                      <value type="string" key="_id">{38BD2A70-19C4-45FB-B906-A4770B05120C}</value>
+                      <value type="int" key="descend">0</value>
+                      <value type="string" key="name">name</value>
+                      <value type="string" key="owner" option="ref">{0D95B912-DBD7-4212-97A4-ED5647E0BDFA}</value>
+                      <value type="string" key="referedColumn" option="ref">{C5BE392D-2F52-442B-AB83-1CE3E253C10B}</value>
+                    </value>
+                  </value>
+                  <value type="string" key="comment"></value>
+                  <value type="string" key="indexKind">PRIMARY</value>
+                  <value type="string" key="indexType">BTREE</value>
+                  <value type="int" key="isPrimary">1</value>
+                  <value type="string" key="name">PRIMARY</value>
+                  <value type="string" key="oldName">PRIMARY</value>
+                  <value type="string" key="owner" option="ref">{CDF6A4D9-3035-4964-B31B-3C140BDCAF98}</value>
+                  <value type="int" key="unique">1</value>
+                </value>
+              </value>
+              <value type="int" key="isTemporary">0</value>
+              <value type="string" key="name">location</value>
+              <value type="string" key="oldName">location</value>
+              <value type="string" key="owner" option="ref">{F10FA505-5BA7-4B69-8D8C-9166ADF13BEE}</value>
+              <value type="string" key="primaryKey" option="ref">{0D95B912-DBD7-4212-97A4-ED5647E0BDFA}</value>
+              <value type="string" key="rowFormat">Compact</value>
+              <value type="string" key="sql">DROP TABLE IF EXISTS `icepapcms`.`location`;&#13;
+CREATE TABLE `icepapcms`.`location` (&#13;
+  `name` VARCHAR(100) NOT NULL DEFAULT '',&#13;
   PRIMARY KEY (`name`)&#13;
 )&#13;
 ENGINE = InnoDB&#13;
-ROW_FORMAT = Dynamic&#13;
+ROW_FORMAT = Compact&#13;
 CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
               <value type="string" key="tableEngine">InnoDB</value>
+              <value type="list" content-type="dict" content-struct-name="db.mysql.Trigger" key="triggers"/>
             </value>
           </value>
           <value type="list" content-type="dict" content-struct-name="db.mysql.View" key="views"/>
@@ -902,172 +949,215 @@ CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
         <value type="string">{D8F350D8-9522-478F-9233-28C52E26A067}</value>
       </value>
       <value type="dict" struct-name="db.Version" key="version">
-        <value type="string" key="_id">{2B7CA987-5643-4728-B009-F0ED3C807B1A}</value>
+        <value type="string" key="_id">{5E8202A0-CFF3-41A3-A765-026D730ED596}</value>
         <value type="int" key="major">5</value>
         <value type="int" key="minor">1</value>
         <value type="string" key="name">Version</value>
-        <value type="string" key="owner" option="ref">{A89273AF-7081-455C-9C40-1660803182CC}</value>
+        <value type="string" key="owner" option="ref">{54DF8F28-75BB-4059-AD97-A7BF57460A51}</value>
         <value type="int" key="release">6</value>
+      </value>
+    </value>
+    <value type="dict" struct-name="db.mgmt.Connection" key="connection">
+      <value type="string" key="_id">{F0F5F318-B431-4A7F-9C67-6080D4F4F6F4}</value>
+      <value type="string" key="driver" option="ref">{D65C7567-0B84-4AC6-A1A4-0A4BB8C9F3F2}</value>
+      <value type="dict" key="modules">
+        <value type="string" key="MigrationModule">MigrationGeneric</value>
+        <value type="string" key="QueryModule">QueryMysql</value>
+        <value type="string" key="ReverseEngineeringModule">ReverseEngineeringMysql</value>
+        <value type="string" key="TransformationModule">TransformationMysql</value>
+      </value>
+      <value type="string" key="name"></value>
+      <value type="dict" content-type="string" key="parameterValues">
+        <value type="string" key="host">localhost</value>
+        <value type="string" key="password">pepinho8</value>
+        <value type="string" key="port">3306</value>
+        <value type="string" key="socket"></value>
+        <value type="string" key="useAnsiQuotes">0</value>
+        <value type="string" key="useCompression">0</value>
+        <value type="string" key="useSSL">0</value>
+        <value type="string" key="username">root</value>
       </value>
     </value>
     <value type="dict" key="customData"/>
     <value type="dict" struct-name="db.workbench.Model" key="model">
-      <value type="string" key="_id">{3305FB1B-98FC-4FCF-B1A7-65868454C6B5}</value>
-      <value type="string" key="currentView" option="ref">{112F4471-8D94-4A21-8930-861F47792E57}</value>
+      <value type="string" key="_id">{AD1C2AE5-3E35-4E14-820C-1F0AAFE3ED34}</value>
+      <value type="string" key="currentView" option="ref">{938CA2B7-FB18-4439-9446-44D9928203AD}</value>
       <value type="list" content-type="dict" content-struct-name="model.Marker" key="markers">
         <value type="dict" struct-name="model.Marker">
-          <value type="string" key="_id">{58692E1C-E458-41B0-B51C-9BDC325B0B6C}</value>
+          <value type="string" key="_id">{F691F86B-1E70-4A53-828E-AA31E9FE7A18}</value>
           <value type="string" key="name">Marker10</value>
-          <value type="string" key="view" option="ref">{112F4471-8D94-4A21-8930-861F47792E57}</value>
+          <value type="string" key="view" option="ref">{938CA2B7-FB18-4439-9446-44D9928203AD}</value>
           <value type="int" key="x">0</value>
-          <value type="int" key="y">92</value>
+          <value type="int" key="y">0</value>
           <value type="real" key="zoom">0.750000</value>
         </value>
       </value>
       <value type="dict" struct-name="db.workbench.ModelInfo" key="properties">
-        <value type="string" key="_id">{FCBE4AA1-8EA5-4B58-955C-308A7EF6819D}</value>
+        <value type="string" key="_id">{2994A86C-C958-4BD7-A4C6-52D9C51C6140}</value>
         <value type="string" key="author"></value>
-        <value type="string" key="dateChanged">Oct 03, 2007</value>
-        <value type="string" key="dateCreated">Oct 03, 2007</value>
+        <value type="string" key="dateChanged">Oct 08, 2007</value>
+        <value type="string" key="dateCreated">Oct 08, 2007</value>
         <value type="string" key="description"></value>
         <value type="string" key="modelName">New Model</value>
         <value type="string" key="name">Properties</value>
-        <value type="string" key="owner" option="ref">{3305FB1B-98FC-4FCF-B1A7-65868454C6B5}</value>
+        <value type="string" key="owner" option="ref">{AD1C2AE5-3E35-4E14-820C-1F0AAFE3ED34}</value>
         <value type="string" key="project">Name of the project</value>
         <value type="string" key="version">1.0</value>
       </value>
       <value type="list" content-type="dict" content-struct-name="model.View" key="views">
         <value type="dict" struct-name="db.workbench.View">
-          <value type="string" key="_id">{112F4471-8D94-4A21-8930-861F47792E57}</value>
+          <value type="string" key="_id">{938CA2B7-FB18-4439-9446-44D9928203AD}</value>
           <value type="string" key="connectionLayoutClass"></value>
           <value type="string" key="description"></value>
           <value type="string" key="elementLayoutClass"></value>
           <value type="list" content-type="dict" content-struct-name="model.Element" key="elements">
             <value type="dict" struct-name="db.workbench.TableElement">
-              <value type="string" key="_id">{6703ACA6-5D8E-4E25-A497-9BCB9DB2854C}</value>
+              <value type="string" key="_id">{4503B630-051A-44C7-B9B5-F33829395FD7}</value>
               <value type="string" key="color"></value>
               <value type="int" key="columnsExpanded">1</value>
               <value type="int" key="enabled">0</value>
               <value type="int" key="expanded">1</value>
               <value type="int" key="foreignKeysExpanded">0</value>
               <value type="string" key="group" option="ref"></value>
-              <value type="real" key="height">204.000000</value>
+              <value type="real" key="height">203.999939</value>
               <value type="int" key="indicesExpanded">0</value>
-              <value type="string" key="layer" option="ref">{B97C40DC-00D7-489F-9F26-3F63A6493588}</value>
+              <value type="string" key="layer" option="ref">{C7E52812-B263-4B56-858C-8882B23B206E}</value>
               <value type="string" key="layoutClass"></value>
-              <value type="real" key="left">936.666626</value>
+              <value type="real" key="left">883.333252</value>
               <value type="int" key="locked">0</value>
               <value type="string" key="name">cfgparameter</value>
-              <value type="string" key="table" option="ref">{B220E561-4BAE-4BBC-A0F1-9FC10634A666}</value>
-              <value type="real" key="top">541.733826</value>
-              <value type="int" key="triggersExpanded">1</value>
-              <value type="int" key="visible">1</value>
-              <value type="real" key="width">170.666626</value>
-            </value>
-            <value type="dict" struct-name="db.workbench.TableElement">
-              <value type="string" key="_id">{E1E6E022-EBAF-4E25-8D98-6DB66FA4BAC9}</value>
-              <value type="string" key="color"></value>
-              <value type="int" key="columnsExpanded">1</value>
-              <value type="int" key="enabled">0</value>
-              <value type="int" key="expanded">1</value>
-              <value type="int" key="foreignKeysExpanded">0</value>
-              <value type="string" key="group" option="ref"></value>
-              <value type="real" key="height">178.000000</value>
-              <value type="int" key="indicesExpanded">0</value>
-              <value type="string" key="layer" option="ref">{B97C40DC-00D7-489F-9F26-3F63A6493588}</value>
-              <value type="string" key="layoutClass"></value>
-              <value type="real" key="left">398.000000</value>
-              <value type="int" key="locked">0</value>
-              <value type="string" key="name">cfgparameterinfo</value>
-              <value type="string" key="table" option="ref">{1DCCC861-16F1-47FD-A8F4-4EAABBE85032}</value>
-              <value type="real" key="top">507.733704</value>
+              <value type="string" key="table" option="ref">{4B27E4DA-C8BA-4FBF-8A60-3E0D5DF429A0}</value>
+              <value type="real" key="top">882.488098</value>
               <value type="int" key="triggersExpanded">1</value>
               <value type="int" key="visible">1</value>
               <value type="real" key="width">160.000000</value>
             </value>
             <value type="dict" struct-name="db.workbench.TableElement">
-              <value type="string" key="_id">{A0673765-EAFB-478B-B6FE-0A3A070A2CED}</value>
+              <value type="string" key="_id">{D09E8803-C5DD-486E-B6FC-AA0C51F9FB64}</value>
+              <value type="string" key="color"></value>
+              <value type="int" key="columnsExpanded">1</value>
+              <value type="int" key="enabled">0</value>
+              <value type="int" key="expanded">0</value>
+              <value type="int" key="foreignKeysExpanded">0</value>
+              <value type="string" key="group" option="ref"></value>
+              <value type="real" key="height">50.000000</value>
+              <value type="int" key="indicesExpanded">0</value>
+              <value type="string" key="layer" option="ref">{C7E52812-B263-4B56-858C-8882B23B206E}</value>
+              <value type="string" key="layoutClass"></value>
+              <value type="real" key="left">259.333313</value>
+              <value type="int" key="locked">0</value>
+              <value type="string" key="name">cfgparameterinfo</value>
+              <value type="string" key="table" option="ref">{2FA34175-E8A9-45D3-8756-12C8286F1015}</value>
+              <value type="real" key="top">740.488220</value>
+              <value type="int" key="triggersExpanded">0</value>
+              <value type="int" key="visible">1</value>
+              <value type="real" key="width">160.000000</value>
+            </value>
+            <value type="dict" struct-name="db.workbench.TableElement">
+              <value type="string" key="_id">{77EF946A-9ABD-41C0-8D3D-A9BF45AC52BA}</value>
               <value type="string" key="color"></value>
               <value type="int" key="columnsExpanded">1</value>
               <value type="int" key="enabled">0</value>
               <value type="int" key="expanded">1</value>
-              <value type="int" key="foreignKeysExpanded">1</value>
+              <value type="int" key="foreignKeysExpanded">0</value>
               <value type="string" key="group" option="ref"></value>
-              <value type="real" key="height">360.000004</value>
+              <value type="real" key="height">230.000000</value>
               <value type="int" key="indicesExpanded">0</value>
-              <value type="string" key="layer" option="ref">{B97C40DC-00D7-489F-9F26-3F63A6493588}</value>
+              <value type="string" key="layer" option="ref">{C7E52812-B263-4B56-858C-8882B23B206E}</value>
               <value type="string" key="layoutClass"></value>
-              <value type="real" key="left">462.278595</value>
+              <value type="real" key="left">886.349548</value>
               <value type="int" key="locked">0</value>
               <value type="string" key="name">icepapdriver</value>
-              <value type="string" key="table" option="ref">{065DDF2B-4A08-4C78-8B91-ECC424AC4E6C}</value>
-              <value type="real" key="top">52.946560</value>
+              <value type="string" key="table" option="ref">{0AB585F5-A23C-425E-9AF6-4B016780F425}</value>
+              <value type="real" key="top">58.154358</value>
               <value type="int" key="triggersExpanded">1</value>
               <value type="int" key="visible">1</value>
-              <value type="real" key="width">160.000092</value>
+              <value type="real" key="width">159.999939</value>
             </value>
             <value type="dict" struct-name="db.workbench.TableElement">
-              <value type="string" key="_id">{95339A20-02DB-4208-843F-2882693A5808}</value>
+              <value type="string" key="_id">{320E24CC-10BC-4E6E-B6D9-38CDC7343569}</value>
               <value type="string" key="color"></value>
               <value type="int" key="columnsExpanded">1</value>
               <value type="int" key="enabled">0</value>
               <value type="int" key="expanded">1</value>
-              <value type="int" key="foreignKeysExpanded">1</value>
+              <value type="int" key="foreignKeysExpanded">0</value>
               <value type="string" key="group" option="ref"></value>
-              <value type="real" key="height">385.999987</value>
+              <value type="real" key="height">308.000000</value>
               <value type="int" key="indicesExpanded">0</value>
-              <value type="string" key="layer" option="ref">{B97C40DC-00D7-489F-9F26-3F63A6493588}</value>
+              <value type="string" key="layer" option="ref">{C7E52812-B263-4B56-858C-8882B23B206E}</value>
               <value type="string" key="layoutClass"></value>
-              <value type="real" key="left">895.776245</value>
+              <value type="real" key="left">885.481079</value>
               <value type="int" key="locked">0</value>
               <value type="string" key="name">icepapdrivercfg</value>
-              <value type="string" key="table" option="ref">{0C4B19DF-01F5-4F87-8067-40969E8DCB8D}</value>
-              <value type="real" key="top">26.000013</value>
+              <value type="string" key="table" option="ref">{515F41B6-8049-4FBE-A658-B414A268218F}</value>
+              <value type="real" key="top">439.594910</value>
               <value type="int" key="triggersExpanded">1</value>
               <value type="int" key="visible">1</value>
-              <value type="real" key="width">249.333374</value>
+              <value type="real" key="width">160.000000</value>
             </value>
             <value type="dict" struct-name="db.workbench.TableElement">
-              <value type="string" key="_id">{AA28002D-AEC0-4C2D-9DBA-56AB74B94995}</value>
+              <value type="string" key="_id">{1D0F4CEE-5B79-4385-B614-52A39DA47D38}</value>
               <value type="string" key="color"></value>
               <value type="int" key="columnsExpanded">1</value>
               <value type="int" key="enabled">0</value>
               <value type="int" key="expanded">1</value>
-              <value type="int" key="foreignKeysExpanded">1</value>
+              <value type="int" key="foreignKeysExpanded">0</value>
               <value type="string" key="group" option="ref"></value>
-              <value type="real" key="height">256.000015</value>
+              <value type="real" key="height">281.999992</value>
               <value type="int" key="indicesExpanded">0</value>
-              <value type="string" key="layer" option="ref">{B97C40DC-00D7-489F-9F26-3F63A6493588}</value>
+              <value type="string" key="layer" option="ref">{C7E52812-B263-4B56-858C-8882B23B206E}</value>
               <value type="string" key="layoutClass"></value>
-              <value type="real" key="left">52.069557</value>
+              <value type="real" key="left">402.257965</value>
               <value type="int" key="locked">0</value>
               <value type="string" key="name">icepapsystem</value>
-              <value type="string" key="table" option="ref">{13C9B847-0BDD-4CBC-9FB6-A609B857D7BA}</value>
-              <value type="real" key="top">52.355453</value>
+              <value type="string" key="table" option="ref">{6672E810-A554-4451-854C-4CE4772FB687}</value>
+              <value type="real" key="top">31.333321</value>
               <value type="int" key="triggersExpanded">1</value>
               <value type="int" key="visible">1</value>
-              <value type="real" key="width">160.000053</value>
+              <value type="real" key="width">160.000031</value>
+            </value>
+            <value type="dict" struct-name="db.workbench.TableElement">
+              <value type="string" key="_id">{147E733D-6E02-441D-800E-9644A9175C89}</value>
+              <value type="string" key="color"></value>
+              <value type="int" key="columnsExpanded">1</value>
+              <value type="int" key="enabled">0</value>
+              <value type="int" key="expanded">1</value>
+              <value type="int" key="foreignKeysExpanded">0</value>
+              <value type="string" key="group" option="ref"></value>
+              <value type="real" key="height">152.000031</value>
+              <value type="int" key="indicesExpanded">0</value>
+              <value type="string" key="layer" option="ref">{C7E52812-B263-4B56-858C-8882B23B206E}</value>
+              <value type="string" key="layoutClass"></value>
+              <value type="real" key="left">401.993988</value>
+              <value type="int" key="locked">0</value>
+              <value type="string" key="name">location</value>
+              <value type="string" key="table" option="ref">{CDF6A4D9-3035-4964-B31B-3C140BDCAF98}</value>
+              <value type="real" key="top">454.274750</value>
+              <value type="int" key="triggersExpanded">1</value>
+              <value type="int" key="visible">1</value>
+              <value type="real" key="width">159.999969</value>
             </value>
           </value>
           <value type="real" key="height">7000.000000</value>
           <value type="list" content-type="dict" content-struct-name="model.Layer" key="layers">
             <value type="dict" struct-name="db.workbench.Layer">
-              <value type="string" key="_id">{B97C40DC-00D7-489F-9F26-3F63A6493588}</value>
+              <value type="string" key="_id">{C7E52812-B263-4B56-858C-8882B23B206E}</value>
               <value type="string" key="color"></value>
               <value type="string" key="description"></value>
               <value type="list" content-type="string" content-struct-name="model.Element" key="elements" option="ref">
-                <value type="string">{6703ACA6-5D8E-4E25-A497-9BCB9DB2854C}</value>
-                <value type="string">{E1E6E022-EBAF-4E25-8D98-6DB66FA4BAC9}</value>
-                <value type="string">{A0673765-EAFB-478B-B6FE-0A3A070A2CED}</value>
-                <value type="string">{95339A20-02DB-4208-843F-2882693A5808}</value>
-                <value type="string">{AA28002D-AEC0-4C2D-9DBA-56AB74B94995}</value>
+                <value type="string">{4503B630-051A-44C7-B9B5-F33829395FD7}</value>
+                <value type="string">{D09E8803-C5DD-486E-B6FC-AA0C51F9FB64}</value>
+                <value type="string">{77EF946A-9ABD-41C0-8D3D-A9BF45AC52BA}</value>
+                <value type="string">{320E24CC-10BC-4E6E-B6D9-38CDC7343569}</value>
+                <value type="string">{1D0F4CEE-5B79-4385-B614-52A39DA47D38}</value>
+                <value type="string">{147E733D-6E02-441D-800E-9644A9175C89}</value>
               </value>
               <value type="int" key="enabled">0</value>
               <value type="list" content-type="dict" content-struct-name="model.Group" key="groups"/>
               <value type="real" key="height">0.000000</value>
               <value type="real" key="left">0.000000</value>
               <value type="string" key="name">root</value>
-              <value type="string" key="owner" option="ref">{3305FB1B-98FC-4FCF-B1A7-65868454C6B5}</value>
+              <value type="string" key="owner" option="ref">{AD1C2AE5-3E35-4E14-820C-1F0AAFE3ED34}</value>
               <value type="list" content-type="string" content-struct-name="model.Layer" key="subLayers" option="ref"/>
               <value type="real" key="top">0.000000</value>
               <value type="int" key="visible">0</value>
@@ -1075,10 +1165,10 @@ CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
             </value>
           </value>
           <value type="string" key="name">Main View</value>
-          <value type="string" key="owner" option="ref">{3305FB1B-98FC-4FCF-B1A7-65868454C6B5}</value>
+          <value type="string" key="owner" option="ref">{AD1C2AE5-3E35-4E14-820C-1F0AAFE3ED34}</value>
           <value type="list" content-type="dict" content-struct-name="db.workbench.Relationship" key="relationships">
             <value type="dict" struct-name="db.workbench.Relationship">
-              <value type="string" key="_id">{4C366D19-0962-4669-95BE-D8DA1EB0AA69}</value>
+              <value type="string" key="_id">{8C58733D-B26B-4017-AD28-BEC9F9D9AA9E}</value>
               <value type="string" key="caption">cfgparameter_ibfk_1</value>
               <value type="real" key="captionXOffs">0.000000</value>
               <value type="real" key="captionYOffs">30.000000</value>
@@ -1088,39 +1178,18 @@ CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
               <value type="real" key="endCaptionYOffs">0.000000</value>
               <value type="int" key="endMandatory">1</value>
               <value type="int" key="endMany">1</value>
-              <value type="string" key="endTable" option="ref">{6703ACA6-5D8E-4E25-A497-9BCB9DB2854C}</value>
+              <value type="string" key="endTable" option="ref">{4503B630-051A-44C7-B9B5-F33829395FD7}</value>
               <value type="string" key="name">icepapdrivercfg_cfgparameter</value>
-              <value type="string" key="owner" option="ref">{3305FB1B-98FC-4FCF-B1A7-65868454C6B5}</value>
+              <value type="string" key="owner" option="ref">{AD1C2AE5-3E35-4E14-820C-1F0AAFE3ED34}</value>
               <value type="string" key="startCaption"></value>
               <value type="real" key="startCaptionXOffs">0.000000</value>
               <value type="real" key="startCaptionYOffs">0.000000</value>
               <value type="int" key="startMandatory">1</value>
               <value type="int" key="startMany">0</value>
-              <value type="string" key="startTable" option="ref">{95339A20-02DB-4208-843F-2882693A5808}</value>
+              <value type="string" key="startTable" option="ref">{320E24CC-10BC-4E6E-B6D9-38CDC7343569}</value>
             </value>
             <value type="dict" struct-name="db.workbench.Relationship">
-              <value type="string" key="_id">{11EB16E6-4413-46F2-8D4C-B89F2CDCA17E}</value>
-              <value type="string" key="caption">icepapdriver_ibfk_2</value>
-              <value type="real" key="captionXOffs">0.000000</value>
-              <value type="real" key="captionYOffs">30.000000</value>
-              <value type="string" key="comment"></value>
-              <value type="string" key="endCaption"></value>
-              <value type="real" key="endCaptionXOffs">0.000000</value>
-              <value type="real" key="endCaptionYOffs">0.000000</value>
-              <value type="int" key="endMandatory">1</value>
-              <value type="int" key="endMany">1</value>
-              <value type="string" key="endTable" option="ref">{A0673765-EAFB-478B-B6FE-0A3A070A2CED}</value>
-              <value type="string" key="name">icepapdrivercfg_icepapdriver</value>
-              <value type="string" key="owner" option="ref">{3305FB1B-98FC-4FCF-B1A7-65868454C6B5}</value>
-              <value type="string" key="startCaption"></value>
-              <value type="real" key="startCaptionXOffs">0.000000</value>
-              <value type="real" key="startCaptionYOffs">0.000000</value>
-              <value type="int" key="startMandatory">1</value>
-              <value type="int" key="startMany">0</value>
-              <value type="string" key="startTable" option="ref">{95339A20-02DB-4208-843F-2882693A5808}</value>
-            </value>
-            <value type="dict" struct-name="db.workbench.Relationship">
-              <value type="string" key="_id">{E22094B7-19D4-4C5D-8D25-E3F0D88F6296}</value>
+              <value type="string" key="_id">{3D0EC7D6-F527-4EF5-A58B-04B648818F3C}</value>
               <value type="string" key="caption">icepapdriver_ibfk_1</value>
               <value type="real" key="captionXOffs">0.000000</value>
               <value type="real" key="captionYOffs">30.000000</value>
@@ -1130,18 +1199,18 @@ CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
               <value type="real" key="endCaptionYOffs">0.000000</value>
               <value type="int" key="endMandatory">1</value>
               <value type="int" key="endMany">1</value>
-              <value type="string" key="endTable" option="ref">{A0673765-EAFB-478B-B6FE-0A3A070A2CED}</value>
+              <value type="string" key="endTable" option="ref">{77EF946A-9ABD-41C0-8D3D-A9BF45AC52BA}</value>
               <value type="string" key="name">icepapsystem_icepapdriver</value>
-              <value type="string" key="owner" option="ref">{3305FB1B-98FC-4FCF-B1A7-65868454C6B5}</value>
+              <value type="string" key="owner" option="ref">{AD1C2AE5-3E35-4E14-820C-1F0AAFE3ED34}</value>
               <value type="string" key="startCaption"></value>
               <value type="real" key="startCaptionXOffs">0.000000</value>
               <value type="real" key="startCaptionYOffs">0.000000</value>
               <value type="int" key="startMandatory">1</value>
               <value type="int" key="startMany">0</value>
-              <value type="string" key="startTable" option="ref">{AA28002D-AEC0-4C2D-9DBA-56AB74B94995}</value>
+              <value type="string" key="startTable" option="ref">{1D0F4CEE-5B79-4385-B614-52A39DA47D38}</value>
             </value>
             <value type="dict" struct-name="db.workbench.Relationship">
-              <value type="string" key="_id">{DB97C42A-3960-4839-B2A2-64DD4C0F2112}</value>
+              <value type="string" key="_id">{97CBDC1C-48FA-4537-8F7C-14779C69E3CA}</value>
               <value type="string" key="caption">icepapdrivercfg_ibfk_1</value>
               <value type="real" key="captionXOffs">0.000000</value>
               <value type="real" key="captionYOffs">30.000000</value>
@@ -1151,18 +1220,39 @@ CHARACTER SET latin1 COLLATE latin1_swedish_ci;</value>
               <value type="real" key="endCaptionYOffs">0.000000</value>
               <value type="int" key="endMandatory">1</value>
               <value type="int" key="endMany">1</value>
-              <value type="string" key="endTable" option="ref">{95339A20-02DB-4208-843F-2882693A5808}</value>
+              <value type="string" key="endTable" option="ref">{320E24CC-10BC-4E6E-B6D9-38CDC7343569}</value>
               <value type="string" key="name">icepapdriver_icepapdrivercfg</value>
-              <value type="string" key="owner" option="ref">{3305FB1B-98FC-4FCF-B1A7-65868454C6B5}</value>
+              <value type="string" key="owner" option="ref">{AD1C2AE5-3E35-4E14-820C-1F0AAFE3ED34}</value>
               <value type="string" key="startCaption"></value>
               <value type="real" key="startCaptionXOffs">0.000000</value>
               <value type="real" key="startCaptionYOffs">0.000000</value>
               <value type="int" key="startMandatory">1</value>
               <value type="int" key="startMany">0</value>
-              <value type="string" key="startTable" option="ref">{A0673765-EAFB-478B-B6FE-0A3A070A2CED}</value>
+              <value type="string" key="startTable" option="ref">{77EF946A-9ABD-41C0-8D3D-A9BF45AC52BA}</value>
+            </value>
+            <value type="dict" struct-name="db.workbench.Relationship">
+              <value type="string" key="_id">{1A938960-BB4F-480A-8337-A2FED4602538}</value>
+              <value type="string" key="caption">FKLocation</value>
+              <value type="real" key="captionXOffs">0.000000</value>
+              <value type="real" key="captionYOffs">30.000000</value>
+              <value type="string" key="comment"></value>
+              <value type="string" key="endCaption"></value>
+              <value type="real" key="endCaptionXOffs">0.000000</value>
+              <value type="real" key="endCaptionYOffs">0.000000</value>
+              <value type="int" key="endMandatory">1</value>
+              <value type="int" key="endMany">1</value>
+              <value type="string" key="endTable" option="ref">{1D0F4CEE-5B79-4385-B614-52A39DA47D38}</value>
+              <value type="string" key="name">location_icepapsystem</value>
+              <value type="string" key="owner" option="ref">{AD1C2AE5-3E35-4E14-820C-1F0AAFE3ED34}</value>
+              <value type="string" key="startCaption"></value>
+              <value type="real" key="startCaptionXOffs">0.000000</value>
+              <value type="real" key="startCaptionYOffs">0.000000</value>
+              <value type="int" key="startMandatory">1</value>
+              <value type="int" key="startMany">0</value>
+              <value type="string" key="startTable" option="ref">{147E733D-6E02-441D-800E-9644A9175C89}</value>
             </value>
           </value>
-          <value type="string" key="rootLayer" option="ref">{B97C40DC-00D7-489F-9F26-3F63A6493588}</value>
+          <value type="string" key="rootLayer" option="ref">{C7E52812-B263-4B56-858C-8882B23B206E}</value>
           <value type="list" content-type="dict" content-struct-name="model.Element" key="selection"/>
           <value type="real" key="width">10000.000000</value>
           <value type="real" key="x">0.000000</value>

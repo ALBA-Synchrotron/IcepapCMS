@@ -85,13 +85,21 @@ class StormManager(Singleton):
     def remove(self, obj):
         self._store.remove(obj)
         
-        
+    
+                   
     def addIcepapSystem(self, icepap_system):
         try:
             self._store.add(icepap_system)
             return True
         except:
             return False
+    
+    def deleteLocation(self, location):
+        if self.db == self._config.Sqlite:
+            for system in location.systems:
+                self.deleteicepapSystem(system)          
+        self._store.remove(location)
+        self.commitTransaction()
     
     def deleteIcepapSystem(self, icepap_system):
         if self.db == self._config.Sqlite:
@@ -107,7 +115,21 @@ class StormManager(Singleton):
             self._store.remove(cfg)
         self._store.remove(driver)
         self.commitTransaction()  
-        
+    
+    def getAllLocation(self):
+        try:
+            locations = self._store.find(Location)
+            location_dict = {}
+            for l in locations:
+                location_dict[l.name] = l
+            return location_dict
+        except:
+            print "getAllLocation:", sys.exc_info()[1]
+            return {}
+   
+    def getLocation(self, name):
+        return self._store.get(Location, name)   
+    
     def getIcepapSystem(self, icepap_name):
         return self._store.get(IcepapSystem, icepap_name)
     
@@ -122,15 +144,16 @@ class StormManager(Singleton):
             return None
         else:
             return None
-    def getAllIcepapSystem(self):
+       
+    def getLocationIcepapSystem(self, location):
         try:
-            icepaps = self._store.find(IcepapSystem)
+            icepaps = self._store.find(IcepapSystem, IcepapSystem.location_name == location)
             ipapdict = {}
             for ipap_sys in icepaps:
                 ipapdict[ipap_sys.name] = ipap_sys
             return ipapdict
         except:
-            print "Unexpected error:", sys.exc_info()[1]
+            print "getLocationIcepapSystem:", sys.exc_info()[1]
             return {}
     
     

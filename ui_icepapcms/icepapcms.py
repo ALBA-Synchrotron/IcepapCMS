@@ -8,6 +8,7 @@ from pageipapdriver import PageiPapDriver
 from pageipapcrate import PageiPapCrate
 from pageipapsystem import PageiPapSystem
 from dialogaddicepap import DialogAddIcepap
+from dialogaddlocation import DialogAddLocation
 from dialogdriverconflict import DialogDriverConflict
 from dialogpreferences import DialogPreferences
 from dialogipapprogram import DialogIcepapProgram
@@ -68,14 +69,18 @@ class IcepapCMS(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.actionDeleteIcepap,QtCore.SIGNAL("activated()"),self.btnTreeRemove_on_click)
         #QtCore.QObject.connect(self.ui.btnTreeRefresh,QtCore.SIGNAL("clicked()"),self.btnTreeRefresh_on_click)
         QtCore.QObject.connect(self.ui.menuView,QtCore.SIGNAL("aboutToShow()"),self.menuView_before_show)
-    
+        QtCore.QObject.connect(self.ui.cbLocation,QtCore.SIGNAL("activated  (const QString&)"),self.locationChanged)
+        QtCore.QObject.connect(self.ui.btnAddLocation,QtCore.SIGNAL("clicked()"),self.addLocation)
+        QtCore.QObject.connect(self.ui.btnDeleteLocation,QtCore.SIGNAL("clicked()"),self.deleteLocation)
+        
     def initGUI(self):
         self._manager = MainManager(self)
         if not self._manager.dbStatusOK:
             MessageDialogs.showErrorMessage(self, "Storage", "Error accessing database.\nCheck storage preferences.")
         
         #self.buildTree()
-        self.buildInitialTree()
+        
+        self.buildLocationCombo()
         self.checkTimer.start(5000)        
         self.locationsNext = []
         self.locationsPrevious = []
@@ -89,7 +94,6 @@ class IcepapCMS(QtGui.QMainWindow):
         self.ui.treeView.setItemsExpandable(True)        
         self.ui.stackedWidget.setCurrentIndex(0)
         self.ui.txtLocation.setText("")
-        
      
 #    def buildTree(self):
 #        expand_system = self.performSystemScan()
@@ -97,12 +101,46 @@ class IcepapCMS(QtGui.QMainWindow):
 #        self.ui.treeView.setModel(self._tree_model)
 #        for name in expand_system.keys():
 #            self.expandAll(name)
+
+
+    def addLocation(self):
+        dlg = DialogAddLocation(self)
+        dlg.exec_()
+        if dlg.result():
+            location = dlg.getData()
+            if self._manager.addLocation(location):
+                self.ui.cbLocation.addItem(location)
+                self.ui.cbLocation.setCurrentIndex(self.ui.cbLocation.findText(location, QtCore.Qt.MatchFixedString))
+                self.locationChanged (location) 
+            else:
+                MessageDialogs.showErrorMessage(self, "Add location", "Error adding location")
     
-    def buildInitialTree(self):
+    def deleteLocation(self):
+        location = self.ui.cbLocation.currentText()
+        delete = MessageDialogs.showYesNoMessage(self, "Delete location", "Remove " + location + " and all the Icepaps inside?")
+        if delete:
+            self._manager.deleteLocation(location)
+            self.ui.cbLocation.removeItem(self.ui.cbLocation.currentIndex())
+            self.buildLocationCombo()
+        
+    def buildLocationCombo(self):
+        self.ui.cbLocation.clear()
+        self.ui.treeView.setModel(None)
+        #self.ui.treeView.reset()               
+        for location_name in self._manager.locationList.keys():
+            self.ui.cbLocation.addItem(location_name)        
+        first_location = self.ui.cbLocation.itemText(0)
+        if first_location != "":
+            self.locationChanged(first_location)
+    
+    def locationChanged(self, location):
+        self._manager.changeLocation(location)
+        self.buildInitialTree()        
+    
+    def buildInitialTree(self):        
         self._tree_model = IcepapTreeModel(self._manager.IcepapSystemList, True)
-        self.ui.treeView.setModel(self._tree_model)   
-        self.context_menu_item = None
-    
+        self.ui.treeView.setModel(self._tree_model)
+        self.context_menu_item = None    
     
     def __contextMenu(self, point):
         modelindex = self.ui.treeView.indexAt(point)
@@ -180,19 +218,34 @@ class IcepapCMS(QtGui.QMainWindow):
             item = self.context_menu_item
             self.solveDriverMoved(item)       
         self.context_menu_item = None
-        
+       
     def btnTreeAdd_on_click(self):
-        dlg = DialogAddIcepap(self)
+        location = self.ui.cbLocation.currentText()
+        dlg = DialogAddIcepap(self, location)
         dlg.exec_()
         if dlg.result():
             data = dlg.getData()
+            self.ui.cbLocation.setCurrentIndex(self.ui.cbLocation.findText(data[3], QtCore.Qt.MatchFixedString))
             icepap_system = self._manager.addIcepapSystem(data[0], data[1], data[2])
             if icepap_system is None:
                 MessageDialogs.showErrorMessage(self, "Add Icepap", "Error adding Icepap")
-            else:                
+            else:
+                                
                 self._tree_model.addIcepapSysten(icepap_system.name, icepap_system, False)
                 self.expandAll(icepap_system.name)
-                
+    
+    def editIcepap(self, item):
+        location = self.ui.cbLocation.currentText()
+        dlg = DialogAddIcepap(self, location)
+        dlg.setData(item.itemData.name, item.itemData.host, item.itemData.port, item.itemData.description, location)
+        dlg.exec_()
+        if dlg.result():            
+            data = dlg.getData()   
+            item.itemData.description = unicode(data[2])
+            item.itemData.location_name = unicode(data[3])
+            item.changeLabel([data[0], data[2]])
+            self.ui.stackedWidget.setCurrentIndex(0)
+            self.ui.cbLocation.setCurrentIndex(self.ui.cbLocation.findText(data[3], QtCore.Qt.MatchFixedString))            
                       
 #    def performSystemScan(self):
 #        icepap_list = self._manager.getIcepapList()
@@ -303,17 +356,7 @@ class IcepapCMS(QtGui.QMainWindow):
         #self.buildTree()
         self.ui.stackedWidget.setCurrentIndex(0)
     
-    def editIcepap(self, item):
-        dlg = DialogAddIcepap(self)
-        dlg.setData(item.itemData.name, item.itemData.host, item.itemData.port, item.itemData.description)
-        dlg.exec_()
-        if dlg.result():
-            item = item.getIcepapSystem()
-            data = dlg.getData()   
-            item.itemData.description = unicode(data[2])
-            item.changeLabel([data[0], data[2]])
-            self.ui.stackedWidget.setCurrentIndex(0)
-    
+   
  
               
     def btnTreeRemove_on_click(self):

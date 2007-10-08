@@ -1,6 +1,6 @@
 -- 
 -- Created by SQL::Translator::Producer::SQLite
--- Created on Sun Oct  7 13:30:54 2007
+-- Created on Mon Oct  8 14:33:24 2007
 -- 
 
 
@@ -9,7 +9,7 @@
 --
 CREATE TABLE cfgparameter (
   name varchar(20) NOT NULL DEFAULT '',
-  cfg_id int(10) NOT NULL,
+  cfg_id int(10) NOT NULL DEFAULT '0',
   value varchar(45) NOT NULL DEFAULT '',
   PRIMARY KEY (name, cfg_id)
 );
@@ -56,10 +56,20 @@ CREATE TABLE icepapsystem (
   port int(10) NOT NULL DEFAULT '5000',
   description varchar(250),
   version varchar(10),
+  location_name varchar(100) NOT NULL DEFAULT '',
+  PRIMARY KEY (name)
+);
+
+--
+-- Table: location
+--
+CREATE TABLE location (
+  name varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (name)
 );
 
 CREATE INDEX CfgParameter_FKIndex1_cfgparam on cfgparameter (cfg_id);
 CREATE INDEX IcepapDriver_FKIndex1_icepapdr on icepapdriver (icepapsystem_name);
 CREATE INDEX IcepapDriverCfg_FKIndex1_icepa on icepapdrivercfg (driver_addr, icepapsystem_name);
+CREATE INDEX FKLocation_icepapsystem on icepapsystem (location_name);
 

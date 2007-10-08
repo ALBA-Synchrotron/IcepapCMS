@@ -3,6 +3,32 @@ from conflict import Conflict
 import sys
 from stormmanager import StormManager
  
+class Location(Storm):
+    __storm_table__ = "location"
+    name = Unicode(primary=True)
+    systems = ReferenceSet(name, "IcepapSystem.location_name")
+    def __init__(self, name):
+        self.name = name
+        self.initialize()
+        
+    def initialize(self):
+        self._inmemory_systems = {}
+        
+    def __storm_loaded__(self):
+        self.initialize()
+        for system in self.systems:
+            self._inmemory_systems[system.name] = system
+    
+    def addSystem(self, system):
+        self.systems.add(system)
+        self._inmemory_systems[system.name] = system
+    
+    def deleteSystem(self, name):
+        system = self.systems.find(IcepapSystem.name == name).one()
+        StormManager().deleteIcepapSystem(system)
+        del self._inmemory_systems[name]
+        
+            
 
 class IcepapSystem(Storm):
     __storm_table__ = "icepapsystem"
@@ -11,14 +37,17 @@ class IcepapSystem(Storm):
     port = Int()
     description = Unicode()
     version = Unicode()
+    location_name = Unicode()
     """ references """
     drivers = ReferenceSet(name, "IcepapDriver.icepapsystem_name")
+    location = ReferenceSet(location_name, "Location.name")
     
-    def __init__(self, name, host, port, description = None):
+    def __init__(self, name, host, port, location_name, description = None):
         self.name = unicode(name)
         if description == None:
             description = unicode("")
         self.description = unicode(description)
+        self.location_name = location_name
         self.host = unicode(host)
         self.port = int(port)
         self.initialize()
