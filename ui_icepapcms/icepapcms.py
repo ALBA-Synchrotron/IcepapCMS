@@ -277,7 +277,20 @@ class IcepapCMS(QtGui.QMainWindow):
         if moved_sys != imported_sys:
             self.scanIcepap(moved_sys)         
         self.scanIcepap(imported_sys)
-        
+    
+    def deleteDriverError(self, item):
+        moved_sys = self._manager.importMovedDriver(item.itemData, True)
+        or_sys = item.itemData.icepap_system
+        if moved_sys != or_sys:
+            self.scanIcepap(moved_sys)         
+        self.scanIcepap(or_sys)
+#        delete = MessageDialogs.showYesNoMessage(self, "Driver error", "Driver not present.\nRemove driver from DB?")
+#        if delete:
+#            icepap_system = item.getIcepapSystem()
+#            icepap_system.removeDriver(item.itemData.addr)
+#            item.solveConflict()
+#            self._tree_model.deleteItem(item)    
+    
     def refreshTree(self):
         self.ui.pageiPapDriver.stopTesting()
         if not self.refreshTimer is None:
@@ -301,13 +314,7 @@ class IcepapCMS(QtGui.QMainWindow):
             item.changeLabel([data[0], data[2]])
             self.ui.stackedWidget.setCurrentIndex(0)
     
-    def deleteDriverError(self, item):
-        delete = MessageDialogs.showYesNoMessage(self, "Driver error", "Driver not present.\nRemove driver from DB?")
-        if delete:
-            icepap_system = item.getIcepapSystem()
-            icepap_system.removeDriver(item.itemData.addr)
-            item.solveConflict()
-            self._tree_model.deleteItem(item)   
+ 
               
     def btnTreeRemove_on_click(self):
         selectmodel = self.ui.treeView.selectionModel()

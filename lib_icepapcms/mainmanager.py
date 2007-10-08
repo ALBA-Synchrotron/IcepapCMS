@@ -117,18 +117,31 @@ class MainManager(Singleton):
   
         return conflictsList
     
-    def importMovedDriver(self, icepap_driver):
+    def importMovedDriver(self, icepap_driver, from_to = False):
         """ function to import the information from a moved driver, to avoid losing historic cfgs"""
         id = icepap_driver.current_cfg.getParameter("ID", True)
-        moved_driver = self._db.existsDriver(icepap_driver, id)
-        move = MessageDialogs.showYesNoMessage(self._form, "Import moved driver", "Import all historic configurations from %s axis %d" % (moved_driver.icepapsystem_name, moved_driver.addr))
-        moved_sys = moved_driver.icepap_system
+        got_driver = self._db.existsDriver(icepap_driver, id)
+        if from_to:
+            if got_driver:
+                src_driver = icepap_driver
+                dst_driver = got_driver                
+            else:
+                delete = MessageDialogs.showYesNoMessage(self, "Driver error", "Driver not present.\nRemove driver from DB?")
+                if delete:
+                    icepap_driver.icepap_system.removeDriver(moved_driver.addr)
+                    return None
+        else:
+            src_driver = got_driver
+            dst_driver = icepap_driver  
+                      
+        move = MessageDialogs.showYesNoMessage(self._form, "Import moved driver", "Import all historic configurations from %s:axis %d to %s:axis %d" % (src_driver.icepapsystem_name, src_driver.addr, dst_driver.icepapsystem_name, dst_driver.addr))
+        src_sys = src_driver.icepap_system
         if move:
-            for cfg in moved_driver.historic_cfgs:
-                cfg.setDriver(icepap_driver)
-                icepap_driver.historic_cfgs.add(cfg)
-        moved_driver.icepap_system.removeDriver(moved_driver.addr)     
-        return moved_sys
+            for cfg in src_driver.historic_cfgs:
+                cfg.setDriver(dst_driver)
+                dst_driver.historic_cfgs.add(cfg)
+        src_driver.icepap_system.removeDriver(src_driver.addr)     
+        return src_sys
         
         
     def getDriversToSign(self):
