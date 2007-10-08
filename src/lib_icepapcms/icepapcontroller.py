@@ -95,7 +95,7 @@ class IcepapController(Singleton):
         for name in self.config_parameters:
             #print name
             try:
-                value = self.iPaps[icepap_name].getCfgParamenter(driver_addr, name)
+                value = self.iPaps[icepap_name].getCfgParameter(driver_addr, name)
             except:
                 value = "ERROR"
             #print value
@@ -340,10 +340,10 @@ class IcepapController(Singleton):
             options = ""
         ipap.connect()
         logger.addToLog("Configuring connection")
-        ipap.sendWriteCommand(None, "*PROG %s %s" %(addr, options))
+        ipap.sendWriteCommand("*PROG %s %s" %(addr, options))
         logger.addToLog("Transferring firmware")        
         ipap.sendData(struct.pack('L',startmark))
-        ipap.sendData(struct.pack('L',nwords))
+        ipap.sendData(struct.pack('L',nwordata))
         ipap.sendData(struct.pack('L',chksum))
         ipap.sendData(data.tostring())
         logger.addToLog("Wait for progammming ends")
