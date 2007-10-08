@@ -141,7 +141,7 @@ class PageiPapSystem(QtGui.QWidget):
     
     def driverDoubleclick(self, driver):
         if not driver is None:
-            location = "%s/%d/%d" % (driver.icepap_name, driver.cratenr, driver.drivernr)
+            location = "%s/%d/%d" % (driver.icepapsystem_name, driver.cratenr, driver.drivernr)
             self.mainwin.locationsPrevious.extend(self.mainwin.locationsNext)
             self.mainwin.locationsNext =  []
             self.mainwin.addToPrevious(self.mainwin.currentLocation)

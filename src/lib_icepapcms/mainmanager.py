@@ -23,21 +23,47 @@ class MainManager(Singleton):
         self._ctrl_icepap = IcepapController()
         self._db = StormManager()
         
-        self.dbStatusOK = self._db.dbOK
-        
-        if len(args) > 0:
-            self._form = args[0]
-            self.IcepapSystemList = self._db.getAllIcepapSystem()
-        else:
-            self._toolInitialization()       
+        self.dbStatusOK = self._db.dbOK        
+
+        self._form = args[0]
+        self.locationList = self._db.getAllLocation()
+        self.location = None
+        self.IcepapSystemList = {}
+       
     
+    def addLocation(self, location_name):
+        try:
+            if self.locationList.has_key(unicode(location_name)):
+                return False
+            location = Location(unicode(location_name))
+            self._db.store(location)
+            self._db.commitTransaction()
+            self.locationList[unicode(location_name)] = location
+            return True
+        except:
+            print "addLocation:", sys.exc_info()
+            return False
+        
+        
+    def deleteLocation(self, location_name):
+        location = self.locationList[unicode(location_name)]
+        self._db.deleteLocation(location) 
+        del self.locationList[unicode(location_name)]
+        self.IcepapSystemList = {}
+        
+    def changeLocation(self, location):
+        self.location = self.locationList[unicode(location)]
+        self._ctrl_icepap.closeAllConnections()
+        self.IcepapSystemList = self._db.getLocationIcepapSystem(unicode(location))
+        
     def reset(self, form):
         self._ctrl_icepap.reset()
         self._db.reset()
         self.dbStatusOK = self._db.dbOK
+        self.location = None
         self.IcepapSystemList = {}
         self._form = form
-        self.IcepapSystemList = self._db.getAllIcepapSystem()
+        self.locationList = self._db.getAllLocation()
         
         
     def addIcepapSystem(self, host, port, description = None):
@@ -45,8 +71,9 @@ class MainManager(Singleton):
             icepap_name = host
             """ *TO-DO STORM review"""
             if self.IcepapSystemList.has_key(icepap_name):
-                return None
-            icepap_system = IcepapSystem(icepap_name, host, port, description)                        
+                return None            
+            location = self.location.name
+            icepap_system = IcepapSystem(icepap_name, host, port, location, description)                        
             self._ctrl_icepap.openConnection(icepap_name, host, port)
             driver_list = self._ctrl_icepap.scanIcepapSystem(icepap_name)
             for driver in driver_list.values():
@@ -54,17 +81,18 @@ class MainManager(Singleton):
             icepap_system.addDriverList(driver_list)
             self._db.addIcepapSystem(icepap_system)
             self.IcepapSystemList[icepap_name] = icepap_system
-            print icepap_name
+            self.location.addSystem(icepap_system)
             return icepap_system
             
         except:
-            print "Unexpected error:", sys.exc_info()[1]
+            print "addIcepapSystem:", sys.exc_info()[1]
             return None
 
         
     def deleteIcepapSystem(self, icepap_name):
-        self._db.deleteIcepapSystem(self.IcepapSystemList[icepap_name])
         del self.IcepapSystemList[icepap_name]
+        self.location.deleteSystem(icepap_name)
+        #self._db.deleteIcepapSystem(self.IcepapSystemList[icepap_name])        
         
            
     def closeAllConnections(self):
@@ -75,13 +103,7 @@ class MainManager(Singleton):
     def getIcepapSystem(self, icepap_name):
         return self.IcepapSystemList[icepap_name]
     
-    def _toolInitialization(self):
-        """
-            Get all the IcepapSystems stored and check consistency with the acutal configuration
-        """
-        self.IcepapSystemList = self._db.getAllIcepapSystem()
-        for icepap_system in self.IcepapSystemList.values():
-            self.scanIcepap(icepap_system)
+
     
     def checkIcepapSystems(self):
         changed_list = []
@@ -297,7 +319,7 @@ class MainManager(Singleton):
     def deleteDriverTemplate(self, name):
         self._zodb.deleteDriverTemplate(name)
 
-from icepapsystem import IcepapSystem
+from icepapsystem import IcepapSystem, Location
 from icepapdriver import IcepapDriver
 from conflict import *
 from icepapcontroller import *    

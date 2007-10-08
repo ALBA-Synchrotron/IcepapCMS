@@ -54,13 +54,7 @@ class IcePapDriverWidget(QtGui.QWidget):
     
     def mouseMoveEvent(self, event):
         tooltip = str(self._driver.current_cfg)
-        
-        font = QtGui.QFont()
-        font.setPointSize(6)
-        
-        #QtGui.QToolTip().showText(event.globalPos(), tooltip)
-        self.setToolTip(tooltip)
-        QtGui.QToolTip.setFont(font)
+        #self.setToolTip(tooltip)        
         event.accept()
     
     def btnEnDis_on_click(self,bool):

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'icepapcms.ui'
 #
-# Created: Sat Sep 22 16:30:11 2007
+# Created: Mon Oct  8 16:39:04 2007
 #      by: PyQt4 UI code generator 4.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -165,6 +165,34 @@ class Ui_IcepapCMS(object):
         self.vboxlayout2.setSpacing(6)
         self.vboxlayout2.setObjectName("vboxlayout2")
 
+        self.gridlayout = QtGui.QGridLayout()
+        self.gridlayout.setMargin(2)
+        self.gridlayout.setSpacing(4)
+        self.gridlayout.setObjectName("gridlayout")
+
+        self.label = QtGui.QLabel(self.dockWidgetContents)
+        self.label.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft)
+        self.label.setObjectName("label")
+        self.gridlayout.addWidget(self.label,0,0,1,1)
+
+        self.btnDeleteLocation = QtGui.QToolButton(self.dockWidgetContents)
+        self.btnDeleteLocation.setIcon(QtGui.QIcon(":/small_icons/IcepapCFG Icons Petits/process-stop.png"))
+        self.btnDeleteLocation.setIconSize(QtCore.QSize(16,16))
+        self.btnDeleteLocation.setObjectName("btnDeleteLocation")
+        self.gridlayout.addWidget(self.btnDeleteLocation,0,2,1,1)
+
+        self.btnAddLocation = QtGui.QToolButton(self.dockWidgetContents)
+        self.btnAddLocation.setIcon(QtGui.QIcon(":/small_icons/IcepapCFG Icons Petits/template.png"))
+        self.btnAddLocation.setIconSize(QtCore.QSize(16,16))
+        self.btnAddLocation.setObjectName("btnAddLocation")
+        self.gridlayout.addWidget(self.btnAddLocation,0,1,1,1)
+
+        self.cbLocation = QtGui.QComboBox(self.dockWidgetContents)
+        self.cbLocation.setEditable(False)
+        self.cbLocation.setObjectName("cbLocation")
+        self.gridlayout.addWidget(self.cbLocation,1,0,1,3)
+        self.vboxlayout2.addLayout(self.gridlayout)
+
         self.frame = QtGui.QFrame(self.dockWidgetContents)
         self.frame.setFrameShape(QtGui.QFrame.NoFrame)
         self.frame.setFrameShadow(QtGui.QFrame.Raised)
@@ -248,7 +276,7 @@ class Ui_IcepapCMS(object):
         self.actionToolbar.setObjectName("actionToolbar")
 
         self.actionSignConfig = QtGui.QAction(IcepapCMS)
-        self.actionSignConfig.setIcon(QtGui.QIcon(":/icons/IcepapCfg Icons/emblem-keys.png"))
+        self.actionSignConfig.setIcon(QtGui.QIcon(":/icons/IcepapCfg Icons/sign.png"))
         self.actionSignConfig.setObjectName("actionSignConfig")
 
         self.actionFirmwareUpgrade = QtGui.QAction(IcepapCMS)
@@ -335,6 +363,12 @@ class Ui_IcepapCMS(object):
         self.menuHelp.setTitle(QtGui.QApplication.translate("IcepapCMS", "Help", None, QtGui.QApplication.UnicodeUTF8))
         self.toolBar.setWindowTitle(QtGui.QApplication.translate("IcepapCMS", "Toolbar", None, QtGui.QApplication.UnicodeUTF8))
         self.dockTree.setWindowTitle(QtGui.QApplication.translate("IcepapCMS", "Tree Explorer", None, QtGui.QApplication.UnicodeUTF8))
+        self.label.setText(QtGui.QApplication.translate("IcepapCMS", "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+        "p, li { white-space: pre-wrap; }\n"
+        "</style></head><body style=\" font-family:\'Sans Serif\'; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;\">\n"
+        "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt; text-decoration: underline;\">Location</span></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
+        self.btnDeleteLocation.setText(QtGui.QApplication.translate("IcepapCMS", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.btnAddLocation.setText(QtGui.QApplication.translate("IcepapCMS", "...", None, QtGui.QApplication.UnicodeUTF8))
         self.btnTreeAdd.setText(QtGui.QApplication.translate("IcepapCMS", "...", None, QtGui.QApplication.UnicodeUTF8))
         self.btnTreeRemove.setText(QtGui.QApplication.translate("IcepapCMS", "...", None, QtGui.QApplication.UnicodeUTF8))
         self.actionAbout.setText(QtGui.QApplication.translate("IcepapCMS", "About", None, QtGui.QApplication.UnicodeUTF8))
