@@ -6,7 +6,6 @@ from xml.dom.minidom import getDOMImplementation
 from Led import Led
 from lib_icepapcms import *
 from messagedialogs import MessageDialogs
-from dialoghistoriccfg import DialogHistoricCfg
 from dialogtemplate import DialogTemplate
 import sys
 import os
