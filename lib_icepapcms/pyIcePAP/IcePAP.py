@@ -58,7 +58,7 @@ class IcePAP:
         command = "%d:CFG %s %s" % (addr, parameter, value)
         self.sendWriteCommand(command)
     
-    def getCfgParamenter(self, addr, parameter):
+    def getCfgParameter(self, addr, parameter):
         command = "%d:?CFG %s" % (addr, parameter)
         ans = self.sendWriteReadCommand(command)
         return self.parseResponse(command, ans)
