@@ -30,7 +30,7 @@ from lib_icepapcms import IcepapSystem, IcepapDriver, Conflict, IcepapMode
 
 
 class IcepapTreeModel(QtCore.QAbstractItemModel):
-    SYSTEM, DRIVER, SYSTEM_WARNING, DRIVER_WARNING, SYSTEM_ERROR, DRIVER_ERROR, CRATE, DRIVER_NEW, DRIVER_CFG, SYSTEM_OFFLINE, ROOT = range(11)
+    SYSTEM, DRIVER, SYSTEM_WARNING, DRIVER_WARNING, SYSTEM_ERROR, DRIVER_ERROR, CRATE, DRIVER_NEW, DRIVER_CFG, SYSTEM_OFFLINE, DRIVER_MOVED,ROOT = range(12)
     def __init__(self, IcepapsList, no_expand = False, parent=None):
         QtCore.QAbstractItemModel.__init__(self, parent)
         
@@ -52,6 +52,7 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
                            QtGui.QPixmap(":/icons/IcepapCfg Icons/ipapdrivernew.png"), 
                            QtGui.QPixmap(":/icons/IcepapCfg Icons/ipapdrivercfg.png"),
                            QtGui.QPixmap(":/icons/IcepapCfg Icons/ipapsysoffline.png"),
+                           QtGui.QPixmap(":/icons/IcepapCfg Icons/ipapdrivermoved.png"),
                            QtGui.QPixmap(":/icons/IcepapCfg Icons/gnome-nettool.png"))
         
     def columnCount(self, parent=QtCore.QModelIndex()):
@@ -238,6 +239,8 @@ class TreeItem:
                 self.role = IcepapTreeModel.DRIVER_NEW
             elif self.itemData.conflict == Conflict.DRIVER_CHANGED:
                 self.role = IcepapTreeModel.DRIVER_WARNING
+            elif self.itemData.conflict == Conflict.DRIVER_MOVED:
+                self.role = IcepapTreeModel.DRIVER_MOVED
             elif self.itemData.mode == IcepapMode.CONFIG:
                 self.role = IcepapTreeModel.DRIVER_CFG
         
@@ -291,8 +294,7 @@ class TreeItem:
         elif self.role ==  IcepapTreeModel.CRATE:
             self.parentItem.notifySolvedConflict()
         
-    def getIcepapSystem(self):
-        
+    def getIcepapSystem(self):        
         if self.role == IcepapTreeModel.SYSTEM or self.role == IcepapTreeModel.SYSTEM_WARNING or self.role == IcepapTreeModel.SYSTEM_ERROR or self.role == IcepapTreeModel.SYSTEM_OFFLINE:
             return self.itemData
         if self.role ==  IcepapTreeModel.CRATE:

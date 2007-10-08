@@ -1,6 +1,7 @@
 from storm.locals import *
 from conflict import Conflict
 import sys
+from stormmanager import StormManager
  
 
 class IcepapSystem(Storm):
@@ -58,7 +59,9 @@ class IcepapSystem(Storm):
             self.addDriver(driver)
     
     def removeDriver(self, addr):
-        self.drivers.find(IcepapDriver.addr == addr).one().remove()
+        driver = self.drivers.find(IcepapDriver.addr == addr).one()
+        StormManager().deleteDriver(driver)
+        del self._inmemory_drivers[addr]
     
     def setConflict(self, conflict):
         self.conflict = conflict
@@ -92,7 +95,13 @@ class IcepapSystem(Storm):
         for addr, driver in driver_list.items():
             if self.drivers.find(IcepapDriver.addr == addr).count() == 0:
                 self.addDriver(driver)
-                conflictsList.append([Conflict.NEW_DRIVER, self, addr])
+                ''' determine if it is a new driver or if it has been moved '''
+                id = driver.current_cfg.getParameter("ID", True)
+                db = StormManager()
+                if db.existsDriver(driver, id):                    
+                    conflictsList.append([Conflict.DRIVER_MOVED, self, addr])                
+                else:                    
+                    conflictsList.append([Conflict.NEW_DRIVER, self, addr])
         return conflictsList
 
 from icepapdriver import IcepapDriver

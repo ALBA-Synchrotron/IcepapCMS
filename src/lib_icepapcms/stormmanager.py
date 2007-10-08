@@ -96,17 +96,32 @@ class StormManager(Singleton):
     def deleteIcepapSystem(self, icepap_system):
         if self.db == self._config.Sqlite:
             for driver in icepap_system.drivers:
-                for cfg in driver.historic_cfgs:
-                    for par in cfg.parameters:
-                        self._store.remove(par)
-                    self._store.remove(cfg)
-                self._store.remove(driver)            
+                self.deleteDriver(driver)          
         self._store.remove(icepap_system)
         self.commitTransaction()
     
+    def deleteDriver(self, driver):
+        for cfg in driver.historic_cfgs:
+            for par in cfg.parameters:
+                self._store.remove(par)
+            self._store.remove(cfg)
+        self._store.remove(driver)
+        self.commitTransaction()  
+        
     def getIcepapSystem(self, icepap_name):
         return self._store.get(IcepapSystem, icepap_name)
     
+    def existsDriver(self, mydriver, id):
+        drivers = self._store.find(IcepapDriver, IcepapDriver.addr == IcepapDriverCfg.driver_addr,
+                            IcepapDriverCfg.id == CfgParameter.cfg_id,
+                            CfgParameter.name == unicode("ID"), CfgParameter.value == id)  
+        if drivers:
+            for driver in drivers:                
+                if driver.addr != mydriver.addr: 
+                    return driver
+            return None
+        else:
+            return None
     def getAllIcepapSystem(self):
         try:
             icepaps = self._store.find(IcepapSystem)
@@ -117,7 +132,8 @@ class StormManager(Singleton):
         except:
             print "Unexpected error:", sys.exc_info()[1]
             return {}
-       
+    
+    
     def rollback(self):
         self._store.rollback()
             
@@ -129,6 +145,8 @@ class StormManager(Singleton):
             return False
 
 from icepapsystem import *
+from icepapdriver import *
+from icepapdrivercfg import *
 
     
     
