@@ -648,14 +648,14 @@ class PageiPapDriver(QtGui.QWidget):
             self.ready = -1
             self.mode = -1
             self.power = -1
-            #self._manager.enableDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr)
+            #self._manager.enableDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr)
             self.updateTestStatus()
             self.refreshTimer.start(1500)
         
     def stopTesting(self):
         try:
             self.refreshTimer.stop()
-            #self._manager.disableDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr)
+            #self._manager.disableDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr)
             self.setLedsOff()
         except:
             print "Unexpected error:", sys.exc_info()
@@ -663,7 +663,7 @@ class PageiPapDriver(QtGui.QWidget):
         
         
     def getMotionValues(self):
-        (speed, acc) = self._manager.getDriverMotionValues(self.icepap_driver.icepap_name, self.icepap_driver.addr)
+        (speed, acc) = self._manager.getDriverMotionValues(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr)
         
         self.ui.txtSpeed.setText(str(speed))
         self.ui.txtAcceleration.setText(str(acc))
@@ -673,7 +673,7 @@ class PageiPapDriver(QtGui.QWidget):
         speed = self.ui.txtSpeed.text()
         acc = self.ui.txtAcceleration.text()
         try:
-            self._manager.setDriverMotionValues(self.icepap_driver.icepap_name, self.icepap_driver.addr, [float(speed), float(acc)])
+            self._manager.setDriverMotionValues(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, [float(speed), float(acc)])
         except:
             MessageDialogs.showWarningMessage(self, "Driver testing", "Wrong parameter format")
         
@@ -805,7 +805,7 @@ class PageiPapDriver(QtGui.QWidget):
         new_position = self.ui.txtMvAbsolute.text()
         try:
             new_position = int(new_position)
-            self._manager.moveDriverAbsolute(self.icepap_driver.icepap_name, self.icepap_driver.addr, new_position)
+            self._manager.moveDriverAbsolute(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, new_position)
         except:
             MessageDialogs.showWarningMessage(self, "Driver testing", "Wrong parameter format")
             
@@ -814,7 +814,7 @@ class PageiPapDriver(QtGui.QWidget):
         try:
             distance = int(distance)
             steps = +distance
-            self._manager.moveDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr, steps)
+            self._manager.moveDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, steps)
 
         except:
             MessageDialogs.showWarningMessage(self, "Driver testing", "Wrong parameter format")
@@ -825,13 +825,13 @@ class PageiPapDriver(QtGui.QWidget):
         try:
             distance = int(distance)
             steps = -distance
-            self._manager.moveDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr, steps)
+            self._manager.moveDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, steps)
 
         except:
             MessageDialogs.showWarningMessage(self, "Driver testing", "Wrong parameter format")
         
     def btnStopMotor_on_click(self):
-        self._manager.stopDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr)
+        self._manager.stopDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr)
         
     
     
@@ -843,20 +843,20 @@ class PageiPapDriver(QtGui.QWidget):
         #try:
         if div <> 0:
             if not self.ui.btnEnable.isChecked():
-                self._manager.enableDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr)
+                self._manager.enableDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr)
             speed = float(self.ui.txtSpeed.text())
             factor = (self.ui.sliderJog.maximum() - abs(div)) + 1 
             speed = int(speed / factor)
             dir = (div > 0)
-            self._manager.jogDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr, str(speed), dir)
+            self._manager.jogDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, str(speed), dir)
         else:
             self.stopJogging()
         #except:
         #    pass
     
     def stopJogging(self):
-        self._manager.jogDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr, "0", True)
-        #self._manager.stopDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr)
+        self._manager.jogDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, "0", True)
+        #self._manager.stopDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr)
         
         self.sliderTimer.start()
         
@@ -874,7 +874,7 @@ class PageiPapDriver(QtGui.QWidget):
         pos_sel = str(self.ui.cb_pos_sel.currentText()).upper()
         try:
             position = int(self.ui.txtPos.text())
-            self._manager.setDriverPosition(self.icepap_driver.icepap_name, self.icepap_driver.addr, pos_sel, position)
+            self._manager.setDriverPosition(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, pos_sel, position)
         except:
             print "Unexpected error:", sys.exc_info()
             MessageDialogs.showWarningMessage(self, "Set driver position", "Wrong parameter format")
@@ -884,7 +884,7 @@ class PageiPapDriver(QtGui.QWidget):
         enc_sel = str(self.ui.cb_enc_sel.currentText()).upper()
         try:
             position = int(self.ui.txtEnc.text())
-            self._manager.setDriverPosition(self.icepap_driver.icepap_name, self.icepap_driver.addr, enc_sel, position)
+            self._manager.setDriverPosition(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, enc_sel, position)
         except:
             print "Unexpected error:", sys.exc_info()
             MessageDialogs.showWarningMessage(self, "Set driver encoderposition", "Wrong parameter format")
@@ -892,10 +892,10 @@ class PageiPapDriver(QtGui.QWidget):
     def endisDriver(self, bool):
          if bool:
             self.ui.btnEnable.setText("disable")
-            self._manager.enableDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr)
+            self._manager.enableDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr)
          else:
             self.ui.btnEnable.setText("enable")
-            self._manager.disableDriver(self.icepap_driver.icepap_name, self.icepap_driver.addr)
+            self._manager.disableDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr)
         
 
     # ---------------------- Historic Widget -------------------
