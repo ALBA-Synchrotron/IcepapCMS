@@ -18,8 +18,7 @@ class PageiPapDriver(QtGui.QWidget):
         QtGui.QWidget.__init__(self, None)
         self._mainwin = mainwin
         self.ui = Ui_PageiPapDriver()
-        self.ui.setupUi(self)
-        
+        self.ui.setupUi(self)        
         #self.ui.toolBox.setItemIcon(self.ui.toolBox.indexOf(self.ui.page_test), QtGui.QIcon(":/icons/IcepapCfg Icons/ipapdriver.png"))
         #self.ui.toolBox.setItemIcon(self.ui.toolBox.indexOf(self.ui.page_cfg), QtGui.QIcon(":/icons/IcepapCfg Icons/preferences-system.png"))
         pathname = os.path.dirname(sys.argv[0])
