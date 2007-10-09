@@ -72,6 +72,8 @@ class IcepapCMS(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.cbLocation,QtCore.SIGNAL("activated  (const QString&)"),self.locationChanged)
         QtCore.QObject.connect(self.ui.btnAddLocation,QtCore.SIGNAL("clicked()"),self.addLocation)
         QtCore.QObject.connect(self.ui.btnDeleteLocation,QtCore.SIGNAL("clicked()"),self.deleteLocation)
+        QtCore.QObject.connect(self.ui.actionAddLocation,QtCore.SIGNAL("activated()"),self.addLocation)         
+        QtCore.QObject.connect(self.ui.actionDeleteLocation,QtCore.SIGNAL("activated()"),self.deleteLocation)
         
     def initGUI(self):
         self._manager = MainManager(self)
@@ -130,6 +132,14 @@ class IcepapCMS(QtGui.QMainWindow):
         for location_name in self._manager.locationList.keys():
             self.ui.cbLocation.addItem(location_name)        
         first_location = self.ui.cbLocation.itemText(0)
+        activate = False
+        if self.ui.cbLocation.count() > 0:
+            activate = True        
+        
+        self.ui.btnTreeAdd.setEnabled(activate)
+        self.ui.btnTreeRemove.setEnabled(activate)
+        self.ui.actionAddIcepap.setEnabled(activate)         
+        self.ui.actionDeleteIcepap.setEnabled(activate)
         if first_location != "":
             self.locationChanged(first_location)
     

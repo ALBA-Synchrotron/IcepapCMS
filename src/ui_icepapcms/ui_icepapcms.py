@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'icepapcms.ui'
 #
-# Created: Mon Oct  8 16:39:04 2007
+# Created: Tue Oct  9 03:36:51 2007
 #      by: PyQt4 UI code generator 4.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -119,17 +119,17 @@ class Ui_IcepapCMS(object):
         self.menubar.setGeometry(QtCore.QRect(0,0,1100,29))
         self.menubar.setObjectName("menubar")
 
-        self.menuFile = QtGui.QMenu(self.menubar)
-        self.menuFile.setObjectName("menuFile")
-
-        self.menuDriver = QtGui.QMenu(self.menubar)
-        self.menuDriver.setObjectName("menuDriver")
+        self.menuHelp = QtGui.QMenu(self.menubar)
+        self.menuHelp.setObjectName("menuHelp")
 
         self.menuView = QtGui.QMenu(self.menubar)
         self.menuView.setObjectName("menuView")
 
-        self.menuHelp = QtGui.QMenu(self.menubar)
-        self.menuHelp.setObjectName("menuHelp")
+        self.menuDriver = QtGui.QMenu(self.menubar)
+        self.menuDriver.setObjectName("menuDriver")
+
+        self.menuFile = QtGui.QMenu(self.menubar)
+        self.menuFile.setObjectName("menuFile")
         IcepapCMS.setMenuBar(self.menubar)
 
         self.statusbar = QtGui.QStatusBar(IcepapCMS)
@@ -309,6 +309,30 @@ class Ui_IcepapCMS(object):
 
         self.actionHardware_manual = QtGui.QAction(IcepapCMS)
         self.actionHardware_manual.setObjectName("actionHardware_manual")
+
+        self.actionAddLocation = QtGui.QAction(IcepapCMS)
+        self.actionAddLocation.setIcon(QtGui.QIcon(":/small_icons/IcepapCFG Icons Petits/template.png"))
+        self.actionAddLocation.setObjectName("actionAddLocation")
+
+        self.actionDeleteLocation = QtGui.QAction(IcepapCMS)
+        self.actionDeleteLocation.setIcon(QtGui.QIcon(":/small_icons/IcepapCFG Icons Petits/process-stop.png"))
+        self.actionDeleteLocation.setObjectName("actionDeleteLocation")
+        self.menuHelp.addAction(self.actionUser_manual)
+        self.menuHelp.addAction(self.actionHardware_manual)
+        self.menuHelp.addAction(self.actionHelp)
+        self.menuHelp.addAction(self.actionAbout)
+        self.menuView.addAction(self.actionTree_Explorer)
+        self.menuView.addAction(self.actionToolbar)
+        self.menuDriver.addAction(self.actionSignConfig)
+        self.menuDriver.addSeparator()
+        self.menuDriver.addAction(self.actionHistoricCfg)
+        self.menuDriver.addAction(self.actionTemplates)
+        self.menuDriver.addSeparator()
+        self.menuDriver.addAction(self.actionExport)
+        self.menuDriver.addAction(self.actionImport)
+        self.menuFile.addAction(self.actionAddLocation)
+        self.menuFile.addAction(self.actionDeleteLocation)
+        self.menuFile.addSeparator()
         self.menuFile.addAction(self.actionAddIcepap)
         self.menuFile.addAction(self.actionDeleteIcepap)
         self.menuFile.addSeparator()
@@ -317,19 +341,6 @@ class Ui_IcepapCMS(object):
         self.menuFile.addSeparator()
         self.menuFile.addAction(self.actionPreferences)
         self.menuFile.addAction(self.actionQuit)
-        self.menuDriver.addAction(self.actionSignConfig)
-        self.menuDriver.addSeparator()
-        self.menuDriver.addAction(self.actionHistoricCfg)
-        self.menuDriver.addAction(self.actionTemplates)
-        self.menuDriver.addSeparator()
-        self.menuDriver.addAction(self.actionExport)
-        self.menuDriver.addAction(self.actionImport)
-        self.menuView.addAction(self.actionTree_Explorer)
-        self.menuView.addAction(self.actionToolbar)
-        self.menuHelp.addAction(self.actionUser_manual)
-        self.menuHelp.addAction(self.actionHardware_manual)
-        self.menuHelp.addAction(self.actionHelp)
-        self.menuHelp.addAction(self.actionAbout)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuDriver.menuAction())
         self.menubar.addAction(self.menuView.menuAction())
@@ -357,10 +368,10 @@ class Ui_IcepapCMS(object):
     def retranslateUi(self, IcepapCMS):
         IcepapCMS.setWindowTitle(QtGui.QApplication.translate("IcepapCMS", "Icepap configuration", None, QtGui.QApplication.UnicodeUTF8))
         self.lblLocation.setText(QtGui.QApplication.translate("IcepapCMS", "Location:", None, QtGui.QApplication.UnicodeUTF8))
-        self.menuFile.setTitle(QtGui.QApplication.translate("IcepapCMS", "File", None, QtGui.QApplication.UnicodeUTF8))
-        self.menuDriver.setTitle(QtGui.QApplication.translate("IcepapCMS", "Driver", None, QtGui.QApplication.UnicodeUTF8))
-        self.menuView.setTitle(QtGui.QApplication.translate("IcepapCMS", "View", None, QtGui.QApplication.UnicodeUTF8))
         self.menuHelp.setTitle(QtGui.QApplication.translate("IcepapCMS", "Help", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuView.setTitle(QtGui.QApplication.translate("IcepapCMS", "View", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuDriver.setTitle(QtGui.QApplication.translate("IcepapCMS", "Driver", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuFile.setTitle(QtGui.QApplication.translate("IcepapCMS", "File", None, QtGui.QApplication.UnicodeUTF8))
         self.toolBar.setWindowTitle(QtGui.QApplication.translate("IcepapCMS", "Toolbar", None, QtGui.QApplication.UnicodeUTF8))
         self.dockTree.setWindowTitle(QtGui.QApplication.translate("IcepapCMS", "Tree Explorer", None, QtGui.QApplication.UnicodeUTF8))
         self.label.setText(QtGui.QApplication.translate("IcepapCMS", "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
@@ -420,5 +431,11 @@ class Ui_IcepapCMS(object):
         self.actionDeleteIcepap.setToolTip(QtGui.QApplication.translate("IcepapCMS", "Delete Icepap System from the CMS Database", None, QtGui.QApplication.UnicodeUTF8))
         self.actionUser_manual.setText(QtGui.QApplication.translate("IcepapCMS", "User manual", None, QtGui.QApplication.UnicodeUTF8))
         self.actionHardware_manual.setText(QtGui.QApplication.translate("IcepapCMS", "Hardware manual", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionAddLocation.setText(QtGui.QApplication.translate("IcepapCMS", "Add location", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionAddLocation.setIconText(QtGui.QApplication.translate("IcepapCMS", "Add location", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionAddLocation.setToolTip(QtGui.QApplication.translate("IcepapCMS", "Add location", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionDeleteLocation.setText(QtGui.QApplication.translate("IcepapCMS", "Delete location", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionDeleteLocation.setIconText(QtGui.QApplication.translate("IcepapCMS", "Delete location", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionDeleteLocation.setToolTip(QtGui.QApplication.translate("IcepapCMS", "Delete location", None, QtGui.QApplication.UnicodeUTF8))
 
 
