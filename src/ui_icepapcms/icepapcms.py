@@ -14,8 +14,8 @@ from dialogpreferences import DialogPreferences
 from dialogipapprogram import DialogIcepapProgram
 from ipapconsole import IcepapConsole
 from messagedialogs import MessageDialogs
-from dialoghistoriccfg import DialogHistoricCfg
-from dialogtemplate import DialogTemplate
+#from dialoghistoriccfg import DialogHistoricCfg
+#from dialogtemplate import DialogTemplate
 
 
 class IcepapCMS(QtGui.QMainWindow):
@@ -378,9 +378,7 @@ class IcepapCMS(QtGui.QMainWindow):
     def treeview_on_doubleclick(self, modelindex):
         self.locationsPrevious.extend(self.locationsNext)
         item = self._tree_model.item(modelindex)
-        if item.role == IcepapTreeModel.SYSTEM:
-            self.editIcepap(item)
-        elif item.role == IcepapTreeModel.DRIVER_WARNING:
+        if item.role == IcepapTreeModel.DRIVER_WARNING:
             self.solveConflict(item)
         elif item.role == IcepapTreeModel.DRIVER_MOVED:
             self.solveDriverMoved(item)
