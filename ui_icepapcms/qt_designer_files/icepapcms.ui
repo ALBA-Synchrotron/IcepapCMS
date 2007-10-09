@@ -217,18 +217,21 @@
      <height>29</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuFile" >
+   <widget class="QMenu" name="menuHelp" >
     <property name="title" >
-     <string>File</string>
+     <string>Help</string>
     </property>
-    <addaction name="actionAddIcepap" />
-    <addaction name="actionDeleteIcepap" />
-    <addaction name="separator" />
-    <addaction name="actionFirmwareUpgrade" />
-    <addaction name="actionConsole" />
-    <addaction name="separator" />
-    <addaction name="actionPreferences" />
-    <addaction name="actionQuit" />
+    <addaction name="actionUser_manual" />
+    <addaction name="actionHardware_manual" />
+    <addaction name="actionHelp" />
+    <addaction name="actionAbout" />
+   </widget>
+   <widget class="QMenu" name="menuView" >
+    <property name="title" >
+     <string>View</string>
+    </property>
+    <addaction name="actionTree_Explorer" />
+    <addaction name="actionToolbar" />
    </widget>
    <widget class="QMenu" name="menuDriver" >
     <property name="title" >
@@ -242,21 +245,21 @@
     <addaction name="actionExport" />
     <addaction name="actionImport" />
    </widget>
-   <widget class="QMenu" name="menuView" >
+   <widget class="QMenu" name="menuFile" >
     <property name="title" >
-     <string>View</string>
+     <string>File</string>
     </property>
-    <addaction name="actionTree_Explorer" />
-    <addaction name="actionToolbar" />
-   </widget>
-   <widget class="QMenu" name="menuHelp" >
-    <property name="title" >
-     <string>Help</string>
-    </property>
-    <addaction name="actionUser_manual" />
-    <addaction name="actionHardware_manual" />
-    <addaction name="actionHelp" />
-    <addaction name="actionAbout" />
+    <addaction name="actionAddLocation" />
+    <addaction name="actionDeleteLocation" />
+    <addaction name="separator" />
+    <addaction name="actionAddIcepap" />
+    <addaction name="actionDeleteIcepap" />
+    <addaction name="separator" />
+    <addaction name="actionFirmwareUpgrade" />
+    <addaction name="actionConsole" />
+    <addaction name="separator" />
+    <addaction name="actionPreferences" />
+    <addaction name="actionQuit" />
    </widget>
    <addaction name="menuFile" />
    <addaction name="menuDriver" />
@@ -737,6 +740,34 @@ p, li { white-space: pre-wrap; }
   <action name="actionHardware_manual" >
    <property name="text" >
     <string>Hardware manual</string>
+   </property>
+  </action>
+  <action name="actionAddLocation" >
+   <property name="icon" >
+    <iconset resource="icepapcms.qrc" >:/small_icons/IcepapCFG Icons Petits/template.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Add location</string>
+   </property>
+   <property name="iconText" >
+    <string>Add location</string>
+   </property>
+   <property name="toolTip" >
+    <string>Add location</string>
+   </property>
+  </action>
+  <action name="actionDeleteLocation" >
+   <property name="icon" >
+    <iconset resource="icepapcms.qrc" >:/small_icons/IcepapCFG Icons Petits/process-stop.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Delete location</string>
+   </property>
+   <property name="iconText" >
+    <string>Delete location</string>
+   </property>
+   <property name="toolTip" >
+    <string>Delete location</string>
    </property>
   </action>
  </widget>
