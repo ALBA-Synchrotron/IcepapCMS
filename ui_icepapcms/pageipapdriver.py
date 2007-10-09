@@ -6,7 +6,7 @@ from xml.dom.minidom import getDOMImplementation
 from Led import Led
 from lib_icepapcms import *
 from messagedialogs import MessageDialogs
-from dialogtemplate import DialogTemplate
+#from dialogtemplate import DialogTemplate
 import sys
 import os
 from qvalidatelineedit import QValidateLineEdit
