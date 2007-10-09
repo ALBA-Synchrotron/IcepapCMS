@@ -114,7 +114,6 @@ class PageiPapSystem(QtGui.QWidget):
         crate = -1
         for driver in icepap_system.getDrivers():
             addr = driver.addr
-            print addr
             if driver.cratenr  <> crate:
                 crate = driver.cratenr 
                 self.tableWidget.insertRow(crate)
