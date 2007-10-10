@@ -17,7 +17,17 @@ from messagedialogs import MessageDialogs
 #from dialoghistoriccfg import DialogHistoricCfg
 #from dialogtemplate import DialogTemplate
 
-
+class IcepapApp(QtGui.QApplication):    
+    def __init__(self, *args):
+        QtGui.QApplication.__init__(self, *args)
+        splash_pxmap = QtGui.QPixmap(":/logos/IcepapCfg Icons/IcepapMed.png")
+        splash = QtGui.QSplashScreen(splash_pxmap)
+        splash.show()
+        icepapcms = IcepapCMS()
+        icepapcms.show()
+        splash.finish(icepapcms)
+        self.exec_()
+        
 class IcepapCMS(QtGui.QMainWindow):
     def __init__(self, parent=None):
         QtGui.QMainWindow.__init__(self, parent)
@@ -112,6 +122,9 @@ class IcepapCMS(QtGui.QMainWindow):
             location = dlg.getData()
             if self._manager.addLocation(location):
                 self.ui.cbLocation.addItem(location)
+                if self.ui.cbLocation.count() == 1:
+                    self.ui.btnTreeAdd.setEnabled(True)
+                    self.ui.btnTreeRemove.setEnabled(True)
                 self.ui.cbLocation.setCurrentIndex(self.ui.cbLocation.findText(location, QtCore.Qt.MatchFixedString))
                 self.locationChanged (location) 
             else:
@@ -575,7 +588,9 @@ class IcepapCMS(QtGui.QMainWindow):
     
     def actionConsole(self):
         dlg = IcepapConsole(self)
-        dlg.exec_()
+        #dlg.exec_()
+        #dlg = IcepapConsole()
+        dlg.show()
         
     def actionPreferences(self):
         dlg = DialogPreferences(self)
