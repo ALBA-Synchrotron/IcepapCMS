@@ -1,4 +1,4 @@
-from PyQt4 import QtCore, QtGui
+from PyQt4 import QtCore, QtGui, Qt
 from ui_ipapconsole import Ui_IpapConsole
 from messagedialogs import MessageDialogs
 from lib_icepapcms import EthIcePAP, IcePAPException, IcePAP, IcepapStatus
@@ -9,9 +9,10 @@ from qrc_icepapcms import *
 
 
 class IcepapConsole(QtGui.QDialog):
-    def __init__(self, parent):
-        QtGui.QDialog.__init__(self, parent)
+    def __init__(self, parent=None):
+        QtGui.QDialog.__init__(self, parent, QtCore.Qt.Window)
         self.ui = Ui_IpapConsole()
+        
         self.ui.setupUi(self)        
         self.ui.btnDisconnect.setDisabled(True)
         self.ui.console.setDisabled(True)

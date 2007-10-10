@@ -97,7 +97,7 @@ class StormManager(Singleton):
     def deleteLocation(self, location):
         if self.db == self._config.Sqlite:
             for system in location.systems:
-                self.deleteicepapSystem(system)          
+                self.deleteIcepapSystem(system)          
         self._store.remove(location)
         self.commitTransaction()
     
