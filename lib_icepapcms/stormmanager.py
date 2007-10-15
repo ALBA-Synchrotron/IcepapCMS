@@ -36,11 +36,11 @@ class StormManager(Singleton):
                 self._database =  create_database("%s://%s:%s@%s/icepapcms" % (self.db, user, pwd, server))
                         
             self._store = Store(self._database)
+            
             if create_db:
                 self.dbOK = self.createSqliteDB()
             else:
-                self.dbOK = True            
-            
+                self.dbOK = True
         except:
             print "Unexpected error:", sys.exc_info()
             self.dbOK = False
