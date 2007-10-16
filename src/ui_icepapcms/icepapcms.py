@@ -357,9 +357,10 @@ class IcepapCMS(QtGui.QMainWindow):
     def deleteDriverError(self, item):
         moved_sys = self._manager.importMovedDriver(item.itemData, True)
         or_sys = item.itemData.icepap_system
-        if moved_sys != or_sys:
-            self.scanIcepap(moved_sys)         
-        self.scanIcepap(or_sys)
+        if moved_sys:
+            if moved_sys != or_sys:
+                self.scanIcepap(moved_sys)         
+            self.scanIcepap(or_sys)
 #        delete = MessageDialogs.showYesNoMessage(self, "Driver error", "Driver not present.\nRemove driver from DB?")
 #        if delete:
 #            icepap_system = item.getIcepapSystem()
