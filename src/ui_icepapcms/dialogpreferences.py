@@ -8,7 +8,8 @@ import sys
 MYSQL_PORT =  3306
 POSTGRES_PORT = 5432
 
-class DialogPreferences(QtGui.QDialog):    
+class DialogPreferences(QtGui.QDialog):
+        
     def __init__(self, parent):
         QtGui.QDialog.__init__(self, parent)
         self.ui = Ui_DialogPreferences()
@@ -18,6 +19,7 @@ class DialogPreferences(QtGui.QDialog):
         self.selectedDB = ""
         QtCore.QObject.connect(self.ui.listWidget,QtCore.SIGNAL("itemClicked(QListWidgetItem*)"),self.listWidget_on_click)
         QtCore.QObject.connect(self.ui.btnBrowser,QtCore.SIGNAL("clicked()"),self.btnBrowse_on_click)
+        QtCore.QObject.connect(self.ui.btnLogBrowser,QtCore.SIGNAL("clicked()"),self.btnLogBrowse_on_click)
         QtCore.QObject.connect(self.ui.closeButton,QtCore.SIGNAL("clicked()"),self.closeButton_on_click)
         QtCore.QObject.connect(self.ui.rbmysql,QtCore.SIGNAL("toggled(bool)"),self.rbMySql_toogled)
         QtCore.QObject.connect(self.ui.rbpostgres,QtCore.SIGNAL("toggled(bool)"),self.rbPostgres_toogled)
@@ -66,6 +68,13 @@ class DialogPreferences(QtGui.QDialog):
         folder = str(fn)
         self.ui.txtLocalFolder.setText(folder)
     
+    def btnLogBrowse_on_click(self):
+        fn = QtGui.QFileDialog.getExistingDirectory(self)
+        if fn.isEmpty():
+            return
+        folder = str(fn)
+        self.ui.txtLoglFolder.setText(folder)
+    
     def checkDbEngines(self):
         module_errors = ""
         ok_sqlite = True
@@ -101,6 +110,7 @@ class DialogPreferences(QtGui.QDialog):
         self.ui.rbmysql.setEnabled(mysql)
                 
     def fillConfig(self):
+        ''' storage configuration'''
         self.checkDbEngines()
         db = self._config.config[self._config.database]["database"]
         rb = getattr(self.ui, "rb"+db)
@@ -114,6 +124,17 @@ class DialogPreferences(QtGui.QDialog):
         pwd = self._config.config[self._config.database]["password"]
         self.ui.txtUser.setText(user)
         self.ui.txtPassword.setText(pwd)
+        
+        ''' icepap configuration'''
+        debug_enabled = self._config.config[self._config.icepap]["debug_enabled"]
+        debug_level = self._config.config[self._config.icepap]["debug_level"]
+        log_folder = self._config.config[self._config.icepap]["log_folder"]
+        
+        
+        self.ui.chkDebug.setChecked(debug_enabled == str(True))
+        self.ui.sbDebugLevel.setValue(int(debug_level))                          
+        self.ui.txtLogFolder.setText(log_folder)
+        
     
     def checkPreferences(self):
         try:
@@ -144,6 +165,14 @@ class DialogPreferences(QtGui.QDialog):
                     self.StorageChanged = True
                     self._config.config[self._config.database]["user"] = user
                     self._config.config[self._config.database]["password"] = pwd                         
+            
+                    ''' icepap configuration'''
+            debug_enabled = str(self.ui.chkDebug.isChecked())
+            debug_level = int(self.ui.sbDebugLevel.value())                          
+            log_folder = self.ui.txtLogFolder.text()
+            self._config.config[self._config.icepap]["debug_enabled"] = debug_enabled 
+            self._config.config[self._config.icepap]["debug_level"] = debug_level
+            self._config.config[self._config.icepap]["log_folder"] = log_folder
             
             return True
         except:

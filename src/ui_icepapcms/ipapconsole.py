@@ -35,7 +35,8 @@ class IcepapConsole(QtGui.QDialog):
             else:
                 host = addr
                 port = "5000"
-                
+            self.prompt = str(host) + " > "   
+            self.ui.console.setPrompt(self.prompt) 
             self.ipap = EthIcePAP(host , port)
             self.ipap.connect()
             self.ui.console.clear()
