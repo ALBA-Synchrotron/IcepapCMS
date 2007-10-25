@@ -6,12 +6,21 @@
     <x>0</x>
     <y>0</y>
     <width>648</width>
-    <height>501</height>
+    <height>477</height>
    </rect>
   </property>
   <property name="palette" >
    <palette>
     <active>
+     <colorrole role="Shadow" >
+      <brush brushstyle="SolidPattern" >
+       <color alpha="255" >
+        <red>101</red>
+        <green>148</green>
+        <blue>235</blue>
+       </color>
+      </brush>
+     </colorrole>
      <colorrole role="Highlight" >
       <brush brushstyle="SolidPattern" >
        <color alpha="255" >
@@ -23,6 +32,15 @@
      </colorrole>
     </active>
     <inactive>
+     <colorrole role="Shadow" >
+      <brush brushstyle="SolidPattern" >
+       <color alpha="255" >
+        <red>101</red>
+        <green>148</green>
+        <blue>235</blue>
+       </color>
+      </brush>
+     </colorrole>
      <colorrole role="Highlight" >
       <brush brushstyle="SolidPattern" >
        <color alpha="255" >
@@ -34,6 +52,15 @@
      </colorrole>
     </inactive>
     <disabled>
+     <colorrole role="Shadow" >
+      <brush brushstyle="SolidPattern" >
+       <color alpha="255" >
+        <red>101</red>
+        <green>148</green>
+        <blue>235</blue>
+       </color>
+      </brush>
+     </colorrole>
      <colorrole role="Highlight" >
       <brush brushstyle="SolidPattern" >
        <color alpha="255" >
@@ -53,17 +80,25 @@
    <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/gnome-terminal.png</iconset>
   </property>
   <property name="styleSheet" >
-   <string>QDialog { 
-background-image: url(:/logos/IcepapCfg Icons/IcepapBig.png);
-background-repeat: no-repeat;
-background-position: center;
-}</string>
+   <string/>
   </property>
   <layout class="QGridLayout" >
-   <property name="margin" >
+   <property name="leftMargin" >
     <number>3</number>
    </property>
-   <property name="spacing" >
+   <property name="topMargin" >
+    <number>3</number>
+   </property>
+   <property name="rightMargin" >
+    <number>3</number>
+   </property>
+   <property name="bottomMargin" >
+    <number>3</number>
+   </property>
+   <property name="horizontalSpacing" >
+    <number>4</number>
+   </property>
+   <property name="verticalSpacing" >
     <number>4</number>
    </property>
    <item row="0" column="0" >
@@ -123,76 +158,12 @@ background-position: center;
    </item>
    <item row="1" column="0" colspan="5" >
     <widget class="PyConsoleText" name="console" >
-     <property name="palette" >
-      <palette>
-       <active>
-        <colorrole role="Text" >
-         <brush brushstyle="SolidPattern" >
-          <color alpha="255" >
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
-          </color>
-         </brush>
-        </colorrole>
-        <colorrole role="Base" >
-         <brush brushstyle="SolidPattern" >
-          <color alpha="0" >
-           <red>0</red>
-           <green>0</green>
-           <blue>0</blue>
-          </color>
-         </brush>
-        </colorrole>
-       </active>
-       <inactive>
-        <colorrole role="Text" >
-         <brush brushstyle="SolidPattern" >
-          <color alpha="255" >
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
-          </color>
-         </brush>
-        </colorrole>
-        <colorrole role="Base" >
-         <brush brushstyle="SolidPattern" >
-          <color alpha="0" >
-           <red>0</red>
-           <green>0</green>
-           <blue>0</blue>
-          </color>
-         </brush>
-        </colorrole>
-       </inactive>
-       <disabled>
-        <colorrole role="Text" >
-         <brush brushstyle="SolidPattern" >
-          <color alpha="255" >
-           <red>127</red>
-           <green>125</green>
-           <blue>123</blue>
-          </color>
-         </brush>
-        </colorrole>
-        <colorrole role="Base" >
-         <brush brushstyle="SolidPattern" >
-          <color alpha="0" >
-           <red>0</red>
-           <green>0</green>
-           <blue>0</blue>
-          </color>
-         </brush>
-        </colorrole>
-       </disabled>
-      </palette>
-     </property>
      <property name="font" >
       <font/>
      </property>
      <property name="styleSheet" >
       <string>QTextEdit { 
-background-color: rgba(0, 0, 0, 95%)
+background-color: rgba(0, 0, 0, 100%)
 }</string>
      </property>
      <property name="horizontalScrollBarPolicy" >

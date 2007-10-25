@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'ipapconsole.ui'
 #
-# Created: Tue Oct  9 03:36:51 2007
-#      by: PyQt4 UI code generator 4.2
+# Created: Wed Oct 24 16:42:54 2007
+#      by: PyQt4 UI code generator 4.3
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -12,9 +12,13 @@ from PyQt4 import QtCore, QtGui
 class Ui_IpapConsole(object):
     def setupUi(self, IpapConsole):
         IpapConsole.setObjectName("IpapConsole")
-        IpapConsole.resize(QtCore.QSize(QtCore.QRect(0,0,648,501).size()).expandedTo(IpapConsole.minimumSizeHint()))
+        IpapConsole.resize(QtCore.QSize(QtCore.QRect(0,0,648,477).size()).expandedTo(IpapConsole.minimumSizeHint()))
 
         palette = QtGui.QPalette()
+
+        brush = QtGui.QBrush(QtGui.QColor(101,148,235))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Shadow,brush)
 
         brush = QtGui.QBrush(QtGui.QColor(101,148,235))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -22,7 +26,15 @@ class Ui_IpapConsole(object):
 
         brush = QtGui.QBrush(QtGui.QColor(101,148,235))
         brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Shadow,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(101,148,235))
+        brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Highlight,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(101,148,235))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.Shadow,brush)
 
         brush = QtGui.QBrush(QtGui.QColor(127,125,123))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -59,33 +71,6 @@ class Ui_IpapConsole(object):
         self.gridlayout.addWidget(self.btnConnect,0,3,1,1)
 
         self.console = PyConsoleText(IpapConsole)
-
-        palette = QtGui.QPalette()
-
-        brush = QtGui.QBrush(QtGui.QColor(255,255,255))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Text,brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(0,0,0,0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Base,brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(255,255,255))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Text,brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(0,0,0,0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Base,brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(127,125,123))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.Text,brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(0,0,0,0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.Base,brush)
-        self.console.setPalette(palette)
         self.console.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
         self.console.setUndoRedoEnabled(False)
         self.console.setLineWrapMode(QtGui.QTextEdit.WidgetWidth)
@@ -101,16 +86,11 @@ class Ui_IpapConsole(object):
 
     def retranslateUi(self, IpapConsole):
         IpapConsole.setWindowTitle(QtGui.QApplication.translate("IpapConsole", "Icepap Console", None, QtGui.QApplication.UnicodeUTF8))
-        IpapConsole.setStyleSheet(QtGui.QApplication.translate("IpapConsole", "QDialog { \n"
-        "background-image: url(:/logos/IcepapCfg Icons/IcepapBig.png);\n"
-        "background-repeat: no-repeat;\n"
-        "background-position: center;\n"
-        "}", None, QtGui.QApplication.UnicodeUTF8))
         self.label.setText(QtGui.QApplication.translate("IpapConsole", "Icepap host", None, QtGui.QApplication.UnicodeUTF8))
         self.btnDisconnect.setText(QtGui.QApplication.translate("IpapConsole", "Disconnect", None, QtGui.QApplication.UnicodeUTF8))
         self.btnConnect.setText(QtGui.QApplication.translate("IpapConsole", "Connect", None, QtGui.QApplication.UnicodeUTF8))
         self.console.setStyleSheet(QtGui.QApplication.translate("IpapConsole", "QTextEdit { \n"
-        "background-color: rgba(0, 0, 0, 95%)\n"
+        "background-color: rgba(0, 0, 0, 100%)\n"
         "}", None, QtGui.QApplication.UnicodeUTF8))
 
 from pyconsoletext import PyConsoleText

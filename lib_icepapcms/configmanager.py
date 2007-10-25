@@ -2,24 +2,37 @@ from singleton import Singleton
 import os
 import sys
 from configobj import ConfigObj
-
+from validate import Validator
 
 class ConfigManager(Singleton):
     Sqlite = "sqlite"
     MySql = "mysql"
     Postgres = "postgres"
     database = "database"
+    icepap = "icepap"
+    folder = os.path.expanduser('~/.icepapcms/sqlitedb')
+    log_folder = os.path.expanduser('~/.icepapcms/log')
+        
+    defaults = '''
+    [database]
+    password = string(default=configure)
+    folder = string(default=''' + folder +  ''')
+    server = string(default=localhost:3306)
+    user = string(default=icepapcms)
+    database = string(default=sqlite)
+    [icepap]
+    debug_enabled = string(default=True)
+    debug_level = string(default=1)
+    log_folder = string(default=''' + log_folder + ''')     
+    '''
     
+    defaults = defaults.splitlines()
     
     def __init__(self):
         pass
     
     
     def init(self, *args):
-        
-        pathname = os.path.dirname(sys.argv[0])
-        self.path = os.path.abspath(pathname)
-        #self.config_filename = self.path + '/icepapcms.conf'  
         try:
             self.config_filename = os.path.expanduser('~/.icepapcms/icepapcms.conf')
             self.configure()
@@ -27,36 +40,12 @@ class ConfigManager(Singleton):
             os.mkdir(os.path.expanduser('~/.icepapcms'))
             self.config_filename = os.path.expanduser('~/.icepapcms/icepapcms.conf')
             self.configure()
-        
-        
     
-    def configure(self):
-        try:
-            self.config = ConfigObj(self.config_filename)
-            if len(self.config) == 0:
-                self.loadDefaults()
-        except: 
-             self.loadDefaults()
-    
-    def loadDefaults(self):
-        self.config = ConfigObj()
-        self.config.filename = self.config_filename
-        folder = os.path.expanduser('~/.icepapcms/sqlitedb')
-        if not os.path.exists(folder):
-            os.mkdir(folder)               
-        db = {'database' : ConfigManager.Sqlite, 
-            'folder' : folder, 
-            'server' : ":",
-            'user' : "",
-            'password': ""}
-        self.config[ConfigManager.database] = db
-        self.config.write()
+    def configure(self):        
+        self.configspec = ConfigObj(self.defaults)
+        self.config = ConfigObj(self.config_filename, configspec = self.configspec)
+        vdt = Validator()
+        self.config.validate(vdt, copy=True)
         
     def saveConfig(self):
         self.config.write()
-
-        
-        
-        
-        
-        
