@@ -16,22 +16,26 @@ class SerialIcePAP(IcePAP):
         print self.IcePAPhost
         #try:
         #self.tty = Serial(self.IcePAPhost, baudrate, rtscts =0, xonxoff=0)
-	self.tty = Serial(1, baudrate, rtscts =0, xonxoff=0)
+        self.tty = Serial(1, baudrate, rtscts =0, xonxoff=0)
         #except:
         #    print "Exception: connection error"
         #    return -1
+        if self.log_path:
+            self.openLogFile()
         self.Status = CStatus.Connected
         print "connected"
-	self.buf = ''
+        self.buf = ''
         return 0
     
     def sendWriteReadCommand(self, command):
          
         try:
+            message = command
             self.tty.write(command+'\r\n')
             time.sleep(0.02)
             newdata = self.readline()
             newdata = self.readline()
+            message = message + "\t\t[ " + newdata + " ]"
             print newdata
             return newdata
         except:
@@ -42,7 +46,7 @@ class SerialIcePAP(IcePAP):
                 
         #try:
         
-        
+        self.writeLog(command)
         #self.tty.write('\r\n'.join(command.split()))
     	self.tty.write(command+'\r\n')
 	#newdata = self.readline()
@@ -66,6 +70,8 @@ class SerialIcePAP(IcePAP):
         
         if (self.Status == CStatus.Disconnected):
             return 0
+        
+        self.closeLogFile()
         #try:
             #self.tty.__del__()
         self.Status = CStatus.Disconnected

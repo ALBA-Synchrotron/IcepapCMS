@@ -2,7 +2,7 @@
 import serial
 import sys
 from threading import Lock
-import time
+import time, datetime
 import icepapdef
 
 class CStatus:
@@ -17,13 +17,28 @@ class IcePAPException:
 
 class IcePAP:    
     
-    def __init__(self, host,port, timeout = 1):
+    def __init__(self, host,port, timeout = 1, log_path = None):
         #print "IcePAP object created"
         self.IcePAPhost = host
         self.IcePAPport = int(port)
         self.Status = CStatus.Disconnected
         self.timeout = timeout
         self.lock = Lock()
+        self.log_path = log_path
+        self.log_file = None
+    
+    def openLogFile(self):
+        name = self.log_path+"/" + self.IcePAPhost + "."+datetime.datetime.now().strftime("%Y%m%d.%H%M%S")
+        self.log_file = open(name, "w")
+    
+    def closeLogFile(self):
+        if self.log_file:
+            self.log_file.close()
+        
+    def writeLog(self, message):
+        if self.log_file:
+            prompt = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + ">\t"
+            self.log_file.write(prompt+message+"\n")        
            
     def connect(self):
         pass
