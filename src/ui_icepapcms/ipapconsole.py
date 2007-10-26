@@ -1,11 +1,9 @@
 from PyQt4 import QtCore, QtGui, Qt
 from ui_ipapconsole import Ui_IpapConsole
 from messagedialogs import MessageDialogs
-from lib_icepapcms import EthIcePAP, IcePAPException, IcePAP, IcepapStatus
-import sys
+from lib_icepapcms import EthIcePAP, IcePAPException, IcePAP, IcepapStatus, ConfigManager
+import sys, os
 from qrc_icepapcms import *
-
-
 
 
 class IcepapConsole(QtGui.QDialog):
@@ -24,6 +22,16 @@ class IcepapConsole(QtGui.QDialog):
         font.setPointSize(8)
         self.setFont(font)
         self.ui.console.setPrompt(self.prompt)
+        self.log_folder = None
+        self._config = ConfigManager()
+        try:
+            self.debug = bool(self._config.config[self._config.icepap]["debug_enabled"])
+            self.log_folder = self._config.config[self._config.icepap]["log_folder"]
+            if not os.path.exists(self.log_folder):
+                os.mkdir(self.log_folder)
+        except:
+            print "icepapconsole_init():", sys.exc_info()
+            pass
         
     def btnConnect_on_click(self):
         try:
@@ -36,8 +44,11 @@ class IcepapConsole(QtGui.QDialog):
                 host = addr
                 port = "5000"
             self.prompt = str(host) + " > "   
-            self.ui.console.setPrompt(self.prompt) 
-            self.ipap = EthIcePAP(host , port)
+            self.ui.console.setPrompt(self.prompt)
+            log_folder = None
+            if self.debug:
+                log_folder = self.log_folder
+            self.ipap = EthIcePAP(host , port, log_path = log_folder)
             self.ipap.connect()
             self.ui.console.clear()
             self.writeConsole("Connected to Icepap :  " + addr)

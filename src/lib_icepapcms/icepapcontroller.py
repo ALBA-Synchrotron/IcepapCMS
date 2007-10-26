@@ -10,6 +10,7 @@ import array
 from icepapdrivercfg import IcepapDriverCfg, CfgParameter
 import icepapdriver
 from conflict import Conflict
+from configmanager import ConfigManager
  
 class IcepapController(Singleton):
     
@@ -22,13 +23,25 @@ class IcepapController(Singleton):
         path = os.path.abspath(pathname)
         self.config_template = path+'/templates/driverparameters.xml'
         self._parseDriverTemplateFile()
+        self._config = ConfigManager()
+        try:
+            self.debug = bool(self._config.config[self._config.icepap]["debug_enabled"])
+            self.log_folder = self._config.config[self._config.icepap]["log_folder"]
+            if not os.path.exists(self.log_folder):
+                os.mkdir(self.log_folder)            
+        except:
+            print "icepapcontroller_init():", sys.exc_info()
+            pass
        
     def reset(self):
         self.closeAllConnections()
         self.iPaps = {}
         
     def openConnection(self, icepap_name, host, port):
-        self.iPaps[icepap_name] = EthIcePAP(host, port)        
+        log_folder = None
+        if self.debug:
+            log_folder = self.log_folder
+        self.iPaps[icepap_name] = EthIcePAP(host, port, log_path = log_folder)        
         self.iPaps[icepap_name].connect()
         
     def closeConnection(self, icepap_name):

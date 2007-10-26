@@ -20,9 +20,13 @@ class EthIcePAP(IcePAP):
         
         try:
             self.IcPaSock.connect((self.IcePAPhost, self.IcePAPport))
-        except socket.error, msg:
-            
+            if self.log_path:
+                self.openLogFile()
+        except socket.error, msg:            
             iex = IcePAPException(IcePAPException.TIMEOUT, "Error connecting to the Icepap")
+            raise iex
+        except:
+            iex = IcePAPException(IcePAPException.ERROR, "Error creating log file")
             raise iex
         self.Status = CStatus.Connected
         #self.IcPaSock.settimeout( 0 )
@@ -31,18 +35,23 @@ class EthIcePAP(IcePAP):
     
     def sendWriteReadCommand(self, cmd, size = 8192):
         try:
+            message = cmd
             cmd = cmd + "\n"
             self.lock.acquire()
             self.IcPaSock.send(cmd)          
             data = self.IcPaSock.recv(size)
+            message = message + "\t\t[ " + data + " ]"
+            self.writeLog(message)
             self.lock.release()                      
             return data
         except socket.timeout, msg:
+            self.writeLog(message + " " + msg)  
             self.disconnect()   
             self.lock.release()              
             iex = IcePAPException(IcePAPException.TIMEOUT, "Connection Timeout")
             raise iex
         except socket.error, msg:
+            self.writeLog(message + " " + sys.exc_info())
             self.lock.release()  
             print msg
             print "Unexpected error:", sys.exc_info()            
@@ -53,16 +62,20 @@ class EthIcePAP(IcePAP):
     
     def sendWriteCommand(self, cmd):
         try:
+            message = cmd
             cmd = cmd + "\n"
             self.lock.acquire()
             self.IcPaSock.send(cmd)
+            self.writeLog(message)
             self.lock.release()
         except socket.timeout, msg:
-            self.disconnect()      
+            self.disconnect()
+            self.writeLog(message + " " + msg)      
             self.lock.release()           
             iex = IcePAPException(IcePAPException.TIMEOUT, "Connection Timeout")
             raise iex            
         except socket.error, msg:
+            self.writeLog(message + " " + sys.exc_info())
             self.lock.release()  
             print "Unexpected error:", sys.exc_info()
             iex = IcePAPException(IcePAPException.ERROR, "Error sending command to the Icepap")
@@ -89,6 +102,7 @@ class EthIcePAP(IcePAP):
             return 0
         try:
             self.IcPaSock.close()
+            self.closeLogFile()
             self.Status = CStatus.Disconnected
             return 0
         except:
