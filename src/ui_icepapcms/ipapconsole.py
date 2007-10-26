@@ -25,7 +25,8 @@ class IcepapConsole(QtGui.QDialog):
         self.log_folder = None
         self._config = ConfigManager()
         try:
-            self.debug = bool(self._config.config[self._config.icepap]["debug_enabled"])
+            
+            self.debug = self._config.config[self._config.icepap]["debug_enabled"] == str(True)
             self.log_folder = self._config.config[self._config.icepap]["log_folder"]
             if not os.path.exists(self.log_folder):
                 os.mkdir(self.log_folder)
