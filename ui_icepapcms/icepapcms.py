@@ -20,6 +20,7 @@ from messagedialogs import MessageDialogs
 class IcepapApp(QtGui.QApplication):    
     def __init__(self, *args):
         QtGui.QApplication.__init__(self, *args)
+        self.setStyle("plastique")
         splash_pxmap = QtGui.QPixmap(":/logos/IcepapCfg Icons/IcepapMed.png")
         splash = QtGui.QSplashScreen(splash_pxmap)
         splash.show()

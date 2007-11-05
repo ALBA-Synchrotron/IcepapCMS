@@ -105,17 +105,18 @@ class PageiPapCrate(QtGui.QWidget):
         self.cratenr = selected_crate
         self.driverswidgets = {}
         crate = -1
+        row = 0
         """ TO-DO STORM review"""
         for driver in icepap_system.getDrivers():
             addr = driver.addr
             if driver.cratenr == selected_crate:
-                crate = driver.cratenr 
-                self.tableWidget.insertRow(crate)
+                crate = driver.cratenr
+                self.tableWidget.insertRow(row)
                 headerItem = QtGui.QTableWidgetItem()
-                headerItem.setText("Crate %d" %crate)
-                self.tableWidget.setVerticalHeaderItem(crate,headerItem) 
-                self.tableWidget.verticalHeader().resizeSection(crate,200)
-                self.tableWidget.verticalHeader().setResizeMode(crate, Qt.QHeaderView.Custom)
+                headerItem.setText("Crate %d" % crate)
+                self.tableWidget.setVerticalHeaderItem(row,headerItem) 
+                self.tableWidget.verticalHeader().resizeSection(row,200)
+                self.tableWidget.verticalHeader().setResizeMode(row, Qt.QHeaderView.Custom)
                 for drivernr in range(8):  
                     addr = crate*10+ drivernr +1                                           
                     adriver = icepap_system.getDriver(crate*10+ drivernr +1)
@@ -125,7 +126,7 @@ class PageiPapCrate(QtGui.QWidget):
                         #if not wdriver.fillData(adriver):
                         #    return
                         self.driverswidgets[addr]  = wdriver
-                        self.tableWidget.setCellWidget(crate, drivernr, wdriver)
+                        self.tableWidget.setCellWidget(row, drivernr, wdriver)
                         QtCore.QObject.connect(wdriver,QtCore.SIGNAL("icepapDoubleClicked(PyQt_PyObject)"),self.driverDoubleclick)
                 break
         

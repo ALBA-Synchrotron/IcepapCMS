@@ -152,7 +152,7 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
         if icepap_system.conflict == Conflict.NO_CONNECTION or no_expand:
             return        
         for driver in icepap_system.getDrivers(True):            
-            addr = driver.addr            
+            addr = driver.addr
             if driver.cratenr  <> crate:
                 crate = driver.cratenr
                 location = "%s/%s" % (icepap_name, crate)
