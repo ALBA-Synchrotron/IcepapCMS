@@ -28,16 +28,18 @@ class StormManager(Singleton):
                 folder = self._config.config[self._config.database]["folder"]
                 loc = folder + '/icepapcms.db'
                 create_db = not os.path.exists(loc)
+                if create_db:
+                    if not os.path.exists(folder):
+                        os.mkdir(folder)
                 self._database =  create_database("%s:%s" % (self.db, loc))
             else:
                 server = self._config.config[self._config.database]["server"]
                 user = self._config.config[self._config.database]["user"]
                 pwd = self._config.config[self._config.database]["password"]
                 self._database =  create_database("%s://%s:%s@%s/icepapcms" % (self.db, user, pwd, server))
-                        
+                
             self._store = Store(self._database)
-            
-            if create_db:
+            if create_db:                
                 self.dbOK = self.createSqliteDB()
             else:
                 self.dbOK = True
@@ -59,7 +61,7 @@ class StormManager(Singleton):
                 # Remove any comments from the file
                 statement = re.sub(r"--.*[\n\Z]", "", statement)
                 if statement.strip():
-                    create = statement + ";"    
+                    create = statement + ";"                        
                     self._store.execute(create)
             self._store.commit()
             return True

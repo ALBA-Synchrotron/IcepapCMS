@@ -33,10 +33,10 @@ class ConfigManager(Singleton):
     
     
     def init(self, *args):
-        try:
+        if os.path.exists(os.path.expanduser('~/.icepapcms/icepapcms.conf')):
             self.config_filename = os.path.expanduser('~/.icepapcms/icepapcms.conf')
             self.configure()
-        except:
+        else:
             os.mkdir(os.path.expanduser('~/.icepapcms'))
             self.config_filename = os.path.expanduser('~/.icepapcms/icepapcms.conf')
             self.configure()

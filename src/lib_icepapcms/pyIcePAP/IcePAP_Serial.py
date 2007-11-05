@@ -36,7 +36,7 @@ class SerialIcePAP(IcePAP):
             newdata = self.readline()
             newdata = self.readline()
             message = message + "\t\t[ " + newdata + " ]"
-            print newdata
+            self.writeLog(message)
             return newdata
         except:
             iex = IcePAPException(IcePAPException.Error, "Error sending command to the IcePAP(Serial)")

@@ -112,16 +112,18 @@ class PageiPapSystem(QtGui.QWidget):
         self.icepap_system = icepap_system
         self.driverswidgets = {}
         crate = -1
+        row = 0
         for driver in icepap_system.getDrivers():
             addr = driver.addr
             if driver.cratenr  <> crate:
                 crate = driver.cratenr 
-                self.tableWidget.insertRow(crate)
+                self.tableWidget.insertRow(row)
                 headerItem = QtGui.QTableWidgetItem()
                 headerItem.setText("Crate %d" %crate)
-                self.tableWidget.setVerticalHeaderItem(crate,headerItem)
-                self.tableWidget.verticalHeader().resizeSection(crate,self._rowSize[size])
-                self.tableWidget.verticalHeader().setResizeMode(crate, Qt.QHeaderView.Custom)
+                self.tableWidget.setVerticalHeaderItem(row,headerItem)
+                self.tableWidget.verticalHeader().resizeSection(row,self._rowSize[size])
+                self.tableWidget.verticalHeader().setResizeMode(row, Qt.QHeaderView.Custom)
+                
                 for drivernr in range(8):
                     addr = crate*10+ drivernr +1                                           
                     adriver = icepap_system.getDriver(crate*10+ drivernr +1)
@@ -131,8 +133,9 @@ class PageiPapSystem(QtGui.QWidget):
                         #if not wdriver.fillData(adriver):
                         #    return
                         self.driverswidgets[addr]  = wdriver
-                        self.tableWidget.setCellWidget(crate, drivernr, wdriver)
+                        self.tableWidget.setCellWidget(row, drivernr, wdriver)
                         QtCore.QObject.connect(wdriver,QtCore.SIGNAL("icepapDoubleClicked(PyQt_PyObject)"),self.driverDoubleclick)
+                row += 1
  
             
         self.tableWidget.horizontalHeader().setUpdatesEnabled(True)

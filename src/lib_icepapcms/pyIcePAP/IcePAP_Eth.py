@@ -45,13 +45,13 @@ class EthIcePAP(IcePAP):
             self.lock.release()                      
             return data
         except socket.timeout, msg:
-            self.writeLog(message + " " + msg)  
+            self.writeLog(message + " " + str(msg))  
             self.disconnect()   
             self.lock.release()              
             iex = IcePAPException(IcePAPException.TIMEOUT, "Connection Timeout")
             raise iex
         except socket.error, msg:
-            self.writeLog(message + " " + sys.exc_info())
+            self.writeLog(message + " " + str(sys.exc_info()))
             self.lock.release()  
             print msg
             print "Unexpected error:", sys.exc_info()            
