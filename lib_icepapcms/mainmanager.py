@@ -150,7 +150,7 @@ class MainManager(Singleton):
             else:
                 delete = MessageDialogs.showYesNoMessage(self._form, "Driver error", "Driver not present.\nRemove driver from DB?")
                 if delete:
-                    icepap_driver.icepap_system.removeDriver(moved_driver.addr)
+                    icepap_driver.icepap_system.removeDriver(icepap_driver.addr)
                 return None
         else:
             src_driver = got_driver

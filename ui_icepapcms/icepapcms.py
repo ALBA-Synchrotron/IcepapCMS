@@ -349,8 +349,8 @@ class IcepapCMS(QtGui.QMainWindow):
             item.solveConflict()
     
     def solveDriverMoved(self, item):
-        moved_sys = self._manager.importMovedDriver(item.itemData)
         imported_sys = item.itemData.icepap_system
+        moved_sys = self._manager.importMovedDriver(item.itemData)        
         if moved_sys != imported_sys:
             self.scanIcepap(moved_sys)         
         self.scanIcepap(imported_sys)

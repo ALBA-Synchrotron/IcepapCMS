@@ -80,6 +80,9 @@ class DialogIcepapProgram(QtGui.QDialog):
         if addr == "ADDR":
             addr = str(self.ui.sbAddr.value())
         options = self.ui.cbOptions.currentText()
+        
+        if self.ui.chkForce.isChecked():
+            options = options + " FORCE"
         self._ipapctrl.upgradeFirmware(serial, dst, file, addr, options, self)
         
     def addToLog(self, text):    

@@ -141,7 +141,8 @@ class PageiPapDriver(QtGui.QWidget):
         elif isinstance(widget, QtGui.QComboBox):
             if widget.defaultvalue != str(widget.currentText()).upper():
                 highlight = True
-                widget.setStyleSheet(" QComboBox::drop-down {background-color: yellow;}")
+                #widget.setStyleSheet(" QComboBox::drop-down {background-color: yellow;}")
+                widget.setStyleSheet("background-color: yellow")
         elif isinstance(widget, QtGui.QLineEdit):
                 if widget.defaultvalue != str(widget.text()):
                     highlight = True
@@ -671,6 +672,12 @@ class PageiPapDriver(QtGui.QWidget):
     def setMotionValues(self):
         speed = self.ui.txtSpeed.text()
         acc = self.ui.txtAcceleration.text()
+        if speed == "":
+            speed = "100"
+            self.ui.txtSpeed.setText(speed)
+        if acc == "":
+            acc = "1"
+            self.ui.txtAcceleration.setText(acc)
         try:
             self._manager.setDriverMotionValues(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, [float(speed), float(acc)])
         except:
