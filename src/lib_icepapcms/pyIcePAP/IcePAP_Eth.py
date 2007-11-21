@@ -87,11 +87,14 @@ class EthIcePAP(IcePAP):
             self.lock.acquire()
             self.IcPaSock.send(data)            
             self.lock.release()
-        except socket.timeout, msg:  
+        except socket.timeout, msg:
+            self.lock.release()
+            print msg  
             self.disconnect()          
             iex = IcePAPException(IcePAPException.TIMEOUT, "Connection Timeout")
             raise iex
         except socket.error, msg:
+            self.lock.release()
             print msg
             iex = IcePAPException(IcePAPException.ERROR, "Error sending data to the Icepap")
             raise iex   

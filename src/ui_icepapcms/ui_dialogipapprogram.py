@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'dialogipapprogram.ui'
 #
-# Created: Wed Aug 29 11:58:34 2007
-#      by: PyQt4 UI code generator 4.2
+# Created: Wed Nov 21 16:55:46 2007
+#      by: PyQt4 UI code generator 4.3
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -93,8 +93,8 @@ class Ui_DialogIcepapProgram(object):
         self.gridlayout.addItem(spacerItem1,3,6,1,1)
 
         self.sbAddr = QtGui.QSpinBox(DialogIcepapProgram)
-        self.sbAddr.setMaximum(128)
         self.sbAddr.setMinimum(1)
+        self.sbAddr.setMaximum(128)
         self.sbAddr.setObjectName("sbAddr")
         self.gridlayout.addWidget(self.sbAddr,1,2,1,1)
 
@@ -118,6 +118,10 @@ class Ui_DialogIcepapProgram(object):
         self.txtLog.setReadOnly(True)
         self.txtLog.setObjectName("txtLog")
         self.gridlayout.addWidget(self.txtLog,3,0,4,4)
+
+        self.chkForce = QtGui.QCheckBox(DialogIcepapProgram)
+        self.chkForce.setObjectName("chkForce")
+        self.gridlayout.addWidget(self.chkForce,2,2,1,1)
 
         self.retranslateUi(DialogIcepapProgram)
         QtCore.QMetaObject.connectSlotsByName(DialogIcepapProgram)
@@ -152,6 +156,7 @@ class Ui_DialogIcepapProgram(object):
         self.label_3.setText(QtGui.QApplication.translate("DialogIcepapProgram", "Options", None, QtGui.QApplication.UnicodeUTF8))
         self.cbOptions.addItem(QtGui.QApplication.translate("DialogIcepapProgram", "SAVE", None, QtGui.QApplication.UnicodeUTF8))
         self.cbOptions.addItem(QtGui.QApplication.translate("DialogIcepapProgram", "SL", None, QtGui.QApplication.UnicodeUTF8))
-        self.cbOptions.addItem(QtGui.QApplication.translate("DialogIcepapProgram", "FORCE", None, QtGui.QApplication.UnicodeUTF8))
         self.cbOptions.addItem(QtGui.QApplication.translate("DialogIcepapProgram", "NONE", None, QtGui.QApplication.UnicodeUTF8))
+        self.chkForce.setText(QtGui.QApplication.translate("DialogIcepapProgram", "Force", None, QtGui.QApplication.UnicodeUTF8))
+
 

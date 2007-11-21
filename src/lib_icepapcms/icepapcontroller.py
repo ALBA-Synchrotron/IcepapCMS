@@ -355,11 +355,15 @@ class IcepapController(Singleton):
         ipap.connect()
         logger.addToLog("Configuring connection")
         ipap.sendWriteCommand("*PROG %s %s" %(addr, options))
+        #logger.addToLog("*PROG %s %s" %(addr, options))
         logger.addToLog("Transferring firmware")        
         ipap.sendData(struct.pack('L',startmark))
         ipap.sendData(struct.pack('L',nwordata))
         ipap.sendData(struct.pack('L',chksum))
-        ipap.sendData(data.tostring())
+        
+        for i in range(len(data)):
+            ipap.sendData(struct.pack('H',data[i]))
+        #ipap.sendData(data.tostring())
         logger.addToLog("Wait for progammming ends")
     
     def testConnection(self, serial, dst):
