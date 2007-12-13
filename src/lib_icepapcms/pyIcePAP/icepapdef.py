@@ -5,6 +5,15 @@ class IcepapMode:
 class IcepapAnswers:
     ON, OFF = "ON", "OFF"
 
+class IcepapInfo:
+    INFOA, INFOB, INFOC = "INFOA", "INFOB", "INFOC"
+    LOW, HIGH, LIMP, LIMN, HOME, ENCAUX = "LOW", "HIGH", "LIMP", "LIMN", "HOME", "ENCAUX" 
+    INPAUX, SYNCAUX, ENABLE, ALARM = "INPAUX", "SYNCAUX", "ENABLE", "ALARM"  
+    READY, MOVING, BOOST, STEADY = "READY", "MOVING", "BOOST", "STEADY"
+    Sources = [LOW, HIGH, LIMP, LIMN, HOME, ENCAUX, INPAUX, SYNCAUX, ENABLE, ALARM, READY, MOVING, BOOST, STEADY]
+    NORMAL, INVERTED = "NORMAL", "INVERTED" 
+    Polarity = [NORMAL, INVERTED]
+    
 class IcepapRegisters:
     INTERNAL, SYNC, INPOS, ENCIN = "INTERNAL", "SYNC", "INPOS", "ENCIN"
     IndexerRegisters = [INTERNAL, SYNC, INPOS, ENCIN]
