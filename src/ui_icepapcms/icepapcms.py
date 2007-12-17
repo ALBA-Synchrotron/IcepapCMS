@@ -34,7 +34,7 @@ class IcepapCMS(QtGui.QMainWindow):
         QtGui.QMainWindow.__init__(self, parent)
         self.ui = Ui_IcepapCMS()
         self.ui.setupUi(self)
-        self._config = ConfigManager()        
+        self._config = ConfigManager()                
         self.checkTimer = Qt.QTimer(self)        
         self.initGUI()
         self.ui.pageiPapSystem = PageiPapSystem(self)
@@ -85,7 +85,7 @@ class IcepapCMS(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.btnDeleteLocation,QtCore.SIGNAL("clicked()"),self.deleteLocation)
         QtCore.QObject.connect(self.ui.actionAddLocation,QtCore.SIGNAL("triggered()"),self.addLocation)         
         QtCore.QObject.connect(self.ui.actionDeleteLocation,QtCore.SIGNAL("triggered()"),self.deleteLocation)
-        
+
     def initGUI(self):
         self._manager = MainManager(self)
         if not self._manager.dbStatusOK:
@@ -323,6 +323,7 @@ class IcepapCMS(QtGui.QMainWindow):
         the database configurations and the ones in the hardware """
         self.setStatusMessage("Scanning ...")
         conflicts_list = []
+        solved_drivers = ""
         conflicts_list.extend(self._manager.scanIcepap(icepap_system))
         if len(conflicts_list) > 0:
             self.setStatusMessage("Configuration conflics found.")
@@ -336,11 +337,19 @@ class IcepapCMS(QtGui.QMainWindow):
                     if not conflict[2] is None:
                         self.setStatusMessage("Configuration conflics found.")
                         driver = icepap_system.getDriver(conflict[2])
-                        driver.setConflict(conflict[0])
+                        if conflict[0] == Conflict.DRIVER_CHANGED:
+                            if driver.conflict == Conflict.DRIVER_FROM_DB:
+                                icepap_system.child_conflicts -= 1
+                                solved_drivers = solved_drivers + "%s:%d \n" % (driver.icepapsystem_name, driver.addr)
+                            else:
+                                driver.setConflict(conflict[0])
         else:
             self.setStatusMessage("Scanning complete!. No conflicts found")
         self._tree_model.updateIcepapSystem(icepap_system)
         self.expandAll(icepap_system.name)
+        if solved_drivers != "":
+            MessageDialogs.showInformationMessage(self, "Solved conflicts", "Drivers configuration load from DB:\n"+ solved_drivers)
+            
           
     def solveConflict(self, item):
         dlg = DialogDriverConflict(self, item.itemData)

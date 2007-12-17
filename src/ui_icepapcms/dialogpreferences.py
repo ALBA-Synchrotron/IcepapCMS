@@ -129,12 +129,13 @@ class DialogPreferences(QtGui.QDialog):
         debug_enabled = self._config.config[self._config.icepap]["debug_enabled"]
         debug_level = self._config.config[self._config.icepap]["debug_level"]
         log_folder = self._config.config[self._config.icepap]["log_folder"]
+        conflict_solve = self._config.config[self._config.icepap]["conflict_solve"]
         
         
         self.ui.chkDebug.setChecked(debug_enabled == str(True))
         self.ui.sbDebugLevel.setValue(int(debug_level))                          
         self.ui.txtLogFolder.setText(log_folder)
-        
+        self.ui.chkConflictSolve.setChecked(conflict_solve == str(True))
     
     def checkPreferences(self):
         try:
@@ -170,9 +171,12 @@ class DialogPreferences(QtGui.QDialog):
             debug_enabled = str(self.ui.chkDebug.isChecked())
             debug_level = int(self.ui.sbDebugLevel.value())                          
             log_folder = self.ui.txtLogFolder.text()
+            conflict_solve = str(self.ui.chkConflictSolve.isChecked())
+            
             self._config.config[self._config.icepap]["debug_enabled"] = debug_enabled 
             self._config.config[self._config.icepap]["debug_level"] = debug_level
             self._config.config[self._config.icepap]["log_folder"] = log_folder
+            self._config.config[self._config.icepap]["conflict_solve"] = conflict_solve
             
             return True
         except:

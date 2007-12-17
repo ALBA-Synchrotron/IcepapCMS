@@ -23,7 +23,8 @@ class ConfigManager(Singleton):
     [icepap]
     debug_enabled = string(default=True)
     debug_level = string(default=1)
-    log_folder = string(default=''' + log_folder + ''')     
+    log_folder = string(default=''' + log_folder + ''')
+    conflict_solve= string(default=True)     
     '''
     
     defaults = defaults.splitlines()

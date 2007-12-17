@@ -2,6 +2,7 @@ from storm.locals import *
 from conflict import Conflict
 import sys
 from stormmanager import StormManager
+
  
 class Location(Storm):
     __storm_table__ = "location"
@@ -107,7 +108,7 @@ class IcepapSystem(Storm):
               
     def compareDriverList(self, driver_list):        
         self.child_conflicts = 0
-        conflictsList = []
+        conflictsList = []        
         self.conflict = Conflict.NO_CONFLICT
         ''' comparing drivers '''
         for driver in self.drivers:

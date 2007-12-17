@@ -26,7 +26,7 @@
                 	 <description></description>
                 </par>
                 <par id="NVOLT" name="NVOLT" type="DOUBLE" min="0" max="80">
-                     <description>Operation Voltage</description>
+                     <description>Nominal Operation Voltage</description>
                 </par>
                 <par id="ICURR" name="ICURR" type="DOUBLE" min="0" max="100">
                      <description>Idle Current %</description>

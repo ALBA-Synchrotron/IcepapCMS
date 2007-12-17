@@ -1,11 +1,13 @@
 from storm.locals import *
 from icepapdrivercfg import IcepapDriverCfg
 from conflict import Conflict
+from configmanager import ConfigManager
 from icepapcontroller import IcepapController
 from stormmanager import StormManager
 import time
 import socket
 from pyIcePAP import IcepapMode
+
 
 class IcepapDriver(Storm):
     __storm_table__ = "icepapdriver"
@@ -104,7 +106,16 @@ class IcepapDriver(Storm):
         if not res:            
             self.setConflict(Conflict.NO_CONFLICT)
         else:
-            self.setConflict(Conflict.DRIVER_CHANGED)
+            config = ConfigManager()
+            """solve_conflicts: If true if conflict appears, automatically will load data from db """
+            solve_conflicts = config.config[config.icepap]["conflict_solve"] == str(True)
+            if solve_conflicts:
+                from mainmanager import MainManager
+                MainManager().saveValuesInIcepap(self, self.current_cfg.toList())
+                self.signDriver()
+                self.setConflict(Conflict.DRIVER_FROM_DB)
+            else:
+                self.setConflict(Conflict.DRIVER_CHANGED)
         #db.remove(cfg)
         
         return res
