@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'dialogpreferences.ui'
 #
-# Created: Fri Oct 26 12:19:44 2007
+# Created: Mon Dec 17 12:16:15 2007
 #      by: PyQt4 UI code generator 4.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -380,22 +380,22 @@ class Ui_DialogPreferences(object):
         self.pageIcepap = QtGui.QWidget()
         self.pageIcepap.setObjectName("pageIcepap")
 
-        self.vboxlayout = QtGui.QVBoxLayout(self.pageIcepap)
-        self.vboxlayout.setObjectName("vboxlayout")
+        self.gridlayout3 = QtGui.QGridLayout(self.pageIcepap)
+        self.gridlayout3.setObjectName("gridlayout3")
 
         self.groupBox = QtGui.QGroupBox(self.pageIcepap)
         self.groupBox.setObjectName("groupBox")
 
-        self.gridlayout3 = QtGui.QGridLayout(self.groupBox)
-        self.gridlayout3.setObjectName("gridlayout3")
+        self.gridlayout4 = QtGui.QGridLayout(self.groupBox)
+        self.gridlayout4.setObjectName("gridlayout4")
 
         self.chkDebug = QtGui.QCheckBox(self.groupBox)
         self.chkDebug.setObjectName("chkDebug")
-        self.gridlayout3.addWidget(self.chkDebug,0,0,1,3)
+        self.gridlayout4.addWidget(self.chkDebug,0,0,1,3)
 
         self.label_5 = QtGui.QLabel(self.groupBox)
         self.label_5.setObjectName("label_5")
-        self.gridlayout3.addWidget(self.label_5,1,0,1,1)
+        self.gridlayout4.addWidget(self.label_5,1,0,1,1)
 
         self.sbDebugLevel = QtGui.QSpinBox(self.groupBox)
 
@@ -407,27 +407,42 @@ class Ui_DialogPreferences(object):
         self.sbDebugLevel.setMinimum(1)
         self.sbDebugLevel.setMaximum(1)
         self.sbDebugLevel.setObjectName("sbDebugLevel")
-        self.gridlayout3.addWidget(self.sbDebugLevel,1,1,1,1)
+        self.gridlayout4.addWidget(self.sbDebugLevel,1,1,1,1)
 
         spacerItem3 = QtGui.QSpacerItem(261,20,QtGui.QSizePolicy.Expanding,QtGui.QSizePolicy.Minimum)
-        self.gridlayout3.addItem(spacerItem3,1,2,1,2)
+        self.gridlayout4.addItem(spacerItem3,1,2,1,2)
 
         self.label_6 = QtGui.QLabel(self.groupBox)
         self.label_6.setObjectName("label_6")
-        self.gridlayout3.addWidget(self.label_6,2,0,1,1)
+        self.gridlayout4.addWidget(self.label_6,2,0,1,1)
 
         self.txtLogFolder = QtGui.QLineEdit(self.groupBox)
         self.txtLogFolder.setMaximumSize(QtCore.QSize(1666666,16777215))
         self.txtLogFolder.setObjectName("txtLogFolder")
-        self.gridlayout3.addWidget(self.txtLogFolder,2,1,1,2)
+        self.gridlayout4.addWidget(self.txtLogFolder,2,1,1,2)
 
         self.btnLogBrowser = QtGui.QToolButton(self.groupBox)
         self.btnLogBrowser.setObjectName("btnLogBrowser")
-        self.gridlayout3.addWidget(self.btnLogBrowser,2,3,1,1)
-        self.vboxlayout.addWidget(self.groupBox)
+        self.gridlayout4.addWidget(self.btnLogBrowser,2,3,1,1)
+        self.gridlayout3.addWidget(self.groupBox,0,0,1,1)
 
-        spacerItem4 = QtGui.QSpacerItem(20,131,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Expanding)
-        self.vboxlayout.addItem(spacerItem4)
+        self.groupBox_2 = QtGui.QGroupBox(self.pageIcepap)
+
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred,QtGui.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.groupBox_2.sizePolicy().hasHeightForWidth())
+        self.groupBox_2.setSizePolicy(sizePolicy)
+        self.groupBox_2.setMinimumSize(QtCore.QSize(0,50))
+        self.groupBox_2.setObjectName("groupBox_2")
+
+        self.chkConflictSolve = QtGui.QCheckBox(self.groupBox_2)
+        self.chkConflictSolve.setGeometry(QtCore.QRect(10,20,311,22))
+        self.chkConflictSolve.setObjectName("chkConflictSolve")
+        self.gridlayout3.addWidget(self.groupBox_2,1,0,1,1)
+
+        spacerItem4 = QtGui.QSpacerItem(522,91,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Expanding)
+        self.gridlayout3.addItem(spacerItem4,2,0,1,1)
         self.stackedWidget.addWidget(self.pageIcepap)
         self.gridlayout.addWidget(self.stackedWidget,1,0,1,1)
 
@@ -503,6 +518,8 @@ class Ui_DialogPreferences(object):
         self.label_5.setText(QtGui.QApplication.translate("DialogPreferences", "Debug level", None, QtGui.QApplication.UnicodeUTF8))
         self.label_6.setText(QtGui.QApplication.translate("DialogPreferences", "Log folder", None, QtGui.QApplication.UnicodeUTF8))
         self.btnLogBrowser.setText(QtGui.QApplication.translate("DialogPreferences", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupBox_2.setTitle(QtGui.QApplication.translate("DialogPreferences", "Conflicts", None, QtGui.QApplication.UnicodeUTF8))
+        self.chkConflictSolve.setText(QtGui.QApplication.translate("DialogPreferences", "Use database configurations as valid data", None, QtGui.QApplication.UnicodeUTF8))
         self.listWidget.clear()
 
         item = QtGui.QListWidgetItem(self.listWidget)

@@ -6,13 +6,11 @@
     <x>0</x>
     <y>0</y>
     <width>774</width>
-    <height>611</height>
+    <height>662</height>
    </rect>
   </property>
   <property name="sizePolicy" >
-   <sizepolicy>
-    <hsizetype>7</hsizetype>
-    <vsizetype>7</vsizetype>
+   <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -27,10 +25,22 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" >
-   <property name="margin" >
+   <property name="leftMargin" >
     <number>9</number>
    </property>
-   <property name="spacing" >
+   <property name="topMargin" >
+    <number>9</number>
+   </property>
+   <property name="rightMargin" >
+    <number>9</number>
+   </property>
+   <property name="bottomMargin" >
+    <number>9</number>
+   </property>
+   <property name="horizontalSpacing" >
+    <number>6</number>
+   </property>
+   <property name="verticalSpacing" >
     <number>6</number>
    </property>
    <item row="1" column="0" >
@@ -38,7 +48,7 @@
      <property name="minimumSize" >
       <size>
        <width>421</width>
-       <height>505</height>
+       <height>553</height>
       </size>
      </property>
      <property name="font" >
@@ -57,161 +67,24 @@
        <string>Driver</string>
       </attribute>
       <layout class="QGridLayout" >
-       <property name="margin" >
-        <number>9</number>
-       </property>
-       <property name="spacing" >
-        <number>6</number>
-       </property>
-       <item row="4" column="1" >
-        <widget class="QGroupBox" name="groupBox_12" >
-         <property name="sizePolicy" >
-          <sizepolicy>
-           <hsizetype>0</hsizetype>
-           <vsizetype>0</vsizetype>
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="title" >
-          <string>Encoder</string>
-         </property>
-         <property name="flat" >
-          <bool>true</bool>
-         </property>
-         <layout class="QGridLayout" >
-          <property name="margin" >
-           <number>9</number>
-          </property>
-          <property name="spacing" >
-           <number>6</number>
-          </property>
-          <item row="2" column="1" >
-           <widget class="QComboBox" name="CLOOP" >
-            <item>
-             <property name="text" >
-              <string>None</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>ShftEnc</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>TgtEnc</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="3" column="1" >
-           <widget class="QComboBox" name="POSSRC" >
-            <item>
-             <property name="text" >
-              <string>None</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>ShftEnc</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>TgtEnc</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="3" column="0" >
-           <widget class="QLabel" name="label_57" >
-            <property name="text" >
-             <string>Position Src</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0" >
-           <widget class="QLabel" name="label_37" >
-            <property name="text" >
-             <string>Close loop</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1" >
-           <widget class="QComboBox" name="SHFTENC" >
-            <item>
-             <property name="text" >
-              <string>None</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>InPos</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>EncIn</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>AbsEnc</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="1" column="1" >
-           <widget class="QComboBox" name="TGTENC" >
-            <item>
-             <property name="text" >
-              <string>None</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>InPos</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>EncIn</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>AbsEnc</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="label_35" >
-            <property name="text" >
-             <string>Shaft Encoder</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0" >
-           <widget class="QLabel" name="label_36" >
-            <property name="text" >
-             <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
-p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'Sans Serif'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Target Encoder&lt;/p>&lt;/body>&lt;/html></string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
        <item row="0" column="0" >
         <layout class="QGridLayout" >
-         <property name="margin" >
+         <property name="leftMargin" >
           <number>0</number>
          </property>
-         <property name="spacing" >
+         <property name="topMargin" >
+          <number>0</number>
+         </property>
+         <property name="rightMargin" >
+          <number>0</number>
+         </property>
+         <property name="bottomMargin" >
+          <number>0</number>
+         </property>
+         <property name="horizontalSpacing" >
+          <number>6</number>
+         </property>
+         <property name="verticalSpacing" >
           <number>6</number>
          </property>
          <item row="0" column="1" colspan="2" >
@@ -247,150 +120,10 @@ p, li { white-space: pre-wrap; }
          </item>
         </layout>
        </item>
-       <item row="1" column="0" >
-        <widget class="QGroupBox" name="groupBox_9" >
-         <property name="sizePolicy" >
-          <sizepolicy>
-           <hsizetype>0</hsizetype>
-           <vsizetype>0</vsizetype>
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="title" >
-          <string>Power</string>
-         </property>
-         <property name="flat" >
-          <bool>true</bool>
-         </property>
-         <layout class="QGridLayout" >
-          <property name="margin" >
-           <number>9</number>
-          </property>
-          <property name="spacing" >
-           <number>6</number>
-          </property>
-          <item row="4" column="0" >
-           <widget class="QLabel" name="label_20" >
-            <property name="toolTip" >
-             <string/>
-            </property>
-            <property name="text" >
-             <string>Operation voltage</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="1" >
-           <widget class="QDoubleSpinBox" name="NVOLT" >
-            <property name="toolTip" >
-             <string>Vcc to the motor phases when motor is moving</string>
-            </property>
-            <property name="singleStep" >
-             <double>0.100000000000000</double>
-            </property>
-            <property name="value" >
-             <double>0.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1" >
-           <widget class="QSpinBox" name="MOTPOLES" >
-            <property name="maximum" >
-             <number>999999</number>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1" >
-           <widget class="QComboBox" name="MREGMODE" >
-            <item>
-             <property name="text" >
-              <string>Ext</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>Volt</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>Curr</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>Curr_vect</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>Torque</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="1" column="0" >
-           <widget class="QLabel" name="label_41" >
-            <property name="text" >
-             <string>Motor Phases</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0" >
-           <widget class="QLabel" name="label_43" >
-            <property name="text" >
-             <string>Regulation Mode</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0" >
-           <widget class="QLabel" name="label_42" >
-            <property name="toolTip" >
-             <string/>
-            </property>
-            <property name="text" >
-             <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
-p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'Sans Serif'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Motor pole pairs&lt;/p>&lt;/body>&lt;/html></string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1" >
-           <widget class="QComboBox" name="MOTPHASES" >
-            <item>
-             <property name="text" >
-              <string>1</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>2</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>3</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="0" column="0" colspan="2" >
-           <widget class="QCheckBox" name="POWERON" >
-            <property name="text" >
-             <string>Remember power state</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item rowspan="3" row="0" column="1" >
+       <item rowspan="2" row="0" column="1" >
         <widget class="QGroupBox" name="groupBox_11" >
          <property name="sizePolicy" >
-          <sizepolicy>
-           <hsizetype>0</hsizetype>
-           <vsizetype>0</vsizetype>
+          <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -405,10 +138,22 @@ p, li { white-space: pre-wrap; }
           <bool>false</bool>
          </property>
          <layout class="QGridLayout" >
-          <property name="margin" >
+          <property name="leftMargin" >
            <number>9</number>
           </property>
-          <property name="spacing" >
+          <property name="topMargin" >
+           <number>9</number>
+          </property>
+          <property name="rightMargin" >
+           <number>9</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>9</number>
+          </property>
+          <property name="horizontalSpacing" >
+           <number>6</number>
+          </property>
+          <property name="verticalSpacing" >
            <number>6</number>
           </property>
           <item row="0" column="0" >
@@ -564,12 +309,169 @@ p, li { white-space: pre-wrap; }
          </layout>
         </widget>
        </item>
+       <item row="1" column="0" >
+        <widget class="QGroupBox" name="groupBox_9" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize" >
+          <size>
+           <width>0</width>
+           <height>195</height>
+          </size>
+         </property>
+         <property name="title" >
+          <string>Power</string>
+         </property>
+         <property name="flat" >
+          <bool>true</bool>
+         </property>
+         <layout class="QGridLayout" >
+          <item row="0" column="0" colspan="2" >
+           <widget class="QCheckBox" name="POWERON" >
+            <property name="text" >
+             <string>Remember power state</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" >
+           <widget class="QLabel" name="label_41" >
+            <property name="text" >
+             <string>Motor Phases</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1" >
+           <widget class="QComboBox" name="MOTPHASES" >
+            <item>
+             <property name="text" >
+              <string>1</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>2</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>3</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="2" column="0" >
+           <widget class="QLabel" name="label_42" >
+            <property name="toolTip" >
+             <string/>
+            </property>
+            <property name="text" >
+             <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+p, li { white-space: pre-wrap; }
+&lt;/style>&lt;/head>&lt;body style=" font-family:'Sans Serif'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;">
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Motor pole pairs&lt;/p>&lt;/body>&lt;/html></string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1" >
+           <widget class="QSpinBox" name="MOTPOLES" >
+            <property name="maximum" >
+             <number>999999</number>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0" >
+           <widget class="QLabel" name="label_43" >
+            <property name="text" >
+             <string>Regulation Mode</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1" >
+           <widget class="QComboBox" name="MREGMODE" >
+            <item>
+             <property name="text" >
+              <string>Ext</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>Volt</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>Curr</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>Curr_vect</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>Torque</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="4" column="0" >
+           <widget class="QLabel" name="label_20" >
+            <property name="toolTip" >
+             <string/>
+            </property>
+            <property name="text" >
+             <string>Idle voltage</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1" >
+           <widget class="QDoubleSpinBox" name="IVOLT" >
+            <property name="toolTip" >
+             <string>Vcc to the motor phases when motor is moving</string>
+            </property>
+            <property name="singleStep" >
+             <double>0.100000000000000</double>
+            </property>
+            <property name="value" >
+             <double>0.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0" >
+           <widget class="QLabel" name="label_29" >
+            <property name="toolTip" >
+             <string/>
+            </property>
+            <property name="text" >
+             <string>Nominal voltage</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1" >
+           <widget class="QDoubleSpinBox" name="NVOLT" >
+            <property name="toolTip" >
+             <string>Vcc to the motor phases when motor is moving</string>
+            </property>
+            <property name="singleStep" >
+             <double>0.100000000000000</double>
+            </property>
+            <property name="value" >
+             <double>0.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
        <item rowspan="2" row="2" column="0" >
         <widget class="QGroupBox" name="groupBox_6" >
          <property name="sizePolicy" >
-          <sizepolicy>
-           <hsizetype>0</hsizetype>
-           <vsizetype>0</vsizetype>
+          <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -581,12 +483,36 @@ p, li { white-space: pre-wrap; }
           <bool>true</bool>
          </property>
          <layout class="QGridLayout" >
-          <property name="margin" >
-           <number>9</number>
-          </property>
-          <property name="spacing" >
-           <number>6</number>
-          </property>
+          <item row="0" column="0" >
+           <widget class="QLabel" name="label_16" >
+            <property name="toolTip" >
+             <string/>
+            </property>
+            <property name="text" >
+             <string>Idle (%)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" >
+           <widget class="QDoubleSpinBox" name="ICURR" >
+            <property name="toolTip" >
+             <string>current to the motor when the motor is at rest</string>
+            </property>
+            <property name="singleStep" >
+             <double>0.100000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" >
+           <widget class="QLabel" name="label_18" >
+            <property name="toolTip" >
+             <string/>
+            </property>
+            <property name="text" >
+             <string>Nominal</string>
+            </property>
+           </widget>
+          </item>
           <item row="1" column="1" >
            <widget class="QDoubleSpinBox" name="NCURR" >
             <property name="toolTip" >
@@ -617,33 +543,265 @@ p, li { white-space: pre-wrap; }
             </property>
            </widget>
           </item>
-          <item row="1" column="0" >
-           <widget class="QLabel" name="label_18" >
-            <property name="toolTip" >
-             <string/>
-            </property>
+          <item row="3" column="0" >
+           <widget class="QLabel" name="label_58" >
             <property name="text" >
-             <string>Nominal</string>
+             <string>Regulation Gain</string>
             </property>
            </widget>
           </item>
+          <item row="3" column="1" >
+           <widget class="QComboBox" name="CURRGAIN" >
+            <item>
+             <property name="text" >
+              <string>Custom</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>Low</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>Medium</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>High</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="2" column="1" >
+        <widget class="QGroupBox" name="groupBox_8" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="title" >
+          <string>Limit switches</string>
+         </property>
+         <property name="flat" >
+          <bool>true</bool>
+         </property>
+         <layout class="QGridLayout" >
+          <property name="leftMargin" >
+           <number>9</number>
+          </property>
+          <property name="topMargin" >
+           <number>9</number>
+          </property>
+          <property name="rightMargin" >
+           <number>9</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>9</number>
+          </property>
+          <property name="horizontalSpacing" >
+           <number>6</number>
+          </property>
+          <property name="verticalSpacing" >
+           <number>6</number>
+          </property>
+          <item row="1" column="1" >
+           <widget class="QComboBox" name="LMPOL" >
+            <item>
+             <property name="text" >
+              <string>Normal</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>Inverted</string>
+             </property>
+            </item>
+           </widget>
+          </item>
           <item row="0" column="0" >
-           <widget class="QLabel" name="label_16" >
-            <property name="toolTip" >
-             <string/>
-            </property>
+           <widget class="QLabel" name="label_3" >
             <property name="text" >
-             <string>Idle (%)</string>
+             <string>Limit+ Polarity</string>
             </property>
            </widget>
           </item>
           <item row="0" column="1" >
-           <widget class="QDoubleSpinBox" name="ICURR" >
-            <property name="toolTip" >
-             <string>current to the motor when the motor is at rest</string>
+           <widget class="QComboBox" name="LPPOL" >
+            <item>
+             <property name="text" >
+              <string>Normal</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>Inverted</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="1" column="0" >
+           <widget class="QLabel" name="label_19" >
+            <property name="text" >
+             <string>Limit- Polarity</string>
             </property>
-            <property name="singleStep" >
-             <double>0.100000000000000</double>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item rowspan="2" row="3" column="1" >
+        <widget class="QGroupBox" name="groupBox_12" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="title" >
+          <string>Encoder</string>
+         </property>
+         <property name="flat" >
+          <bool>true</bool>
+         </property>
+         <layout class="QGridLayout" >
+          <property name="leftMargin" >
+           <number>9</number>
+          </property>
+          <property name="topMargin" >
+           <number>9</number>
+          </property>
+          <property name="rightMargin" >
+           <number>9</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>9</number>
+          </property>
+          <property name="horizontalSpacing" >
+           <number>6</number>
+          </property>
+          <property name="verticalSpacing" >
+           <number>6</number>
+          </property>
+          <item row="2" column="1" >
+           <widget class="QComboBox" name="CLOOP" >
+            <item>
+             <property name="text" >
+              <string>None</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>ShftEnc</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>TgtEnc</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="3" column="1" >
+           <widget class="QComboBox" name="POSSRC" >
+            <item>
+             <property name="text" >
+              <string>None</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>ShftEnc</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>TgtEnc</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="3" column="0" >
+           <widget class="QLabel" name="label_57" >
+            <property name="text" >
+             <string>Position Src</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" >
+           <widget class="QLabel" name="label_37" >
+            <property name="text" >
+             <string>Close loop</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" >
+           <widget class="QComboBox" name="SHFTENC" >
+            <item>
+             <property name="text" >
+              <string>None</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>InPos</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>EncIn</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>AbsEnc</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="1" column="1" >
+           <widget class="QComboBox" name="TGTENC" >
+            <item>
+             <property name="text" >
+              <string>None</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>InPos</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>EncIn</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>AbsEnc</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="0" column="0" >
+           <widget class="QLabel" name="label_35" >
+            <property name="text" >
+             <string>Shaft Encoder</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" >
+           <widget class="QLabel" name="label_36" >
+            <property name="text" >
+             <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+p, li { white-space: pre-wrap; }
+&lt;/style>&lt;/head>&lt;body style=" font-family:'Sans Serif'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;">
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Target Encoder&lt;/p>&lt;/body>&lt;/html></string>
             </property>
            </widget>
           </item>
@@ -653,9 +811,7 @@ p, li { white-space: pre-wrap; }
        <item row="4" column="0" >
         <widget class="QGroupBox" name="groupBox_7" >
          <property name="sizePolicy" >
-          <sizepolicy>
-           <hsizetype>0</hsizetype>
-           <vsizetype>0</vsizetype>
+          <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -670,10 +826,22 @@ p, li { white-space: pre-wrap; }
           <bool>false</bool>
          </property>
          <layout class="QGridLayout" >
-          <property name="margin" >
+          <property name="leftMargin" >
            <number>9</number>
           </property>
-          <property name="spacing" >
+          <property name="topMargin" >
+           <number>9</number>
+          </property>
+          <property name="rightMargin" >
+           <number>9</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>9</number>
+          </property>
+          <property name="horizontalSpacing" >
+           <number>6</number>
+          </property>
+          <property name="verticalSpacing" >
            <number>6</number>
           </property>
           <item row="2" column="2" >
@@ -751,74 +919,6 @@ p, li { white-space: pre-wrap; }
          </layout>
         </widget>
        </item>
-       <item row="3" column="1" >
-        <widget class="QGroupBox" name="groupBox_8" >
-         <property name="sizePolicy" >
-          <sizepolicy>
-           <hsizetype>0</hsizetype>
-           <vsizetype>0</vsizetype>
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="title" >
-          <string>Limit switches</string>
-         </property>
-         <property name="flat" >
-          <bool>true</bool>
-         </property>
-         <layout class="QGridLayout" >
-          <property name="margin" >
-           <number>9</number>
-          </property>
-          <property name="spacing" >
-           <number>6</number>
-          </property>
-          <item row="1" column="1" >
-           <widget class="QComboBox" name="LMPOL" >
-            <item>
-             <property name="text" >
-              <string>Normal</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>Inverted</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="label_3" >
-            <property name="text" >
-             <string>Limit+ Polarity</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1" >
-           <widget class="QComboBox" name="LPPOL" >
-            <item>
-             <property name="text" >
-              <string>Normal</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>Inverted</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="1" column="0" >
-           <widget class="QLabel" name="label_19" >
-            <property name="text" >
-             <string>Limit- Polarity</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="tab" >
@@ -826,12 +926,6 @@ p, li { white-space: pre-wrap; }
        <string>Signals</string>
       </attribute>
       <layout class="QGridLayout" >
-       <property name="margin" >
-        <number>9</number>
-       </property>
-       <property name="spacing" >
-        <number>6</number>
-       </property>
        <item row="0" column="0" >
         <widget class="QTabWidget" name="tabSignals" >
          <property name="currentIndex" >
@@ -846,465 +940,18 @@ p, li { white-space: pre-wrap; }
             <rect>
              <x>10</x>
              <y>10</y>
-             <width>413</width>
-             <height>411</height>
+             <width>432</width>
+             <height>533</height>
             </rect>
            </property>
            <property name="sizePolicy" >
-            <sizepolicy>
-             <hsizetype>7</hsizetype>
-             <vsizetype>7</vsizetype>
+            <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
            <layout class="QGridLayout" >
-            <property name="margin" >
-             <number>9</number>
-            </property>
-            <property name="spacing" >
-             <number>6</number>
-            </property>
-            <item row="0" column="1" >
-             <spacer>
-              <property name="orientation" >
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" >
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item row="1" column="0" colspan="2" >
-             <widget class="QGroupBox" name="groupBox_2" >
-              <property name="font" >
-               <font>
-                <pointsize>8</pointsize>
-                <weight>50</weight>
-                <bold>false</bold>
-               </font>
-              </property>
-              <property name="title" >
-               <string>Input Signals</string>
-              </property>
-              <layout class="QGridLayout" >
-               <property name="margin" >
-                <number>9</number>
-               </property>
-               <property name="spacing" >
-                <number>6</number>
-               </property>
-               <item row="0" column="3" >
-                <widget class="QLabel" name="label_47" >
-                 <property name="font" >
-                  <font>
-                   <weight>75</weight>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="text" >
-                  <string>Ref. nr.
-Turns</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="5" >
-                <widget class="QLabel" name="label_49" >
-                 <property name="font" >
-                  <font>
-                   <pointsize>8</pointsize>
-                   <weight>75</weight>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="text" >
-                  <string>Offset</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="4" >
-                <widget class="QLabel" name="label_48" >
-                 <property name="font" >
-                  <font>
-                   <weight>75</weight>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="text" >
-                  <string>Ref. nr.
-Steps</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="2" >
-                <widget class="QLabel" name="label_8" >
-                 <property name="font" >
-                  <font>
-                   <pointsize>8</pointsize>
-                   <weight>75</weight>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="text" >
-                  <string>Sense</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="1" >
-                <widget class="QLabel" name="label_6" >
-                 <property name="font" >
-                  <font>
-                   <weight>75</weight>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="text" >
-                  <string>Mode</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="0" >
-                <widget class="QLabel" name="label_45" >
-                 <property name="text" >
-                  <string>AbsEnc</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="1" >
-                <widget class="QComboBox" name="INPMODE" >
-                 <property name="minimumSize" >
-                  <size>
-                   <width>0</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <item>
-                  <property name="text" >
-                   <string>Quad</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text" >
-                   <string>Pulse+</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text" >
-                   <string>Pulse-</string>
-                  </property>
-                 </item>
-                </widget>
-               </item>
-               <item row="1" column="2" >
-                <widget class="QComboBox" name="INPSENSE" >
-                 <item>
-                  <property name="text" >
-                   <string>Normal</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text" >
-                   <string>Inverted</string>
-                  </property>
-                 </item>
-                </widget>
-               </item>
-               <item row="2" column="1" >
-                <widget class="QComboBox" name="EINMODE" >
-                 <property name="minimumSize" >
-                  <size>
-                   <width>0</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <item>
-                  <property name="text" >
-                   <string>Quad</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text" >
-                   <string>Pulse+</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text" >
-                   <string>Pulse-</string>
-                  </property>
-                 </item>
-                </widget>
-               </item>
-               <item row="2" column="2" >
-                <widget class="QComboBox" name="EINSENSE" >
-                 <item>
-                  <property name="text" >
-                   <string>Normal</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text" >
-                   <string>Inverted</string>
-                  </property>
-                 </item>
-                </widget>
-               </item>
-               <item row="3" column="2" >
-                <widget class="QComboBox" name="ABSSENSE" >
-                 <item>
-                  <property name="text" >
-                   <string>Normal</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text" >
-                   <string>Inverted</string>
-                  </property>
-                 </item>
-                </widget>
-               </item>
-               <item row="3" column="3" >
-                <widget class="QSpinBox" name="ABSNTURN" />
-               </item>
-               <item row="1" column="4" >
-                <widget class="QSpinBox" name="INPNSTEP" >
-                 <property name="maximum" >
-                  <number>999999</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="4" >
-                <widget class="QSpinBox" name="EINNSTEP" >
-                 <property name="maximum" >
-                  <number>9999999</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="3" >
-                <widget class="QSpinBox" name="EINNTURN" />
-               </item>
-               <item row="1" column="3" >
-                <widget class="QSpinBox" name="INPNTURN" />
-               </item>
-               <item row="3" column="4" >
-                <widget class="QSpinBox" name="ABSNSTEP" >
-                 <property name="maximum" >
-                  <number>9999999</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="5" >
-                <widget class="QSpinBox" name="ABSOFFSET" />
-               </item>
-               <item row="2" column="0" >
-                <widget class="QLabel" name="label_44" >
-                 <property name="text" >
-                  <string>EncIn</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0" >
-                <widget class="QLabel" name="label_7" >
-                 <property name="text" >
-                  <string>InPos</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item row="2" column="0" colspan="2" >
-             <widget class="QGroupBox" name="groupBox_3" >
-              <property name="font" >
-               <font>
-                <pointsize>8</pointsize>
-                <weight>50</weight>
-                <bold>false</bold>
-               </font>
-              </property>
-              <property name="title" >
-               <string>Output Signals</string>
-              </property>
-              <layout class="QGridLayout" >
-               <property name="margin" >
-                <number>9</number>
-               </property>
-               <property name="spacing" >
-                <number>6</number>
-               </property>
-               <item row="0" column="5" >
-                <widget class="QLabel" name="label_13" >
-                 <property name="font" >
-                  <font>
-                   <pointsize>8</pointsize>
-                   <weight>75</weight>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="text" >
-                  <string>Pulse width</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="1" >
-                <widget class="QLabel" name="label_12" >
-                 <property name="font" >
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>8</pointsize>
-                   <weight>75</weight>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="text" >
-                  <string>Source</string>
-                 </property>
-                 <property name="textFormat" >
-                  <enum>Qt::PlainText</enum>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0" >
-                <widget class="QLabel" name="label_50" >
-                 <property name="text" >
-                  <string>OutPos</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="1" >
-                <widget class="QComboBox" name="OUTPSRC" >
-                 <item>
-                  <property name="text" >
-                   <string>Axis</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text" >
-                   <string>Indexer</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text" >
-                   <string>EncIn</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text" >
-                   <string>InPos</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text" >
-                   <string>Sync</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text" >
-                   <string>TgtEnc</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text" >
-                   <string>ShfEnc</string>
-                  </property>
-                 </item>
-                </widget>
-               </item>
-               <item row="1" column="2" >
-                <widget class="QComboBox" name="OUTPMODE" >
-                 <property name="minimumSize" >
-                  <size>
-                   <width>0</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <item>
-                  <property name="text" >
-                   <string>Quad</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text" >
-                   <string>Pulse+</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text" >
-                   <string>Pulse-</string>
-                  </property>
-                 </item>
-                </widget>
-               </item>
-               <item row="1" column="3" colspan="2" >
-                <widget class="QComboBox" name="OUTPSENSE" >
-                 <item>
-                  <property name="text" >
-                   <string>Normal</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text" >
-                   <string>Inverted</string>
-                  </property>
-                 </item>
-                </widget>
-               </item>
-               <item row="1" column="5" >
-                <widget class="QComboBox" name="OUTPPULSE" >
-                 <item>
-                  <property name="text" >
-                   <string>20ns</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text" >
-                   <string>200ns</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text" >
-                   <string>2us</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text" >
-                   <string>20us</string>
-                  </property>
-                 </item>
-                </widget>
-               </item>
-               <item row="0" column="2" >
-                <widget class="QLabel" name="label_11" >
-                 <property name="font" >
-                  <font>
-                   <weight>75</weight>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="text" >
-                  <string>Mode</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="3" colspan="2" >
-                <widget class="QLabel" name="label_9" >
-                 <property name="font" >
-                  <font>
-                   <weight>75</weight>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="text" >
-                  <string>Sense</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item row="0" column="0" >
+            <item rowspan="2" row="0" column="0" >
              <widget class="QGroupBox" name="groupBox_10" >
               <property name="font" >
                <font>
@@ -1317,10 +964,22 @@ Steps</string>
                <string>Info Singals</string>
               </property>
               <layout class="QGridLayout" >
-               <property name="margin" >
+               <property name="leftMargin" >
                 <number>9</number>
                </property>
-               <property name="spacing" >
+               <property name="topMargin" >
+                <number>9</number>
+               </property>
+               <property name="rightMargin" >
+                <number>9</number>
+               </property>
+               <property name="bottomMargin" >
+                <number>9</number>
+               </property>
+               <property name="horizontalSpacing" >
+                <number>6</number>
+               </property>
+               <property name="verticalSpacing" >
                 <number>6</number>
                </property>
                <item row="3" column="1" >
@@ -1642,6 +1301,647 @@ Steps</string>
               </layout>
              </widget>
             </item>
+            <item row="0" column="1" >
+             <spacer>
+              <property name="orientation" >
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" >
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="2" column="0" colspan="2" >
+             <widget class="QGroupBox" name="groupBox_2" >
+              <property name="font" >
+               <font>
+                <pointsize>8</pointsize>
+                <weight>50</weight>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="title" >
+               <string>Input Signals</string>
+              </property>
+              <layout class="QGridLayout" >
+               <property name="leftMargin" >
+                <number>9</number>
+               </property>
+               <property name="topMargin" >
+                <number>9</number>
+               </property>
+               <property name="rightMargin" >
+                <number>9</number>
+               </property>
+               <property name="bottomMargin" >
+                <number>9</number>
+               </property>
+               <property name="horizontalSpacing" >
+                <number>6</number>
+               </property>
+               <property name="verticalSpacing" >
+                <number>6</number>
+               </property>
+               <item row="0" column="3" >
+                <widget class="QLabel" name="label_47" >
+                 <property name="font" >
+                  <font>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text" >
+                  <string>Ref. nr.
+Turns</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="5" >
+                <widget class="QLabel" name="label_49" >
+                 <property name="font" >
+                  <font>
+                   <pointsize>8</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text" >
+                  <string>Offset</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="4" >
+                <widget class="QLabel" name="label_48" >
+                 <property name="font" >
+                  <font>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text" >
+                  <string>Ref. nr.
+Steps</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2" >
+                <widget class="QLabel" name="label_8" >
+                 <property name="font" >
+                  <font>
+                   <pointsize>8</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text" >
+                  <string>Sense</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1" >
+                <widget class="QLabel" name="label_6" >
+                 <property name="font" >
+                  <font>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text" >
+                  <string>Mode</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0" >
+                <widget class="QLabel" name="label_45" >
+                 <property name="text" >
+                  <string>AbsEnc</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1" >
+                <widget class="QComboBox" name="INPMODE" >
+                 <property name="minimumSize" >
+                  <size>
+                   <width>0</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <item>
+                  <property name="text" >
+                   <string>Quad</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Pulse+</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Pulse-</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="1" column="2" >
+                <widget class="QComboBox" name="INPSENSE" >
+                 <item>
+                  <property name="text" >
+                   <string>Normal</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Inverted</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="2" column="1" >
+                <widget class="QComboBox" name="EINMODE" >
+                 <property name="minimumSize" >
+                  <size>
+                   <width>0</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <item>
+                  <property name="text" >
+                   <string>Quad</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Pulse+</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Pulse-</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="2" column="2" >
+                <widget class="QComboBox" name="EINSENSE" >
+                 <item>
+                  <property name="text" >
+                   <string>Normal</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Inverted</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="3" column="2" >
+                <widget class="QComboBox" name="ABSSENSE" >
+                 <item>
+                  <property name="text" >
+                   <string>Normal</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Inverted</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="3" column="3" >
+                <widget class="QSpinBox" name="ABSNTURN" />
+               </item>
+               <item row="1" column="4" >
+                <widget class="QSpinBox" name="INPNSTEP" >
+                 <property name="maximum" >
+                  <number>999999</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="4" >
+                <widget class="QSpinBox" name="EINNSTEP" >
+                 <property name="maximum" >
+                  <number>9999999</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="3" >
+                <widget class="QSpinBox" name="EINNTURN" />
+               </item>
+               <item row="1" column="3" >
+                <widget class="QSpinBox" name="INPNTURN" />
+               </item>
+               <item row="3" column="4" >
+                <widget class="QSpinBox" name="ABSNSTEP" >
+                 <property name="maximum" >
+                  <number>9999999</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="5" >
+                <widget class="QSpinBox" name="ABSOFFSET" />
+               </item>
+               <item row="2" column="0" >
+                <widget class="QLabel" name="label_44" >
+                 <property name="text" >
+                  <string>EncIn</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0" >
+                <widget class="QLabel" name="label_7" >
+                 <property name="text" >
+                  <string>InPos</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item row="3" column="0" colspan="2" >
+             <widget class="QGroupBox" name="groupBox_4" >
+              <property name="title" >
+               <string>SSI</string>
+              </property>
+              <layout class="QGridLayout" >
+               <item row="0" column="0" >
+                <widget class="QLabel" name="label_60" >
+                 <property name="text" >
+                  <string>SSI data bits</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1" >
+                <widget class="QSpinBox" name="SSIDBITS" />
+               </item>
+               <item row="0" column="2" >
+                <widget class="QLabel" name="label_62" >
+                 <property name="text" >
+                  <string>SSI clock</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="3" >
+                <widget class="QComboBox" name="SSICLOCK" >
+                 <item>
+                  <property name="text" >
+                   <string>125KHZ</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>250KHZ</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>500KHZ</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>1.25MHZ</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>2.5MHZ</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>5MHZ</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>12.5MHZ</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>25MHZ</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>OFF</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="1" column="0" >
+                <widget class="QLabel" name="label_61" >
+                 <property name="text" >
+                  <string>SSI coding</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1" >
+                <widget class="QComboBox" name="SSICODE" >
+                 <item>
+                  <property name="text" >
+                   <string>Binary</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Gray</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="1" column="2" >
+                <widget class="QLabel" name="label_63" >
+                 <property name="text" >
+                  <string>Sampling delay</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="3" >
+                <widget class="QComboBox" name="SSIDELAY" >
+                 <item>
+                  <property name="text" >
+                   <string>0</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>5us</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>10us</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>20us</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>30us</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>50us</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>100us</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>500us</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="2" column="0" colspan="2" >
+                <widget class="QLabel" name="label_64" >
+                 <property name="text" >
+                  <string>SSI control bit pattern</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="2" >
+                <widget class="QComboBox" name="SSISTATUS" >
+                 <item>
+                  <property name="text" >
+                   <string>S</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>.S</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>ES</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>OS</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item row="4" column="0" colspan="2" >
+             <widget class="QGroupBox" name="groupBox_3" >
+              <property name="font" >
+               <font>
+                <pointsize>8</pointsize>
+                <weight>50</weight>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="title" >
+               <string>Output Signals</string>
+              </property>
+              <layout class="QGridLayout" >
+               <property name="leftMargin" >
+                <number>9</number>
+               </property>
+               <property name="topMargin" >
+                <number>9</number>
+               </property>
+               <property name="rightMargin" >
+                <number>9</number>
+               </property>
+               <property name="bottomMargin" >
+                <number>9</number>
+               </property>
+               <property name="horizontalSpacing" >
+                <number>6</number>
+               </property>
+               <property name="verticalSpacing" >
+                <number>6</number>
+               </property>
+               <item row="0" column="5" >
+                <widget class="QLabel" name="label_13" >
+                 <property name="font" >
+                  <font>
+                   <pointsize>8</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text" >
+                  <string>Pulse width</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1" >
+                <widget class="QLabel" name="label_12" >
+                 <property name="font" >
+                  <font>
+                   <family>Sans Serif</family>
+                   <pointsize>8</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text" >
+                  <string>Source</string>
+                 </property>
+                 <property name="textFormat" >
+                  <enum>Qt::PlainText</enum>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0" >
+                <widget class="QLabel" name="label_50" >
+                 <property name="text" >
+                  <string>OutPos</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1" >
+                <widget class="QComboBox" name="OUTPSRC" >
+                 <item>
+                  <property name="text" >
+                   <string>Axis</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Indexer</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>EncIn</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>InPos</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Sync</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>TgtEnc</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>ShfEnc</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="1" column="2" >
+                <widget class="QComboBox" name="OUTPMODE" >
+                 <property name="minimumSize" >
+                  <size>
+                   <width>0</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <item>
+                  <property name="text" >
+                   <string>Quad</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Pulse+</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Pulse-</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="1" column="3" colspan="2" >
+                <widget class="QComboBox" name="OUTPSENSE" >
+                 <item>
+                  <property name="text" >
+                   <string>Normal</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>Inverted</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="1" column="5" >
+                <widget class="QComboBox" name="OUTPPULSE" >
+                 <item>
+                  <property name="text" >
+                   <string>20ns</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>200ns</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>2us</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text" >
+                   <string>20us</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="0" column="2" >
+                <widget class="QLabel" name="label_11" >
+                 <property name="font" >
+                  <font>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text" >
+                  <string>Mode</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="3" colspan="2" >
+                <widget class="QLabel" name="label_9" >
+                 <property name="font" >
+                  <font>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text" >
+                  <string>Sense</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
            </layout>
           </widget>
          </widget>
@@ -1659,10 +1959,22 @@ Steps</string>
             </rect>
            </property>
            <layout class="QGridLayout" >
-            <property name="margin" >
+            <property name="leftMargin" >
              <number>2</number>
             </property>
-            <property name="spacing" >
+            <property name="topMargin" >
+             <number>2</number>
+            </property>
+            <property name="rightMargin" >
+             <number>2</number>
+            </property>
+            <property name="bottomMargin" >
+             <number>2</number>
+            </property>
+            <property name="horizontalSpacing" >
+             <number>2</number>
+            </property>
+            <property name="verticalSpacing" >
              <number>2</number>
             </property>
             <item row="1" column="1" >
@@ -1723,10 +2035,22 @@ Steps</string>
        <string>Tune Testing</string>
       </attribute>
       <layout class="QGridLayout" >
-       <property name="margin" >
+       <property name="leftMargin" >
         <number>9</number>
        </property>
-       <property name="spacing" >
+       <property name="topMargin" >
+        <number>9</number>
+       </property>
+       <property name="rightMargin" >
+        <number>9</number>
+       </property>
+       <property name="bottomMargin" >
+        <number>9</number>
+       </property>
+       <property name="horizontalSpacing" >
+        <number>6</number>
+       </property>
+       <property name="verticalSpacing" >
         <number>6</number>
        </property>
        <item row="2" column="2" >
@@ -1755,10 +2079,22 @@ Steps</string>
           <string>Info Singals</string>
          </property>
          <layout class="QGridLayout" >
-          <property name="margin" >
+          <property name="leftMargin" >
            <number>9</number>
           </property>
-          <property name="spacing" >
+          <property name="topMargin" >
+           <number>9</number>
+          </property>
+          <property name="rightMargin" >
+           <number>9</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>9</number>
+          </property>
+          <property name="horizontalSpacing" >
+           <number>6</number>
+          </property>
+          <property name="verticalSpacing" >
            <number>6</number>
           </property>
           <item row="3" column="1" >
@@ -2082,26 +2418,45 @@ Steps</string>
        </item>
        <item rowspan="2" row="0" column="1" colspan="2" >
         <layout class="QVBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
          <property name="spacing" >
           <number>6</number>
          </property>
+         <property name="leftMargin" >
+          <number>0</number>
+         </property>
+         <property name="topMargin" >
+          <number>0</number>
+         </property>
+         <property name="rightMargin" >
+          <number>0</number>
+         </property>
+         <property name="bottomMargin" >
+          <number>0</number>
+         </property>
          <item>
           <layout class="QGridLayout" >
-           <property name="margin" >
+           <property name="leftMargin" >
             <number>2</number>
            </property>
-           <property name="spacing" >
+           <property name="topMargin" >
+            <number>2</number>
+           </property>
+           <property name="rightMargin" >
+            <number>2</number>
+           </property>
+           <property name="bottomMargin" >
+            <number>2</number>
+           </property>
+           <property name="horizontalSpacing" >
+            <number>6</number>
+           </property>
+           <property name="verticalSpacing" >
             <number>6</number>
            </property>
            <item row="1" column="1" >
             <widget class="QPushButton" name="btnSetPos" >
              <property name="sizePolicy" >
-              <sizepolicy>
-               <hsizetype>0</hsizetype>
-               <vsizetype>0</vsizetype>
+              <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -2386,18 +2741,28 @@ Steps</string>
          </item>
          <item>
           <layout class="QGridLayout" >
-           <property name="margin" >
+           <property name="leftMargin" >
             <number>2</number>
            </property>
-           <property name="spacing" >
+           <property name="topMargin" >
+            <number>2</number>
+           </property>
+           <property name="rightMargin" >
+            <number>2</number>
+           </property>
+           <property name="bottomMargin" >
+            <number>2</number>
+           </property>
+           <property name="horizontalSpacing" >
+            <number>6</number>
+           </property>
+           <property name="verticalSpacing" >
             <number>6</number>
            </property>
            <item row="1" column="1" >
             <widget class="QPushButton" name="btnSetEnc" >
              <property name="sizePolicy" >
-              <sizepolicy>
-               <hsizetype>0</hsizetype>
-               <vsizetype>0</vsizetype>
+              <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -2664,10 +3029,22 @@ Steps</string>
        </item>
        <item row="0" column="0" >
         <layout class="QGridLayout" >
-         <property name="margin" >
+         <property name="leftMargin" >
           <number>0</number>
          </property>
-         <property name="spacing" >
+         <property name="topMargin" >
+          <number>0</number>
+         </property>
+         <property name="rightMargin" >
+          <number>0</number>
+         </property>
+         <property name="bottomMargin" >
+          <number>0</number>
+         </property>
+         <property name="horizontalSpacing" >
+          <number>6</number>
+         </property>
+         <property name="verticalSpacing" >
           <number>6</number>
          </property>
          <item row="1" column="0" colspan="3" >
@@ -2834,10 +3211,22 @@ Steps</string>
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QGridLayout" >
-      <property name="margin" >
+      <property name="leftMargin" >
        <number>9</number>
       </property>
-      <property name="spacing" >
+      <property name="topMargin" >
+       <number>9</number>
+      </property>
+      <property name="rightMargin" >
+       <number>9</number>
+      </property>
+      <property name="bottomMargin" >
+       <number>9</number>
+      </property>
+      <property name="horizontalSpacing" >
+       <number>6</number>
+      </property>
+      <property name="verticalSpacing" >
        <number>6</number>
       </property>
       <item row="2" column="0" >
@@ -2936,11 +3325,20 @@ hhhknmlknlk</string>
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QVBoxLayout" >
-      <property name="margin" >
-       <number>0</number>
-      </property>
       <property name="spacing" >
        <number>2</number>
+      </property>
+      <property name="leftMargin" >
+       <number>0</number>
+      </property>
+      <property name="topMargin" >
+       <number>0</number>
+      </property>
+      <property name="rightMargin" >
+       <number>0</number>
+      </property>
+      <property name="bottomMargin" >
+       <number>0</number>
       </property>
       <item>
        <widget class="QLabel" name="label" >
@@ -2971,9 +3369,7 @@ hhhknmlknlk</string>
       <item>
        <widget class="QStackedWidget" name="stackedWidget" >
         <property name="sizePolicy" >
-         <sizepolicy>
-          <hsizetype>0</hsizetype>
-          <vsizetype>5</vsizetype>
+         <sizepolicy vsizetype="Preferred" hsizetype="Fixed" >
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -2995,9 +3391,7 @@ hhhknmlknlk</string>
         </property>
         <widget class="QWidget" name="pageTest" >
          <property name="sizePolicy" >
-          <sizepolicy>
-           <hsizetype>0</hsizetype>
-           <vsizetype>5</vsizetype>
+          <sizepolicy vsizetype="Preferred" hsizetype="Fixed" >
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -3015,18 +3409,28 @@ hhhknmlknlk</string>
           </size>
          </property>
          <layout class="QGridLayout" >
-          <property name="margin" >
+          <property name="leftMargin" >
            <number>0</number>
           </property>
-          <property name="spacing" >
+          <property name="topMargin" >
+           <number>0</number>
+          </property>
+          <property name="rightMargin" >
+           <number>0</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>0</number>
+          </property>
+          <property name="horizontalSpacing" >
+           <number>2</number>
+          </property>
+          <property name="verticalSpacing" >
            <number>2</number>
           </property>
           <item row="0" column="0" >
            <widget class="QFrame" name="frame_test" >
             <property name="sizePolicy" >
-             <sizepolicy>
-              <hsizetype>0</hsizetype>
-              <vsizetype>0</vsizetype>
+             <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -3050,10 +3454,22 @@ hhhknmlknlk</string>
              <enum>QFrame::Raised</enum>
             </property>
             <layout class="QGridLayout" >
-             <property name="margin" >
+             <property name="leftMargin" >
               <number>9</number>
              </property>
-             <property name="spacing" >
+             <property name="topMargin" >
+              <number>9</number>
+             </property>
+             <property name="rightMargin" >
+              <number>9</number>
+             </property>
+             <property name="bottomMargin" >
+              <number>9</number>
+             </property>
+             <property name="horizontalSpacing" >
+              <number>6</number>
+             </property>
+             <property name="verticalSpacing" >
               <number>6</number>
              </property>
              <item row="5" column="4" >
@@ -3087,10 +3503,19 @@ hhhknmlknlk</string>
                 <enum>QFrame::Raised</enum>
                </property>
                <layout class="QHBoxLayout" >
-                <property name="margin" >
+                <property name="spacing" >
                  <number>0</number>
                 </property>
-                <property name="spacing" >
+                <property name="leftMargin" >
+                 <number>0</number>
+                </property>
+                <property name="topMargin" >
+                 <number>0</number>
+                </property>
+                <property name="rightMargin" >
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin" >
                  <number>0</number>
                 </property>
                 <item>
@@ -3109,9 +3534,7 @@ hhhknmlknlk</string>
                 <item>
                  <widget class="QFrame" name="frame_leds" >
                   <property name="sizePolicy" >
-                   <sizepolicy>
-                    <hsizetype>0</hsizetype>
-                    <vsizetype>0</vsizetype>
+                   <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
@@ -3135,10 +3558,22 @@ hhhknmlknlk</string>
                    <enum>QFrame::Raised</enum>
                   </property>
                   <layout class="QGridLayout" >
-                   <property name="margin" >
+                   <property name="leftMargin" >
                     <number>2</number>
                    </property>
-                   <property name="spacing" >
+                   <property name="topMargin" >
+                    <number>2</number>
+                   </property>
+                   <property name="rightMargin" >
+                    <number>2</number>
+                   </property>
+                   <property name="bottomMargin" >
+                    <number>2</number>
+                   </property>
+                   <property name="horizontalSpacing" >
+                    <number>2</number>
+                   </property>
+                   <property name="verticalSpacing" >
                     <number>2</number>
                    </property>
                    <item row="1" column="1" >
@@ -3162,9 +3597,7 @@ p, li { white-space: pre-wrap; }
                    <item row="0" column="3" >
                     <widget class="Led" name="LedLimitPos" >
                      <property name="sizePolicy" >
-                      <sizepolicy>
-                       <hsizetype>0</hsizetype>
-                       <vsizetype>0</vsizetype>
+                      <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
                        <horstretch>0</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
@@ -3265,9 +3698,7 @@ p, li { white-space: pre-wrap; }
                    <item row="0" column="2" >
                     <widget class="Led" name="LedHome" >
                      <property name="sizePolicy" >
-                      <sizepolicy>
-                       <hsizetype>0</hsizetype>
-                       <vsizetype>0</vsizetype>
+                      <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
                        <horstretch>0</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
@@ -3383,9 +3814,7 @@ p, li { white-space: pre-wrap; }
                    <item row="0" column="1" >
                     <widget class="Led" name="LedStep" >
                      <property name="sizePolicy" >
-                      <sizepolicy>
-                       <hsizetype>0</hsizetype>
-                       <vsizetype>0</vsizetype>
+                      <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
                        <horstretch>0</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
@@ -3486,9 +3915,7 @@ p, li { white-space: pre-wrap; }
                    <item row="0" column="4" >
                     <widget class="Led" name="LedLimitNeg" >
                      <property name="sizePolicy" >
-                      <sizepolicy>
-                       <hsizetype>0</hsizetype>
-                       <vsizetype>0</vsizetype>
+                      <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
                        <horstretch>0</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
@@ -3574,9 +4001,7 @@ p, li { white-space: pre-wrap; }
                    <item row="0" column="0" >
                     <widget class="Led" name="LedError" >
                      <property name="sizePolicy" >
-                      <sizepolicy>
-                       <hsizetype>0</hsizetype>
-                       <vsizetype>0</vsizetype>
+                      <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
                        <horstretch>0</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
@@ -4058,10 +4483,19 @@ p, li { white-space: pre-wrap; }
                 <bool>true</bool>
                </property>
                <layout class="QHBoxLayout" >
-                <property name="margin" >
+                <property name="spacing" >
                  <number>2</number>
                 </property>
-                <property name="spacing" >
+                <property name="leftMargin" >
+                 <number>2</number>
+                </property>
+                <property name="topMargin" >
+                 <number>2</number>
+                </property>
+                <property name="rightMargin" >
+                 <number>2</number>
+                </property>
+                <property name="bottomMargin" >
                  <number>2</number>
                 </property>
                 <item>
@@ -4124,9 +4558,7 @@ p, li { white-space: pre-wrap; }
         </widget>
         <widget class="QWidget" name="pageHistoric" >
          <property name="sizePolicy" >
-          <sizepolicy>
-           <hsizetype>0</hsizetype>
-           <vsizetype>5</vsizetype>
+          <sizepolicy vsizetype="Preferred" hsizetype="Fixed" >
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -4144,18 +4576,25 @@ p, li { white-space: pre-wrap; }
           </size>
          </property>
          <layout class="QHBoxLayout" >
-          <property name="margin" >
-           <number>0</number>
-          </property>
           <property name="spacing" >
            <number>6</number>
+          </property>
+          <property name="leftMargin" >
+           <number>0</number>
+          </property>
+          <property name="topMargin" >
+           <number>0</number>
+          </property>
+          <property name="rightMargin" >
+           <number>0</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>0</number>
           </property>
           <item>
            <widget class="HistoricCfgWidget" native="1" name="historicWidget" >
             <property name="sizePolicy" >
-             <sizepolicy>
-              <hsizetype>0</hsizetype>
-              <vsizetype>5</vsizetype>
+             <sizepolicy vsizetype="Preferred" hsizetype="Fixed" >
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
