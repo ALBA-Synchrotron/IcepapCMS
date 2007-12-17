@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<icepapcms>
+        <section name="main">
+        		<par id="ACTIVE" name="ACTIVE" type="BOOL">
+                	 <description></description>
+                </par>
+                <par id="NAMELOCK" name="NAMELOCK" type="BOOL">
+                	 <description></description>
+                </par>
+                <par id="PROTLEVEL" name="PROTLEVEL" type="INTEGER" min="0" max="256">
+                	 <description></description>
+                </par>
+                <par id="POWERON" name="POWERON" type="BOOL">
+                	 <description></description>
+                </par>
+                <par id="MOTPHASES" name="MOTPHASES" type="INTEGER" min="0" max="3">
+                	 <description></description>
+                </par>
+                <par id="MOTSENSE" name="MOTSENSE" type="STRING">
+                	 <description></description>
+                </par>
+                <par id="MOTPOLES" name="MOTPOLES" type="INTEGER" min="0" max="256">
+                	 <description></description>
+                </par>
+                <par id="MREGMODE" name="MREGMODE" type="STRING">
+                	 <description></description>
+                </par>
+                <par id="NVOLT" name="NVOLT" type="DOUBLE" min="0" max="80">
+                     <description>Nominal Operation Voltage</description>
+                </par>
+                <par id="ICURR" name="ICURR" type="DOUBLE" min="0" max="100">
+                     <description>Idle Current %</description>
+                </par>
+                <par id="NCURR" name="NCURR" type="DOUBLE" min="0" max="8">
+                     <description>Drive Current</description>
+                </par>
+                <par id="BCURR" name="BCURR" type="DOUBLE" min="0" max="100">
+                     <description>Boost Current %</description>
+                </par>
+                <par id="MREGI" name="MREGI" type="DOUBLE" min="0" max="100">
+                	 <description>Integral Constant PI Current Regulator</description>
+                </par>
+                <par id="MREGP" name="MREGP" type="DOUBLE" min="0" max="1000">
+                     <description>Proportional Constant PID Current Regulator</description>
+                </par>
+                <par id="MREGD" name="MREGD" type="DOUBLE" min="0" max="1000">
+                     <description>Derivative Constant PID Current Regulator</description>
+                </par>                
+                <par id="ANTURN" name="ANTURN" type="INTEGER" min="0" max="9999999">
+                	 <description></description>
+                </par>
+                <par id="ANSTEP" name="ANSTEP" type="INTEGER" min="0" max="9999999">
+                	 <description></description>
+                </par>
+                <par id="DEFVEL" name="DEFVEL" type="DOUBLE" min="0" max="99999999">
+                     <description></description>
+                </par>
+                <par id="DEFIVEL" name="DEFIVEL" type="DOUBLE" min="0" max="99999999">
+                     <description></description>
+                </par>
+                <par id="DEFACCT" name="DEFACCT" type="DOUBLE" min="0" max="99999999">
+                     <description></description>
+                </par>
+                <par id="INDEXER" name="INDEXER" type="STRING">
+                	 <description></description>
+                </par>                
+                <par id="SHFTENC" name="SHFTENC" type="STRING">
+                	 <description></description>
+                </par>
+                <par id="TGTENC" name="TGTENC" type="STRING">
+                	 <description></description>
+                </par>
+                <par id="CLOOP" name="CLOOPENC" type="STRING">
+                	 <description></description>
+                </par>
+                <par id="LPPOL" name="LPPOL" type="STRING">
+                     <description>Limit + Polarity</description>
+                </par>
+                <par id="LMPOL" name="LMPOL" type="STRING">
+                     <description>Limit - Polarity</description>
+                </par>
+                <par id="EINNTURN" name="EINNTURN" type="INTEGER" min="0" max="9999999">
+                	 <description></description>
+                </par>
+                <par id="EINNSTEP" name="EINNSTEP" type="INTEGER" min="0" max="9999999">
+                	 <description></description>
+                </par>
+                <par id="INPNTURN" name="INPNTURN" type="INTEGER" min="0" max="9999999">
+                	 <description></description>
+                </par>
+                <par id="INPNSTEP" name="INPNSTEP" type="INTEGER" min="0" max="9999999">
+                	 <description></description>
+                </par>
+                <par id="ABSNTURN" name="ABSNTURN" type="INTEGER" min="0" max="9999999">
+                	 <description></description>
+                </par>
+                <par id="ABSNSTEP" name="ABSNSTEP" type="INTEGER" min="0" max="9999999">
+                	 <description></description>
+                </par>
+                <par id="EINMODE" name="EINMODE" type="STRING">
+                     <description></description>
+                </par>                              
+                <par id="EINSENSE" name="EINSENSE" type="STRING">
+                     <description></description>
+                </par>
+                <par id="INPMODE" name="INPMODE" type="STRING">
+                     <description></description>
+                </par>                              
+                <par id="INPSENSE" name="INPSENSE" type="STRING">
+                     <description></description>
+                </par>
+                <par id="ABSOFFSET" name="ABSOFFSET" type="INTEGER" min="0" max="9999999">
+                     <description></description>
+                </par>                              
+                <par id="ABSSENSE" name="ABSSENSE" type="STRING">
+                     <description></description>
+                </par>
+                <par id="OUTPSRC" name="OUTPSRC" type="STRING">
+                     <description></description>
+                </par>
+                <par id="OUTPMODE" name="OUTPMODE" type="STRING">
+                     <description></description>
+                </par>
+                <par id="OUTPPULSE" name="OUTPPULSE" type="STRING">
+                     <description></description>
+                </par>
+                <par id="OUTPSENSE" name="OUTPSENSE" type="STRING">
+                     <description></description>
+                </par>
+                <par id="INFOASRC" name="INFOASRC" type="STRING">
+                     <description></description>
+                </par>
+                <par id="INFOBSRC" name="INFOBSRC" type="STRING">
+                     <description></description>
+                </par>
+                <par id="INFOCSRC" name="INFOCSRC" type="STRING">
+                     <description></description>
+                </par>
+                <par id="INFOAPOL" name="INFOAPOL" type="STRING">
+                     <description></description>
+                </par>
+                <par id="INFOBPOL" name="INFOBPOL" type="STRING">
+                     <description></description>
+                </par>
+                <par id="INFOCPOL" name="INFOCPOL" type="STRING">
+                     <description></description>
+                </par>                
+        </section>
+        <section name="test">
+        		<par id="MICRO" name="MICRO" type="INTEGER" min="0" max="256">
+                	 <description></description>
+                </par>
+                <par id="TINDEXER" name="INDEXER" type="STRING">
+                     <description></description>
+                </par> 
+                <par id="AUXPS" name="AUXPS" type="STRING">
+                     <description></description>                     
+                </par>
+                <par id="txtDriverName" name="NAME" type="STRING">
+                     <description></description>
+                </par>  
+                <par id="TINFASRC" name="INFOA" type="ARRAY" pos="0">
+                     <description></description>
+                </par>
+                <par id="TINFAPOL" name="INFOA" type="ARRAY" pos="1">
+                     <description></description>
+                </par>                
+                <par id="TINFBSRC" name="INFOB" type="ARRAY" pos="0">
+                     <description></description>
+                </par>
+                <par id="TINFBPOL" name="INFOB" type="ARRAY" pos="1">
+                     <description></description>
+                </par>
+                <par id="TINFCSRC" name="INFOC" type="ARRAY" pos="0">
+                     <description></description>
+                </par>
+                <par id="TINFCPOL" name="INFOC" type="ARRAY" pos="1">
+                     <description></description>
+                </par>              
+        </section>
+        <inout>
+        	<cfg name="External Indexer">
+				<input name="InPos" mode="1" edge="0" direction="0"/>
+				<counter name="Target" src="1"/>
+			</cfg>
+			<cfg name="Internal Indexer">
+				<counter name="Target" src="3"/>
+			</cfg>
+			<cfg name="External Driver">
+				<output name="OutPos" src="3" mode="1" edge="0" direction="0" pulse_width="3"/>
+			</cfg>
+		</inout>
+</icepapcms>
+
+
