@@ -178,6 +178,11 @@
                      <description></description>
                 </par>              
         </section>
+        <section name="guifre">
+        		<par id="ADDRESS" name="ADDRESS" type="INTEGER" min="0" max="256">
+                	 <description>testing</description>
+                </par>
+        </section>
         <inout>
         	<cfg name="External Indexer">
 				<input name="InPos" mode="1" edge="0" direction="0"/>

@@ -309,13 +309,12 @@ class IcepapController(Singleton):
             if section.nodeType == Node.ELEMENT_NODE:
                     section_name =  section.attributes.get('name').value
             inTestSection = (section_name == "test")
-            if inTestSection:
-                return                
-            for pars in section.getElementsByTagName("par"):
-                if pars.nodeType == Node.ELEMENT_NODE:
-                    parname =  pars.attributes.get('name').value
-                    self.config_parameters.append(str(parname))
-    
+            if not inTestSection:
+                for pars in section.getElementsByTagName("par"):
+                    if pars.nodeType == Node.ELEMENT_NODE:
+                        parname =  pars.attributes.get('name').value
+                        self.config_parameters.append(str(parname))
+        
     def getSerialPorts(self):
         try:
             return IcePAP.serialScan()
