@@ -14,6 +14,8 @@ import time
 from historiccfgwidget import HistoricCfgWidget
 
 class PageiPapDriver(QtGui.QWidget):
+    """ Widget that manages all the information related to an icepap driver. Configuration, testing and historic configurations """
+    
     def __init__(self, mainwin):
         QtGui.QWidget.__init__(self, None)
         self._mainwin = mainwin
@@ -185,6 +187,9 @@ class PageiPapDriver(QtGui.QWidget):
           
 # ------------------------------  Configuration ----------------------------------------------------------    
     def _readConfigTemplate(self):
+        """ Reads the configuration template file to map the different widgets of the user interface,
+        with the configuration parameters"""
+        
         doc = minidom.parse(self.config_template)
         root  = doc.documentElement
         row = 0
