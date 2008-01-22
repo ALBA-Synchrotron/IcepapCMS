@@ -9,13 +9,13 @@ if os.name == 'nt': #sys.platform == 'win32':
     import py2exe
 	
 
-setup(name = "icepapms",
-      version = "0.5.4",
+setup(name = "icepapcms",
+      version = "0.5.5",
       description = "Icepap Configuration Management System and Test Tool",
-      author = "",
-      author_email = "",
+      author = "Guifre Cuni",
+      author_email = "gcuni@cells.es",
       url = "http://www.cells.es",
-      packages = ["storm", "storm.databases", "lib_icepapcms", "ui_icepapcms", "lib_icepapcms.pyIcePAP", "lib_icepapcms.pyIcePAP.serial","ui_icepapcms.icepapdriver_widget", "ui_icepapcms.Led"],
+      packages = ["storm", "storm.databases", "lib_icepapcms", "lib_icepapcms.icepapzodb", "ui_icepapcms", "ui_icepapcms.icepapdriver_widget", "ui_icepapcms.Led"],
       data_files = [('doc', glob.glob("doc/*.*")),
                     ('db', glob.glob("db/*.sql")),
                     ('templates', glob.glob("templates/*.*")),
