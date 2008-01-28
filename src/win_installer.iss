@@ -46,7 +46,10 @@ Source: "C:\Documents and Settings\Guifre\Desktop\workspace\IcepapCMS\src\dist\w
 Source: "C:\Documents and Settings\Guifre\Desktop\workspace\IcepapCMS\src\dist\win32event.pyd" ; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Documents and Settings\Guifre\Desktop\workspace\IcepapCMS\src\dist\win32file.pyd" ; DestDir: "{app}"; Flags: ignoreversion
 
-Source: "C:\Documents and Settings\Guifre\Desktop\workspace\IcepapCMS\src\dist\db\*"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs
+; EXTRA DLLs needed to run the application in a clean winXP installation.
+Source: "C:\Documents and Settings\Guifre\Desktop\workspace\IcepapCMS\src\dist\extra-DLLS\msvcp71.dll" ; DestDir: "{app}"; Flags: ignoreversion
+
+Source: "C:\Documents and Settings\Guifre\Desktop\workspace\IcepapCMS\src\dist\db\*"; DestDir: "{app}\db"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "C:\Documents and Settings\Guifre\Desktop\workspace\IcepapCMS\src\dist\doc\*"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "C:\Documents and Settings\Guifre\Desktop\workspace\IcepapCMS\src\dist\templates\*"; DestDir: "{app}\templates"; Flags: ignoreversion recursesubdirs createallsubdirs
 
