@@ -26,7 +26,23 @@ class Ui_PageiPapDriver(object):
         self.gridlayout.setSpacing(6)
         self.gridlayout.setObjectName("gridlayout")
 
+        # PAGEIPAPDRIVER SHOULD BE INSIDE A SCROLL WIDGET
         self.tabWidget = QtGui.QTabWidget(PageiPapDriver)
+        #self.ui.sahboxlayout2 = QtGui.QHBoxLayout(self.ui.tab_InOut)
+        #self.ui.sahboxlayout2.setMargin(9)
+        #self.ui.sahboxlayout2.setSpacing(6)
+        #self.ui.sahboxlayout2.setObjectName("sahboxlayout2")
+        #self.ui.sa2 = QtGui.QScrollArea(self.ui.tab_InOut) 
+        #self.ui.sa2.setAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignHCenter)
+        #self.ui.inOut_widget.setParent(None)
+        #self.ui.sa2.setWidget(self.ui.inOut_widget)
+        #self.ui.sa2.setHorizontalScrollBarPolicy(Qt.Qt.ScrollBarAsNeeded)
+        #self.ui.sa2.setVerticalScrollBarPolicy(Qt.Qt.ScrollBarAsNeeded)
+        #self.ui.sa2.setFrameStyle(QtGui.QFrame.NoFrame)
+        #self.ui.sahboxlayout2.addWidget(self.ui.sa2)
+
+
+
         self.tabWidget.setMinimumSize(QtCore.QSize(421,553))
 
         font = QtGui.QFont()
@@ -187,25 +203,26 @@ class Ui_PageiPapDriver(object):
         self.MREGMODE.setObjectName("MREGMODE")
         self.gridlayout4.addWidget(self.MREGMODE,3,1,1,1)
 
-        self.label_20 = QtGui.QLabel(self.groupBox_9)
-        self.label_20.setObjectName("label_20")
-        self.gridlayout4.addWidget(self.label_20,4,0,1,1)
-
-        self.IVOLT = QtGui.QDoubleSpinBox(self.groupBox_9)
-        self.IVOLT.setSingleStep(0.1)
-        self.IVOLT.setProperty("value",QtCore.QVariant(0.0))
-        self.IVOLT.setObjectName("IVOLT")
-        self.gridlayout4.addWidget(self.IVOLT,4,1,1,1)
-
         self.label_29 = QtGui.QLabel(self.groupBox_9)
         self.label_29.setObjectName("label_29")
-        self.gridlayout4.addWidget(self.label_29,5,0,1,1)
+        self.gridlayout4.addWidget(self.label_29,4,0,1,1)
 
         self.NVOLT = QtGui.QDoubleSpinBox(self.groupBox_9)
         self.NVOLT.setSingleStep(0.1)
         self.NVOLT.setProperty("value",QtCore.QVariant(0.0))
         self.NVOLT.setObjectName("NVOLT")
-        self.gridlayout4.addWidget(self.NVOLT,5,1,1,1)
+        self.gridlayout4.addWidget(self.NVOLT,4,1,1,1)
+
+        self.label_20 = QtGui.QLabel(self.groupBox_9)
+        self.label_20.setObjectName("label_20")
+        self.gridlayout4.addWidget(self.label_20,5,0,1,1)
+
+        self.IVOLT = QtGui.QDoubleSpinBox(self.groupBox_9)
+        self.IVOLT.setSingleStep(0.1)
+        self.IVOLT.setProperty("value",QtCore.QVariant(0.0))
+        self.IVOLT.setObjectName("IVOLT")
+        self.gridlayout4.addWidget(self.IVOLT,5,1,1,1)
+
         self.gridlayout1.addWidget(self.groupBox_9,1,0,1,1)
 
         self.groupBox_6 = QtGui.QGroupBox(self.tab_2)
@@ -248,13 +265,6 @@ class Ui_PageiPapDriver(object):
         self.BCURR.setObjectName("BCURR")
         self.gridlayout5.addWidget(self.BCURR,2,1,1,1)
 
-        self.label_58 = QtGui.QLabel(self.groupBox_6)
-        self.label_58.setObjectName("label_58")
-        self.gridlayout5.addWidget(self.label_58,3,0,1,1)
-
-        self.CURRGAIN = QtGui.QComboBox(self.groupBox_6)
-        self.CURRGAIN.setObjectName("CURRGAIN")
-        self.gridlayout5.addWidget(self.CURRGAIN,3,1,1,1)
         self.gridlayout1.addWidget(self.groupBox_6,2,0,2,1)
 
         self.groupBox_8 = QtGui.QGroupBox(self.tab_2)
@@ -353,36 +363,45 @@ class Ui_PageiPapDriver(object):
         self.gridlayout8.setSpacing(6)
         self.gridlayout8.setObjectName("gridlayout8")
 
-        self.MREGD = QtGui.QDoubleSpinBox(self.groupBox_7)
-        self.MREGD.setMaximum(9999999.0)
-        self.MREGD.setSingleStep(1.0)
-        self.MREGD.setObjectName("MREGD")
-        self.gridlayout8.addWidget(self.MREGD,2,2,1,1)
+        self.label_58 = QtGui.QLabel(self.groupBox_7)
+        self.label_58.setObjectName("label_58")
+        self.gridlayout8.addWidget(self.label_58,0,0,1,1)
 
-        self.label_25 = QtGui.QLabel(self.groupBox_7)
-        self.label_25.setObjectName("label_25")
-        self.gridlayout8.addWidget(self.label_25,2,0,1,1)
-
-        self.label_21 = QtGui.QLabel(self.groupBox_7)
-        self.label_21.setObjectName("label_21")
-        self.gridlayout8.addWidget(self.label_21,1,0,1,1)
+        self.CURRGAIN = QtGui.QComboBox(self.groupBox_7)
+        self.CURRGAIN.setObjectName("CURRGAIN")
+        self.gridlayout8.addWidget(self.CURRGAIN,0,1,1,1)
 
         self.label_23 = QtGui.QLabel(self.groupBox_7)
         self.label_23.setObjectName("label_23")
-        self.gridlayout8.addWidget(self.label_23,0,0,1,2)
+        self.gridlayout8.addWidget(self.label_23,1,0,1,2)
 
         self.MREGP = QtGui.QDoubleSpinBox(self.groupBox_7)
         self.MREGP.setMaximum(99999999.0)
         self.MREGP.setSingleStep(1.0)
         self.MREGP.setObjectName("MREGP")
-        self.gridlayout8.addWidget(self.MREGP,0,2,1,1)
+        self.gridlayout8.addWidget(self.MREGP,1,1,1,1)
+
+        self.label_21 = QtGui.QLabel(self.groupBox_7)
+        self.label_21.setObjectName("label_21")
+        self.gridlayout8.addWidget(self.label_21,2,0,1,1)
 
         self.MREGI = QtGui.QDoubleSpinBox(self.groupBox_7)
         self.MREGI.setDecimals(4)
         self.MREGI.setMaximum(999999999.0)
         self.MREGI.setSingleStep(0.1)
         self.MREGI.setObjectName("MREGI")
-        self.gridlayout8.addWidget(self.MREGI,1,2,1,1)
+        self.gridlayout8.addWidget(self.MREGI,2,1,1,1)
+
+        self.label_25 = QtGui.QLabel(self.groupBox_7)
+        self.label_25.setObjectName("label_25")
+        self.gridlayout8.addWidget(self.label_25,3,0,1,1)
+
+        self.MREGD = QtGui.QDoubleSpinBox(self.groupBox_7)
+        self.MREGD.setMaximum(9999999.0)
+        self.MREGD.setSingleStep(1.0)
+        self.MREGD.setObjectName("MREGD")
+        self.gridlayout8.addWidget(self.MREGD,3,1,1,1)
+
         self.gridlayout1.addWidget(self.groupBox_7,4,0,1,1)
         self.tabWidget.addTab(self.tab_2,"")
 
