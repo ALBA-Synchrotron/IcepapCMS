@@ -347,23 +347,82 @@ class IcepapController(Singleton):
             
             ipap = EthIcePAP(host , port)
             
-        if addr == "NONE":
-            addr = ""
-        if options == "NONE":
-            options = ""
+        #if addr == "NONE":
+        #    addr = ""
+        #if options == "NONE":
+        #    options = ""
+        addr = addr.replace("NONE","")
+        options = options.replace("NONE","")
         ipap.connect()
-        logger.addToLog("Configuring connection")
-        ipap.sendWriteCommand("*PROG %s %s" %(addr, options))
-        #logger.addToLog("*PROG %s %s" %(addr, options))
-        logger.addToLog("Transferring firmware")        
+        logger.addToLog("Configuring connection: "+addr+","+options)
+        cmd = "#MODE PROG"
+        logger.addToLog(cmd)
+        answer = ipap.sendWriteReadCommand(cmd)
+        logger.addToLog("-> "+str(answer))
+        if answer != "MODE OK":
+            logger.addToLog("Exiting: The IcePAP could not be set to MODE PROG: "+str(answer))
+            return
+
+        cmd = "*PROG %s %s" %(addr, options)
+        logger.addToLog(cmd)
+        ipap.sendWriteCommand(cmd)
+        
+        logger.addToLog("Transferring firmware")
         ipap.sendData(struct.pack('L',startmark))
         ipap.sendData(struct.pack('L',nwordata))
-        ipap.sendData(struct.pack('L',chksum))
+        maskedchksum = chksum & 0xffffffff
+        ipap.sendData(struct.pack('L',maskedchksum))
         
+        #ipap.sendData(data.tostring())
         for i in range(len(data)):
             ipap.sendData(struct.pack('H',data[i]))
-        #ipap.sendData(data.tostring())
         logger.addToLog("Wait for progammming ends")
+
+        # Waiting the data to be completely in the Triton
+        time.sleep(5)
+        if addr != "":
+            cmd = "?PROG"
+            retry = True
+            while retry:
+                try:
+                    logger.addToLog(cmd)
+                    answer = ipap.sendWriteReadCommand(cmd)
+                    logger.addToLog("-> "+str(answer))
+                    if answer.find("ACTIVE") > 0:
+                        time.sleep(1)
+                    elif answer.find("ERROR") > 0:
+                        logger.addToLog("Exiting: The programming has ended with an error.")
+                        return
+                    elif answer.find("DONE") > 0:
+                        retry = False
+                except IcePAPException,iex:
+                    if iex.code == IcePAPException.TIMEOUT:
+                        logger.addToLog("Lost connection with the COMM module.")
+                        logger.addToLog("WAIT UNTIL THE ICEPAP ENDS THE PROGRAMMING AND")
+                        logger.addToLog("USE THE CONSOLE TO INPUT: '#MODE OPER' command to the IcePAP.")
+                    else:
+                        logger.addToLog("The connection has been lost (NOT TIMEOUT!).")
+                    return
+        cmd = "#MODE OPER"
+        retry = True
+        while retry:
+            try:
+                logger.addToLog(cmd)
+                answer = ipap.sendWriteReadCommand(cmd)
+                logger.addToLog("-> "+str(answer))
+                if answer == "MODE OK":
+                    retry = False
+                else:
+                    logger.addToLog("Exiting: The IcePAP could not be set to MODE OPER: "+str(answer))
+                    return
+            except IcePAPException,iex:
+                if iex.code == IcePAPException.TIMEOUT:
+                    time.sleep(1)
+                    logger.addToLog("Waiting one second more, still programming")
+                else:
+                    retry = False
+            
+
     
     def testConnection(self, serial, dst):
         try:
