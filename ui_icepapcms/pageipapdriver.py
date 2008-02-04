@@ -133,22 +133,24 @@ class PageiPapDriver(QtGui.QWidget):
     def highlightWidget(self, widget):
         highlight = False
         if isinstance(widget, QtGui.QDoubleSpinBox) or isinstance(widget, QtGui.QSpinBox):
-                if widget.defaultvalue != widget.value():
-                    highlight = True
-                    widget.setStyleSheet("background-color: rgb(255, 255, 0)")
+            if widget.defaultvalue != widget.value():
+                highlight = True
+                widget.setStyleSheet("background-color: rgb(255, 255, 0)")
         elif isinstance(widget, QtGui.QCheckBox):
-                if widget.defaultvalue != widget.isChecked():
-                    highlight = True
-                    widget.setStyleSheet("background-color: rgb(255, 255, 0)")
+            if widget.defaultvalue != widget.isChecked():
+                highlight = True
+                widget.setStyleSheet("background-color: rgb(255, 255, 0)")
         elif isinstance(widget, QtGui.QComboBox):
             if widget.defaultvalue != str(widget.currentText()).upper():
                 highlight = True
-                #widget.setStyleSheet(" QComboBox::drop-down {background-color: yellow;}")
-                widget.setStyleSheet("background-color: yellow")
+                style = "QComboBox {background-color: rgb(255,255,0)};"
+                style = style +" QComboBox::drop-down {background-color: rgb(255,255,0); subcontrol-origin: padding; subcontrol-position: top right;};"
+                style = style + "QComboBox::down-arrow {background-color: rgb(255,255,0)}"
+                widget.setStyleSheet(style)
         elif isinstance(widget, QtGui.QLineEdit):
-                if widget.defaultvalue != str(widget.text()):
-                    highlight = True
-                    widget.setStyleSheet("background-color: rgb(255, 255, 0)")
+            if widget.defaultvalue != str(widget.text()):
+                highlight = True
+                widget.setStyleSheet("background-color: rgb(255, 255, 0)")
                              
         if highlight:
             if widget.isTest:
