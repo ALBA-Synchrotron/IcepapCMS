@@ -101,7 +101,9 @@ class IcepapController(Singleton):
               
         driver_cfg = IcepapDriverCfg(unicode(datetime.datetime.now()))
         driver_cfg.setSignature(self.iPaps[icepap_name].getConfigSignature(driver_addr))
-        ver = self.iPaps[icepap_name].getVersionDsp(driver_addr)
+        #ver = self.iPaps[icepap_name].getVersionDsp(driver_addr)
+        # THE VERSION NUMBER TO BE SHOWN IS THE DRIVER'S VERSION INSTEAD OF THE DSP'S ONE.
+        ver = self.iPaps[icepap_name].getVersion(driver_addr,"DRIVER")
         id = self.iPaps[icepap_name].getId(driver_addr)
         driver_cfg.setParameter("VER", ver)
         driver_cfg.setParameter("ID", id)
