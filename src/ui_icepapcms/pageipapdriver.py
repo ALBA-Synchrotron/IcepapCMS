@@ -131,6 +131,26 @@ class PageiPapDriver(QtGui.QWidget):
     
 
     def highlightWidget(self, widget):
+        ############################################
+        #DEBUG GCUNI
+        ############################################
+        #print "TYRING TO FIND THE VALUE IN THE DATABASE: "+str(type(widget))
+        #dbIcepapSystem = StormManager().getIcepapSystem(self.icepap_driver.icepapsystem_name)
+        #startupConfig = dbIcepapSystem.getDriver(self.icepap_driver.addr).startup_cfg
+        #
+        #param = ""
+        #if len(self.var_dict) > 0:
+        #    for name, dict_widget in self.var_dict.items():
+        #        if dict_widget == widget:
+        #            param = name
+        #            break
+        #if param == "" and len(self.test_var_dict) > 0:
+        #    for name, dict_widget in self.test_var_dict.items():
+        #        if dict_widget == widget:
+        #            param = name
+        #            break
+        #print param+" db("+str(startupConfig.getParameter(param))+") widget("+str(self._getWidgetValue(widget))+")"
+                
         highlight = False
         if isinstance(widget, QtGui.QDoubleSpinBox) or isinstance(widget, QtGui.QSpinBox):
             if widget.defaultvalue != widget.value():
