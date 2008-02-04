@@ -88,9 +88,4 @@ class DialogIcepapProgram(QtGui.QDialog):
     def addToLog(self, text):    
         t = datetime.datetime.now().strftime("%H:%M:%S")
         self.ui.txtLog.append(t+"> "+text)
-
-         
-            
-        
-        
-        
+        self.ui.txtLog.ensureCursorVisible()
