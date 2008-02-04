@@ -65,6 +65,11 @@ class IcepapDriver(Storm):
         self.mode = unicode(mode)
     
     def signDriver(self):
+        # AS ESRF SAYS, WHEN SIGNING THE DRIVER CONFIG, THE COMMIT SHOULD BE DONE
+        # IN THE DATABASE FIRST, AND IF NO ERRORS, THEN COMMUNICATE THE DRIVER
+        # THAT THE VALUES SHOULD BE SIGNED.
+        db = StormManager()
+        db.commitTransaction()
         signature = socket.gethostname() #+ "_" + str(time.time())
         IcepapController().signDriverConfiguration(self.icepapsystem_name, self.addr, signature)
         self.current_cfg.name = unicode(time.ctime())
