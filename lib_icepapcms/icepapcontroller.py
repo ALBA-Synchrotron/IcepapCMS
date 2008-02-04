@@ -104,19 +104,31 @@ class IcepapController(Singleton):
         #ver = self.iPaps[icepap_name].getVersionDsp(driver_addr)
         # THE VERSION NUMBER TO BE SHOWN IS THE DRIVER'S VERSION INSTEAD OF THE DSP'S ONE.
         ver = self.iPaps[icepap_name].getVersion(driver_addr,"DRIVER")
-        id = self.iPaps[icepap_name].getId(driver_addr)
+        ipap_id = self.iPaps[icepap_name].getId(driver_addr)
         driver_cfg.setParameter("VER", ver)
-        driver_cfg.setParameter("ID", id)
-        for name in self.config_parameters:
-            #print name
-            try:
-                value = self.iPaps[icepap_name].getCfgParameter(driver_addr, name)
-            except:
-                value = "ERROR"
-            #print value
-            #value = value.lstrip()
-            #value = value.lstrip(name)
-            driver_cfg.setParameter(name, value)
+        driver_cfg.setParameter("ID", ipap_id)
+        # INSTEAD OF READING PARAM BY PARAM, WE SHOULD ASK THE ICEPAP FOR ALL THE CONFIGURATION
+        # WITHT THE #N?:CFG COMMAND, USING SOME .getCfg() METHOD.
+        ###for name in self.config_parameters:
+        ###    #print name
+        ###    try:
+        ###        value = self.iPaps[icepap_name].getCfgParameter(driver_addr, name)
+        ###        #CHECK THAT THE VALUE COULD BE READ (ASCII PROBLEMS)
+        ###        #print "I COULD READ THE VALUE "+str(value)
+        ###    except:
+        ###        value = "ERROR"
+        ###    #print value
+        ###    #value = value.lstrip()
+        ###    #value = value.lstrip(name)
+        ###    driver_cfg.setParameter(name, value)
+        config = self.iPaps[icepap_name].getConfig(driver_addr)
+        config = config.replace('$\r\n',"")
+        config = config.replace('\r\n$',"")
+        params_list = config.split("\r\n")
+        for param_value in params_list:
+            split = param_value.split(" ")
+            driver_cfg.setParameter(split[0],split[1])
+
         return driver_cfg
     
     def setDriverConfiguration(self, icepap_name, driver_addr, new_values):
