@@ -1,7 +1,8 @@
 from PyQt4 import QtCore, QtGui, Qt
 from ui_ipapconsole import Ui_IpapConsole
 from messagedialogs import MessageDialogs
-from lib_icepapcms import EthIcePAP, IcePAPException, IcePAP, IcepapStatus, ConfigManager
+from lib_icepapcms import ConfigManager
+from pyIcePAP import EthIcePAP, IcePAPException, IcePAP, IcepapStatus
 import sys, os
 from qrc_icepapcms import *
 
@@ -53,10 +54,11 @@ class IcepapConsole(QtGui.QDialog):
             self.ipap.connect()
             self.ui.console.clear()
             self.writeConsole("Connected to Icepap :  " + addr)
-            rsp = self.ipap.sendWriteReadCommand("help")
-            self.writeConsole(rsp)
-            rsp = self.ipap.sendWriteReadCommand( "sockhelp")
-            self.writeConsole(rsp)
+            #try:
+            #    rsp = self.ipap.sendWriteReadCommand("?_help")
+            #    self.writeConsole(rsp)
+            #except:
+            #    MessageDialogs.showWarningMessage(None,"Command error", "The ?_help command is not supported at "+addr)
             self.ui.btnDisconnect.setDisabled(False)
             self.ui.btnConnect.setDisabled(True)
             self.ui.console.setDisabled(False)
