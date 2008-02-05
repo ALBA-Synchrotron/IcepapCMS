@@ -182,9 +182,11 @@ class PageiPapDriver(QtGui.QWidget):
             
         else:
             if widget.isTest:
-                self.test_var_modified.remove(widget)
+                if self.test_var_modified.count(widget) > 0:
+                    self.test_var_modified.remove(widget)
             else:
-                self.main_modified.remove(widget)
+                if self.main_modified.count(widget) > 0:
+                    self.main_modified.remove(widget)
             widget.setStyleSheet("")
         
 
