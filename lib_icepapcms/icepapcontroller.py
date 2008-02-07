@@ -453,7 +453,7 @@ class IcepapController(Singleton):
                 ipap = EthIcePAP(host , port)
             ipap.connect()
             #ver = ipap.getVersionDsp(0)
-            ver = ipap.getSystemVersion(0)
+            ver = ipap.getSystemVersion()
             ipap.disconnect()
             return True
         except:
