@@ -135,9 +135,9 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
         
     def setupModelData(self, IcepapsList, parent, no_expand):
         for icepap_name, icepap_system in IcepapsList.items():
-            self.addIcepapSysten(icepap_name, icepap_system, no_expand, parent)
+            self.addIcepapSystem(icepap_name, icepap_system, no_expand, parent)
             
-    def addIcepapSysten(self, icepap_name, icepap_system, no_expand, parent = None):
+    def addIcepapSystem(self, icepap_name, icepap_system, no_expand, parent = None, index = None):
         """ TO-DO STORM review"""
         if parent == None:
             parent = self.rootItem
@@ -147,7 +147,7 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
         if no_expand:
             role = IcepapTreeModel.SYSTEM_OFFLINE            
         
-        new_item_system = self.addItem([QtCore.QVariant(icepap_name), QtCore.QVariant(icepap_system.description)], role, location, icepap_system, parent)
+        new_item_system = self.addItem([QtCore.QVariant(icepap_name), QtCore.QVariant(icepap_system.description)], role, location, icepap_system, parent, index)
         
         if icepap_system.conflict == Conflict.NO_CONNECTION or no_expand:
             return        
@@ -158,20 +158,26 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
                 location = "%s/%s" % (icepap_name, crate)
                 new_item_crate = self.addItem([QtCore.QVariant(driver.cratenr)], IcepapTreeModel.CRATE, location,None, new_item_system)
             location = "%s/%s/%s" % (icepap_name, crate, addr)
-            self.addItem([QtCore.QVariant(str(addr)+" "+driver.name)], IcepapTreeModel.DRIVER, location, driver, new_item_crate)    
+            self.addItem([QtCore.QVariant(str(addr)+" "+driver.name)], IcepapTreeModel.DRIVER, location, driver, new_item_crate)
             
     def deleteIcepapSystem(self, icepap_name):
         item = self.itemByLocation(icepap_name)
         self.deleteItem(item)
+        return item
     
     def updateIcepapSystem(self, icepap_system, no_expand = False):
-        self.deleteIcepapSystem(icepap_system.name)
-        self.addIcepapSysten(icepap_system.name, icepap_system, no_expand)
+        index = self.indexByLocation(icepap_system.name)
+        item = self.deleteIcepapSystem(icepap_system.name)
+        self.addIcepapSystem(icepap_system.name, icepap_system, no_expand,item.parent(),index)
         
-    def addItem(self, labels, role, location, data, parent):
+    def addItem(self, labels, role, location, data, parent, tree_index = None):
         new_item = TreeItem(labels, role, location, data, parent)
         #self.item_dict[id(new_item)] = new_item
-        parent.appendChild(new_item)
+        
+        #parent.appendChild(new_item)
+        parent.appendChild(new_item,tree_index)
+            
+
         self.item_location[location] = new_item
         index = self.indexByLocation(location)
         self.beginInsertRows(self.parent(index), index.row(), index.row())
@@ -245,8 +251,11 @@ class TreeItem:
                 self.role = IcepapTreeModel.DRIVER_CFG
         
         
-    def appendChild(self, child):
-        self.childItems.append(child)
+    def appendChild(self, child, index = None):
+        if index == None:
+            self.childItems.append(child)
+        else:
+            self.childItems.insert(index.row(),child)
         
     def removeChild(self, row):
         del self.childItems[row]

@@ -127,7 +127,7 @@ class IcepapCMS(QtGui.QMainWindow):
                     self.ui.btnTreeAdd.setEnabled(True)
                     self.ui.btnTreeRemove.setEnabled(True)
                 self.ui.cbLocation.setCurrentIndex(self.ui.cbLocation.findText(location, QtCore.Qt.MatchFixedString))
-                self.locationChanged (location) 
+                self.locationChanged(location)
             else:
                 MessageDialogs.showErrorMessage(self, "Add location", "Error adding location")
     
@@ -176,12 +176,12 @@ class IcepapCMS(QtGui.QMainWindow):
             """self.menu.addAction("Delete driver not present", self.contextDeleteDriverError)""",
             """self.menu.addAction("Driver moved. Import configurations", self.contextSolveDriverMoved)""",
             """self.menu.addSeparator()""",
-            """self.menu.addAction("Start Icepap systen configuration", self.contextIcepapStart)""",
-            """self.menu.addAction("Rescan Icepap systen", self.contextIcepapStart)""",
-            """self.menu.addAction("Finish Icepap systen configuration", self.contextIcepapStop)""",
+            """self.menu.addAction("Start Icepap system configuration", self.contextIcepapStart)""",
+            """self.menu.addAction("Rescan Icepap system", self.contextIcepapStart)""",
+            """self.menu.addAction("Finish Icepap system configuration", self.contextIcepapStop)""",
             """self.menu.addSeparator()""",
-            """self.menu.addAction("Edit Icepap systen information", self.contextEditIcepap)""",
-            """self.menu.addAction("Delete Icepap systen configuration", self.btnTreeRemove_on_click)"""  
+            """self.menu.addAction("Edit Icepap system information", self.contextEditIcepap)""",
+            """self.menu.addAction("Delete Icepap system configuration", self.btnTreeRemove_on_click)"""  
             ]
             self.menu= Qt.QMenu(self)
             font = QtGui.QFont()
@@ -254,8 +254,7 @@ class IcepapCMS(QtGui.QMainWindow):
             if icepap_system is None:
                 MessageDialogs.showErrorMessage(self, "Add Icepap", "Error adding Icepap")
             else:
-                                
-                self._tree_model.addIcepapSysten(icepap_system.name, icepap_system, False)
+                self._tree_model.addIcepapSystem(icepap_system.name, icepap_system, False)
                 self.expandAll(icepap_system.name)
     
     def editIcepap(self, item):
@@ -317,6 +316,7 @@ class IcepapCMS(QtGui.QMainWindow):
         self.ui.stackedWidget.setCurrentIndex(0)
         self._manager.stopIcepap(icepap_system)
         self._tree_model.updateIcepapSystem(icepap_system, True)
+        self.treeSelectByLocation(icepap_system.name)
                        
     def scanIcepap(self, icepap_system):
         """This function scans and Icepap. This means comparing 
@@ -347,6 +347,7 @@ class IcepapCMS(QtGui.QMainWindow):
             self.setStatusMessage("Scanning complete!. No conflicts found")
         self._tree_model.updateIcepapSystem(icepap_system)
         self.expandAll(icepap_system.name)
+        self.treeSelectByLocation(icepap_system.name)
         if solved_drivers != "":
             MessageDialogs.showInformationMessage(self, "Solved conflicts", "Drivers configuration load from DB:\n"+ solved_drivers)
             
@@ -549,6 +550,10 @@ class IcepapCMS(QtGui.QMainWindow):
                     
             
     def closeEvent(self, event):
+        for child in self.children():
+            if isinstance(child,QtGui.QDialog):
+                child.done(0)
+      
         self.refreshTimer.stop()
         self.ui.stackedWidget.setCurrentIndex(0)
         signList = self._manager.getDriversToSign()

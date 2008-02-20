@@ -529,5 +529,5 @@ class Ui_DialogPreferences(object):
         item1 = QtGui.QListWidgetItem(self.listWidget)
         item1.setText(QtGui.QApplication.translate("DialogPreferences", "IcePAP", None, QtGui.QApplication.UnicodeUTF8))
         item1.setIcon(QtGui.QIcon(":/small_icons/IcepapCfg Icons/Icepapicon.png"))
-        self.closeButton.setText(QtGui.QApplication.translate("DialogPreferences", "Close", None, QtGui.QApplication.UnicodeUTF8))
+        self.closeButton.setText(QtGui.QApplication.translate("DialogPreferences", "OK", None, QtGui.QApplication.UnicodeUTF8))
 

@@ -148,7 +148,7 @@ class Ui_DialogIcepapProgram(object):
         self.btnProgram.setText(QtGui.QApplication.translate("DialogIcepapProgram", "Upgrade firmware", None, QtGui.QApplication.UnicodeUTF8))
         self.rbSerial.setText(QtGui.QApplication.translate("DialogIcepapProgram", "Serial Line", None, QtGui.QApplication.UnicodeUTF8))
         self.label.setText(QtGui.QApplication.translate("DialogIcepapProgram", "Firmware file", None, QtGui.QApplication.UnicodeUTF8))
-        self.btnClose.setText(QtGui.QApplication.translate("DialogIcepapProgram", "Close", None, QtGui.QApplication.UnicodeUTF8))
+        self.btnClose.setText(QtGui.QApplication.translate("DialogIcepapProgram", "OK", None, QtGui.QApplication.UnicodeUTF8))
         self.label_2.setText(QtGui.QApplication.translate("DialogIcepapProgram", "Program", None, QtGui.QApplication.UnicodeUTF8))
         self.btnBrowser.setText(QtGui.QApplication.translate("DialogIcepapProgram", "...", None, QtGui.QApplication.UnicodeUTF8))
         self.btnTest.setText(QtGui.QApplication.translate("DialogIcepapProgram", "Test connection", None, QtGui.QApplication.UnicodeUTF8))
