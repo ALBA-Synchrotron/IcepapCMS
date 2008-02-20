@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'icepapcms.ui'
 #
-# Created: Tue Oct  9 03:36:51 2007
-#      by: PyQt4 UI code generator 4.2
+# Created: Wed Feb 20 15:23:24 2008
+#      by: PyQt4 UI code generator 4.3
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -438,4 +438,4 @@ class Ui_IcepapCMS(object):
         self.actionDeleteLocation.setIconText(QtGui.QApplication.translate("IcepapCMS", "Delete location", None, QtGui.QApplication.UnicodeUTF8))
         self.actionDeleteLocation.setToolTip(QtGui.QApplication.translate("IcepapCMS", "Delete location", None, QtGui.QApplication.UnicodeUTF8))
 
-
+import icepapcms_rc

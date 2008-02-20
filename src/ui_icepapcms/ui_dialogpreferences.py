@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'dialogpreferences.ui'
 #
-# Created: Mon Dec 17 12:16:15 2007
+# Created: Wed Feb 20 15:23:23 2008
 #      by: PyQt4 UI code generator 4.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -531,3 +531,4 @@ class Ui_DialogPreferences(object):
         item1.setIcon(QtGui.QIcon(":/small_icons/IcepapCfg Icons/Icepapicon.png"))
         self.closeButton.setText(QtGui.QApplication.translate("DialogPreferences", "OK", None, QtGui.QApplication.UnicodeUTF8))
 
+import icepapcms_rc

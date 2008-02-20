@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'dialogipapprogram.ui'
 #
-# Created: Wed Nov 21 16:55:46 2007
+# Created: Wed Feb 20 15:23:23 2008
 #      by: PyQt4 UI code generator 4.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PyQt4 import QtCore, QtGui
 class Ui_DialogIcepapProgram(object):
     def setupUi(self, DialogIcepapProgram):
         DialogIcepapProgram.setObjectName("DialogIcepapProgram")
-        DialogIcepapProgram.resize(QtCore.QSize(QtCore.QRect(0,0,475,239).size()).expandedTo(DialogIcepapProgram.minimumSizeHint()))
+        DialogIcepapProgram.resize(QtCore.QSize(QtCore.QRect(0,0,480,251).size()).expandedTo(DialogIcepapProgram.minimumSizeHint()))
 
         palette = QtGui.QPalette()
 
@@ -159,4 +159,4 @@ class Ui_DialogIcepapProgram(object):
         self.cbOptions.addItem(QtGui.QApplication.translate("DialogIcepapProgram", "NONE", None, QtGui.QApplication.UnicodeUTF8))
         self.chkForce.setText(QtGui.QApplication.translate("DialogIcepapProgram", "Force", None, QtGui.QApplication.UnicodeUTF8))
 
-
+import icepapcms_rc

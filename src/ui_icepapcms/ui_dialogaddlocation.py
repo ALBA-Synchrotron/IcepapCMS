@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'dialogaddlocation.ui'
 #
-# Created: Mon Oct  8 17:41:02 2007
-#      by: PyQt4 UI code generator 4.2
+# Created: Wed Feb 20 15:23:22 2008
+#      by: PyQt4 UI code generator 4.3
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -276,4 +276,4 @@ class Ui_DialogAddLocation(object):
         self.cancelButton.setText(QtGui.QApplication.translate("DialogAddLocation", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
         self.label_2.setText(QtGui.QApplication.translate("DialogAddLocation", "Name", None, QtGui.QApplication.UnicodeUTF8))
 
-
+import icepapcms_rc

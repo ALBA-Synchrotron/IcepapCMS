@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'dialogaddicepap.ui'
 #
-# Created: Mon Oct  8 18:22:27 2007
-#      by: PyQt4 UI code generator 4.2
+# Created: Wed Feb 20 15:23:22 2008
+#      by: PyQt4 UI code generator 4.3
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -738,4 +738,4 @@ class Ui_DialogAddIcepap(object):
         self.cancelButton.setText(QtGui.QApplication.translate("DialogAddIcepap", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
         self.label_1.setText(QtGui.QApplication.translate("DialogAddIcepap", "Port", None, QtGui.QApplication.UnicodeUTF8))
 
-
+import icepapcms_rc
