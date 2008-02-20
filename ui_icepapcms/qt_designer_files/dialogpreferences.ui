@@ -1098,7 +1098,7 @@ p, li { white-space: pre-wrap; }
      <item>
       <widget class="QPushButton" name="closeButton" >
        <property name="text" >
-        <string>Close</string>
+        <string>OK</string>
        </property>
        <property name="icon" >
         <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/close.png</iconset>
