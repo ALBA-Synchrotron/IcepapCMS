@@ -92,6 +92,7 @@ class StormManager(Singleton):
     def addIcepapSystem(self, icepap_system):
         try:
             self._store.add(icepap_system)
+            self.commitTransaction()
             return True
         except:
             return False
