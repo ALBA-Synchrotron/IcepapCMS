@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'dialogipapprogram.ui'
 #
-# Created: Mon Dec 17 12:16:15 2007
+# Created: Wed Feb 20 15:23:23 2008
 #      by: PyQt4 UI code generator 4.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PyQt4 import QtCore, QtGui
 class Ui_DialogIcepapProgram(object):
     def setupUi(self, DialogIcepapProgram):
         DialogIcepapProgram.setObjectName("DialogIcepapProgram")
-        DialogIcepapProgram.resize(QtCore.QSize(QtCore.QRect(0,0,475,239).size()).expandedTo(DialogIcepapProgram.minimumSizeHint()))
+        DialogIcepapProgram.resize(QtCore.QSize(QtCore.QRect(0,0,480,251).size()).expandedTo(DialogIcepapProgram.minimumSizeHint()))
 
         palette = QtGui.QPalette()
 
@@ -148,7 +148,7 @@ class Ui_DialogIcepapProgram(object):
         self.btnProgram.setText(QtGui.QApplication.translate("DialogIcepapProgram", "Upgrade firmware", None, QtGui.QApplication.UnicodeUTF8))
         self.rbSerial.setText(QtGui.QApplication.translate("DialogIcepapProgram", "Serial Line", None, QtGui.QApplication.UnicodeUTF8))
         self.label.setText(QtGui.QApplication.translate("DialogIcepapProgram", "Firmware file", None, QtGui.QApplication.UnicodeUTF8))
-        self.btnClose.setText(QtGui.QApplication.translate("DialogIcepapProgram", "Close", None, QtGui.QApplication.UnicodeUTF8))
+        self.btnClose.setText(QtGui.QApplication.translate("DialogIcepapProgram", "OK", None, QtGui.QApplication.UnicodeUTF8))
         self.label_2.setText(QtGui.QApplication.translate("DialogIcepapProgram", "Program", None, QtGui.QApplication.UnicodeUTF8))
         self.btnBrowser.setText(QtGui.QApplication.translate("DialogIcepapProgram", "...", None, QtGui.QApplication.UnicodeUTF8))
         self.btnTest.setText(QtGui.QApplication.translate("DialogIcepapProgram", "Test connection", None, QtGui.QApplication.UnicodeUTF8))

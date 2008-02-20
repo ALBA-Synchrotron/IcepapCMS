@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>475</width>
-    <height>239</height>
+    <width>480</width>
+    <height>251</height>
    </rect>
   </property>
   <property name="palette" >
@@ -133,7 +133,7 @@
    <item row="6" column="5" colspan="3" >
     <widget class="QPushButton" name="btnClose" >
      <property name="text" >
-      <string>Close</string>
+      <string>OK</string>
      </property>
      <property name="icon" >
       <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/close.png</iconset>
