@@ -56,6 +56,7 @@ class IcepapController(Singleton):
                 pass
         self.iPaps = {}
         
+        
     def scanIcepapSystem(self, icepap_name, compare = False):
         """ 
             Get the status of the icepap system, the drivers present, and its

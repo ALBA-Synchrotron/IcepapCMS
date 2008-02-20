@@ -70,13 +70,14 @@ class IcepapDriver(Storm):
         # THAT THE VALUES SHOULD BE SIGNED.
         db = StormManager()
         db.commitTransaction()
-        signature = socket.gethostname() #+ "_" + str(time.time())
+        #signature = socket.gethostname() #+ "_" + str(time.time())
+        signature = socket.gethostname()+"_"+str(hex(int(time.time())))
         IcepapController().signDriverConfiguration(self.icepapsystem_name, self.addr, signature)
         self.current_cfg.name = unicode(time.ctime())
         self.current_cfg.setSignature(signature)        
         self.startup_cfg = self.current_cfg
         self.conflict = Conflict.NO_CONFLICT
-        self.mode = unicode(IcepapMode.OPER)        
+        self.mode = unicode(IcepapMode.OPER)
     
     def setStartupCfg(self):
         self.current_cfg = self.startup_cfg
