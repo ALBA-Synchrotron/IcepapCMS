@@ -147,9 +147,11 @@
                 </par>                
         </section>
         <section name="test">
+        <!--
         		<par id="MICRO" name="MICRO" type="INTEGER" min="0" max="256">
                 	 <description></description>
                 </par>
+        -->
                 <par id="TINDEXER" name="INDEXER" type="STRING">
                      <description></description>
                 </par> 
