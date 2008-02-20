@@ -1,7 +1,7 @@
 #!/bin/sh
 #rm *.py
 #rm *~
-pyrcc4 icepapcms.qrc -o ../qrc_icepapcms.py
+pyrcc4 icepapcms.qrc -o ../icepapcms_rc.py
 /usr/bin/pyuic4  ipaptestpage.ui -o ../ui_ipaptestpage.py
 /usr/bin/pyuic4  dialogaddicepap.ui -o ../ui_dialogaddicepap.py
 /usr/bin/pyuic4  dialogaddlocation.ui -o ../ui_dialogaddlocation.py
