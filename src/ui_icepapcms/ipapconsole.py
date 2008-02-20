@@ -10,6 +10,7 @@ from qrc_icepapcms import *
 class IcepapConsole(QtGui.QDialog):
     def __init__(self, parent=None):
         QtGui.QDialog.__init__(self, parent, QtCore.Qt.Window)
+        
         self.ui = Ui_IpapConsole()
         
         self.ui.setupUi(self)        
@@ -18,6 +19,7 @@ class IcepapConsole(QtGui.QDialog):
         QtCore.QObject.connect(self.ui.btnConnect,QtCore.SIGNAL("clicked()"),self.btnConnect_on_click)
         QtCore.QObject.connect(self.ui.btnDisconnect,QtCore.SIGNAL("clicked()"),self.btnDisconnect_on_click)
         QtCore.QObject.connect(self.ui.console,QtCore.SIGNAL("commandReceived(const QString &)"),self.sendWriteReadCommand)
+
         self.prompt = "icepap:>"
         font = QtGui.QFont()
         font.setPointSize(8)
@@ -104,7 +106,4 @@ class IcepapConsole(QtGui.QDialog):
     
     def closeEvent(self, event):
         self.btnDisconnect_on_click()
-        event.accept()
-        
-        
-        
+        event.accept()       

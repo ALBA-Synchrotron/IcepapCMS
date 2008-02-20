@@ -961,7 +961,7 @@ p, li { white-space: pre-wrap; }
                </font>
               </property>
               <property name="title" >
-               <string>Info Singals</string>
+               <string>Info Signals</string>
               </property>
               <layout class="QGridLayout" >
                <property name="leftMargin" >
@@ -2076,7 +2076,7 @@ Steps</string>
           </font>
          </property>
          <property name="title" >
-          <string>Info Singals</string>
+          <string>Info Signals</string>
          </property>
          <layout class="QGridLayout" >
           <property name="leftMargin" >
