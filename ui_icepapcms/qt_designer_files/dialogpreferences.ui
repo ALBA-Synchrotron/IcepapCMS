@@ -485,22 +485,10 @@
    <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/preferences-system.png</iconset>
   </property>
   <layout class="QGridLayout" >
-   <property name="leftMargin" >
+   <property name="margin" >
     <number>9</number>
    </property>
-   <property name="topMargin" >
-    <number>9</number>
-   </property>
-   <property name="rightMargin" >
-    <number>9</number>
-   </property>
-   <property name="bottomMargin" >
-    <number>9</number>
-   </property>
-   <property name="horizontalSpacing" >
-    <number>6</number>
-   </property>
-   <property name="verticalSpacing" >
+   <property name="spacing" >
     <number>6</number>
    </property>
    <item row="1" column="0" >
@@ -510,22 +498,10 @@
      </property>
      <widget class="QWidget" name="pageStorage" >
       <layout class="QGridLayout" >
-       <property name="leftMargin" >
+       <property name="margin" >
         <number>9</number>
        </property>
-       <property name="topMargin" >
-        <number>9</number>
-       </property>
-       <property name="rightMargin" >
-        <number>9</number>
-       </property>
-       <property name="bottomMargin" >
-        <number>9</number>
-       </property>
-       <property name="horizontalSpacing" >
-        <number>6</number>
-       </property>
-       <property name="verticalSpacing" >
+       <property name="spacing" >
         <number>6</number>
        </property>
        <item row="4" column="0" >
@@ -626,20 +602,11 @@ p, li { white-space: pre-wrap; }
           <string>Local storage</string>
          </property>
          <layout class="QHBoxLayout" >
+          <property name="margin" >
+           <number>9</number>
+          </property>
           <property name="spacing" >
            <number>6</number>
-          </property>
-          <property name="leftMargin" >
-           <number>9</number>
-          </property>
-          <property name="topMargin" >
-           <number>9</number>
-          </property>
-          <property name="rightMargin" >
-           <number>9</number>
-          </property>
-          <property name="bottomMargin" >
-           <number>9</number>
           </property>
           <item>
            <widget class="QLabel" name="label" >
@@ -674,22 +641,10 @@ p, li { white-space: pre-wrap; }
           <string>Remote storage</string>
          </property>
          <layout class="QGridLayout" >
-          <property name="leftMargin" >
+          <property name="margin" >
            <number>9</number>
           </property>
-          <property name="topMargin" >
-           <number>9</number>
-          </property>
-          <property name="rightMargin" >
-           <number>9</number>
-          </property>
-          <property name="bottomMargin" >
-           <number>9</number>
-          </property>
-          <property name="horizontalSpacing" >
-           <number>6</number>
-          </property>
-          <property name="verticalSpacing" >
+          <property name="spacing" >
            <number>6</number>
           </property>
           <item row="1" column="5" >
@@ -800,20 +755,11 @@ p, li { white-space: pre-wrap; }
        </item>
        <item row="0" column="0" >
         <layout class="QHBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
          <property name="spacing" >
           <number>6</number>
-         </property>
-         <property name="leftMargin" >
-          <number>0</number>
-         </property>
-         <property name="topMargin" >
-          <number>0</number>
-         </property>
-         <property name="rightMargin" >
-          <number>0</number>
-         </property>
-         <property name="bottomMargin" >
-          <number>0</number>
          </property>
          <item>
           <widget class="QRadioButton" name="rbsqlite" >
@@ -872,12 +818,24 @@ p, li { white-space: pre-wrap; }
      </widget>
      <widget class="QWidget" name="pageIcepap" >
       <layout class="QGridLayout" >
+       <property name="margin" >
+        <number>9</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
        <item row="0" column="0" >
         <widget class="QGroupBox" name="groupBox" >
          <property name="title" >
           <string>Debugging configuration</string>
          </property>
          <layout class="QGridLayout" >
+          <property name="margin" >
+           <number>9</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
           <item row="0" column="0" colspan="3" >
            <widget class="QCheckBox" name="chkDebug" >
             <property name="text" >
@@ -895,15 +853,17 @@ p, li { white-space: pre-wrap; }
           <item row="1" column="1" >
            <widget class="QSpinBox" name="sbDebugLevel" >
             <property name="sizePolicy" >
-             <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+             <sizepolicy>
+              <hsizetype>0</hsizetype>
+              <vsizetype>0</vsizetype>
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <property name="minimum" >
+            <property name="maximum" >
              <number>1</number>
             </property>
-            <property name="maximum" >
+            <property name="minimum" >
              <number>1</number>
             </property>
            </widget>
@@ -951,7 +911,9 @@ p, li { white-space: pre-wrap; }
        <item row="1" column="0" >
         <widget class="QGroupBox" name="groupBox_2" >
          <property name="sizePolicy" >
-          <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+          <sizepolicy>
+           <hsizetype>0</hsizetype>
+           <vsizetype>0</vsizetype>
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -1000,7 +962,9 @@ p, li { white-space: pre-wrap; }
    <item row="0" column="0" >
     <widget class="QListWidget" name="listWidget" >
      <property name="sizePolicy" >
-      <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+      <sizepolicy>
+       <hsizetype>0</hsizetype>
+       <vsizetype>0</vsizetype>
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -1067,20 +1031,11 @@ p, li { white-space: pre-wrap; }
    </item>
    <item row="2" column="0" >
     <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
      <property name="spacing" >
       <number>6</number>
-     </property>
-     <property name="leftMargin" >
-      <number>0</number>
-     </property>
-     <property name="topMargin" >
-      <number>0</number>
-     </property>
-     <property name="rightMargin" >
-      <number>0</number>
-     </property>
-     <property name="bottomMargin" >
-      <number>0</number>
      </property>
      <item>
       <spacer>
