@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ipapconsole.ui'
 #
-# Created: Tue Oct 23 17:47:00 2007
+# Created: Wed Feb 20 15:23:24 2008
 #      by: PyQt4 UI code generator 4.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -94,4 +94,4 @@ class Ui_IpapConsole(object):
         "}", None, QtGui.QApplication.UnicodeUTF8))
 
 from pyconsoletext import PyConsoleText
-
+import icepapcms_rc

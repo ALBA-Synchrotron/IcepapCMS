@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'pageipapdriver.ui'
 #
-# Created: Mon Dec 17 11:39:40 2007
+# Created: Wed Feb 20 15:23:23 2008
 #      by: PyQt4 UI code generator 4.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PyQt4 import QtCore, QtGui
 class Ui_PageiPapDriver(object):
     def setupUi(self, PageiPapDriver):
         PageiPapDriver.setObjectName("PageiPapDriver")
-        PageiPapDriver.resize(QtCore.QSize(QtCore.QRect(0,0,774,662).size()).expandedTo(PageiPapDriver.minimumSizeHint()))
+        PageiPapDriver.resize(QtCore.QSize(QtCore.QRect(0,0,803,815).size()).expandedTo(PageiPapDriver.minimumSizeHint()))
 
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding,QtGui.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -26,23 +26,7 @@ class Ui_PageiPapDriver(object):
         self.gridlayout.setSpacing(6)
         self.gridlayout.setObjectName("gridlayout")
 
-        # PAGEIPAPDRIVER SHOULD BE INSIDE A SCROLL WIDGET
         self.tabWidget = QtGui.QTabWidget(PageiPapDriver)
-        #self.ui.sahboxlayout2 = QtGui.QHBoxLayout(self.ui.tab_InOut)
-        #self.ui.sahboxlayout2.setMargin(9)
-        #self.ui.sahboxlayout2.setSpacing(6)
-        #self.ui.sahboxlayout2.setObjectName("sahboxlayout2")
-        #self.ui.sa2 = QtGui.QScrollArea(self.ui.tab_InOut) 
-        #self.ui.sa2.setAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignHCenter)
-        #self.ui.inOut_widget.setParent(None)
-        #self.ui.sa2.setWidget(self.ui.inOut_widget)
-        #self.ui.sa2.setHorizontalScrollBarPolicy(Qt.Qt.ScrollBarAsNeeded)
-        #self.ui.sa2.setVerticalScrollBarPolicy(Qt.Qt.ScrollBarAsNeeded)
-        #self.ui.sa2.setFrameStyle(QtGui.QFrame.NoFrame)
-        #self.ui.sahboxlayout2.addWidget(self.ui.sa2)
-
-
-
         self.tabWidget.setMinimumSize(QtCore.QSize(421,553))
 
         font = QtGui.QFont()
@@ -222,7 +206,6 @@ class Ui_PageiPapDriver(object):
         self.IVOLT.setProperty("value",QtCore.QVariant(0.0))
         self.IVOLT.setObjectName("IVOLT")
         self.gridlayout4.addWidget(self.IVOLT,5,1,1,1)
-
         self.gridlayout1.addWidget(self.groupBox_9,1,0,1,1)
 
         self.groupBox_6 = QtGui.QGroupBox(self.tab_2)
@@ -264,8 +247,7 @@ class Ui_PageiPapDriver(object):
         self.BCURR.setSingleStep(0.1)
         self.BCURR.setObjectName("BCURR")
         self.gridlayout5.addWidget(self.BCURR,2,1,1,1)
-
-        self.gridlayout1.addWidget(self.groupBox_6,2,0,2,1)
+        self.gridlayout1.addWidget(self.groupBox_6,2,0,1,1)
 
         self.groupBox_8 = QtGui.QGroupBox(self.tab_2)
 
@@ -299,54 +281,6 @@ class Ui_PageiPapDriver(object):
         self.gridlayout6.addWidget(self.label_19,1,0,1,1)
         self.gridlayout1.addWidget(self.groupBox_8,2,1,1,1)
 
-        self.groupBox_12 = QtGui.QGroupBox(self.tab_2)
-
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed,QtGui.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.groupBox_12.sizePolicy().hasHeightForWidth())
-        self.groupBox_12.setSizePolicy(sizePolicy)
-        self.groupBox_12.setFlat(True)
-        self.groupBox_12.setObjectName("groupBox_12")
-
-        self.gridlayout7 = QtGui.QGridLayout(self.groupBox_12)
-        self.gridlayout7.setMargin(9)
-        self.gridlayout7.setSpacing(6)
-        self.gridlayout7.setObjectName("gridlayout7")
-
-        self.CLOOP = QtGui.QComboBox(self.groupBox_12)
-        self.CLOOP.setObjectName("CLOOP")
-        self.gridlayout7.addWidget(self.CLOOP,2,1,1,1)
-
-        self.POSSRC = QtGui.QComboBox(self.groupBox_12)
-        self.POSSRC.setObjectName("POSSRC")
-        self.gridlayout7.addWidget(self.POSSRC,3,1,1,1)
-
-        self.label_57 = QtGui.QLabel(self.groupBox_12)
-        self.label_57.setObjectName("label_57")
-        self.gridlayout7.addWidget(self.label_57,3,0,1,1)
-
-        self.label_37 = QtGui.QLabel(self.groupBox_12)
-        self.label_37.setObjectName("label_37")
-        self.gridlayout7.addWidget(self.label_37,2,0,1,1)
-
-        self.SHFTENC = QtGui.QComboBox(self.groupBox_12)
-        self.SHFTENC.setObjectName("SHFTENC")
-        self.gridlayout7.addWidget(self.SHFTENC,0,1,1,1)
-
-        self.TGTENC = QtGui.QComboBox(self.groupBox_12)
-        self.TGTENC.setObjectName("TGTENC")
-        self.gridlayout7.addWidget(self.TGTENC,1,1,1,1)
-
-        self.label_35 = QtGui.QLabel(self.groupBox_12)
-        self.label_35.setObjectName("label_35")
-        self.gridlayout7.addWidget(self.label_35,0,0,1,1)
-
-        self.label_36 = QtGui.QLabel(self.groupBox_12)
-        self.label_36.setObjectName("label_36")
-        self.gridlayout7.addWidget(self.label_36,1,0,1,1)
-        self.gridlayout1.addWidget(self.groupBox_12,3,1,2,1)
-
         self.groupBox_7 = QtGui.QGroupBox(self.tab_2)
 
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed,QtGui.QSizePolicy.Fixed)
@@ -358,51 +292,96 @@ class Ui_PageiPapDriver(object):
         self.groupBox_7.setCheckable(False)
         self.groupBox_7.setObjectName("groupBox_7")
 
-        self.gridlayout8 = QtGui.QGridLayout(self.groupBox_7)
-        self.gridlayout8.setMargin(9)
-        self.gridlayout8.setSpacing(6)
-        self.gridlayout8.setObjectName("gridlayout8")
+        self.gridlayout7 = QtGui.QGridLayout(self.groupBox_7)
+        self.gridlayout7.setObjectName("gridlayout7")
 
         self.label_58 = QtGui.QLabel(self.groupBox_7)
         self.label_58.setObjectName("label_58")
-        self.gridlayout8.addWidget(self.label_58,0,0,1,1)
+        self.gridlayout7.addWidget(self.label_58,0,0,1,1)
 
         self.CURRGAIN = QtGui.QComboBox(self.groupBox_7)
         self.CURRGAIN.setObjectName("CURRGAIN")
-        self.gridlayout8.addWidget(self.CURRGAIN,0,1,1,1)
+        self.gridlayout7.addWidget(self.CURRGAIN,0,1,1,1)
 
         self.label_23 = QtGui.QLabel(self.groupBox_7)
         self.label_23.setObjectName("label_23")
-        self.gridlayout8.addWidget(self.label_23,1,0,1,2)
+        self.gridlayout7.addWidget(self.label_23,1,0,1,1)
 
         self.MREGP = QtGui.QDoubleSpinBox(self.groupBox_7)
         self.MREGP.setMaximum(99999999.0)
         self.MREGP.setSingleStep(1.0)
         self.MREGP.setObjectName("MREGP")
-        self.gridlayout8.addWidget(self.MREGP,1,1,1,1)
+        self.gridlayout7.addWidget(self.MREGP,1,1,1,1)
 
         self.label_21 = QtGui.QLabel(self.groupBox_7)
         self.label_21.setObjectName("label_21")
-        self.gridlayout8.addWidget(self.label_21,2,0,1,1)
+        self.gridlayout7.addWidget(self.label_21,2,0,1,1)
 
         self.MREGI = QtGui.QDoubleSpinBox(self.groupBox_7)
         self.MREGI.setDecimals(4)
         self.MREGI.setMaximum(999999999.0)
         self.MREGI.setSingleStep(0.1)
         self.MREGI.setObjectName("MREGI")
-        self.gridlayout8.addWidget(self.MREGI,2,1,1,1)
+        self.gridlayout7.addWidget(self.MREGI,2,1,1,1)
 
         self.label_25 = QtGui.QLabel(self.groupBox_7)
         self.label_25.setObjectName("label_25")
-        self.gridlayout8.addWidget(self.label_25,3,0,1,1)
+        self.gridlayout7.addWidget(self.label_25,3,0,1,1)
 
         self.MREGD = QtGui.QDoubleSpinBox(self.groupBox_7)
         self.MREGD.setMaximum(9999999.0)
         self.MREGD.setSingleStep(1.0)
         self.MREGD.setObjectName("MREGD")
-        self.gridlayout8.addWidget(self.MREGD,3,1,1,1)
+        self.gridlayout7.addWidget(self.MREGD,3,1,1,1)
+        self.gridlayout1.addWidget(self.groupBox_7,3,0,1,1)
 
-        self.gridlayout1.addWidget(self.groupBox_7,4,0,1,1)
+        self.groupBox_12 = QtGui.QGroupBox(self.tab_2)
+
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed,QtGui.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.groupBox_12.sizePolicy().hasHeightForWidth())
+        self.groupBox_12.setSizePolicy(sizePolicy)
+        self.groupBox_12.setFlat(True)
+        self.groupBox_12.setObjectName("groupBox_12")
+
+        self.gridlayout8 = QtGui.QGridLayout(self.groupBox_12)
+        self.gridlayout8.setMargin(9)
+        self.gridlayout8.setSpacing(6)
+        self.gridlayout8.setObjectName("gridlayout8")
+
+        self.CLOOP = QtGui.QComboBox(self.groupBox_12)
+        self.CLOOP.setObjectName("CLOOP")
+        self.gridlayout8.addWidget(self.CLOOP,2,1,1,1)
+
+        self.POSSRC = QtGui.QComboBox(self.groupBox_12)
+        self.POSSRC.setObjectName("POSSRC")
+        self.gridlayout8.addWidget(self.POSSRC,3,1,1,1)
+
+        self.label_57 = QtGui.QLabel(self.groupBox_12)
+        self.label_57.setObjectName("label_57")
+        self.gridlayout8.addWidget(self.label_57,3,0,1,1)
+
+        self.label_37 = QtGui.QLabel(self.groupBox_12)
+        self.label_37.setObjectName("label_37")
+        self.gridlayout8.addWidget(self.label_37,2,0,1,1)
+
+        self.SHFTENC = QtGui.QComboBox(self.groupBox_12)
+        self.SHFTENC.setObjectName("SHFTENC")
+        self.gridlayout8.addWidget(self.SHFTENC,0,1,1,1)
+
+        self.TGTENC = QtGui.QComboBox(self.groupBox_12)
+        self.TGTENC.setObjectName("TGTENC")
+        self.gridlayout8.addWidget(self.TGTENC,1,1,1,1)
+
+        self.label_35 = QtGui.QLabel(self.groupBox_12)
+        self.label_35.setObjectName("label_35")
+        self.gridlayout8.addWidget(self.label_35,0,0,1,1)
+
+        self.label_36 = QtGui.QLabel(self.groupBox_12)
+        self.label_36.setObjectName("label_36")
+        self.gridlayout8.addWidget(self.label_36,1,0,1,1)
+        self.gridlayout1.addWidget(self.groupBox_12,3,1,1,1)
         self.tabWidget.addTab(self.tab_2,"")
 
         self.tab = QtGui.QWidget()
@@ -1106,15 +1085,6 @@ class Ui_PageiPapDriver(object):
         self.AUXPS.setObjectName("AUXPS")
         self.gridlayout20.addWidget(self.AUXPS,1,0,1,3)
 
-        #self.label_22 = QtGui.QLabel(self.tab_3)
-        #self.label_22.setObjectName("label_22")
-        #self.gridlayout20.addWidget(self.label_22,0,0,1,2)
-
-        #self.MICRO = QtGui.QSpinBox(self.tab_3)
-        #self.MICRO.setMaximum(256)
-        #self.MICRO.setObjectName("MICRO")
-        #self.gridlayout20.addWidget(self.MICRO,0,2,1,1)
-
         self.TINDEXER = QtGui.QComboBox(self.tab_3)
         self.TINDEXER.setObjectName("TINDEXER")
         self.gridlayout20.addWidget(self.TINDEXER,2,1,1,2)
@@ -1126,9 +1096,6 @@ class Ui_PageiPapDriver(object):
         self.textLabel3_4.setFont(font)
         self.textLabel3_4.setObjectName("textLabel3_4")
         self.gridlayout20.addWidget(self.textLabel3_4,2,0,1,1)
-
-        spacerItem9 = QtGui.QSpacerItem(40,20,QtGui.QSizePolicy.Expanding,QtGui.QSizePolicy.Minimum)
-        self.gridlayout20.addItem(spacerItem9,0,3,1,1)
         self.gridlayout16.addLayout(self.gridlayout20,0,0,1,1)
         self.tabWidget.addTab(self.tab_3,"")
         self.gridlayout.addWidget(self.tabWidget,1,0,1,1)
@@ -1191,8 +1158,8 @@ class Ui_PageiPapDriver(object):
         self.txtDriverName.setObjectName("txtDriverName")
         self.gridlayout21.addWidget(self.txtDriverName,2,1,1,1)
 
-        spacerItem10 = QtGui.QSpacerItem(240,16,QtGui.QSizePolicy.Expanding,QtGui.QSizePolicy.Minimum)
-        self.gridlayout21.addItem(spacerItem10,2,2,1,1)
+        spacerItem9 = QtGui.QSpacerItem(240,16,QtGui.QSizePolicy.Expanding,QtGui.QSizePolicy.Minimum)
+        self.gridlayout21.addItem(spacerItem9,2,2,1,1)
 
         self.line = QtGui.QFrame(self.frame_3)
         self.line.setFrameShape(QtGui.QFrame.HLine)
@@ -1228,8 +1195,8 @@ class Ui_PageiPapDriver(object):
         self.label.setObjectName("label")
         self.vboxlayout1.addWidget(self.label)
 
-        spacerItem11 = QtGui.QSpacerItem(20,40,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Expanding)
-        self.vboxlayout1.addItem(spacerItem11)
+        spacerItem10 = QtGui.QSpacerItem(20,40,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Expanding)
+        self.vboxlayout1.addItem(spacerItem10)
 
         self.stackedWidget = QtGui.QStackedWidget(self.frame_right)
 
@@ -1293,8 +1260,8 @@ class Ui_PageiPapDriver(object):
         self.hboxlayout.setMargin(0)
         self.hboxlayout.setObjectName("hboxlayout")
 
-        spacerItem12 = QtGui.QSpacerItem(21,20,QtGui.QSizePolicy.Expanding,QtGui.QSizePolicy.Minimum)
-        self.hboxlayout.addItem(spacerItem12)
+        spacerItem11 = QtGui.QSpacerItem(21,20,QtGui.QSizePolicy.Expanding,QtGui.QSizePolicy.Minimum)
+        self.hboxlayout.addItem(spacerItem11)
 
         self.frame_leds = QtGui.QFrame(self.frame_4)
 
@@ -1555,8 +1522,8 @@ class Ui_PageiPapDriver(object):
         self.gridlayout24.addWidget(self.LedError,0,0,1,1)
         self.hboxlayout.addWidget(self.frame_leds)
 
-        spacerItem13 = QtGui.QSpacerItem(21,20,QtGui.QSizePolicy.Expanding,QtGui.QSizePolicy.Minimum)
-        self.hboxlayout.addItem(spacerItem13)
+        spacerItem12 = QtGui.QSpacerItem(21,20,QtGui.QSizePolicy.Expanding,QtGui.QSizePolicy.Minimum)
+        self.hboxlayout.addItem(spacerItem12)
         self.gridlayout23.addWidget(self.frame_4,3,0,1,5)
 
         self.textLabel1_3_3_2 = QtGui.QLabel(self.frame_test)
@@ -1761,8 +1728,8 @@ class Ui_PageiPapDriver(object):
         self.gridlayout23.addWidget(self.groupBox,7,0,1,5)
         self.gridlayout22.addWidget(self.frame_test,0,0,1,1)
 
-        spacerItem14 = QtGui.QSpacerItem(20,40,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Expanding)
-        self.gridlayout22.addItem(spacerItem14,1,0,1,1)
+        spacerItem13 = QtGui.QSpacerItem(20,40,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Expanding)
+        self.gridlayout22.addItem(spacerItem13,1,0,1,1)
         self.stackedWidget.addWidget(self.pageTest)
 
         self.pageHistoric = QtGui.QWidget()
@@ -1795,8 +1762,8 @@ class Ui_PageiPapDriver(object):
         self.stackedWidget.addWidget(self.pageHistoric)
         self.vboxlayout1.addWidget(self.stackedWidget)
 
-        spacerItem15 = QtGui.QSpacerItem(20,40,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Expanding)
-        self.vboxlayout1.addItem(spacerItem15)
+        spacerItem14 = QtGui.QSpacerItem(20,40,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Expanding)
+        self.vboxlayout1.addItem(spacerItem14)
 
         self.btnApplyCfg = QtGui.QPushButton(self.frame_right)
         self.btnApplyCfg.setIcon(QtGui.QIcon(":/small_icons/IcepapCfg Icons/Icepapicon.png"))
@@ -1819,7 +1786,7 @@ class Ui_PageiPapDriver(object):
 
         self.retranslateUi(PageiPapDriver)
         self.tabWidget.setCurrentIndex(0)
-        self.tabSignals.setCurrentIndex(0)
+        self.tabSignals.setCurrentIndex(1)
         self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(PageiPapDriver)
 
@@ -1834,7 +1801,7 @@ class Ui_PageiPapDriver(object):
         self.label_32.setText(QtGui.QApplication.translate("PageiPapDriver", "Default Initial Velocity", None, QtGui.QApplication.UnicodeUTF8))
         self.DEFIVEL.setToolTip(QtGui.QApplication.translate("PageiPapDriver", "proportional constant in the PI current regulator", None, QtGui.QApplication.UnicodeUTF8))
         self.label_28.setText(QtGui.QApplication.translate("PageiPapDriver", "Default Velocity", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_33.setText(QtGui.QApplication.translate("PageiPapDriver", "Default Accel. Time (sec)", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_33.setText(QtGui.QApplication.translate("PageiPapDriver", "Default Acc. Time (sec)", None, QtGui.QApplication.UnicodeUTF8))
         self.DEFACCT.setToolTip(QtGui.QApplication.translate("PageiPapDriver", "proportional constant in the PI current regulator", None, QtGui.QApplication.UnicodeUTF8))
         self.label_39.setText(QtGui.QApplication.translate("PageiPapDriver", "Axis ref. nr. of turns", None, QtGui.QApplication.UnicodeUTF8))
         self.label_34.setText(QtGui.QApplication.translate("PageiPapDriver", "Motor Sense", None, QtGui.QApplication.UnicodeUTF8))
@@ -1860,10 +1827,10 @@ class Ui_PageiPapDriver(object):
         self.MREGMODE.addItem(QtGui.QApplication.translate("PageiPapDriver", "Curr", None, QtGui.QApplication.UnicodeUTF8))
         self.MREGMODE.addItem(QtGui.QApplication.translate("PageiPapDriver", "Curr_vect", None, QtGui.QApplication.UnicodeUTF8))
         self.MREGMODE.addItem(QtGui.QApplication.translate("PageiPapDriver", "Torque", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_20.setText(QtGui.QApplication.translate("PageiPapDriver", "Idle voltage", None, QtGui.QApplication.UnicodeUTF8))
-        self.IVOLT.setToolTip(QtGui.QApplication.translate("PageiPapDriver", "Vcc to the motor phases when motor is moving", None, QtGui.QApplication.UnicodeUTF8))
         self.label_29.setText(QtGui.QApplication.translate("PageiPapDriver", "Nominal voltage", None, QtGui.QApplication.UnicodeUTF8))
         self.NVOLT.setToolTip(QtGui.QApplication.translate("PageiPapDriver", "Vcc to the motor phases when motor is moving", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_20.setText(QtGui.QApplication.translate("PageiPapDriver", "Idle voltage", None, QtGui.QApplication.UnicodeUTF8))
+        self.IVOLT.setToolTip(QtGui.QApplication.translate("PageiPapDriver", "Vcc to the motor phases when motor is moving", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_6.setTitle(QtGui.QApplication.translate("PageiPapDriver", "Current", None, QtGui.QApplication.UnicodeUTF8))
         self.label_16.setText(QtGui.QApplication.translate("PageiPapDriver", "Idle (%)", None, QtGui.QApplication.UnicodeUTF8))
         self.ICURR.setToolTip(QtGui.QApplication.translate("PageiPapDriver", "current to the motor when the motor is at rest", None, QtGui.QApplication.UnicodeUTF8))
@@ -1871,11 +1838,6 @@ class Ui_PageiPapDriver(object):
         self.NCURR.setToolTip(QtGui.QApplication.translate("PageiPapDriver", "current to the motor during steady rate speed", None, QtGui.QApplication.UnicodeUTF8))
         self.label_17.setText(QtGui.QApplication.translate("PageiPapDriver", "Boost (%)", None, QtGui.QApplication.UnicodeUTF8))
         self.BCURR.setToolTip(QtGui.QApplication.translate("PageiPapDriver", "current to the motor when the motor is at rest", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_58.setText(QtGui.QApplication.translate("PageiPapDriver", "Regulation Gain", None, QtGui.QApplication.UnicodeUTF8))
-        self.CURRGAIN.addItem(QtGui.QApplication.translate("PageiPapDriver", "Custom", None, QtGui.QApplication.UnicodeUTF8))
-        self.CURRGAIN.addItem(QtGui.QApplication.translate("PageiPapDriver", "Low", None, QtGui.QApplication.UnicodeUTF8))
-        self.CURRGAIN.addItem(QtGui.QApplication.translate("PageiPapDriver", "Medium", None, QtGui.QApplication.UnicodeUTF8))
-        self.CURRGAIN.addItem(QtGui.QApplication.translate("PageiPapDriver", "High", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_8.setTitle(QtGui.QApplication.translate("PageiPapDriver", "Limit switches", None, QtGui.QApplication.UnicodeUTF8))
         self.LMPOL.addItem(QtGui.QApplication.translate("PageiPapDriver", "Normal", None, QtGui.QApplication.UnicodeUTF8))
         self.LMPOL.addItem(QtGui.QApplication.translate("PageiPapDriver", "Inverted", None, QtGui.QApplication.UnicodeUTF8))
@@ -1883,6 +1845,18 @@ class Ui_PageiPapDriver(object):
         self.LPPOL.addItem(QtGui.QApplication.translate("PageiPapDriver", "Normal", None, QtGui.QApplication.UnicodeUTF8))
         self.LPPOL.addItem(QtGui.QApplication.translate("PageiPapDriver", "Inverted", None, QtGui.QApplication.UnicodeUTF8))
         self.label_19.setText(QtGui.QApplication.translate("PageiPapDriver", "Limit- Polarity", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupBox_7.setTitle(QtGui.QApplication.translate("PageiPapDriver", "PI Current Regulation", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_58.setText(QtGui.QApplication.translate("PageiPapDriver", "Regulation Gain", None, QtGui.QApplication.UnicodeUTF8))
+        self.CURRGAIN.addItem(QtGui.QApplication.translate("PageiPapDriver", "Custom", None, QtGui.QApplication.UnicodeUTF8))
+        self.CURRGAIN.addItem(QtGui.QApplication.translate("PageiPapDriver", "Low", None, QtGui.QApplication.UnicodeUTF8))
+        self.CURRGAIN.addItem(QtGui.QApplication.translate("PageiPapDriver", "Medium", None, QtGui.QApplication.UnicodeUTF8))
+        self.CURRGAIN.addItem(QtGui.QApplication.translate("PageiPapDriver", "High", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_23.setText(QtGui.QApplication.translate("PageiPapDriver", "Proportional", None, QtGui.QApplication.UnicodeUTF8))
+        self.MREGP.setToolTip(QtGui.QApplication.translate("PageiPapDriver", "proportional constant in the PI current regulator", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_21.setText(QtGui.QApplication.translate("PageiPapDriver", "Integral", None, QtGui.QApplication.UnicodeUTF8))
+        self.MREGI.setToolTip(QtGui.QApplication.translate("PageiPapDriver", "integral constant in the PI current regulator", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_25.setText(QtGui.QApplication.translate("PageiPapDriver", "Derivative", None, QtGui.QApplication.UnicodeUTF8))
+        self.MREGD.setToolTip(QtGui.QApplication.translate("PageiPapDriver", "proportional constant in the PI current regulator", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_12.setTitle(QtGui.QApplication.translate("PageiPapDriver", "Encoder", None, QtGui.QApplication.UnicodeUTF8))
         self.CLOOP.addItem(QtGui.QApplication.translate("PageiPapDriver", "None", None, QtGui.QApplication.UnicodeUTF8))
         self.CLOOP.addItem(QtGui.QApplication.translate("PageiPapDriver", "ShftEnc", None, QtGui.QApplication.UnicodeUTF8))
@@ -1905,13 +1879,6 @@ class Ui_PageiPapDriver(object):
         "p, li { white-space: pre-wrap; }\n"
         "</style></head><body style=\" font-family:\'Sans Serif\'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;\">\n"
         "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Target Encoder</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
-        self.groupBox_7.setTitle(QtGui.QApplication.translate("PageiPapDriver", "PI Current Regulation", None, QtGui.QApplication.UnicodeUTF8))
-        self.MREGD.setToolTip(QtGui.QApplication.translate("PageiPapDriver", "proportional constant in the PI current regulator", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_25.setText(QtGui.QApplication.translate("PageiPapDriver", "Derivative", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_21.setText(QtGui.QApplication.translate("PageiPapDriver", "Integral", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_23.setText(QtGui.QApplication.translate("PageiPapDriver", "Proportional", None, QtGui.QApplication.UnicodeUTF8))
-        self.MREGP.setToolTip(QtGui.QApplication.translate("PageiPapDriver", "proportional constant in the PI current regulator", None, QtGui.QApplication.UnicodeUTF8))
-        self.MREGI.setToolTip(QtGui.QApplication.translate("PageiPapDriver", "integral constant in the PI current regulator", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QtGui.QApplication.translate("PageiPapDriver", "Driver", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_10.setTitle(QtGui.QApplication.translate("PageiPapDriver", "Info Signals", None, QtGui.QApplication.UnicodeUTF8))
         self.INFOCSRC.addItem(QtGui.QApplication.translate("PageiPapDriver", "Low", None, QtGui.QApplication.UnicodeUTF8))
@@ -2119,7 +2086,6 @@ class Ui_PageiPapDriver(object):
         self.cb_enc_sel.addItem(QtGui.QApplication.translate("PageiPapDriver", "InPos", None, QtGui.QApplication.UnicodeUTF8))
         self.cb_enc_sel.addItem(QtGui.QApplication.translate("PageiPapDriver", "AbsEnc", None, QtGui.QApplication.UnicodeUTF8))
         self.AUXPS.setText(QtGui.QApplication.translate("PageiPapDriver", "Aux Supply 5V", None, QtGui.QApplication.UnicodeUTF8))
-        #self.label_22.setText(QtGui.QApplication.translate("PageiPapDriver", "Micro Stepping", None, QtGui.QApplication.UnicodeUTF8))
         self.TINDEXER.addItem(QtGui.QApplication.translate("PageiPapDriver", "Internal", None, QtGui.QApplication.UnicodeUTF8))
         self.TINDEXER.addItem(QtGui.QApplication.translate("PageiPapDriver", "Sync", None, QtGui.QApplication.UnicodeUTF8))
         self.TINDEXER.addItem(QtGui.QApplication.translate("PageiPapDriver", "InPos", None, QtGui.QApplication.UnicodeUTF8))
@@ -2137,7 +2103,7 @@ class Ui_PageiPapDriver(object):
         self.textLabel1_6_3.setText(QtGui.QApplication.translate("PageiPapDriver", "Home", None, QtGui.QApplication.UnicodeUTF8))
         self.textLabel1_6.setText(QtGui.QApplication.translate("PageiPapDriver", "Limit+", None, QtGui.QApplication.UnicodeUTF8))
         self.textLabel1_6_2.setText(QtGui.QApplication.translate("PageiPapDriver", "Limit-", None, QtGui.QApplication.UnicodeUTF8))
-        self.textLabel1_3_3_2.setText(QtGui.QApplication.translate("PageiPapDriver", "Acceleration time (sec)", None, QtGui.QApplication.UnicodeUTF8))
+        self.textLabel1_3_3_2.setText(QtGui.QApplication.translate("PageiPapDriver", "Acc time (sec)", None, QtGui.QApplication.UnicodeUTF8))
         self.textLabel3.setText(QtGui.QApplication.translate("PageiPapDriver", "Position", None, QtGui.QApplication.UnicodeUTF8))
         self.textLabel1_3_3.setText(QtGui.QApplication.translate("PageiPapDriver", "Speed (steps/sec)", None, QtGui.QApplication.UnicodeUTF8))
         self.btnEnable.setText(QtGui.QApplication.translate("PageiPapDriver", "enable", None, QtGui.QApplication.UnicodeUTF8))
@@ -2149,4 +2115,4 @@ class Ui_PageiPapDriver(object):
 
 from Led import Led
 from historiccfgwidget import HistoricCfgWidget
-
+import icepapcms_rc

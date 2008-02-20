@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'unknown'
+# Form implementation generated from reading ui file 'dialogdriverconflict.ui'
 #
-# Created: Mon Sep 25 17:36:17 2006
-#      by: PyQt4 UI code generator 4.0
+# Created: Wed Feb 20 15:23:23 2008
+#      by: PyQt4 UI code generator 4.3
 #
 # WARNING! All changes made in this file will be lost!
 
-import sys
 from PyQt4 import QtCore, QtGui
 
 class Ui_DialogDriverConflict(object):
@@ -155,25 +154,24 @@ class Ui_DialogDriverConflict(object):
         self.retranslateUi(DialogDriverConflict)
         QtCore.QMetaObject.connectSlotsByName(DialogDriverConflict)
 
-    def tr(self, string):
-        return QtGui.QApplication.translate("DialogDriverConflict", string, None, QtGui.QApplication.UnicodeUTF8)
-
     def retranslateUi(self, DialogDriverConflict):
-        DialogDriverConflict.setWindowTitle(self.tr("Driver conflict"))
+        DialogDriverConflict.setWindowTitle(QtGui.QApplication.translate("DialogDriverConflict", "Driver conflict", None, QtGui.QApplication.UnicodeUTF8))
         self.tableWidget.clear()
         self.tableWidget.setColumnCount(3)
         self.tableWidget.setRowCount(0)
 
         headerItem = QtGui.QTableWidgetItem()
-        headerItem.setText(self.tr("Name"))
+        headerItem.setText(QtGui.QApplication.translate("DialogDriverConflict", "Name", None, QtGui.QApplication.UnicodeUTF8))
         self.tableWidget.setHorizontalHeaderItem(0,headerItem)
 
         headerItem1 = QtGui.QTableWidgetItem()
-        headerItem1.setText(self.tr("ConfigTool Value"))
+        headerItem1.setText(QtGui.QApplication.translate("DialogDriverConflict", "ConfigTool Value", None, QtGui.QApplication.UnicodeUTF8))
         self.tableWidget.setHorizontalHeaderItem(1,headerItem1)
 
         headerItem2 = QtGui.QTableWidgetItem()
-        headerItem2.setText(self.tr("Icepap Value"))
+        headerItem2.setText(QtGui.QApplication.translate("DialogDriverConflict", "Icepap Value", None, QtGui.QApplication.UnicodeUTF8))
         self.tableWidget.setHorizontalHeaderItem(2,headerItem2)
-        self.btnStored.setText(self.tr("Keep stored values"))
-        self.btnIcepap.setText(self.tr("Set Icepap values"))
+        self.btnStored.setText(QtGui.QApplication.translate("DialogDriverConflict", "Keep stored values", None, QtGui.QApplication.UnicodeUTF8))
+        self.btnIcepap.setText(QtGui.QApplication.translate("DialogDriverConflict", "Set Icepap values", None, QtGui.QApplication.UnicodeUTF8))
+
+import icepapcms_rc
