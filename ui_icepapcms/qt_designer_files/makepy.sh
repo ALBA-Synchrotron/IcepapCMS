@@ -1,8 +1,6 @@
 #!/bin/sh
 #rm *.py
 #rm *~
-rm qrc_icepapcms.py
-rm ui*py
 pyrcc4 icepapcms.qrc -o qrc_icepapcms.py
 /usr/bin/pyuic4  ipaptestpage.ui -o ui_ipaptestpage.py
 /usr/bin/pyuic4  dialogaddicepap.ui -o ui_dialogaddicepap.py
