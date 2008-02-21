@@ -10,9 +10,7 @@
    </rect>
   </property>
   <property name="sizePolicy" >
-   <sizepolicy>
-    <hsizetype>5</hsizetype>
-    <vsizetype>5</vsizetype>
+   <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -62,10 +60,19 @@
   </property>
   <widget class="QWidget" name="centralwidget" >
    <layout class="QVBoxLayout" >
-    <property name="margin" >
+    <property name="spacing" >
      <number>1</number>
     </property>
-    <property name="spacing" >
+    <property name="leftMargin" >
+     <number>1</number>
+    </property>
+    <property name="topMargin" >
+     <number>1</number>
+    </property>
+    <property name="rightMargin" >
+     <number>1</number>
+    </property>
+    <property name="bottomMargin" >
      <number>1</number>
     </property>
     <item>
@@ -77,18 +84,25 @@
        <enum>QFrame::Raised</enum>
       </property>
       <layout class="QVBoxLayout" >
-       <property name="margin" >
+       <property name="spacing" >
         <number>1</number>
        </property>
-       <property name="spacing" >
+       <property name="leftMargin" >
+        <number>1</number>
+       </property>
+       <property name="topMargin" >
+        <number>1</number>
+       </property>
+       <property name="rightMargin" >
+        <number>1</number>
+       </property>
+       <property name="bottomMargin" >
         <number>1</number>
        </property>
        <item>
         <widget class="QFrame" name="frLocationBarText" >
          <property name="sizePolicy" >
-          <sizepolicy>
-           <hsizetype>5</hsizetype>
-           <vsizetype>0</vsizetype>
+          <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -112,11 +126,20 @@
           <enum>QFrame::Raised</enum>
          </property>
          <layout class="QHBoxLayout" >
-          <property name="margin" >
-           <number>9</number>
-          </property>
           <property name="spacing" >
            <number>6</number>
+          </property>
+          <property name="leftMargin" >
+           <number>9</number>
+          </property>
+          <property name="topMargin" >
+           <number>9</number>
+          </property>
+          <property name="rightMargin" >
+           <number>9</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>9</number>
           </property>
           <item>
            <widget class="QLabel" name="lblLocation" >
@@ -160,11 +183,20 @@
       </property>
       <widget class="QWidget" name="StartPage" >
        <layout class="QHBoxLayout" >
-        <property name="margin" >
-         <number>9</number>
-        </property>
         <property name="spacing" >
          <number>6</number>
+        </property>
+        <property name="leftMargin" >
+         <number>9</number>
+        </property>
+        <property name="topMargin" >
+         <number>9</number>
+        </property>
+        <property name="rightMargin" >
+         <number>9</number>
+        </property>
+        <property name="bottomMargin" >
+         <number>9</number>
         </property>
         <item>
          <spacer>
@@ -214,7 +246,7 @@
      <x>0</x>
      <y>0</y>
      <width>1100</width>
-     <height>29</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp" >
@@ -269,9 +301,7 @@
   <widget class="QStatusBar" name="statusbar" />
   <widget class="QToolBar" name="toolBar" >
    <property name="sizePolicy" >
-    <sizepolicy>
-     <hsizetype>7</hsizetype>
-     <vsizetype>7</vsizetype>
+    <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
@@ -295,7 +325,10 @@
     <enum>Qt::ToolButtonIconOnly</enum>
    </property>
    <attribute name="toolBarArea" >
-    <number>4</number>
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak" >
+    <bool>false</bool>
    </attribute>
    <addaction name="actionGoPrevious" />
    <addaction name="actionGoNext" />
@@ -322,7 +355,7 @@
    </property>
    <property name="maximumSize" >
     <size>
-     <width>350</width>
+     <width>16777215</width>
      <height>16777215</height>
     </size>
    </property>
@@ -340,18 +373,39 @@
    </attribute>
    <widget class="QWidget" name="dockWidgetContents" >
     <layout class="QVBoxLayout" >
-     <property name="margin" >
-      <number>9</number>
-     </property>
      <property name="spacing" >
       <number>6</number>
      </property>
+     <property name="leftMargin" >
+      <number>9</number>
+     </property>
+     <property name="topMargin" >
+      <number>9</number>
+     </property>
+     <property name="rightMargin" >
+      <number>9</number>
+     </property>
+     <property name="bottomMargin" >
+      <number>9</number>
+     </property>
      <item>
       <layout class="QGridLayout" >
-       <property name="margin" >
+       <property name="leftMargin" >
         <number>2</number>
        </property>
-       <property name="spacing" >
+       <property name="topMargin" >
+        <number>2</number>
+       </property>
+       <property name="rightMargin" >
+        <number>2</number>
+       </property>
+       <property name="bottomMargin" >
+        <number>2</number>
+       </property>
+       <property name="horizontalSpacing" >
+        <number>4</number>
+       </property>
+       <property name="verticalSpacing" >
         <number>4</number>
        </property>
        <item row="0" column="0" >
@@ -417,10 +471,19 @@ p, li { white-space: pre-wrap; }
         <enum>QFrame::Raised</enum>
        </property>
        <layout class="QHBoxLayout" >
-        <property name="margin" >
+        <property name="spacing" >
          <number>4</number>
         </property>
-        <property name="spacing" >
+        <property name="leftMargin" >
+         <number>4</number>
+        </property>
+        <property name="topMargin" >
+         <number>4</number>
+        </property>
+        <property name="rightMargin" >
+         <number>4</number>
+        </property>
+        <property name="bottomMargin" >
          <number>4</number>
         </property>
         <item>
