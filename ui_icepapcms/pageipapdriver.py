@@ -785,11 +785,11 @@ class PageiPapDriver(QtGui.QWidget):
                     self.getMotionValues()
                     self.mode = mode
                     self.enableAllControl()
-                    self.ui.btnEnable.setText("disable")
+                    self.ui.btnEnable.setText("OFF")
                     self.ui.btnEnable.setChecked(True)
                 else:
                     self.ui.btnEnable.setEnabled(True)
-                    self.ui.btnEnable.setText("enable")
+                    self.ui.btnEnable.setText("ON")
                     self.ui.btnEnable.setChecked(False)
                     self.ui.LedError.changeColor(Led.RED)
                     self.ui.LedError.on()                    
@@ -800,7 +800,7 @@ class PageiPapDriver(QtGui.QWidget):
                 self.ui.LedError.on()
             else:
                 self.ui.btnEnable.setEnabled(True)
-                self.ui.btnEnable.setText("enable")
+                self.ui.btnEnable.setText("ON")
                 self.ui.btnEnable.setChecked(False)
                 self.ui.LedError.changeColor(Led.RED)
                 self.ui.LedError.on()
@@ -926,10 +926,10 @@ class PageiPapDriver(QtGui.QWidget):
             
     def endisDriver(self, bool):
          if bool:
-            self.ui.btnEnable.setText("disable")
+            self.ui.btnEnable.setText("OFF")
             self._manager.enableDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr)
          else:
-            self.ui.btnEnable.setText("enable")
+            self.ui.btnEnable.setText("ON")
             self._manager.disableDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr)
         
 
