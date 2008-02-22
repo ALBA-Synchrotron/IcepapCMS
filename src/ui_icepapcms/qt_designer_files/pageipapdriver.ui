@@ -163,7 +163,7 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="2" >
+          <item row="1" column="1" >
            <widget class="QDoubleSpinBox" name="DEFVEL" >
             <property name="toolTip" >
              <string>proportional constant in the PI current regulator</string>
@@ -186,7 +186,7 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="2" >
+          <item row="2" column="1" >
            <widget class="QDoubleSpinBox" name="DEFIVEL" >
             <property name="toolTip" >
              <string>proportional constant in the PI current regulator</string>
@@ -219,7 +219,7 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="2" >
+          <item row="3" column="1" >
            <widget class="QDoubleSpinBox" name="DEFACCT" >
             <property name="toolTip" >
              <string>proportional constant in the PI current regulator</string>
@@ -232,7 +232,7 @@
             </property>
            </widget>
           </item>
-          <item row="5" column="2" >
+          <item row="5" column="1" >
            <widget class="QSpinBox" name="ANTURN" >
             <property name="maximum" >
              <number>99999</number>
@@ -266,14 +266,14 @@
             </property>
            </widget>
           </item>
-          <item row="6" column="2" >
+          <item row="6" column="1" >
            <widget class="QSpinBox" name="ANSTEP" >
             <property name="maximum" >
              <number>999999</number>
             </property>
            </widget>
           </item>
-          <item row="0" column="2" >
+          <item row="0" column="1" >
            <widget class="QComboBox" name="INDEXER" >
             <item>
              <property name="text" >
@@ -292,7 +292,7 @@
             </item>
            </widget>
           </item>
-          <item row="4" column="2" >
+          <item row="4" column="1" >
            <widget class="QComboBox" name="MOTSENSE" >
             <item>
              <property name="text" >
@@ -4339,10 +4339,12 @@ p, li { white-space: pre-wrap; }
                 <font>
                  <family>Sans Serif</family>
                  <pointsize>8</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
                 </font>
                </property>
                <property name="text" >
-                <string>enable</string>
+                <string>ON</string>
                </property>
                <property name="checkable" >
                 <bool>true</bool>
