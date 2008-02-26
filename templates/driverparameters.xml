@@ -28,13 +28,13 @@
                 <par id="NVOLT" name="NVOLT" type="DOUBLE" min="0" max="80">
                      <description>Nominal Operation Voltage</description>
                 </par>
-                <par id="ICURR" name="ICURR" type="DOUBLE" min="0" max="100">
+                <par id="ICURR" name="ICURR" type="INTEGER" min="0" max="100">
                      <description>Idle Current %</description>
                 </par>
                 <par id="NCURR" name="NCURR" type="DOUBLE" min="0" max="8">
                      <description>Drive Current</description>
                 </par>
-                <par id="BCURR" name="BCURR" type="DOUBLE" min="0" max="100">
+                <par id="BCURR" name="BCURR" type="INTEGER" min="0" max="100">
                      <description>Boost Current %</description>
                 </par>
                 <par id="MREGI" name="MREGI" type="DOUBLE" min="0" max="100">
@@ -70,7 +70,7 @@
                 <par id="TGTENC" name="TGTENC" type="STRING">
                 	 <description></description>
                 </par>
-                <par id="CLOOP" name="CLOOPENC" type="STRING">
+                <par id="CLOOPENC" name="CLOOPENC" type="STRING">
                 	 <description></description>
                 </par>
                 <par id="LPPOL" name="LPPOL" type="STRING">
@@ -144,14 +144,33 @@
                 </par>
                 <par id="INFOCPOL" name="INFOCPOL" type="STRING">
                      <description></description>
-                </par>                
-        </section>
-        <section name="test">
-        <!--
-        		<par id="MICRO" name="MICRO" type="INTEGER" min="0" max="256">
+                </par>
+                <par id="CURRGAIN" name="CURRGAIN" type="STRING">
                 	 <description></description>
                 </par>
-        -->
+                <par id="POSSRC" name="POSSRC" type="STRING">
+                	 <description></description>
+                </par>
+                <par id="IVOLT" name="IVOLT" type="DOUBLE" min="0" max="100">
+                     <description>Idle Current %</description>
+                </par>
+                <par id="SSIDBITS" name="SSIDBITS" type="INTEGER" min="0" max="9999999">
+                	 <description></description>
+                </par>
+                <par id="SSICODE" name="SSICODE" type="STRING">
+                     <description></description>
+                </par>
+                <par id="SSICLOCK" name="SSICLOCK" type="STRING">
+                     <description></description>
+                </par>
+                <par id="SSIDELAY" name="SSIDELAY" type="STRING">
+                     <description></description>
+                </par>
+                <par id="SSISTATUS" name="SSISTATUS" type="STRING">
+                     <description></description>
+                </par>
+        </section>
+        <section name="test">
                 <par id="TINDEXER" name="INDEXER" type="STRING">
                      <description></description>
                 </par> 
@@ -161,24 +180,24 @@
                 <par id="txtDriverName" name="NAME" type="STRING">
                      <description></description>
                 </par>  
-                <par id="TINFASRC" name="INFOA" type="ARRAY" pos="0">
+                <par id="TINFOASRC" name="INFOA" type="ARRAY" pos="0">
                      <description></description>
                 </par>
-                <par id="TINFAPOL" name="INFOA" type="ARRAY" pos="1">
+                <par id="TINFOAPOL" name="INFOA" type="ARRAY" pos="1">
                      <description></description>
                 </par>                
-                <par id="TINFBSRC" name="INFOB" type="ARRAY" pos="0">
+                <par id="TINFOBSRC" name="INFOB" type="ARRAY" pos="0">
                      <description></description>
                 </par>
-                <par id="TINFBPOL" name="INFOB" type="ARRAY" pos="1">
+                <par id="TINFOBPOL" name="INFOB" type="ARRAY" pos="1">
                      <description></description>
                 </par>
-                <par id="TINFCSRC" name="INFOC" type="ARRAY" pos="0">
+                <par id="TINFOCSRC" name="INFOC" type="ARRAY" pos="0">
                      <description></description>
                 </par>
-                <par id="TINFCPOL" name="INFOC" type="ARRAY" pos="1">
+                <par id="TINFOCPOL" name="INFOC" type="ARRAY" pos="1">
                      <description></description>
-                </par>              
+                </par>
         </section>
         <inout>
         	<cfg name="External Indexer">
