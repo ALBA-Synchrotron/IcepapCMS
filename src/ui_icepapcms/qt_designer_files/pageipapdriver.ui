@@ -209,7 +209,7 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="0" colspan="2" >
+          <item row="3" column="0" >
            <widget class="QLabel" name="label_33" >
             <property name="toolTip" >
              <string/>
@@ -239,7 +239,7 @@
             </property>
            </widget>
           </item>
-          <item row="5" column="0" colspan="2" >
+          <item row="5" column="0" >
            <widget class="QLabel" name="label_39" >
             <property name="toolTip" >
              <string/>
@@ -256,7 +256,7 @@
             </property>
            </widget>
           </item>
-          <item row="6" column="0" colspan="2" >
+          <item row="6" column="0" >
            <widget class="QLabel" name="label_40" >
             <property name="toolTip" >
              <string/>
@@ -572,12 +572,15 @@ p, li { white-space: pre-wrap; }
            </widget>
           </item>
           <item row="0" column="1" >
-           <widget class="QDoubleSpinBox" name="ICURR" >
+           <widget class="QSpinBox" name="ICURR" >
             <property name="toolTip" >
              <string>current to the motor when the motor is at rest</string>
             </property>
+            <property name="maximum" >
+             <number>99</number>
+            </property>
             <property name="singleStep" >
-             <double>0.100000000000000</double>
+             <number>1</number>
             </property>
            </widget>
           </item>
@@ -612,12 +615,15 @@ p, li { white-space: pre-wrap; }
            </widget>
           </item>
           <item row="2" column="1" >
-           <widget class="QDoubleSpinBox" name="BCURR" >
+           <widget class="QSpinBox" name="BCURR" >
             <property name="toolTip" >
              <string>current to the motor when the motor is at rest</string>
             </property>
+            <property name="maximum" >
+             <number>99</number>
+            </property>
             <property name="singleStep" >
-             <double>0.100000000000000</double>
+             <number>1</number>
             </property>
            </widget>
           </item>
@@ -658,7 +664,7 @@ p, li { white-space: pre-wrap; }
            <number>6</number>
           </property>
           <item row="2" column="1" >
-           <widget class="QComboBox" name="CLOOP" >
+           <widget class="QComboBox" name="CLOOPENC" >
             <item>
              <property name="text" >
               <string>None</string>
@@ -2080,7 +2086,7 @@ Steps</string>
            <number>6</number>
           </property>
           <item row="3" column="1" >
-           <widget class="QComboBox" name="TINFCSRC" >
+           <widget class="QComboBox" name="TINFOCSRC" >
             <item>
              <property name="text" >
               <string>Low</string>
@@ -2154,7 +2160,7 @@ Steps</string>
            </widget>
           </item>
           <item row="3" column="2" >
-           <widget class="QComboBox" name="TINFCPOL" >
+           <widget class="QComboBox" name="TINFOCPOL" >
             <item>
              <property name="text" >
               <string>Normal</string>
@@ -2168,7 +2174,7 @@ Steps</string>
            </widget>
           </item>
           <item row="2" column="1" >
-           <widget class="QComboBox" name="TINFBSRC" >
+           <widget class="QComboBox" name="TINFOBSRC" >
             <item>
              <property name="text" >
               <string>Low</string>
@@ -2242,7 +2248,7 @@ Steps</string>
            </widget>
           </item>
           <item row="2" column="2" >
-           <widget class="QComboBox" name="TINFBPOL" >
+           <widget class="QComboBox" name="TINFOBPOL" >
             <item>
              <property name="text" >
               <string>Normal</string>
@@ -2256,7 +2262,7 @@ Steps</string>
            </widget>
           </item>
           <item row="1" column="1" >
-           <widget class="QComboBox" name="TINFASRC" >
+           <widget class="QComboBox" name="TINFOASRC" >
             <item>
              <property name="text" >
               <string>Low</string>
@@ -2330,7 +2336,7 @@ Steps</string>
            </widget>
           </item>
           <item row="1" column="2" >
-           <widget class="QComboBox" name="TINFAPOL" >
+           <widget class="QComboBox" name="TINFOAPOL" >
             <item>
              <property name="text" >
               <string>Normal</string>
