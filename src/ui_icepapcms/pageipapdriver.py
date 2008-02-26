@@ -92,6 +92,18 @@ class PageiPapDriver(QtGui.QWidget):
         self.ui.sa2.setFrameStyle(QtGui.QFrame.NoFrame)
         self.ui.sahboxlayout2.addWidget(self.ui.sa2)
         
+        #self.ui.sahboxlayout3 = QtGui.QHBoxLayout(self.ui.tab_2)
+        ##self.ui.sahboxlayout3.setMargin(9)
+        ##self.ui.sahboxlayout3.setSpacing(6)
+        #self.ui.sahboxlayout3.setObjectName("sahboxlayout3")
+        #self.ui.sa3 = QtGui.QScrollArea(self.ui.tab_2) 
+        ##self.ui.sa3.setAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignHCenter)
+        #self.ui.driver_widget.setParent(None)
+        #self.ui.sa3.setWidget(self.ui.driver_widget)
+        #self.ui.sa3.setHorizontalScrollBarPolicy(Qt.Qt.ScrollBarAsNeeded)
+        #self.ui.sa3.setVerticalScrollBarPolicy(Qt.Qt.ScrollBarAsNeeded)
+        #self.ui.sa3.setFrameStyle(QtGui.QFrame.NoFrame)
+        #self.ui.sahboxlayout3.addWidget(self.ui.sa3)
         
 
         
@@ -134,9 +146,6 @@ class PageiPapDriver(QtGui.QWidget):
         ############################################
         #DEBUG GCUNI
         ############################################
-        #print "TYRING TO FIND THE VALUE IN THE DATABASE: "+str(type(widget))
-        #dbIcepapSystem = StormManager().getIcepapSystem(self.icepap_driver.icepapsystem_name)
-        #startupConfig = dbIcepapSystem.getDriver(self.icepap_driver.addr).startup_cfg
         #
         #param = ""
         #if len(self.var_dict) > 0:
@@ -150,27 +159,58 @@ class PageiPapDriver(QtGui.QWidget):
         #            param = name
         #            break
         #print param+" db("+str(startupConfig.getParameter(param))+") widget("+str(self._getWidgetValue(widget))+")"
-                
+        
+        grey_brush =  QtGui.QBrush(QtGui.QColor(239,235,231))
+        yellow_brush = QtGui.QBrush(QtGui.QColor(255,255,0))
+        salmon_brush = QtGui.QBrush(QtGui.QColor(255,206,162))
+        
+        base_yellow_palette = QtGui.QPalette()
+        base_salmon_palette = QtGui.QPalette()
+        button_yellow_palette = QtGui.QPalette()
+        button_salmon_palette = QtGui.QPalette()
+        base_yellow_palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Base,yellow_brush)
+        base_yellow_palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Base,yellow_brush)
+        base_salmon_palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Base,salmon_brush)
+        base_salmon_palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Base,salmon_brush)
+        button_yellow_palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Button,yellow_brush)
+        button_yellow_palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Button,yellow_brush)
+        button_salmon_palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Button,salmon_brush)
+        button_salmon_palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Button,salmon_brush)
+
         highlight = False
+        dbIcepapSystem = StormManager().getIcepapSystem(self.icepap_driver.icepapsystem_name)
+        dbStartupConfig = dbIcepapSystem.getDriver(self.icepap_driver.addr,in_memory=False).startup_cfg
+        param = str(widget.objectName())
+        dbvalue = dbStartupConfig.getParameter(unicode(param),in_memory=False)
+        wvalue = self._getWidgetValue(widget)
+
         if isinstance(widget, QtGui.QDoubleSpinBox) or isinstance(widget, QtGui.QSpinBox):
             if widget.defaultvalue != widget.value():
                 highlight = True
-                widget.setStyleSheet("background-color: rgb(255, 255, 0)")
+                widget.setPalette(base_yellow_palette)
+            elif abs(float(wvalue) - float(dbvalue)) > 0.01:
+                widget.setPalette(base_salmon_palette)
+                
         elif isinstance(widget, QtGui.QCheckBox):
             if widget.defaultvalue != widget.isChecked():
                 highlight = True
-                widget.setStyleSheet("background-color: rgb(255, 255, 0)")
+                widget.setPalette(base_yellow_palette)
+            elif wvalue != dbvalue:
+                widget.setPalette(base_salmon_palette)
+
         elif isinstance(widget, QtGui.QComboBox):
             if widget.defaultvalue != str(widget.currentText()).upper():
                 highlight = True
-                style = "QComboBox {background-color: rgb(255,255,0)};"
-                style = style +" QComboBox::drop-down {background-color: rgb(255,255,0); subcontrol-origin: padding; subcontrol-position: top right;};"
-                style = style + "QComboBox::down-arrow {background-color: rgb(255,255,0)}"
-                widget.setStyleSheet(style)
+                widget.setPalette(button_yellow_palette)
+            elif wvalue != dbvalue:
+                widget.setPalette(button_salmon_palette)
+
         elif isinstance(widget, QtGui.QLineEdit):
             if widget.defaultvalue != str(widget.text()):
                 highlight = True
-                widget.setStyleSheet("background-color: rgb(255, 255, 0)")
+                widget.setPalette(base_yellow_palette)
+            elif wvalue != dbvalue:
+                widget.setPalette(base_salmon_palette)
                              
         if highlight:
             if widget.isTest:
@@ -187,7 +227,6 @@ class PageiPapDriver(QtGui.QWidget):
             else:
                 if self.main_modified.count(widget) > 0:
                     self.main_modified.remove(widget)
-            widget.setStyleSheet("")
         
 
     def _connectHighlighting(self):
@@ -195,18 +234,41 @@ class PageiPapDriver(QtGui.QWidget):
         self.main_modified = []
         self.test_var_modified = []
         QtCore.QObject.connect(self.signalMapper, QtCore.SIGNAL("mapped(QWidget*)"), self.highlightWidget)
+        #HIGHLIGHT AGAIN
+        for name, [nsection, widget] in self.var_dict.items():
+            self.highlightWidget(widget)
+
     
     def _disconnectHighlighting(self):
+        white_brush = QtGui.QBrush(QtGui.QColor(255,255,255))
+        grey_brush =  QtGui.QBrush(QtGui.QColor(239,235,231))
+        base_white_palette = QtGui.QPalette()
+        button_grey_palette = QtGui.QPalette()
+        base_white_palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Base,white_brush)
+        base_white_palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Base,white_brush)
+        button_grey_palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Button,grey_brush)
+        button_grey_palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Button,grey_brush)
+        
         for nsection, widget in self.var_dict.itervalues():
             if nsection == 0:
-                widget.setStyleSheet("")
+                if isinstance(widget,QtGui.QComboBox):
+                    widget.setPalette(button_grey_palette)
+                else:
+                    widget.setPalette(base_white_palette)
         aux = []
         for widget in self.test_var_dict.itervalues():
             if type(widget) == type(aux):
                 for w in widget:
-                    w.setStyleSheet("")
+                    if isinstance(w,QtGui.QComboBox):
+                        w.setPalette(button_grey_palette)
+                    else:
+                        w.setPalette(base_white_palette)
             else:
-                widget.setStyleSheet("")
+                if isinstance(widget,QtGui.QComboBox):
+                    widget.setPalette(button_grey_palette)
+                else:
+                    widget.setPalette(base_white_palette)
+
         QtCore.QObject.disconnect(self.signalMapper, QtCore.SIGNAL("mapped(QWidget*)"),self.highlightWidget)
           
 # ------------------------------  Configuration ----------------------------------------------------------    
@@ -377,12 +439,14 @@ class PageiPapDriver(QtGui.QWidget):
             #description = description + "Signed on %s %s" % (aux[0], time.ctime(float(aux[1])))
         else:            
             description = description + "Current configuration not signed"
-        
+
         if self.icepap_driver.mode == IcepapMode.CONFIG:
             self._mainwin.addDriverToSign(self.icepap_driver)
         self.ui.txtDescription.setText(description)
         self.ui.txtDriverName.setText(self.icepap_driver.name)
         #self.ui.txtDriverNemonic.setText(self.icepap_driver.nemonic)
+
+        
         for name, value in icepap_driver.current_cfg.toList():
             if self.var_dict.has_key(name):
                 [nsection, element] = self.var_dict[name]
@@ -440,6 +504,17 @@ class PageiPapDriver(QtGui.QWidget):
                     widget.defaultvalue = state 
                 widget.setChecked(state)
             elif isinstance(widget, QtGui.QComboBox):
+                widget.clear()
+                param = str(widget.objectName())
+                # WORKAROUND FOR QCOMBOBOX WIDGETS IN THE TEST TAB"
+                if param in ("TINFOASRC","TINFOAPOL","TINFOBSRC","TINFOBPOL","TINFOCSRC","TINFOCPOL","TINDEXER"):
+                    param = param[1:]
+                controller = IcepapController()
+                driver_cfginfo = controller.icepap_cfginfos[self.icepap_driver.icepapsystem_name][self.icepap_driver.addr]
+                options = driver_cfginfo.get(param)
+                if options != None:
+                    for option in options:
+                        widget.addItem(QtCore.QString(option))
                 widget.setCurrentIndex(widget.findText(value, QtCore.Qt.MatchFixedString))
                 if default:
                     widget.defaultvalue = str(value)                
@@ -447,7 +522,6 @@ class PageiPapDriver(QtGui.QWidget):
                 widget.setText(str(value))
                 if default:
                     widget.defaultvalue = str(value)
-                
                 
         except:           
             pass
@@ -535,7 +609,7 @@ class PageiPapDriver(QtGui.QWidget):
                         print "Unexpected error:", sys.exc_info()[0]
                         values_ok = False
                         break
-        
+
         if values_ok and len(new_values) > 0:
             save_ok = self._manager.saveValuesInIcepap(self.icepap_driver, new_values)
         elif not values_ok:
@@ -573,12 +647,8 @@ class PageiPapDriver(QtGui.QWidget):
         else:
             MessageDialogs.showWarningMessage(self, "Driver configuration", "Error saving configuration")
         
-        
-        
-        
         self._disconnectHighlighting()
         self._connectHighlighting()
-    
               
     def btnUndo_on_click(self):
         self._manager.undoDriverConfiguration(self.icepap_driver)
@@ -668,6 +738,8 @@ class PageiPapDriver(QtGui.QWidget):
             
     def signDriver(self):
         self.icepap_driver.signDriver()
+        self._disconnectHighlighting()
+        self._connectHighlighting()
                
 # ------------------------------  Testing ----------------------------------------------------------            
     def startTesting(self):
