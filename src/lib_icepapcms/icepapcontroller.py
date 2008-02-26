@@ -24,6 +24,8 @@ class IcepapController(Singleton):
         self.config_template = path+'/templates/driverparameters.xml'
         self._parseDriverTemplateFile()
         self._config = ConfigManager()
+        self.icepap_cfginfos = {}
+        
         try:
             self.debug = self._config.config[self._config.icepap]["debug_enabled"] == str(True)
             self.log_folder = self._config.config[self._config.icepap]["log_folder"]
@@ -67,6 +69,7 @@ class IcepapController(Singleton):
             driver_name = "compare"
         
         driver_list = {}
+        self.icepap_cfginfos[icepap_name] = {}
         try:
             cratespresent = self.iPaps[icepap_name].getSysStatus()
             cratespresent = int(cratespresent, 16)
@@ -81,9 +84,13 @@ class IcepapController(Singleton):
                             driver = icepapdriver.IcepapDriver(driver_name, addr)
                             driver_cfg = self.getDriverConfiguration(icepap_name, addr)
                             driver.addConfiguration(driver_cfg)
+
+                            # CFGINFO IS ALSO SPECIFIC FOR EACH DRIVER    
+                            cfginfo_dict = self.getDriverCfgInfoDict(icepap_name,addr)
+                            self.icepap_cfginfos[icepap_name][addr] = cfginfo_dict    
+
                             driver.setName(self.iPaps[icepap_name].getName(addr))
-                            mode = self.iPaps[icepap_name].getMode(addr)
-                            driver.setMode(mode)
+                            driver.setMode(self.iPaps[icepap_name].getMode(addr))
                             driver_list[addr] = driver
                             
         except:
@@ -92,7 +99,7 @@ class IcepapController(Singleton):
 
         return driver_list
     
-    def  getDriverConfiguration(self, icepap_name, driver_addr):
+    def getDriverConfiguration(self, icepap_name, driver_addr):
         """
             Returns a IcepaDriverCfg object of the attributes predefined in
             driverparameters.xml
@@ -107,9 +114,8 @@ class IcepapController(Singleton):
         ver = self.iPaps[icepap_name].getVersion(driver_addr,"DRIVER")
         ipap_id = self.iPaps[icepap_name].getId(driver_addr)
         driver_cfg.setParameter("VER", ver)
-        driver_cfg.setParameter("ID", ipap_id)
-        # INSTEAD OF READING PARAM BY PARAM, WE SHOULD ASK THE ICEPAP FOR ALL THE CONFIGURATION
-        # WITHT THE #N?:CFG COMMAND, USING SOME .getCfg() METHOD.
+        driver_cfg.setParameter("ID", ipap_id)        
+        
         ###for name in self.config_parameters:
         ###    #print name
         ###    try:
@@ -122,6 +128,8 @@ class IcepapController(Singleton):
         ###    #value = value.lstrip()
         ###    #value = value.lstrip(name)
         ###    driver_cfg.setParameter(name, value)
+        # INSTEAD OF READING PARAM BY PARAM, WE SHOULD ASK THE ICEPAP FOR ALL THE CONFIGURATION
+        # WITH THE #N?:CFG COMMAND, USING SOME .getCfg() METHOD.
         config = self.iPaps[icepap_name].getConfig(driver_addr)
         config = config.replace('$\r\n',"")
         config = config.replace('\r\n$',"")
@@ -129,7 +137,7 @@ class IcepapController(Singleton):
         for param_value in params_list:
             split = param_value.split(" ")
             driver_cfg.setParameter(split[0],split[1])
-
+        
         return driver_cfg
     
     def setDriverConfiguration(self, icepap_name, driver_addr, new_values):
@@ -227,13 +235,47 @@ class IcepapController(Singleton):
         values = []
         for name, value in  par_var_list:
             self.iPaps[icepap_name].writeParameter(driver_addr, name, value)
+
+    def getDriverCfgInfo(self,icepap_name,driver_addr):
+        cfginfo = self.iPaps[icepap_name].getCfgInfo(driver_addr)
+        return cfginfo
+
+    def getDriverCfgInfoDict(self, icepap_name, driver_addr):
+        """
+            Returns a dictionary with all the Driver params cfginfo
+        """
+        
+        """ TO-DO STORM review"""   
+        # THE AVAILABLE OPTIONS FOR EACH PARAMETER ARE ALSO GIVEN BY THE DRIVER INSTEAD OF
+        # FIXED VALUES FROM THE APPLICATION
+        # THE CFGINFO IS NEEDED TO POPULATE THE QComboBoxes with correct available values
+        cfginfo_str = self.getDriverCfgInfo(icepap_name,driver_addr)
+        cfginfo_str = cfginfo_str.replace('$\r\n',"")
+        cfginfo_str = cfginfo_str.replace('\r\n$',"")
+        cfginfo_list = cfginfo_str.split("\r\n")
+        cfginfo_dict = {}
+        for param_cfg in cfginfo_list:
+            split = param_cfg.split(" ",1)
+            if len(split) > 1:
+                param = split[0]
+                values = split[1]
+                values = values.replace("{","")
+                values = values.replace("}","")
+                cfginfo_dict[split[0]] = values.split()
+            else:
+                print "THE CONTROLLER DID NOT RECEIVE ALL THE CFGINFO FOR THE DRIVER!"
+                print "PLEASE, REPORT THIS OUTPUT TO THE MANTAINER"
+                print "ALL INFO WAS (str): "+str(cfginfo_str)
+                print "ALL INFO WAS (list): "+str(cfginfo_list)
+                print "SOME ERROR GETTING CFGINFO: "+str(param_cfg)
+        return cfginfo_dict
+
     
     def getDriverMotionValues(self, icepap_name, driver_addr):
         speed = self.iPaps[icepap_name].getSpeed(driver_addr)
         acc = self.iPaps[icepap_name].getAcceleration(driver_addr)
         state = (speed, acc)
         return state
-     
             
     
     def setDriverMotionValues(self, icepap_name, driver_addr, values):
