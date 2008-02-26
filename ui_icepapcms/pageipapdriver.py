@@ -190,6 +190,7 @@ class PageiPapDriver(QtGui.QWidget):
                 widget.setPalette(base_yellow_palette)
             elif abs(float(wvalue) - float(dbvalue)) > 0.01:
                 widget.setPalette(base_salmon_palette)
+                highlight = True
                 
         elif isinstance(widget, QtGui.QCheckBox):
             if widget.defaultvalue != widget.isChecked():
@@ -197,6 +198,7 @@ class PageiPapDriver(QtGui.QWidget):
                 widget.setPalette(base_yellow_palette)
             elif wvalue != dbvalue:
                 widget.setPalette(base_salmon_palette)
+                highlight = True
 
         elif isinstance(widget, QtGui.QComboBox):
             if widget.defaultvalue != str(widget.currentText()).upper():
@@ -204,6 +206,7 @@ class PageiPapDriver(QtGui.QWidget):
                 widget.setPalette(button_yellow_palette)
             elif wvalue != dbvalue:
                 widget.setPalette(button_salmon_palette)
+                highlight = True
 
         elif isinstance(widget, QtGui.QLineEdit):
             if widget.defaultvalue != str(widget.text()):
@@ -211,6 +214,7 @@ class PageiPapDriver(QtGui.QWidget):
                 widget.setPalette(base_yellow_palette)
             elif wvalue != dbvalue:
                 widget.setPalette(base_salmon_palette)
+                highlight = True
                              
         if highlight:
             if widget.isTest:
@@ -219,7 +223,6 @@ class PageiPapDriver(QtGui.QWidget):
             else:
                 if not widget in self.main_modified:
                     self.main_modified.append(widget)
-            
         else:
             if widget.isTest:
                 if self.test_var_modified.count(widget) > 0:
@@ -227,6 +230,19 @@ class PageiPapDriver(QtGui.QWidget):
             else:
                 if self.main_modified.count(widget) > 0:
                     self.main_modified.remove(widget)
+            white_brush = QtGui.QBrush(QtGui.QColor(255,255,255))
+            grey_brush =  QtGui.QBrush(QtGui.QColor(239,235,231))
+            base_white_palette = QtGui.QPalette()
+            button_grey_palette = QtGui.QPalette()
+            base_white_palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Base,white_brush)
+            base_white_palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Base,white_brush)
+            button_grey_palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Button,grey_brush)
+            button_grey_palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Button,grey_brush)
+            if isinstance(widget,QtGui.QComboBox):
+                widget.setPalette(button_grey_palette)
+            else:
+                widget.setPalette(base_white_palette)
+
         
 
     def _connectHighlighting(self):
