@@ -53,7 +53,6 @@ class PageiPapDriver(QtGui.QWidget):
         self._manager = MainManager()
         self.ui.btnUndo.setEnabled(False)
         
-
         self.setLedsOff()
         self.icepap_driver = None
         self.inMotion = -1
@@ -63,6 +62,36 @@ class PageiPapDriver(QtGui.QWidget):
         self.ui.historicWidget.setCfgPage(self)
         self.hideHistoricWidget()
         self.ui.sliderJog.setEnabled(False)
+
+        # PALETTES TO HIGHLIGHT WIDGETS
+        white_brush = QtGui.QBrush(QtGui.QColor(255,255,255))
+        grey_brush =  QtGui.QBrush(QtGui.QColor(239,235,231))
+        yellow_brush = QtGui.QBrush(QtGui.QColor(255,255,0))
+        salmon_brush = QtGui.QBrush(QtGui.QColor(255,206,162))
+        
+        self.base_white_palette = QtGui.QPalette()
+        self.base_yellow_palette = QtGui.QPalette()
+        self.base_salmon_palette = QtGui.QPalette()
+
+        self.button_grey_palette = QtGui.QPalette()
+        self.button_yellow_palette = QtGui.QPalette()
+        self.button_salmon_palette = QtGui.QPalette()
+        
+        self.base_white_palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Base,white_brush)
+        self.base_white_palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Base,white_brush)
+        self.base_yellow_palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Base,yellow_brush)
+        self.base_yellow_palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Base,yellow_brush)
+        self.base_salmon_palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Base,salmon_brush)
+        self.base_salmon_palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Base,salmon_brush)
+
+        self.button_grey_palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Button,grey_brush)
+        self.button_grey_palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Button,grey_brush)
+        self.button_yellow_palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Button,yellow_brush)
+        self.button_yellow_palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Button,yellow_brush)
+        self.button_salmon_palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Button,salmon_brush)
+        self.button_salmon_palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Button,salmon_brush)
+
+
         
     def setScrollBars(self):
         self.ui.sahboxlayout = QtGui.QHBoxLayout(self.ui.tab_connectors)
@@ -160,23 +189,6 @@ class PageiPapDriver(QtGui.QWidget):
         #            break
         #print param+" db("+str(startupConfig.getParameter(param))+") widget("+str(self._getWidgetValue(widget))+")"
         
-        grey_brush =  QtGui.QBrush(QtGui.QColor(239,235,231))
-        yellow_brush = QtGui.QBrush(QtGui.QColor(255,255,0))
-        salmon_brush = QtGui.QBrush(QtGui.QColor(255,206,162))
-        
-        base_yellow_palette = QtGui.QPalette()
-        base_salmon_palette = QtGui.QPalette()
-        button_yellow_palette = QtGui.QPalette()
-        button_salmon_palette = QtGui.QPalette()
-        base_yellow_palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Base,yellow_brush)
-        base_yellow_palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Base,yellow_brush)
-        base_salmon_palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Base,salmon_brush)
-        base_salmon_palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Base,salmon_brush)
-        button_yellow_palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Button,yellow_brush)
-        button_yellow_palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Button,yellow_brush)
-        button_salmon_palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Button,salmon_brush)
-        button_salmon_palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Button,salmon_brush)
-
         highlight = False
         dbIcepapSystem = StormManager().getIcepapSystem(self.icepap_driver.icepapsystem_name)
         dbStartupConfig = dbIcepapSystem.getDriver(self.icepap_driver.addr,in_memory=False).startup_cfg
@@ -187,33 +199,33 @@ class PageiPapDriver(QtGui.QWidget):
         if isinstance(widget, QtGui.QDoubleSpinBox) or isinstance(widget, QtGui.QSpinBox):
             if widget.defaultvalue != widget.value():
                 highlight = True
-                widget.setPalette(base_yellow_palette)
+                widget.setPalette(self.base_yellow_palette)
             elif abs(float(wvalue) - float(dbvalue)) > 0.01:
-                widget.setPalette(base_salmon_palette)
+                widget.setPalette(self.base_salmon_palette)
                 highlight = True
                 
         elif isinstance(widget, QtGui.QCheckBox):
             if widget.defaultvalue != widget.isChecked():
                 highlight = True
-                widget.setPalette(base_yellow_palette)
+                widget.setPalette(self.base_yellow_palette)
             elif wvalue != dbvalue:
-                widget.setPalette(base_salmon_palette)
+                widget.setPalette(self.base_salmon_palette)
                 highlight = True
 
         elif isinstance(widget, QtGui.QComboBox):
             if widget.defaultvalue != str(widget.currentText()).upper():
                 highlight = True
-                widget.setPalette(button_yellow_palette)
+                widget.setPalette(self.button_yellow_palette)
             elif wvalue != dbvalue:
-                widget.setPalette(button_salmon_palette)
+                widget.setPalette(self.button_salmon_palette)
                 highlight = True
 
         elif isinstance(widget, QtGui.QLineEdit):
             if widget.defaultvalue != str(widget.text()):
                 highlight = True
-                widget.setPalette(base_yellow_palette)
+                widget.setPalette(self.base_yellow_palette)
             elif wvalue != dbvalue:
-                widget.setPalette(base_salmon_palette)
+                widget.setPalette(self.base_salmon_palette)
                 highlight = True
                              
         if highlight:
@@ -230,18 +242,11 @@ class PageiPapDriver(QtGui.QWidget):
             else:
                 if self.main_modified.count(widget) > 0:
                     self.main_modified.remove(widget)
-            white_brush = QtGui.QBrush(QtGui.QColor(255,255,255))
-            grey_brush =  QtGui.QBrush(QtGui.QColor(239,235,231))
-            base_white_palette = QtGui.QPalette()
-            button_grey_palette = QtGui.QPalette()
-            base_white_palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Base,white_brush)
-            base_white_palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Base,white_brush)
-            button_grey_palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Button,grey_brush)
-            button_grey_palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Button,grey_brush)
+
             if isinstance(widget,QtGui.QComboBox):
-                widget.setPalette(button_grey_palette)
+                widget.setPalette(self.button_grey_palette)
             else:
-                widget.setPalette(base_white_palette)
+                widget.setPalette(self.base_white_palette)
 
         
 
@@ -256,34 +261,25 @@ class PageiPapDriver(QtGui.QWidget):
 
     
     def _disconnectHighlighting(self):
-        white_brush = QtGui.QBrush(QtGui.QColor(255,255,255))
-        grey_brush =  QtGui.QBrush(QtGui.QColor(239,235,231))
-        base_white_palette = QtGui.QPalette()
-        button_grey_palette = QtGui.QPalette()
-        base_white_palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Base,white_brush)
-        base_white_palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Base,white_brush)
-        button_grey_palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Button,grey_brush)
-        button_grey_palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Button,grey_brush)
-        
         for nsection, widget in self.var_dict.itervalues():
             if nsection == 0:
                 if isinstance(widget,QtGui.QComboBox):
-                    widget.setPalette(button_grey_palette)
+                    widget.setPalette(self.button_grey_palette)
                 else:
-                    widget.setPalette(base_white_palette)
+                    widget.setPalette(self.base_white_palette)
         aux = []
         for widget in self.test_var_dict.itervalues():
             if type(widget) == type(aux):
                 for w in widget:
                     if isinstance(w,QtGui.QComboBox):
-                        w.setPalette(button_grey_palette)
+                        w.setPalette(self.button_grey_palette)
                     else:
-                        w.setPalette(base_white_palette)
+                        w.setPalette(sefl.base_white_palette)
             else:
                 if isinstance(widget,QtGui.QComboBox):
-                    widget.setPalette(button_grey_palette)
+                    widget.setPalette(self.button_grey_palette)
                 else:
-                    widget.setPalette(base_white_palette)
+                    widget.setPalette(self.base_white_palette)
 
         QtCore.QObject.disconnect(self.signalMapper, QtCore.SIGNAL("mapped(QWidget*)"),self.highlightWidget)
           
