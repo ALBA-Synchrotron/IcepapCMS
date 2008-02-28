@@ -134,8 +134,13 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
         return parentItem.childCount()
         
     def setupModelData(self, IcepapsList, parent, no_expand):
-        for icepap_name, icepap_system in IcepapsList.items():
-            self.addIcepapSystem(icepap_name, icepap_system, no_expand, parent)
+        #print str(type(IcepapsList))
+        #print str(IcepapsList.keys())
+        #for icepap_name, icepap_system in IcepapsList.items():
+        keys = IcepapsList.keys()
+        keys.sort()
+        for icepap_name in keys:
+            self.addIcepapSystem(icepap_name, IcepapsList.get(icepap_name), no_expand, parent)
             
     def addIcepapSystem(self, icepap_name, icepap_system, no_expand, parent = None, index = None):
         """ TO-DO STORM review"""

@@ -142,8 +142,10 @@ class IcepapCMS(QtGui.QMainWindow):
     def buildLocationCombo(self):
         self.ui.cbLocation.clear()
         self.ui.treeView.setModel(None)
-        #self.ui.treeView.reset()               
-        for location_name in self._manager.locationList.keys():
+        #self.ui.treeView.reset()
+        keys = self._manager.locationList.keys()
+        keys.sort()                
+        for location_name in keys:
             self.ui.cbLocation.addItem(location_name)        
         first_location = self.ui.cbLocation.itemText(0)
         activate = False

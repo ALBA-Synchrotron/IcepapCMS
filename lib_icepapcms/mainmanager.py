@@ -26,7 +26,7 @@ class MainManager(Singleton):
         self.dbStatusOK = self._db.dbOK        
 
         self._form = args[0]
-        self.locationList = self._db.getAllLocation()
+        self.locationList = self._db.getAllLocations()
         self.location = None
         self.IcepapSystemList = {}
        
@@ -68,7 +68,7 @@ class MainManager(Singleton):
         self.location = None
         self.IcepapSystemList = {}
         self._form = form
-        self.locationList = self._db.getAllLocation()
+        self.locationList = self._db.getAllLocations()
         
         
     def addIcepapSystem(self, host, port, description = None):
