@@ -119,15 +119,16 @@ class StormManager(Singleton):
         self._store.remove(driver)
         self.commitTransaction()  
     
-    def getAllLocation(self):
+    def getAllLocations(self):
         try:
             locations = self._store.find(Location)
+            locations.order_by(Location.name)
             location_dict = {}
             for l in locations:
                 location_dict[l.name] = l
             return location_dict
         except:
-            print "getAllLocation:", sys.exc_info()[1]
+            print "getAllLocations:", sys.exc_info()[1]
             return {}
    
     def getLocation(self, name):
@@ -139,7 +140,7 @@ class StormManager(Singleton):
     def existsDriver(self, mydriver, id):
         drivers = self._store.find(IcepapDriver, IcepapDriver.addr == IcepapDriverCfg.driver_addr,
                             IcepapDriverCfg.id == CfgParameter.cfg_id,
-                            CfgParameter.name == unicode("ID"), CfgParameter.value == id)  
+                            CfgParameter.name == unicode("ID"), CfgParameter.value == id)
         if drivers:
             for driver in drivers:                
                 if driver.addr != mydriver.addr: 
@@ -151,6 +152,7 @@ class StormManager(Singleton):
     def getLocationIcepapSystem(self, location):
         try:
             icepaps = self._store.find(IcepapSystem, IcepapSystem.location_name == location)
+            icepaps.order_by(IcepapSystem.name)
             ipapdict = {}
             for ipap_sys in icepaps:
                 ipapdict[ipap_sys.name] = ipap_sys
