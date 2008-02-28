@@ -434,51 +434,7 @@ class IcepapController(Singleton):
         for i in range(len(data)):
             ipap.sendData(struct.pack('H',data[i]))
         logger.addToLog("Wait for progammming ends")
-
-        # Waiting the data to be completely in the Triton
-        time.sleep(5)
-        if addr != "":
-            cmd = "?PROG"
-            retry = True
-            while retry:
-                try:
-                    logger.addToLog(cmd)
-                    answer = ipap.sendWriteReadCommand(cmd)
-                    logger.addToLog("-> "+str(answer))
-                    if answer.find("ACTIVE") > 0:
-                        time.sleep(1)
-                    elif answer.find("ERROR") > 0:
-                        logger.addToLog("Exiting: The programming has ended with an error.")
-                        return
-                    elif answer.find("DONE") > 0:
-                        retry = False
-                except IcePAPException,iex:
-                    if iex.code == IcePAPException.TIMEOUT:
-                        logger.addToLog("Lost connection with the COMM module.")
-                        logger.addToLog("WAIT UNTIL THE ICEPAP ENDS THE PROGRAMMING AND")
-                        logger.addToLog("USE THE CONSOLE TO INPUT: '#MODE OPER' command to the IcePAP.")
-                    else:
-                        logger.addToLog("The connection has been lost (NOT TIMEOUT!).")
-                    return
-        cmd = "#MODE OPER"
-        retry = True
-        while retry:
-            try:
-                logger.addToLog(cmd)
-                answer = ipap.sendWriteReadCommand(cmd)
-                logger.addToLog("-> "+str(answer))
-                if answer == "MODE OK":
-                    retry = False
-                else:
-                    logger.addToLog("Exiting: The IcePAP could not be set to MODE OPER: "+str(answer))
-                    return
-            except IcePAPException,iex:
-                if iex.code == IcePAPException.TIMEOUT:
-                    time.sleep(1)
-                    logger.addToLog("Waiting one second more, still programming")
-                else:
-                    retry = False
-            
+        logger.addToLog("At the end, issue a #MODE OPER")            
 
     
     def testConnection(self, serial, dst):
