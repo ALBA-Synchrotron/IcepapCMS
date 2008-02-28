@@ -25,6 +25,7 @@ class IcepapController(Singleton):
         self._parseDriverTemplateFile()
         self._config = ConfigManager()
         self.icepap_cfginfos = {}
+        self.icepap_cfgorder = {}
         
         try:
             self.debug = self._config.config[self._config.icepap]["debug_enabled"] == str(True)
@@ -70,6 +71,7 @@ class IcepapController(Singleton):
         
         driver_list = {}
         self.icepap_cfginfos[icepap_name] = {}
+        self.icepap_cfgorder[icepap_name] = {}
         try:
             cratespresent = self.iPaps[icepap_name].getSysStatus()
             cratespresent = int(cratespresent, 16)
@@ -86,8 +88,9 @@ class IcepapController(Singleton):
                             driver.addConfiguration(driver_cfg)
 
                             # CFGINFO IS ALSO SPECIFIC FOR EACH DRIVER    
-                            cfginfo_dict = self.getDriverCfgInfoDict(icepap_name,addr)
+                            cfginfo_dict,order_list = self.getDriverCfgInfoDictAndList(icepap_name,addr)
                             self.icepap_cfginfos[icepap_name][addr] = cfginfo_dict    
+                            self.icepap_cfgorder[icepap_name][addr] = order_list
 
                             driver.setName(self.iPaps[icepap_name].getName(addr))
                             driver.setMode(self.iPaps[icepap_name].getMode(addr))
@@ -145,9 +148,21 @@ class IcepapController(Singleton):
             """ TO-DO STORM review"""
             if self.iPaps[icepap_name].getMode(driver_addr) != IcepapMode.CONFIG:
                 self.iPaps[icepap_name].startConfig(driver_addr)
-            for (name, value) in new_values:
+
+            # THE CONFIGURATION VALUES SHOULD BE SENT IN A SPECIFIC ORDER
+            order_list = self.icepap_cfgorder[icepap_name][driver_addr]
+            params_ordered = {}
+            for (name,value) in new_values:
+                index = order_list.index(name)
+                params_ordered[index] = (name,value)
+            
+            keys = params_ordered.keys()
+            keys.sort()
+            for key in keys:
+                (name,value) = params_ordered.get(key)
                 if name != "VER":
                     self.iPaps[icepap_name].setCfgParameter(driver_addr, name, str(value))
+
             driver_cfg = self.getDriverConfiguration(icepap_name, driver_addr)    
             return driver_cfg
         except:
@@ -233,14 +248,25 @@ class IcepapController(Singleton):
     
     def writeIcepapParameters(self, icepap_name, driver_addr, par_var_list):
         values = []
-        for name, value in  par_var_list:
+        # THE CONFIGURATION VALUES SHOULD BE SENT IN A SPECIFIC ORDER
+        order_list = self.icepap_cfgorder[icepap_name][driver_addr]
+        params_ordered = {}
+        for (name,value) in par_var_list:
+            index = order_list.index(name)
+            params_ordered[index] = (name,value)
+
+        keys = params_ordered.keys()
+        keys.sort()
+        for key in keys:
+            (name,value) = params_ordered.get(key)
             self.iPaps[icepap_name].writeParameter(driver_addr, name, value)
+
 
     def getDriverCfgInfo(self,icepap_name,driver_addr):
         cfginfo = self.iPaps[icepap_name].getCfgInfo(driver_addr)
         return cfginfo
 
-    def getDriverCfgInfoDict(self, icepap_name, driver_addr):
+    def getDriverCfgInfoDictAndList(self, icepap_name, driver_addr):
         """
             Returns a dictionary with all the Driver params cfginfo
         """
@@ -254,6 +280,7 @@ class IcepapController(Singleton):
         cfginfo_str = cfginfo_str.replace('\r\n$',"")
         cfginfo_list = cfginfo_str.split("\r\n")
         cfginfo_dict = {}
+        order_list = []
         for param_cfg in cfginfo_list:
             split = param_cfg.split(" ",1)
             if len(split) > 1:
@@ -262,13 +289,14 @@ class IcepapController(Singleton):
                 values = values.replace("{","")
                 values = values.replace("}","")
                 cfginfo_dict[split[0]] = values.split()
+                order_list.append(param)
             else:
                 print "THE CONTROLLER DID NOT RECEIVE ALL THE CFGINFO FOR THE DRIVER!"
                 print "PLEASE, REPORT THIS OUTPUT TO THE MANTAINER"
                 print "ALL INFO WAS (str): "+str(cfginfo_str)
                 print "ALL INFO WAS (list): "+str(cfginfo_list)
                 print "SOME ERROR GETTING CFGINFO: "+str(param_cfg)
-        return cfginfo_dict
+        return (cfginfo_dict,order_list)
 
     
     def getDriverMotionValues(self, icepap_name, driver_addr):
