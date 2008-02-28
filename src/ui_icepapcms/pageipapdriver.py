@@ -189,6 +189,8 @@ class PageiPapDriver(QtGui.QWidget):
         #            break
         #print param+" db("+str(startupConfig.getParameter(param))+") widget("+str(self._getWidgetValue(widget))+")"
         
+        if not isinstance(widget,QtGui.QWidget):
+            return
         highlight = False
         dbIcepapSystem = StormManager().getIcepapSystem(self.icepap_driver.icepapsystem_name)
         dbStartupConfig = dbIcepapSystem.getDriver(self.icepap_driver.addr,in_memory=False).startup_cfg
@@ -432,13 +434,12 @@ class PageiPapDriver(QtGui.QWidget):
     def _addWidgetToTable(self, section, row, column, type, min, max):
         table = self.sectionTables[section]
         #le = QtGui.QLineEdit(table)
-        le = QtGui.QLineEdit()
-        widget = None
+        widget = QtGui.QLineEdit()
         if type == "INTEGER":
             widget = QValidateLineEdit(table,QValidateLineEdit.INTEGER,min,max)
         elif type == "DOUBLE":
             widget = QValidateLineEdit(table,QValidateLineEdit.DOUBLE,min,max)
-        elif type == "STRING":
+        elif type == "QCOMBOSTRING":
             options = table.item(row,3).text()
             options = options.replace("[","")
             options = options.replace("]","")
@@ -450,7 +451,9 @@ class PageiPapDriver(QtGui.QWidget):
             widget.setCurrentIndex(widget.findText(str(table.item(row,1).text())))
             
 
-        widget.defaultvalue = str(table.item(row,1).text())
+        widget.defaultvalue = None
+        if table.item(row,1) != None:
+            widget.defaultvalue = str(table.item(row,1).text())
         widget.isTest = False
         table.setCellWidget(row, column, widget)
         self._connectWidgetToSignalMap(widget)
@@ -523,6 +526,8 @@ class PageiPapDriver(QtGui.QWidget):
                     elif "FLOAT" == cfginfo[0]:
                         partype = "DOUBLE"
                         pardesc = "DOUBLE value"
+                    else:
+                        partype = "QCOMBOSTRING"
                     self._addItemToTable(indexUnknownTab, row, 3, pardesc, False)
                     # DESCRIPTION (col 3) BEFORE WIDGET (col 2) TO BE ABLE TO CREATE QCOMBOXES
                     self._addWidgetToTable(indexUnknownTab, row, 2, partype, 0, 9999999)
