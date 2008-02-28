@@ -195,7 +195,8 @@ class PageiPapDriver(QtGui.QWidget):
         param = str(widget.objectName())
         dbvalue = dbStartupConfig.getParameter(unicode(param),in_memory=False)
         wvalue = self._getWidgetValue(widget)
-
+        #print "DB("+str(dbvalue)+") W("+str(wvalue)+")"
+        
         if isinstance(widget, QtGui.QDoubleSpinBox) or isinstance(widget, QtGui.QSpinBox):
             if widget.defaultvalue != widget.value():
                 highlight = True
@@ -315,10 +316,16 @@ class PageiPapDriver(QtGui.QWidget):
                         parmax = parmax.strip()
                         
                     pardesc = self._getText(pars.getElementsByTagName("description")[0].firstChild)
+                    # SHOULD I USE pardesc as the tooltip?
                     if inMainSection or inTestSection:
-                        widget = getattr(self.ui, parid)
+                        widget = None
+                        try:
+                            widget = getattr(self.ui, parid)
+                        except:
+                            pass
+
                         if widget == None:
-                            print parid + " not found in GUI"
+                            print "THE GUI ELEMENT '"+str(parid)+"' DOES NOT EXIST"
                         else:
                             self._connectWidgetToSignalMap(widget)
                             if inMainSection:
@@ -407,6 +414,7 @@ class PageiPapDriver(QtGui.QWidget):
         
         
         self.sectionTables[self.ui.tabWidget.indexOf(tab)] = tableWidget
+        return self.ui.tabWidget.indexOf(tab)
         
 
            
@@ -423,20 +431,30 @@ class PageiPapDriver(QtGui.QWidget):
         
     def _addWidgetToTable(self, section, row, column, type, min, max):
         table = self.sectionTables[section]
-        
+        #le = QtGui.QLineEdit(table)
+        le = QtGui.QLineEdit()
+        widget = None
         if type == "INTEGER":
-            type = QValidateLineEdit.INTEGER
+            widget = QValidateLineEdit(table,QValidateLineEdit.INTEGER,min,max)
         elif type == "DOUBLE":
-            type = QValidateLineEdit.DOUBLE
+            widget = QValidateLineEdit(table,QValidateLineEdit.DOUBLE,min,max)
         elif type == "STRING":
-            le = QtGui.QLineEdit(Table)
-            table.setCellWidget(row, column, le)
-            return
-        le = QValidateLineEdit(table, type , min, max)
-        table.setCellWidget(row, column, le)
+            options = table.item(row,3).text()
+            options = options.replace("[","")
+            options = options.replace("]","")
+            options = options.replace("'","")
+            options = options.replace(" ","")
+            options_list = options.split(",")
+            widget = QtGui.QComboBox(table)
+            widget.insertItems(0,options_list)
+            widget.setCurrentIndex(widget.findText(str(table.item(row,1).text())))
             
-        
-        #table.setItem(row, column, item)
+
+        widget.defaultvalue = str(table.item(row,1).text())
+        widget.isTest = False
+        table.setCellWidget(row, column, widget)
+        self._connectWidgetToSignalMap(widget)
+            
     
     def fillData(self, icepap_driver):
         """ TO-DO STORM review"""
@@ -458,7 +476,17 @@ class PageiPapDriver(QtGui.QWidget):
         self.ui.txtDriverName.setText(self.icepap_driver.name)
         #self.ui.txtDriverNemonic.setText(self.icepap_driver.nemonic)
 
+
+        # BEFORE STARTING WITH PARAMETERS, IN CASE THE UNKNOWN TAB EXIST, IT SHOULD BE CLEARED
+        unknown = "Unknown"
+        tab_unknown = "tab_"+unknown
+        for i in range(self.ui.tabWidget.count()):
+            widget = self.ui.tabWidget.widget(i)
+            if str(widget.objectName()) == tab_unknown:
+                self.sectionTables[i].setRowCount(0)
+                break
         
+
         for name, value in icepap_driver.current_cfg.toList():
             if self.var_dict.has_key(name):
                 [nsection, element] = self.var_dict[name]
@@ -469,6 +497,37 @@ class PageiPapDriver(QtGui.QWidget):
                     self._addItemToTable(nsection, element, 1, value, False)
                     self.sectionTables[nsection].cellWidget(element,2).setText("")
                 #self._addItemToTable(nsection, row, 2, "", True)
+            else:
+                cfginfo = IcepapController().icepap_cfginfos[self.icepap_driver.icepapsystem_name][self.icepap_driver.addr].get(name)
+                if cfginfo != None:
+                    indexUnknownTab = -1
+                    for i in range(self.ui.tabWidget.count()):
+                        widget = self.ui.tabWidget.widget(i)
+                        if str(widget.objectName()) == tab_unknown:
+                            indexUnknownTab = i
+                            break
+                    
+                    if indexUnknownTab == -1:
+                        indexUnknownTab = self._addSectionTab(unknown)
+                
+                    unknown_table_widget = self.sectionTables[indexUnknownTab]
+                    row = unknown_table_widget.rowCount()
+                    unknown_table_widget.insertRow(row)
+                    self._addItemToTable(indexUnknownTab, row, 0, name, False)
+                    self._addItemToTable(indexUnknownTab, row, 1, value, False)
+                    partype = "STRING"
+                    pardesc = str(cfginfo)
+                    if "INTEGER" == cfginfo[0]:
+                        partype = "INTEGER"
+                        pardesc = "INTEGER value"
+                    elif "FLOAT" == cfginfo[0]:
+                        partype = "DOUBLE"
+                        pardesc = "DOUBLE value"
+                    self._addItemToTable(indexUnknownTab, row, 3, pardesc, False)
+                    # DESCRIPTION (col 3) BEFORE WIDGET (col 2) TO BE ABLE TO CREATE QCOMBOXES
+                    self._addWidgetToTable(indexUnknownTab, row, 2, partype, 0, 9999999)
+
+
         # get testing values
         self.startTesting()
         if not (self.status == -1 or self.status == 1):
@@ -486,7 +545,10 @@ class PageiPapDriver(QtGui.QWidget):
                         else:
                             self._setWidgetValue(widget, value)
                     except:             
-                        pass           
+                        pass
+                else:
+                    print "FOUND THE UNKNOWN PARAMETER '"+str(name)+"'"
+           
         
         self._connectHighlighting()
         if self.ui.historicWidget.isVisible():
@@ -604,21 +666,24 @@ class PageiPapDriver(QtGui.QWidget):
         for tableWidget in self.sectionTables.itervalues():
             for row in range(tableWidget.rowCount()):
                 #val = tableWidget.item(row,2).text()
-                le = tableWidget.cellWidget(row,2)
-                val = le.text()
-                if not val == "":
+                widget = tableWidget.cellWidget(row,2)
+                val = ""
+                if isinstance(widget,QValidateLineEdit):
+                    val = widget.text()
+                elif isinstance(widget,QtGui.QComboBox):
+                    val = str(widget.currentText()).upper()
+                if val != "":
                     try:
                         name = str(tableWidget.item(row,0).text())
-                        #print str(le.type)
-                        if isinstance(le, QValidateLineEdit):
-                            if le.type == 0:
-                            #if name == "MICRO" or name =="PSW":
-                                val = int(val)
-                            else:
-                                val = float(val)
-                        new_values.append([name, val])                    
+                        if isinstance(widget, QValidateLineEdit):
+                            if widget.type == QValidateLineEdit.INTEGER:
+                                val = int(widget.text())
+                            elif widget.type == QValidateLineEdit.DOUBLE:
+                                val = float(widget.text())
+                        new_values.append([name, val])
                     except:
                         print "Unexpected error:", sys.exc_info()[0]
+                        print "YES, HERE"
                         values_ok = False
                         break
 
