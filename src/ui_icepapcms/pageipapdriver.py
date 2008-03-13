@@ -199,38 +199,44 @@ class PageiPapDriver(QtGui.QWidget):
         wvalue = self._getWidgetValue(widget)
         #print "DB("+str(dbvalue)+") W("+str(wvalue)+")"
         
-        if isinstance(widget, QtGui.QDoubleSpinBox) or isinstance(widget, QtGui.QSpinBox):
-            if widget.defaultvalue != widget.value():
-                highlight = True
-                widget.setPalette(self.base_yellow_palette)
-            elif abs(float(wvalue) - float(dbvalue)) > 0.01:
-                widget.setPalette(self.base_salmon_palette)
-                highlight = True
+        try:
+            if isinstance(widget, QtGui.QDoubleSpinBox) or isinstance(widget, QtGui.QSpinBox):
+                if widget.defaultvalue != widget.value():
+                    highlight = True
+                    widget.setPalette(self.base_yellow_palette)
+                elif abs(float(wvalue) - float(dbvalue)) > 0.01:
+                    widget.setPalette(self.base_salmon_palette)
+                    highlight = True
                 
-        elif isinstance(widget, QtGui.QCheckBox):
-            if widget.defaultvalue != widget.isChecked():
-                highlight = True
-                widget.setPalette(self.base_yellow_palette)
-            elif wvalue != dbvalue:
-                widget.setPalette(self.base_salmon_palette)
-                highlight = True
+            elif isinstance(widget, QtGui.QCheckBox):
+                if widget.defaultvalue != widget.isChecked():
+                    highlight = True
+                    widget.setPalette(self.base_yellow_palette)
+                elif wvalue != dbvalue:
+                    widget.setPalette(self.base_salmon_palette)
+                    highlight = True
+            
+            elif isinstance(widget, QtGui.QComboBox):
+                if widget.defaultvalue == None:
+                    widget.defaultvalue = ""
+                if widget.defaultvalue != str(widget.currentText()).upper():
+                    highlight = True
+                    widget.setPalette(self.button_yellow_palette)
+                elif wvalue != dbvalue:
+                    widget.setPalette(self.button_salmon_palette)
+                    highlight = True
+            
+            elif isinstance(widget, QtGui.QLineEdit):
+                if widget.defaultvalue != str(widget.text()):
+                    highlight = True
+                    widget.setPalette(self.base_yellow_palette)
+                elif wvalue != dbvalue:
+                    widget.setPalette(self.base_salmon_palette)
+                    highlight = True
 
-        elif isinstance(widget, QtGui.QComboBox):
-            if widget.defaultvalue != str(widget.currentText()).upper():
-                highlight = True
-                widget.setPalette(self.button_yellow_palette)
-            elif wvalue != dbvalue:
-                widget.setPalette(self.button_salmon_palette)
-                highlight = True
-
-        elif isinstance(widget, QtGui.QLineEdit):
-            if widget.defaultvalue != str(widget.text()):
-                highlight = True
-                widget.setPalette(self.base_yellow_palette)
-            elif wvalue != dbvalue:
-                widget.setPalette(self.base_salmon_palette)
-                highlight = True
-                             
+        except:
+            pass
+        
         if highlight:
             if widget.isTest:
                 if not widget in self.test_var_modified:
@@ -520,14 +526,15 @@ class PageiPapDriver(QtGui.QWidget):
                     self._addItemToTable(indexUnknownTab, row, 1, value, False)
                     partype = "STRING"
                     pardesc = str(cfginfo)
-                    if "INTEGER" == cfginfo[0]:
-                        partype = "INTEGER"
-                        pardesc = "INTEGER value"
-                    elif "FLOAT" == cfginfo[0]:
-                        partype = "DOUBLE"
-                        pardesc = "DOUBLE value"
-                    else:
-                        partype = "QCOMBOSTRING"
+                    if len(cfginfo) > 0:
+                        if "INTEGER" == cfginfo[0]:
+                            partype = "INTEGER"
+                            pardesc = "INTEGER value"
+                        elif "FLOAT" == cfginfo[0]:
+                            partype = "DOUBLE"
+                            pardesc = "DOUBLE value"
+                        else:
+                            partype = "QCOMBOSTRING"
                     self._addItemToTable(indexUnknownTab, row, 3, pardesc, False)
                     # DESCRIPTION (col 3) BEFORE WIDGET (col 2) TO BE ABLE TO CREATE QCOMBOXES
                     self._addWidgetToTable(indexUnknownTab, row, 2, partype, 0, 9999999)
