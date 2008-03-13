@@ -180,27 +180,27 @@ class IcepapController(Singleton):
             Returns an array with the Status, Limit Switches and Current of the driver
         """
         
-        register = self.iPaps[icepap_name].getStatus(driver_addr)
-        if "x" in register:
-            register = int(register,16)
-        else:
-            register = int(register)
-        
-        #status = IcePAPStatus.isDisabled(register) 
-        
-        #status = (status > 0)
-        disabled = IcepapStatus.isDisabled(register)
-        if disabled <> 1:
-            # only if driver is active
-            power = self.iPaps[icepap_name].getPower(driver_addr)
-            power = (power == IcepapAnswers.ON)
-        else:
-            power = False
-        
-        current = self.iPaps[icepap_name].getCurrent(driver_addr)
-        
-        state = (int(register), power, float(current))
-        return state
+        try:
+            register = self.iPaps[icepap_name].getStatus(driver_addr)
+            if "x" in register:
+                register = int(register,16)
+            else:
+                register = int(register)
+            
+            disabled = IcepapStatus.isDisabled(register)
+            if disabled <> 1:
+                # only if driver is active
+                power = self.iPaps[icepap_name].getPower(driver_addr)
+                power = (power == IcepapAnswers.ON)
+            else:
+                power = False
+            
+            current = self.iPaps[icepap_name].getCurrent(driver_addr)
+            
+            state = (int(register), power, float(current))
+            return state
+        except:
+            return (-1, False, -1)
             
         
     def getDriverTestStatus(self, icepap_name, driver_addr, pos_sel, enc_sel):
