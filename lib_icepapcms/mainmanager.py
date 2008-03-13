@@ -207,10 +207,15 @@ class MainManager(Singleton):
         """ Driver Status used in the System and crate view
             Returns [status register, power status, current ]"""
         try:
+            driver = self.getIcepapSystem(icepap_name).getDriver(addr)
+            if driver.conflict == Conflict.DRIVER_NOT_PRESENT or driver.conflict == Conflict.NO_CONNECTION:
+                #print "OUPS! THIS DRIVER SHOULD NOT BE SCANNED"
+                return (-1,False,-1)
+
             return self._ctrl_icepap.getDriverStatus(icepap_name, addr)
         except IcePAPException, error:
             if error.code == IcePAPException.TIMEOUT:
-                MessageDialogs.showErrorMessage(self._form, "Icepap error", "%s Connection error" % icepap_name)
+                MessageDialogs.showErrorMessage(self._form, "Icepap error", "%s,%d Connection timeout" % icepap_name,addr)
                 self._form.refreshTree() 
             return (-1, False, -1) 
         except:

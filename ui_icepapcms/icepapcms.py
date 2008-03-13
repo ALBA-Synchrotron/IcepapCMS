@@ -337,16 +337,17 @@ class IcepapCMS(QtGui.QMainWindow):
                     self.setStatusMessage(icepap_system.name + ": Connection Error")
                 else:
                     if not conflict[2] is None:
+
                         self.setStatusMessage("Configuration conflics found.")
                         driver = icepap_system.getDriver(conflict[2])
-                        if conflict[0] == Conflict.DRIVER_CHANGED:
-                            if driver.conflict == Conflict.DRIVER_FROM_DB:
-                                icepap_system.child_conflicts -= 1
-                                solved_drivers = solved_drivers + "%s:%d \n" % (driver.icepapsystem_name, driver.addr)
-                            else:
-                                driver.setConflict(conflict[0])
+                        if conflict[0] == Conflict.DRIVER_CHANGED and driver.conflict == Conflict.DRIVER_FROM_DB:
+                            icepap_system.child_conflicts -= 1
+                            solved_drivers = solved_drivers + "%s:%d \n" % (driver.icepapsystem_name, driver.addr)
+                        else:
+                            driver.setConflict(conflict[0])
         else:
             self.setStatusMessage("Scanning complete!. No conflicts found")
+
         self._tree_model.updateIcepapSystem(icepap_system)
         self.expandAll(icepap_system.name)
         self.treeSelectByLocation(icepap_system.name)
