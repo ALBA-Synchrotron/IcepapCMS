@@ -2,201 +2,211 @@
 <icepapcms>
         <section name="main">
         		<par id="ACTIVE" name="ACTIVE" type="BOOL">
-                	 <description></description>
+                	 <description>Axis enable/disable flag</description>
                 </par>
                 <par id="NAMELOCK" name="NAMELOCK" type="BOOL">
-                	 <description></description>
+                	 <description>Axis name lock</description>
                 </par>
                 <par id="PROTLEVEL" name="PROTLEVEL" type="INTEGER" min="0" max="256">
-                	 <description></description>
+                	 <description>Protection level</description>
                 </par>
                 <par id="POWERON" name="POWERON" type="BOOL">
-                	 <description></description>
+                	 <description>Auto power on</description>
                 </par>
                 <par id="MOTPHASES" name="MOTPHASES" type="INTEGER" min="0" max="3">
-                	 <description></description>
+                	 <description>Number of electrical phases</description>
                 </par>
                 <par id="MOTSENSE" name="MOTSENSE" type="STRING">
-                	 <description></description>
+                	 <description>Sense of motor movement</description>
                 </par>
                 <par id="MOTPOLES" name="MOTPOLES" type="INTEGER" min="0" max="256">
-                	 <description></description>
+                	 <description>Number of pole pairs</description>
                 </par>
                 <par id="MREGMODE" name="MREGMODE" type="STRING">
-                	 <description></description>
+                	 <description>Motor regulation mode</description>
                 </par>
                 <par id="NVOLT" name="NVOLT" type="DOUBLE" min="0" max="80">
-                     <description>Nominal Operation Voltage</description>
-                </par>
-                <par id="ICURR" name="ICURR" type="INTEGER" min="0" max="100">
-                     <description>Idle Current %</description>
-                </par>
-                <par id="NCURR" name="NCURR" type="DOUBLE" min="0" max="8">
-                     <description>Drive Current</description>
-                </par>
-                <par id="BCURR" name="BCURR" type="INTEGER" min="0" max="100">
-                     <description>Boost Current %</description>
-                </par>
-                <par id="MREGI" name="MREGI" type="DOUBLE" min="0" max="100">
-                	 <description>Integral Constant PI Current Regulator</description>
-                </par>
-                <par id="MREGP" name="MREGP" type="DOUBLE" min="0" max="1000">
-                     <description>Proportional Constant PID Current Regulator</description>
-                </par>
-                <par id="MREGD" name="MREGD" type="DOUBLE" min="0" max="1000">
-                     <description>Derivative Constant PID Current Regulator</description>
-                </par>                
-                <par id="ANTURN" name="ANTURN" type="INTEGER" min="0" max="9999999">
-                	 <description></description>
-                </par>
-                <par id="ANSTEP" name="ANSTEP" type="INTEGER" min="0" max="9999999">
-                	 <description></description>
-                </par>
-                <par id="DEFVEL" name="DEFVEL" type="DOUBLE" min="0" max="99999999">
-                     <description></description>
-                </par>
-                <par id="DEFIVEL" name="DEFIVEL" type="DOUBLE" min="0" max="99999999">
-                     <description></description>
-                </par>
-                <par id="DEFACCT" name="DEFACCT" type="DOUBLE" min="0" max="99999999">
-                     <description></description>
-                </par>
-                <par id="INDEXER" name="INDEXER" type="STRING">
-                	 <description></description>
-                </par>                
-                <par id="SHFTENC" name="SHFTENC" type="STRING">
-                	 <description></description>
-                </par>
-                <par id="TGTENC" name="TGTENC" type="STRING">
-                	 <description></description>
-                </par>
-                <par id="CLOOPENC" name="CLOOPENC" type="STRING">
-                	 <description></description>
-                </par>
-                <par id="LPPOL" name="LPPOL" type="STRING">
-                     <description>Limit + Polarity</description>
-                </par>
-                <par id="LMPOL" name="LMPOL" type="STRING">
-                     <description>Limit - Polarity</description>
-                </par>
-                <par id="EINNTURN" name="EINNTURN" type="INTEGER" min="0" max="9999999">
-                	 <description></description>
-                </par>
-                <par id="EINNSTEP" name="EINNSTEP" type="INTEGER" min="0" max="9999999">
-                	 <description></description>
-                </par>
-                <par id="INPNTURN" name="INPNTURN" type="INTEGER" min="0" max="9999999">
-                	 <description></description>
-                </par>
-                <par id="INPNSTEP" name="INPNSTEP" type="INTEGER" min="0" max="9999999">
-                	 <description></description>
-                </par>
-                <par id="ABSNTURN" name="ABSNTURN" type="INTEGER" min="0" max="9999999">
-                	 <description></description>
-                </par>
-                <par id="ABSNSTEP" name="ABSNSTEP" type="INTEGER" min="0" max="9999999">
-                	 <description></description>
-                </par>
-                <par id="EINMODE" name="EINMODE" type="STRING">
-                     <description></description>
-                </par>                              
-                <par id="EINSENSE" name="EINSENSE" type="STRING">
-                     <description></description>
-                </par>
-                <par id="INPMODE" name="INPMODE" type="STRING">
-                     <description></description>
-                </par>                              
-                <par id="INPSENSE" name="INPSENSE" type="STRING">
-                     <description></description>
-                </par>
-                <par id="ABSOFFSET" name="ABSOFFSET" type="INTEGER" min="0" max="9999999">
-                     <description></description>
-                </par>                              
-                <par id="ABSSENSE" name="ABSSENSE" type="STRING">
-                     <description></description>
-                </par>
-                <par id="OUTPSRC" name="OUTPSRC" type="STRING">
-                     <description></description>
-                </par>
-                <par id="OUTPMODE" name="OUTPMODE" type="STRING">
-                     <description></description>
-                </par>
-                <par id="OUTPPULSE" name="OUTPPULSE" type="STRING">
-                     <description></description>
-                </par>
-                <par id="OUTPSENSE" name="OUTPSENSE" type="STRING">
-                     <description></description>
-                </par>
-                <par id="INFOASRC" name="INFOASRC" type="STRING">
-                     <description></description>
-                </par>
-                <par id="INFOBSRC" name="INFOBSRC" type="STRING">
-                     <description></description>
-                </par>
-                <par id="INFOCSRC" name="INFOCSRC" type="STRING">
-                     <description></description>
-                </par>
-                <par id="INFOAPOL" name="INFOAPOL" type="STRING">
-                     <description></description>
-                </par>
-                <par id="INFOBPOL" name="INFOBPOL" type="STRING">
-                     <description></description>
-                </par>
-                <par id="INFOCPOL" name="INFOCPOL" type="STRING">
-                     <description></description>
-                </par>
-                <par id="CURRGAIN" name="CURRGAIN" type="STRING">
-                	 <description></description>
-                </par>
-                <par id="POSSRC" name="POSSRC" type="STRING">
-                	 <description></description>
+                     <description>Nominal operation voltage (volts)</description>
                 </par>
                 <par id="IVOLT" name="IVOLT" type="DOUBLE" min="0" max="100">
-                     <description>Idle Current %</description>
+                     <description>Idle operation voltage (volts)</description>
+                </par>
+                <par id="NCURR" name="NCURR" type="DOUBLE" min="0" max="8">
+                     <description>Nominal current (amps)</description>
+                </par>
+                <par id="ICURR" name="ICURR" type="INTEGER" min="0" max="100">
+                     <description>Idle current (%)</description>
+                </par>
+                <par id="BCURR" name="BCURR" type="INTEGER" min="0" max="100">
+                     <description>Boost current increment (%)</description>
+                </par>
+                <par id="CURRGAIN" name="CURRGAIN" type="STRING">
+                	 <description>Current regulation gain</description>
+                </par>
+                <par id="MREGP" name="MREGP" type="DOUBLE" min="0" max="1000">
+                     <description>Proportional coefficient</description>
+                </par>
+                <par id="MREGI" name="MREGI" type="DOUBLE" min="0" max="100">
+                	 <description>Integral coefficient</description>
+                </par>
+                <par id="MREGD" name="MREGD" type="DOUBLE" min="0" max="1000">
+                     <description>Derivative coefficient</description>
+                </par>                
+                <par id="INDEXER" name="INDEXER" type="STRING">
+                	 <description>Default indexer source</description>
+                </par>                
+                <par id="SHFTENC" name="SHFTENC" type="STRING">
+                	 <description>Shaft encoder</description>
+                </par>
+                <par id="TGTENC" name="TGTENC" type="STRING">
+                	 <description>Target encoder</description>
+                </par>
+<!--
+CTRLENC MISSING IN THE GUI
+-->
+                <par id="POSSRC" name="POSSRC" type="STRING">
+                	 <description>Nominal axis position source</description>
+                </par>
+
+                <par id="ANTURN" name="ANTURN" type="INTEGER" min="0" max="9999999">
+                	 <description>Axis reference number of turns</description>
+                </par>
+                <par id="ANSTEP" name="ANSTEP" type="INTEGER" min="0" max="9999999">
+                	 <description>Axis reference number of units/steps</description>
+                </par>
+                <par id="DEFVEL" name="DEFVEL" type="DOUBLE" min="0" max="99999999">
+                     <description>Default velocity</description>
+                </par>
+                <par id="DEFIVEL" name="DEFIVEL" type="DOUBLE" min="0" max="99999999">
+                     <description>Default initial velocity</description>
+                </par>
+                <par id="DEFACCT" name="DEFACCT" type="DOUBLE" min="0" max="99999999">
+                     <description>Default acceleration time (sec)</description>
+                </par>
+<!--
+CTRLERROR MISSING IN THE GUI
+-->
+                <par id="CLOOPENC" name="CLOOPENC" type="STRING">
+                	 <description>Default closed loop signal</description>
+                </par>
+<!--
+CLOOPTAU MISSING IN THE GUI
+-->
+                <par id="LPPOL" name="LPPOL" type="STRING">
+                     <description>Polarity of the Lim+ signal</description>
+                </par>
+                <par id="LMPOL" name="LMPOL" type="STRING">
+                     <description>Polarity of the Lim- signal</description>
+                </par>
+                <par id="EINNTURN" name="EINNTURN" type="INTEGER" min="0" max="9999999">
+                	 <description>EncIn reference number of turns</description>
+                </par>
+                <par id="EINNSTEP" name="EINNSTEP" type="INTEGER" min="0" max="9999999">
+                	 <description>EncIn reference number of units/steps</description>
+                </par>
+                <par id="INPNTURN" name="INPNTURN" type="INTEGER" min="0" max="9999999">
+                	 <description>InPos reference number of turns</description>
+                </par>
+                <par id="INPNSTEP" name="INPNSTEP" type="INTEGER" min="0" max="9999999">
+                	 <description>InPos reference number of units/steps</description>
+                </par>
+                <par id="ABSNTURN" name="ABSNTURN" type="INTEGER" min="0" max="9999999">
+                	 <description>AbsEnc reference number of turns</description>
+                </par>
+                <par id="ABSNSTEP" name="ABSNSTEP" type="INTEGER" min="0" max="9999999">
+                	 <description>AbsEnc reference number of units/steps</description>
+                </par>
+                <par id="EINMODE" name="EINMODE" type="STRING">
+                     <description>EncIn input counting mode</description>
+                </par>                              
+                <par id="INPMODE" name="INPMODE" type="STRING">
+                     <description>InPos input counting mode</description>
+                </par>                              
+                <par id="EINSENSE" name="EINSENSE" type="STRING">
+                     <description>EncIn sense</description>
+                </par>
+                <par id="INPSENSE" name="INPSENSE" type="STRING">
+                     <description>InPos sense</description>
+                </par>
+                <par id="ABSSENSE" name="ABSSENSE" type="STRING">
+                     <description>AbsEnc sense</description>
+                </par>
+                <par id="ABSOFFSET" name="ABSOFFSET" type="INTEGER" min="0" max="9999999">
+                     <description>AbsEnc position offset</description>
                 </par>
                 <par id="SSIDBITS" name="SSIDBITS" type="INTEGER" min="0" max="9999999">
-                	 <description></description>
+                	 <description>SSI data bits</description>
                 </par>
                 <par id="SSICODE" name="SSICODE" type="STRING">
-                     <description></description>
-                </par>
-                <par id="SSICLOCK" name="SSICLOCK" type="STRING">
-                     <description></description>
-                </par>
-                <par id="SSIDELAY" name="SSIDELAY" type="STRING">
-                     <description></description>
+                     <description>SSI data coding</description>
                 </par>
                 <par id="SSISTATUS" name="SSISTATUS" type="STRING">
-                     <description></description>
+                     <description>SSI status/control bits</description>
+                </par>
+                <par id="SSICLOCK" name="SSICLOCK" type="STRING">
+                     <description>SSI clock frequency</description>
+                </par>
+                <par id="SSIDELAY" name="SSIDELAY" type="STRING">
+                     <description>SSI polling delay</description>
+                </par>
+                <par id="OUTPSRC" name="OUTPSRC" type="STRING">
+                     <description>OutPos source signal</description>
+                </par>
+                <par id="OUTPMODE" name="OUTPMODE" type="STRING">
+                     <description>OutPos output counting mode</description>
+                </par>
+                <par id="OUTPPULSE" name="OUTPPULSE" type="STRING">
+                     <description>OutPos pulse width</description>
+                </par>
+                <par id="OUTPSENSE" name="OUTPSENSE" type="STRING">
+                     <description>OutPos sense</description>
+                </par>
+                <par id="INFOASRC" name="INFOASRC" type="STRING">
+                     <description>InfoA source signal</description>
+                </par>
+                <par id="INFOBSRC" name="INFOBSRC" type="STRING">
+                     <description>InfoB source signal</description>
+                </par>
+                <par id="INFOCSRC" name="INFOCSRC" type="STRING">
+                     <description>InfoC source signal</description>
+                </par>
+                <par id="INFOAPOL" name="INFOAPOL" type="STRING">
+                     <description>InfoA polarity</description>
+                </par>
+                <par id="INFOBPOL" name="INFOBPOL" type="STRING">
+                     <description>InfoB polarity</description>
+                </par>
+                <par id="INFOCPOL" name="INFOCPOL" type="STRING">
+                     <description>InfoC polarity</description>
                 </par>
         </section>
         <section name="test">
                 <par id="TINDEXER" name="INDEXER" type="STRING">
-                     <description></description>
+                     <description>Default indexer source</description>
                 </par> 
                 <par id="AUXPS" name="AUXPS" type="STRING">
-                     <description></description>                     
+                     <description>axis auxiliary power supply state</description>                     
                 </par>
                 <par id="txtDriverName" name="NAME" type="STRING">
-                     <description></description>
+                     <description>Driver Name</description>
                 </par>  
                 <par id="TINFOASRC" name="INFOA" type="ARRAY" pos="0">
-                     <description></description>
+                     <description>InfoA source signal</description>
                 </par>
                 <par id="TINFOAPOL" name="INFOA" type="ARRAY" pos="1">
-                     <description></description>
+                     <description>InfoA polarity</description>
                 </par>                
                 <par id="TINFOBSRC" name="INFOB" type="ARRAY" pos="0">
-                     <description></description>
+                     <description>InfoB source signal</description>
                 </par>
                 <par id="TINFOBPOL" name="INFOB" type="ARRAY" pos="1">
-                     <description></description>
+                     <description>InfoB polarity</description>
                 </par>
                 <par id="TINFOCSRC" name="INFOC" type="ARRAY" pos="0">
-                     <description></description>
+                     <description>InfoC source signal</description>
                 </par>
                 <par id="TINFOCPOL" name="INFOC" type="ARRAY" pos="1">
-                     <description></description>
+                     <description>InfoC polarity</description>
                 </par>
         </section>
         <inout>
