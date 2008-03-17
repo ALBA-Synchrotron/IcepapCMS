@@ -335,6 +335,7 @@ class PageiPapDriver(QtGui.QWidget):
                         if widget == None:
                             print "THE GUI ELEMENT '"+str(parid)+"' DOES NOT EXIST"
                         else:
+                            widget.setToolTip(pardesc)
                             self._connectWidgetToSignalMap(widget)
                             if inMainSection:
                                 widget.isTest = False                            
