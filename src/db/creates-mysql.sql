@@ -60,7 +60,7 @@ CREATE TABLE `icepapcms`.`icepapdrivercfg` (
   `driver_addr` INT(10) unsigned NULL,
   `name` VARCHAR(40) NOT NULL,
   `description` VARCHAR(255) NULL,
-  `signature` VARCHAR(20) NULL,
+  `signature` VARCHAR(40) NULL,
   `date` DATETIME NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `IcepapDriverCfg_FKIndex1` (`driver_addr`, `icepapsystem_name`),
