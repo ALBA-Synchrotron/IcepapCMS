@@ -154,7 +154,6 @@ class PageiPapSystem(QtGui.QWidget):
         self.refresh(not(index))
     
     def refresh(self, size = None):
-        
         self.tableWidget.setUpdatesEnabled(False)
         self.tableWidget.horizontalHeader().setUpdatesEnabled(False)
         self.tableWidget.verticalHeader().setUpdatesEnabled(False)
@@ -175,7 +174,8 @@ class PageiPapSystem(QtGui.QWidget):
     
                     else:
                         if not driver_widget.refresh():
-                            return
+                            #return
+                            break
         if not size == None:
             for col in range(self.tableWidget.columnCount()):
                 self.tableWidget.horizontalHeader().resizeSection(col,self._colSize[size])
