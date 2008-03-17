@@ -185,7 +185,7 @@ class IcepapCMS(QtGui.QMainWindow):
             """self.menu.addAction("Edit Icepap system information", self.contextEditIcepap)""",
             """self.menu.addAction("Delete Icepap system configuration", self.btnTreeRemove_on_click)"""  
             ]
-            self.menu= Qt.QMenu(self)
+            self.menu = Qt.QMenu(self)
             font = QtGui.QFont()
             font.setPointSize(8)
             self.menu.setFont(font)                    
@@ -207,7 +207,7 @@ class IcepapCMS(QtGui.QMainWindow):
                 shown_actions = [6,7,8,9,10]             
             for i in shown_actions:
                 exec(actions[i])
-            self.menu.popup(self.cursor().pos())  
+            self.menu.popup(self.cursor().pos())
     
     def contextIcepapStart(self):        
         if self.context_menu_item:
@@ -233,10 +233,10 @@ class IcepapCMS(QtGui.QMainWindow):
             self.solveConflict(item)       
         self.context_menu_item = None
     
-    def contextDeleteDriverError(self): 
+    def contextDeleteDriverError(self):
         if self.context_menu_item:
             item = self.context_menu_item
-            self.deleteDriverError(item)       
+            self.deleteDriverError(item)
         self.context_menu_item = None
         
     def contextSolveDriverMoved(self):
@@ -373,8 +373,11 @@ class IcepapCMS(QtGui.QMainWindow):
         or_sys = item.itemData.icepap_system
         if moved_sys:
             if moved_sys != or_sys:
-                self.scanIcepap(moved_sys)         
+                self.scanIcepap(moved_sys)
             self.scanIcepap(or_sys)
+        item.solveConflict()
+        self._tree_model.deleteItem(item)
+        self.scanIcepap(or_sys)
 #        delete = MessageDialogs.showYesNoMessage(self, "Driver error", "Driver not present.\nRemove driver from DB?")
 #        if delete:
 #            icepap_system = item.getIcepapSystem()
