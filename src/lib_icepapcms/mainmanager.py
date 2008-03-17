@@ -208,6 +208,8 @@ class MainManager(Singleton):
             Returns [status register, power status, current ]"""
         try:
             driver = self.getIcepapSystem(icepap_name).getDriver(addr)
+            if driver is None:
+                return (-1,False,-1)
             if driver.conflict == Conflict.DRIVER_NOT_PRESENT or driver.conflict == Conflict.NO_CONNECTION:
                 #print "OUPS! THIS DRIVER SHOULD NOT BE SCANNED"
                 return (-1,False,-1)
