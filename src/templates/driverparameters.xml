@@ -181,15 +181,15 @@ CLOOPTAU MISSING IN THE GUI
                 </par>
         </section>
         <section name="test">
+                <par id="txtDriverName" name="NAME" type="STRING">
+                     <description>Driver Name</description>
+                </par>  
                 <par id="TINDEXER" name="INDEXER" type="STRING">
                      <description>Default indexer source</description>
                 </par> 
                 <par id="AUXPS" name="AUXPS" type="STRING">
                      <description>axis auxiliary power supply state</description>                     
                 </par>
-                <par id="txtDriverName" name="NAME" type="STRING">
-                     <description>Driver Name</description>
-                </par>  
                 <par id="TINFOASRC" name="INFOA" type="ARRAY" pos="0">
                      <description>InfoA source signal</description>
                 </par>
