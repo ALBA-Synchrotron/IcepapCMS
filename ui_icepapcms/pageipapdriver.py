@@ -91,6 +91,8 @@ class PageiPapDriver(QtGui.QWidget):
         self.button_salmon_palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Button,salmon_brush)
         self.button_salmon_palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Button,salmon_brush)
 
+        self.dbStartupConfig = None
+
 
         
     def setScrollBars(self):
@@ -191,30 +193,40 @@ class PageiPapDriver(QtGui.QWidget):
         
         if not isinstance(widget,QtGui.QWidget):
             return
+
+        ###
+        # Tiago's idea to try to highlight at better speed...
+        # def threadQSpinBoxPE(self,event):
+        #     self.setPalette(self.pal)
+        #     QtGUI.QSpinBox.paintEvent(event)
+        # widget.pal = self.base_yellow_palette
+        # widget.paintEvent =  threadQSpinBoxPE
+        # widget.repaint()
+        ###
+
         highlight = False
-        dbIcepapSystem = StormManager().getIcepapSystem(self.icepap_driver.icepapsystem_name)
-        dbStartupConfig = dbIcepapSystem.getDriver(self.icepap_driver.addr,in_memory=False).startup_cfg
         param = str(widget.objectName())
-        dbvalue = dbStartupConfig.getParameter(unicode(param),in_memory=False)
+        dbvalue = self.dbStartupConfig.getParameter(unicode(param),in_memory=False)
         wvalue = self._getWidgetValue(widget)
+
         #print "DB("+str(dbvalue)+") W("+str(wvalue)+")"
-        
+
         try:
             if isinstance(widget, QtGui.QDoubleSpinBox) or isinstance(widget, QtGui.QSpinBox):
                 if widget.defaultvalue != widget.value():
                     highlight = True
                     widget.setPalette(self.base_yellow_palette)
                 elif abs(float(wvalue) - float(dbvalue)) > 0.01:
-                    widget.setPalette(self.base_salmon_palette)
                     highlight = True
+                    widget.setPalette(self.base_salmon_palette)
                 
             elif isinstance(widget, QtGui.QCheckBox):
                 if widget.defaultvalue != widget.isChecked():
                     highlight = True
                     widget.setPalette(self.base_yellow_palette)
                 elif wvalue != dbvalue:
-                    widget.setPalette(self.base_salmon_palette)
                     highlight = True
+                    widget.setPalette(self.base_salmon_palette)
             
             elif isinstance(widget, QtGui.QComboBox):
                 if widget.defaultvalue == None:
@@ -223,16 +235,16 @@ class PageiPapDriver(QtGui.QWidget):
                     highlight = True
                     widget.setPalette(self.button_yellow_palette)
                 elif wvalue != dbvalue:
-                    widget.setPalette(self.button_salmon_palette)
                     highlight = True
+                    widget.setPalette(self.button_salmon_palette)
             
             elif isinstance(widget, QtGui.QLineEdit):
                 if widget.defaultvalue != str(widget.text()):
                     highlight = True
                     widget.setPalette(self.base_yellow_palette)
                 elif wvalue != dbvalue:
-                    widget.setPalette(self.base_salmon_palette)
                     highlight = True
+                    widget.setPalette(self.base_salmon_palette)
 
         except:
             pass
@@ -257,16 +269,17 @@ class PageiPapDriver(QtGui.QWidget):
             else:
                 widget.setPalette(self.base_white_palette)
 
-        
 
     def _connectHighlighting(self):
         #clear previous state
         self.main_modified = []
         self.test_var_modified = []
         QtCore.QObject.connect(self.signalMapper, QtCore.SIGNAL("mapped(QWidget*)"), self.highlightWidget)
-        #HIGHLIGHT AGAIN
+        ### # HIGHLIGHT AGAIN
         for name, [nsection, widget] in self.var_dict.items():
             self.highlightWidget(widget)
+
+
 
     
     def _disconnectHighlighting(self):
@@ -459,12 +472,12 @@ class PageiPapDriver(QtGui.QWidget):
             
 
         widget.defaultvalue = None
+        widget.isTest = False
         if table.item(row,1) != None:
             widget.defaultvalue = str(table.item(row,1).text())
-        widget.isTest = False
         table.setCellWidget(row, column, widget)
         self._connectWidgetToSignalMap(widget)
-            
+
     
     def fillData(self, icepap_driver):
         """ TO-DO STORM review"""
@@ -495,7 +508,7 @@ class PageiPapDriver(QtGui.QWidget):
             if str(widget.objectName()) == tab_unknown:
                 self.sectionTables[i].setRowCount(0)
                 break
-        
+
 
         for name, value in icepap_driver.current_cfg.toList():
             if self.var_dict.has_key(name):
@@ -521,6 +534,7 @@ class PageiPapDriver(QtGui.QWidget):
                         indexUnknownTab = self._addSectionTab(unknown)
                 
                     unknown_table_widget = self.sectionTables[indexUnknownTab]
+
                     row = unknown_table_widget.rowCount()
                     unknown_table_widget.insertRow(row)
                     self._addItemToTable(indexUnknownTab, row, 0, name, False)
@@ -563,9 +577,15 @@ class PageiPapDriver(QtGui.QWidget):
                     print "FOUND THE UNKNOWN PARAMETER '"+str(name)+"'"
            
         
+        # PREPARE DATA FOR HIGHLIGHTING
+        dbIcepapSystem = StormManager().getIcepapSystem(self.icepap_driver.icepapsystem_name)
+        self.dbStartupConfig = dbIcepapSystem.getDriver(self.icepap_driver.addr,in_memory=False).startup_cfg
+
         self._connectHighlighting()
+
         if self.ui.historicWidget.isVisible():
             self.ui.historicWidget.fillData(self.icepap_driver)
+
     
     def _connectWidgetToSignalMap(self, widget):
         self.signalMapper.setMapping(widget, widget)
@@ -682,7 +702,7 @@ class PageiPapDriver(QtGui.QWidget):
                 widget = tableWidget.cellWidget(row,2)
                 val = ""
                 if isinstance(widget,QValidateLineEdit):
-                    val = widget.text()
+                   val = widget.text()
                 elif isinstance(widget,QtGui.QComboBox):
                     val = str(widget.currentText()).upper()
                 if val != "":
@@ -737,8 +757,8 @@ class PageiPapDriver(QtGui.QWidget):
         else:
             MessageDialogs.showWarningMessage(self, "Driver configuration", "Error saving configuration")
         
-        self._disconnectHighlighting()
-        self._connectHighlighting()
+        #self._disconnectHighlighting()
+        #self._connectHighlighting()
               
     def btnUndo_on_click(self):
         self._manager.undoDriverConfiguration(self.icepap_driver)
@@ -757,10 +777,10 @@ class PageiPapDriver(QtGui.QWidget):
             if fn.isEmpty():
                 return
             filename = str(fn)
-            
             self.fillFileData(filename)
-        except:
+        except Exception,e:
             MessageDialogs.showWarningMessage(self, "File", "Error reading file\n")
+            print "exception: "+str(e)
     
     def fillFileData(self, filename):
         #self.ui.toolBox.setCurrentIndex(0)
@@ -773,12 +793,17 @@ class PageiPapDriver(QtGui.QWidget):
                     parname = parname.strip()
                     parval =  pars.attributes.get('value').value
                     parval = parval.strip()
-                    [nsection, element] = self.var_dict[parname]
-                    #self._addItemToTable(nsection, row, 2, parval, True)
-                    if nsection == 0:
-                        self._setWidgetValue(element, parval) 
+                    if self.var_dict.has_key(parname):
+                        [nsection, element] = self.var_dict[parname]
+                        #self._addItemToTable(nsection, row, 2, parval, True)
+                        if nsection == 0:
+                            self._setWidgetValue(element, parval) 
+                        else:
+                            self.sectionTables[nsection].cellWidget(element,2).setText(parval)
                     else:
-                        self.sectionTables[nsection].cellWidget(element,2).setText(parval)
+                        # THE VALUES SHOULD BE FILLED IN THE UNKNOWN TAB IF THE var_dic IS
+                        # FILLED CORRECTLY
+                        pass
                     
                      
                     

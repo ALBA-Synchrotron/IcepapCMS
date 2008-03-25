@@ -11,7 +11,9 @@ from icepapdrivercfg import IcepapDriverCfg, CfgParameter
 import icepapdriver
 from conflict import Conflict
 from configmanager import ConfigManager
- 
+from ui_icepapcms.messagedialogs import MessageDialogs
+
+
 class IcepapController(Singleton):
     
     def __init__(self):
@@ -291,11 +293,14 @@ class IcepapController(Singleton):
                 cfginfo_dict[split[0]] = values.split()
                 order_list.append(param)
             else:
-                print "THE CONTROLLER DID NOT RECEIVE ALL THE CFGINFO FOR THE DRIVER!"
-                print "PLEASE, REPORT THIS OUTPUT TO THE MANTAINER"
-                print "ALL INFO WAS (str): "+str(cfginfo_str)
-                print "ALL INFO WAS (list): "+str(cfginfo_list)
-                print "SOME ERROR GETTING CFGINFO: "+str(param_cfg)
+                print "THE CONTROLLER DID NOT RECEIVE ALL THE CFGINFO FOR THE DRIVER "+str(driver_addr)
+                print "PLEASE, TRY TO RECONNECT TO THE "+str(icepap_name)+" ICEPAP SYSTEM"
+                print "AND REPORT THIS OUTPUT TO THE MANTAINER\n\n\n"
+                
+                MessageDialogs.showWarningMessage(None, "Driver configuration", "Could not retrive all the CFGINFO for the driver "+str(driver_addr)+". Please, try to reconnect to "+str(icepap_name)+".")
+                #print "ALL INFO WAS (str): "+str(cfginfo_str)
+                #print "ALL INFO WAS (list): "+str(cfginfo_list)
+                #print "SOME ERROR GETTING CFGINFO: "+str(param_cfg)
         return (cfginfo_dict,order_list)
 
     
