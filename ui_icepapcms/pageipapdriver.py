@@ -747,7 +747,7 @@ class PageiPapDriver(QtGui.QWidget):
                 except:
                     test_values_ok = False
                     break
-                    
+
             self._manager.writeIcepapParameters(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, test_values_list)
         
         #self.configureSignals()
