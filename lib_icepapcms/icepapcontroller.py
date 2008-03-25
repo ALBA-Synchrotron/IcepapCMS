@@ -119,7 +119,7 @@ class IcepapController(Singleton):
         ver = self.iPaps[icepap_name].getVersion(driver_addr,"DRIVER")
         ipap_id = self.iPaps[icepap_name].getId(driver_addr)
         driver_cfg.setParameter("VER", ver)
-        driver_cfg.setParameter("ID", ipap_id)        
+        driver_cfg.setParameter("ID", ipap_id)
         
         ###for name in self.config_parameters:
         ###    #print name
@@ -142,7 +142,7 @@ class IcepapController(Singleton):
         for param_value in params_list:
             split = param_value.split(" ")
             driver_cfg.setParameter(split[0],split[1])
-        
+
         return driver_cfg
     
     def setDriverConfiguration(self, icepap_name, driver_addr, new_values):
@@ -154,9 +154,13 @@ class IcepapController(Singleton):
             # THE CONFIGURATION VALUES SHOULD BE SENT IN A SPECIFIC ORDER
             order_list = self.icepap_cfgorder[icepap_name][driver_addr]
             params_ordered = {}
+            not_found_index = []
             for (name,value) in new_values:
-                index = order_list.index(name)
-                params_ordered[index] = (name,value)
+                try:
+                    index = order_list.index(name)
+                    params_ordered[index] = (name,value)
+                except:
+                    not_found_index.append((name,value))
             
             keys = params_ordered.keys()
             keys.sort()
@@ -164,6 +168,10 @@ class IcepapController(Singleton):
                 (name,value) = params_ordered.get(key)
                 if name != "VER":
                     self.iPaps[icepap_name].setCfgParameter(driver_addr, name, str(value))
+
+            # NOW THE NOT_FOUND INDEX ORDER...
+            for (name,value) in not_found_index:
+                self.iPaps[icepap_name].setCfgParameter(driver_addr, name, str(value))                
 
             driver_cfg = self.getDriverConfiguration(icepap_name, driver_addr)    
             return driver_cfg
@@ -246,6 +254,7 @@ class IcepapController(Singleton):
             else:
                 value = self.iPaps[icepap_name].readParameter(driver_addr, name)
             values.append([name, value])
+
         return values
     
     def writeIcepapParameters(self, icepap_name, driver_addr, par_var_list):
@@ -253,15 +262,23 @@ class IcepapController(Singleton):
         # THE CONFIGURATION VALUES SHOULD BE SENT IN A SPECIFIC ORDER
         order_list = self.icepap_cfgorder[icepap_name][driver_addr]
         params_ordered = {}
+        not_found_index = []
         for (name,value) in par_var_list:
-            index = order_list.index(name)
-            params_ordered[index] = (name,value)
+            try:
+                index = order_list.index(name)
+                params_ordered[index] = (name,value)
+            except:
+                not_found_index.append((name,value))
 
         keys = params_ordered.keys()
         keys.sort()
         for key in keys:
             (name,value) = params_ordered.get(key)
             self.iPaps[icepap_name].writeParameter(driver_addr, name, value)
+
+        # NOW THE NOT FOUND INDEX ORDER...
+        for (name,value) in not_found_index:
+            self.iPaps[icepap_name].writeParameter(driver_addr,name,value)
 
 
     def getDriverCfgInfo(self,icepap_name,driver_addr):
