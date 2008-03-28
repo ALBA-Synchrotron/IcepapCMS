@@ -9,5 +9,4 @@ from lib_icepapcms import *
 if __name__ == "__main__":
     sys.argv[0] =  os.path.realpath(sys.argv[0])
     pathname = os.path.dirname(sys.argv[0])
-    print "THIS IS ICEPAPCMS FROM SVN"
     app = IcepapApp(sys.argv)   
