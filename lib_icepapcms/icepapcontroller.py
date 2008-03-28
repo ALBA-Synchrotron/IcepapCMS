@@ -118,8 +118,10 @@ class IcepapController(Singleton):
         # THE VERSION NUMBER TO BE SHOWN IS THE DRIVER'S VERSION INSTEAD OF THE DSP'S ONE.
         ver = self.iPaps[icepap_name].getVersion(driver_addr,"DRIVER")
         ipap_id = self.iPaps[icepap_name].getId(driver_addr)
+        ipap_name = self.iPaps[icepap_name].getName(driver_addr)
         driver_cfg.setParameter("VER", ver)
         driver_cfg.setParameter("ID", ipap_id)
+        driver_cfg.setParameter("IPAPNAME", ipap_name)
         
         ###for name in self.config_parameters:
         ###    #print name
@@ -461,6 +463,7 @@ class IcepapController(Singleton):
         addr = addr.replace("NONE","")
         options = options.replace("NONE","")
         ipap.connect()
+
         logger.addToLog("Configuring connection: "+addr+","+options)
         cmd = "#MODE PROG"
         logger.addToLog(cmd)
