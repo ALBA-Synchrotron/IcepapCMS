@@ -496,7 +496,9 @@ class PageiPapDriver(QtGui.QWidget):
         if self.icepap_driver.mode == IcepapMode.CONFIG:
             self._mainwin.addDriverToSign(self.icepap_driver)
         self.ui.txtDescription.setText(description)
-        self.ui.txtDriverName.setText(self.icepap_driver.name)
+
+        # THIS IS OVERWRITTEN LATER
+        #self.ui.txtDriverName.setText(self.icepap_driver.name)
         #self.ui.txtDriverNemonic.setText(self.icepap_driver.nemonic)
 
 
@@ -576,15 +578,20 @@ class PageiPapDriver(QtGui.QWidget):
                 else:
                     print "FOUND THE UNKNOWN PARAMETER '"+str(name)+"'"
            
-        
+        # SET THE CORRECT DRIVER NAME
+        self.icepap_driver.name = unicode(self.ui.txtDriverName.text())
+        self.icepap_driver.current_cfg.setParameter("IPAPNAME",self.icepap_driver.name)
+
         # PREPARE DATA FOR HIGHLIGHTING
         dbIcepapSystem = StormManager().getIcepapSystem(self.icepap_driver.icepapsystem_name)
         self.dbStartupConfig = dbIcepapSystem.getDriver(self.icepap_driver.addr,in_memory=False).startup_cfg
-
         self._connectHighlighting()
 
         if self.ui.historicWidget.isVisible():
             self.ui.historicWidget.fillData(self.icepap_driver)
+
+
+
 
     
     def _connectWidgetToSignalMap(self, widget):
@@ -667,6 +674,14 @@ class PageiPapDriver(QtGui.QWidget):
                 else:
                     self.sectionTables[nsection].cellWidget(element,2).setText(value)
                     #self._addItemToTable(nsection, row, 2, value, True)
+
+        # THE ICEPAP NAME IN THE CONFIG SHOULD BE RESTORED
+        try:
+            ipap_name = cfg.getParameter(unicode("IPAPNAME"))
+            self.ui.txtDriverName.setText(ipap_name)
+        except:
+            #print "oups, this config had not the ipapname yet..."
+            pass
         
 
         
@@ -680,7 +695,8 @@ class PageiPapDriver(QtGui.QWidget):
 
         
     def btnApplyCfg_on_click(self):
-        self.icepap_driver.name = unicode(self.ui.txtDriverName.text())
+        # SHOULD NOT CHANGE THE DRIVER NAME
+        #self.icepap_driver.name = unicode(self.ui.txtDriverName.text())
         #self.icepap_driver.nemonic = str(self.ui.txtDriverNemonic.text())
         new_values = []
         values_ok = True
@@ -716,7 +732,6 @@ class PageiPapDriver(QtGui.QWidget):
                         new_values.append([name, val])
                     except:
                         print "Unexpected error:", sys.exc_info()[0]
-                        print "YES, HERE"
                         values_ok = False
                         break
 
@@ -749,7 +764,7 @@ class PageiPapDriver(QtGui.QWidget):
                     break
 
             self._manager.writeIcepapParameters(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, test_values_list)
-        
+
         #self.configureSignals()
         if save_ok and test_values_ok:
             self.fillData(self.icepap_driver)
@@ -757,9 +772,7 @@ class PageiPapDriver(QtGui.QWidget):
         else:
             MessageDialogs.showWarningMessage(self, "Driver configuration", "Error saving configuration")
         
-        #self._disconnectHighlighting()
-        #self._connectHighlighting()
-              
+
     def btnUndo_on_click(self):
         self._manager.undoDriverConfiguration(self.icepap_driver)
         self.fillData(self.icepap_driver)
@@ -852,8 +865,11 @@ class PageiPapDriver(QtGui.QWidget):
         return newdoc
             
     def signDriver(self):
-        self.icepap_driver.signDriver()
         self._disconnectHighlighting()
+        self.icepap_driver.signDriver()
+        # PREPARE DATA FOR HIGHLIGHTING
+        dbIcepapSystem = StormManager().getIcepapSystem(self.icepap_driver.icepapsystem_name)
+        self.dbStartupConfig = dbIcepapSystem.getDriver(self.icepap_driver.addr,in_memory=False).startup_cfg
         self._connectHighlighting()
                
 # ------------------------------  Testing ----------------------------------------------------------            
