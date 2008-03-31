@@ -363,7 +363,10 @@ class IcepapController(Singleton):
             self.iPaps[icepap_name].rmove(driver_addr, steps)
         
     def moveDriverAbsolute(self, icepap_name, driver_addr, pos):
-        self.iPaps[icepap_name].move(driver_addr, pos)
+        if self.iPaps[icepap_name].getMode(driver_addr) == IcepapMode.CONFIG:
+            self.iPaps[icepap_name].cmove(driver_addr, pos)
+        else:
+            self.iPaps[icepap_name].move(driver_addr, pos)
         
     def stopDriver(self, icepap_name, driver_addr):
         self.iPaps[icepap_name].stopMotor(driver_addr)
