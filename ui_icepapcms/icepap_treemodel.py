@@ -155,8 +155,10 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
         new_item_system = self.addItem([QtCore.QVariant(icepap_name), QtCore.QVariant(icepap_system.description)], role, location, icepap_system, parent, index)
         
         if icepap_system.conflict == Conflict.NO_CONNECTION or no_expand:
-            return        
-        for driver in icepap_system.getDrivers(True):            
+            return
+        drivers = icepap_system.getDrivers(True)
+        drivers.sort()
+        for driver in drivers:
             addr = driver.addr
             if driver.cratenr  <> crate:
                 crate = driver.cratenr
