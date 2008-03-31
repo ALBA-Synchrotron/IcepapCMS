@@ -17,6 +17,9 @@ from messagedialogs import MessageDialogs
 #from dialoghistoriccfg import DialogHistoricCfg
 #from dialogtemplate import DialogTemplate
 
+
+__version__ = "1.13"
+
 class IcepapApp(QtGui.QApplication):    
     def __init__(self, *args):
         QtGui.QApplication.__init__(self, *args)
@@ -85,6 +88,8 @@ class IcepapCMS(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.btnDeleteLocation,QtCore.SIGNAL("clicked()"),self.deleteLocation)
         QtCore.QObject.connect(self.ui.actionAddLocation,QtCore.SIGNAL("triggered()"),self.addLocation)         
         QtCore.QObject.connect(self.ui.actionDeleteLocation,QtCore.SIGNAL("triggered()"),self.deleteLocation)
+        QtCore.QObject.connect(self.ui.actionAbout,QtCore.SIGNAL("triggered()"),self.about)
+        
 
     def initGUI(self):
         self._manager = MainManager(self)
@@ -108,14 +113,17 @@ class IcepapCMS(QtGui.QMainWindow):
         self.ui.stackedWidget.setCurrentIndex(0)
         self.ui.txtLocation.setText("")
      
-#    def buildTree(self):
-#        expand_system = self.performSystemScan()
-#        self._tree_model = IcepapTreeModel(self._manager.IcepapSystemList)
-#        self.ui.treeView.setModel(self._tree_model)
-#        for name in expand_system.keys():
-#            self.expandAll(name)
+        #    def buildTree(self):
+        #        expand_system = self.performSystemScan()
+        #        self._tree_model = IcepapTreeModel(self._manager.IcepapSystemList)
+        #        self.ui.treeView.setModel(self._tree_model)
+        #        for name in expand_system.keys():
+        #            self.expandAll(name)
 
 
+    def about(self):
+        MessageDialogs.showInformationMessage(self,"IcepapCMS Version","IcepapCMS version "+__version__)
+        
     def addLocation(self):
         dlg = DialogAddLocation(self)
         dlg.exec_()
@@ -254,7 +262,7 @@ class IcepapCMS(QtGui.QMainWindow):
             self.ui.cbLocation.setCurrentIndex(self.ui.cbLocation.findText(data[3], QtCore.Qt.MatchFixedString))
             icepap_system = self._manager.addIcepapSystem(data[0], data[1], data[2])
             if icepap_system is None:
-                MessageDialogs.showErrorMessage(self, "Add Icepap", "Error adding Icepap")
+                MessageDialogs.showErrorMessage(self, "Add Icepap", "Error adding Icepap: '"+data[0]+"'")
             else:
                 self._tree_model.addIcepapSystem(icepap_system.name, icepap_system, False)
                 self.expandAll(icepap_system.name)
