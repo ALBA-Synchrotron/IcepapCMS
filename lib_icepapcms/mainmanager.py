@@ -8,6 +8,7 @@ from singleton import Singleton
 
 #from conflict import Conflict
 from pyIcePAP import *
+
 from ui_icepapcms.messagedialogs import MessageDialogs
 import sys
 from stormmanager import StormManager
@@ -82,16 +83,28 @@ class MainManager(Singleton):
             if self.IcepapSystemList.has_key(icepap_name):
                 return None            
             location = self.location.name
-            icepap_system = IcepapSystem(icepap_name, host, port, location, description)                        
-            self._ctrl_icepap.openConnection(icepap_name, host, port)
-            driver_list = self._ctrl_icepap.scanIcepapSystem(icepap_name)
-            for driver in driver_list.values():
-                self._db.store(driver)
-            icepap_system.addDriverList(driver_list)
-            self._db.addIcepapSystem(icepap_system)
-            self.IcepapSystemList[icepap_name] = icepap_system
-            self.location.addSystem(icepap_system)
-            return icepap_system
+            try:
+                icepap_system = IcepapSystem(icepap_name, host, port, location, description)
+
+                # JUST IN CASE A USER WANTS TO RE-ADD A SYSTEM !?!?!?!?
+                # A QUANTUM PROBABILITY TO BE ON TWO LOCATIONS AT THE SAME TIME... :-D
+                db_icepap_system = self._db.getIcepapSystem(icepap_name)
+                if db_icepap_system != None:
+                    return None
+            
+                self._ctrl_icepap.openConnection(icepap_name, host, port)
+                driver_list = self._ctrl_icepap.scanIcepapSystem(icepap_name)
+                for driver in driver_list.values():
+                    self._db.store(driver)
+                    icepap_system.addDriverList(driver_list)
+                    self._db.addIcepapSystem(icepap_system)
+                    self.IcepapSystemList[icepap_name] = icepap_system
+                    self.location.addSystem(icepap_system)
+                    return icepap_system
+            except IcePAPException,ie:
+                print "There was an error connecting to host '"+str(host)+"': ",ie.msg[1]
+            except Exception,e:
+                print "Unknown exception:",e
             
         except:
             print "addIcepapSystem:", sys.exc_info()[1]
