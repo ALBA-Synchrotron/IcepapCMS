@@ -1,11 +1,12 @@
-IcepapCMS 1.13
+IcepapCMS 1.13 2008/03/31
 -------------------------------------------------------------------------
 +) If the driver is in config mode, the application can perform absolute and
 relative movements
-+) It doesn't allow to add a system if it is already defined in the databas
++) It doesn't allow to add a system if it is already defined in the database
 +) Version support with the Help->About menu action
 +) The icepap system tree has the drivers sorted
-+) When adding a system handle the connection excpetions like 'No route to host'
++) When adding a system handle the connection exceptions like 'No route to host'
++) The VERSION file with all features/bug-fixing history
 
 
 +) The config values are set to the icepap system using the ?CFGINFO order
@@ -20,7 +21,7 @@ relative movements
 +) The too-slow behaviour when applying changes or signing has been fixed
 
 
-IcepapCMS 1.12
+IcepapCMS 1.12 2008/02/26
 -------------------------------------------------------------------------
 +) After applying the config, the system checks all the configuration to 
 highlight possible changes
@@ -36,7 +37,7 @@ IDLE CURRENT, BOOST CURRENT, and ALL SSI parameters
 +) The application supports connections and disconnections from the icepap 
 systems without hanging
 
-IcepapCMS 1.11
+IcepapCMS 1.11 2008/02/21
 -------------------------------------------------------------------------
 +) Sign driver configuration should save data in the database
 +) Regulation gain should be inside the 'Pi Current Regulation' section
