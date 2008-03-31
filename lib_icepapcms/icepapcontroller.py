@@ -354,7 +354,11 @@ class IcepapController(Singleton):
     def moveDriver(self, icepap_name, driver_addr, steps):
         
         if self.iPaps[icepap_name].getMode(driver_addr) == IcepapMode.CONFIG:
-            self.iPaps[icepap_name].cmove(driver_addr, steps)
+            # CMOVE ONLY ALLOWS ABSOLUTE POSITIONS, IT SHOULD BE CALCULATED
+            #self.iPaps[icepap_name].cmove(driver_addr, steps)
+            pos = self.iPaps[icepap_name].getPosition(driver_addr)
+            new_pos = int(pos) + int(steps)
+            self.iPaps[icepap_name].cmove(driver_addr, new_pos)
         else:
             self.iPaps[icepap_name].rmove(driver_addr, steps)
         
