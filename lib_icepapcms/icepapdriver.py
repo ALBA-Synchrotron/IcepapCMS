@@ -127,4 +127,7 @@ class IcepapDriver(Storm):
         return res
      
 
-            
+    # TO SORT THE ICEPAP DRIVERS IN THE TREE
+    def __lt__(self,other):
+        if isinstance(other,IcepapDriver):
+            return self.name < other.name
