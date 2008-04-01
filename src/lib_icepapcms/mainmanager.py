@@ -125,7 +125,9 @@ class MainManager(Singleton):
             
     
     def getIcepapSystem(self, icepap_name):
-        return self.IcepapSystemList[icepap_name]
+        if self.IcepapSystemList.has_key(icepap_name):
+            return self.IcepapSystemList[icepap_name]
+        return None
     
 
     
@@ -219,8 +221,11 @@ class MainManager(Singleton):
     def getDriverStatus(self, icepap_name, addr):
         """ Driver Status used in the System and crate view
             Returns [status register, power status, current ]"""
+        icepap_system = self.getIcepapSystem(icepap_name)
+        if icepap_system == None:
+            return (-1,False,-1)
         try:
-            driver = self.getIcepapSystem(icepap_name).getDriver(addr)
+            driver = icepap_system.getDriver(addr)
             if driver is None:
                 return (-1,False,-1)
             if driver.conflict == Conflict.DRIVER_NOT_PRESENT or driver.conflict == Conflict.NO_CONNECTION:
@@ -233,7 +238,7 @@ class MainManager(Singleton):
                 MessageDialogs.showErrorMessage(self._form, "Icepap error", "%s,%d Connection timeout" % icepap_name,addr)
                 self._form.refreshTree() 
             return (-1, False, -1) 
-        except:
+        except Exception,e:
             #MessageDialogs.showWarningMessage(self._form, "Icepap error", "Connection error")
             #self._form.checkIcepapConnection()
             print "Unexpected error:", sys.exc_info()
