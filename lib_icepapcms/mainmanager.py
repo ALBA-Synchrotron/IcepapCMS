@@ -90,6 +90,7 @@ class MainManager(Singleton):
                 # A QUANTUM PROBABILITY TO BE ON TWO LOCATIONS AT THE SAME TIME... :-D
                 db_icepap_system = self._db.getIcepapSystem(icepap_name)
                 if db_icepap_system != None:
+                    MessageDialogs.showErrorMessage(self._form, "Adding Icepap System error", "The icepap system is already in location: '%s'" % (db_icepap_system.location_name))
                     return None
             
                 self._ctrl_icepap.openConnection(icepap_name, host, port)
@@ -102,7 +103,7 @@ class MainManager(Singleton):
                     self.location.addSystem(icepap_system)
                     return icepap_system
             except IcePAPException,ie:
-                print "There was an error connecting to host '"+str(host)+"': ",ie.msg[1]
+                print "There was an error connecting to host '"+str(host)+"': ",ie
             except Exception,e:
                 print "Unknown exception:",e
             
@@ -138,6 +139,7 @@ class MainManager(Singleton):
         changed_list = []
         for icepap_system in self.IcepapSystemList.values():            
             connected = self._ctrl_icepap.checkIcepapStatus(icepap_system.name)
+
             if connected:                
                 if icepap_system.conflict == Conflict.NO_CONNECTION:
                     icepap_system.conflict = Conflict.NO_CONFLICT
@@ -235,8 +237,9 @@ class MainManager(Singleton):
             return self._ctrl_icepap.getDriverStatus(icepap_name, addr)
         except IcePAPException, error:
             if error.code == IcePAPException.TIMEOUT:
-                MessageDialogs.showErrorMessage(self._form, "Icepap error", "%s,%d Connection timeout" % icepap_name,addr)
-                self._form.refreshTree() 
+                MessageDialogs.showErrorMessage(self._form, "Icepap error", "%s,%d Connection timeout" % (icepap_name,addr))
+                self._form.refreshTree()
+
             return (-1, False, -1) 
         except Exception,e:
             #MessageDialogs.showWarningMessage(self._form, "Icepap error", "Connection error")
