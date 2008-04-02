@@ -206,11 +206,12 @@ class PageiPapDriver(QtGui.QWidget):
 
         highlight = False
         param = str(widget.objectName())
+        if param == "txtDriverName":
+            param = "IPAPNAME"
         dbvalue = self.dbStartupConfig.getParameter(unicode(param),in_memory=False)
         wvalue = self._getWidgetValue(widget)
 
         #print "DB("+str(dbvalue)+") W("+str(wvalue)+")"
-
         try:
             if isinstance(widget, QtGui.QDoubleSpinBox) or isinstance(widget, QtGui.QSpinBox):
                 if widget.defaultvalue != widget.value():
@@ -229,9 +230,11 @@ class PageiPapDriver(QtGui.QWidget):
                     widget.setPalette(self.base_salmon_palette)
             
             elif isinstance(widget, QtGui.QComboBox):
+                dbvalue = dbvalue.upper()
+                wvalue = wvalue.upper()
                 if widget.defaultvalue == None:
                     widget.defaultvalue = ""
-                if widget.defaultvalue != str(widget.currentText()).upper():
+                if widget.defaultvalue.upper() != str(widget.currentText()).upper():
                     highlight = True
                     widget.setPalette(self.button_yellow_palette)
                 elif wvalue != dbvalue:
@@ -239,7 +242,15 @@ class PageiPapDriver(QtGui.QWidget):
                     widget.setPalette(self.button_salmon_palette)
             
             elif isinstance(widget, QtGui.QLineEdit):
-                if widget.defaultvalue != str(widget.text()):
+                if dbvalue == None:
+                    dbvalue = ""
+                dbvalue = dbvalue.upper()
+                wvalue = wvalue.upper()
+                if widget.defaultvalue == None:
+                    widget.defaultvalue = ""
+                wdvalue = widget.defaultvalue
+
+                if wdvalue.upper() != wvalue:
                     highlight = True
                     widget.setPalette(self.base_yellow_palette)
                 elif wvalue != dbvalue:
@@ -278,6 +289,9 @@ class PageiPapDriver(QtGui.QWidget):
         ### # HIGHLIGHT AGAIN
         for name, [nsection, widget] in self.var_dict.items():
             self.highlightWidget(widget)
+
+        ### highlight the txtDriverName widget
+        self.highlightWidget(self.ui.txtDriverName)
 
 
 
@@ -762,7 +776,7 @@ class PageiPapDriver(QtGui.QWidget):
                 except:
                     test_values_ok = False
                     break
-
+            
             self._manager.writeIcepapParameters(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, test_values_list)
 
         #self.configureSignals()
@@ -869,7 +883,7 @@ class PageiPapDriver(QtGui.QWidget):
         self.icepap_driver.signDriver()
         # PREPARE DATA FOR HIGHLIGHTING
         dbIcepapSystem = StormManager().getIcepapSystem(self.icepap_driver.icepapsystem_name)
-        self.dbStartupConfig = dbIcepapSystem.getDriver(self.icepap_driver.addr,in_memory=False).startup_cfg
+        self.dbStartupConfig = dbIcepapSystem.getDriver(self.icepap_driver.addr,in_memory=False).current_cfg
         self._connectHighlighting()
                
 # ------------------------------  Testing ----------------------------------------------------------            
