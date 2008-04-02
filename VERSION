@@ -1,5 +1,12 @@
-IcepapCMS 1.13 2008/03/31
+IcepapCMS 1.13 2008/04/02
 -------------------------------------------------------------------------
++) upper-lower case conflicts are ignored for highlighting
++) Accessing for first time does not create conflicts any more
++) Adding icepap: Notification of which location has already the system
++) Status bar conflict messages cleared when conflicts are solved
++) The system preiodic refresh task keeps only one call to refresh methods for system and crate
+
++) Changing location does not report connection errors (previous opened systems)
 +) If the driver is in config mode, the application can perform absolute and
 relative movements
 +) It doesn't allow to add a system if it is already defined in the database
