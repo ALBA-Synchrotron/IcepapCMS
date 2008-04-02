@@ -191,6 +191,8 @@ class IcepapController(Singleton):
         """
             Returns an array with the Status, Limit Switches and Current of the driver
         """
+        if not self.iPaps[icepap_name].connected:
+            return (-1,False,-1)
         
         try:
             register = self.iPaps[icepap_name].getStatus(driver_addr)
@@ -211,7 +213,8 @@ class IcepapController(Singleton):
             
             state = (int(register), power, float(current))
             return state
-        except:
+        except Exception,e:
+            print "There was an exception while accessing the driver ("+icepap_name+":"+str(driver_addr)+"):",e
             return (-1, False, -1)
             
         
