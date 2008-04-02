@@ -108,26 +108,26 @@ class IcepapDriver(Storm):
         #cfg.resetDriver()
         #other.historic_cfgs.remove(cfg)
         #db.store(cfg)
-        res = (self.current_cfg == other.current_cfg)        
-        if not res:            
+        if self.current_cfg == other.current_cfg:
             self.setConflict(Conflict.NO_CONFLICT)
+            return 0
+
+        config = ConfigManager()
+        """solve_conflicts: If true if conflict appears, automatically will load data from db """
+        solve_conflicts = config.config[config.icepap]["conflict_solve"] == str(True)
+        if solve_conflicts:
+            from mainmanager import MainManager
+            MainManager().saveValuesInIcepap(self, self.current_cfg.toList())
+            self.signDriver()
+            self.setConflict(Conflict.DRIVER_FROM_DB)
+            return 0
         else:
-            config = ConfigManager()
-            """solve_conflicts: If true if conflict appears, automatically will load data from db """
-            solve_conflicts = config.config[config.icepap]["conflict_solve"] == str(True)
-            if solve_conflicts:
-                from mainmanager import MainManager
-                MainManager().saveValuesInIcepap(self, self.current_cfg.toList())
-                self.signDriver()
-                self.setConflict(Conflict.DRIVER_FROM_DB)
-            else:
-                self.setConflict(Conflict.DRIVER_CHANGED)
-        #db.remove(cfg)
-        
-        return res
+            self.setConflict(Conflict.DRIVER_CHANGED)
+
+        return -1
      
 
     # TO SORT THE ICEPAP DRIVERS IN THE TREE
     def __lt__(self,other):
         if isinstance(other,IcepapDriver):
-            return self.name < other.name
+            return self.addr < other.addr
