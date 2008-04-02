@@ -174,8 +174,8 @@ class PageiPapSystem(QtGui.QWidget):
     
                     else:
                         if not driver_widget.refresh():
-                            return
-                            #break
+                            #return
+                            break
         if not size == None:
             for col in range(self.tableWidget.columnCount()):
                 self.tableWidget.horizontalHeader().resizeSection(col,self._colSize[size])
