@@ -313,7 +313,6 @@ class IcepapCMS(QtGui.QMainWindow):
         
         icepap_systems_changed = self._manager.checkIcepapSystems()
         for icepap_system in icepap_systems_changed:
-            print icepap_system
             #if icepap_system.conflict != Conflict.NO_CONFLICT:
             self.scanIcepap(icepap_system)
             
