@@ -165,8 +165,8 @@ class PageiPapSystem(QtGui.QWidget):
                         driver = driver_widget.getDriver()
                         driver_widget = IcePapDriverWidget(self, size)
                         driver_widget.fillData(driver)
-                        #if not driver_widget.fillData(driver):
-                        #    return
+                        if not driver_widget.fillData(driver):
+                            return
                         driver_widget.show()
                         self.tableWidget.setCellWidget(row, col, driver_widget)
                         QtCore.QObject.connect(driver_widget,QtCore.SIGNAL("icepapDoubleClicked(PyObject *)"),self.driverDoubleclick)
@@ -174,8 +174,8 @@ class PageiPapSystem(QtGui.QWidget):
     
                     else:
                         if not driver_widget.refresh():
-                            #return
-                            break
+                            return
+                            #break
         if not size == None:
             for col in range(self.tableWidget.columnCount()):
                 self.tableWidget.horizontalHeader().resizeSection(col,self._colSize[size])
