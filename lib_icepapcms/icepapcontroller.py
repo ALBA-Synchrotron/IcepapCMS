@@ -52,8 +52,9 @@ class IcepapController(Singleton):
         self.iPaps[icepap_name].connect(shouldReconnect = False)
         
     def closeConnection(self, icepap_name):
-        self.iPaps[icepap_name].disconnect()
-        del self.iPaps[icepap_name]
+        if self.iPaps.has_key(icepap_name):
+            self.iPaps[icepap_name].disconnect()
+            del self.iPaps[icepap_name]
     
     def closeAllConnections(self):
         for iPap in self.iPaps.values():
