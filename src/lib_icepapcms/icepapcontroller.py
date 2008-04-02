@@ -12,6 +12,8 @@ import icepapdriver
 from conflict import Conflict
 from configmanager import ConfigManager
 from ui_icepapcms.messagedialogs import MessageDialogs
+from PyQt4 import QtCore
+from PyQt4 import QtGui
 
 
 class IcepapController(Singleton):
@@ -46,8 +48,8 @@ class IcepapController(Singleton):
         log_folder = None
         if self.debug:
             log_folder = self.log_folder
-        self.iPaps[icepap_name] = EthIcePAP(host, port, log_path = log_folder)        
-        self.iPaps[icepap_name].connect()
+        self.iPaps[icepap_name] = EthIcePAP(host, port, log_path = log_folder)
+        self.iPaps[icepap_name].connect(shouldReconnect = False)
         
     def closeConnection(self, icepap_name):
         self.iPaps[icepap_name].disconnect()
@@ -100,6 +102,7 @@ class IcepapController(Singleton):
                             
         except:
             print "Unexpected errors:", sys.exc_info()[1]
+            self.closeConnection(icepap_name)
             return {}
 
         return driver_list
@@ -111,7 +114,6 @@ class IcepapController(Singleton):
         """
         
         """ TO-DO STORM review"""   
-              
         driver_cfg = IcepapDriverCfg(unicode(datetime.datetime.now()))
         driver_cfg.setSignature(self.iPaps[icepap_name].getConfigSignature(driver_addr))
         #ver = self.iPaps[icepap_name].getVersionDsp(driver_addr)
@@ -215,7 +217,8 @@ class IcepapController(Singleton):
             return state
         except Exception,e:
             print "There was an exception while accessing the driver ("+icepap_name+":"+str(driver_addr)+"):",e
-            return (-1, False, -1)
+            raise e
+            #return (-1, False, -1)
             
         
     def getDriverTestStatus(self, icepap_name, driver_addr, pos_sel, enc_sel):
@@ -387,19 +390,25 @@ class IcepapController(Singleton):
         self.iPaps[icepap_name].disable(driver_addr)
     
     def checkIcepapStatus(self, icepap_name):
+        if self.iPaps.has_key(icepap_name) and not self.iPaps[icepap_name].connected:
+            return False
+        
         try:
             if self.iPaps.has_key(icepap_name):
                 if self.iPaps[icepap_name].Status == CStatus.Connected:
-                    self.iPaps[icepap_name].getSysStatus()
+                    try:
+                        self.iPaps[icepap_name].getSysStatus()
+                    except:
+                        return False
+                    return True
                 else:
-                    self.iPaps[icepap_name].connect()
-                return True
+                    return False
             else:
                 """ nothing to check, driver it's not monitored """
                 return True
-        except IcePAPException, e:
-            if e.code == IcePAPException.TIMEOUT:
-                return False
+
+        except Exception,e:
+            return False
         
     def _checkDriverStatus(self, icepap_name, driver_addr):
         """
