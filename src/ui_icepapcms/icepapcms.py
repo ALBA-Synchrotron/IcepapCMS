@@ -169,7 +169,10 @@ class IcepapCMS(QtGui.QMainWindow):
     
     def locationChanged(self, location):
         self._manager.changeLocation(location)
-        self.buildInitialTree()        
+        self.buildInitialTree()
+        for icepap_system in self._manager.IcepapSystemList.values():
+            self.stopIcepap(icepap_system)
+        ###self.ui.stackedWidget.setCurrentIndex(0)
     
     def buildInitialTree(self):        
         self._tree_model = IcepapTreeModel(self._manager.IcepapSystemList, True)
@@ -318,14 +321,17 @@ class IcepapCMS(QtGui.QMainWindow):
             
 
     def stopIcepap(self, icepap_system):
-        self.ui.pageiPapDriver.stopTesting()
-        if not self.refreshTimer is None:
-            self.refreshTimer.stop()
-        self.ui.txtLocation.setText("")
-        self.ui.stackedWidget.setCurrentIndex(0)
-        self._manager.stopIcepap(icepap_system)
-        self._tree_model.updateIcepapSystem(icepap_system, True)
-        self.treeSelectByLocation(icepap_system.name)
+        try: 
+            self.ui.pageiPapDriver.stopTesting()
+            if not self.refreshTimer is None:
+                self.refreshTimer.stop()
+                self.ui.txtLocation.setText("")
+                self.ui.stackedWidget.setCurrentIndex(0)
+                self._manager.stopIcepap(icepap_system)
+                self._tree_model.updateIcepapSystem(icepap_system, True)
+                self.treeSelectByLocation(icepap_system.name)
+        except:
+            pass
                        
     def scanIcepap(self, icepap_system):
         """This function scans and Icepap. This means comparing 
