@@ -1,5 +1,8 @@
 IcepapCMS 1.13 2008/04/02
 -------------------------------------------------------------------------
++) The timeout errors doesn't freeze any more the application
++) When scanning a system or preparing the driver page, a clock cursor is shown
+
 +) upper-lower case conflicts are ignored for highlighting
 +) Accessing for first time does not create conflicts any more
 +) Adding icepap: Notification of which location has already the system
