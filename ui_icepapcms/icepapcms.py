@@ -47,7 +47,7 @@ class IcepapCMS(QtGui.QMainWindow):
         self.ui.pageiPapDriver = PageiPapDriver(self)
         self.ui.stackedWidget.addWidget(self.ui.pageiPapDriver)
         self.signalConnections()
-        self.refreshTimer = Qt.QTimer(self)        
+        self.refreshTimer = Qt.QTimer(self)
         QtCore.QObject.connect(self.checkTimer,QtCore.SIGNAL("timeout()"),self.checkIcepapConnection)
                
     
@@ -368,6 +368,13 @@ class IcepapCMS(QtGui.QMainWindow):
         dlg.exec_()
         if dlg.result():
             item.solveConflict()
+
+        icepap_system = item.itemData.icepap_system
+        for driver in icepap_system.drivers:
+            if driver.conflict != Conflict.NO_CONFLICT:
+                return
+        self.setStatusMessage("")
+
     
     def solveDriverMoved(self, item):
         imported_sys = item.itemData.icepap_system
@@ -491,11 +498,13 @@ class IcepapCMS(QtGui.QMainWindow):
         elif item.role == IcepapTreeModel.SYSTEM or item.role == IcepapTreeModel.SYSTEM_WARNING:
             self.ui.pageiPapSystem.fillData(item.itemData)      
             self.ui.stackedWidget.setCurrentIndex(1)
+            QtCore.QObject.disconnect(self.refreshTimer,QtCore.SIGNAL("timeout()"),self.ui.pageiPapSystem.refresh)
             QtCore.QObject.connect(self.refreshTimer,QtCore.SIGNAL("timeout()"),self.ui.pageiPapSystem.refresh)
             self.refreshTimer.start(2000)
         elif item.role == IcepapTreeModel.CRATE:
             self.ui.pageiPapCrate.fillData(item.getIcepapSystem(), int(item.itemLabel[0].toString()))
             self.ui.stackedWidget.setCurrentIndex(2)
+            QtCore.QObject.disconnect(self.refreshTimer,QtCore.SIGNAL("timeout()"),self.ui.pageiPapCrate.refresh)
             QtCore.QObject.connect(self.refreshTimer,QtCore.SIGNAL("timeout()"),self.ui.pageiPapCrate.refresh)
             self.refreshTimer.start(2000)
         else:
