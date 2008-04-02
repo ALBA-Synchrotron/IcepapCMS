@@ -495,6 +495,8 @@ class PageiPapDriver(QtGui.QWidget):
     
     def fillData(self, icepap_driver):
         """ TO-DO STORM review"""
+
+        QtGui.QApplication.instance().setOverrideCursor(QtGui.QCursor(QtCore.Qt.WaitCursor))
         #self.ui.tabWidget.setCurrentIndex(0)
         self._disconnectHighlighting()
         #self.resetSignalsTab()
@@ -604,7 +606,7 @@ class PageiPapDriver(QtGui.QWidget):
         if self.ui.historicWidget.isVisible():
             self.ui.historicWidget.fillData(self.icepap_driver)
 
-
+        QtGui.QApplication.instance().restoreOverrideCursor()
 
 
     
