@@ -459,7 +459,7 @@ class IcepapController(Singleton):
         nwordata = (len(data)) 
         
         chksum = sum(data) 
-        logger.addToLog("File size: "+ str(len(data))+ " bytes, checksum: "+str(chksum))
+        logger.addToLog("File size: "+ str(len(data))+ " bytes, checksum: "+str(chksum)+" ("+str(hex(chksum & 0xffffffff)+")")
         
         startmark = 0xa5aa555a
         if serial:
@@ -476,10 +476,6 @@ class IcepapController(Singleton):
             
             ipap = EthIcePAP(host , port)
             
-        #if addr == "NONE":
-        #    addr = ""
-        #if options == "NONE":
-        #    options = ""
         addr = addr.replace("NONE","")
         options = options.replace("NONE","")
         ipap.connect()
@@ -506,6 +502,10 @@ class IcepapController(Singleton):
         #ipap.sendData(data.tostring())
         for i in range(len(data)):
             ipap.sendData(struct.pack('H',data[i]))
+        # THIS SLEEP IS NECESSARY TO LET THE TRITON COMPUTE THE CHECKSUM AND STORE IF "SAVE"
+        time.sleep(7)
+        logger.addToLog("Firmware sent.")
+        # Notify the user that the data has been sent.
         logger.addToLog("Wait for progammming ends")
         logger.addToLog("At the end, issue a #MODE OPER")            
 
