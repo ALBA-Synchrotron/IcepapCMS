@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <icepapcms>
         <section name="main">
-        		<par id="ACTIVE" name="ACTIVE" type="BOOL">
+                <par id="txtDriverName" name="NAME" type="STRING">
+                     <description>Driver Name</description>
+                </par>
+             		<par id="ACTIVE" name="ACTIVE" type="BOOL">
                 	 <description>Axis enable/disable flag</description>
                 </par>
                 <par id="NAMELOCK" name="NAMELOCK" type="BOOL">
