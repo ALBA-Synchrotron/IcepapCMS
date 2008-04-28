@@ -47,15 +47,20 @@ class DialogDriverConflict(QtGui.QDialog):
                     parname = parname.strip()
                     self.var_dict[parname] = row
                     self._addItemToTable(row, 0, parname, False)
+                    row = row + 1
+
     
     def _fillTable(self):
         self._createTableView()
         self.icepap_values = self._manager.getDriverConfiguration(self._driver.icepapsystem_name, self._driver.addr)
         row = 0
         current = False
-        
+
         for row in range(self.ui.tableWidget.rowCount()):
             name = unicode(self.ui.tableWidget.item(row,0).text())
+
+            if name == "NAME":
+                name = unicode("IPAPNAME")
 
             stored_value = self._driver.current_cfg.getParameter(name, True)
             if stored_value is None:
@@ -69,6 +74,7 @@ class DialogDriverConflict(QtGui.QDialog):
             self._addItemToTable(row, 1, stored_value, color)
             self._addItemToTable(row, 2, icepap_value, color)
         
+
         if current:
             MessageDialogs.showWarningMessage(self, "Driver conflict", "Warning!!\nCurrent values (IN, IB, II) have changed!!\n")
     
