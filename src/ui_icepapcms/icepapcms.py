@@ -378,7 +378,13 @@ class IcepapCMS(QtGui.QMainWindow):
         for driver in icepap_system.drivers:
             if driver.conflict != Conflict.NO_CONFLICT:
                 return
+        # BY NOW, UPDATE THE ICEPAP NAME MANUALLY
+        driver = item.itemData
+        current_cfg = driver.current_cfg
+        label = str(driver.addr)+" "+current_cfg.getParameter(unicode("IPAPNAME"), True)
+        item.changeLabel([label])
         self.setStatusMessage("")
+        
 
     
     def solveDriverMoved(self, item):
