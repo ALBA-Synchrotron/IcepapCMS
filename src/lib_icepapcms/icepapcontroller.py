@@ -176,7 +176,12 @@ class IcepapController(Singleton):
 
             # NOW THE NOT_FOUND INDEX ORDER...
             for (name,value) in not_found_index:
-                self.iPaps[icepap_name].setCfgParameter(driver_addr, name, str(value))                
+                if name == "IPAPNAME":
+                    name = "NAME"
+                    self.iPaps[icepap_name].writeParameter(driver_addr, name, str(value))
+                else:
+                    self.iPaps[icepap_name].setCfgParameter(driver_addr, name, str(value))
+                    
 
             driver_cfg = self.getDriverConfiguration(icepap_name, driver_addr)    
             return driver_cfg
@@ -459,7 +464,7 @@ class IcepapController(Singleton):
         nwordata = (len(data)) 
         
         chksum = sum(data) 
-        logger.addToLog("File size: "+ str(len(data))+ " bytes, checksum: "+str(chksum)+" ("+str(hex(chksum & 0xffffffff)+")")
+        logger.addToLog("File size: "+ str(len(data))+ " bytes, checksum: "+str(chksum)+" ("+str(hex(chksum & 0xffffffff)+")"))
         
         startmark = 0xa5aa555a
         if serial:
