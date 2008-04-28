@@ -1,3 +1,9 @@
+IcepapCMS 1.14 2008/mm/dd
++) Added support for the driver name conflicts
++) The upgrade firmware function gives time to the triton to compute the checksum
+   before disconnecting
++) CFGINFO answers are readed until the final '$' is found
+
 IcepapCMS 1.13 2008/04/02
 -------------------------------------------------------------------------
 +) The timeout errors doesn't freeze any more the application
