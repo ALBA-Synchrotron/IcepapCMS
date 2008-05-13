@@ -2,6 +2,7 @@
 #rm *.py
 #rm *~
 pyrcc4 icepapcms.qrc -o qrc_icepapcms.py
+
 /usr/bin/pyuic4  ipaptestpage.ui -o ui_ipaptestpage.py
 /usr/bin/pyuic4  dialogaddicepap.ui -o ui_dialogaddicepap.py
 /usr/bin/pyuic4  dialogaddlocation.ui -o ui_dialogaddlocation.py
@@ -15,11 +16,19 @@ pyrcc4 icepapcms.qrc -o qrc_icepapcms.py
 /usr/bin/pyuic4  ipapconsole.ui -o ui_ipapconsole.py
 /usr/bin/pyuic4  historiccfgwidget.ui -o ui_historiccfgwidget.py
 
+DIR_DRIVERWIDGET=icepapdriver_widget
+/usr/bin/pyuic4 $DIR_DRIVERWIDGET/icepapdriverwidget.ui -o $DIR_DRIVERWIDGET/ui_icepapdriverwidget.py
+/usr/bin/pyuic4 $DIR_DRIVERWIDGET/icepapdriverwidgetsmall.ui -o $DIR_DRIVERWIDGET/ui_icepapdriverwidgetsmall.py
+
 pushd ..
 rm ui*py
+rm $DIR_DRIVERWIDGET/ui*py
 rm qrc_icepapcms.py
 rm icepapcms_rc.py
+
 mv qt_designer_files/ui*py .
+mv qt_designer_files/$DIR_DRIVERWIDGET/ui*py $DIR_DRIVERWIDGET/
+
 mv qt_designer_files/qrc_icepapcms.py .
 ln -s qrc_icepapcms.py icepapcms_rc.py
 popd
