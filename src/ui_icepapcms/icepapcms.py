@@ -64,7 +64,7 @@ class IcepapCMS(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.actionImport,QtCore.SIGNAL("triggered()"),self.actionImport)         
         QtCore.QObject.connect(self.ui.actionConsole,QtCore.SIGNAL("triggered()"),self.actionConsole)         
         QtCore.QObject.connect(self.ui.actionFirmwareUpgrade,QtCore.SIGNAL("triggered()"),self.actionFimwareUpgrade)         
-        QtCore.QObject.connect(self.ui.actionSignConfig,QtCore.SIGNAL("triggered()"),self.actionSignConfig)
+        QtCore.QObject.connect(self.ui.actionSaveConfig,QtCore.SIGNAL("triggered()"),self.actionSaveConfig)
         QtCore.QObject.connect(self.ui.actionHistoricCfg,QtCore.SIGNAL("triggered()"),self.actionHistoricCfg)
         QtCore.QObject.connect(self.ui.actionHelp,QtCore.SIGNAL("triggered()"),self.actionHelp)
         QtCore.QObject.connect(self.ui.actionUser_manual,QtCore.SIGNAL("triggered()"),self.actionUser_Manual)
@@ -184,7 +184,7 @@ class IcepapCMS(QtGui.QMainWindow):
         item = self._tree_model.item(modelindex)                
         if item:
             actions = [
-            """self.menu.addAction("Sign driver configuration", self.actionSignConfig)""",
+            """self.menu.addAction("Sign driver configuration", self.actionSaveConfig)""",
             """self.menu.addAction("Solve driver configuration conflict", self.contextSolveConflict)""",
             """self.menu.addAction("Delete driver not present", self.contextDeleteDriverError)""",
             """self.menu.addAction("Driver moved. Import configurations", self.contextSolveDriverMoved)""",
@@ -489,7 +489,7 @@ class IcepapCMS(QtGui.QMainWindow):
         self.ui.actionImport.setEnabled(False)
         self.ui.actionHistoricCfg.setEnabled(False)
         self.ui.actionTemplates.setEnabled(False)
-        self.ui.actionSignConfig.setEnabled(True)
+        self.ui.actionSaveConfig.setEnabled(True)
         self.ui.pageiPapDriver.stopTesting()
         if not self.refreshTimer is None:
             self.refreshTimer.stop()
@@ -503,9 +503,9 @@ class IcepapCMS(QtGui.QMainWindow):
             #if self.historicDlg.isVisible():
             #    self.historicDlg.fillDriverData(item.itemData)
             if item.role == IcepapTreeModel.DRIVER_CFG:
-                self.ui.actionSignConfig.setEnabled(True)
+                self.ui.actionSaveConfig.setEnabled(True)
             else:
-                self.ui.actionSignConfig.setEnabled(False)
+                self.ui.actionSaveConfig.setEnabled(False)
         elif item.role == IcepapTreeModel.SYSTEM or item.role == IcepapTreeModel.SYSTEM_WARNING:
             self.ui.pageiPapSystem.fillData(item.itemData)      
             self.ui.stackedWidget.setCurrentIndex(1)
@@ -659,9 +659,9 @@ class IcepapCMS(QtGui.QMainWindow):
         location = location.rstrip('/')
         self._tree_model.changeItemIcon(location, IcepapTreeModel.DRIVER_CFG)
         #driver.conflict = Conflict.DRIVER_CFG
-        self.ui.actionSignConfig.setEnabled(True)
+        self.ui.actionSaveConfig.setEnabled(True)
          
-    def actionSignConfig(self):
+    def actionSaveConfig(self):
         if self.ui.stackedWidget.currentIndex() == 0:
             #sign all drivers
             icepap_list = self._manager.getIcepapList()
@@ -682,7 +682,7 @@ class IcepapCMS(QtGui.QMainWindow):
             location = str(self.ui.txtLocation.text())
             location = location.rstrip('/')
             self._tree_model.changeItemIcon(location, IcepapTreeModel.DRIVER)
-            self.ui.actionSignConfig.setEnabled(False)
+            self.ui.actionSaveConfig.setEnabled(False)
         MessageDialogs.showInformationMessage(self, "Signature", "Driver/s signed succesfully")
     
     def actionHistoricCfg(self):
