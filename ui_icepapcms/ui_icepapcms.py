@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'icepapcms.ui'
 #
-# Created: Tue May 13 11:51:32 2008
+# Created: Tue May 13 12:46:49 2008
 #      by: PyQt4 UI code generator 4.3.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -275,9 +275,9 @@ class Ui_IcepapCMS(object):
         self.actionToolbar.setChecked(True)
         self.actionToolbar.setObjectName("actionToolbar")
 
-        self.actionSignConfig = QtGui.QAction(IcepapCMS)
-        self.actionSignConfig.setIcon(QtGui.QIcon(":/icons/IcepapCfg Icons/sign.png"))
-        self.actionSignConfig.setObjectName("actionSignConfig")
+        self.actionSaveConfig = QtGui.QAction(IcepapCMS)
+        self.actionSaveConfig.setIcon(QtGui.QIcon(":/icons/IcepapCfg Icons/sign.png"))
+        self.actionSaveConfig.setObjectName("actionSaveConfig")
 
         self.actionFirmwareUpgrade = QtGui.QAction(IcepapCMS)
         self.actionFirmwareUpgrade.setIcon(QtGui.QIcon(":/icons/IcepapCfg Icons/gnome-cpu.png"))
@@ -323,7 +323,7 @@ class Ui_IcepapCMS(object):
         self.menuHelp.addAction(self.actionAbout)
         self.menuView.addAction(self.actionTree_Explorer)
         self.menuView.addAction(self.actionToolbar)
-        self.menuDriver.addAction(self.actionSignConfig)
+        self.menuDriver.addAction(self.actionSaveConfig)
         self.menuDriver.addSeparator()
         self.menuDriver.addAction(self.actionHistoricCfg)
         self.menuDriver.addAction(self.actionTemplates)
@@ -352,7 +352,7 @@ class Ui_IcepapCMS(object):
         self.toolBar.addSeparator()
         self.toolBar.addAction(self.actionExport)
         self.toolBar.addAction(self.actionImport)
-        self.toolBar.addAction(self.actionSignConfig)
+        self.toolBar.addAction(self.actionSaveConfig)
         self.toolBar.addAction(self.actionHistoricCfg)
         self.toolBar.addAction(self.actionTemplates)
         self.toolBar.addSeparator()
@@ -410,10 +410,10 @@ class Ui_IcepapCMS(object):
         self.actionQuit.setShortcut(QtGui.QApplication.translate("IcepapCMS", "Ctrl+Q", None, QtGui.QApplication.UnicodeUTF8))
         self.actionToolbar.setText(QtGui.QApplication.translate("IcepapCMS", "Toolbar", None, QtGui.QApplication.UnicodeUTF8))
         self.actionToolbar.setShortcut(QtGui.QApplication.translate("IcepapCMS", "F9", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionSignConfig.setText(QtGui.QApplication.translate("IcepapCMS", "Sign Configuration", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionSignConfig.setToolTip(QtGui.QApplication.translate("IcepapCMS", "Sign driver configuration", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionSignConfig.setStatusTip(QtGui.QApplication.translate("IcepapCMS", "Ctrl+s", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionSignConfig.setShortcut(QtGui.QApplication.translate("IcepapCMS", "Ctrl+S", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionSaveConfig.setText(QtGui.QApplication.translate("IcepapCMS", "Save Configuration", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionSaveConfig.setToolTip(QtGui.QApplication.translate("IcepapCMS", "Save driver configuration", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionSaveConfig.setStatusTip(QtGui.QApplication.translate("IcepapCMS", "Ctrl+s", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionSaveConfig.setShortcut(QtGui.QApplication.translate("IcepapCMS", "Ctrl+S", None, QtGui.QApplication.UnicodeUTF8))
         self.actionFirmwareUpgrade.setText(QtGui.QApplication.translate("IcepapCMS", "Firmware upgrade", None, QtGui.QApplication.UnicodeUTF8))
         self.actionFirmwareUpgrade.setToolTip(QtGui.QApplication.translate("IcepapCMS", "Open Firmware upgrade dialog", None, QtGui.QApplication.UnicodeUTF8))
         self.actionConsole.setText(QtGui.QApplication.translate("IcepapCMS", "Console", None, QtGui.QApplication.UnicodeUTF8))
