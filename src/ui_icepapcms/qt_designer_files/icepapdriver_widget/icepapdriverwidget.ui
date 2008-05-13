@@ -25,10 +25,19 @@
    <string>IcePapDriverWidget</string>
   </property>
   <layout class="QVBoxLayout" >
-   <property name="margin" >
+   <property name="spacing" >
     <number>2</number>
    </property>
-   <property name="spacing" >
+   <property name="leftMargin" >
+    <number>2</number>
+   </property>
+   <property name="topMargin" >
+    <number>2</number>
+   </property>
+   <property name="rightMargin" >
+    <number>2</number>
+   </property>
+   <property name="bottomMargin" >
     <number>2</number>
    </property>
    <item>
@@ -521,10 +530,22 @@
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QGridLayout" >
-      <property name="margin" >
+      <property name="leftMargin" >
        <number>3</number>
       </property>
-      <property name="spacing" >
+      <property name="topMargin" >
+       <number>3</number>
+      </property>
+      <property name="rightMargin" >
+       <number>3</number>
+      </property>
+      <property name="bottomMargin" >
+       <number>3</number>
+      </property>
+      <property name="horizontalSpacing" >
+       <number>3</number>
+      </property>
+      <property name="verticalSpacing" >
        <number>3</number>
       </property>
       <item row="1" column="0" colspan="2" >
@@ -1129,7 +1150,7 @@
          </size>
         </property>
         <property name="text" >
-         <string>enable</string>
+         <string>power ON</string>
         </property>
         <property name="checkable" >
          <bool>true</bool>
