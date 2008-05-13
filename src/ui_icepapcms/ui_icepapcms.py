@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'icepapcms.ui'
 #
-# Created: Tue Feb 26 10:32:26 2008
-#      by: PyQt4 UI code generator 4.3
+# Created: Tue May 13 11:51:32 2008
+#      by: PyQt4 UI code generator 4.3.3
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -148,7 +148,7 @@ class Ui_IcepapCMS(object):
         self.toolBar.setIconSize(QtCore.QSize(32,32))
         self.toolBar.setToolButtonStyle(QtCore.Qt.ToolButtonIconOnly)
         self.toolBar.setObjectName("toolBar")
-        IcepapCMS.addToolBar(self.toolBar)
+        IcepapCMS.addToolBar(QtCore.Qt.TopToolBarArea,self.toolBar)
 
         self.dockTree = QtGui.QDockWidget(IcepapCMS)
         self.dockTree.setMinimumSize(QtCore.QSize(150,16))
