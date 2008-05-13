@@ -141,7 +141,7 @@ class PageiPapDriver(QtGui.QWidget):
         #self.ui.txtDriverName.setValidator(QtGui.QIntValidator(1,100,self))
         
     def signalConnections(self):
-        QtCore.QObject.connect(self.ui.btnApplyCfg,QtCore.SIGNAL("clicked()"),self.btnApplyCfg_on_click)
+        QtCore.QObject.connect(self.ui.btnSendCfg,QtCore.SIGNAL("clicked()"),self.btnSendCfg_on_click)
         #QtCore.QObject.connect(self.ui.btnHistoric,QtCore.SIGNAL("clicked()"),self.Historic_on_click)
         #QtCore.QObject.connect(self.ui.btnTemplates,QtCore.SIGNAL("clicked()"),self.btnTemplates_on_click)
         QtCore.QObject.connect(self.ui.btnUndo,QtCore.SIGNAL("clicked()"),self.btnUndo_on_click)
@@ -710,7 +710,7 @@ class PageiPapDriver(QtGui.QWidget):
     
 
         
-    def btnApplyCfg_on_click(self):
+    def btnSendCfg_on_click(self):
         # SHOULD NOT CHANGE THE DRIVER NAME
         #self.icepap_driver.name = unicode(self.ui.txtDriverName.text())
         #self.icepap_driver.nemonic = str(self.ui.txtDriverNemonic.text())

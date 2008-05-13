@@ -4594,9 +4594,9 @@ p, li { white-space: pre-wrap; }
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="btnApplyCfg" >
+       <widget class="QPushButton" name="btnSendCfg" >
         <property name="text" >
-         <string>Apply Config</string>
+         <string>Send Config</string>
         </property>
         <property name="icon" >
          <iconset resource="icepapcms.qrc" >:/small_icons/IcepapCfg Icons/Icepapicon.png</iconset>
@@ -4648,14 +4648,14 @@ p, li { white-space: pre-wrap; }
  </widget>
  <customwidgets>
   <customwidget>
-   <class>HistoricCfgWidget</class>
-   <extends>QWidget</extends>
-   <header>historiccfgwidget.h</header>
-  </customwidget>
-  <customwidget>
    <class>Led</class>
    <extends>QLabel</extends>
    <header>Led.h</header>
+  </customwidget>
+  <customwidget>
+   <class>HistoricCfgWidget</class>
+   <extends>QWidget</extends>
+   <header>historiccfgwidget.h</header>
   </customwidget>
  </customwidgets>
  <resources>
