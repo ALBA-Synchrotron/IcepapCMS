@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'dialogpreferences.ui'
 #
-# Created: Tue Feb 26 10:32:25 2008
-#      by: PyQt4 UI code generator 4.3
+# Created: Tue May 13 11:51:30 2008
+#      by: PyQt4 UI code generator 4.3.3
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -459,7 +459,7 @@ class Ui_DialogPreferences(object):
         self.listWidget.setFrameShadow(QtGui.QFrame.Plain)
         self.listWidget.setIconSize(QtCore.QSize(44,44))
         self.listWidget.setFlow(QtGui.QListView.LeftToRight)
-        self.listWidget.setWrapping(False)
+        self.listWidget.setProperty("isWrapping",QtCore.QVariant(False))
         self.listWidget.setViewMode(QtGui.QListView.IconMode)
         self.listWidget.setModelColumn(0)
         self.listWidget.setUniformItemSizes(False)
