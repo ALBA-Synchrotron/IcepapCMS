@@ -269,7 +269,7 @@
     <property name="title" >
      <string>Driver</string>
     </property>
-    <addaction name="actionSignConfig" />
+    <addaction name="actionSaveConfig" />
     <addaction name="separator" />
     <addaction name="actionHistoricCfg" />
     <addaction name="actionTemplates" />
@@ -337,7 +337,7 @@
    <addaction name="separator" />
    <addaction name="actionExport" />
    <addaction name="actionImport" />
-   <addaction name="actionSignConfig" />
+   <addaction name="actionSaveConfig" />
    <addaction name="actionHistoricCfg" />
    <addaction name="actionTemplates" />
    <addaction name="separator" />
@@ -700,15 +700,15 @@ p, li { white-space: pre-wrap; }
     <string>F9</string>
    </property>
   </action>
-  <action name="actionSignConfig" >
+  <action name="actionSaveConfig" >
    <property name="icon" >
     <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/sign.png</iconset>
    </property>
    <property name="text" >
-    <string>Sign Configuration</string>
+    <string>Save Configuration</string>
    </property>
    <property name="toolTip" >
-    <string>Sign driver configuration</string>
+    <string>Save driver configuration</string>
    </property>
    <property name="statusTip" >
     <string>Ctrl+s</string>
