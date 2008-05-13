@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'dialogipapprogram.ui'
 #
-# Created: Tue Feb 26 10:32:26 2008
-#      by: PyQt4 UI code generator 4.3
+# Created: Tue May 13 11:51:30 2008
+#      by: PyQt4 UI code generator 4.3.3
 #
 # WARNING! All changes made in this file will be lost!
 
