@@ -59,10 +59,10 @@ class IcePapDriverWidget(QtGui.QWidget):
     
     def btnEnDis_on_click(self,bool):
         if bool:
-            self.ui.pushButton.setText("disable")
+            self.ui.pushButton.setText("power OFF")
             self._manager.enableDriver(self._driver.icepapsystem_name, self._driver.addr)
         else:
-            self.ui.pushButton.setText("enable")
+            self.ui.pushButton.setText("power ON")
             self._manager.disableDriver(self._driver.icepapsystem_name, self._driver.addr)
 
     def getDriver(self):
@@ -115,13 +115,13 @@ class IcePapDriverWidget(QtGui.QWidget):
                 if power:
                     self.ui.ledStatus.changeColor(Led.GREEN)
                     self.ui.ledStatus.on()
-                    self.ui.pushButton.setText("disable")
+                    self.ui.pushButton.setText("power OFF")
                     self.ui.pushButton.setChecked(True)
                     self.ui.pushButton.setEnabled(True)
                     self.mode = mode                    
                 else:
                     self.ui.pushButton.setEnabled(True)
-                    self.ui.pushButton.setText("enable")
+                    self.ui.pushButton.setText("power ON")
                     self.ui.pushButton.setChecked(False)
                     self.ui.ledStatus.changeColor(Led.RED)
                     self.ui.ledStatus.on()                    
@@ -132,7 +132,7 @@ class IcePapDriverWidget(QtGui.QWidget):
                 self.ui.ledStatus.on()
             else:
                 self.ui.pushButton.setEnabled(True)
-                self.ui.pushButton.setText("enable")
+                self.ui.pushButton.setText("power ON")
                 self.ui.pushButton.setChecked(False)
                 self.ui.ledStatus.changeColor(Led.RED)
                 self.ui.ledStatus.on()
