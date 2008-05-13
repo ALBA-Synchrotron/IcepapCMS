@@ -1,22 +1,20 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'icepapdriverwidgetsmall.ui'
+# Form implementation generated from reading ui file 'icepapdriver_widget/icepapdriverwidgetsmall.ui'
 #
-# Created: Wed Feb 28 11:15:42 2007
-#      by: PyQt4 UI code generator 4.1
+# Created: Tue May 13 11:51:34 2008
+#      by: PyQt4 UI code generator 4.3.3
 #
 # WARNING! All changes made in this file will be lost!
 
-import sys
 from PyQt4 import QtCore, QtGui
-from ui_icepapcms.Led import Led
 
 class Ui_IcePapDriverWidgetSmall(object):
     def setupUi(self, IcePapDriverWidgetSmall):
         IcePapDriverWidgetSmall.setObjectName("IcePapDriverWidgetSmall")
         IcePapDriverWidgetSmall.resize(QtCore.QSize(QtCore.QRect(0,0,94,79).size()).expandedTo(IcePapDriverWidgetSmall.minimumSizeHint()))
 
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Policy(0),QtGui.QSizePolicy.Policy(0))
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed,QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(IcePapDriverWidgetSmall.sizePolicy().hasHeightForWidth())
@@ -25,13 +23,13 @@ class Ui_IcePapDriverWidgetSmall(object):
         IcePapDriverWidgetSmall.setMaximumSize(QtCore.QSize(94,79))
 
         self.hboxlayout = QtGui.QHBoxLayout(IcePapDriverWidgetSmall)
-        self.hboxlayout.setMargin(2)
         self.hboxlayout.setSpacing(2)
+        self.hboxlayout.setMargin(2)
         self.hboxlayout.setObjectName("hboxlayout")
 
         self.frame = QtGui.QFrame(IcePapDriverWidgetSmall)
 
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Policy(0),QtGui.QSizePolicy.Policy(0))
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed,QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.frame.sizePolicy().hasHeightForWidth())
@@ -250,8 +248,8 @@ class Ui_IcePapDriverWidgetSmall(object):
         self.frame.setObjectName("frame")
 
         self.vboxlayout = QtGui.QVBoxLayout(self.frame)
-        self.vboxlayout.setMargin(1)
         self.vboxlayout.setSpacing(1)
+        self.vboxlayout.setMargin(1)
         self.vboxlayout.setObjectName("vboxlayout")
 
         self.lblName = QtGui.QLabel(self.frame)
@@ -468,8 +466,8 @@ class Ui_IcePapDriverWidgetSmall(object):
         self.vboxlayout.addWidget(self.lblName)
 
         self.hboxlayout1 = QtGui.QHBoxLayout()
-        self.hboxlayout1.setMargin(0)
         self.hboxlayout1.setSpacing(6)
+        self.hboxlayout1.setMargin(0)
         self.hboxlayout1.setObjectName("hboxlayout1")
 
         self.ledStatus = Led(self.frame)
@@ -502,13 +500,7 @@ class Ui_IcePapDriverWidgetSmall(object):
         self.ledStatus.setToolTip(QtGui.QApplication.translate("IcePapDriverWidgetSmall", "Status", None, QtGui.QApplication.UnicodeUTF8))
         self.ledLimitPos.setToolTip(QtGui.QApplication.translate("IcePapDriverWidgetSmall", "Limit +", None, QtGui.QApplication.UnicodeUTF8))
         self.ledLimitNeg.setToolTip(QtGui.QApplication.translate("IcePapDriverWidgetSmall", "Limit -", None, QtGui.QApplication.UnicodeUTF8))
-        self.pushButton.setText(QtGui.QApplication.translate("IcePapDriverWidgetSmall", "enable", None, QtGui.QApplication.UnicodeUTF8))
+        self.pushButton.setText(QtGui.QApplication.translate("IcePapDriverWidgetSmall", "power ON", None, QtGui.QApplication.UnicodeUTF8))
 
-
-if __name__ == "__main__":
-    app = QtGui.QApplication(sys.argv)
-    IcePapDriverWidgetSmall = QtGui.QWidget()
-    ui = Ui_IcePapDriverWidgetSmall()
-    ui.setupUi(IcePapDriverWidgetSmall)
-    IcePapDriverWidgetSmall.show()
-    sys.exit(app.exec_())
+from Led import Led
+import icepapcms_rc
