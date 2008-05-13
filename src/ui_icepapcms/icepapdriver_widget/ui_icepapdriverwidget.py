@@ -1,26 +1,24 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'unknown'
+# Form implementation generated from reading ui file 'icepapdriver_widget/icepapdriverwidget.ui'
 #
-# Created: Wed Sep 20 09:44:48 2006
-#      by: PyQt4 UI code generator 4.0
+# Created: Tue May 13 11:51:34 2008
+#      by: PyQt4 UI code generator 4.3.3
 #
 # WARNING! All changes made in this file will be lost!
 
-import sys
-from ui_icepapcms.Led import Led
 from PyQt4 import QtCore, QtGui
 
 class Ui_IcePapDriverWidget(object):
     def setupUi(self, IcePapDriverWidget):
         IcePapDriverWidget.setObjectName("IcePapDriverWidget")
-        IcePapDriverWidget.resize(QtCore.QSize(QtCore.QRect(0,0,100,220).size()).expandedTo(IcePapDriverWidget.minimumSizeHint()))
+        IcePapDriverWidget.resize(QtCore.QSize(QtCore.QRect(0,0,100,201).size()).expandedTo(IcePapDriverWidget.minimumSizeHint()))
         IcePapDriverWidget.setMinimumSize(QtCore.QSize(100,201))
         IcePapDriverWidget.setMaximumSize(QtCore.QSize(120,220))
 
         self.vboxlayout = QtGui.QVBoxLayout(IcePapDriverWidget)
-        self.vboxlayout.setMargin(2)
         self.vboxlayout.setSpacing(2)
+        self.vboxlayout.setMargin(2)
         self.vboxlayout.setObjectName("vboxlayout")
 
         self.frame = QtGui.QFrame(IcePapDriverWidget)
@@ -28,57 +26,210 @@ class Ui_IcePapDriverWidget(object):
         self.frame.setMaximumSize(QtCore.QSize(90,190))
 
         palette = QtGui.QPalette()
-        palette.setColor(QtGui.QPalette.Active,QtGui.QPalette.ColorRole(0),QtGui.QColor(16,16,16))
-        palette.setColor(QtGui.QPalette.Active,QtGui.QPalette.ColorRole(1),QtGui.QColor(239,235,231))
-        palette.setColor(QtGui.QPalette.Active,QtGui.QPalette.ColorRole(2),QtGui.QColor(237,237,237))
-        palette.setColor(QtGui.QPalette.Active,QtGui.QPalette.ColorRole(3),QtGui.QColor(247,245,243))
-        palette.setColor(QtGui.QPalette.Active,QtGui.QPalette.ColorRole(4),QtGui.QColor(119,117,115))
-        palette.setColor(QtGui.QPalette.Active,QtGui.QPalette.ColorRole(5),QtGui.QColor(159,157,154))
-        palette.setColor(QtGui.QPalette.Active,QtGui.QPalette.ColorRole(6),QtGui.QColor(16,16,16))
-        palette.setColor(QtGui.QPalette.Active,QtGui.QPalette.ColorRole(7),QtGui.QColor(255,255,255))
-        palette.setColor(QtGui.QPalette.Active,QtGui.QPalette.ColorRole(8),QtGui.QColor(16,16,16))
-        palette.setColor(QtGui.QPalette.Active,QtGui.QPalette.ColorRole(9),QtGui.QColor(255,255,255))
-        palette.setColor(QtGui.QPalette.Active,QtGui.QPalette.ColorRole(10),QtGui.QColor(239,235,231))
-        palette.setColor(QtGui.QPalette.Active,QtGui.QPalette.ColorRole(11),QtGui.QColor(0,0,0))
-        palette.setColor(QtGui.QPalette.Active,QtGui.QPalette.ColorRole(12),QtGui.QColor(101,148,235))
-        palette.setColor(QtGui.QPalette.Active,QtGui.QPalette.ColorRole(13),QtGui.QColor(255,255,255))
-        palette.setColor(QtGui.QPalette.Active,QtGui.QPalette.ColorRole(14),QtGui.QColor(0,0,255))
-        palette.setColor(QtGui.QPalette.Active,QtGui.QPalette.ColorRole(15),QtGui.QColor(255,0,255))
-        palette.setColor(QtGui.QPalette.Active,QtGui.QPalette.ColorRole(16),QtGui.QColor(247,245,243))
-        palette.setColor(QtGui.QPalette.Inactive,QtGui.QPalette.ColorRole(0),QtGui.QColor(16,16,16))
-        palette.setColor(QtGui.QPalette.Inactive,QtGui.QPalette.ColorRole(1),QtGui.QColor(239,235,231))
-        palette.setColor(QtGui.QPalette.Inactive,QtGui.QPalette.ColorRole(2),QtGui.QColor(237,237,237))
-        palette.setColor(QtGui.QPalette.Inactive,QtGui.QPalette.ColorRole(3),QtGui.QColor(247,245,243))
-        palette.setColor(QtGui.QPalette.Inactive,QtGui.QPalette.ColorRole(4),QtGui.QColor(119,117,115))
-        palette.setColor(QtGui.QPalette.Inactive,QtGui.QPalette.ColorRole(5),QtGui.QColor(159,157,154))
-        palette.setColor(QtGui.QPalette.Inactive,QtGui.QPalette.ColorRole(6),QtGui.QColor(16,16,16))
-        palette.setColor(QtGui.QPalette.Inactive,QtGui.QPalette.ColorRole(7),QtGui.QColor(255,255,255))
-        palette.setColor(QtGui.QPalette.Inactive,QtGui.QPalette.ColorRole(8),QtGui.QColor(16,16,16))
-        palette.setColor(QtGui.QPalette.Inactive,QtGui.QPalette.ColorRole(9),QtGui.QColor(255,255,255))
-        palette.setColor(QtGui.QPalette.Inactive,QtGui.QPalette.ColorRole(10),QtGui.QColor(239,235,231))
-        palette.setColor(QtGui.QPalette.Inactive,QtGui.QPalette.ColorRole(11),QtGui.QColor(0,0,0))
-        palette.setColor(QtGui.QPalette.Inactive,QtGui.QPalette.ColorRole(12),QtGui.QColor(101,148,235))
-        palette.setColor(QtGui.QPalette.Inactive,QtGui.QPalette.ColorRole(13),QtGui.QColor(255,255,255))
-        palette.setColor(QtGui.QPalette.Inactive,QtGui.QPalette.ColorRole(14),QtGui.QColor(0,0,255))
-        palette.setColor(QtGui.QPalette.Inactive,QtGui.QPalette.ColorRole(15),QtGui.QColor(255,0,255))
-        palette.setColor(QtGui.QPalette.Inactive,QtGui.QPalette.ColorRole(16),QtGui.QColor(247,245,243))
-        palette.setColor(QtGui.QPalette.Disabled,QtGui.QPalette.ColorRole(0),QtGui.QColor(127,125,123))
-        palette.setColor(QtGui.QPalette.Disabled,QtGui.QPalette.ColorRole(1),QtGui.QColor(239,235,231))
-        palette.setColor(QtGui.QPalette.Disabled,QtGui.QPalette.ColorRole(2),QtGui.QColor(237,237,237))
-        palette.setColor(QtGui.QPalette.Disabled,QtGui.QPalette.ColorRole(3),QtGui.QColor(247,245,243))
-        palette.setColor(QtGui.QPalette.Disabled,QtGui.QPalette.ColorRole(4),QtGui.QColor(119,117,115))
-        palette.setColor(QtGui.QPalette.Disabled,QtGui.QPalette.ColorRole(5),QtGui.QColor(159,157,154))
-        palette.setColor(QtGui.QPalette.Disabled,QtGui.QPalette.ColorRole(6),QtGui.QColor(127,125,123))
-        palette.setColor(QtGui.QPalette.Disabled,QtGui.QPalette.ColorRole(7),QtGui.QColor(255,255,255))
-        palette.setColor(QtGui.QPalette.Disabled,QtGui.QPalette.ColorRole(8),QtGui.QColor(127,125,123))
-        palette.setColor(QtGui.QPalette.Disabled,QtGui.QPalette.ColorRole(9),QtGui.QColor(255,255,255))
-        palette.setColor(QtGui.QPalette.Disabled,QtGui.QPalette.ColorRole(10),QtGui.QColor(239,235,231))
-        palette.setColor(QtGui.QPalette.Disabled,QtGui.QPalette.ColorRole(11),QtGui.QColor(0,0,0))
-        palette.setColor(QtGui.QPalette.Disabled,QtGui.QPalette.ColorRole(12),QtGui.QColor(84,123,196))
-        palette.setColor(QtGui.QPalette.Disabled,QtGui.QPalette.ColorRole(13),QtGui.QColor(255,255,255))
-        palette.setColor(QtGui.QPalette.Disabled,QtGui.QPalette.ColorRole(14),QtGui.QColor(0,0,255))
-        palette.setColor(QtGui.QPalette.Disabled,QtGui.QPalette.ColorRole(15),QtGui.QColor(255,0,255))
-        palette.setColor(QtGui.QPalette.Disabled,QtGui.QPalette.ColorRole(16),QtGui.QColor(247,245,243))
+
+        brush = QtGui.QBrush(QtGui.QColor(16,16,16))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.WindowText,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(239,235,231))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Button,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(237,237,237))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Light,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(247,245,243))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Midlight,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(119,117,115))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Dark,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(159,157,154))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Mid,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(16,16,16))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Text,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(255,255,255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.BrightText,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(16,16,16))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.ButtonText,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(255,255,255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Base,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(239,235,231))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Window,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(0,0,0))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Shadow,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(101,148,235))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Highlight,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(255,255,255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.HighlightedText,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(0,0,255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Link,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(255,0,255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.LinkVisited,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(247,245,243))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.AlternateBase,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(16,16,16))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.WindowText,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(239,235,231))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Button,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(237,237,237))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Light,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(247,245,243))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Midlight,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(119,117,115))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Dark,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(159,157,154))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Mid,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(16,16,16))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Text,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(255,255,255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.BrightText,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(16,16,16))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.ButtonText,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(255,255,255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Base,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(239,235,231))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Window,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(0,0,0))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Shadow,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(101,148,235))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Highlight,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(255,255,255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.HighlightedText,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(0,0,255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Link,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(255,0,255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.LinkVisited,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(247,245,243))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.AlternateBase,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(127,125,123))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.WindowText,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(239,235,231))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.Button,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(237,237,237))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.Light,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(247,245,243))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.Midlight,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(119,117,115))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.Dark,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(159,157,154))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.Mid,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(127,125,123))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.Text,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(255,255,255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.BrightText,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(127,125,123))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.ButtonText,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(255,255,255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.Base,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(239,235,231))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.Window,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(0,0,0))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.Shadow,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(84,123,196))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.Highlight,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(255,255,255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.HighlightedText,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(0,0,255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.Link,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(255,0,255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.LinkVisited,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(247,245,243))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.AlternateBase,brush)
         self.frame.setPalette(palette)
         self.frame.setFrameShape(QtGui.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtGui.QFrame.Raised)
@@ -92,57 +243,210 @@ class Ui_IcePapDriverWidget(object):
         self.lblName = QtGui.QLabel(self.frame)
 
         palette = QtGui.QPalette()
-        palette.setColor(QtGui.QPalette.Active,QtGui.QPalette.ColorRole(0),QtGui.QColor(0,0,255))
-        palette.setColor(QtGui.QPalette.Active,QtGui.QPalette.ColorRole(1),QtGui.QColor(239,235,231))
-        palette.setColor(QtGui.QPalette.Active,QtGui.QPalette.ColorRole(2),QtGui.QColor(237,237,237))
-        palette.setColor(QtGui.QPalette.Active,QtGui.QPalette.ColorRole(3),QtGui.QColor(247,245,243))
-        palette.setColor(QtGui.QPalette.Active,QtGui.QPalette.ColorRole(4),QtGui.QColor(119,117,115))
-        palette.setColor(QtGui.QPalette.Active,QtGui.QPalette.ColorRole(5),QtGui.QColor(159,157,154))
-        palette.setColor(QtGui.QPalette.Active,QtGui.QPalette.ColorRole(6),QtGui.QColor(0,0,255))
-        palette.setColor(QtGui.QPalette.Active,QtGui.QPalette.ColorRole(7),QtGui.QColor(255,255,255))
-        palette.setColor(QtGui.QPalette.Active,QtGui.QPalette.ColorRole(8),QtGui.QColor(16,16,16))
-        palette.setColor(QtGui.QPalette.Active,QtGui.QPalette.ColorRole(9),QtGui.QColor(255,255,255))
-        palette.setColor(QtGui.QPalette.Active,QtGui.QPalette.ColorRole(10),QtGui.QColor(239,235,231))
-        palette.setColor(QtGui.QPalette.Active,QtGui.QPalette.ColorRole(11),QtGui.QColor(0,0,0))
-        palette.setColor(QtGui.QPalette.Active,QtGui.QPalette.ColorRole(12),QtGui.QColor(16,16,16))
-        palette.setColor(QtGui.QPalette.Active,QtGui.QPalette.ColorRole(13),QtGui.QColor(255,255,255))
-        palette.setColor(QtGui.QPalette.Active,QtGui.QPalette.ColorRole(14),QtGui.QColor(0,0,255))
-        palette.setColor(QtGui.QPalette.Active,QtGui.QPalette.ColorRole(15),QtGui.QColor(255,0,255))
-        palette.setColor(QtGui.QPalette.Active,QtGui.QPalette.ColorRole(16),QtGui.QColor(247,245,243))
-        palette.setColor(QtGui.QPalette.Inactive,QtGui.QPalette.ColorRole(0),QtGui.QColor(0,0,255))
-        palette.setColor(QtGui.QPalette.Inactive,QtGui.QPalette.ColorRole(1),QtGui.QColor(239,235,231))
-        palette.setColor(QtGui.QPalette.Inactive,QtGui.QPalette.ColorRole(2),QtGui.QColor(237,237,237))
-        palette.setColor(QtGui.QPalette.Inactive,QtGui.QPalette.ColorRole(3),QtGui.QColor(247,245,243))
-        palette.setColor(QtGui.QPalette.Inactive,QtGui.QPalette.ColorRole(4),QtGui.QColor(119,117,115))
-        palette.setColor(QtGui.QPalette.Inactive,QtGui.QPalette.ColorRole(5),QtGui.QColor(159,157,154))
-        palette.setColor(QtGui.QPalette.Inactive,QtGui.QPalette.ColorRole(6),QtGui.QColor(0,0,255))
-        palette.setColor(QtGui.QPalette.Inactive,QtGui.QPalette.ColorRole(7),QtGui.QColor(255,255,255))
-        palette.setColor(QtGui.QPalette.Inactive,QtGui.QPalette.ColorRole(8),QtGui.QColor(16,16,16))
-        palette.setColor(QtGui.QPalette.Inactive,QtGui.QPalette.ColorRole(9),QtGui.QColor(255,255,255))
-        palette.setColor(QtGui.QPalette.Inactive,QtGui.QPalette.ColorRole(10),QtGui.QColor(239,235,231))
-        palette.setColor(QtGui.QPalette.Inactive,QtGui.QPalette.ColorRole(11),QtGui.QColor(0,0,0))
-        palette.setColor(QtGui.QPalette.Inactive,QtGui.QPalette.ColorRole(12),QtGui.QColor(16,16,16))
-        palette.setColor(QtGui.QPalette.Inactive,QtGui.QPalette.ColorRole(13),QtGui.QColor(255,255,255))
-        palette.setColor(QtGui.QPalette.Inactive,QtGui.QPalette.ColorRole(14),QtGui.QColor(0,0,255))
-        palette.setColor(QtGui.QPalette.Inactive,QtGui.QPalette.ColorRole(15),QtGui.QColor(255,0,255))
-        palette.setColor(QtGui.QPalette.Inactive,QtGui.QPalette.ColorRole(16),QtGui.QColor(247,245,243))
-        palette.setColor(QtGui.QPalette.Disabled,QtGui.QPalette.ColorRole(0),QtGui.QColor(127,125,123))
-        palette.setColor(QtGui.QPalette.Disabled,QtGui.QPalette.ColorRole(1),QtGui.QColor(239,235,231))
-        palette.setColor(QtGui.QPalette.Disabled,QtGui.QPalette.ColorRole(2),QtGui.QColor(237,237,237))
-        palette.setColor(QtGui.QPalette.Disabled,QtGui.QPalette.ColorRole(3),QtGui.QColor(247,245,243))
-        palette.setColor(QtGui.QPalette.Disabled,QtGui.QPalette.ColorRole(4),QtGui.QColor(119,117,115))
-        palette.setColor(QtGui.QPalette.Disabled,QtGui.QPalette.ColorRole(5),QtGui.QColor(159,157,154))
-        palette.setColor(QtGui.QPalette.Disabled,QtGui.QPalette.ColorRole(6),QtGui.QColor(127,125,123))
-        palette.setColor(QtGui.QPalette.Disabled,QtGui.QPalette.ColorRole(7),QtGui.QColor(255,255,255))
-        palette.setColor(QtGui.QPalette.Disabled,QtGui.QPalette.ColorRole(8),QtGui.QColor(127,125,123))
-        palette.setColor(QtGui.QPalette.Disabled,QtGui.QPalette.ColorRole(9),QtGui.QColor(255,255,255))
-        palette.setColor(QtGui.QPalette.Disabled,QtGui.QPalette.ColorRole(10),QtGui.QColor(239,235,231))
-        palette.setColor(QtGui.QPalette.Disabled,QtGui.QPalette.ColorRole(11),QtGui.QColor(0,0,0))
-        palette.setColor(QtGui.QPalette.Disabled,QtGui.QPalette.ColorRole(12),QtGui.QColor(127,125,123))
-        palette.setColor(QtGui.QPalette.Disabled,QtGui.QPalette.ColorRole(13),QtGui.QColor(255,255,255))
-        palette.setColor(QtGui.QPalette.Disabled,QtGui.QPalette.ColorRole(14),QtGui.QColor(0,0,255))
-        palette.setColor(QtGui.QPalette.Disabled,QtGui.QPalette.ColorRole(15),QtGui.QColor(255,0,255))
-        palette.setColor(QtGui.QPalette.Disabled,QtGui.QPalette.ColorRole(16),QtGui.QColor(247,245,243))
+
+        brush = QtGui.QBrush(QtGui.QColor(0,0,255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.WindowText,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(239,235,231))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Button,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(237,237,237))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Light,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(247,245,243))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Midlight,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(119,117,115))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Dark,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(159,157,154))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Mid,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(0,0,255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Text,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(255,255,255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.BrightText,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(16,16,16))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.ButtonText,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(255,255,255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Base,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(239,235,231))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Window,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(0,0,0))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Shadow,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(16,16,16))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Highlight,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(255,255,255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.HighlightedText,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(0,0,255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Link,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(255,0,255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.LinkVisited,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(247,245,243))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.AlternateBase,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(0,0,255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.WindowText,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(239,235,231))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Button,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(237,237,237))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Light,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(247,245,243))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Midlight,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(119,117,115))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Dark,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(159,157,154))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Mid,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(0,0,255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Text,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(255,255,255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.BrightText,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(16,16,16))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.ButtonText,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(255,255,255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Base,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(239,235,231))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Window,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(0,0,0))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Shadow,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(16,16,16))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Highlight,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(255,255,255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.HighlightedText,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(0,0,255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Link,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(255,0,255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.LinkVisited,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(247,245,243))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.AlternateBase,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(127,125,123))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.WindowText,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(239,235,231))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.Button,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(237,237,237))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.Light,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(247,245,243))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.Midlight,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(119,117,115))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.Dark,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(159,157,154))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.Mid,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(127,125,123))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.Text,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(255,255,255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.BrightText,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(127,125,123))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.ButtonText,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(255,255,255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.Base,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(239,235,231))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.Window,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(0,0,0))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.Shadow,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(127,125,123))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.Highlight,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(255,255,255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.HighlightedText,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(0,0,255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.Link,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(255,0,255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.LinkVisited,brush)
+
+        brush = QtGui.QBrush(QtGui.QColor(247,245,243))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.AlternateBase,brush)
         self.lblName.setPalette(palette)
         self.lblName.setAlignment(QtCore.Qt.AlignCenter)
         self.lblName.setObjectName("lblName")
@@ -150,7 +454,7 @@ class Ui_IcePapDriverWidget(object):
 
         self.textLabel1 = QtGui.QLabel(self.frame)
 
-        font = QtGui.QFont(self.textLabel1.font())
+        font = QtGui.QFont()
         font.setFamily("Sans Serif")
         font.setPointSize(8)
         font.setWeight(50)
@@ -164,7 +468,7 @@ class Ui_IcePapDriverWidget(object):
 
         self.lcdCurrent = QtGui.QLCDNumber(self.frame)
 
-        font = QtGui.QFont(self.lcdCurrent.font())
+        font = QtGui.QFont()
         font.setFamily("Sans Serif")
         font.setPointSize(15)
         font.setWeight(50)
@@ -181,7 +485,7 @@ class Ui_IcePapDriverWidget(object):
 
         self.textLabel1_2 = QtGui.QLabel(self.frame)
 
-        font = QtGui.QFont(self.textLabel1_2.font())
+        font = QtGui.QFont()
         font.setFamily("Sans Serif")
         font.setPointSize(8)
         font.setWeight(50)
@@ -200,7 +504,7 @@ class Ui_IcePapDriverWidget(object):
 
         self.textLabel1_2_2 = QtGui.QLabel(self.frame)
 
-        font = QtGui.QFont(self.textLabel1_2_2.font())
+        font = QtGui.QFont()
         font.setFamily("Sans Serif")
         font.setPointSize(8)
         font.setWeight(50)
@@ -223,7 +527,7 @@ class Ui_IcePapDriverWidget(object):
 
         self.textLabel1_2_2_2 = QtGui.QLabel(self.frame)
 
-        font = QtGui.QFont(self.textLabel1_2_2_2.font())
+        font = QtGui.QFont()
         font.setFamily("Sans Serif")
         font.setPointSize(8)
         font.setWeight(50)
@@ -253,23 +557,14 @@ class Ui_IcePapDriverWidget(object):
         self.retranslateUi(IcePapDriverWidget)
         QtCore.QMetaObject.connectSlotsByName(IcePapDriverWidget)
 
-    def tr(self, string):
-        return QtGui.QApplication.translate("IcePapDriverWidget", string, None, QtGui.QApplication.UnicodeUTF8)
-
     def retranslateUi(self, IcePapDriverWidget):
-        IcePapDriverWidget.setWindowTitle(self.tr("IcePapDriverWidget"))
-        self.lblName.setText(self.tr("TextLabel"))
-        self.textLabel1.setText(self.tr("Current (A)"))
-        self.textLabel1_2.setText(self.tr("Status"))
-        self.textLabel1_2_2.setText(self.tr("Limit +"))
-        self.textLabel1_2_2_2.setText(self.tr("Limit -"))
-        self.pushButton.setText(self.tr("enable"))
+        IcePapDriverWidget.setWindowTitle(QtGui.QApplication.translate("IcePapDriverWidget", "IcePapDriverWidget", None, QtGui.QApplication.UnicodeUTF8))
+        self.lblName.setText(QtGui.QApplication.translate("IcePapDriverWidget", "TextLabel", None, QtGui.QApplication.UnicodeUTF8))
+        self.textLabel1.setText(QtGui.QApplication.translate("IcePapDriverWidget", "Current (A)", None, QtGui.QApplication.UnicodeUTF8))
+        self.textLabel1_2.setText(QtGui.QApplication.translate("IcePapDriverWidget", "Status", None, QtGui.QApplication.UnicodeUTF8))
+        self.textLabel1_2_2.setText(QtGui.QApplication.translate("IcePapDriverWidget", "Limit +", None, QtGui.QApplication.UnicodeUTF8))
+        self.textLabel1_2_2_2.setText(QtGui.QApplication.translate("IcePapDriverWidget", "Limit -", None, QtGui.QApplication.UnicodeUTF8))
+        self.pushButton.setText(QtGui.QApplication.translate("IcePapDriverWidget", "power ON", None, QtGui.QApplication.UnicodeUTF8))
 
-
-if __name__ == "__main__":
-    app = QtGui.QApplication(sys.argv)
-    IcePapDriverWidget = QtGui.QWidget()
-    ui = Ui_IcePapDriverWidget()
-    ui.setupUi(IcePapDriverWidget)
-    IcePapDriverWidget.show()
-    sys.exit(app.exec_())
+from Led import Led
+import icepapcms_rc
