@@ -1,80 +1,97 @@
 IcepapCMS 1.14 2008/mm/dd
+-------------------------------------------------------------------------
++) Support for the Icepap Motor Types Catalog
++) Put a 'SAVE Config' button under the 'SEND Config'button
++) Wait for the second '$' to all icepap answers that start with '$'
++) The ComboBox Unkonwn parameters have "LIST value" in the Description field
++) Parse signature and show host and epoch using the ctime() function
++) typo: Status message: conflics -> conflicts
++) Better names: Apply Config -> Send Config and Sign Config -> Save Config
++) Better names: enable -> power ON and disable -> powerOFF (driver widget)
 +) Added support for the driver name conflicts
-+) The upgrade firmware function gives time to the triton to compute the checksum
-   before disconnecting
++) The upgrade firmware function gives time to the triton to compute
+   the checksum before disconnecting
 +) CFGINFO answers are readed until the final '$' is found
 
 IcepapCMS 1.13 2008/04/02
 -------------------------------------------------------------------------
 +) The timeout errors doesn't freeze any more the application
-+) When scanning a system or preparing the driver page, a clock cursor is shown
-
++) When scanning a system or preparing the driver page, a clock cursor
+   is shown
 +) upper-lower case conflicts are ignored for highlighting
 +) Accessing for first time does not create conflicts any more
 +) Adding icepap: Notification of which location has already the system
 +) Status bar conflict messages cleared when conflicts are solved
-+) The system preiodic refresh task keeps only one call to refresh methods for system and crate
-
-+) Changing location does not report connection errors (previous opened systems)
-+) If the driver is in config mode, the application can perform absolute and
-relative movements
-+) It doesn't allow to add a system if it is already defined in the database
++) The system preiodic refresh task keeps only one call to refresh
+   methods for system and crate
++) Changing location does not report connection errors (previous
+   opened systems)
++) If the driver is in config mode, the application can perform
+   absolute and relative movements
++) It doesn't allow to add a system if it is already defined in the
+   database
 +) Version support with the Help->About menu action
 +) The icepap system tree has the drivers sorted
-+) When adding a system handle the connection exceptions like 'No route to host'
++) When adding a system handle the connection exceptions like 'No
+   route to host'
 +) The VERSION file with all features/bug-fixing history
-
-
-+) The config values are set to the icepap system using the ?CFGINFO order
++) The config values are set to the icepap system using the ?CFGINFO
+   order
 +) The icepap systems tree is now sorted and it keeps the position
-+) Driver parameters new to the GUI can be modifed in the "Unknown tab"
++) Driver parameters new to the GUI can be modifed in the "Unknown
+   tab"
 +) Some widgets did not highlight properly
-+) All widgets have a tooltip from the src/templates/driverparameters.xml file
++) All widgets have a tooltip from the
+   src/templates/driverparameters.xml file
 +) In case of removed drivers, the application does not hang any more
 +) Proper refresh of the driver name properly
 +) Driver name included in historic configurations
 +) Historic configurations syncronizations has been revised
-+) The too-slow behaviour when applying changes or signing has been fixed
++) The too-slow behaviour when applying changes or signing has been
+   fixed
 
 
 IcepapCMS 1.12 2008/02/26
 -------------------------------------------------------------------------
-+) After applying the config, the system checks all the configuration to 
-highlight possible changes
-+) The application can connect to different drivers with different firmware 
-versions. The parameters and the possible values for each are retrieved from 
-the same drivers using ?CFGINFO, instead of hard-coded in the application
-+) YELLOW highlight for values that differ from IcepapCMS and Driver, SALMON 
-highlight for values that are equal in the application and the driver, but 
-differ from the database values
-+) The application can work with: IDLE VOLTAGE, REGULATION GAIN, POSITION SRC, 
-IDLE CURRENT, BOOST CURRENT, and ALL SSI parameters
++) After applying the config, the system checks all the configuration
+   to highlight possible changes
++) The application can connect to different drivers with different
+   firmware versions. The parameters and the possible values for each
+   are retrieved from the same drivers using ?CFGINFO, instead of
+   hard-coded in the application
++) YELLOW highlight for values that differ from IcepapCMS and Driver,
+   SALMON highlight for values that are equal in the application and
+   the driver, but differ from the database values
++) The application can work with: IDLE VOLTAGE, REGULATION GAIN,
+   POSITION SRC, IDLE CURRENT, BOOST CURRENT, and ALL SSI parameters
 +) Change ENABLE/DISABLE with ON/OFF
-+) The application supports connections and disconnections from the icepap 
-systems without hanging
++) The application supports connections and disconnections from the
+   icepap systems without hanging
 
 IcepapCMS 1.11 2008/02/21
 -------------------------------------------------------------------------
 +) Sign driver configuration should save data in the database
-+) Regulation gain should be inside the 'Pi Current Regulation' section
++) Regulation gain should be inside the 'Pi Current Regulation'
+   section
 +) Drop down menus should be also yellow when changing the values
-+) The preferences dialog should end with an OK button instead of a CLOSE 
-button
++) The preferences dialog should end with an OK button instead of a
+   CLOSE button
 +) Log window for firmware upgrade should auto scroll-down
-+) Icepap systems tree puts at bottom the last opened system it should 
-preserve the systems' order presented at startup
++) Icepap systems tree puts at bottom the last opened system it should
+   preserve the systems' order presented at startup
 +) Idle voltage should be presented AFTER nominal voltage
 +) The parameter for signing could be epoch in hex + hostname
 +) Microstepping should disappear from the test tab
 +) When closing the application, it should close the console
-+) Typo: The tune testing tab should say 'INFO SIGNALS' instead of 'INFO 
-SINGAL'
-+) Typo: Right click a driver, the popup should say 'SYSTEM' instead 
-of SYSTEN'
-+) When displaying a driver, the version shown should be the driver's one 
-instead of the DSP one
++) Typo: The tune testing tab should say 'INFO SIGNALS' instead of
+   'INFO SINGAL'
++) Typo: Right click a driver, the popup should say 'SYSTEM' instead
+   of SYSTEN'
++) When displaying a driver, the version shown should be the driver's
+   one instead of the DSP one
 +) BM01 gets stuck when reading 4 crates
-+) The Add/Remove Icepap System action should commit to the database, by now, 
-it only commits on exit
++) The Add/Remove Icepap System action should commit to the database,
+   by now, it only commits on exit
 +) The communication test in the Upgrade firmware window doesn't work
-+) The Default acceleration time should inform that it is in SECOND units
++) The Default acceleration time should inform that it is in SECOND
+   units
