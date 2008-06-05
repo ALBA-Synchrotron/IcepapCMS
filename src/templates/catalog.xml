@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<icepapcms>
+<motor motor_type="M92" MOTPHASES="2" MOTPOLES="50" MREGMODE="CURR" NVOLT="70" IVOLT="30" ICURR="36" NCURR="2.8" BCURR="100" CURRGAIN="LOW" MREGP="30" MREGI="0.5" MREGD="0">
+<description>SLO-SYN</description>
+</motor>
+<motor motor_type="M62" MOTPHASES="2" MOTPOLES="50" MREGMODE="CURR" NVOLT="70" IVOLT="30" ICURR="36" NCURR="1.1" BCURR="100" CURRGAIN="LOW" MREGP="50" MREGI="0.5" MREGD="0">
+<description>SLO-SYN</description>
+</motor>
+<motor motor_type="KML063" MOTPHASES="2" MOTPOLES="50" MREGMODE="CURR" NVOLT="70" IVOLT="30" ICURR="33" NCURR="6.4" BCURR="100" CURRGAIN="LOW" MREGP="25" MREGI="0.3" MREGD="0">
+<description>SLO-SYN</description>
+</motor>
+<motor motor_type="PK267" MOTPHASES="2" MOTPOLES="50" MREGMODE="CURR" NVOLT="74" IVOLT="15" ICURR="71" NCURR="2.8" BCURR="114" CURRGAIN="LOW" MREGP="35" MREGI="0.8" MREGD="0">
+<description>Vexta PK267
+3.6mH 1.2 </description>
+</motor>
+<motor motor_type="PK223PA" MOTPHASES="2" MOTPOLES="50" MREGMODE="CURR" NVOLT="74" IVOLT="15" ICURR="0" NCURR="0.9" BCURR="111" CURRGAIN="LOW" MREGP="35" MREGI="0.8" MREGD="0">
+<description>Vexta PK223PA
+3.6mH 1.2</description>
+</motor>
+<motor motor_type="34HS311" MOTPHASES="2" MOTPOLES="50" MREGMODE="CURR" NVOLT="74" IVOLT="25" ICURR="73" NCURR="5.5" BCURR="109" CURRGAIN="LOW" MREGP="60" MREGI="2.0" MREGD="0">
+<description>Mac Lennan 34HS311
+9mH 0.93</description>
+</motor>
+<motor motor_type="103-8930-2" MOTPHASES="2" MOTPOLES="50" MREGMODE="CURR" NVOLT="74" IVOLT="25" ICURR="82" NCURR="6.1" BCURR="109" CURRGAIN="LOW" MREGP="100" MREGI="3.3" MREGD="0">
+<description>Sanyo Denki Type 103-8930-2
+21mH 1.32</description>
+</motor>
+<motor motor_type="103-746-1" MOTPHASES="2" MOTPOLES="50" MREGMODE="CURR" NVOLT="74" IVOLT=" 10" ICURR="50" NCURR="2.9" BCURR="113" CURRGAIN="LOW" MREGP="120" MREGI="2.0" MREGD="0">
+<description>Sanyo Denki Type 103-746-1
+12mH 1.2 (IR=0.8)</description>
+</motor>
+<motor motor_type="PK2913S" MOTPHASES="2" MOTPOLES="50" MREGMODE="CURR" NVOLT="74" IVOLT="15" ICURR="80" NCURR="4.0" BCURR="110" CURRGAIN="LOW" MREGP="100" MREGI="5.0" MREGD="0">
+<description>Vexta PK2913 serie
+18.6mH 1.95</description>
+</motor>
+<motor motor_type="PK2913P" MOTPHASES="2" MOTPOLES="50" MREGMODE="CURR" NVOLT="74" IVOLT="18" ICURR="71" NCURR="5.6" BCURR="107" CURRGAIN="LOW" MREGP="25" MREGI="1.0" MREGD="0">
+<description>Vexta PK2913 Paral
+4.65mH 0.48 (IR=2.5)</description>
+</motor>
+<motor motor_type="1524" MOTPHASES="2" MOTPOLES="50" MREGMODE="CURR" NVOLT="16" IVOLT="5" ICURR="56" NCURR="0.45" BCURR="111" CURRGAIN="LOW" MREGP="35" MREGI="3.0" MREGD="0">
+<description>ARSAPE 0.45
+1.8mH 3.6</description>
+</motor>
+<motor motor_type="PK-244" MOTPHASES="2" MOTPOLES="50" MREGMODE="CURR" NVOLT="70" IVOLT="20" ICURR="42" NCURR="1.2" BCURR="116" CURRGAIN="LOW" MREGP="20" MREGI="1.5" MREGD="0">
+<description>PK-244 microz</description>
+</motor>
+<motor motor_type="ARS-250" MOTPHASES="2" MOTPOLES="50" MREGMODE="CURR" NVOLT="16" IVOLT="5" ICURR="20" NCURR="0.25" BCURR="120" CURRGAIN="LOW" MREGP="100" MREGI="1.5" MREGD="0">
+<description>ARSAPE 0.25 micos mt-55/60
+1.8mH 3.6</description>
+</motor>
+<motor motor_type="UE-31-PP" MOTPHASES="2" MOTPOLES="50" MREGMODE="CURR" NVOLT="70" IVOLT="15" ICURR="10" NCURR="0.5" BCURR="110" CURRGAIN="LOW" MREGP="20" MREGI="1.5" MREGD="0">
+<description>UE-31-PP microcontrol
+1.8mH 3.6</description>
+</motor>
+<motor motor_type="UE-72-PP" MOTPHASES="2" MOTPOLES="50" MREGMODE="CURR" NVOLT="70" IVOLT="15" ICURR="50" NCURR="1.6" BCURR="113" CURRGAIN="LOW" MREGP="20" MREGI="1.5" MREGD="0">
+<description>UE-72-PP microcontrol
+1.8mH 3.6</description>
+</motor>
+<motor motor_type="OWIS-1_8" MOTPHASES="2" MOTPOLES="50" MREGMODE="CURR" NVOLT="70" IVOLT="15" ICURR="44" NCURR="1.8" BCURR="111" CURRGAIN="LOW" MREGP="20" MREGI="1.5" MREGD="0">
+<description>OWIS-1_8
+1.8mH 3.6</description>
+</motor>
+<motor motor_type="OWIS-1_2" MOTPHASES="2" MOTPOLES="50" MREGMODE="CURR" NVOLT="70" IVOLT="15" ICURR="15" NCURR="1.3" BCURR="100" CURRGAIN="LOW" MREGP="20" MREGI="1.5" MREGD="0">
+<description>OWIS-1_2</description>
+</motor>
+<motor motor_type="ESRF-JJ" MOTPHASES="2" MOTPOLES="50" MREGMODE="CURR" NVOLT="20" IVOLT="10" ICURR="22" NCURR="0.45" BCURR="111" CURRGAIN="LOW" MREGP="35" MREGI="3" MREGD="0">
+<description>ESRF-JJ
+mH 4.5</description>
+</motor>
+<motor motor_type="gcuni" MOTPHASES="2" MOTPOLES="50" MREGMODE="CURR" NVOLT="16" IVOLT="5" ICURR="20" NCURR="0.25" BCURR="120" CURRGAIN="LOW" MREGP="20" MREGI="1.5" MREGD="0">
+<description>This is my own motor with a very
+long long long long long long long long long long long long
+long long long long long long long long long long long long
+long long long long long long long long long long long long
+long long long long long long long long long long long long
+description to see how is presented</description>
+</motor>
+<motor motor_type="P850-508" MOTPHASES="2" MOTPOLES="50" MREGMODE="CURR" NVOLT="74" IVOLT="8" ICURR="69" NCURR="3.6" BCURR="111" CURRGAIN="LOW" MREGP="30" MREGI="1.0" MREGD="0">
+<description>Escape P850-508-C11 Paral
+mH 0.6</description>
+</motor>
+<motor motor_type="K43H" MOTPHASES="2" MOTPOLES="50" MREGMODE="CURR" NVOLT="74" IVOLT="15" ICURR="80" NCURR="4.0" BCURR="110" CURRGAIN="LOW" MREGP="150" MREGI="2.5" MREGD="0">
+<description>PowerPac K43
+mH 0.6</description>
+</motor>
+<motor motor_type="S103-7126" MOTPHASES="2" MOTPOLES="50" MREGMODE="CURR" NVOLT="74" IVOLT="15" ICURR="100" NCURR="2.0" BCURR="100" CURRGAIN="LOW" MREGP="35" MREGI="0.8" MREGD="0">
+<description>Sanyo 103H 7126</description>
+</motor>
+<motor motor_type="ZSS25-1_2" MOTPHASES="2" MOTPOLES="50" MREGMODE="CURR" NVOLT="70" IVOLT="20" ICURR="0" NCURR="0.6" BCURR="100" CURRGAIN="LOW" MREGP="15" MREGI="0.3" MREGD="0">
+<description>ZSS25</description>
+</motor>
+<motor motor_type="ZSH87" MOTPHASES="2" MOTPOLES="50" MREGMODE="CURR" NVOLT="77" IVOLT="77" ICURR="50" NCURR="6.6" BCURR="100" CURRGAIN="LOW" MREGP="18" MREGI="0.5" MREGD="0">
+<description>PHY-ZSH-87-200 6.6A</description>
+</motor>
+<motor motor_type="ZSH57" MOTPHASES="2" MOTPOLES="50" MREGMODE="CURR" NVOLT="77" IVOLT="40" ICURR="48" NCURR="4.4" BCURR="100" CURRGAIN="LOW" MREGP="27" MREGI="0.5" MREGD="0">
+<description>PHY-ZSH-57-200 4.4A</description>
+</motor>
+<motor motor_type="ZSS33" MOTPHASES="2" MOTPOLES="50" MREGMODE="CURR" NVOLT="77" IVOLT="25" ICURR="33" NCURR="1.8" BCURR="100" CURRGAIN="LOW" MREGP="25" MREGI="0.5" MREGD="0">
+<description>PHY-ZSH-33-200</description>
+</motor>
+<motor motor_type="ZSS32" MOTPHASES="2" MOTPOLES="50" MREGMODE="CURR" NVOLT="77" IVOLT="25" ICURR="33" NCURR="1.2" BCURR="100" CURRGAIN="LOW" MREGP="25" MREGI="0.5" MREGD="0">
+<description>PHY-ZSH-32-200</description>
+</motor>
+<motor motor_type="23HS311" MOTPHASES="2" MOTPOLES="50" MREGMODE="CURR" NVOLT="77" IVOLT="25" ICURR="26" NCURR="3.9" BCURR="100" CURRGAIN="LOW" MREGP="30" MREGI="0.5" MREGD="0">
+<description>Mac Lennan 34HS311</description>
+</motor>
+
+</icepapcms>
