@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'pageipapdriver.ui'
 #
-# Created: Tue May 13 12:46:57 2008
+# Created: Mon Jun  2 14:55:51 2008
 #      by: PyQt4 UI code generator 4.3.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -1766,7 +1766,7 @@ class Ui_PageiPapDriver(object):
         self.stackedWidget.addWidget(self.pageHistoric)
         self.vboxlayout1.addWidget(self.stackedWidget)
 
-        spacerItem14 = QtGui.QSpacerItem(20,40,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Expanding)
+        spacerItem14 = QtGui.QSpacerItem(220,61,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Expanding)
         self.vboxlayout1.addItem(spacerItem14)
 
         self.btnSendCfg = QtGui.QPushButton(self.frame_right)
@@ -1774,6 +1774,12 @@ class Ui_PageiPapDriver(object):
         self.btnSendCfg.setIconSize(QtCore.QSize(20,20))
         self.btnSendCfg.setObjectName("btnSendCfg")
         self.vboxlayout1.addWidget(self.btnSendCfg)
+
+        self.btnSaveCfg = QtGui.QPushButton(self.frame_right)
+        self.btnSaveCfg.setIcon(QtGui.QIcon(":/icons/IcepapCfg Icons/sign.png"))
+        self.btnSaveCfg.setIconSize(QtCore.QSize(20,20))
+        self.btnSaveCfg.setObjectName("btnSaveCfg")
+        self.vboxlayout1.addWidget(self.btnSaveCfg)
 
         self.btnUndo = QtGui.QPushButton(self.frame_right)
         self.btnUndo.setIcon(QtGui.QIcon(":/small_icons/IcepapCFG Icons Petits/undo.png"))
@@ -2114,6 +2120,7 @@ class Ui_PageiPapDriver(object):
         self.textLabel1_3.setText(QtGui.QApplication.translate("PageiPapDriver", "Move absolute", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox.setTitle(QtGui.QApplication.translate("PageiPapDriver", "Jog", None, QtGui.QApplication.UnicodeUTF8))
         self.btnSendCfg.setText(QtGui.QApplication.translate("PageiPapDriver", "Send Config", None, QtGui.QApplication.UnicodeUTF8))
+        self.btnSaveCfg.setText(QtGui.QApplication.translate("PageiPapDriver", "Save Config", None, QtGui.QApplication.UnicodeUTF8))
         self.btnUndo.setText(QtGui.QApplication.translate("PageiPapDriver", "Undo", None, QtGui.QApplication.UnicodeUTF8))
         self.btnRestore.setText(QtGui.QApplication.translate("PageiPapDriver", "Current Config", None, QtGui.QApplication.UnicodeUTF8))
 
