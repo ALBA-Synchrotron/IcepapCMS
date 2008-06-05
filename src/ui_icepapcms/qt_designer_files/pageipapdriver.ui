@@ -4587,8 +4587,8 @@ p, li { white-space: pre-wrap; }
         </property>
         <property name="sizeHint" >
          <size>
-          <width>20</width>
-          <height>40</height>
+          <width>220</width>
+          <height>61</height>
          </size>
         </property>
        </spacer>
@@ -4600,6 +4600,22 @@ p, li { white-space: pre-wrap; }
         </property>
         <property name="icon" >
          <iconset resource="icepapcms.qrc" >:/small_icons/IcepapCfg Icons/Icepapicon.png</iconset>
+        </property>
+        <property name="iconSize" >
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnSaveCfg" >
+        <property name="text" >
+         <string>Save Config</string>
+        </property>
+        <property name="icon" >
+         <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/sign.png</iconset>
         </property>
         <property name="iconSize" >
          <size>
