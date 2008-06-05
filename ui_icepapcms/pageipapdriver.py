@@ -11,6 +11,7 @@ import sys
 import os
 from qvalidatelineedit import QValidateLineEdit
 import time
+import datetime
 from historiccfgwidget import HistoricCfgWidget
 
 class PageiPapDriver(QtGui.QWidget):
@@ -142,6 +143,7 @@ class PageiPapDriver(QtGui.QWidget):
         
     def signalConnections(self):
         QtCore.QObject.connect(self.ui.btnSendCfg,QtCore.SIGNAL("clicked()"),self.btnSendCfg_on_click)
+        QtCore.QObject.connect(self.ui.btnSaveCfg,QtCore.SIGNAL("clicked()"),self.btnSaveCfg_on_click)
         #QtCore.QObject.connect(self.ui.btnHistoric,QtCore.SIGNAL("clicked()"),self.Historic_on_click)
         #QtCore.QObject.connect(self.ui.btnTemplates,QtCore.SIGNAL("clicked()"),self.btnTemplates_on_click)
         QtCore.QObject.connect(self.ui.btnUndo,QtCore.SIGNAL("clicked()"),self.btnUndo_on_click)
@@ -483,6 +485,8 @@ class PageiPapDriver(QtGui.QWidget):
             widget = QtGui.QComboBox(table)
             widget.insertItems(0,options_list)
             widget.setCurrentIndex(widget.findText(str(table.item(row,1).text())))
+            # SET THE DESCRIPTION TO "LIST value"
+            table.item(row,3).setText("LIST value")
             
 
         widget.defaultvalue = None
@@ -503,9 +507,15 @@ class PageiPapDriver(QtGui.QWidget):
         self.icepap_driver = icepap_driver
         description = "Icepap: %s  -  Crate: %s  -  Addr: %s  -  Firmware version: %s\n" % (icepap_driver.icepapsystem_name, icepap_driver.cratenr, icepap_driver.addr, icepap_driver.current_cfg.getParameter("VER", True))
         if self.icepap_driver.current_cfg.signature:
-            description = description + "Last signature %s " % self.icepap_driver.current_cfg.signature
-            #aux = self.icepap_driver.currentCfg.signature.split('_')
-            #description = description + "Signed on %s %s" % (aux[0], time.ctime(float(aux[1])))
+            signature = self.icepap_driver.current_cfg.signature
+            description = description + "Last signature '%s' " % signature
+            try:
+                aux = signature.split('_')
+                host = aux[0]
+                hex_epoch = aux[1]
+                description = description + "Host: '%s' Date: '%s'" % (host,datetime.datetime.fromtimestamp(int(hex_epoch,16)).ctime())
+            except:
+                pass
         else:            
             description = description + "Current configuration not signed"
 
@@ -533,7 +543,7 @@ class PageiPapDriver(QtGui.QWidget):
                 [nsection, element] = self.var_dict[name]
                 if nsection == 0:
                     # In main tab
-                    self._setWidgetValue(element, value)                    
+                    self._setWidgetValue(element, value)
                 else:
                     self._addItemToTable(nsection, element, 1, value, False)
                     self.sectionTables[nsection].cellWidget(element,2).setText("")
@@ -570,6 +580,7 @@ class PageiPapDriver(QtGui.QWidget):
                             partype = "QCOMBOSTRING"
                     self._addItemToTable(indexUnknownTab, row, 3, pardesc, False)
                     # DESCRIPTION (col 3) BEFORE WIDGET (col 2) TO BE ABLE TO CREATE QCOMBOXES
+                    # THE DESCRIPTION IS USED TO PARSE THE VALUES
                     self._addWidgetToTable(indexUnknownTab, row, 2, partype, 0, 9999999)
 
 
@@ -645,9 +656,10 @@ class PageiPapDriver(QtGui.QWidget):
                 if options != None:
                     for option in options:
                         widget.addItem(QtCore.QString(option))
-                widget.setCurrentIndex(widget.findText(value, QtCore.Qt.MatchFixedString))
+                widget.setCurrentIndex(widget.findText(str(value), QtCore.Qt.MatchFixedString))
+
                 if default:
-                    widget.defaultvalue = str(value)                
+                    widget.defaultvalue = str(value)
             elif isinstance(widget, QtGui.QLineEdit):
                 widget.setText(str(value))
                 if default:
@@ -709,7 +721,6 @@ class PageiPapDriver(QtGui.QWidget):
         return rc              
     
 
-        
     def btnSendCfg_on_click(self):
         # SHOULD NOT CHANGE THE DRIVER NAME
         #self.icepap_driver.name = unicode(self.ui.txtDriverName.text())
@@ -789,6 +800,9 @@ class PageiPapDriver(QtGui.QWidget):
             MessageDialogs.showWarningMessage(self, "Driver configuration", "Error saving configuration")
         
 
+    def btnSaveCfg_on_click(self):
+        self._mainwin.actionSaveConfig()
+        
     def btnUndo_on_click(self):
         self._manager.undoDriverConfiguration(self.icepap_driver)
         self.fillData(self.icepap_driver)
@@ -1156,5 +1170,16 @@ class PageiPapDriver(QtGui.QWidget):
     def showHistoricWidget(self):
         self.ui.stackedWidget.setCurrentIndex(1)
         self.ui.historicWidget.fillData(self.icepap_driver)
+        
     def hideHistoricWidget(self):
         self.ui.stackedWidget.setCurrentIndex(0)
+
+    # ---------------------- Motor Types Catalog Widget -------------------
+    def setMotorTypeParams(self,motor_type,params):
+        print "\n\n\n\nI got the power!"
+        for param in params.keys():
+            value = params.get(param)
+            if self.var_dict.has_key(param):
+                [nsection, element] = self.var_dict[param]
+                self._setWidgetValue(element, value)
+        print "pending the label for the motor type '%s'" % motor_type
