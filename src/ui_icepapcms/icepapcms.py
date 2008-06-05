@@ -14,11 +14,12 @@ from dialogpreferences import DialogPreferences
 from dialogipapprogram import DialogIcepapProgram
 from ipapconsole import IcepapConsole
 from messagedialogs import MessageDialogs
+from motortypescatalogwidget import MotorTypesCatalogWidget
 #from dialoghistoriccfg import DialogHistoricCfg
 #from dialogtemplate import DialogTemplate
 
 
-__version__ = "1.13"
+__version__ = "1.14"
 
 class IcepapApp(QtGui.QApplication):    
     def __init__(self, *args):
@@ -294,7 +295,7 @@ class IcepapCMS(QtGui.QMainWindow):
 #            conflicts_list.extend(self._manager.scanIcepap(icepap_system))
 #        
 #        if len(conflicts_list) > 0:
-#            self.setStatusMessage("Configuration conflics found.")
+#            self.setStatusMessage("Configuration conflicts found.")
 #            for conflict in conflicts_list:
 #                icepap_system = conflict[1]
 #                #expand_system[icepap_system.name] = icepap_system
@@ -303,7 +304,7 @@ class IcepapCMS(QtGui.QMainWindow):
 #                    self.setStatusMessage(icepap_system.name + ": Connection Error")
 #                else:
 #                    if not conflict[2] is None:
-#                        self.setStatusMessage("Configuration conflics found.")
+#                        self.setStatusMessage("Configuration conflicts found.")
 #                        driver = icepap_system.getDriver(conflict[2])
 #                        driver.setConflict(conflict[0])
 #        else:
@@ -341,7 +342,7 @@ class IcepapCMS(QtGui.QMainWindow):
         solved_drivers = ""
         conflicts_list.extend(self._manager.scanIcepap(icepap_system))
         if len(conflicts_list) > 0:
-            self.setStatusMessage("Configuration conflics found.")
+            self.setStatusMessage("Configuration conflicts found.")
             for conflict in conflicts_list:
                 icepap_system = conflict[1]
                 #expand_system[icepap_system.name] = icepap_system
@@ -351,7 +352,7 @@ class IcepapCMS(QtGui.QMainWindow):
                 else:
                     if not conflict[2] is None:
 
-                        self.setStatusMessage("Configuration conflics found.")
+                        self.setStatusMessage("Configuration conflicts found.")
                         driver = icepap_system.getDriver(conflict[2])
                         if conflict[0] == Conflict.DRIVER_CHANGED and driver.conflict == Conflict.DRIVER_FROM_DB:
                             icepap_system.child_conflicts -= 1
@@ -692,7 +693,13 @@ class IcepapCMS(QtGui.QMainWindow):
             self.ui.pageiPapDriver.hideHistoricWidget()
             
     def actionTemplates(self):
-        pass
+        pathname = os.path.dirname(sys.argv[0])
+        path = os.path.abspath(pathname)
+        catalog_file = path+'/templates/catalog.xml'
+
+        dlg = MotorTypesCatalogWidget(catalog_file,self.ui.pageiPapDriver,self)
+        dlg.show()
+        #self.ui.pageiPapDriver.showMotorCatalog(catalog)
     
     def actionHelp(self):
         pathname = os.path.dirname(sys.argv[0])
