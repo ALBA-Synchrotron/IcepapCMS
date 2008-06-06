@@ -34,7 +34,8 @@ class MotorTypesCatalogWidget(QtGui.QDialog):
         self.proxyView.setAlternatingRowColors(True)
         self.proxyView.setModel(self.proxyModel)
         self.proxyView.setSortingEnabled(True)
-        self.proxyView.setWordWrap(True)
+        # AT THE ISG LAB, THIS METHOD IS NOT AVAILABLE...
+        #self.proxyView.setWordWrap(True)
 
         self.filterPatternLineEdit = QtGui.QLineEdit()
         self.filterPatternLabel = QtGui.QLabel("&Filter pattern:")
