@@ -169,7 +169,7 @@
              <string>proportional constant in the PI current regulator</string>
             </property>
             <property name="maximum" >
-             <double>999999.000000000000000</double>
+             <double>429496729.000000000000000</double>
             </property>
             <property name="singleStep" >
              <double>1.000000000000000</double>
@@ -192,7 +192,7 @@
              <string>proportional constant in the PI current regulator</string>
             </property>
             <property name="maximum" >
-             <double>9999999.000000000000000</double>
+             <double>429496729.000000000000000</double>
             </property>
             <property name="singleStep" >
              <double>1.000000000000000</double>
@@ -225,7 +225,7 @@
              <string>proportional constant in the PI current regulator</string>
             </property>
             <property name="maximum" >
-             <double>999999.000000000000000</double>
+             <double>429496729.000000000000000</double>
             </property>
             <property name="singleStep" >
              <double>1.000000000000000</double>
@@ -269,7 +269,7 @@
           <item row="6" column="1" >
            <widget class="QSpinBox" name="ANSTEP" >
             <property name="maximum" >
-             <number>999999</number>
+             <number>429496729</number>
             </property>
            </widget>
           </item>
@@ -577,7 +577,7 @@ p, li { white-space: pre-wrap; }
              <string>current to the motor when the motor is at rest</string>
             </property>
             <property name="maximum" >
-             <number>99</number>
+             <number>100</number>
             </property>
             <property name="singleStep" >
              <number>1</number>
@@ -598,6 +598,9 @@ p, li { white-space: pre-wrap; }
            <widget class="QDoubleSpinBox" name="NCURR" >
             <property name="toolTip" >
              <string>current to the motor during steady rate speed</string>
+            </property>
+            <property name="maximum" >
+             <double>100.000000000000000</double>
             </property>
             <property name="singleStep" >
              <double>0.100000000000000</double>
@@ -620,7 +623,7 @@ p, li { white-space: pre-wrap; }
              <string>current to the motor when the motor is at rest</string>
             </property>
             <property name="maximum" >
-             <number>99</number>
+             <number>100</number>
             </property>
             <property name="singleStep" >
              <number>1</number>
@@ -1507,14 +1510,14 @@ Steps</string>
                <item row="1" column="4" >
                 <widget class="QSpinBox" name="INPNSTEP" >
                  <property name="maximum" >
-                  <number>999999</number>
+                  <number>429496729</number>
                  </property>
                 </widget>
                </item>
                <item row="2" column="4" >
                 <widget class="QSpinBox" name="EINNSTEP" >
                  <property name="maximum" >
-                  <number>9999999</number>
+                  <number>429496729</number>
                  </property>
                 </widget>
                </item>
@@ -1527,7 +1530,7 @@ Steps</string>
                <item row="3" column="4" >
                 <widget class="QSpinBox" name="ABSNSTEP" >
                  <property name="maximum" >
-                  <number>9999999</number>
+                  <number>429496729</number>
                  </property>
                 </widget>
                </item>
