@@ -295,7 +295,7 @@ class TreeItem:
         return 0
     
     def solveConflict(self):
-        if self.role == IcepapTreeModel.DRIVER_WARNING:
+        if self.role == IcepapTreeModel.DRIVER_WARNING or self.role == IcepapTreeModel.DRIVER_NEW:
             self.role = IcepapTreeModel.DRIVER
             self.itemData.conflict = Conflict.NO_CONFLICT
             self.parentItem.notifySolvedConflict()
