@@ -126,12 +126,19 @@ class IcepapSystem(Storm):
             if self.drivers.find(IcepapDriver.addr == addr).count() == 0:
                 self.addDriver(driver)
                 ''' determine if it is a new driver or if it has been moved '''
-                id = driver.current_cfg.getParameter("ID", True)
-                db = StormManager()
-                if db.existsDriver(driver, id):                    
-                    conflictsList.append([Conflict.DRIVER_MOVED, self, addr])                
-                else:                    
-                    conflictsList.append([Conflict.NEW_DRIVER, self, addr])
+                # ALWAYS TREAT AS NEW DRIVER, 'MOVED' HAS NO SENSE
+                conflictsList.append([Conflict.NEW_DRIVER, self, addr])
+                ###id = driver.current_cfg.getParameter("ID", True)
+                ###db = StormManager()
+                ###if db.existsDriver(driver, id):                    
+                ###    conflictsList.append([Conflict.DRIVER_MOVED, self, addr])                
+                ###else:                    
+                ###    conflictsList.append([Conflict.NEW_DRIVER, self, addr])
+
+            ##if addr == 12:
+            ##    print "SETTING NEW_DRIVER CONFLICTS... THIS IS JUST FOR TESTING THE CFG DEFAULT"
+            ##    conflictsList.append([Conflict.NEW_DRIVER, self, addr])
+            
         return conflictsList
 
 from icepapdriver import IcepapDriver
