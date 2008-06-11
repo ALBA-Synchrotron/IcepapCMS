@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'pageipapdriver.ui'
 #
-# Created: Mon Jun  2 14:55:51 2008
+# Created: Wed Jun 11 15:06:01 2008
 #      by: PyQt4 UI code generator 4.3.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -84,7 +84,7 @@ class Ui_PageiPapDriver(object):
         self.gridlayout3.addWidget(self.label_38,0,0,1,1)
 
         self.DEFVEL = QtGui.QDoubleSpinBox(self.groupBox_11)
-        self.DEFVEL.setMaximum(999999.0)
+        self.DEFVEL.setMaximum(429496729.0)
         self.DEFVEL.setSingleStep(1.0)
         self.DEFVEL.setObjectName("DEFVEL")
         self.gridlayout3.addWidget(self.DEFVEL,1,1,1,1)
@@ -94,7 +94,7 @@ class Ui_PageiPapDriver(object):
         self.gridlayout3.addWidget(self.label_32,2,0,1,1)
 
         self.DEFIVEL = QtGui.QDoubleSpinBox(self.groupBox_11)
-        self.DEFIVEL.setMaximum(9999999.0)
+        self.DEFIVEL.setMaximum(429496729.0)
         self.DEFIVEL.setSingleStep(1.0)
         self.DEFIVEL.setObjectName("DEFIVEL")
         self.gridlayout3.addWidget(self.DEFIVEL,2,1,1,1)
@@ -108,7 +108,7 @@ class Ui_PageiPapDriver(object):
         self.gridlayout3.addWidget(self.label_33,3,0,1,1)
 
         self.DEFACCT = QtGui.QDoubleSpinBox(self.groupBox_11)
-        self.DEFACCT.setMaximum(999999.0)
+        self.DEFACCT.setMaximum(429496729.0)
         self.DEFACCT.setSingleStep(1.0)
         self.DEFACCT.setObjectName("DEFACCT")
         self.gridlayout3.addWidget(self.DEFACCT,3,1,1,1)
@@ -131,7 +131,7 @@ class Ui_PageiPapDriver(object):
         self.gridlayout3.addWidget(self.label_40,6,0,1,1)
 
         self.ANSTEP = QtGui.QSpinBox(self.groupBox_11)
-        self.ANSTEP.setMaximum(999999)
+        self.ANSTEP.setMaximum(429496729)
         self.ANSTEP.setObjectName("ANSTEP")
         self.gridlayout3.addWidget(self.ANSTEP,6,1,1,1)
 
@@ -258,7 +258,7 @@ class Ui_PageiPapDriver(object):
         self.gridlayout6.addWidget(self.label_16,0,0,1,1)
 
         self.ICURR = QtGui.QSpinBox(self.groupBox_6)
-        self.ICURR.setMaximum(99)
+        self.ICURR.setMaximum(100)
         self.ICURR.setSingleStep(1)
         self.ICURR.setObjectName("ICURR")
         self.gridlayout6.addWidget(self.ICURR,0,1,1,1)
@@ -268,6 +268,7 @@ class Ui_PageiPapDriver(object):
         self.gridlayout6.addWidget(self.label_18,1,0,1,1)
 
         self.NCURR = QtGui.QDoubleSpinBox(self.groupBox_6)
+        self.NCURR.setMaximum(100.0)
         self.NCURR.setSingleStep(0.1)
         self.NCURR.setObjectName("NCURR")
         self.gridlayout6.addWidget(self.NCURR,1,1,1,1)
@@ -277,7 +278,7 @@ class Ui_PageiPapDriver(object):
         self.gridlayout6.addWidget(self.label_17,2,0,1,1)
 
         self.BCURR = QtGui.QSpinBox(self.groupBox_6)
-        self.BCURR.setMaximum(99)
+        self.BCURR.setMaximum(100)
         self.BCURR.setSingleStep(1)
         self.BCURR.setObjectName("BCURR")
         self.gridlayout6.addWidget(self.BCURR,2,1,1,1)
@@ -578,12 +579,12 @@ class Ui_PageiPapDriver(object):
         self.gridlayout12.addWidget(self.ABSNTURN,3,3,1,1)
 
         self.INPNSTEP = QtGui.QSpinBox(self.groupBox_2)
-        self.INPNSTEP.setMaximum(999999)
+        self.INPNSTEP.setMaximum(429496729)
         self.INPNSTEP.setObjectName("INPNSTEP")
         self.gridlayout12.addWidget(self.INPNSTEP,1,4,1,1)
 
         self.EINNSTEP = QtGui.QSpinBox(self.groupBox_2)
-        self.EINNSTEP.setMaximum(9999999)
+        self.EINNSTEP.setMaximum(429496729)
         self.EINNSTEP.setObjectName("EINNSTEP")
         self.gridlayout12.addWidget(self.EINNSTEP,2,4,1,1)
 
@@ -596,7 +597,7 @@ class Ui_PageiPapDriver(object):
         self.gridlayout12.addWidget(self.INPNTURN,1,3,1,1)
 
         self.ABSNSTEP = QtGui.QSpinBox(self.groupBox_2)
-        self.ABSNSTEP.setMaximum(9999999)
+        self.ABSNSTEP.setMaximum(429496729)
         self.ABSNSTEP.setObjectName("ABSNSTEP")
         self.gridlayout12.addWidget(self.ABSNSTEP,3,4,1,1)
 
