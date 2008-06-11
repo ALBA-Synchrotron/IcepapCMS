@@ -78,6 +78,7 @@ class MainManager(Singleton):
         the parameters are the hostname, port and description, 
         this function checks if the icepap is available, the gets all the configuration 
         of all the driver and stores all these information in the database """
+        QtGui.QApplication.instance().setOverrideCursor(QtGui.QCursor(QtCore.Qt.WaitCursor))
         try:
             icepap_name = host
             """ *TO-DO STORM review"""
@@ -92,6 +93,7 @@ class MainManager(Singleton):
                 db_icepap_system = self._db.getIcepapSystem(icepap_name)
                 if db_icepap_system != None:
                     MessageDialogs.showErrorMessage(self._form, "Adding Icepap System error", "The icepap system is already in location: '%s'" % (db_icepap_system.location_name))
+                    QtGui.QApplication.instance().restoreOverrideCursor()
                     return None
             
                 self._ctrl_icepap.openConnection(icepap_name, host, port)
@@ -102,6 +104,7 @@ class MainManager(Singleton):
                     self._db.addIcepapSystem(icepap_system)
                     self.IcepapSystemList[icepap_name] = icepap_system
                     self.location.addSystem(icepap_system)
+                    QtGui.QApplication.instance().restoreOverrideCursor()
                     return icepap_system
             except IcePAPException,ie:
                 print "There was an error connecting to host '"+str(host)+"': ",ie
@@ -110,7 +113,8 @@ class MainManager(Singleton):
             
         except:
             print "addIcepapSystem:", sys.exc_info()[1]
-            return None
+        QtGui.QApplication.instance().restoreOverrideCursor()
+        return None
 
         
     def deleteIcepapSystem(self, icepap_name):
@@ -386,6 +390,18 @@ class MainManager(Singleton):
     
     def deleteDriverTemplate(self, name):
         self._zodb.deleteDriverTemplate(name)
+
+    def configDriverToDefaults(self,icepap_driver):
+        icepap_name = icepap_driver.icepapsystem_name
+        addr = icepap_driver.addr
+        self._ctrl_icepap.configDriverToDefaults(icepap_name, addr)
+
+    def updateDriverConfig(self,icepap_driver):
+        icepap_name = icepap_driver.icepapsystem_name
+        addr = icepap_driver.addr
+        driver_cfg = self.getDriverConfiguration(icepap_name, addr)
+        icepap_driver.addConfiguration(driver_cfg)
+
 
 from icepapsystem import IcepapSystem, Location
 from icepapdriver import IcepapDriver
