@@ -161,23 +161,6 @@ class MotorTypesCatalogWidget(QtGui.QDialog):
 
 
     def closeEvent(self, event):
-        print "I should close"
         self.close()
         event.accept()
 
-################################################################################
- 
-
-
-################################################################################
-# MINI-APP
-################################################################################
-if __name__ == "__main__":
-    app = QtGui.QApplication(sys.argv)
-    Dialog = QtGui.QDialog()
-            
-    typesCatalogWidget = MotorTypesCatalogWidget("catalog.xml")
-    typesCatalogWidget.show()
-    sys.exit(app.exec_())
-
-    
