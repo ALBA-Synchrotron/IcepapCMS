@@ -1,16 +1,21 @@
 IcepapCMS 1.14 2008/mm/dd
 -------------------------------------------------------------------------
-+) New / Moved drivers present a conflict: Reset to defaults or keep current cfg
-+) When adding an Icepap system the cursor is changed for a waiting clock one
++) New limits for spinboxes: ICURR,BCURR: 100; NRSTEPS: 2^32
++) New / Moved drivers present a conflict: Reset to defaults or
+   keep the current driver config
++) When adding an Icepap system the cursor is changed for a waiting
+   clock one
 +) Active status is checked in order to change the CFG ACTIVE parameter
 +) Support for the Icepap Motor Types Catalog
 +) Put a 'SAVE Config' button under the 'SEND Config'button
 +) Wait for the second '$' to all icepap answers that start with '$'
-+) The ComboBox Unkonwn parameters have "LIST value" in the Description field
++) The ComboBox Unkonwn parameters have "LIST value" in the
+   Description field
 +) Parse signature and show host and epoch using the ctime() function
 +) typo: Status message: conflics -> conflicts
-+) Better names: Apply Config -> Send Config and Sign Config -> Save Config
-+) Better names: enable -> power ON and disable -> powerOFF (driver widget)
++) Better names: Apply Config -> Send Config ,
+   Sign Config -> Save Config
++) Better names: enable -> power ON , disable -> powerOFF (driver widget)
 +) Added support for the driver name conflicts
 +) The upgrade firmware function gives time to the triton to compute
    the checksum before disconnecting
