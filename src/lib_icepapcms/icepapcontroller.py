@@ -78,15 +78,15 @@ class IcepapController(Singleton):
         self.icepap_cfginfos[icepap_name] = {}
         self.icepap_cfgorder[icepap_name] = {}
         try:
-            cratespresent = self.iPaps[icepap_name].getSysStatus()
-            cratespresent = int(cratespresent, 16)
-            for cratenr in range(16):
-                if ((cratespresent >> cratenr) & 1) == 1:
-                    driversalive =  self.iPaps[icepap_name].getRackStatus(cratenr)[1]
-                    driversalive = int(driversalive, 16)
-                    for drivernr in range(0,8):
-                        if ((driversalive >> drivernr) & 1) == 1:
-                            addr = self._getDriverAddr(cratenr, drivernr+1)
+            sys_status = self.iPaps[icepap_name].getSysStatus()
+            sys_status = int(sys_status, 16)
+            for crate in range(16):
+                if (sys_status & (1<<crate)) > 0:
+                    crate_status =  self.iPaps[icepap_name].getRackStatus(crate)[1]
+                    crate_status = int(crate_status, 16)
+                    for driver in range(8):
+                        if (crate_status & (1<<driver)) > 0:
+                            addr = self._getDriverAddr(crate, driver+1)
                             """ TO-DO STORM review"""
                             driver = icepapdriver.IcepapDriver(driver_name, addr)
                             driver_cfg = self.getDriverConfiguration(icepap_name, addr)
@@ -294,6 +294,9 @@ class IcepapController(Singleton):
         for (name,value) in not_found_index:
             self.iPaps[icepap_name].writeParameter(driver_addr,name,value)
 
+
+    def configDriverToDefaults(self,icepap_name,driver_addr):
+        self.iPaps[icepap_name].setDefaultConfig(driver_addr)
 
     def getDriverCfgInfo(self,icepap_name,driver_addr):
         cfginfo = self.iPaps[icepap_name].getCfgInfo(driver_addr)
