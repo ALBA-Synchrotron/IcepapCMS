@@ -188,7 +188,7 @@ class IcepapCMS(QtGui.QMainWindow):
             """self.menu.addAction("Sign driver configuration", self.actionSaveConfig)""",
             """self.menu.addAction("Solve driver configuration conflict", self.contextSolveConflict)""",
             """self.menu.addAction("Delete driver not present", self.contextDeleteDriverError)""",
-            """self.menu.addAction("Driver moved. Import configurations", self.contextSolveDriverMoved)""",
+            """self.menu.addAction("New driver. Keep or set to default", self.contextSolveNewDriver)""",
             """self.menu.addSeparator()""",
             """self.menu.addAction("Start Icepap system configuration", self.contextIcepapStart)""",
             """self.menu.addAction("Rescan Icepap system", self.contextIcepapStart)""",
@@ -205,7 +205,7 @@ class IcepapCMS(QtGui.QMainWindow):
             shown_actions = []            
             if item.role == IcepapTreeModel.SYSTEM_OFFLINE:
                 shown_actions = [5,8,9,10]
-            if item.role == IcepapTreeModel.DRIVER or item.role == IcepapTreeModel.DRIVER_NEW:
+            if item.role == IcepapTreeModel.DRIVER:
                 shown_actions = [6,7,8,9,10]
             elif item.role == IcepapTreeModel.DRIVER_CFG:
                 shown_actions = [0,4,6,7,8,9,10]
@@ -213,7 +213,7 @@ class IcepapCMS(QtGui.QMainWindow):
                 shown_actions = [2,4,6,7,8,9,10]
             elif item.role == IcepapTreeModel.DRIVER_WARNING:
                 shown_actions = [1,4,6,7,8,9,10]                    
-            elif item.role == IcepapTreeModel.DRIVER_MOVED:
+            elif item.role == IcepapTreeModel.DRIVER_NEW:
                 shown_actions = [3,4,6,7,8,9,10]
             elif item.role == IcepapTreeModel.SYSTEM or item.role == IcepapTreeModel.CRATE or item.role == IcepapTreeModel.SYSTEM_ERROR or item.role == IcepapTreeModel.SYSTEM_WARNING:
                 shown_actions = [6,7,8,9,10]             
@@ -251,10 +251,10 @@ class IcepapCMS(QtGui.QMainWindow):
             self.deleteDriverError(item)
         self.context_menu_item = None
         
-    def contextSolveDriverMoved(self):
+    def contextSolveNewDriver(self):
         if self.context_menu_item:
             item = self.context_menu_item
-            self.solveDriverMoved(item)       
+            self.solveNewDriver(item)       
         self.context_menu_item = None
        
     def btnTreeAdd_on_click(self):
@@ -387,30 +387,35 @@ class IcepapCMS(QtGui.QMainWindow):
         self.setStatusMessage("")
         
 
-    
-    def solveDriverMoved(self, item):
-        imported_sys = item.itemData.icepap_system
-        moved_sys = self._manager.importMovedDriver(item.itemData)        
-        if moved_sys != imported_sys:
-            self.scanIcepap(moved_sys)         
-        self.scanIcepap(imported_sys)
+    def solveNewDriver(self, item):
+        cfg_default = MessageDialogs.showYesNoMessage(self, "Reset Driver to Defaults", "Do you want to reset the driver configuration to default values?")
+        if cfg_default:
+            self._manager.configDriverToDefaults(item.itemData)
+        self._manager.updateDriverConfig(item.itemData)
+        item.solveConflict()
+        #self.scanIcepap(item.getIcepapSystem())
+        ##imported_sys = item.itemData.icepap_system
+        ##moved_sys = self._manager.importMovedDriver(item.itemData)        
+        ##if moved_sys != imported_sys:
+        ##    self.scanIcepap(moved_sys)         
+        ##self.scanIcepap(imported_sys)
     
     def deleteDriverError(self, item):
-        moved_sys = self._manager.importMovedDriver(item.itemData, True)
-        or_sys = item.itemData.icepap_system
-        if moved_sys:
-            if moved_sys != or_sys:
-                self.scanIcepap(moved_sys)
-            self.scanIcepap(or_sys)
-        item.solveConflict()
-        self._tree_model.deleteItem(item)
-        self.scanIcepap(or_sys)
-#        delete = MessageDialogs.showYesNoMessage(self, "Driver error", "Driver not present.\nRemove driver from DB?")
-#        if delete:
-#            icepap_system = item.getIcepapSystem()
-#            icepap_system.removeDriver(item.itemData.addr)
-#            item.solveConflict()
-#            self._tree_model.deleteItem(item)    
+        ##moved_sys = self._manager.importMovedDriver(item.itemData, True)
+        ##or_sys = item.itemData.icepap_system
+        ##if moved_sys:
+        ##    if moved_sys != or_sys:
+        ##        self.scanIcepap(moved_sys)
+        ##    self.scanIcepap(or_sys)
+        ##item.solveConflict()
+        ##self._tree_model.deleteItem(item)
+        ##self.scanIcepap(or_sys)
+        delete = MessageDialogs.showYesNoMessage(self, "Driver error", "Driver not present.\nRemove driver from DB?")
+        if delete:
+            icepap_system = item.getIcepapSystem()
+            icepap_system.removeDriver(item.itemData.addr)
+            item.solveConflict()
+            self._tree_model.deleteItem(item)    
     
     def refreshTree(self):
         self.ui.pageiPapDriver.stopTesting()
@@ -448,8 +453,8 @@ class IcepapCMS(QtGui.QMainWindow):
         item = self._tree_model.item(modelindex)
         if item.role == IcepapTreeModel.DRIVER_WARNING:
             self.solveConflict(item)
-        elif item.role == IcepapTreeModel.DRIVER_MOVED:
-            self.solveDriverMoved(item)
+        elif item.role == IcepapTreeModel.DRIVER_NEW:
+            self.solveNewDriver(item)
         elif item.role == IcepapTreeModel.DRIVER_ERROR:
             self.deleteDriverError(item)
         elif item.role == IcepapTreeModel.SYSTEM_OFFLINE or item.role == IcepapTreeModel.SYSTEM_ERROR:
@@ -494,7 +499,7 @@ class IcepapCMS(QtGui.QMainWindow):
         self.ui.pageiPapDriver.stopTesting()
         if not self.refreshTimer is None:
             self.refreshTimer.stop()
-        if item.role == IcepapTreeModel.DRIVER or item.role == IcepapTreeModel.DRIVER_NEW or item.role == IcepapTreeModel.DRIVER_CFG:
+        if item.role == IcepapTreeModel.DRIVER or item.role == IcepapTreeModel.DRIVER_CFG:
             self.ui.pageiPapDriver.fillData(item.itemData)
             self.ui.stackedWidget.setCurrentIndex(3)
             self.ui.actionExport.setEnabled(True)
