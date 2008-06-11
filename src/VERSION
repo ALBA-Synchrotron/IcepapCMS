@@ -1,5 +1,8 @@
 IcepapCMS 1.14 2008/mm/dd
 -------------------------------------------------------------------------
++) New / Moved drivers present a conflict: Reset to defaults or keep current cfg
++) When adding an Icepap system the cursor is changed for a waiting clock one
++) Active status is checked in order to change the CFG ACTIVE parameter
 +) Support for the Icepap Motor Types Catalog
 +) Put a 'SAVE Config' button under the 'SEND Config'button
 +) Wait for the second '$' to all icepap answers that start with '$'
