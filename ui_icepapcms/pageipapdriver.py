@@ -609,6 +609,7 @@ class PageiPapDriver(QtGui.QWidget):
         self.icepap_driver.name = unicode(self.ui.txtDriverName.text())
         self.icepap_driver.current_cfg.setParameter("IPAPNAME",self.icepap_driver.name)
 
+        
         # PREPARE DATA FOR HIGHLIGHTING
         dbIcepapSystem = StormManager().getIcepapSystem(self.icepap_driver.icepapsystem_name)
         self.dbStartupConfig = dbIcepapSystem.getDriver(self.icepap_driver.addr,in_memory=False).startup_cfg
@@ -1068,6 +1069,12 @@ class PageiPapDriver(QtGui.QWidget):
         self.ui.LCDPositionTest.display(position[0])
         self.ui.LCDEncoder.display(position[1])
 
+        # CHECK THE ACTIVE FLAG
+        # IN CASE OF NO-ACTIVE DRIVER,
+        # UNCHECK THE ACTIVE CFG PARAMETER
+        if not IcepapStatus.isActive(status):
+            self.ui.ACTIVE.setChecked(False)
+
                 
     def btnGO_on_click(self):
         new_position = self.ui.txtMvAbsolute.text()
@@ -1176,10 +1183,9 @@ class PageiPapDriver(QtGui.QWidget):
 
     # ---------------------- Motor Types Catalog Widget -------------------
     def setMotorTypeParams(self,motor_type,params):
-        print "\n\n\n\nI got the power!"
         for param in params.keys():
             value = params.get(param)
             if self.var_dict.has_key(param):
                 [nsection, element] = self.var_dict[param]
                 self._setWidgetValue(element, value)
-        print "pending the label for the motor type '%s'" % motor_type
+        #print "THE MOTOR TYPE LABEL IS NOT YET IMPLEMENTED. Selected type: '%s'" % motor_type
