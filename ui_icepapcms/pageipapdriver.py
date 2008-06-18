@@ -613,10 +613,8 @@ class PageiPapDriver(QtGui.QWidget):
         # CHECK THE ACTIVE FLAG
         # IN CASE OF NO-ACTIVE DRIVER,
         # UNCHECK THE ACTIVE CFG PARAMETER
-        pos_sel = str(self.ui.cb_pos_sel.currentText()).upper()
-        enc_sel = str(self.ui.cb_enc_sel.currentText()).upper()
-        (status, power, position) = self._manager.getDriverTestStatus(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, pos_sel, enc_sel)
-        if not IcepapStatus.isActive(status):
+        activeStatus = IcepapController().getDriverActiveStatus(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr)
+        if activeStatus.upper() != "YES":
             self.ui.ACTIVE.setChecked(False)
 
 
