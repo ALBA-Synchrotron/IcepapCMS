@@ -261,6 +261,9 @@ class IcepapController(Singleton):
         state = (int(register), power, posarray)
         return state
         
+    def getDriverActiveStatus(self, icepap_name, driver_addr):
+        return self.iPaps[icepap_name].getActive(driver_addr)
+
     def readIcepapParameters(self, icepap_name, driver_addr, par_list):
         values = []
         for name in par_list:
