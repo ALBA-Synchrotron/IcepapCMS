@@ -610,6 +610,16 @@ class PageiPapDriver(QtGui.QWidget):
         self.icepap_driver.current_cfg.setParameter("IPAPNAME",self.icepap_driver.name)
 
         
+        # CHECK THE ACTIVE FLAG
+        # IN CASE OF NO-ACTIVE DRIVER,
+        # UNCHECK THE ACTIVE CFG PARAMETER
+        pos_sel = str(self.ui.cb_pos_sel.currentText()).upper()
+        enc_sel = str(self.ui.cb_enc_sel.currentText()).upper()
+        (status, power, position) = self._manager.getDriverTestStatus(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, pos_sel, enc_sel)
+        if not IcepapStatus.isActive(status):
+            self.ui.ACTIVE.setChecked(False)
+
+
         # PREPARE DATA FOR HIGHLIGHTING
         dbIcepapSystem = StormManager().getIcepapSystem(self.icepap_driver.icepapsystem_name)
         self.dbStartupConfig = dbIcepapSystem.getDriver(self.icepap_driver.addr,in_memory=False).startup_cfg
@@ -1068,12 +1078,6 @@ class PageiPapDriver(QtGui.QWidget):
         self.ui.LCDPosition.display(position[0])
         self.ui.LCDPositionTest.display(position[0])
         self.ui.LCDEncoder.display(position[1])
-
-        # CHECK THE ACTIVE FLAG
-        # IN CASE OF NO-ACTIVE DRIVER,
-        # UNCHECK THE ACTIVE CFG PARAMETER
-        if not IcepapStatus.isActive(status):
-            self.ui.ACTIVE.setChecked(False)
 
                 
     def btnGO_on_click(self):
