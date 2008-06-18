@@ -1,5 +1,6 @@
-IcepapCMS 1.14 2008/mm/dd
+IcepapCMS 1.14 2008/06/18
 -------------------------------------------------------------------------
++) Solved mini-bug when updating the CFG ACTIVE parameter
 +) New limits for spinboxes: ICURR,BCURR: 100; NRSTEPS: 2^32
 +) New / Moved drivers present a conflict: Reset to defaults or
    keep the current driver config
