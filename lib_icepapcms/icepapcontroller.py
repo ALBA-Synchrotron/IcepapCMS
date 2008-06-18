@@ -189,7 +189,8 @@ class IcepapController(Singleton):
             return None
         
     def discardDriverCfg(self,icepap_name, driver_addr):
-        self.iPaps[icepap_name].signConfig(driver_addr, "")
+        if self.iPaps.has_key(icepap_name):
+            self.iPaps[icepap_name].signConfig(driver_addr, "")
         
     def signDriverConfiguration(self,icepap_name, driver_addr, signature):
         if self.iPaps.has_key(icepap_name):
