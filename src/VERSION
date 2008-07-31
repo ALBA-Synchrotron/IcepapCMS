@@ -1,3 +1,8 @@
+IcepapCMS 1.15 2008/xx/xx
+-------------------------------------------------------------------------
++) The ?active retuns '???' instead of 'YES', so uncheck the ACTIVE
+   checkbox if the answer is 'NO'
+
 IcepapCMS 1.14 2008/06/18
 -------------------------------------------------------------------------
 +) Solved mini-bug when updating the CFG ACTIVE parameter
