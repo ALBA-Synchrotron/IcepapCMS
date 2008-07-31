@@ -9,8 +9,9 @@ from xml.dom import minidom,Node
 #
 ################################################################################
 
-CATALOG_PARAMS = ['MOTPHASES','MOTPOLES','MREGMODE','NVOLT','IVOLT','ICURR','NCURR','BCURR'
-                  ,'CURRGAIN','MREGP','MREGI','MREGD']
+CATALOG_PARAMS = ['MOTPHASES','MOTPOLES','MREGMODE','NVOLT','IVOLT','NCURR'
+                  ,'CURRGAIN','MREGP','MREGI','MREGD','ANTURN','ANSTEP']
+## 080731: jlidon considers that ICURR and BCURR are not needed and ANTURN,ANSTEP are needed
 
 class MotorTypesCatalogWidget(QtGui.QDialog):
 
@@ -79,9 +80,11 @@ class MotorTypesCatalogWidget(QtGui.QDialog):
         self.setLayout(self.mainLayout)
         
         self.setWindowTitle("IcepaCMS MotorTypes Catalog")
-        self.resize(500, 450)
+        self.resize(750, 600)
         
         self.proxyView.sortByColumn(0, QtCore.Qt.AscendingOrder)
+        self.proxyView.setColumnWidth(0,220)
+
         self.filterColumnComboBox.setCurrentIndex(0)
         
         self.filterPatternLineEdit.setText("")
@@ -101,14 +104,18 @@ class MotorTypesCatalogWidget(QtGui.QDialog):
             params['description'] = description
         
             for param in CATALOG_PARAMS:
-                value = motor_node.attributes.get(param).value
-                if param in ['MREGMODE','CURRGAIN']:
-                    value = str(value)
-                elif param in ['MOTPHASES','MOTPOLES']:
-                    value = int(value)
-                else:
-                    value = float(value)
-                params[param] = value
+                try:
+                    value = motor_node.attributes.get(param).value
+                    if param in ['MREGMODE','CURRGAIN']:
+                        value = str(value)
+                    elif param in ['MOTPHASES','MOTPOLES']:
+                        value = int(value)
+                    else:
+                        value = float(value)
+                    params[param] = value
+                except:
+                    #print "could not retrieve param",param,"from the catalog"
+                    pass
             self.catalog[str(motor_type)] = params
 
 
