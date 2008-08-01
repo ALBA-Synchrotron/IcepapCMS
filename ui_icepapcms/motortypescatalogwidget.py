@@ -11,7 +11,8 @@ from xml.dom import minidom,Node
 
 CATALOG_PARAMS = ['MOTPHASES','MOTPOLES','MREGMODE','NVOLT','IVOLT','NCURR'
                   ,'CURRGAIN','MREGP','MREGI','MREGD','ANTURN','ANSTEP']
-## 080731: jlidon considers that ICURR and BCURR are not needed and ANTURN,ANSTEP are needed
+## 080731: jlidon considers that ICURR and BCURR are not needed
+## 080731: jlidon considers that ANTURN adn ANSTEP must be part of the catalog entries
 
 class MotorTypesCatalogWidget(QtGui.QDialog):
 
