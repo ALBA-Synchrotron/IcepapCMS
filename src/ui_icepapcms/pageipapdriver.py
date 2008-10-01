@@ -214,7 +214,8 @@ class PageiPapDriver(QtGui.QWidget):
         dbvalue = self.dbStartupConfig.getParameter(unicode(param),in_memory=False)
         wvalue = self._getWidgetValue(widget)
 
-        #print "DB("+str(dbvalue)+") W("+str(wvalue)+")"
+        #print "PARAM: %s DB(%s) WIDGET(%s)" % (param,str(dbvalue),str(wvalue))
+        
         try:
             if isinstance(widget, QtGui.QDoubleSpinBox) or isinstance(widget, QtGui.QSpinBox):
                 if widget.defaultvalue != widget.value():
@@ -293,6 +294,11 @@ class PageiPapDriver(QtGui.QWidget):
         for name, [nsection, widget] in self.var_dict.items():
             self.highlightWidget(widget)
 
+        ### # HIGHLIGHT UNKNOWN TAB
+        for param in self.unknown_var_dict.keys():
+            widget_type,widget = self.unknown_var_dict[param]
+            self.highlightWidget(widget)
+
         ### highlight the txtDriverName widget
         self.highlightWidget(self.ui.txtDriverName)
 
@@ -302,26 +308,28 @@ class PageiPapDriver(QtGui.QWidget):
     def _disconnectHighlighting(self):
         for nsection, widget in self.var_dict.itervalues():
             if nsection == 0:
-                if isinstance(widget,QtGui.QComboBox):
-                    widget.setPalette(self.button_grey_palette)
-                else:
-                    widget.setPalette(self.base_white_palette)
+                self._setNoHighlightingPalette(widget)
         aux = []
         for widget in self.test_var_dict.itervalues():
             if type(widget) == type(aux):
                 for w in widget:
-                    if isinstance(w,QtGui.QComboBox):
-                        w.setPalette(self.button_grey_palette)
-                    else:
-                        w.setPalette(sefl.base_white_palette)
+                    self._setNoHighlightingPalette(w)
             else:
-                if isinstance(widget,QtGui.QComboBox):
-                    widget.setPalette(self.button_grey_palette)
-                else:
-                    widget.setPalette(self.base_white_palette)
-
+                self._setNoHighlightingPalette(widget)
+        
+        for param in self.unknown_var_dict.keys():
+            widget_type,widget = self.unknown_var_dict[param]
+            self._setNoHighlightingPalette(widget)
+                
         QtCore.QObject.disconnect(self.signalMapper, QtCore.SIGNAL("mapped(QWidget*)"),self.highlightWidget)
-          
+
+
+    def _setNoHighlightingPalette(self,widget):
+        if isinstance(widget,QtGui.QComboBox):
+            widget.setPalette(self.button_grey_palette)
+        else:
+            widget.setPalette(self.base_white_palette)
+        
 # ------------------------------  Configuration ----------------------------------------------------------    
     def _readConfigTemplate(self):
         """ Reads the configuration template file to map the different widgets of the user interface,
