@@ -80,8 +80,8 @@ CTRLENC MISSING IN THE GUI
                 <par id="DEFVEL" name="DEFVEL" type="DOUBLE" min="0" max="99999999">
                      <description>Default velocity</description>
                 </par>
-                <par id="DEFIVEL" name="DEFIVEL" type="DOUBLE" min="0" max="99999999">
-                     <description>Default initial velocity</description>
+                <par id="STRTVEL" name="STRTVEL" type="DOUBLE" min="0" max="99999999">
+                     <description>Start velocity</description>
                 </par>
                 <par id="DEFACCT" name="DEFACCT" type="DOUBLE" min="0" max="99999999">
                      <description>Default acceleration time (sec)</description>
