@@ -1,5 +1,7 @@
 IcepapCMS 1.15 2008/xx/xx
 -------------------------------------------------------------------------
++) Import and export configurations to files supports the Unknown parameters
++) STRTVEL param is now supported (it used to be DEFIVEL)
 +) The ?active retuns '???' instead of 'YES', so uncheck the ACTIVE
    checkbox if the answer is 'NO'
 
