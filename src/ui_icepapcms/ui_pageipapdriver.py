@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'pageipapdriver.ui'
 #
-# Created: Wed Jun 11 15:06:01 2008
+# Created: Wed Oct  1 11:19:22 2008
 #      by: PyQt4 UI code generator 4.3.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -93,11 +93,11 @@ class Ui_PageiPapDriver(object):
         self.label_32.setObjectName("label_32")
         self.gridlayout3.addWidget(self.label_32,2,0,1,1)
 
-        self.DEFIVEL = QtGui.QDoubleSpinBox(self.groupBox_11)
-        self.DEFIVEL.setMaximum(429496729.0)
-        self.DEFIVEL.setSingleStep(1.0)
-        self.DEFIVEL.setObjectName("DEFIVEL")
-        self.gridlayout3.addWidget(self.DEFIVEL,2,1,1,1)
+        self.STRTVEL = QtGui.QDoubleSpinBox(self.groupBox_11)
+        self.STRTVEL.setMaximum(429496729.0)
+        self.STRTVEL.setSingleStep(1.0)
+        self.STRTVEL.setObjectName("STRTVEL")
+        self.gridlayout3.addWidget(self.STRTVEL,2,1,1,1)
 
         self.label_28 = QtGui.QLabel(self.groupBox_11)
         self.label_28.setObjectName("label_28")
@@ -1809,8 +1809,8 @@ class Ui_PageiPapDriver(object):
         self.groupBox_11.setTitle(QtGui.QApplication.translate("PageiPapDriver", "Motion", None, QtGui.QApplication.UnicodeUTF8))
         self.label_38.setText(QtGui.QApplication.translate("PageiPapDriver", "Indexer Source", None, QtGui.QApplication.UnicodeUTF8))
         self.DEFVEL.setToolTip(QtGui.QApplication.translate("PageiPapDriver", "proportional constant in the PI current regulator", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_32.setText(QtGui.QApplication.translate("PageiPapDriver", "Default Initial Velocity", None, QtGui.QApplication.UnicodeUTF8))
-        self.DEFIVEL.setToolTip(QtGui.QApplication.translate("PageiPapDriver", "proportional constant in the PI current regulator", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_32.setText(QtGui.QApplication.translate("PageiPapDriver", "Start Velocity", None, QtGui.QApplication.UnicodeUTF8))
+        self.STRTVEL.setToolTip(QtGui.QApplication.translate("PageiPapDriver", "proportional constant in the PI current regulator", None, QtGui.QApplication.UnicodeUTF8))
         self.label_28.setText(QtGui.QApplication.translate("PageiPapDriver", "Default Velocity", None, QtGui.QApplication.UnicodeUTF8))
         self.label_33.setText(QtGui.QApplication.translate("PageiPapDriver", "Default Acc. Time (sec)", None, QtGui.QApplication.UnicodeUTF8))
         self.DEFACCT.setToolTip(QtGui.QApplication.translate("PageiPapDriver", "proportional constant in the PI current regulator", None, QtGui.QApplication.UnicodeUTF8))
