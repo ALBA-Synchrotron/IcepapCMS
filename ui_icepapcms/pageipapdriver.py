@@ -39,6 +39,7 @@ class PageiPapDriver(QtGui.QWidget):
         # item = [section, widget (section = 0) or row (section > 0)
         self.var_dict = {}
         self.test_var_dict = {}
+        self.unknown_var_dict = {}
         
         self.main_modified = []
         self.test_var_modified = []
@@ -467,15 +468,15 @@ class PageiPapDriver(QtGui.QWidget):
         
         table.setItem(row, column, item)
         
-    def _addWidgetToTable(self, section, row, column, type, min, max):
+    def _addWidgetToTable(self, section, row, column, widget_type, min, max,unknownTab=False):
         table = self.sectionTables[section]
         #le = QtGui.QLineEdit(table)
         widget = QtGui.QLineEdit()
-        if type == "INTEGER":
+        if widget_type == "INTEGER":
             widget = QValidateLineEdit(table,QValidateLineEdit.INTEGER,min,max)
-        elif type == "DOUBLE":
+        elif widget_type == "DOUBLE":
             widget = QValidateLineEdit(table,QValidateLineEdit.DOUBLE,min,max)
-        elif type == "QCOMBOSTRING":
+        elif widget_type == "QCOMBOSTRING":
             options = table.item(row,3).text()
             options = options.replace("[","")
             options = options.replace("]","")
@@ -484,17 +485,27 @@ class PageiPapDriver(QtGui.QWidget):
             options_list = options.split(",")
             widget = QtGui.QComboBox(table)
             widget.insertItems(0,options_list)
-            widget.setCurrentIndex(widget.findText(str(table.item(row,1).text())))
             # SET THE DESCRIPTION TO "LIST value"
             table.item(row,3).setText("LIST value")
             
 
         widget.defaultvalue = None
         widget.isTest = False
-        if table.item(row,1) != None:
-            widget.defaultvalue = str(table.item(row,1).text())
+            
         table.setCellWidget(row, column, widget)
         self._connectWidgetToSignalMap(widget)
+
+        if unknownTab:
+            parname = str(table.item(row,0).text())
+            widget.setObjectName(parname)
+            widget_value = str(table.item(row,1).text())
+            widget.defaultvalue = widget_value
+            if widget_type == "QCOMBOSTRING":
+                widget.setCurrentIndex(widget.findText(widget_value))
+            else:
+                widget.setText(widget_value)
+
+            self.unknown_var_dict[parname] = (widget_type,widget)
 
     
     def fillData(self, icepap_driver):
@@ -581,7 +592,7 @@ class PageiPapDriver(QtGui.QWidget):
                     self._addItemToTable(indexUnknownTab, row, 3, pardesc, False)
                     # DESCRIPTION (col 3) BEFORE WIDGET (col 2) TO BE ABLE TO CREATE QCOMBOXES
                     # THE DESCRIPTION IS USED TO PARSE THE VALUES
-                    self._addWidgetToTable(indexUnknownTab, row, 2, partype, 0, 9999999)
+                    self._addWidgetToTable(indexUnknownTab, row, 2, partype, 0, 9999999,unknownTab=True)
 
 
         # get testing values
@@ -856,6 +867,11 @@ class PageiPapDriver(QtGui.QWidget):
                     else:
                         # THE VALUES SHOULD BE FILLED IN THE UNKNOWN TAB IF THE var_dic IS
                         # FILLED CORRECTLY
+                        widget_type,widget = self.unknown_var_dict[parname]
+                        if widget_type == "QCOMBOSTRING":
+                            widget.setCurrentIndex(widget.findText(parval))
+                        else:
+                            widget.setText(parval)
                         pass
                     
                      
