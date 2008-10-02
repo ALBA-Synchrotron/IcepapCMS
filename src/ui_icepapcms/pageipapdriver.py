@@ -212,6 +212,8 @@ class PageiPapDriver(QtGui.QWidget):
         if param == "txtDriverName":
             param = "IPAPNAME"
         dbvalue = self.dbStartupConfig.getParameter(unicode(param),in_memory=False)
+        if dbvalue is None:
+            dbvalue = ""
         wvalue = self._getWidgetValue(widget)
 
         #print "PARAM: %s DB(%s) WIDGET(%s)" % (param,str(dbvalue),str(wvalue))
@@ -234,16 +236,20 @@ class PageiPapDriver(QtGui.QWidget):
                     widget.setPalette(self.base_salmon_palette)
             
             elif isinstance(widget, QtGui.QComboBox):
-                dbvalue = dbvalue.upper()
-                wvalue = wvalue.upper()
-                if widget.defaultvalue == None:
-                    widget.defaultvalue = ""
-                if widget.defaultvalue.upper() != str(widget.currentText()).upper():
-                    highlight = True
-                    widget.setPalette(self.button_yellow_palette)
-                elif wvalue != dbvalue:
-                    highlight = True
-                    widget.setPalette(self.button_salmon_palette)
+                try:
+                    dbvalue = dbvalue.upper()
+                    wvalue = wvalue.upper()
+                    if widget.defaultvalue == None:
+                        widget.defaultvalue = ""
+                    if widget.defaultvalue.upper() != str(widget.currentText()).upper():
+                        highlight = True
+                        widget.setPalette(self.button_yellow_palette)
+                    elif wvalue != dbvalue:
+                        highlight = True
+                        widget.setPalette(self.button_salmon_palette)
+                except Exception,e:
+                    print "some exception found trying to highlight a QComboBox!",e
+                    print "widget was %s" % widget.objectName()
             
             elif isinstance(widget, QtGui.QLineEdit):
                 if dbvalue == None:
@@ -260,6 +266,7 @@ class PageiPapDriver(QtGui.QWidget):
                 elif wvalue != dbvalue:
                     highlight = True
                     widget.setPalette(self.base_salmon_palette)
+
 
         except:
             pass
@@ -679,6 +686,12 @@ class PageiPapDriver(QtGui.QWidget):
                 # WORKAROUND FOR QCOMBOBOX WIDGETS IN THE TEST TAB"
                 if param in ("TINFOASRC","TINFOAPOL","TINFOBSRC","TINFOBPOL","TINFOCSRC","TINFOCPOL","TINDEXER"):
                     param = param[1:]
+                    try:
+                        if default:
+                            widget.setCurrentIndex(widget.findText(str(value), QtCore.Qt.MatchFixedString))
+                            widget.defaultvalue = self._getWidgetValue(widget)
+                    except Exception,e:
+                        print "Exception found when setting widget value",e
                 controller = IcepapController()
                 driver_cfginfo = controller.icepap_cfginfos[self.icepap_driver.icepapsystem_name][self.icepap_driver.addr]
                 options = driver_cfginfo.get(param)
