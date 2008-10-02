@@ -89,7 +89,7 @@ CTRLENC MISSING IN THE GUI
 <!--
 CTRLERROR MISSING IN THE GUI
 -->
-                <par id="CLOOPENC" name="CLOOPENC" type="STRING">
+                <par id="PCLOOP" name="PCLOOP" type="STRING">
                 	 <description>Default closed loop signal</description>
                 </par>
 <!--
