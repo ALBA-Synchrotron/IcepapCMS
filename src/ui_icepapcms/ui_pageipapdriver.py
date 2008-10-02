@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'pageipapdriver.ui'
 #
-# Created: Wed Oct  1 11:19:22 2008
+# Created: Thu Oct  2 15:16:13 2008
 #      by: PyQt4 UI code generator 4.3.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -299,9 +299,9 @@ class Ui_PageiPapDriver(object):
         self.gridlayout7.setSpacing(6)
         self.gridlayout7.setObjectName("gridlayout7")
 
-        self.CLOOPENC = QtGui.QComboBox(self.groupBox_12)
-        self.CLOOPENC.setObjectName("CLOOPENC")
-        self.gridlayout7.addWidget(self.CLOOPENC,2,1,1,1)
+        self.PCLOOP = QtGui.QComboBox(self.groupBox_12)
+        self.PCLOOP.setObjectName("PCLOOP")
+        self.gridlayout7.addWidget(self.PCLOOP,2,1,1,1)
 
         self.POSSRC = QtGui.QComboBox(self.groupBox_12)
         self.POSSRC.setObjectName("POSSRC")
@@ -1857,9 +1857,9 @@ class Ui_PageiPapDriver(object):
         self.label_17.setText(QtGui.QApplication.translate("PageiPapDriver", "Boost (%)", None, QtGui.QApplication.UnicodeUTF8))
         self.BCURR.setToolTip(QtGui.QApplication.translate("PageiPapDriver", "current to the motor when the motor is at rest", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_12.setTitle(QtGui.QApplication.translate("PageiPapDriver", "Encoder", None, QtGui.QApplication.UnicodeUTF8))
-        self.CLOOPENC.addItem(QtGui.QApplication.translate("PageiPapDriver", "None", None, QtGui.QApplication.UnicodeUTF8))
-        self.CLOOPENC.addItem(QtGui.QApplication.translate("PageiPapDriver", "ShftEnc", None, QtGui.QApplication.UnicodeUTF8))
-        self.CLOOPENC.addItem(QtGui.QApplication.translate("PageiPapDriver", "TgtEnc", None, QtGui.QApplication.UnicodeUTF8))
+        self.PCLOOP.addItem(QtGui.QApplication.translate("PageiPapDriver", "None", None, QtGui.QApplication.UnicodeUTF8))
+        self.PCLOOP.addItem(QtGui.QApplication.translate("PageiPapDriver", "ShftEnc", None, QtGui.QApplication.UnicodeUTF8))
+        self.PCLOOP.addItem(QtGui.QApplication.translate("PageiPapDriver", "TgtEnc", None, QtGui.QApplication.UnicodeUTF8))
         self.POSSRC.addItem(QtGui.QApplication.translate("PageiPapDriver", "None", None, QtGui.QApplication.UnicodeUTF8))
         self.POSSRC.addItem(QtGui.QApplication.translate("PageiPapDriver", "ShftEnc", None, QtGui.QApplication.UnicodeUTF8))
         self.POSSRC.addItem(QtGui.QApplication.translate("PageiPapDriver", "TgtEnc", None, QtGui.QApplication.UnicodeUTF8))
