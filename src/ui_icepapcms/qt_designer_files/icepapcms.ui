@@ -246,7 +246,7 @@
      <x>0</x>
      <y>0</y>
      <width>1100</width>
-     <height>25</height>
+     <height>28</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp" >
@@ -276,6 +276,7 @@
     <addaction name="separator" />
     <addaction name="actionExport" />
     <addaction name="actionImport" />
+    <addaction name="actionSetExpertFlag" />
    </widget>
    <widget class="QMenu" name="menuFile" >
     <property name="title" >
@@ -831,6 +832,11 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="toolTip" >
     <string>Delete location</string>
+   </property>
+  </action>
+  <action name="actionSetExpertFlag" >
+   <property name="text" >
+    <string>Set Expert Flag</string>
    </property>
   </action>
  </widget>
