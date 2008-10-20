@@ -165,7 +165,7 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
                 location = "%s/%s" % (icepap_name, crate)
                 new_item_crate = self.addItem([QtCore.QVariant(driver.cratenr)], IcepapTreeModel.CRATE, location,None, new_item_system)
             location = "%s/%s/%s" % (icepap_name, crate, addr)
-            self.addItem([QtCore.QVariant(str(addr)+" "+driver.name)], IcepapTreeModel.DRIVER, location, driver, new_item_crate)
+            self.addItem([QtCore.QVariant(str(addr)+" "+driver.getName())], IcepapTreeModel.DRIVER, location, driver, new_item_crate)
             
     def deleteIcepapSystem(self, icepap_name):
         item = self.itemByLocation(icepap_name)
