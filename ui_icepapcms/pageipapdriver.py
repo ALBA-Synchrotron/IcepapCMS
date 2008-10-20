@@ -154,6 +154,7 @@ class PageiPapDriver(QtGui.QWidget):
         QtCore.QObject.connect(self.ui.btnGORelativeNeg,QtCore.SIGNAL("clicked()"),self.btnGORelativeNeg_on_click)
         QtCore.QObject.connect(self.ui.btnEnable,QtCore.SIGNAL("clicked(bool)"),self.endisDriver)
         QtCore.QObject.connect(self.ui.btnStopMotor,QtCore.SIGNAL("clicked()"),self.btnStopMotor_on_click)
+        QtCore.QObject.connect(self.ui.btnBlink,QtCore.SIGNAL("clicked()"),self.btnBlink_on_click)
         QtCore.QObject.connect(self.ui.btnSetPos,QtCore.SIGNAL("clicked()"),self.setPosition)
         QtCore.QObject.connect(self.ui.btnSetEnc,QtCore.SIGNAL("clicked()"),self.setEncoder)
         #QtCore.QObject.connect(self.ui.toolBox,QtCore.SIGNAL("currentChanged(int)"),self.toolBox_current_changed)
@@ -173,6 +174,7 @@ class PageiPapDriver(QtGui.QWidget):
         QtCore.QObject.connect(self.sliderTimer,QtCore.SIGNAL("timeout()"),self.resetSlider)
         
         #QtCore.QObject.connect(self.signalMapper, QtCore.SIGNAL("mapped(int)"), self.highlightWidget)
+
     
     
 
@@ -268,7 +270,8 @@ class PageiPapDriver(QtGui.QWidget):
                     widget.setPalette(self.base_salmon_palette)
 
 
-        except:
+        except Exception,e:
+            print "Some exception found with param",param,":",e
             pass
         
         if highlight:
@@ -550,7 +553,9 @@ class PageiPapDriver(QtGui.QWidget):
         self.ui.txtDescription.setText(description)
 
         # THIS IS OVERWRITTEN LATER
-        #self.ui.txtDriverName.setText(self.icepap_driver.name)
+        self.ui.txtDriverName.setText(self.icepap_driver.getName())
+        self.ui.txtDriverName.defaultvalue = self.icepap_driver.getName()
+
         #self.ui.txtDriverNemonic.setText(self.icepap_driver.nemonic)
 
 
@@ -633,7 +638,7 @@ class PageiPapDriver(QtGui.QWidget):
            
         # SET THE CORRECT DRIVER NAME
         self.icepap_driver.name = unicode(self.ui.txtDriverName.text())
-        self.icepap_driver.current_cfg.setParameter("IPAPNAME",self.icepap_driver.name)
+        self.icepap_driver.current_cfg.setParameter(unicode("IPAPNAME"),self.icepap_driver.getName())
 
         
         # CHECK THE ACTIVE FLAG
@@ -707,9 +712,10 @@ class PageiPapDriver(QtGui.QWidget):
                 if default:
                     widget.defaultvalue = str(value)
                 
-        except:           
+        except Exception,e:
+            #print "_setWidgetValue():", sys.exc_info() , " " , value
+            print "Some exception setting value",e
             pass
-            #print "_setWidgetValue():", sys.exc_info() , " " , value 
     
     def _getWidgetValue(self, widget):
         try:
@@ -747,7 +753,7 @@ class PageiPapDriver(QtGui.QWidget):
 
         # THE ICEPAP NAME IN THE CONFIG SHOULD BE RESTORED
         try:
-            ipap_name = cfg.getParameter(unicode("IPAPNAME"))
+            ipap_name = cfg.getParameter(unicode("IPAPNAME"),True)
             self.ui.txtDriverName.setText(ipap_name)
         except:
             #print "oups, this config had not the ipapname yet..."
@@ -809,8 +815,16 @@ class PageiPapDriver(QtGui.QWidget):
         elif not values_ok:
             save_ok = False
             MessageDialogs.showWarningMessage(self, "Driver configuration", "Wrong parameter format")
+
+        # STRANGE BEHAVIOUR WITH IPAPNAME
+        #new_values = []
+        #new_values.append(["IPAPNAME",str(self.ui.txtDriverName.text())])
+        #print "sending new values ..........................",new_values
+        #save_ok = self._manager.saveValuesInIcepap(self.icepap_driver, new_values)
+        #print save_ok
         
         # save testing values
+        #print "with testing",self.status,"and teh test_var_dict",self.test_var_dict.keys()
         if not (self.status == -1 or self.status == 1):
             test_values_list = []
             for name, widget in self.test_var_dict.items():
@@ -828,7 +842,8 @@ class PageiPapDriver(QtGui.QWidget):
                         if widget in self.test_var_modified:
                             value = self._getWidgetValue(widget)
                             test_values_list.append([name, value])
-                except:
+                except Exception,e:
+                    print "Some exception getting test values",e
                     test_values_ok = False
                     break
             
@@ -855,7 +870,6 @@ class PageiPapDriver(QtGui.QWidget):
         self.addNewCfg(self.icepap_driver.current_cfg)
         #.fillData(self.icepap_driver)
         
-    
     def doImport(self):
         try:
             fn = QtGui.QFileDialog.getOpenFileName(self)
@@ -920,7 +934,7 @@ class PageiPapDriver(QtGui.QWidget):
         for name, [nsection, widget] in self.var_dict.items():
             if nsection == 0:
                 value = self._getWidgetValue(widget)
-                print name + " _ " + str(value)
+                #print name + " _ " + str(value)
                 epar = newdoc.createElement("par")
                 epar.setAttribute("name", name)
                 epar.setAttribute("value", str(value))
@@ -948,6 +962,9 @@ class PageiPapDriver(QtGui.QWidget):
         dbIcepapSystem = StormManager().getIcepapSystem(self.icepap_driver.icepapsystem_name)
         self.dbStartupConfig = dbIcepapSystem.getDriver(self.icepap_driver.addr,in_memory=False).current_cfg
         self._connectHighlighting()
+
+    def setExpertFlag(self):
+        self._manager.saveValuesInIcepap(self.icepap_driver,[("EXPERT","")])
                
 # ------------------------------  Testing ----------------------------------------------------------            
     def startTesting(self):
@@ -1148,8 +1165,11 @@ class PageiPapDriver(QtGui.QWidget):
     def btnStopMotor_on_click(self):
         self._manager.stopDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr)
         
+
+    def btnBlink_on_click(self):
+        self._manager.blinkDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr)
     
-    
+
     def sliderChanged(self, div):
         if self.ui.sliderJog.isSliderDown() or not self.sliderTimer.isActive():
             self.startJogging(div)
