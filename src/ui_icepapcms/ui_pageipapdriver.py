@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'pageipapdriver.ui'
 #
-# Created: Thu Oct  2 15:16:13 2008
+# Created: Wed Oct 15 14:38:34 2008
 #      by: PyQt4 UI code generator 4.3.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -1139,9 +1139,29 @@ class Ui_PageiPapDriver(object):
         self.frame_3.setObjectName("frame_3")
 
         self.gridlayout21 = QtGui.QGridLayout(self.frame_3)
-        self.gridlayout21.setMargin(9)
-        self.gridlayout21.setSpacing(6)
+        self.gridlayout21.setContentsMargins(-1,2,-1,2)
         self.gridlayout21.setObjectName("gridlayout21")
+
+        self.txtDescription = QtGui.QLabel(self.frame_3)
+        self.txtDescription.setMinimumSize(QtCore.QSize(0,28))
+
+        font = QtGui.QFont()
+        font.setPointSize(8)
+        self.txtDescription.setFont(font)
+        self.txtDescription.setObjectName("txtDescription")
+        self.gridlayout21.addWidget(self.txtDescription,0,0,1,4)
+
+        self.line = QtGui.QFrame(self.frame_3)
+
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding,QtGui.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.line.sizePolicy().hasHeightForWidth())
+        self.line.setSizePolicy(sizePolicy)
+        self.line.setFrameShape(QtGui.QFrame.HLine)
+        self.line.setFrameShadow(QtGui.QFrame.Sunken)
+        self.line.setObjectName("line")
+        self.gridlayout21.addWidget(self.line,1,0,1,4)
 
         self.label_2 = QtGui.QLabel(self.frame_3)
 
@@ -1161,23 +1181,12 @@ class Ui_PageiPapDriver(object):
         self.txtDriverName.setObjectName("txtDriverName")
         self.gridlayout21.addWidget(self.txtDriverName,2,1,1,1)
 
+        self.btnBlink = QtGui.QPushButton(self.frame_3)
+        self.btnBlink.setObjectName("btnBlink")
+        self.gridlayout21.addWidget(self.btnBlink,2,2,1,1)
+
         spacerItem9 = QtGui.QSpacerItem(240,16,QtGui.QSizePolicy.Expanding,QtGui.QSizePolicy.Minimum)
-        self.gridlayout21.addItem(spacerItem9,2,2,1,1)
-
-        self.line = QtGui.QFrame(self.frame_3)
-        self.line.setFrameShape(QtGui.QFrame.HLine)
-        self.line.setFrameShadow(QtGui.QFrame.Sunken)
-        self.line.setObjectName("line")
-        self.gridlayout21.addWidget(self.line,1,0,1,3)
-
-        self.txtDescription = QtGui.QLabel(self.frame_3)
-        self.txtDescription.setMinimumSize(QtCore.QSize(0,28))
-
-        font = QtGui.QFont()
-        font.setPointSize(8)
-        self.txtDescription.setFont(font)
-        self.txtDescription.setObjectName("txtDescription")
-        self.gridlayout21.addWidget(self.txtDescription,0,0,1,3)
+        self.gridlayout21.addItem(spacerItem9,2,3,1,1)
         self.gridlayout.addWidget(self.frame_3,0,0,1,1)
 
         self.frame_right = QtGui.QFrame(PageiPapDriver)
@@ -2103,9 +2112,10 @@ class Ui_PageiPapDriver(object):
         self.TINDEXER.addItem(QtGui.QApplication.translate("PageiPapDriver", "EncIn", None, QtGui.QApplication.UnicodeUTF8))
         self.textLabel3_4.setText(QtGui.QApplication.translate("PageiPapDriver", "Indexer", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), QtGui.QApplication.translate("PageiPapDriver", "Tune Testing", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_2.setText(QtGui.QApplication.translate("PageiPapDriver", "Driver name", None, QtGui.QApplication.UnicodeUTF8))
         self.txtDescription.setText(QtGui.QApplication.translate("PageiPapDriver", "TextLabel\n"
         "hhhknmlknlk", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_2.setText(QtGui.QApplication.translate("PageiPapDriver", "Driver name", None, QtGui.QApplication.UnicodeUTF8))
+        self.btnBlink.setText(QtGui.QApplication.translate("PageiPapDriver", "blink driver", None, QtGui.QApplication.UnicodeUTF8))
         self.textLabel1_6_4.setText(QtGui.QApplication.translate("PageiPapDriver", "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
         "p, li { white-space: pre-wrap; }\n"
         "</style></head><body style=\" font-family:\'Sans Serif\'; font-size:7pt; font-weight:400; font-style:normal; text-decoration:none;\">\n"
