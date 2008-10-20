@@ -1,11 +1,20 @@
-IcepapCMS 1.15 2008/xx/xx
+IcepapCMS 1.15 2008/10/20
 -------------------------------------------------------------------------
++) Blink button available in the top blue box of the driver view
++) Set EXPERT_FLAG available under Driver menu
++) New conflict resolution based on EXPERT_FLAG
+   - New drivers: Prompt "Reset to default?" Cancel | Ok (both answers resolve conflict)
+   - Moved drivers: Same as New Drivers (Do not prompt for all configs of the same driver
+   - Modified without EXPERT flag: "Set DataBase Values?" Cancel | Ok (only Ok resolves conflict)
+   - Modified with EXPERT flag: "Set Driver Values?" Cancel | Ok (only Ok resolves conflict)
+   - If expert flag is detected, the application removes the flag from the driver
++) Firmware versions mismatch check (master != drivers)
++) Solved errors in the system/crate views while in PROG MODE
 +) Solve minibug, now it is possible to change info signals in test tab
-+) Add Close Loop option in main page
++) Add Close Loop option in main page CLOOPENC -> PCLOOP
 +) Import and export configurations to files supports the Unknown parameters
 +) STRTVEL param is now supported (it used to be DEFIVEL)
-+) The ?active retuns '???' instead of 'YES', so uncheck the ACTIVE
-   checkbox if the answer is 'NO'
++) Support for ?active's answer: '???' instead of 'YES' in some firmware versions
 
 IcepapCMS 1.14 2008/06/18
 -------------------------------------------------------------------------
