@@ -84,10 +84,10 @@ class IcePapDriverWidget(QtGui.QWidget):
             return True
     
     def fillStatus(self):
-        if self._driver.name == None:
+        if self._driver.getName() == None:
             self.ui.lblName.setText("- %d -" % self._driver.addr)
-        elif self._driver.name <> "":
-            self.ui.lblName.setText("%d- %s" % (self._driver.addr,self._driver.name))
+        elif self._driver.getName() <> "":
+            self.ui.lblName.setText("%d- %s" % (self._driver.addr,self._driver.getName()))
         else:
             self.ui.lblName.setText("- %d -" % self._driver.addr)
         
