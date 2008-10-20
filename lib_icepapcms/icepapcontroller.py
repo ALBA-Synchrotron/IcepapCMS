@@ -91,6 +91,10 @@ class IcepapController(Singleton):
                             driver = icepapdriver.IcepapDriver(driver_name, addr)
                             driver_cfg = self.getDriverConfiguration(icepap_name, addr)
                             driver.addConfiguration(driver_cfg)
+                            driver.setName(driver_cfg.getParameter(unicode("IPAPNAME"),True))
+                            #print driver_cfg.getParameter(unicode("IPAPNAME"),True)
+                            #print driver_cfg.getParameter(unicode("VER"),True)
+                            #print driver_cfg.getParameter(unicode("ID"),True)
 
                             # CFGINFO IS ALSO SPECIFIC FOR EACH DRIVER    
                             cfginfo_dict,order_list = self.getDriverCfgInfoDictAndList(icepap_name,addr)
@@ -122,9 +126,9 @@ class IcepapController(Singleton):
         ver = self.iPaps[icepap_name].getVersion(driver_addr,"DRIVER")
         ipap_id = self.iPaps[icepap_name].getId(driver_addr)
         ipap_name = self.iPaps[icepap_name].getName(driver_addr)
-        driver_cfg.setParameter("VER", ver)
-        driver_cfg.setParameter("ID", ipap_id)
-        driver_cfg.setParameter("IPAPNAME", ipap_name)
+        driver_cfg.setParameter(unicode("VER"), ver)
+        driver_cfg.setParameter(unicode("ID"), ipap_id)
+        driver_cfg.setParameter(unicode("IPAPNAME"), ipap_name)
         
         ###for name in self.config_parameters:
         ###    #print name
@@ -176,9 +180,11 @@ class IcepapController(Singleton):
 
             # NOW THE NOT_FOUND INDEX ORDER...
             for (name,value) in not_found_index:
-                if name == "IPAPNAME":
+                if name == "NAME" or name == "IPAPNAME":
                     name = "NAME"
                     self.iPaps[icepap_name].writeParameter(driver_addr, name, str(value))
+                elif name == "EXPERT":
+                    self.iPaps[icepap_name].setExpertFlag(driver_addr)
                 else:
                     self.iPaps[icepap_name].setCfgParameter(driver_addr, name, str(value))
                     
@@ -223,9 +229,9 @@ class IcepapController(Singleton):
             state = (int(register), power, float(current))
             return state
         except Exception,e:
-            print "There was an exception while accessing the driver ("+icepap_name+":"+str(driver_addr)+"):",e
-            raise e
-            #return (-1, False, -1)
+            #print "There was an exception while accessing the driver ("+icepap_name+":"+str(driver_addr)+"):",e
+            #raise e
+            return (-1, False, -1)
             
         
     def getDriverTestStatus(self, icepap_name, driver_addr, pos_sel, enc_sel):
@@ -392,6 +398,9 @@ class IcepapController(Singleton):
     
     def abortDriver(self, icepap_name, driver_addr):
         self.iPaps[icepap_name].abortMotor(driver_addr)
+
+    def blinkDriver(self, icepap_name, driver_addr):
+        self.iPaps[icepap_name].blink(driver_addr,2)
     
     def jogDriver(self, icepap_name, driver_addr, speed):
         self.iPaps[icepap_name].jog(driver_addr, speed)
