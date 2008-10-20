@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'icepapcms.ui'
 #
-# Created: Thu Oct  2 15:16:14 2008
+# Created: Wed Oct 15 14:38:35 2008
 #      by: PyQt4 UI code generator 4.3.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -116,7 +116,7 @@ class Ui_IcepapCMS(object):
         IcepapCMS.setCentralWidget(self.centralwidget)
 
         self.menubar = QtGui.QMenuBar(IcepapCMS)
-        self.menubar.setGeometry(QtCore.QRect(0,0,1100,25))
+        self.menubar.setGeometry(QtCore.QRect(0,0,1100,28))
         self.menubar.setObjectName("menubar")
 
         self.menuHelp = QtGui.QMenu(self.menubar)
@@ -317,6 +317,9 @@ class Ui_IcepapCMS(object):
         self.actionDeleteLocation = QtGui.QAction(IcepapCMS)
         self.actionDeleteLocation.setIcon(QtGui.QIcon(":/small_icons/IcepapCFG Icons Petits/process-stop.png"))
         self.actionDeleteLocation.setObjectName("actionDeleteLocation")
+
+        self.actionSetExpertFlag = QtGui.QAction(IcepapCMS)
+        self.actionSetExpertFlag.setObjectName("actionSetExpertFlag")
         self.menuHelp.addAction(self.actionUser_manual)
         self.menuHelp.addAction(self.actionHardware_manual)
         self.menuHelp.addAction(self.actionHelp)
@@ -330,6 +333,7 @@ class Ui_IcepapCMS(object):
         self.menuDriver.addSeparator()
         self.menuDriver.addAction(self.actionExport)
         self.menuDriver.addAction(self.actionImport)
+        self.menuDriver.addAction(self.actionSetExpertFlag)
         self.menuFile.addAction(self.actionAddLocation)
         self.menuFile.addAction(self.actionDeleteLocation)
         self.menuFile.addSeparator()
@@ -437,5 +441,6 @@ class Ui_IcepapCMS(object):
         self.actionDeleteLocation.setText(QtGui.QApplication.translate("IcepapCMS", "Delete location", None, QtGui.QApplication.UnicodeUTF8))
         self.actionDeleteLocation.setIconText(QtGui.QApplication.translate("IcepapCMS", "Delete location", None, QtGui.QApplication.UnicodeUTF8))
         self.actionDeleteLocation.setToolTip(QtGui.QApplication.translate("IcepapCMS", "Delete location", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionSetExpertFlag.setText(QtGui.QApplication.translate("IcepapCMS", "Set Expert Flag", None, QtGui.QApplication.UnicodeUTF8))
 
 import icepapcms_rc
