@@ -57,6 +57,8 @@ class IcepapDriver(Storm):
     def setConflict(self, conflict):
         self.conflict = conflict
         
+    def getName(self):
+        return self.current_cfg.getParameter(unicode("IPAPNAME"))
     
     def setName(self, name):
         self.name = unicode(name)
