@@ -163,7 +163,7 @@ class MainManager(Singleton):
         except IcePAPException,error:
             MessageDialogs.showErrorMessage(self._form, "Stop Icepap error", "%s Connection error:%s" % (icepap_name,error.msg))
         except:
-            print "Unexpected error:", sys.exc_info()   
+            print "mainmanager:stopIcepap:Unexpected error:", sys.exc_info()   
                 
     def scanIcepap(self, icepap_system):
         """ Searches for configuration conflicts.
@@ -180,13 +180,35 @@ class MainManager(Singleton):
             #MessageDialogs.showErrorMessage(self._form, "Scan Icepap error", "%s Connection error:%s" % (icepap_name,error.msg))
             pass
         except:
-            print "Unexpected error:", sys.exc_info()
+            print "mainmanager:scanIcepap:Unexpected error:", sys.exc_info()
             conflictsList.append([Conflict.NO_CONNECTION, icepap_system, 0])
 
         QtGui.QApplication.instance().restoreOverrideCursor()
   
         return conflictsList
-    
+
+    def checkFirmwareVersions(self, icepap_system):
+        icepap_name = icepap_system.name
+        master_version = self._ctrl_icepap.iPaps[icepap_name].getVersion(0,"DRIVER")
+        master_version = str(master_version)
+        mismatched_drivers = []
+        for driver in icepap_system.getDrivers():
+            driver_version = driver.current_cfg.getParameter(unicode("VER"))
+            if master_version != driver_version:
+                mismatched_drivers.append((driver.addr,str(driver_version)))
+
+        if len(mismatched_drivers) > 0:
+            msg = "Some drivers do not have the MASTER's firmware version (%s):\n" % (master_version)
+            for driver,version in mismatched_drivers:
+                msg = msg + "driver %d: %s\n" % (driver,version)
+            msg = msg + "Would you like to upgrade these drivers?\n"
+            upgrade = MessageDialogs.showYesNoMessage(self._form, "Firmware mismatch", msg)
+            if upgrade:
+                msg = "Sorry, this feature will be available soon. Please upgrade manually :-("
+                MessageDialogs.showErrorMessage(self._form,"Automatic firmware upgrade",msg)
+                
+
+
     def importMovedDriver(self, icepap_driver, from_to = False):
         """ function to import the information from a moved driver, to avoid losing historic cfgs"""
         id = icepap_driver.current_cfg.getParameter("ID", True)
@@ -272,7 +294,7 @@ class MainManager(Singleton):
             self._form.refreshTree() 
             return (-1,-1, [-1,-1])        
         except:
-            print "Unexpected error:", sys.exc_info()
+            print "mainmanager:getDriverTestStatus:Unexpected error:", sys.exc_info()
             return (-1,-1, [-1,-1])
             
     def readIcepapParameters(self, icepap_name, addr, par_list):
@@ -282,7 +304,7 @@ class MainManager(Singleton):
         except IcePAPException, error:
             MessageDialogs.showErrorMessage(self._form, "ReadIcepapParamenters Icepap error", "%s Connection error:%s" % (icepap_name,error.msg))
         except:
-            print "Unexpected error:", sys.exc_info()
+            print "mainmanager:readIcepapParameters:Unexpected error:", sys.exc_info()
             print "error in : %s %d" % (icepap_name,addr)
             return []
         
@@ -321,7 +343,7 @@ class MainManager(Singleton):
         except IcePAPException,error:
             MessageDialogs.showErrorMessage(self._form, "MoveDriver Icepap error", "%s Connection error:%s" % (icepap_name,error.msg))
         except:
-            print "Unexpected error:", sys.exc_info()
+            print "mainmanager:moveDriver:Unexpected error:", sys.exc_info()
             MessageDialogs.showWarningMessage(self._form, "MoveDriver error", "Connection error")
             
     def moveDriverAbsolute(self, icepap_name, addr, position):
@@ -330,7 +352,7 @@ class MainManager(Singleton):
         except IcePAPException,error:
             MessageDialogs.showErrorMessage(self._form, "MoveDriverAbsolute Icepap error", "%s Connection error:%s" % (icepap_name,error.msg))
         except:
-            print "Unexpected error:", sys.exc_info()
+            print "mainmanager:moveDriverAbsolute:Unexpected error:", sys.exc_info()
             MessageDialogs.showWarningMessage(self._form, "MoveDriverAbsolute error", "Connection error")
     
     def stopDriver(self, icepap_name, addr):
@@ -338,8 +360,10 @@ class MainManager(Singleton):
             self._ctrl_icepap.stopDriver(icepap_name, addr)
         except:
             MessageDialogs.showWarningMessage(self._form, "StopDriver Icepap error", "Connection error")
-            
-    
+    def blinkDriver(self, icepap_name, driver_addr):
+        self._ctrl_icepap.blinkDriver(icepap_name, driver_addr)
+
+
     def jogDriver(self, icepap_name, addr, speed, dir):
         try:
             self._ctrl_icepap.jogDriver(icepap_name, addr, speed, dir)
@@ -352,7 +376,7 @@ class MainManager(Singleton):
 
     def disableDriver(self, icepap_name, driver_addr):
         self._ctrl_icepap.disableDriver(icepap_name, driver_addr)
-    
+
     def saveValuesInIcepap(self, icepap_driver, new_values):
         """ Stores the new configuration in the icepap, and sets the mode of the driver to CONFIG """
         new_cfg = self._ctrl_icepap.setDriverConfiguration(icepap_driver.icepapsystem_name, icepap_driver.addr, new_values)
