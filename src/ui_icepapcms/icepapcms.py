@@ -2,7 +2,7 @@ import sys, os, webbrowser
 from PyQt4 import QtCore, QtGui, Qt
 from ui_icepapcms import Ui_IcepapCMS
 from qrc_icepapcms import *
-from lib_icepapcms import MainManager, Conflict, ConfigManager, Timer
+from lib_icepapcms import MainManager, Conflict, ConfigManager, StormManager, Timer
 from icepap_treemodel import IcepapTreeModel
 from pageipapdriver import PageiPapDriver
 from pageipapcrate import PageiPapCrate
@@ -19,7 +19,7 @@ from motortypescatalogwidget import MotorTypesCatalogWidget
 #from dialogtemplate import DialogTemplate
 
 
-__version__ = "1.14"
+__version__ = "1.15"
 
 class IcepapApp(QtGui.QApplication):    
     def __init__(self, *args):
@@ -67,6 +67,8 @@ class IcepapCMS(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.actionFirmwareUpgrade,QtCore.SIGNAL("triggered()"),self.actionFimwareUpgrade)         
         QtCore.QObject.connect(self.ui.actionSaveConfig,QtCore.SIGNAL("triggered()"),self.actionSaveConfig)
         QtCore.QObject.connect(self.ui.actionHistoricCfg,QtCore.SIGNAL("triggered()"),self.actionHistoricCfg)
+        QtCore.QObject.connect(self.ui.actionSetExpertFlag,QtCore.SIGNAL("triggered()"),self.actionSetExpertFlag)
+
         QtCore.QObject.connect(self.ui.actionHelp,QtCore.SIGNAL("triggered()"),self.actionHelp)
         QtCore.QObject.connect(self.ui.actionUser_manual,QtCore.SIGNAL("triggered()"),self.actionUser_Manual)
         QtCore.QObject.connect(self.ui.actionHardware_manual,QtCore.SIGNAL("triggered()"),self.actionHardware_Manual)
@@ -109,6 +111,7 @@ class IcepapCMS(QtGui.QMainWindow):
         self.ui.actionExport.setEnabled(False)
         self.ui.actionImport.setEnabled(False)
         self.ui.actionHistoricCfg.setEnabled(False)
+        self.ui.actionSetExpertFlag.setEnabled(False)
         self.ui.actionTemplates.setEnabled(False)
         self.ui.treeView.setItemsExpandable(True)        
         self.ui.stackedWidget.setCurrentIndex(0)
@@ -354,36 +357,57 @@ class IcepapCMS(QtGui.QMainWindow):
 
                         self.setStatusMessage("Configuration conflicts found.")
                         driver = icepap_system.getDriver(conflict[2])
-                        if conflict[0] == Conflict.DRIVER_CHANGED and driver.conflict == Conflict.DRIVER_FROM_DB:
-                            icepap_system.child_conflicts -= 1
-                            solved_drivers = solved_drivers + "%s:%d \n" % (driver.icepapsystem_name, driver.addr)
-                        else:
-                            driver.setConflict(conflict[0])
+                        ## THIS IS NOT NEEDED ANY MORE, THE EXPERT FLAG ALLOWS TO SOLVE THE CONFLICTS
+                        ##if conflict[0] == Conflict.DRIVER_CHANGED and driver.conflict == Conflict.DRIVER_FROM_DB:
+                        ##    icepap_system.child_conflicts -= 1
+                        ##    solved_drivers = solved_drivers + "%s:%d \n" % (driver.icepapsystem_name, driver.addr)
+                        ##else:
+                        ##    driver.setConflict(conflict[0])
+                        driver.setConflict(conflict[0])
         else:
             self.setStatusMessage("Scanning complete!. No conflicts found")
 
+        self._manager.checkFirmwareVersions(icepap_system)
         self._tree_model.updateIcepapSystem(icepap_system)
         self.expandAll(icepap_system.name)
         self.treeSelectByLocation(icepap_system.name)
         if solved_drivers != "":
             MessageDialogs.showInformationMessage(self, "Solved conflicts", "Drivers configuration load from DB:\n"+ solved_drivers)
-            
-          
+
+
     def solveConflict(self, item):
-        dlg = DialogDriverConflict(self, item.itemData)
-        dlg.exec_()
-        if dlg.result():
+        #dlg = DialogDriverConflict(self, item.itemData)
+        #dlg.exec_()
+        #if dlg.result():
+        driver = item.itemData
+        system = driver.icepapsystem_name
+        addr = driver.addr
+        expert = self._manager._ctrl_icepap.iPaps[system].isExpertFlagSet(addr)
+        message = "%s.%d: Set DataBase values?" % (system,addr)
+        if expert == 'YES':
+            message = "%s.%d: Set Driver Values?\n" %(system,addr)
+            message = message + "FOUND CONFIG WITH EXPERT = YES"
+        yes = MessageDialogs.showYesNoMessage(self, "Conflict Resolution",message)
+        if yes:
+            if expert == 'YES':
+                icepap_values = self._manager.getDriverConfiguration(system,addr)
+                db = StormManager()
+                db.store(icepap_values)
+                driver.addConfiguration(icepap_values)
+            else:
+                self._manager.saveValuesInIcepap(driver,driver.current_cfg.toList())
+            driver.signDriver()
             item.solveConflict()
+
+        # BY NOW, UPDATE THE ICEPAP NAME MANUALLY
+        current_cfg = driver.current_cfg
+        label = str(driver.addr)+" "+current_cfg.getParameter(unicode("IPAPNAME"), True)
+        item.changeLabel([label])
 
         icepap_system = item.itemData.icepap_system
         for driver in icepap_system.drivers:
             if driver.conflict != Conflict.NO_CONFLICT:
                 return
-        # BY NOW, UPDATE THE ICEPAP NAME MANUALLY
-        driver = item.itemData
-        current_cfg = driver.current_cfg
-        label = str(driver.addr)+" "+current_cfg.getParameter(unicode("IPAPNAME"), True)
-        item.changeLabel([label])
         self.setStatusMessage("")
         
 
@@ -393,6 +417,8 @@ class IcepapCMS(QtGui.QMainWindow):
             self._manager.configDriverToDefaults(item.itemData)
         self._manager.updateDriverConfig(item.itemData)
         item.solveConflict()
+        driver = item.itemData
+        driver.signDriver()
         #self.scanIcepap(item.getIcepapSystem())
         ##imported_sys = item.itemData.icepap_system
         ##moved_sys = self._manager.importMovedDriver(item.itemData)        
@@ -496,6 +522,7 @@ class IcepapCMS(QtGui.QMainWindow):
         self.ui.actionHistoricCfg.setEnabled(False)
         self.ui.actionTemplates.setEnabled(False)
         self.ui.actionSaveConfig.setEnabled(True)
+        self.ui.actionSetExpertFlag.setEnabled(False)
         self.ui.pageiPapDriver.stopTesting()
         if not self.refreshTimer is None:
             self.refreshTimer.stop()
@@ -506,6 +533,8 @@ class IcepapCMS(QtGui.QMainWindow):
             self.ui.actionImport.setEnabled(True)
             self.ui.actionHistoricCfg.setEnabled(True)
             self.ui.actionTemplates.setEnabled(True)
+            self.ui.actionSaveConfig.setEnabled(True)
+            self.ui.actionSetExpertFlag.setEnabled(True)
             #if self.historicDlg.isVisible():
             #    self.historicDlg.fillDriverData(item.itemData)
             if item.role == IcepapTreeModel.DRIVER_CFG:
@@ -696,7 +725,12 @@ class IcepapCMS(QtGui.QMainWindow):
             self.ui.pageiPapDriver.showHistoricWidget()
         else:
             self.ui.pageiPapDriver.hideHistoricWidget()
-            
+
+    def actionSetExpertFlag(self):
+        if self.ui.stackedWidget.currentIndex() == 3:
+            self.ui.pageiPapDriver.setExpertFlag()
+            self.ui.actionSaveConfig.setEnabled(True)
+
     def actionTemplates(self):
         pathname = os.path.dirname(sys.argv[0])
         path = os.path.abspath(pathname)
