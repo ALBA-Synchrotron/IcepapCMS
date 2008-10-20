@@ -184,9 +184,6 @@ CLOOPTAU MISSING IN THE GUI
                 </par>
         </section>
         <section name="test">
-                <par id="txtDriverName" name="NAME" type="STRING">
-                     <description>Driver Name</description>
-                </par>  
                 <par id="TINDEXER" name="INDEXER" type="STRING">
                      <description>Default indexer source</description>
                 </par> 
