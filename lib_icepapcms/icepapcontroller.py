@@ -70,6 +70,7 @@ class IcepapController(Singleton):
             Get the status of the icepap system, the drivers present, and its
             configuration.
         """
+
         driver_name = icepap_name
         if compare:
             driver_name = "compare"
@@ -414,23 +415,7 @@ class IcepapController(Singleton):
     def checkIcepapStatus(self, icepap_name):
         if self.iPaps.has_key(icepap_name) and not self.iPaps[icepap_name].connected:
             return False
-        
-        try:
-            if self.iPaps.has_key(icepap_name):
-                if self.iPaps[icepap_name].Status == CStatus.Connected:
-                    try:
-                        self.iPaps[icepap_name].getSysStatus()
-                    except:
-                        return False
-                    return True
-                else:
-                    return False
-            else:
-                """ nothing to check, driver it's not monitored """
-                return True
-
-        except Exception,e:
-            return False
+        return True
         
     def _checkDriverStatus(self, icepap_name, driver_addr):
         """
@@ -470,7 +455,37 @@ class IcepapController(Singleton):
             return IcePAP.serialScan()
         except:
             return None
-    
+
+    def upgradeDrivers(self,icepap_name):
+        ipap = self.iPaps[icepap_name]
+        result = True
+        cmd = "#MODE PROG"
+        answer = ipap.sendWriteReadCommand(cmd)
+        if answer != "MODE OK":
+            print "icepapcontroller:upgradeDrivers:Some error trying to set mode PROG:",answer
+            result = False
+        if result:
+            cmd = "PROG DRIVERS FORCE"
+            ipap.sendWriteCommand(cmd)
+            cmd = "?PROG"
+            programming = True
+            while programming:
+                time.sleep(2)
+                answer = ipap.sendWriteReadCommand(cmd)
+                if answer.count("ACTIVE") > 0:
+                    print answer
+                else:
+                    programming = False
+                    if answer.count("ERROR") > 0:
+                        print "upgradeDrivers:Some error while asking progress with ?PROG:",answer
+                        result = False
+            cmd = "#MODE OPER"
+            answer = ipap.sendWriteReadCommand(cmd)
+            if answer != "MODE OK":
+                print "upgradeDrivers:Some error trying to set mode OPER:",answer
+                result = False
+        return result
+        
     def upgradeFirmware(self, serial, dst, filename, addr, options, logger):
         logger.addToLog("Reading file "+ filename)
         f = file(filename,'rb')
@@ -551,4 +566,3 @@ class IcepapController(Singleton):
             return True
         except:
             return False
-        
