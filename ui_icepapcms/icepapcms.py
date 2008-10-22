@@ -368,7 +368,10 @@ class IcepapCMS(QtGui.QMainWindow):
             self.setStatusMessage("Scanning complete!. No conflicts found")
 
         self._manager.checkFirmwareVersions(icepap_system)
+        #####################################################################################################################################################
+        ## THE LOOP MAY BE DONE ONLY ONCE
         self._tree_model.updateIcepapSystem(icepap_system)
+        ## SOMETHING SHOULD BE DONE HERE
         self.expandAll(icepap_system.name)
         self.treeSelectByLocation(icepap_system.name)
         if solved_drivers != "":
