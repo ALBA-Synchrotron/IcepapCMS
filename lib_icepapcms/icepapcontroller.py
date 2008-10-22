@@ -14,6 +14,7 @@ from configmanager import ConfigManager
 from ui_icepapcms.messagedialogs import MessageDialogs
 from PyQt4 import QtCore
 from PyQt4 import QtGui
+from PyQt4 import Qt
 
 
 class IcepapController(Singleton):
@@ -30,7 +31,7 @@ class IcepapController(Singleton):
         self._config = ConfigManager()
         self.icepap_cfginfos = {}
         self.icepap_cfgorder = {}
-        
+        self.programming_ipap = None        
         try:
             self.debug = self._config.config[self._config.icepap]["debug_enabled"] == str(True)
             self.log_folder = self._config.config[self._config.icepap]["log_folder"]
@@ -209,6 +210,9 @@ class IcepapController(Singleton):
         """
         if not self.iPaps[icepap_name].connected:
             return (-1,False,-1)
+
+        if self.programming_ipap is not None:
+            return (-1,False,-1)
         
         try:
             register = self.iPaps[icepap_name].getStatus(driver_addr)
@@ -239,7 +243,9 @@ class IcepapController(Singleton):
         """
             Returns an array with the Status, Limit Switches and Position of the driver
         """
-        
+        if self.programming_ipap is not None:
+            return (-1,-1,[-1,-1])
+
         register = self.iPaps[icepap_name].getStatus(driver_addr)
         if "x" in register:
             register = int(register,16)
@@ -456,35 +462,36 @@ class IcepapController(Singleton):
         except:
             return None
 
-    def upgradeDrivers(self,icepap_name):
-        ipap = self.iPaps[icepap_name]
-        result = True
+    def upgradeDrivers(self,icepap_name,progress_dialog):
+        if self.programming_ipap is not None:
+            return False
+        self.programming_ipap = self.iPaps[icepap_name]
+        self.progress_dialog = progress_dialog
+        self.progress_dialog.show()
+        self.updateProgressBarTimer = Qt.QTimer()
+        QtCore.QObject.connect(self.updateProgressBarTimer,QtCore.SIGNAL("timeout()"),self.updateProgressBar)
         cmd = "#MODE PROG"
-        answer = ipap.sendWriteReadCommand(cmd)
+        answer = self.programming_ipap.sendWriteReadCommand(cmd)
         if answer != "MODE OK":
             print "icepapcontroller:upgradeDrivers:Some error trying to set mode PROG:",answer
-            result = False
-        if result:
-            cmd = "PROG DRIVERS FORCE"
-            ipap.sendWriteCommand(cmd)
-            cmd = "?PROG"
-            programming = True
-            while programming:
-                time.sleep(2)
-                answer = ipap.sendWriteReadCommand(cmd)
-                if answer.count("ACTIVE") > 0:
-                    print answer
-                else:
-                    programming = False
-                    if answer.count("ERROR") > 0:
-                        print "upgradeDrivers:Some error while asking progress with ?PROG:",answer
-                        result = False
+            return False
+        cmd = "PROG DRIVERS"
+        self.programming_ipap.sendWriteCommand(cmd)
+        self.updateProgressBarTimer.start(2000)
+        return True
+
+    def updateProgressBar(self):
+        cmd = "?PROG"
+        answer = self.programming_ipap.sendWriteReadCommand(cmd)
+        if answer.count("ACTIVE") > 0:
+            p = int(answer.split(" ")[2].split(".")[0])
+            self.progress_dialog.setValue(p)
+        else:
+            self.progress_dialog.setValue(100)
+            self.updateProgressBarTimer.stop()
             cmd = "#MODE OPER"
-            answer = ipap.sendWriteReadCommand(cmd)
-            if answer != "MODE OK":
-                print "upgradeDrivers:Some error trying to set mode OPER:",answer
-                result = False
-        return result
+            answer = self.programming_ipap.sendWriteReadCommand(cmd)
+            self.programming_ipap = None
         
     def upgradeFirmware(self, serial, dst, filename, addr, options, logger):
         logger.addToLog("Reading file "+ filename)
