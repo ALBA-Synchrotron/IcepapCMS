@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'dialogaddlocation.ui'
 #
-# Created: Wed Oct 15 14:38:31 2008
+# Created: Tue Oct 21 11:54:58 2008
 #      by: PyQt4 UI code generator 4.3.3
 #
 # WARNING! All changes made in this file will be lost!
