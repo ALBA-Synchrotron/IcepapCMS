@@ -8,7 +8,7 @@ IcepapCMS 1.15 2008/10/20
    - Modified without EXPERT flag: "Set DataBase Values?" Cancel | Ok (only Ok resolves conflict)
    - Modified with EXPERT flag: "Set Driver Values?" Cancel | Ok (only Ok resolves conflict)
    - If expert flag is detected, the application removes the flag from the driver
-+) Firmware versions mismatch check (master != drivers)
++) Firmware versions check (master != drivers) and upgrade progress bar
 +) Solved errors in the system/crate views while in PROG MODE
 +) Solve minibug, now it is possible to change info signals in test tab
 +) Add Close Loop option in main page CLOOPENC -> PCLOOP
