@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'pageipapdriver.ui'
 #
-# Created: Wed Oct 15 14:38:34 2008
+# Created: Tue Oct 21 11:55:01 2008
 #      by: PyQt4 UI code generator 4.3.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -1138,9 +1138,10 @@ class Ui_PageiPapDriver(object):
         self.frame_3.setFrameShadow(QtGui.QFrame.Raised)
         self.frame_3.setObjectName("frame_3")
 
-        self.gridlayout21 = QtGui.QGridLayout(self.frame_3)
-        self.gridlayout21.setContentsMargins(-1,2,-1,2)
-        self.gridlayout21.setObjectName("gridlayout21")
+        self.vboxlayout1 = QtGui.QVBoxLayout(self.frame_3)
+        self.vboxlayout1.setSpacing(0)
+        self.vboxlayout1.setMargin(2)
+        self.vboxlayout1.setObjectName("vboxlayout1")
 
         self.txtDescription = QtGui.QLabel(self.frame_3)
         self.txtDescription.setMinimumSize(QtCore.QSize(0,28))
@@ -1149,7 +1150,7 @@ class Ui_PageiPapDriver(object):
         font.setPointSize(8)
         self.txtDescription.setFont(font)
         self.txtDescription.setObjectName("txtDescription")
-        self.gridlayout21.addWidget(self.txtDescription,0,0,1,4)
+        self.vboxlayout1.addWidget(self.txtDescription)
 
         self.line = QtGui.QFrame(self.frame_3)
 
@@ -1161,7 +1162,11 @@ class Ui_PageiPapDriver(object):
         self.line.setFrameShape(QtGui.QFrame.HLine)
         self.line.setFrameShadow(QtGui.QFrame.Sunken)
         self.line.setObjectName("line")
-        self.gridlayout21.addWidget(self.line,1,0,1,4)
+        self.vboxlayout1.addWidget(self.line)
+
+        self.hboxlayout = QtGui.QHBoxLayout()
+        self.hboxlayout.setSpacing(2)
+        self.hboxlayout.setObjectName("hboxlayout")
 
         self.label_2 = QtGui.QLabel(self.frame_3)
 
@@ -1169,7 +1174,7 @@ class Ui_PageiPapDriver(object):
         font.setPointSize(8)
         self.label_2.setFont(font)
         self.label_2.setObjectName("label_2")
-        self.gridlayout21.addWidget(self.label_2,2,0,1,1)
+        self.hboxlayout.addWidget(self.label_2)
 
         self.txtDriverName = QtGui.QLineEdit(self.frame_3)
         self.txtDriverName.setMinimumSize(QtCore.QSize(125,20))
@@ -1179,14 +1184,15 @@ class Ui_PageiPapDriver(object):
         font.setPointSize(8)
         self.txtDriverName.setFont(font)
         self.txtDriverName.setObjectName("txtDriverName")
-        self.gridlayout21.addWidget(self.txtDriverName,2,1,1,1)
+        self.hboxlayout.addWidget(self.txtDriverName)
 
         self.btnBlink = QtGui.QPushButton(self.frame_3)
         self.btnBlink.setObjectName("btnBlink")
-        self.gridlayout21.addWidget(self.btnBlink,2,2,1,1)
+        self.hboxlayout.addWidget(self.btnBlink)
 
         spacerItem9 = QtGui.QSpacerItem(240,16,QtGui.QSizePolicy.Expanding,QtGui.QSizePolicy.Minimum)
-        self.gridlayout21.addItem(spacerItem9,2,3,1,1)
+        self.hboxlayout.addItem(spacerItem9)
+        self.vboxlayout1.addLayout(self.hboxlayout)
         self.gridlayout.addWidget(self.frame_3,0,0,1,1)
 
         self.frame_right = QtGui.QFrame(PageiPapDriver)
@@ -1196,19 +1202,19 @@ class Ui_PageiPapDriver(object):
         self.frame_right.setFrameShadow(QtGui.QFrame.Raised)
         self.frame_right.setObjectName("frame_right")
 
-        self.vboxlayout1 = QtGui.QVBoxLayout(self.frame_right)
-        self.vboxlayout1.setSpacing(2)
-        self.vboxlayout1.setMargin(0)
-        self.vboxlayout1.setObjectName("vboxlayout1")
+        self.vboxlayout2 = QtGui.QVBoxLayout(self.frame_right)
+        self.vboxlayout2.setSpacing(2)
+        self.vboxlayout2.setMargin(0)
+        self.vboxlayout2.setObjectName("vboxlayout2")
 
         self.label = QtGui.QLabel(self.frame_right)
         self.label.setPixmap(QtGui.QPixmap(":/logos/IcepapCfg Icons/Icepap.png"))
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setObjectName("label")
-        self.vboxlayout1.addWidget(self.label)
+        self.vboxlayout2.addWidget(self.label)
 
         spacerItem10 = QtGui.QSpacerItem(20,40,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Expanding)
-        self.vboxlayout1.addItem(spacerItem10)
+        self.vboxlayout2.addItem(spacerItem10)
 
         self.stackedWidget = QtGui.QStackedWidget(self.frame_right)
 
@@ -1232,10 +1238,10 @@ class Ui_PageiPapDriver(object):
         self.pageTest.setMaximumSize(QtCore.QSize(220,16777215))
         self.pageTest.setObjectName("pageTest")
 
-        self.gridlayout22 = QtGui.QGridLayout(self.pageTest)
-        self.gridlayout22.setMargin(0)
-        self.gridlayout22.setSpacing(2)
-        self.gridlayout22.setObjectName("gridlayout22")
+        self.gridlayout21 = QtGui.QGridLayout(self.pageTest)
+        self.gridlayout21.setMargin(0)
+        self.gridlayout21.setSpacing(2)
+        self.gridlayout21.setObjectName("gridlayout21")
 
         self.frame_test = QtGui.QFrame(self.pageTest)
 
@@ -1250,30 +1256,30 @@ class Ui_PageiPapDriver(object):
         self.frame_test.setFrameShadow(QtGui.QFrame.Raised)
         self.frame_test.setObjectName("frame_test")
 
-        self.gridlayout23 = QtGui.QGridLayout(self.frame_test)
-        self.gridlayout23.setMargin(9)
-        self.gridlayout23.setSpacing(6)
-        self.gridlayout23.setObjectName("gridlayout23")
+        self.gridlayout22 = QtGui.QGridLayout(self.frame_test)
+        self.gridlayout22.setMargin(9)
+        self.gridlayout22.setSpacing(6)
+        self.gridlayout22.setObjectName("gridlayout22")
 
         self.btnGO = QtGui.QPushButton(self.frame_test)
         self.btnGO.setMaximumSize(QtCore.QSize(24,24))
         self.btnGO.setIcon(QtGui.QIcon(":/small_icons/IcepapCFG Icons Petits/go-absolute.png"))
         self.btnGO.setIconSize(QtCore.QSize(22,22))
         self.btnGO.setObjectName("btnGO")
-        self.gridlayout23.addWidget(self.btnGO,5,4,1,1)
+        self.gridlayout22.addWidget(self.btnGO,5,4,1,1)
 
         self.frame_4 = QtGui.QFrame(self.frame_test)
         self.frame_4.setFrameShape(QtGui.QFrame.NoFrame)
         self.frame_4.setFrameShadow(QtGui.QFrame.Raised)
         self.frame_4.setObjectName("frame_4")
 
-        self.hboxlayout = QtGui.QHBoxLayout(self.frame_4)
-        self.hboxlayout.setSpacing(0)
-        self.hboxlayout.setMargin(0)
-        self.hboxlayout.setObjectName("hboxlayout")
+        self.hboxlayout1 = QtGui.QHBoxLayout(self.frame_4)
+        self.hboxlayout1.setSpacing(0)
+        self.hboxlayout1.setMargin(0)
+        self.hboxlayout1.setObjectName("hboxlayout1")
 
         spacerItem11 = QtGui.QSpacerItem(21,20,QtGui.QSizePolicy.Expanding,QtGui.QSizePolicy.Minimum)
-        self.hboxlayout.addItem(spacerItem11)
+        self.hboxlayout1.addItem(spacerItem11)
 
         self.frame_leds = QtGui.QFrame(self.frame_4)
 
@@ -1288,10 +1294,10 @@ class Ui_PageiPapDriver(object):
         self.frame_leds.setFrameShadow(QtGui.QFrame.Raised)
         self.frame_leds.setObjectName("frame_leds")
 
-        self.gridlayout24 = QtGui.QGridLayout(self.frame_leds)
-        self.gridlayout24.setMargin(2)
-        self.gridlayout24.setSpacing(2)
-        self.gridlayout24.setObjectName("gridlayout24")
+        self.gridlayout23 = QtGui.QGridLayout(self.frame_leds)
+        self.gridlayout23.setMargin(2)
+        self.gridlayout23.setSpacing(2)
+        self.gridlayout23.setObjectName("gridlayout23")
 
         self.textLabel1_6_4 = QtGui.QLabel(self.frame_leds)
 
@@ -1300,7 +1306,7 @@ class Ui_PageiPapDriver(object):
         self.textLabel1_6_4.setFont(font)
         self.textLabel1_6_4.setAlignment(QtCore.Qt.AlignCenter)
         self.textLabel1_6_4.setObjectName("textLabel1_6_4")
-        self.gridlayout24.addWidget(self.textLabel1_6_4,1,1,1,1)
+        self.gridlayout23.addWidget(self.textLabel1_6_4,1,1,1,1)
 
         self.LedLimitPos = Led(self.frame_leds)
 
@@ -1339,7 +1345,7 @@ class Ui_PageiPapDriver(object):
         palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.Window,brush)
         self.LedLimitPos.setPalette(palette)
         self.LedLimitPos.setObjectName("LedLimitPos")
-        self.gridlayout24.addWidget(self.LedLimitPos,0,3,1,1)
+        self.gridlayout23.addWidget(self.LedLimitPos,0,3,1,1)
 
         self.textLabel1_6_5 = QtGui.QLabel(self.frame_leds)
 
@@ -1348,7 +1354,7 @@ class Ui_PageiPapDriver(object):
         self.textLabel1_6_5.setFont(font)
         self.textLabel1_6_5.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.textLabel1_6_5.setObjectName("textLabel1_6_5")
-        self.gridlayout24.addWidget(self.textLabel1_6_5,1,0,1,1)
+        self.gridlayout23.addWidget(self.textLabel1_6_5,1,0,1,1)
 
         self.LedHome = Led(self.frame_leds)
 
@@ -1387,7 +1393,7 @@ class Ui_PageiPapDriver(object):
         palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.Window,brush)
         self.LedHome.setPalette(palette)
         self.LedHome.setObjectName("LedHome")
-        self.gridlayout24.addWidget(self.LedHome,0,2,1,1)
+        self.gridlayout23.addWidget(self.LedHome,0,2,1,1)
 
         self.textLabel1_6_3 = QtGui.QLabel(self.frame_leds)
 
@@ -1396,7 +1402,7 @@ class Ui_PageiPapDriver(object):
         self.textLabel1_6_3.setFont(font)
         self.textLabel1_6_3.setAlignment(QtCore.Qt.AlignCenter)
         self.textLabel1_6_3.setObjectName("textLabel1_6_3")
-        self.gridlayout24.addWidget(self.textLabel1_6_3,1,2,1,1)
+        self.gridlayout23.addWidget(self.textLabel1_6_3,1,2,1,1)
 
         self.textLabel1_6 = QtGui.QLabel(self.frame_leds)
 
@@ -1405,7 +1411,7 @@ class Ui_PageiPapDriver(object):
         self.textLabel1_6.setFont(font)
         self.textLabel1_6.setAlignment(QtCore.Qt.AlignCenter)
         self.textLabel1_6.setObjectName("textLabel1_6")
-        self.gridlayout24.addWidget(self.textLabel1_6,1,3,1,1)
+        self.gridlayout23.addWidget(self.textLabel1_6,1,3,1,1)
 
         self.LedStep = Led(self.frame_leds)
 
@@ -1444,7 +1450,7 @@ class Ui_PageiPapDriver(object):
         palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.Window,brush)
         self.LedStep.setPalette(palette)
         self.LedStep.setObjectName("LedStep")
-        self.gridlayout24.addWidget(self.LedStep,0,1,1,1)
+        self.gridlayout23.addWidget(self.LedStep,0,1,1,1)
 
         self.textLabel1_6_2 = QtGui.QLabel(self.frame_leds)
 
@@ -1453,7 +1459,7 @@ class Ui_PageiPapDriver(object):
         self.textLabel1_6_2.setFont(font)
         self.textLabel1_6_2.setAlignment(QtCore.Qt.AlignCenter)
         self.textLabel1_6_2.setObjectName("textLabel1_6_2")
-        self.gridlayout24.addWidget(self.textLabel1_6_2,1,4,1,1)
+        self.gridlayout23.addWidget(self.textLabel1_6_2,1,4,1,1)
 
         self.LedLimitNeg = Led(self.frame_leds)
 
@@ -1492,7 +1498,7 @@ class Ui_PageiPapDriver(object):
         palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.Window,brush)
         self.LedLimitNeg.setPalette(palette)
         self.LedLimitNeg.setObjectName("LedLimitNeg")
-        self.gridlayout24.addWidget(self.LedLimitNeg,0,4,1,1)
+        self.gridlayout23.addWidget(self.LedLimitNeg,0,4,1,1)
 
         self.LedError = Led(self.frame_leds)
 
@@ -1531,12 +1537,12 @@ class Ui_PageiPapDriver(object):
         palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.Window,brush)
         self.LedError.setPalette(palette)
         self.LedError.setObjectName("LedError")
-        self.gridlayout24.addWidget(self.LedError,0,0,1,1)
-        self.hboxlayout.addWidget(self.frame_leds)
+        self.gridlayout23.addWidget(self.LedError,0,0,1,1)
+        self.hboxlayout1.addWidget(self.frame_leds)
 
         spacerItem12 = QtGui.QSpacerItem(21,20,QtGui.QSizePolicy.Expanding,QtGui.QSizePolicy.Minimum)
-        self.hboxlayout.addItem(spacerItem12)
-        self.gridlayout23.addWidget(self.frame_4,3,0,1,5)
+        self.hboxlayout1.addItem(spacerItem12)
+        self.gridlayout22.addWidget(self.frame_4,3,0,1,5)
 
         self.textLabel1_3_3_2 = QtGui.QLabel(self.frame_test)
 
@@ -1544,7 +1550,7 @@ class Ui_PageiPapDriver(object):
         font.setPointSize(8)
         self.textLabel1_3_3_2.setFont(font)
         self.textLabel1_3_3_2.setObjectName("textLabel1_3_3_2")
-        self.gridlayout23.addWidget(self.textLabel1_3_3_2,1,0,1,3)
+        self.gridlayout22.addWidget(self.textLabel1_3_3_2,1,0,1,3)
 
         self.txtAcceleration = QtGui.QLineEdit(self.frame_test)
         self.txtAcceleration.setMaximumSize(QtCore.QSize(16777215,24))
@@ -1553,7 +1559,7 @@ class Ui_PageiPapDriver(object):
         font.setPointSize(8)
         self.txtAcceleration.setFont(font)
         self.txtAcceleration.setObjectName("txtAcceleration")
-        self.gridlayout23.addWidget(self.txtAcceleration,1,3,1,2)
+        self.gridlayout22.addWidget(self.txtAcceleration,1,3,1,2)
 
         self.textLabel3 = QtGui.QLabel(self.frame_test)
 
@@ -1561,14 +1567,14 @@ class Ui_PageiPapDriver(object):
         font.setPointSize(8)
         self.textLabel3.setFont(font)
         self.textLabel3.setObjectName("textLabel3")
-        self.gridlayout23.addWidget(self.textLabel3,4,0,1,1)
+        self.gridlayout22.addWidget(self.textLabel3,4,0,1,1)
 
         self.btnStopMotor = QtGui.QPushButton(self.frame_test)
         self.btnStopMotor.setMaximumSize(QtCore.QSize(24,24))
         self.btnStopMotor.setIcon(QtGui.QIcon(":/icons/IcepapCfg Icons/gnome-session-halt.png"))
         self.btnStopMotor.setIconSize(QtCore.QSize(22,22))
         self.btnStopMotor.setObjectName("btnStopMotor")
-        self.gridlayout23.addWidget(self.btnStopMotor,6,1,1,1)
+        self.gridlayout22.addWidget(self.btnStopMotor,6,1,1,1)
 
         self.txtMvAbsolute = QtGui.QLineEdit(self.frame_test)
         self.txtMvAbsolute.setMaximumSize(QtCore.QSize(100,24))
@@ -1577,7 +1583,7 @@ class Ui_PageiPapDriver(object):
         font.setPointSize(7)
         self.txtMvAbsolute.setFont(font)
         self.txtMvAbsolute.setObjectName("txtMvAbsolute")
-        self.gridlayout23.addWidget(self.txtMvAbsolute,5,3,1,1)
+        self.gridlayout22.addWidget(self.txtMvAbsolute,5,3,1,1)
 
         self.textLabel1_3_3 = QtGui.QLabel(self.frame_test)
 
@@ -1585,13 +1591,13 @@ class Ui_PageiPapDriver(object):
         font.setPointSize(8)
         self.textLabel1_3_3.setFont(font)
         self.textLabel1_3_3.setObjectName("textLabel1_3_3")
-        self.gridlayout23.addWidget(self.textLabel1_3_3,0,0,1,3)
+        self.gridlayout22.addWidget(self.textLabel1_3_3,0,0,1,3)
 
         self.frame = QtGui.QFrame(self.frame_test)
         self.frame.setFrameShape(QtGui.QFrame.HLine)
         self.frame.setFrameShadow(QtGui.QFrame.Raised)
         self.frame.setObjectName("frame")
-        self.gridlayout23.addWidget(self.frame,2,0,1,5)
+        self.gridlayout22.addWidget(self.frame,2,0,1,5)
 
         self.LCDPosition = QtGui.QLCDNumber(self.frame_test)
         self.LCDPosition.setMinimumSize(QtCore.QSize(0,24))
@@ -1657,7 +1663,7 @@ class Ui_PageiPapDriver(object):
         self.LCDPosition.setNumDigits(9)
         self.LCDPosition.setSegmentStyle(QtGui.QLCDNumber.Flat)
         self.LCDPosition.setObjectName("LCDPosition")
-        self.gridlayout23.addWidget(self.LCDPosition,4,1,1,4)
+        self.gridlayout22.addWidget(self.LCDPosition,4,1,1,4)
 
         self.txtSpeed = QtGui.QLineEdit(self.frame_test)
         self.txtSpeed.setMaximumSize(QtCore.QSize(16777215,24))
@@ -1668,7 +1674,7 @@ class Ui_PageiPapDriver(object):
         font.setBold(False)
         self.txtSpeed.setFont(font)
         self.txtSpeed.setObjectName("txtSpeed")
-        self.gridlayout23.addWidget(self.txtSpeed,0,3,1,2)
+        self.gridlayout22.addWidget(self.txtSpeed,0,3,1,2)
 
         self.btnEnable = QtGui.QPushButton(self.frame_test)
         self.btnEnable.setMaximumSize(QtCore.QSize(50,16777215))
@@ -1682,21 +1688,21 @@ class Ui_PageiPapDriver(object):
         self.btnEnable.setCheckable(True)
         self.btnEnable.setChecked(False)
         self.btnEnable.setObjectName("btnEnable")
-        self.gridlayout23.addWidget(self.btnEnable,6,0,1,1)
+        self.gridlayout22.addWidget(self.btnEnable,6,0,1,1)
 
         self.btnGORelativePos = QtGui.QPushButton(self.frame_test)
         self.btnGORelativePos.setMaximumSize(QtCore.QSize(24,24))
         self.btnGORelativePos.setIcon(QtGui.QIcon(":/small_icons/IcepapCFG Icons Petits/go-relative.png"))
         self.btnGORelativePos.setIconSize(QtCore.QSize(22,22))
         self.btnGORelativePos.setObjectName("btnGORelativePos")
-        self.gridlayout23.addWidget(self.btnGORelativePos,6,4,1,1)
+        self.gridlayout22.addWidget(self.btnGORelativePos,6,4,1,1)
 
         self.btnGORelativeNeg = QtGui.QPushButton(self.frame_test)
         self.btnGORelativeNeg.setMaximumSize(QtCore.QSize(24,24))
         self.btnGORelativeNeg.setIcon(QtGui.QIcon(":/small_icons/IcepapCFG Icons Petits/go-relative2.png"))
         self.btnGORelativeNeg.setIconSize(QtCore.QSize(22,22))
         self.btnGORelativeNeg.setObjectName("btnGORelativeNeg")
-        self.gridlayout23.addWidget(self.btnGORelativeNeg,6,2,1,1)
+        self.gridlayout22.addWidget(self.btnGORelativeNeg,6,2,1,1)
 
         self.textLabel1_3 = QtGui.QLabel(self.frame_test)
 
@@ -1704,7 +1710,7 @@ class Ui_PageiPapDriver(object):
         font.setPointSize(8)
         self.textLabel1_3.setFont(font)
         self.textLabel1_3.setObjectName("textLabel1_3")
-        self.gridlayout23.addWidget(self.textLabel1_3,5,0,1,3)
+        self.gridlayout22.addWidget(self.textLabel1_3,5,0,1,3)
 
         self.txtGORelative = QtGui.QLineEdit(self.frame_test)
         self.txtGORelative.setMaximumSize(QtCore.QSize(100,24))
@@ -1713,17 +1719,17 @@ class Ui_PageiPapDriver(object):
         font.setPointSize(7)
         self.txtGORelative.setFont(font)
         self.txtGORelative.setObjectName("txtGORelative")
-        self.gridlayout23.addWidget(self.txtGORelative,6,3,1,1)
+        self.gridlayout22.addWidget(self.txtGORelative,6,3,1,1)
 
         self.groupBox = QtGui.QGroupBox(self.frame_test)
         self.groupBox.setMinimumSize(QtCore.QSize(0,40))
         self.groupBox.setFlat(True)
         self.groupBox.setObjectName("groupBox")
 
-        self.hboxlayout1 = QtGui.QHBoxLayout(self.groupBox)
-        self.hboxlayout1.setSpacing(2)
-        self.hboxlayout1.setMargin(2)
-        self.hboxlayout1.setObjectName("hboxlayout1")
+        self.hboxlayout2 = QtGui.QHBoxLayout(self.groupBox)
+        self.hboxlayout2.setSpacing(2)
+        self.hboxlayout2.setMargin(2)
+        self.hboxlayout2.setObjectName("hboxlayout2")
 
         self.sliderJog = QtGui.QSlider(self.groupBox)
         self.sliderJog.setMouseTracking(False)
@@ -1738,12 +1744,12 @@ class Ui_PageiPapDriver(object):
         self.sliderJog.setTickPosition(QtGui.QSlider.TicksBelow)
         self.sliderJog.setTickInterval(2)
         self.sliderJog.setObjectName("sliderJog")
-        self.hboxlayout1.addWidget(self.sliderJog)
-        self.gridlayout23.addWidget(self.groupBox,7,0,1,5)
-        self.gridlayout22.addWidget(self.frame_test,0,0,1,1)
+        self.hboxlayout2.addWidget(self.sliderJog)
+        self.gridlayout22.addWidget(self.groupBox,7,0,1,5)
+        self.gridlayout21.addWidget(self.frame_test,0,0,1,1)
 
         spacerItem13 = QtGui.QSpacerItem(20,40,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Expanding)
-        self.gridlayout22.addItem(spacerItem13,1,0,1,1)
+        self.gridlayout21.addItem(spacerItem13,1,0,1,1)
         self.stackedWidget.addWidget(self.pageTest)
 
         self.pageHistoric = QtGui.QWidget()
@@ -1757,10 +1763,10 @@ class Ui_PageiPapDriver(object):
         self.pageHistoric.setMaximumSize(QtCore.QSize(220,420))
         self.pageHistoric.setObjectName("pageHistoric")
 
-        self.hboxlayout2 = QtGui.QHBoxLayout(self.pageHistoric)
-        self.hboxlayout2.setSpacing(6)
-        self.hboxlayout2.setMargin(0)
-        self.hboxlayout2.setObjectName("hboxlayout2")
+        self.hboxlayout3 = QtGui.QHBoxLayout(self.pageHistoric)
+        self.hboxlayout3.setSpacing(6)
+        self.hboxlayout3.setMargin(0)
+        self.hboxlayout3.setObjectName("hboxlayout3")
 
         self.historicWidget = HistoricCfgWidget(self.pageHistoric)
 
@@ -1772,36 +1778,36 @@ class Ui_PageiPapDriver(object):
         self.historicWidget.setMinimumSize(QtCore.QSize(220,0))
         self.historicWidget.setMaximumSize(QtCore.QSize(220,420))
         self.historicWidget.setObjectName("historicWidget")
-        self.hboxlayout2.addWidget(self.historicWidget)
+        self.hboxlayout3.addWidget(self.historicWidget)
         self.stackedWidget.addWidget(self.pageHistoric)
-        self.vboxlayout1.addWidget(self.stackedWidget)
+        self.vboxlayout2.addWidget(self.stackedWidget)
 
         spacerItem14 = QtGui.QSpacerItem(220,61,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Expanding)
-        self.vboxlayout1.addItem(spacerItem14)
+        self.vboxlayout2.addItem(spacerItem14)
 
         self.btnSendCfg = QtGui.QPushButton(self.frame_right)
         self.btnSendCfg.setIcon(QtGui.QIcon(":/small_icons/IcepapCfg Icons/Icepapicon.png"))
         self.btnSendCfg.setIconSize(QtCore.QSize(20,20))
         self.btnSendCfg.setObjectName("btnSendCfg")
-        self.vboxlayout1.addWidget(self.btnSendCfg)
+        self.vboxlayout2.addWidget(self.btnSendCfg)
 
         self.btnSaveCfg = QtGui.QPushButton(self.frame_right)
         self.btnSaveCfg.setIcon(QtGui.QIcon(":/icons/IcepapCfg Icons/sign.png"))
         self.btnSaveCfg.setIconSize(QtCore.QSize(20,20))
         self.btnSaveCfg.setObjectName("btnSaveCfg")
-        self.vboxlayout1.addWidget(self.btnSaveCfg)
+        self.vboxlayout2.addWidget(self.btnSaveCfg)
 
         self.btnUndo = QtGui.QPushButton(self.frame_right)
         self.btnUndo.setIcon(QtGui.QIcon(":/small_icons/IcepapCFG Icons Petits/undo.png"))
         self.btnUndo.setIconSize(QtCore.QSize(20,20))
         self.btnUndo.setObjectName("btnUndo")
-        self.vboxlayout1.addWidget(self.btnUndo)
+        self.vboxlayout2.addWidget(self.btnUndo)
 
         self.btnRestore = QtGui.QPushButton(self.frame_right)
         self.btnRestore.setIcon(QtGui.QIcon(":/icons/IcepapCfg Icons/update-manager.png"))
         self.btnRestore.setIconSize(QtCore.QSize(20,20))
         self.btnRestore.setObjectName("btnRestore")
-        self.vboxlayout1.addWidget(self.btnRestore)
+        self.vboxlayout2.addWidget(self.btnRestore)
         self.gridlayout.addWidget(self.frame_right,0,1,2,1)
 
         self.retranslateUi(PageiPapDriver)
