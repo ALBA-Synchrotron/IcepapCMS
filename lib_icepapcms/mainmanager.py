@@ -173,8 +173,8 @@ class MainManager(Singleton):
         icepap_name = icepap_system.name
         conflictsList = []
         try:
-            self._ctrl_icepap.openConnection(icepap_name, icepap_system.name, icepap_system.port)
-            driver_list = self._ctrl_icepap.scanIcepapSystem(icepap_name, True)
+            self._ctrl_icepap.openConnection(icepap_name, icepap_system.host, icepap_system.port)
+            driver_list = self._ctrl_icepap.scanIcepapSystem(icepap_name,True)
             conflictsList = icepap_system.compareDriverList(driver_list)
         except IcePAPException,error:
             #MessageDialogs.showErrorMessage(self._form, "Scan Icepap error", "%s Connection error:%s" % (icepap_name,error.msg))
@@ -184,7 +184,7 @@ class MainManager(Singleton):
             conflictsList.append([Conflict.NO_CONNECTION, icepap_system, 0])
 
         QtGui.QApplication.instance().restoreOverrideCursor()
-  
+
         return conflictsList
 
     def checkFirmwareVersions(self, icepap_system):
@@ -193,7 +193,8 @@ class MainManager(Singleton):
         master_version = str(master_version)
         mismatched_drivers = []
         for driver in icepap_system.getDrivers():
-            driver_version = driver.current_cfg.getParameter(unicode("VER"))
+            #####################################################################
+            driver_version = self._ctrl_icepap.iPaps[icepap_name].getVersion(driver.addr,"DRIVER")
             if master_version != driver_version:
                 mismatched_drivers.append((driver.addr,str(driver_version)))
 
@@ -204,9 +205,15 @@ class MainManager(Singleton):
             msg = msg + "Would you like to upgrade these drivers?\n"
             upgrade = MessageDialogs.showYesNoMessage(self._form, "Firmware mismatch", msg)
             if upgrade:
-                msg = "Sorry, this feature will be available soon. Please upgrade manually :-("
-                MessageDialogs.showErrorMessage(self._form,"Automatic firmware upgrade",msg)
-                
+                QtGui.QApplication.instance().setOverrideCursor(QtGui.QCursor(QtCore.Qt.WaitCursor))
+                upgraded = self._ctrl_icepap.upgradeDrivers(icepap_name)
+                QtGui.QApplication.instance().restoreOverrideCursor()
+                if upgraded:
+                    msg = "Driver's firwmare has been upgraded."
+                    MessageDialogs.showInformationMessage(None,"Firmware upgrade done",msg)
+                else:
+                    msg = "Sorry, problems found while upgrading. Please try it manually :-("
+                    MessageDialogs.showErrorMessage(None,"Firmware upgrade error",msg)
 
 
     def importMovedDriver(self, icepap_driver, from_to = False):
