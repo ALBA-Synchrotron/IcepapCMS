@@ -205,13 +205,13 @@ class MainManager(Singleton):
             msg = msg + "Would you like to upgrade these drivers?\n"
             upgrade = MessageDialogs.showYesNoMessage(self._form, "Firmware mismatch", msg)
             if upgrade:
-                QtGui.QApplication.instance().setOverrideCursor(QtGui.QCursor(QtCore.Qt.WaitCursor))
-                upgraded = self._ctrl_icepap.upgradeDrivers(icepap_name)
-                QtGui.QApplication.instance().restoreOverrideCursor()
-                if upgraded:
-                    msg = "Driver's firwmare has been upgraded."
-                    MessageDialogs.showInformationMessage(None,"Firmware upgrade done",msg)
-                else:
+                progress_dialog = QtGui.QProgressDialog(self._form)
+                progress_dialog.setLabel(QtGui.QLabel("Icepap: %s\nUpgrading drivers' firmware to %s" % (icepap_name,master_version)))
+                progress_dialog.setCancelButton(None)
+                progress_dialog.setMaximum(100)
+                upgrading = self._ctrl_icepap.upgradeDrivers(icepap_name,progress_dialog)
+                if not upgrading:
+                    progress_dialog.cancel()
                     msg = "Sorry, problems found while upgrading. Please try it manually :-("
                     MessageDialogs.showErrorMessage(None,"Firmware upgrade error",msg)
 
