@@ -3174,14 +3174,23 @@ Steps</string>
      <property name="frameShadow" >
       <enum>QFrame::Raised</enum>
      </property>
-     <layout class="QGridLayout" >
+     <layout class="QVBoxLayout" >
+      <property name="spacing" >
+       <number>0</number>
+      </property>
+      <property name="leftMargin" >
+       <number>2</number>
+      </property>
       <property name="topMargin" >
+       <number>2</number>
+      </property>
+      <property name="rightMargin" >
        <number>2</number>
       </property>
       <property name="bottomMargin" >
        <number>2</number>
       </property>
-      <item row="0" column="0" colspan="4" >
+      <item>
        <widget class="QLabel" name="txtDescription" >
         <property name="minimumSize" >
          <size>
@@ -3200,7 +3209,7 @@ hhhknmlknlk</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="0" colspan="4" >
+      <item>
        <widget class="Line" name="line" >
         <property name="sizePolicy" >
          <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
@@ -3213,58 +3222,65 @@ hhhknmlknlk</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="0" >
-       <widget class="QLabel" name="label_2" >
-        <property name="font" >
-         <font>
-          <pointsize>8</pointsize>
-         </font>
+      <item>
+       <layout class="QHBoxLayout" >
+        <property name="spacing" >
+         <number>2</number>
         </property>
-        <property name="text" >
-         <string>Driver name</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1" >
-       <widget class="QLineEdit" name="txtDriverName" >
-        <property name="minimumSize" >
-         <size>
-          <width>125</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="maximumSize" >
-         <size>
-          <width>125</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="font" >
-         <font>
-          <pointsize>8</pointsize>
-         </font>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="2" >
-       <widget class="QPushButton" name="btnBlink" >
-        <property name="text" >
-         <string>blink driver</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="3" >
-       <spacer>
-        <property name="orientation" >
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" >
-         <size>
-          <width>240</width>
-          <height>16</height>
-         </size>
-        </property>
-       </spacer>
+        <item>
+         <widget class="QLabel" name="label_2" >
+          <property name="font" >
+           <font>
+            <pointsize>8</pointsize>
+           </font>
+          </property>
+          <property name="text" >
+           <string>Driver name</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="txtDriverName" >
+          <property name="minimumSize" >
+           <size>
+            <width>125</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize" >
+           <size>
+            <width>125</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="font" >
+           <font>
+            <pointsize>8</pointsize>
+           </font>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnBlink" >
+          <property name="text" >
+           <string>blink driver</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" >
+           <size>
+            <width>240</width>
+            <height>16</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>
