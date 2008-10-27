@@ -67,7 +67,7 @@ class IcepapCMS(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.actionFirmwareUpgrade,QtCore.SIGNAL("triggered()"),self.actionFimwareUpgrade)         
         QtCore.QObject.connect(self.ui.actionSaveConfig,QtCore.SIGNAL("triggered()"),self.actionSaveConfig)
         QtCore.QObject.connect(self.ui.actionHistoricCfg,QtCore.SIGNAL("triggered()"),self.actionHistoricCfg)
-        QtCore.QObject.connect(self.ui.actionSetExpertFlag,QtCore.SIGNAL("triggered()"),self.actionSetExpertFlag)
+        #QtCore.QObject.connect(self.ui.actionSetExpertFlag,QtCore.SIGNAL("triggered()"),self.actionSetExpertFlag)
 
         QtCore.QObject.connect(self.ui.actionHelp,QtCore.SIGNAL("triggered()"),self.actionHelp)
         QtCore.QObject.connect(self.ui.actionUser_manual,QtCore.SIGNAL("triggered()"),self.actionUser_Manual)
@@ -272,6 +272,7 @@ class IcepapCMS(QtGui.QMainWindow):
                 MessageDialogs.showErrorMessage(self, "Add Icepap", "Error adding Icepap: '"+data[0]+"'")
             else:
                 self._tree_model.addIcepapSystem(icepap_system.name, icepap_system, False)
+                self._manager.checkFirmwareVersions(icepap_system)
                 self.expandAll(icepap_system.name)
     
     def editIcepap(self, item):
@@ -377,7 +378,37 @@ class IcepapCMS(QtGui.QMainWindow):
         if solved_drivers != "":
             MessageDialogs.showInformationMessage(self, "Solved conflicts", "Drivers configuration load from DB:\n"+ solved_drivers)
 
+    def getDriverDBValues(self,icepap_system,driver_addr):
+        return StormManager().getIcepapSystem(icepap_system).getDriver(driver_addr).current_cfg
 
+    def getDriverValues(self,icepap_system,driver_addr):
+        return self._manager.getDriverConfiguration(icepap_system,driver_addr)
+
+    def get_driver_param_conflicts(self,icepap_system,driver_addr):
+        # Get the parameters that have raised the conflict
+        driver_values = self.getDriverValues(icepap_system,driver_addr)
+        driver_db_values = self.getDriverDBValues(icepap_system,driver_addr)
+
+        params_modified = []
+        params_new_in_driver = []
+        params_old_in_db = []
+
+        for db_param,db_value in driver_db_values.toList():
+            driver_value = driver_values.getParameter(db_param,True)
+            if db_value == driver_value:
+                pass
+            elif driver_value == None:
+                params_old_in_db.append((str(db_param),str(db_value)))
+            else:
+                params_modified.append((str(db_param),str(db_value),str(driver_value)))
+
+        for driver_param,driver_value in driver_values.toList():
+            db_value = driver_db_values.getParameter(driver_param,True)
+            if db_value == None:
+                params_new_in_driver.append((str(driver_param),str(driver_value)))
+
+        return params_modified,params_new_in_driver,params_old_in_db
+    
     def solveConflict(self, item):
         #dlg = DialogDriverConflict(self, item.itemData)
         #dlg.exec_()
@@ -390,13 +421,30 @@ class IcepapCMS(QtGui.QMainWindow):
         if expert == 'YES':
             message = "%s.%d: Set Driver Values?\n" %(system,addr)
             message = message + "FOUND CONFIG WITH EXPERT = YES"
+
+
+        params_modified,params_new_in_driver,params_old_in_db = self.get_driver_param_conflicts(system,addr)
+        if len(params_modified)>0:
+            message = message + "\n\nModified parameters:"
+            for param,db_value,driver_value in params_modified:
+                message = message + "\n     "+param+"_DB("+db_value+")   "+param+"_DR("+driver_value+")"
+        if len(params_new_in_driver)>0:
+            message = message + "\n\nNew parameters:"
+            for param,driver_value in params_new_in_driver:
+                message = message + "\n     "+param+"_DR("+driver_value+")"
+                
+        if len(params_old_in_db)>0:
+            message = message + "\n\nOld parameters:"
+            for param,db_value in params_old_in_db:
+                message = message + "\n     "+param+"_DB("+db_value+")"
+                
+        
         yes = MessageDialogs.showYesNoMessage(self, "Conflict Resolution",message)
         if yes:
             if expert == 'YES':
-                icepap_values = self._manager.getDriverConfiguration(system,addr)
                 db = StormManager()
-                db.store(icepap_values)
-                driver.addConfiguration(icepap_values)
+                db.store(driver_values)
+                driver.addConfiguration(driver_values)
             else:
                 self._manager.saveValuesInIcepap(driver,driver.current_cfg.toList())
             driver.signDriver()
@@ -728,11 +776,6 @@ class IcepapCMS(QtGui.QMainWindow):
             self.ui.pageiPapDriver.showHistoricWidget()
         else:
             self.ui.pageiPapDriver.hideHistoricWidget()
-
-    def actionSetExpertFlag(self):
-        if self.ui.stackedWidget.currentIndex() == 3:
-            self.ui.pageiPapDriver.setExpertFlag()
-            self.ui.actionSaveConfig.setEnabled(True)
 
     def actionTemplates(self):
         pathname = os.path.dirname(sys.argv[0])
