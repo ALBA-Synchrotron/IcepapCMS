@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'icepapcms.ui'
 #
-# Created: Tue Oct 21 11:55:02 2008
+# Created: Mon Oct 27 13:00:47 2008
 #      by: PyQt4 UI code generator 4.3.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -319,6 +319,7 @@ class Ui_IcepapCMS(object):
         self.actionDeleteLocation.setObjectName("actionDeleteLocation")
 
         self.actionSetExpertFlag = QtGui.QAction(IcepapCMS)
+        self.actionSetExpertFlag.setCheckable(True)
         self.actionSetExpertFlag.setObjectName("actionSetExpertFlag")
         self.menuHelp.addAction(self.actionUser_manual)
         self.menuHelp.addAction(self.actionHardware_manual)
