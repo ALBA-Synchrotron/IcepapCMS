@@ -156,7 +156,7 @@ class IcepapController(Singleton):
 
         return driver_cfg
     
-    def setDriverConfiguration(self, icepap_name, driver_addr, new_values):
+    def setDriverConfiguration(self, icepap_name, driver_addr, new_values, expertFlag = False):
         try:
             """ TO-DO STORM review"""
             if self.iPaps[icepap_name].getMode(driver_addr) != IcepapMode.CONFIG:
@@ -185,12 +185,12 @@ class IcepapController(Singleton):
                 if name == "NAME" or name == "IPAPNAME":
                     name = "NAME"
                     self.iPaps[icepap_name].writeParameter(driver_addr, name, str(value))
-                elif name == "EXPERT":
-                    self.iPaps[icepap_name].setExpertFlag(driver_addr)
                 else:
                     self.iPaps[icepap_name].setCfgParameter(driver_addr, name, str(value))
                     
 
+            if expertFlag:
+                self.iPaps[icepap_name].setExpertFlag(driver_addr)
             driver_cfg = self.getDriverConfiguration(icepap_name, driver_addr)    
             return driver_cfg
         except:
@@ -202,6 +202,8 @@ class IcepapController(Singleton):
         
     def signDriverConfiguration(self,icepap_name, driver_addr, signature):
         if self.iPaps.has_key(icepap_name):
+            if self.iPaps[icepap_name].getMode(driver_addr) != IcepapMode.CONFIG:
+                self.iPaps[icepap_name].startConfig(driver_addr)
             self.iPaps[icepap_name].signConfig(driver_addr, signature)
    
     def getDriverStatus(self, icepap_name, driver_addr):
