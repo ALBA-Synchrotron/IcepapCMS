@@ -835,6 +835,9 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="actionSetExpertFlag" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
    <property name="text" >
     <string>Set Expert Flag</string>
    </property>
