@@ -70,16 +70,19 @@ class IcepapDriver(Storm):
         # AS ESRF SAYS, WHEN SIGNING THE DRIVER CONFIG, THE COMMIT SHOULD BE DONE
         # IN THE DATABASE FIRST, AND IF NO ERRORS, THEN COMMUNICATE THE DRIVER
         # THAT THE VALUES SHOULD BE SIGNED.
-        db = StormManager()
-        db.commitTransaction()
-        #signature = socket.gethostname() #+ "_" + str(time.time())
-        signature = socket.gethostname()+"_"+str(hex(int(time.time())))
-        IcepapController().signDriverConfiguration(self.icepapsystem_name, self.addr, signature)
-        self.current_cfg.name = unicode(time.ctime())
-        self.current_cfg.setSignature(signature)        
-        self.startup_cfg = self.current_cfg
-        self.conflict = Conflict.NO_CONFLICT
-        self.mode = unicode(IcepapMode.OPER)
+        try:
+            db = StormManager()
+            db.commitTransaction()
+            #signature = socket.gethostname() #+ "_" + str(time.time())
+            signature = socket.gethostname()+"_"+str(hex(int(time.time())))
+            IcepapController().signDriverConfiguration(self.icepapsystem_name, self.addr, signature)
+            self.current_cfg.name = unicode(time.ctime())
+            self.current_cfg.setSignature(signature)        
+            self.startup_cfg = self.current_cfg
+            self.conflict = Conflict.NO_CONFLICT
+            self.mode = unicode(IcepapMode.OPER)
+        except Exception,e:
+            print "some exception while trying to sign the driver",e
     
     def setStartupCfg(self):
         self.current_cfg = self.startup_cfg
@@ -104,7 +107,7 @@ class IcepapDriver(Storm):
         self.historic_cfgs.remove(cfg)
 
     def __cmp__(self, other):
-        self.mode = other.mode
+        #self.mode = other.mode
         #db = StormManager()
         #cfg = other.current_cfg
         #cfg.resetDriver()

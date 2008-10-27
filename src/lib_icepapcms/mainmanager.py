@@ -195,6 +195,9 @@ class MainManager(Singleton):
         for driver in icepap_system.getDrivers():
             #####################################################################
             driver_version = self._ctrl_icepap.iPaps[icepap_name].getVersion(driver.addr,"DRIVER")
+            # If the driver has been temporary removed, the error should
+            if driver_version.count("ERROR") > 0:
+                driver_version = master_version
             if master_version != driver_version:
                 mismatched_drivers.append((driver.addr,str(driver_version)))
 
@@ -384,9 +387,9 @@ class MainManager(Singleton):
     def disableDriver(self, icepap_name, driver_addr):
         self._ctrl_icepap.disableDriver(icepap_name, driver_addr)
 
-    def saveValuesInIcepap(self, icepap_driver, new_values):
+    def saveValuesInIcepap(self, icepap_driver, new_values, expertFlag = False):
         """ Stores the new configuration in the icepap, and sets the mode of the driver to CONFIG """
-        new_cfg = self._ctrl_icepap.setDriverConfiguration(icepap_driver.icepapsystem_name, icepap_driver.addr, new_values)
+        new_cfg = self._ctrl_icepap.setDriverConfiguration(icepap_driver.icepapsystem_name, icepap_driver.addr, new_values, expertFlag = expertFlag)
         if new_cfg is None:
             #self._form.checkIcepapConnection()
             return False
