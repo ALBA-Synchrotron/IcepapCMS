@@ -312,6 +312,8 @@ class PageiPapDriver(QtGui.QWidget):
         ### highlight the txtDriverName widget
         self.highlightWidget(self.ui.txtDriverName)
 
+        self.setDescription(self.icepap_driver)
+
 
 
     
@@ -525,15 +527,8 @@ class PageiPapDriver(QtGui.QWidget):
 
             self.unknown_var_dict[parname] = (widget_type,widget)
 
-    
-    def fillData(self, icepap_driver):
-        """ TO-DO STORM review"""
 
-        QtGui.QApplication.instance().setOverrideCursor(QtGui.QCursor(QtCore.Qt.WaitCursor))
-        #self.ui.tabWidget.setCurrentIndex(0)
-        self._disconnectHighlighting()
-        #self.resetSignalsTab()
-        self.icepap_driver = icepap_driver
+    def setDescription(self,icepap_driver):
         description = "Icepap: %s  -  Crate: %s  -  Addr: %s  -  Firmware version: %s\n" % (icepap_driver.icepapsystem_name, icepap_driver.cratenr, icepap_driver.addr, icepap_driver.current_cfg.getParameter("VER", True))
         if self.icepap_driver.current_cfg.signature:
             signature = self.icepap_driver.current_cfg.signature
@@ -548,9 +543,17 @@ class PageiPapDriver(QtGui.QWidget):
         else:            
             description = description + "Current configuration not signed"
 
-        if self.icepap_driver.mode == IcepapMode.CONFIG:
-            self._mainwin.addDriverToSign(self.icepap_driver)
         self.ui.txtDescription.setText(description)
+        
+    
+    def fillData(self, icepap_driver):
+        """ TO-DO STORM review"""
+        QtGui.QApplication.instance().setOverrideCursor(QtGui.QCursor(QtCore.Qt.WaitCursor))
+        #self.ui.tabWidget.setCurrentIndex(0)
+        self._disconnectHighlighting()
+        #self.resetSignalsTab()
+        self.icepap_driver = icepap_driver
+        self.setDescription(icepap_driver)
 
         # THIS IS OVERWRITTEN LATER
         self.ui.txtDriverName.setText(self.icepap_driver.getName())
@@ -811,18 +814,12 @@ class PageiPapDriver(QtGui.QWidget):
                         break
 
         if values_ok and len(new_values) > 0:
-            save_ok = self._manager.saveValuesInIcepap(self.icepap_driver, new_values)
+            setExpertFlag = self._mainwin.ui.actionSetExpertFlag.isChecked()
+            save_ok = self._manager.saveValuesInIcepap(self.icepap_driver, new_values, expertFlag = setExpertFlag)
         elif not values_ok:
             save_ok = False
             MessageDialogs.showWarningMessage(self, "Driver configuration", "Wrong parameter format")
 
-        # STRANGE BEHAVIOUR WITH IPAPNAME
-        #new_values = []
-        #new_values.append(["IPAPNAME",str(self.ui.txtDriverName.text())])
-        #print "sending new values ..........................",new_values
-        #save_ok = self._manager.saveValuesInIcepap(self.icepap_driver, new_values)
-        #print save_ok
-        
         # save testing values
         #print "with testing",self.status,"and teh test_var_dict",self.test_var_dict.keys()
         if not (self.status == -1 or self.status == 1):
@@ -963,8 +960,6 @@ class PageiPapDriver(QtGui.QWidget):
         self.dbStartupConfig = dbIcepapSystem.getDriver(self.icepap_driver.addr,in_memory=False).current_cfg
         self._connectHighlighting()
 
-    def setExpertFlag(self):
-        self._manager.saveValuesInIcepap(self.icepap_driver,[("EXPERT","")])
                
 # ------------------------------  Testing ----------------------------------------------------------            
     def startTesting(self):
