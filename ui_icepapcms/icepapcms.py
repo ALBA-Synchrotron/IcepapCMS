@@ -442,6 +442,7 @@ class IcepapCMS(QtGui.QMainWindow):
         yes = MessageDialogs.showYesNoMessage(self, "Conflict Resolution",message)
         if yes:
             if expert == 'YES':
+                driver_values = self.getDriverValues(system,addr)
                 db = StormManager()
                 db.store(driver_values)
                 driver.addConfiguration(driver_values)
