@@ -12,6 +12,8 @@ class ConfigManager(Singleton):
     icepap = "icepap"
     folder = os.path.expanduser('~/.icepapcms/sqlitedb')
     log_folder = os.path.expanduser('~/.icepapcms/log')
+    firmware_folder = os.path.expanduser('~/.icepapcms/firmware')
+    configs_folder = os.path.expanduser('~/.icepapcms/configs')
         
     defaults = '''
     [database]
@@ -24,7 +26,9 @@ class ConfigManager(Singleton):
     debug_enabled = string(default=True)
     debug_level = string(default=1)
     log_folder = string(default=''' + log_folder + ''')
-    conflict_solve= string(default=True)     
+    firmware_folder = string(default=''' + firmware_folder + ''')
+    configs_folder = string(default=''' + configs_folder + ''')
+    conflict_solve= string(default=False)     
     '''
     
     defaults = defaults.splitlines()
@@ -44,6 +48,10 @@ class ConfigManager(Singleton):
         self.config = ConfigObj(self.config_filename, configspec = self.configspec)
         vdt = Validator()
         self.config.validate(vdt, copy=True)
+        for folder in "log_folder","firmware_folder","configs_folder":
+            directory = self.config["icepap"][folder]
+            if not os.path.exists(directory):
+                os.mkdir(directory)
         
     def saveConfig(self):
         self.config.write()
