@@ -20,6 +20,8 @@ class DialogPreferences(QtGui.QDialog):
         QtCore.QObject.connect(self.ui.listWidget,QtCore.SIGNAL("itemClicked(QListWidgetItem*)"),self.listWidget_on_click)
         QtCore.QObject.connect(self.ui.btnBrowser,QtCore.SIGNAL("clicked()"),self.btnBrowse_on_click)
         QtCore.QObject.connect(self.ui.btnLogBrowser,QtCore.SIGNAL("clicked()"),self.btnLogBrowse_on_click)
+        QtCore.QObject.connect(self.ui.btnFirmwareBrowser,QtCore.SIGNAL("clicked()"),self.btnFirmwareBrowse_on_click)
+        QtCore.QObject.connect(self.ui.btnConfigsBrowser,QtCore.SIGNAL("clicked()"),self.btnConfigsBrowse_on_click)
         QtCore.QObject.connect(self.ui.closeButton,QtCore.SIGNAL("clicked()"),self.closeButton_on_click)
         QtCore.QObject.connect(self.ui.rbmysql,QtCore.SIGNAL("toggled(bool)"),self.rbMySql_toogled)
         QtCore.QObject.connect(self.ui.rbpostgres,QtCore.SIGNAL("toggled(bool)"),self.rbPostgres_toogled)
@@ -73,7 +75,21 @@ class DialogPreferences(QtGui.QDialog):
         if fn.isEmpty():
             return
         folder = str(fn)
-        self.ui.txtLoglFolder.setText(folder)
+        self.ui.txtLogFolder.setText(folder)
+    
+    def btnFirmwareBrowse_on_click(self):
+        fn = QtGui.QFileDialog.getExistingDirectory(self)
+        if fn.isEmpty():
+            return
+        folder = str(fn)
+        self.ui.txtFirmwareFolder.setText(folder)
+    
+    def btnConfigsBrowse_on_click(self):
+        fn = QtGui.QFileDialog.getExistingDirectory(self)
+        if fn.isEmpty():
+            return
+        folder = str(fn)
+        self.ui.txtConfigsFolder.setText(folder)
     
     def checkDbEngines(self):
         module_errors = ""
@@ -129,12 +145,15 @@ class DialogPreferences(QtGui.QDialog):
         debug_enabled = self._config.config[self._config.icepap]["debug_enabled"]
         debug_level = self._config.config[self._config.icepap]["debug_level"]
         log_folder = self._config.config[self._config.icepap]["log_folder"]
+        firmware_folder = self._config.config[self._config.icepap]["firmware_folder"]
+        configs_folder = self._config.config[self._config.icepap]["configs_folder"]
         conflict_solve = self._config.config[self._config.icepap]["conflict_solve"]
-        
         
         self.ui.chkDebug.setChecked(debug_enabled == str(True))
         self.ui.sbDebugLevel.setValue(int(debug_level))                          
         self.ui.txtLogFolder.setText(log_folder)
+        self.ui.txtFirmwareFolder.setText(firmware_folder)
+        self.ui.txtConfigsFolder.setText(configs_folder)
         self.ui.chkConflictSolve.setChecked(conflict_solve == str(True))
     
     def checkPreferences(self):
@@ -171,11 +190,15 @@ class DialogPreferences(QtGui.QDialog):
             debug_enabled = str(self.ui.chkDebug.isChecked())
             debug_level = int(self.ui.sbDebugLevel.value())                          
             log_folder = self.ui.txtLogFolder.text()
+            firmware_folder = self.ui.txtFirmwareFolder.text()
+            configs_folder = self.ui.txtConfigsFolder.text()
             conflict_solve = str(self.ui.chkConflictSolve.isChecked())
             
             self._config.config[self._config.icepap]["debug_enabled"] = debug_enabled 
             self._config.config[self._config.icepap]["debug_level"] = debug_level
             self._config.config[self._config.icepap]["log_folder"] = log_folder
+            self._config.config[self._config.icepap]["firmware_folder"] = firmware_folder
+            self._config.config[self._config.icepap]["configs_folder"] = configs_folder
             self._config.config[self._config.icepap]["conflict_solve"] = conflict_solve
             
             return True
