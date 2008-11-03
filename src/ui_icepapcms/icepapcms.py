@@ -400,7 +400,8 @@ class IcepapCMS(QtGui.QMainWindow):
             elif driver_value == None:
                 params_old_in_db.append((str(db_param),str(db_value)))
             else:
-                params_modified.append((str(db_param),str(db_value),str(driver_value)))
+                if db_param != "VER":
+                    params_modified.append((str(db_param),str(db_value),str(driver_value)))
 
         for driver_param,driver_value in driver_values.toList():
             db_value = driver_db_values.getParameter(driver_param,True)
@@ -749,28 +750,35 @@ class IcepapCMS(QtGui.QMainWindow):
         self.ui.actionSaveConfig.setEnabled(True)
          
     def actionSaveConfig(self):
-        if self.ui.stackedWidget.currentIndex() == 0:
-            #sign all drivers
-            icepap_list = self._manager.getIcepapList()
-            for icepap_name, icepap_system in icepap_list.items():
-                icepap_system.signSystem()
+        QtGui.QApplication.instance().setOverrideCursor(QtGui.QCursor(QtCore.Qt.WaitCursor))
+        try:
+            if self.ui.stackedWidget.currentIndex() == 0:
+                #sign all drivers
+                icepap_list = self._manager.getIcepapList()
+                for icepap_name, icepap_system in icepap_list.items():
+                    icepap_system.signSystem()
+                    self._tree_model.emit(QtCore.SIGNAL('layoutChanged ()'))
+            elif self.ui.stackedWidget.currentIndex() == 1:        
+                #sign all icepap system
+                self.ui.pageiPapSystem.icepap_system.signSystem()
                 self._tree_model.emit(QtCore.SIGNAL('layoutChanged ()'))
-        elif self.ui.stackedWidget.currentIndex() == 1:        
-            #sign all icepap system
-            self.ui.pageiPapSystem.icepap_system.signSystem()
-            self._tree_model.emit(QtCore.SIGNAL('layoutChanged ()'))
-        elif self.ui.stackedWidget.currentIndex() == 2:
-            #sign all icepap crate
-            self.ui.pageiPapCrate.icepap_system.signCrate(self.ui.pageiPapCrate.cratenr)
-            self._tree_model.emit(QtCore.SIGNAL('layoutChanged ()'))
-        elif self.ui.stackedWidget.currentIndex() == 3:
-            #sign driver
-            self.ui.pageiPapDriver.signDriver()
-            location = str(self.ui.txtLocation.text())
-            location = location.rstrip('/')
-            self._tree_model.changeItemIcon(location, IcepapTreeModel.DRIVER)
-            self.ui.actionSaveConfig.setEnabled(False)
-        MessageDialogs.showInformationMessage(self, "Signature", "Driver/s signed succesfully")
+            elif self.ui.stackedWidget.currentIndex() == 2:
+                #sign all icepap crate
+                self.ui.pageiPapCrate.icepap_system.signCrate(self.ui.pageiPapCrate.cratenr)
+                self._tree_model.emit(QtCore.SIGNAL('layoutChanged ()'))
+            elif self.ui.stackedWidget.currentIndex() == 3:
+                #sign driver
+                self.ui.pageiPapDriver.signDriver()
+                location = str(self.ui.txtLocation.text())
+                location = location.rstrip('/')
+                self._tree_model.changeItemIcon(location, IcepapTreeModel.DRIVER)
+                self.ui.actionSaveConfig.setEnabled(False)
+
+        except Exception,e:
+            print "some exception while saving config:",e
+            MessageDialogs.showInformationMessage(self, "Signature", "Some problems saving driver's configuration")
+        QtGui.QApplication.instance().restoreOverrideCursor()
+
     
     def actionHistoricCfg(self):
         if self.ui.actionHistoricCfg.isChecked():
