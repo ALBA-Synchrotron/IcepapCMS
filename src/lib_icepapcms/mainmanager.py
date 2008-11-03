@@ -370,8 +370,8 @@ class MainManager(Singleton):
             self._ctrl_icepap.stopDriver(icepap_name, addr)
         except:
             MessageDialogs.showWarningMessage(self._form, "StopDriver Icepap error", "Connection error")
-    def blinkDriver(self, icepap_name, driver_addr):
-        self._ctrl_icepap.blinkDriver(icepap_name, driver_addr)
+    def blinkDriver(self, icepap_name, driver_addr,secs):
+        self._ctrl_icepap.blinkDriver(icepap_name, driver_addr,secs)
 
 
     def jogDriver(self, icepap_name, addr, speed, dir):
