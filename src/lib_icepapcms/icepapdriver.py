@@ -58,7 +58,8 @@ class IcepapDriver(Storm):
         self.conflict = conflict
         
     def getName(self):
-        return self.current_cfg.getParameter(unicode("IPAPNAME"))
+        return self.name
+        #return self.current_cfg.getParameter(unicode("IPAPNAME"))
     
     def setName(self, name):
         self.name = unicode(name)
@@ -89,7 +90,10 @@ class IcepapDriver(Storm):
         self.conflict = Conflict.NO_CONFLICT
     
     def undo(self, config):
-        self.current_cfg = config        
+        self.addConfiguration(config)
+        # THE CURRENT CONFIGURATION SHOULD NOT BE IN THE UNDO LIST
+        return self._undo_list.pop()
+        #self.current_cfg = config    
         
     def getUndoList(self):
         return self._undo_list.pop()
