@@ -54,6 +54,7 @@ class PageiPapDriver(QtGui.QWidget):
         self._readConfigTemplate()
         self._manager = MainManager()
         self.ui.btnUndo.setEnabled(False)
+        self.config_sent = False
         
         self.setLedsOff()
         self.icepap_driver = None
@@ -154,7 +155,8 @@ class PageiPapDriver(QtGui.QWidget):
         QtCore.QObject.connect(self.ui.btnGORelativeNeg,QtCore.SIGNAL("clicked()"),self.btnGORelativeNeg_on_click)
         QtCore.QObject.connect(self.ui.btnEnable,QtCore.SIGNAL("clicked(bool)"),self.endisDriver)
         QtCore.QObject.connect(self.ui.btnStopMotor,QtCore.SIGNAL("clicked()"),self.btnStopMotor_on_click)
-        QtCore.QObject.connect(self.ui.btnBlink,QtCore.SIGNAL("clicked()"),self.btnBlink_on_click)
+        QtCore.QObject.connect(self.ui.btnBlink,QtCore.SIGNAL("pressed()"),self.btnBlink_on_press)
+
         QtCore.QObject.connect(self.ui.btnSetPos,QtCore.SIGNAL("clicked()"),self.setPosition)
         QtCore.QObject.connect(self.ui.btnSetEnc,QtCore.SIGNAL("clicked()"),self.setEncoder)
         #QtCore.QObject.connect(self.ui.toolBox,QtCore.SIGNAL("currentChanged(int)"),self.toolBox_current_changed)
@@ -293,6 +295,7 @@ class PageiPapDriver(QtGui.QWidget):
                 widget.setPalette(self.button_grey_palette)
             else:
                 widget.setPalette(self.base_white_palette)
+
 
 
     def _connectHighlighting(self):
@@ -556,8 +559,10 @@ class PageiPapDriver(QtGui.QWidget):
         self.setDescription(icepap_driver)
 
         # THIS IS OVERWRITTEN LATER
-        self.ui.txtDriverName.setText(self.icepap_driver.getName())
-        self.ui.txtDriverName.defaultvalue = self.icepap_driver.getName()
+        driver_name = self._manager.readIcepapParameters(icepap_driver.icepapsystem_name,icepap_driver.addr,["NAME"])[0][1]
+        icepap_driver.setName(driver_name)
+        self.ui.txtDriverName.setText(self.icepap_driver.name)
+        self.ui.txtDriverName.defaultvalue = self.icepap_driver.name
 
         #self.ui.txtDriverNemonic.setText(self.icepap_driver.nemonic)
 
@@ -640,8 +645,9 @@ class PageiPapDriver(QtGui.QWidget):
                     print "FOUND THE UNKNOWN PARAMETER '"+str(name)+"'"
            
         # SET THE CORRECT DRIVER NAME
+        
         self.icepap_driver.name = unicode(self.ui.txtDriverName.text())
-        self.icepap_driver.current_cfg.setParameter(unicode("IPAPNAME"),self.icepap_driver.getName())
+        #self.icepap_driver.current_cfg.setParameter(unicode("IPAPNAME"),self.icepap_driver.getName())
 
         
         # CHECK THE ACTIVE FLAG
@@ -662,7 +668,6 @@ class PageiPapDriver(QtGui.QWidget):
             self.ui.historicWidget.fillData(self.icepap_driver)
 
         QtGui.QApplication.instance().restoreOverrideCursor()
-
 
     
     def _connectWidgetToSignalMap(self, widget):
@@ -759,7 +764,7 @@ class PageiPapDriver(QtGui.QWidget):
             ipap_name = cfg.getParameter(unicode("IPAPNAME"),True)
             self.ui.txtDriverName.setText(ipap_name)
         except:
-            #print "oups, this config had not the ipapname yet..."
+            print "oups, this config had not the ipapname yet..."
             pass
         
 
@@ -789,7 +794,6 @@ class PageiPapDriver(QtGui.QWidget):
                     value = self._getWidgetValue(widget)
                     new_values.append([name, value])
                   
-        
         for tableWidget in self.sectionTables.itervalues():
             for row in range(tableWidget.rowCount()):
                 #val = tableWidget.item(row,2).text()
@@ -802,12 +806,17 @@ class PageiPapDriver(QtGui.QWidget):
                 if val != "":
                     try:
                         name = str(tableWidget.item(row,0).text())
+                        default_val = str(tableWidget.item(row,1).text())
                         if isinstance(widget, QValidateLineEdit):
                             if widget.type == QValidateLineEdit.INTEGER:
                                 val = int(widget.text())
+                                default_val = int(default_val)
                             elif widget.type == QValidateLineEdit.DOUBLE:
                                 val = float(widget.text())
-                        new_values.append([name, val])
+                                default_val = float(default_val)
+                        
+                        if val != default_val:
+                            new_values.append([name, val])
                     except:
                         print "Unexpected error:", sys.exc_info()[0]
                         values_ok = False
@@ -849,27 +858,39 @@ class PageiPapDriver(QtGui.QWidget):
         #self.configureSignals()
         if save_ok and test_values_ok:
             self.fillData(self.icepap_driver)
-            self.ui.btnUndo.setEnabled(True)
+            if self.icepap_driver.hasUndoList():
+                self.ui.btnUndo.setEnabled(True)
+            else:
+                self.ui.btnUndo.setEnabled(False)
+            self.config_sent = True
         else:
             MessageDialogs.showWarningMessage(self, "Driver configuration", "Error saving configuration")
+        return save_ok
         
 
     def btnSaveCfg_on_click(self):
+        save_ok = True
+        if not self.config_sent:
+            save_ok = self.btnSendCfg_on_click()
+        self.config_sent = False
+        if not save_ok:
+            print "warning, now save has not been ok"
         self._mainwin.actionSaveConfig()
         
     def btnUndo_on_click(self):
         self._manager.undoDriverConfiguration(self.icepap_driver)
         self.fillData(self.icepap_driver)
         if not self.icepap_driver.hasUndoList():
-            self.ui.btnUndo.setEnabled(False)    
+            self.ui.btnUndo.setEnabled(False)
     
     def btnRestore_on_click(self):
-        self.addNewCfg(self.icepap_driver.current_cfg)
-        #.fillData(self.icepap_driver)
+        #self.addNewCfg(self.icepap_driver.current_cfg)
+        self.fillData(self.icepap_driver)
         
     def doImport(self):
         try:
-            fn = QtGui.QFileDialog.getOpenFileName(self)
+            folder = ConfigManager().config["icepap"]["configs_folder"]
+            fn = QtGui.QFileDialog.getOpenFileName(self,"Open Config File",QtCore.QString(folder),QtCore.QString("*.xml"))
             if fn.isEmpty():
                 return
             filename = str(fn)
@@ -910,7 +931,8 @@ class PageiPapDriver(QtGui.QWidget):
                     
     def doExport(self):        
         #try:
-            fn = QtGui.QFileDialog.getSaveFileName(self)
+            folder = ConfigManager().config["icepap"]["configs_folder"]
+            fn = QtGui.QFileDialog.getSaveFileName(self,"Save Config File",QtCore.QString(folder),QtCore.QString("*.xml"))
             if fn.isEmpty():
                 return
             filename = str(fn)
@@ -1161,10 +1183,12 @@ class PageiPapDriver(QtGui.QWidget):
         self._manager.stopDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr)
         
 
-    def btnBlink_on_click(self):
-        self._manager.blinkDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr)
+    def btnBlink_on_press(self):
+        secs = 3600
+        if self.ui.btnBlink.isChecked():
+            secs = 0
+        self._manager.blinkDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr,secs)
     
-
     def sliderChanged(self, div):
         if self.ui.sliderJog.isSliderDown() or not self.sliderTimer.isActive():
             self.startJogging(div)
