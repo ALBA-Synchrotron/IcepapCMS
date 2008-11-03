@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'dialogpreferences.ui'
 #
-# Created: Mon Oct 27 13:00:45 2008
+# Created: Mon Nov  3 12:19:00 2008
 #      by: PyQt4 UI code generator 4.3.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -223,9 +223,27 @@ class Ui_DialogPreferences(object):
         DialogPreferences.setWindowIcon(QtGui.QIcon(":/icons/IcepapCfg Icons/preferences-system.png"))
 
         self.gridlayout = QtGui.QGridLayout(DialogPreferences)
-        self.gridlayout.setMargin(9)
-        self.gridlayout.setSpacing(6)
         self.gridlayout.setObjectName("gridlayout")
+
+        self.listWidget = QtGui.QListWidget(DialogPreferences)
+
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding,QtGui.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.listWidget.sizePolicy().hasHeightForWidth())
+        self.listWidget.setSizePolicy(sizePolicy)
+        self.listWidget.setMinimumSize(QtCore.QSize(0,70))
+        self.listWidget.setMaximumSize(QtCore.QSize(16777215,60))
+        self.listWidget.setFrameShape(QtGui.QFrame.StyledPanel)
+        self.listWidget.setFrameShadow(QtGui.QFrame.Plain)
+        self.listWidget.setIconSize(QtCore.QSize(44,44))
+        self.listWidget.setFlow(QtGui.QListView.LeftToRight)
+        self.listWidget.setProperty("isWrapping",QtCore.QVariant(False))
+        self.listWidget.setViewMode(QtGui.QListView.IconMode)
+        self.listWidget.setModelColumn(0)
+        self.listWidget.setUniformItemSizes(False)
+        self.listWidget.setObjectName("listWidget")
+        self.gridlayout.addWidget(self.listWidget,0,0,1,1)
 
         self.stackedWidget = QtGui.QStackedWidget(DialogPreferences)
         self.stackedWidget.setObjectName("stackedWidget")
@@ -424,6 +442,32 @@ class Ui_DialogPreferences(object):
         self.btnLogBrowser = QtGui.QToolButton(self.groupBox)
         self.btnLogBrowser.setObjectName("btnLogBrowser")
         self.gridlayout4.addWidget(self.btnLogBrowser,2,3,1,1)
+
+        self.label_7 = QtGui.QLabel(self.groupBox)
+        self.label_7.setObjectName("label_7")
+        self.gridlayout4.addWidget(self.label_7,3,0,1,1)
+
+        self.txtFirmwareFolder = QtGui.QLineEdit(self.groupBox)
+        self.txtFirmwareFolder.setMaximumSize(QtCore.QSize(1666666,16777215))
+        self.txtFirmwareFolder.setObjectName("txtFirmwareFolder")
+        self.gridlayout4.addWidget(self.txtFirmwareFolder,3,1,1,2)
+
+        self.btnFirmwareBrowser = QtGui.QToolButton(self.groupBox)
+        self.btnFirmwareBrowser.setObjectName("btnFirmwareBrowser")
+        self.gridlayout4.addWidget(self.btnFirmwareBrowser,3,3,1,1)
+
+        self.label_8 = QtGui.QLabel(self.groupBox)
+        self.label_8.setObjectName("label_8")
+        self.gridlayout4.addWidget(self.label_8,4,0,1,1)
+
+        self.txtConfigsFolder = QtGui.QLineEdit(self.groupBox)
+        self.txtConfigsFolder.setMaximumSize(QtCore.QSize(1666666,16777215))
+        self.txtConfigsFolder.setObjectName("txtConfigsFolder")
+        self.gridlayout4.addWidget(self.txtConfigsFolder,4,1,1,2)
+
+        self.btnConfigsBrowser = QtGui.QToolButton(self.groupBox)
+        self.btnConfigsBrowser.setObjectName("btnConfigsBrowser")
+        self.gridlayout4.addWidget(self.btnConfigsBrowser,4,3,1,1)
         self.gridlayout3.addWidget(self.groupBox,0,0,1,1)
 
         self.groupBox_2 = QtGui.QGroupBox(self.pageIcepap)
@@ -441,30 +485,10 @@ class Ui_DialogPreferences(object):
         self.chkConflictSolve.setObjectName("chkConflictSolve")
         self.gridlayout3.addWidget(self.groupBox_2,1,0,1,1)
 
-        spacerItem4 = QtGui.QSpacerItem(522,91,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Expanding)
+        spacerItem4 = QtGui.QSpacerItem(522,61,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Expanding)
         self.gridlayout3.addItem(spacerItem4,2,0,1,1)
         self.stackedWidget.addWidget(self.pageIcepap)
         self.gridlayout.addWidget(self.stackedWidget,1,0,1,1)
-
-        self.listWidget = QtGui.QListWidget(DialogPreferences)
-
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding,QtGui.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.listWidget.sizePolicy().hasHeightForWidth())
-        self.listWidget.setSizePolicy(sizePolicy)
-        self.listWidget.setMinimumSize(QtCore.QSize(0,70))
-        self.listWidget.setMaximumSize(QtCore.QSize(16777215,60))
-        self.listWidget.setFrameShape(QtGui.QFrame.StyledPanel)
-        self.listWidget.setFrameShadow(QtGui.QFrame.Plain)
-        self.listWidget.setIconSize(QtCore.QSize(44,44))
-        self.listWidget.setFlow(QtGui.QListView.LeftToRight)
-        self.listWidget.setProperty("isWrapping",QtCore.QVariant(False))
-        self.listWidget.setViewMode(QtGui.QListView.IconMode)
-        self.listWidget.setModelColumn(0)
-        self.listWidget.setUniformItemSizes(False)
-        self.listWidget.setObjectName("listWidget")
-        self.gridlayout.addWidget(self.listWidget,0,0,1,1)
 
         self.hboxlayout2 = QtGui.QHBoxLayout()
         self.hboxlayout2.setSpacing(6)
@@ -482,8 +506,8 @@ class Ui_DialogPreferences(object):
         self.gridlayout.addLayout(self.hboxlayout2,2,0,1,1)
 
         self.retranslateUi(DialogPreferences)
-        self.stackedWidget.setCurrentIndex(0)
         self.listWidget.setCurrentRow(-1)
+        self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(DialogPreferences)
         DialogPreferences.setTabOrder(self.rbsqlite,self.rbmysql)
         DialogPreferences.setTabOrder(self.rbmysql,self.rbpostgres)
@@ -498,6 +522,15 @@ class Ui_DialogPreferences(object):
 
     def retranslateUi(self, DialogPreferences):
         DialogPreferences.setWindowTitle(QtGui.QApplication.translate("DialogPreferences", "Preferences", None, QtGui.QApplication.UnicodeUTF8))
+        self.listWidget.clear()
+
+        item = QtGui.QListWidgetItem(self.listWidget)
+        item.setText(QtGui.QApplication.translate("DialogPreferences", "Storage", None, QtGui.QApplication.UnicodeUTF8))
+        item.setIcon(QtGui.QIcon(":/icons/IcepapCfg Icons/database.png"))
+
+        item1 = QtGui.QListWidgetItem(self.listWidget)
+        item1.setText(QtGui.QApplication.translate("DialogPreferences", "IcePAP", None, QtGui.QApplication.UnicodeUTF8))
+        item1.setIcon(QtGui.QIcon(":/small_icons/IcepapCfg Icons/Icepapicon.png"))
         self.lblModules.setText(QtGui.QApplication.translate("DialogPreferences", "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
         "p, li { white-space: pre-wrap; }\n"
         "</style></head><body style=\" font-family:\'Sans Serif\'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;\">\n"
@@ -518,17 +551,12 @@ class Ui_DialogPreferences(object):
         self.label_5.setText(QtGui.QApplication.translate("DialogPreferences", "Debug level", None, QtGui.QApplication.UnicodeUTF8))
         self.label_6.setText(QtGui.QApplication.translate("DialogPreferences", "Log folder", None, QtGui.QApplication.UnicodeUTF8))
         self.btnLogBrowser.setText(QtGui.QApplication.translate("DialogPreferences", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_7.setText(QtGui.QApplication.translate("DialogPreferences", "Firmware folder", None, QtGui.QApplication.UnicodeUTF8))
+        self.btnFirmwareBrowser.setText(QtGui.QApplication.translate("DialogPreferences", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_8.setText(QtGui.QApplication.translate("DialogPreferences", "Configs folder", None, QtGui.QApplication.UnicodeUTF8))
+        self.btnConfigsBrowser.setText(QtGui.QApplication.translate("DialogPreferences", "...", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_2.setTitle(QtGui.QApplication.translate("DialogPreferences", "Conflicts", None, QtGui.QApplication.UnicodeUTF8))
         self.chkConflictSolve.setText(QtGui.QApplication.translate("DialogPreferences", "Use database configurations as valid data", None, QtGui.QApplication.UnicodeUTF8))
-        self.listWidget.clear()
-
-        item = QtGui.QListWidgetItem(self.listWidget)
-        item.setText(QtGui.QApplication.translate("DialogPreferences", "Storage", None, QtGui.QApplication.UnicodeUTF8))
-        item.setIcon(QtGui.QIcon(":/icons/IcepapCfg Icons/database.png"))
-
-        item1 = QtGui.QListWidgetItem(self.listWidget)
-        item1.setText(QtGui.QApplication.translate("DialogPreferences", "IcePAP", None, QtGui.QApplication.UnicodeUTF8))
-        item1.setIcon(QtGui.QIcon(":/small_icons/IcepapCfg Icons/Icepapicon.png"))
         self.closeButton.setText(QtGui.QApplication.translate("DialogPreferences", "OK", None, QtGui.QApplication.UnicodeUTF8))
 
 import icepapcms_rc

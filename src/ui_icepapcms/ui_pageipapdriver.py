@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'pageipapdriver.ui'
 #
-# Created: Mon Oct 27 13:00:46 2008
+# Created: Mon Nov  3 12:19:01 2008
 #      by: PyQt4 UI code generator 4.3.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -1187,6 +1187,7 @@ class Ui_PageiPapDriver(object):
         self.hboxlayout.addWidget(self.txtDriverName)
 
         self.btnBlink = QtGui.QPushButton(self.frame_3)
+        self.btnBlink.setCheckable(True)
         self.btnBlink.setObjectName("btnBlink")
         self.hboxlayout.addWidget(self.btnBlink)
 
