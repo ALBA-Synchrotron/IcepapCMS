@@ -1,7 +1,7 @@
 from PyQt4 import QtCore, QtGui
 from ui_dialogipapprogram import Ui_DialogIcepapProgram
 from messagedialogs import MessageDialogs
-from lib_icepapcms import IcepapController
+from lib_icepapcms import IcepapController,ConfigManager
 import sys
 from qrc_icepapcms import *
 import time
@@ -29,7 +29,8 @@ class DialogIcepapProgram(QtGui.QDialog):
         
         
     def btnBrowse_on_click(self):
-        fn = QtGui.QFileDialog.getOpenFileName(self)
+        folder = ConfigManager().config["icepap"]["firmware_folder"]
+        fn = QtGui.QFileDialog.getOpenFileName(self,"Open Firmware File",QtCore.QString(folder),QtCore.QString("*.*"))
         if fn.isEmpty():
             return
         filename = str(fn)
