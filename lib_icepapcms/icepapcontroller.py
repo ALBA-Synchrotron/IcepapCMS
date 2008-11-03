@@ -408,8 +408,8 @@ class IcepapController(Singleton):
     def abortDriver(self, icepap_name, driver_addr):
         self.iPaps[icepap_name].abortMotor(driver_addr)
 
-    def blinkDriver(self, icepap_name, driver_addr):
-        self.iPaps[icepap_name].blink(driver_addr,2)
+    def blinkDriver(self, icepap_name, driver_addr,secs):
+        self.iPaps[icepap_name].blink(driver_addr,secs)
     
     def jogDriver(self, icepap_name, driver_addr, speed):
         self.iPaps[icepap_name].jog(driver_addr, speed)
