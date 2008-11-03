@@ -100,10 +100,10 @@ class IcepapDriverCfg(Storm):
             if other_value:
                 if not value == other_value:
                     return -1
-            elif name != "IPAPNAME":
+            elif name != "IPAPNAME" and name != "VER":
                 return -1
             else:
-                # THE IPAPNAME IS AN INTERNAL CONFIG PARAMETER
+                # THE IPAPNAME, VER ARE AN INTERNAL CONFIG PARAMETER
                 pass
 
         return 0
