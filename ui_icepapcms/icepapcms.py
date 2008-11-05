@@ -29,8 +29,8 @@ class IcepapApp(QtGui.QApplication):
         parser = OptionParser(usage)
         parser.add_option("-e", "--expert",
                           action="store_true", dest="expert", help="Full expert interface. False by default")
-        parser.add_option("","--only-subnet",
-                          action="store_true", dest="subnet", help="Only allow subnet icepap systems. False by default")
+        parser.add_option("","--all-networks",
+                          action="store_true", dest="allnets", help="Allow all available icepap systems. False by default")
         (options, args) = parser.parse_args()
 
 
