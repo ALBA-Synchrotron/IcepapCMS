@@ -15,7 +15,9 @@ from ui_icepapcms.messagedialogs import MessageDialogs
 from PyQt4 import QtCore
 from PyQt4 import QtGui
 from PyQt4 import Qt
-
+import re
+import socket
+from IPy import IP
 
 class IcepapController(Singleton):
     
@@ -49,8 +51,16 @@ class IcepapController(Singleton):
         log_folder = None
         if self.debug:
             log_folder = self.log_folder
-        self.iPaps[icepap_name] = EthIcePAP(host, port, log_path = log_folder)
-        self.iPaps[icepap_name].connect(shouldReconnect = False)
+        if not self.host_in_same_subnet(icepap_name):
+            MessageDialogs.showInformationMessage(None,"Host connection","It is not allowed to connect to %s"%host)
+            return False
+        else:
+            try:
+                self.iPaps[icepap_name] = EthIcePAP(host, port, log_path = log_folder)
+                self.iPaps[icepap_name].connect(shouldReconnect = False)
+                return True
+            except:
+                return False
         
     def closeConnection(self, icepap_name):
         if self.iPaps.has_key(icepap_name):
@@ -423,6 +433,8 @@ class IcepapController(Singleton):
     def checkIcepapStatus(self, icepap_name):
         if self.iPaps.has_key(icepap_name) and not self.iPaps[icepap_name].connected:
             return False
+        if not self.iPaps.has_key(icepap_name):
+            return False
         return True
         
     def _checkDriverStatus(self, icepap_name, driver_addr):
@@ -575,3 +587,39 @@ class IcepapController(Singleton):
             return True
         except:
             return False
+
+    def find_posix_networks(self):
+        ifconfigs = ['/sbin/ifconfig','/usr/sbin/ifconfig','/bin/ifconfig','/usr/bin/ifconfig']
+        ifconfig = filter(os.path.exists,ifconfigs)[0]
+        fp = os.popen(ifconfig+' -a')
+        config = fp.read().split('\n\n')
+        fp.close()
+        digits = r'[0-9]{1,3}'
+        addr_pat = r'(addr:) *(%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
+        addr_parse = re.compile(addr_pat)
+        mask_pat = r'(Mask:) *(%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
+        mask_parse = re.compile(mask_pat)
+        networks = []
+        for c in config:
+            addr = addr_parse.search(c)
+            mask = mask_parse.search(c)
+            if addr and mask:
+                net = IP(addr.group(2)+"/"+mask.group(2),make_net=True)
+                networks.append(net)
+        return networks
+
+    def host_in_same_subnet(self,host):
+        if not self._config._options.subnet:
+            return True
+        networks = []
+        if os.name == 'posix':
+            networks = self.find_posix_networks()
+            host_addr = socket.gethostbyname(host)
+            for net in networks:
+                if host_addr in net:
+                    return True
+            return False
+        else:
+            MessageDialogs.showInformationMessage(None,"Not posix operating system","Sorry system not yet supported.\nWe allow access to the icepap even if it is in another subnet.")
+            return True
+        
