@@ -588,38 +588,54 @@ class IcepapController(Singleton):
         except:
             return False
 
-    def find_posix_networks(self):
-        ifconfigs = ['/sbin/ifconfig','/usr/sbin/ifconfig','/bin/ifconfig','/usr/bin/ifconfig']
-        ifconfig = filter(os.path.exists,ifconfigs)[0]
-        fp = os.popen(ifconfig+' -a')
-        config = fp.read().split('\n\n')
-        fp.close()
-        digits = r'[0-9]{1,3}'
-        addr_pat = r'(addr:) *(%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
-        addr_parse = re.compile(addr_pat)
-        mask_pat = r'(Mask:) *(%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
-        mask_parse = re.compile(mask_pat)
-        networks = []
-        for c in config:
-            addr = addr_parse.search(c)
-            mask = mask_parse.search(c)
-            if addr and mask:
-                net = IP(addr.group(2)+"/"+mask.group(2),make_net=True)
-                networks.append(net)
-        return networks
 
+    def find_networks(self,configs,addr_pattern,mask_pattern):
+      addr_parse = re.compile(addr_pattern)
+      mask_parse = re.compile(mask_pattern)
+      networks = []
+      for config in configs:
+          addr = addr_parse.search(config)
+          mask = mask_parse.search(config)
+          if addr and mask:
+              net = IP(addr.group(2)+"/"+mask.group(2),make_net=True)
+              networks.append(net)
+      return networks
+  
     def host_in_same_subnet(self,host):
-        if self._config._options.allnets:
-            return True
-        networks = []
-        if os.name == 'posix':
-            networks = self.find_posix_networks()
-            host_addr = socket.gethostbyname(host)
-            for net in networks:
-                if host_addr in net:
-                    return True
-            return False
-        else:
-            MessageDialogs.showInformationMessage(None,"Not posix operating system","Sorry system not yet supported.\nWe allow access to the icepap even if it is in another subnet.")
-            return True
+          if self._config._options.allnets:
+              return True
+  
+          networks = []
+          configs = None
+          addr_pattern = None
+          mask_pattern = None
+          digits = r'[0-9]{1,3}'
+          
+          if os.name == 'posix':
+              ifconfigs = ['/sbin/ifconfig','/usr/sbin/ifconfig','/bin/ifconfig','/usr/bin/ifconfig']
+              ifconfig = filter(os.path.exists,ifconfigs)[0]
+              fp = os.popen(ifconfig+' -a')
+              configs = fp.read().split('\n\n')
+              fp.close()
+              addr_pattern = r'(inet addr:) *(%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
+              mask_pattern = r'(Mask:) *(%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
+          elif os.name == 'nt':
+              fp = os.popen('ipconfig /all')
+              configs = fp.read().split(':\r\n\r\n')
+              fp.close()
+              addr_pattern = r'(IP Address).*: (%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
+              mask_pattern = r'(Subnet Mask).*: (%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
+  
+          if configs and addr_pattern and mask_pattern:
+              networks = self.find_networks(configs,addr_pattern,mask_pattern)
+  
+          if len(networks)>0:
+              host_addr = socket.gethostbyname(host)
+              for net in networks:
+                  if host_addr in net:
+                      return True
+              return False            
+          else:
+              MessageDialogs.showInformationMessage(None,"Not posix operating system","Sorry system not yet supported.\nWe allow you access to the icepap even if it is in another subnet.")
+              return True
         
