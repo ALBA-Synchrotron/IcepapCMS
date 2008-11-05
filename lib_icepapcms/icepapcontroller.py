@@ -609,7 +609,7 @@ class IcepapController(Singleton):
         return networks
 
     def host_in_same_subnet(self,host):
-        if not self._config._options.subnet:
+        if self._config._options.allnets:
             return True
         networks = []
         if os.name == 'posix':
