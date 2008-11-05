@@ -150,7 +150,7 @@ class MainManager(Singleton):
                     icepap_system.conflict = Conflict.NO_CONFLICT
                     changed_list.append(icepap_system)
             else:
-                if icepap_system.conflict != Conflict.NO_CONNECTION:
+                if icepap_system.conflict != Conflict.NO_CONFLICT and icepap_system.conflict != Conflict.NO_CONNECTION:
                     icepap_system.conflict = Conflict.NO_CONNECTION
                     changed_list.append(icepap_system)
         return changed_list
@@ -169,13 +169,14 @@ class MainManager(Singleton):
         """ Searches for configuration conflicts.
         Returns the conflicts list. That is composed by elements of [Conflict code, icepap_system, icepap_driver_addr] """
         QtGui.QApplication.instance().setOverrideCursor(QtGui.QCursor(QtCore.Qt.WaitCursor))
-
         icepap_name = icepap_system.name
         conflictsList = []
         try:
-            self._ctrl_icepap.openConnection(icepap_name, icepap_system.host, icepap_system.port)
-            driver_list = self._ctrl_icepap.scanIcepapSystem(icepap_name,True)
-            conflictsList = icepap_system.compareDriverList(driver_list)
+            if self._ctrl_icepap.openConnection(icepap_name, icepap_system.host, icepap_system.port):
+                driver_list = self._ctrl_icepap.scanIcepapSystem(icepap_name,True)
+                conflictsList = icepap_system.compareDriverList(driver_list)
+            else:
+                conflictsList.append([Conflict.NO_CONNECTION, icepap_system, 0])
         except IcePAPException,error:
             #MessageDialogs.showErrorMessage(self._form, "Scan Icepap error", "%s Connection error:%s" % (icepap_name,error.msg))
             pass
@@ -188,35 +189,38 @@ class MainManager(Singleton):
         return conflictsList
 
     def checkFirmwareVersions(self, icepap_system):
-        icepap_name = icepap_system.name
-        master_version = self._ctrl_icepap.iPaps[icepap_name].getVersion(0,"DRIVER")
-        master_version = str(master_version)
-        mismatched_drivers = []
-        for driver in icepap_system.getDrivers():
-            #####################################################################
-            driver_version = self._ctrl_icepap.iPaps[icepap_name].getVersion(driver.addr,"DRIVER")
-            # If the driver has been temporary removed, the error should
-            if driver_version.count("ERROR") > 0:
-                driver_version = master_version
-            if master_version != driver_version:
-                mismatched_drivers.append((driver.addr,str(driver_version)))
-
-        if len(mismatched_drivers) > 0:
-            msg = "Some drivers do not have the MASTER's firmware version (%s):\n" % (master_version)
-            for driver,version in mismatched_drivers:
-                msg = msg + "driver %d: %s\n" % (driver,version)
-            msg = msg + "Would you like to upgrade these drivers?\n"
-            upgrade = MessageDialogs.showYesNoMessage(self._form, "Firmware mismatch", msg)
-            if upgrade:
-                progress_dialog = QtGui.QProgressDialog(self._form)
-                progress_dialog.setLabel(QtGui.QLabel("Icepap: %s\nUpgrading drivers' firmware to %s" % (icepap_name,master_version)))
-                progress_dialog.setCancelButton(None)
-                progress_dialog.setMaximum(100)
-                upgrading = self._ctrl_icepap.upgradeDrivers(icepap_name,progress_dialog)
-                if not upgrading:
-                    progress_dialog.cancel()
-                    msg = "Sorry, problems found while upgrading. Please try it manually :-("
-                    MessageDialogs.showErrorMessage(None,"Firmware upgrade error",msg)
+        try:
+            icepap_name = icepap_system.name
+            master_version = self._ctrl_icepap.iPaps[icepap_name].getVersion(0,"DRIVER")
+            master_version = str(master_version)
+            mismatched_drivers = []
+            for driver in icepap_system.getDrivers():
+                #####################################################################
+                driver_version = self._ctrl_icepap.iPaps[icepap_name].getVersion(driver.addr,"DRIVER")
+                # If the driver has been temporary removed, the error should
+                if driver_version.count("ERROR") > 0:
+                    driver_version = master_version
+                if master_version != driver_version:
+                    mismatched_drivers.append((driver.addr,str(driver_version)))
+            
+            if len(mismatched_drivers) > 0:
+                msg = "Some drivers do not have the MASTER's firmware version (%s):\n" % (master_version)
+                for driver,version in mismatched_drivers:
+                    msg = msg + "driver %d: %s\n" % (driver,version)
+                msg = msg + "Would you like to upgrade these drivers?\n"
+                upgrade = MessageDialogs.showYesNoMessage(self._form, "Firmware mismatch", msg)
+                if upgrade:
+                    progress_dialog = QtGui.QProgressDialog(self._form)
+                    progress_dialog.setLabel(QtGui.QLabel("Icepap: %s\nUpgrading drivers' firmware to %s" % (icepap_name,master_version)))
+                    progress_dialog.setCancelButton(None)
+                    progress_dialog.setMaximum(100)
+                    upgrading = self._ctrl_icepap.upgradeDrivers(icepap_name,progress_dialog)
+                    if not upgrading:
+                        progress_dialog.cancel()
+                        msg = "Sorry, problems found while upgrading. Please try it manually :-("
+                        MessageDialogs.showErrorMessage(None,"Firmware upgrade error",msg)
+        except:
+            pass
 
 
     def importMovedDriver(self, icepap_driver, from_to = False):
@@ -304,7 +308,8 @@ class MainManager(Singleton):
             self._form.refreshTree() 
             return (-1,-1, [-1,-1])        
         except:
-            print "mainmanager:getDriverTestStatus:Unexpected error:", sys.exc_info()
+            print "mainmanager:getDriverTestStatus:Unexpected error while getting driver test status."
+            #print "mainmanager:getDriverTestStatus:Unexpected error:", sys.exc_info()
             return (-1,-1, [-1,-1])
             
     def readIcepapParameters(self, icepap_name, addr, par_list):
