@@ -17,28 +17,42 @@ from messagedialogs import MessageDialogs
 from motortypescatalogwidget import MotorTypesCatalogWidget
 #from dialoghistoriccfg import DialogHistoricCfg
 #from dialogtemplate import DialogTemplate
-
+from optparse import OptionParser
 
 __version__ = "1.15"
 
 class IcepapApp(QtGui.QApplication):    
     def __init__(self, *args):
-        QtGui.QApplication.__init__(self, *args)
+
+        # from http://docs.python.org/library/optparse.html
+        usage = "usage: %prog [options] arg"
+        parser = OptionParser(usage)
+        parser.add_option("-e", "--expert",
+                          action="store_true", dest="expert", help="Full expert interface. False by default")
+        parser.add_option("","--only-subnet",
+                          action="store_true", dest="subnet", help="Only allow subnet icepap systems. False by default")
+        (options, args) = parser.parse_args()
+
+
+        #QtGui.QApplication.__init__(self, *args)
+        QtGui.QApplication.__init__(self,[])
         self.setStyle("plastique")
         splash_pxmap = QtGui.QPixmap(":/logos/IcepapCfg Icons/IcepapMed.png")
         splash = QtGui.QSplashScreen(splash_pxmap)
         splash.show()
-        icepapcms = IcepapCMS()
+        icepapcms = IcepapCMS(options,args)
         icepapcms.show()
         splash.finish(icepapcms)
         self.exec_()
         
 class IcepapCMS(QtGui.QMainWindow):
-    def __init__(self, parent=None):
+    def __init__(self, options,args,parent=None):
         QtGui.QMainWindow.__init__(self, parent)
         self.ui = Ui_IcepapCMS()
         self.ui.setupUi(self)
-        self._config = ConfigManager()                
+        self._config = ConfigManager()
+        self._config._options = options
+        self._config._args = args
         self.checkTimer = Qt.QTimer(self)        
         self.initGUI()
         self.ui.pageiPapSystem = PageiPapSystem(self)
@@ -318,7 +332,6 @@ class IcepapCMS(QtGui.QMainWindow):
     def checkIcepapConnection(self):
         """ this function checks the icepap connection, notifying the user for
         losing or getting connection """
-        
         icepap_systems_changed = self._manager.checkIcepapSystems()
         for icepap_system in icepap_systems_changed:
             #if icepap_system.conflict != Conflict.NO_CONFLICT:
