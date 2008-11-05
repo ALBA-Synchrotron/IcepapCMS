@@ -1,7 +1,7 @@
 from PyQt4 import QtCore, QtGui, Qt
 from ui_ipapconsole import Ui_IpapConsole
 from messagedialogs import MessageDialogs
-from lib_icepapcms import ConfigManager
+from lib_icepapcms import ConfigManager,IcepapController
 from pyIcePAP import EthIcePAP, IcePAPException, IcePAP, IcepapStatus
 import sys, os
 from qrc_icepapcms import *
@@ -47,6 +47,11 @@ class IcepapConsole(QtGui.QDialog):
             else:
                 host = addr
                 port = "5000"
+
+            ipapcontroller = IcepapController()
+            if not ipapcontroller.host_in_same_subnet(host):
+                MessageDialogs.showInformationMessage(None,"Host connection","It is not allowed to connect to %s"%host)
+                return
             self.prompt = str(host) + " > "   
             self.ui.console.setPrompt(self.prompt)
             log_folder = None
@@ -87,21 +92,24 @@ class IcepapConsole(QtGui.QDialog):
         self.ui.console.write(self.prompt)
         
     def sendWriteReadCommand(self, cmd):
-        cmd = str(cmd)
-        # determine if the command has an answer
-        cmd = cmd.upper()
-        if cmd == "QUIT" or cmd == "CLOSE" or cmd == "EXIT":
-            self.btnDisconnect_on_click()
-            self.close()
-            return
-        if cmd.find("?") >= 0 or cmd.find("#")>= 0:
-            res = self.ipap.sendWriteReadCommand(cmd)
-            self.writeConsole(res)
-        elif cmd.find("HELP")>=0:
-            res = self.ipap.sendWriteReadCommand(cmd)
-            self.writeConsole(res)
-        else:
-             res = self.ipap.sendWriteCommand(cmd)
+        try:
+            cmd = str(cmd)
+            # determine if the command has an answer
+            cmd = cmd.upper()
+            if cmd == "QUIT" or cmd == "CLOSE" or cmd == "EXIT":
+                self.btnDisconnect_on_click()
+                self.close()
+                return
+            if cmd.find("?") >= 0 or cmd.find("#")>= 0:
+                res = self.ipap.sendWriteReadCommand(cmd)
+                self.writeConsole(res)
+            elif cmd.find("HELP")>=0:
+                res = self.ipap.sendWriteReadCommand(cmd)
+                self.writeConsole(res)
+            else:
+                self.ipap.sendWriteCommand(cmd)
+        except Exception,e:
+            self.writeConsole("Some exception issuing command '%s'." % cmd)
 
     
     def closeEvent(self, event):
