@@ -1,5 +1,19 @@
-IcepapCMS 1.15 2008/10/20
+IcepapCMS 1.15 2008/11/??
 -------------------------------------------------------------------------
++) Implemented behaviour for the --all-netwroks options flag
++) Command line options added: --expert, --all-networks
++) Two more directories in the preferences: Configurations + firmware
++) Blink button remains pressed until the user clicks it again
++) Save config does not popup anything unless some error in the process
++) Save config also performs "Send Config" if not done by the user
++) Fixed Current Config button behaviour
++) Fixed Undo button behaviour
++) Solve minibug in Icepap Console timout handling
++) Added waiting cursor when saving configuration
++) Solve minibug Sending config not always should set CONFIG mode
++) Solve minibug in 2nd time starting IcepapCMS without accepting preferences
++) Solve minibug when deleting systems while connected to them
+
 +) Last driver signature updated when saving config
 +) Blink button available in the top blue box of the driver view
 +) Set EXPERT_FLAG available under Driver menu as a checkbox
