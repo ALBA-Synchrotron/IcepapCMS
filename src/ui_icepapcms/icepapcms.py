@@ -19,7 +19,7 @@ from motortypescatalogwidget import MotorTypesCatalogWidget
 #from dialogtemplate import DialogTemplate
 from optparse import OptionParser
 
-__version__ = "1.15"
+__version__ = "1.16"
 
 class IcepapApp(QtGui.QApplication):    
     def __init__(self, *args):
