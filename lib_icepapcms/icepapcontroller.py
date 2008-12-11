@@ -57,9 +57,10 @@ class IcepapController(Singleton):
         else:
             try:
                 self.iPaps[icepap_name] = EthIcePAP(host, port, log_path = log_folder)
-                self.iPaps[icepap_name].connect(shouldReconnect = False)
+                self.iPaps[icepap_name].connect()
                 return True
-            except:
+            except Exception,e:
+                print "icepapcontroller: Some exception opening connection.",e
                 return False
         
     def closeConnection(self, icepap_name):
@@ -117,7 +118,9 @@ class IcepapController(Singleton):
                             driver.setMode(self.iPaps[icepap_name].getMode(addr))
                             driver_list[addr] = driver
                             
-        except:
+        #except:
+        except Exception,e:
+            print "Some exception while scanning icepap system:",e
             print "Unexpected errors:", sys.exc_info()[1]
             self.closeConnection(icepap_name)
             return {}
@@ -583,6 +586,7 @@ class IcepapController(Singleton):
             ipap.connect()
             #ver = ipap.getVersionDsp(0)
             ver = ipap.getSystemVersion()
+            print "testing connection"
             ipap.disconnect()
             return True
         except:
