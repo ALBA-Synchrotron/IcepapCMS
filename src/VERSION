@@ -1,4 +1,7 @@
-IcepapCMS 1.15 2008/11/??
+IcepapCMS 1.16 2009/01/??
+-------------------------------------------------------------------------
+
+IcepapCMS 1.15 2008/11/05
 -------------------------------------------------------------------------
 +) Implemented behaviour for the --all-netwroks options flag
 +) Command line options added: --expert, --all-networks
