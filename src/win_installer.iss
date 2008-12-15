@@ -3,7 +3,7 @@
 
 [Setup]
 AppName=IcepapCMS
-AppVerName=IcepapCMS 0.1
+AppVerName=IcepapCMS 1.15
 AppPublisher=Cells - Alba
 AppPublisherURL=http://www.cells.es
 AppSupportURL=http://www.cells.es
@@ -11,7 +11,7 @@ AppUpdatesURL=http://www.cells.es
 DefaultDirName={pf}\IcepapCMS
 DefaultGroupName=IcepapCMS
 DisableProgramGroupPage=yes
-OutputBaseFilename=IcepapCMS-setup
+OutputBaseFilename=IcepapCMS-1.15-setup
 Compression=lzma
 SolidCompression=yes
 
@@ -23,8 +23,8 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 Source: "C:\Documents and Settings\gcuni\Desktop\svn\IcepapCMS\src\dist\_hashlib.pyd" ; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Documents and Settings\gcuni\Desktop\svn\IcepapCMS\src\dist\_mysql.pyd" ; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Documents and Settings\gcuni\Desktop\svn\IcepapCMS\src\dist\_socket.pyd" ; DestDir: "{app}"; Flags: ignoreversion
-;Source: "C:\Documents and Settings\gcuni\Desktop\svn\IcepapCMS\src\dist\_sqlite.pyd" ; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Documents and Settings\gcuni\Desktop\svn\IcepapCMS\src\dist\_sqlite3.pyd" ; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Documents and Settings\gcuni\Desktop\svn\IcepapCMS\src\dist\_ssl.pyd" ; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Documents and Settings\gcuni\Desktop\svn\IcepapCMS\src\dist\bz2.pyd" ; DestDir: "{app}"; Flags: ignoreversion
@@ -36,6 +36,7 @@ Source: "C:\Documents and Settings\gcuni\Desktop\svn\IcepapCMS\src\dist\PyQt4._q
 Source: "C:\Documents and Settings\gcuni\Desktop\svn\IcepapCMS\src\dist\PyQt4.Qt.pyd" ; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Documents and Settings\gcuni\Desktop\svn\IcepapCMS\src\dist\PyQt4.QtCore.pyd" ; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Documents and Settings\gcuni\Desktop\svn\IcepapCMS\src\dist\PyQt4.QtGui.pyd" ; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Documents and Settings\gcuni\Desktop\svn\IcepapCMS\src\dist\pysqlite2._sqlite.pyd" ; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Documents and Settings\gcuni\Desktop\svn\IcepapCMS\src\dist\python25.dll" ; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Documents and Settings\gcuni\Desktop\svn\IcepapCMS\src\dist\pywintypes25.dll" ; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Documents and Settings\gcuni\Desktop\svn\IcepapCMS\src\dist\select.pyd" ; DestDir: "{app}"; Flags: ignoreversion
