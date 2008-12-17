@@ -26,7 +26,7 @@ class IcepapDriver(Storm):
     def __init__(self, icepap_name, addr):
         self.icepapsystem_name = unicode(icepap_name)        
         self.addr = addr
-        self.current_cfg = None                 
+        self.current_cfg = None
         self.initialize()
         
     
@@ -53,7 +53,7 @@ class IcepapDriver(Storm):
         self.historic_cfgs.add(cfg)
         #db = StormManager()
         #db.commitTransaction()
-    
+
     def setConflict(self, conflict):
         self.conflict = conflict
         
@@ -121,17 +121,19 @@ class IcepapDriver(Storm):
             self.setConflict(Conflict.NO_CONFLICT)
             return 0
 
-        config = ConfigManager()
-        """solve_conflicts: If true if conflict appears, automatically will load data from db """
-        solve_conflicts = config.config[config.icepap]["conflict_solve"] == str(True)
-        if solve_conflicts:
-            from mainmanager import MainManager
-            MainManager().saveValuesInIcepap(self, self.current_cfg.toList())
-            self.signDriver()
-            self.setConflict(Conflict.DRIVER_FROM_DB)
-            return 0
-        else:
-            self.setConflict(Conflict.DRIVER_CHANGED)
+        # THIS IS NOT NEEDED ANY MORE, ALL CONFLICTS ARE MANAGED BY THE EXPERT FLAG
+        #config = ConfigManager()
+        #"""solve_conflicts: If true if conflict appears, automatically will load data from db """
+        #solve_conflicts = config.config[config.icepap]["conflict_solve"] == str(True)
+        #if solve_conflicts:
+        #    from mainmanager import MainManager
+        #    MainManager().saveValuesInIcepap(self, self.current_cfg.toList())
+        #    self.signDriver()
+        #    self.setConflict(Conflict.DRIVER_FROM_DB)
+        #    return 0
+        #else:
+        #    self.setConflict(Conflict.DRIVER_CHANGED)
+        self.setConflict(Conflict.DRIVER_CHANGED)
 
         return -1
      
