@@ -91,14 +91,15 @@ class IcepapDriverCfg(Storm):
     def __cmp__(self, other):
         other_list = other.toList()
         self_list = self.toList()
-        equals = True
-        if len(other_list) <> len(self_list):
-            return -1
+
+        #If new firmware version
+        #if len(other_list) <> len(self_list):
+        #    return -1
             
         for name, value in self_list:
             other_value = other.getParameter(name, True)
-            if other_value:
-                if not value == other_value:
+            if not other_value is None:
+                if value != other_value:
                     return -1
             elif name != "IPAPNAME" and name != "VER":
                 return -1
