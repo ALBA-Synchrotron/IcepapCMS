@@ -164,8 +164,12 @@ class IcepapController(Singleton):
         config = config.replace('\r\n$',"")
         params_list = config.split("\r\n")
         for param_value in params_list:
-            split = param_value.split(" ")
-            driver_cfg.setParameter(split[0],split[1])
+            splitted = param_value.split(" ")
+            # TRAC #38 TASK
+            param_name = splitted[0]
+            param_value = splitted[1:]
+            param_value = ' '.join(param_value)
+            driver_cfg.setParameter(param_name, param_value)
 
         return driver_cfg
     
