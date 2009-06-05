@@ -349,8 +349,8 @@ class MainManager(Singleton):
     def setDriverPosition(self, icepap_name, addr, pos_sel, position):
         return self._ctrl_icepap.setDriverPosition(icepap_name, addr, pos_sel, position)
     
-    def setEncoderPosition(self, icepap_name, addr, pos_sel, position):
-        return self._ctrl_icepap.setDriverPosition(icepap_name, addr, pos_sel, position)
+    def setDriverEncoder(self, icepap_name, addr, pos_sel, position):
+        return self._ctrl_icepap.setDriverEncoder(icepap_name, addr, pos_sel, position)
     
     def moveDriver(self, icepap_name, addr, steps):
         try:
