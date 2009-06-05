@@ -1238,7 +1238,7 @@ class PageiPapDriver(QtGui.QWidget):
         enc_sel = str(self.ui.cb_enc_sel.currentText()).upper()
         try:
             position = int(self.ui.txtEnc.text())
-            self._manager.setDriverPosition(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, enc_sel, position)
+            self._manager.setDriverEncoder(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, enc_sel, position)
         except:
             print "Unexpected error:", sys.exc_info()
             MessageDialogs.showWarningMessage(self, "Set driver encoderposition", "Wrong parameter format")

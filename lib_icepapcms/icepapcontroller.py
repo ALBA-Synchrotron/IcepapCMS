@@ -395,9 +395,9 @@ class IcepapController(Singleton):
         except:
             return -1
     
-    def setEncoderPosition(self, icepap_name, driver_addr, enc_sel, position):
+    def setDriverEncoder(self, icepap_name, driver_addr, enc_sel, position):
         try:
-            self.iPaps[icepap_name].setPosition(driver_addr, position, enc_sel)
+            self.iPaps[icepap_name].setEncoder(driver_addr, position, enc_sel)
             return 0
         except:
             return -1
