@@ -1,5 +1,9 @@
 IcepapCMS 1.16 2009/01/??
 -------------------------------------------------------------------------
++) Added support for the new ?VER SAVED command available since 1.16
++) Added support for the new ?_PROG command available since MCPU 0.17
++) Fixed bug on setting enc position (it did a POS command instead of an ENC command)
++) Fixed bug on conflicts with FLAG-type parameters
 
 IcepapCMS 1.15 2008/11/05
 -------------------------------------------------------------------------
