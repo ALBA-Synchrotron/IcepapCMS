@@ -207,11 +207,13 @@ class MainManager(Singleton):
                 msg = "Some drivers do not have the MASTER's firmware version (%s):\n" % (master_version)
                 for driver,version in mismatched_drivers:
                     msg = msg + "driver %d: %s\n" % (driver,version)
+                saved_version = self._ctrl_icepap.iPaps[icepap_name].getVersionSaved()
+                msg = msg + "Board saved version: %s\n" % (saved_version)
                 msg = msg + "Would you like to upgrade these drivers?\n"
                 upgrade = MessageDialogs.showYesNoMessage(self._form, "Firmware mismatch", msg)
                 if upgrade:
                     progress_dialog = QtGui.QProgressDialog(self._form)
-                    progress_dialog.setLabel(QtGui.QLabel("Icepap: %s\nUpgrading drivers' firmware to %s" % (icepap_name,master_version)))
+                    progress_dialog.setLabel(QtGui.QLabel("Icepap: %s\nUpgrading drivers' firmware to %s" % (icepap_name,saved_version)))
                     progress_dialog.setCancelButton(None)
                     progress_dialog.setMaximum(100)
                     upgrading = self._ctrl_icepap.upgradeDrivers(icepap_name,progress_dialog)
