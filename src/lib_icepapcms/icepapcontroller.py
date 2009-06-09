@@ -502,17 +502,27 @@ class IcepapController(Singleton):
         return True
 
     def updateProgressBar(self):
-        cmd = "?PROG"
-        answer = self.programming_ipap.sendWriteReadCommand(cmd)
-        if answer.count("ACTIVE") > 0:
-            p = int(answer.split(" ")[2].split(".")[0])
-            self.progress_dialog.setValue(p)
+        progress = self.programming_ipap.getProgressStatus()
+        if progress is not None:
+            self.progress_dialog.setValue(progress)
         else:
             self.progress_dialog.setValue(100)
             self.updateProgressBarTimer.stop()
             cmd = "#MODE OPER"
             answer = self.programming_ipap.sendWriteReadCommand(cmd)
-            self.programming_ipap = None
+            self.programming_ipap = None    
+         
+        ##cmd = "?PROG"
+        ##answer = self.programming_ipap.sendWriteReadCommand(cmd)
+        ##if answer.count("ACTIVE") > 0:
+        ##    p = int(answer.split(" ")[2].split(".")[0])
+        ##    self.progress_dialog.setValue(p)
+        ##else:
+        ##    self.progress_dialog.setValue(100)
+        ##    self.updateProgressBarTimer.stop()
+        ##    cmd = "#MODE OPER"
+        ##    answer = self.programming_ipap.sendWriteReadCommand(cmd)
+        ##    self.programming_ipap = None
         
     def upgradeFirmware(self, serial, dst, filename, addr, options, logger):
         logger.addToLog("Reading file "+ filename)
