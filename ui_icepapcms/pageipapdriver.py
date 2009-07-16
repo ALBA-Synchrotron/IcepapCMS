@@ -1184,7 +1184,7 @@ class PageiPapDriver(QtGui.QWidget):
         
 
     def btnBlink_on_press(self):
-        secs = 3600
+        secs = 600
         if self.ui.btnBlink.isChecked():
             secs = 0
         self._manager.blinkDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr,secs)
