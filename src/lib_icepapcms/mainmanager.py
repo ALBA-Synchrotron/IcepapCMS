@@ -98,14 +98,14 @@ class MainManager(Singleton):
             
                 self._ctrl_icepap.openConnection(icepap_name, host, port)
                 driver_list = self._ctrl_icepap.scanIcepapSystem(icepap_name)
+                self._db.addIcepapSystem(icepap_system)
+                self.IcepapSystemList[icepap_name] = icepap_system
+                self.location.addSystem(icepap_system)
                 for driver in driver_list.values():
                     self._db.store(driver)
                     icepap_system.addDriverList(driver_list)
-                    self._db.addIcepapSystem(icepap_system)
-                    self.IcepapSystemList[icepap_name] = icepap_system
-                    self.location.addSystem(icepap_system)
-                    QtGui.QApplication.instance().restoreOverrideCursor()
-                    return icepap_system
+                QtGui.QApplication.instance().restoreOverrideCursor()
+                return icepap_system
             except IcePAPException,ie:
                 print "There was an error connecting to host '"+str(host)+"': ",ie
             except Exception,e:
