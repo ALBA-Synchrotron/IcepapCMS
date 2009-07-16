@@ -538,9 +538,16 @@ class PageiPapDriver(QtGui.QWidget):
             description = description + "Last signature '%s' " % signature
             try:
                 aux = signature.split('_')
+                user = '?'
                 host = aux[0]
+                # As from version 1.17, the signature includes the username
+                user_and_host = aux[0]
+                aux2 = user_and_host.split('@')
+                if len(aux2) > 1:
+                    user = aux2[0]
+                    host = aux2[1]
                 hex_epoch = aux[1]
-                description = description + "Host: '%s' Date: '%s'" % (host,datetime.datetime.fromtimestamp(int(hex_epoch,16)).ctime())
+                description = description + "User: '%s@%s' Date: '%s'" % (user,host,datetime.datetime.fromtimestamp(int(hex_epoch,16)).ctime())
             except:
                 pass
         else:            
@@ -936,6 +943,8 @@ class PageiPapDriver(QtGui.QWidget):
             if fn.isEmpty():
                 return
             filename = str(fn)
+            if filename.find('.xml') == -1:
+                filename = filename + '.xml'
             self.exportToFile(filename)
         #except:
         #    MessageDialogs.showWarningMessage(self, "File", "Error saving file\n")
