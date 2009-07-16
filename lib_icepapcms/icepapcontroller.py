@@ -135,7 +135,7 @@ class IcepapController(Singleton):
         
         """ TO-DO STORM review"""   
         driver_cfg = IcepapDriverCfg(unicode(datetime.datetime.now()))
-        driver_cfg.setSignature(self.iPaps[icepap_name].getConfigSignature(driver_addr))
+        driver_cfg.setSignature(self.iPaps[icepap_name].getConfig(driver_addr))
         #ver = self.iPaps[icepap_name].getVersionDsp(driver_addr)
         # THE VERSION NUMBER TO BE SHOWN IS THE DRIVER'S VERSION INSTEAD OF THE DSP'S ONE.
         ver = self.iPaps[icepap_name].getVersion(driver_addr,"DRIVER")
@@ -159,7 +159,7 @@ class IcepapController(Singleton):
         ###    driver_cfg.setParameter(name, value)
         # INSTEAD OF READING PARAM BY PARAM, WE SHOULD ASK THE ICEPAP FOR ALL THE CONFIGURATION
         # WITH THE #N?:CFG COMMAND, USING SOME .getCfg() METHOD.
-        config = self.iPaps[icepap_name].getConfig(driver_addr)
+        config = self.iPaps[icepap_name].getCfg(driver_addr)
         config = config.replace('$\r\n',"")
         config = config.replace('\r\n$',"")
         params_list = config.split("\r\n")
@@ -177,7 +177,7 @@ class IcepapController(Singleton):
         try:
             """ TO-DO STORM review"""
             if self.iPaps[icepap_name].getMode(driver_addr) != IcepapMode.CONFIG:
-                self.iPaps[icepap_name].startConfig(driver_addr)
+                self.iPaps[icepap_name].setConfig(driver_addr)
 
             # THE CONFIGURATION VALUES SHOULD BE SENT IN A SPECIFIC ORDER
             order_list = self.icepap_cfgorder[icepap_name][driver_addr]
@@ -220,7 +220,7 @@ class IcepapController(Singleton):
     def signDriverConfiguration(self,icepap_name, driver_addr, signature):
         if self.iPaps.has_key(icepap_name):
             if self.iPaps[icepap_name].getMode(driver_addr) != IcepapMode.CONFIG:
-                self.iPaps[icepap_name].startConfig(driver_addr)
+                self.iPaps[icepap_name].setConfig(driver_addr)
             self.iPaps[icepap_name].signConfig(driver_addr, signature)
    
     def getDriverStatus(self, icepap_name, driver_addr):
@@ -420,10 +420,10 @@ class IcepapController(Singleton):
             self.iPaps[icepap_name].move(driver_addr, pos)
         
     def stopDriver(self, icepap_name, driver_addr):
-        self.iPaps[icepap_name].stopMotor(driver_addr)
+        self.iPaps[icepap_name].stop(driver_addr)
     
     def abortDriver(self, icepap_name, driver_addr):
-        self.iPaps[icepap_name].abortMotor(driver_addr)
+        self.iPaps[icepap_name].abort(driver_addr)
 
     def blinkDriver(self, icepap_name, driver_addr,secs):
         self.iPaps[icepap_name].blink(driver_addr,secs)
