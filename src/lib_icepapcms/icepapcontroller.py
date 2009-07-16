@@ -91,32 +91,50 @@ class IcepapController(Singleton):
         self.icepap_cfginfos[icepap_name] = {}
         self.icepap_cfgorder[icepap_name] = {}
         try:
-            sys_status = self.iPaps[icepap_name].getSysStatus()
-            sys_status = int(sys_status, 16)
-            for crate in range(16):
-                if (sys_status & (1<<crate)) > 0:
-                    crate_status =  self.iPaps[icepap_name].getRackStatus(crate)[1]
-                    crate_status = int(crate_status, 16)
-                    for driver in range(8):
-                        if (crate_status & (1<<driver)) > 0:
-                            addr = self._getDriverAddr(crate, driver+1)
-                            """ TO-DO STORM review"""
-                            driver = icepapdriver.IcepapDriver(driver_name, addr)
-                            driver_cfg = self.getDriverConfiguration(icepap_name, addr)
-                            driver.addConfiguration(driver_cfg)
-                            driver.setName(driver_cfg.getParameter(unicode("IPAPNAME"),True))
-                            #print driver_cfg.getParameter(unicode("IPAPNAME"),True)
-                            #print driver_cfg.getParameter(unicode("VER"),True)
-                            #print driver_cfg.getParameter(unicode("ID"),True)
+#            sys_status = self.iPaps[icepap_name].getSysStatus()
+#            sys_status = int(sys_status, 16)
+#            for crate in range(16):
+#                if (sys_status & (1<<crate)) > 0:
+#                    crate_status =  self.iPaps[icepap_name].getRackStatus(crate)[1]
+#                    crate_status = int(crate_status, 16)
+#                    for driver in range(8):
+#                        if (crate_status & (1<<driver)) > 0:
+#                            addr = self._getDriverAddr(crate, driver+1)
+#                            pass
+#                            driver = icepapdriver.IcepapDriver(driver_name, addr)
+#                            driver_cfg = self.getDriverConfiguration(icepap_name, addr)
+#                            driver.addConfiguration(driver_cfg)
+#                            driver.setName(driver_cfg.getParameter(unicode("IPAPNAME"),True))
+#                            #print driver_cfg.getParameter(unicode("IPAPNAME"),True)
+#                            #print driver_cfg.getParameter(unicode("VER"),True)
+#                            #print driver_cfg.getParameter(unicode("ID"),True)
+#
+#                            # CFGINFO IS ALSO SPECIFIC FOR EACH DRIVER    
+#                            cfginfo_dict,order_list = self.getDriverCfgInfoDictAndList(icepap_name,addr)
+#                            self.icepap_cfginfos[icepap_name][addr] = cfginfo_dict    
+#                            self.icepap_cfgorder[icepap_name][addr] = order_list
+#
+#                            driver.setName(self.iPaps[icepap_name].getName(addr))
+#                            driver.setMode(self.iPaps[icepap_name].getMode(addr))
+#                            driver_list[addr] = driver
+            for addr in self.iPaps[icepap_name].getDriversAlive():
+                """ TO-DO STORM review"""
+                driver = icepapdriver.IcepapDriver(driver_name, addr)
+                driver_cfg = self.getDriverConfiguration(icepap_name, addr)
+                driver.addConfiguration(driver_cfg)
+                driver.setName(driver_cfg.getParameter(unicode("IPAPNAME"),True))
+                #print driver_cfg.getParameter(unicode("IPAPNAME"),True)
+                #print driver_cfg.getParameter(unicode("VER"),True)
+                #print driver_cfg.getParameter(unicode("ID"),True)
 
-                            # CFGINFO IS ALSO SPECIFIC FOR EACH DRIVER    
-                            cfginfo_dict,order_list = self.getDriverCfgInfoDictAndList(icepap_name,addr)
-                            self.icepap_cfginfos[icepap_name][addr] = cfginfo_dict    
-                            self.icepap_cfgorder[icepap_name][addr] = order_list
+                # CFGINFO IS ALSO SPECIFIC FOR EACH DRIVER    
+                cfginfo_dict,order_list = self.getDriverCfgInfoDictAndList(icepap_name,addr)
+                self.icepap_cfginfos[icepap_name][addr] = cfginfo_dict    
+                self.icepap_cfgorder[icepap_name][addr] = order_list
 
-                            driver.setName(self.iPaps[icepap_name].getName(addr))
-                            driver.setMode(self.iPaps[icepap_name].getMode(addr))
-                            driver_list[addr] = driver
+                driver.setName(self.iPaps[icepap_name].getName(addr))
+                driver.setMode(self.iPaps[icepap_name].getMode(addr))
+                driver_list[addr] = driver
                             
         #except:
         except Exception,e:
