@@ -14,6 +14,7 @@ class ConfigManager(Singleton):
     log_folder = os.path.expanduser('~/.icepapcms/log')
     firmware_folder = os.path.expanduser('~/.icepapcms/firmware')
     configs_folder = os.path.expanduser('~/.icepapcms/configs')
+    templates_folder = os.path.expanduser('~/.icepapcms/templates')
         
     defaults = '''
     [database]
@@ -28,7 +29,7 @@ class ConfigManager(Singleton):
     log_folder = string(default=''' + log_folder + ''')
     firmware_folder = string(default=''' + firmware_folder + ''')
     configs_folder = string(default=''' + configs_folder + ''')
-    conflict_solve= string(default=False)     
+    templates_folder = string(default=''' + templates_folder + ''')
     '''
     
     defaults = defaults.splitlines()
@@ -48,7 +49,7 @@ class ConfigManager(Singleton):
         self.config = ConfigObj(self.config_filename, configspec = self.configspec)
         vdt = Validator()
         self.config.validate(vdt, copy=True)
-        for folder in "log_folder","firmware_folder","configs_folder":
+        for folder in "log_folder","firmware_folder","configs_folder","templates_folder":
             directory = self.config["icepap"][folder]
             if not os.path.exists(directory):
                 os.mkdir(directory)
