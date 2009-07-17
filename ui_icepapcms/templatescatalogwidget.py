@@ -54,6 +54,8 @@ class TemplatesCatalogWidget(QtGui.QDialog):
         self.proxyView.setSortingEnabled(True)
         # AT THE ISG LAB, THIS METHOD IS NOT AVAILABLE...
         #self.proxyView.setWordWrap(True)
+        self.connect(self.proxyView,
+                     QtCore.SIGNAL("doubleClicked(QModelIndex)"),self.rowDoubleClicked)
 
         self.filterPatternLineEdit = QtGui.QLineEdit()
         self.filterPatternLabel = QtGui.QLabel("&Filter pattern:")
@@ -109,6 +111,10 @@ class TemplatesCatalogWidget(QtGui.QDialog):
         self.filterPatternLineEdit.setText("")
 
 
+    def rowDoubleClicked(self,modelindex):
+        row = modelindex.row()
+        self.applySelection(please_close=False)
+        
     def buildCatalog(self,catalog):
         doc = minidom.parse(catalog)
         root = doc.documentElement
@@ -178,14 +184,14 @@ class TemplatesCatalogWidget(QtGui.QDialog):
             self.filterColumnComboBox.currentIndex())
 
 
-    def applySelection(self):
+    def applySelection(self, please_close=True):
         indexes = self.proxyView.selectedIndexes()
         if len(indexes) > 0:
             template_name = str(indexes[0].data().toString())
             params = self.catalog.get(template_name)
             self.pageipapdriver.setTemplateParams(template_name,params)
 
-            if self.chkAutoClose.isChecked():
+            if please_close and self.chkAutoClose.isChecked():
                 self.close()
 
 
