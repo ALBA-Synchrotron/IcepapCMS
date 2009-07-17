@@ -1269,11 +1269,11 @@ class PageiPapDriver(QtGui.QWidget):
     def hideHistoricWidget(self):
         self.ui.stackedWidget.setCurrentIndex(0)
 
-    # ---------------------- Motor Types Catalog Widget -------------------
-    def setMotorTypeParams(self,motor_type,params):
+    # ---------------------- Templates Catalog Widget -------------------
+    def setTemplateParams(self,template_name,params):
         for param in params.keys():
             value = params.get(param)
             if self.var_dict.has_key(param):
                 [nsection, element] = self.var_dict[param]
                 self._setWidgetValue(element, value)
-        #print "THE MOTOR TYPE LABEL IS NOT YET IMPLEMENTED. Selected type: '%s'" % motor_type
+        #print "THE TEMPLATE LABEL IS NOT YET IMPLEMENTED. Selected type: '%s'" % template_name
