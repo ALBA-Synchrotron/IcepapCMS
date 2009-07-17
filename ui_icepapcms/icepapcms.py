@@ -14,7 +14,7 @@ from dialogpreferences import DialogPreferences
 from dialogipapprogram import DialogIcepapProgram
 from ipapconsole import IcepapConsole
 from messagedialogs import MessageDialogs
-from motortypescatalogwidget import MotorTypesCatalogWidget
+from templatescatalogwidget import TemplatesCatalogWidget
 #from dialoghistoriccfg import DialogHistoricCfg
 #from dialogtemplate import DialogTemplate
 from optparse import OptionParser
@@ -802,11 +802,11 @@ class IcepapCMS(QtGui.QMainWindow):
     def actionTemplates(self):
         pathname = os.path.dirname(sys.argv[0])
         path = os.path.abspath(pathname)
-        catalog_file = path+'/templates/catalog.xml'
+        # The master catalog file
+        master_catalog_file = path+'/templates/catalog.xml'
 
-        dlg = MotorTypesCatalogWidget(catalog_file,self.ui.pageiPapDriver,self)
+        dlg = TemplatesCatalogWidget(master_catalog_file,self.ui.pageiPapDriver,self)
         dlg.show()
-        #self.ui.pageiPapDriver.showMotorCatalog(catalog)
     
     def actionHelp(self):
         pathname = os.path.dirname(sys.argv[0])
