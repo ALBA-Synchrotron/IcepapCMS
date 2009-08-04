@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'axis.ui'
 #
-# Created: Mon Aug  3 17:26:45 2009
+# Created: Tue Aug  4 15:08:47 2009
 #      by: PyQt4 UI code generator 4.4.3
 #
 # WARNING! All changes made in this file will be lost!

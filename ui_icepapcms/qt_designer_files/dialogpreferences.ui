@@ -482,7 +482,8 @@
    <string>Preferences</string>
   </property>
   <property name="windowIcon" >
-   <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/preferences-system.png</iconset>
+   <iconset resource="icepapcms.qrc" >
+    <normaloff>:/icons/IcepapCfg Icons/preferences-system.png</normaloff>:/icons/IcepapCfg Icons/preferences-system.png</iconset>
   </property>
   <layout class="QGridLayout" >
    <item row="0" column="0" >
@@ -540,7 +541,8 @@
        <string>Storage</string>
       </property>
       <property name="icon" >
-       <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/database.png</iconset>
+       <iconset resource="icepapcms.qrc" >
+        <normaloff>:/icons/IcepapCfg Icons/database.png</normaloff>:/icons/IcepapCfg Icons/database.png</iconset>
       </property>
      </item>
      <item>
@@ -548,7 +550,8 @@
        <string>IcePAP</string>
       </property>
       <property name="icon" >
-       <iconset resource="icepapcms.qrc" >:/small_icons/IcepapCfg Icons/Icepapicon.png</iconset>
+       <iconset resource="icepapcms.qrc" >
+        <normaloff>:/small_icons/IcepapCfg Icons/Icepapicon.png</normaloff>:/small_icons/IcepapCfg Icons/Icepapicon.png</iconset>
       </property>
      </item>
     </widget>
@@ -556,26 +559,14 @@
    <item row="1" column="0" >
     <widget class="QStackedWidget" name="stackedWidget" >
      <property name="currentIndex" >
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="pageStorage" >
       <layout class="QGridLayout" >
-       <property name="leftMargin" >
+       <property name="margin" >
         <number>9</number>
        </property>
-       <property name="topMargin" >
-        <number>9</number>
-       </property>
-       <property name="rightMargin" >
-        <number>9</number>
-       </property>
-       <property name="bottomMargin" >
-        <number>9</number>
-       </property>
-       <property name="horizontalSpacing" >
-        <number>6</number>
-       </property>
-       <property name="verticalSpacing" >
+       <property name="spacing" >
         <number>6</number>
        </property>
        <item row="4" column="0" >
@@ -583,7 +574,7 @@
          <property name="orientation" >
           <enum>Qt::Vertical</enum>
          </property>
-         <property name="sizeHint" >
+         <property name="sizeHint" stdset="0" >
           <size>
            <width>20</width>
            <height>40</height>
@@ -679,16 +670,7 @@ p, li { white-space: pre-wrap; }
           <property name="spacing" >
            <number>6</number>
           </property>
-          <property name="leftMargin" >
-           <number>9</number>
-          </property>
-          <property name="topMargin" >
-           <number>9</number>
-          </property>
-          <property name="rightMargin" >
-           <number>9</number>
-          </property>
-          <property name="bottomMargin" >
+          <property name="margin" >
            <number>9</number>
           </property>
           <item>
@@ -724,22 +706,10 @@ p, li { white-space: pre-wrap; }
           <string>Remote storage</string>
          </property>
          <layout class="QGridLayout" >
-          <property name="leftMargin" >
+          <property name="margin" >
            <number>9</number>
           </property>
-          <property name="topMargin" >
-           <number>9</number>
-          </property>
-          <property name="rightMargin" >
-           <number>9</number>
-          </property>
-          <property name="bottomMargin" >
-           <number>9</number>
-          </property>
-          <property name="horizontalSpacing" >
-           <number>6</number>
-          </property>
-          <property name="verticalSpacing" >
+          <property name="spacing" >
            <number>6</number>
           </property>
           <item row="1" column="5" >
@@ -747,7 +717,7 @@ p, li { white-space: pre-wrap; }
             <property name="orientation" >
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeHint" >
+            <property name="sizeHint" stdset="0" >
              <size>
               <width>71</width>
               <height>20</height>
@@ -806,7 +776,7 @@ p, li { white-space: pre-wrap; }
             <property name="orientation" >
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeHint" >
+            <property name="sizeHint" stdset="0" >
              <size>
               <width>40</width>
               <height>20</height>
@@ -853,16 +823,7 @@ p, li { white-space: pre-wrap; }
          <property name="spacing" >
           <number>6</number>
          </property>
-         <property name="leftMargin" >
-          <number>0</number>
-         </property>
-         <property name="topMargin" >
-          <number>0</number>
-         </property>
-         <property name="rightMargin" >
-          <number>0</number>
-         </property>
-         <property name="bottomMargin" >
+         <property name="margin" >
           <number>0</number>
          </property>
          <item>
@@ -874,7 +835,8 @@ p, li { white-space: pre-wrap; }
             <string>Sqlite</string>
            </property>
            <property name="icon" >
-            <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/sqlite.png</iconset>
+            <iconset resource="icepapcms.qrc" >
+             <normaloff>:/icons/IcepapCfg Icons/sqlite.png</normaloff>:/icons/IcepapCfg Icons/sqlite.png</iconset>
            </property>
            <property name="iconSize" >
             <size>
@@ -890,7 +852,8 @@ p, li { white-space: pre-wrap; }
             <string>MySql</string>
            </property>
            <property name="icon" >
-            <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/mysql.gif</iconset>
+            <iconset resource="icepapcms.qrc" >
+             <normaloff>:/icons/IcepapCfg Icons/mysql.gif</normaloff>:/icons/IcepapCfg Icons/mysql.gif</iconset>
            </property>
            <property name="iconSize" >
             <size>
@@ -906,7 +869,8 @@ p, li { white-space: pre-wrap; }
             <string>Postgres</string>
            </property>
            <property name="icon" >
-            <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/postgresql.png</iconset>
+            <iconset resource="icepapcms.qrc" >
+             <normaloff>:/icons/IcepapCfg Icons/postgresql.png</normaloff>:/icons/IcepapCfg Icons/postgresql.png</iconset>
            </property>
            <property name="iconSize" >
             <size>
@@ -963,7 +927,7 @@ p, li { white-space: pre-wrap; }
             <property name="orientation" >
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeHint" >
+            <property name="sizeHint" stdset="0" >
              <size>
               <width>261</width>
               <height>20</height>
@@ -1075,7 +1039,7 @@ p, li { white-space: pre-wrap; }
          <property name="orientation" >
           <enum>Qt::Vertical</enum>
          </property>
-         <property name="sizeHint" >
+         <property name="sizeHint" stdset="0" >
           <size>
            <width>522</width>
            <height>61</height>
@@ -1092,16 +1056,7 @@ p, li { white-space: pre-wrap; }
      <property name="spacing" >
       <number>6</number>
      </property>
-     <property name="leftMargin" >
-      <number>0</number>
-     </property>
-     <property name="topMargin" >
-      <number>0</number>
-     </property>
-     <property name="rightMargin" >
-      <number>0</number>
-     </property>
-     <property name="bottomMargin" >
+     <property name="margin" >
       <number>0</number>
      </property>
      <item>
@@ -1109,7 +1064,7 @@ p, li { white-space: pre-wrap; }
        <property name="orientation" >
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeHint" >
+       <property name="sizeHint" stdset="0" >
         <size>
          <width>131</width>
          <height>31</height>
@@ -1123,7 +1078,8 @@ p, li { white-space: pre-wrap; }
         <string>OK</string>
        </property>
        <property name="icon" >
-        <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/close.png</iconset>
+        <iconset resource="icepapcms.qrc" >
+         <normaloff>:/icons/IcepapCfg Icons/close.png</normaloff>:/icons/IcepapCfg Icons/close.png</iconset>
        </property>
        <property name="iconSize" >
         <size>
