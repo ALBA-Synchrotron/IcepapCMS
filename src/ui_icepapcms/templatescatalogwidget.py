@@ -113,7 +113,10 @@ class TemplatesCatalogWidget(QtGui.QDialog):
 
     def rowDoubleClicked(self,modelindex):
         row = modelindex.row()
-        self.applySelection(please_close=False)
+        # FIRST IT WAS DESIGNED TO NOT CLOSE
+        # NOW, WE SHOULD RELY ON THE VALUE OF THE CHECKBOX
+        # SO THE OPTION PARAMETER COULD BE REMOVED
+        self.applySelection(please_close=True)
         
     def buildCatalog(self,catalog):
         doc = minidom.parse(catalog)

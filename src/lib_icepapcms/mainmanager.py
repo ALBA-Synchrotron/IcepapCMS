@@ -21,7 +21,7 @@ class MainManager(Singleton):
         pass
 
     def init(self, *args):
-        self.IcepapSystemList = {}                
+        self.IcepapSystemList = {}              
         self._ctrl_icepap = IcepapController()
         self._db = StormManager()
         
@@ -31,7 +31,7 @@ class MainManager(Singleton):
         self.locationList = self._db.getAllLocations()
         self.location = None
         self.IcepapSystemList = {}
-       
+
     
     def addLocation(self, location_name):
         """ Adds a location in the database """
@@ -102,12 +102,15 @@ class MainManager(Singleton):
                 self.IcepapSystemList[icepap_name] = icepap_system
                 self.location.addSystem(icepap_system)
                 for driver in driver_list.values():
+                    icepap_system.addDriver(driver)
                     self._db.store(driver)
-                    icepap_system.addDriverList(driver_list)
+                self._db.commitTransaction()
                 QtGui.QApplication.instance().restoreOverrideCursor()
+                if len(driver_list) == 0:
+                    MessageDialogs.showWarningMessage(None, "Scanning Icepap Warning", "The icepap system '"+icepap_name+"' has ZERO drivers.\nPlease make sure that the CAN BUS TERMINATOR is connected.")
                 return icepap_system
             except IcePAPException,ie:
-                print "There was an error connecting to host '"+str(host)+"': ",ie
+                MessageDialogs.showErrorMessage(None, "Scanning Icepap Error", "Could not scan the '"+icepap_name+"' Icepap System.\nPlease make sure that the system '"+(icepap_name)+"' is in your subnetwork.\nException:\n\t"+str(ie))
             except Exception,e:
                 print "Unknown exception:",e
             
@@ -178,8 +181,7 @@ class MainManager(Singleton):
             else:
                 conflictsList.append([Conflict.NO_CONNECTION, icepap_system, 0])
         except IcePAPException,error:
-            #MessageDialogs.showErrorMessage(self._form, "Scan Icepap error", "%s Connection error:%s" % (icepap_name,error.msg))
-            pass
+            MessageDialogs.showErrorMessage(None, "Scanning Icepap Error", "Could not scan the '"+icepap_name+"' Icepap System.\nPlease make sure that the system '"+(icepap_name)+"' is in your subnetwork.\nException:"+str(error))
         except:
             print "mainmanager:scanIcepap:Unexpected error:", sys.exc_info()
             conflictsList.append([Conflict.NO_CONNECTION, icepap_system, 0])
@@ -251,9 +253,10 @@ class MainManager(Singleton):
         src_driver.icepap_system.removeDriver(src_driver.addr)     
         return src_sys
         
+
         
     def getDriversToSign(self):
-        """ Gets the all drivers which mode = CONFIG """
+        """ Gets the all drivers to be signed """
         signList = []
         for icepap_system in self.IcepapSystemList.values():
             """ TO-DO STORM review"""
@@ -404,10 +407,17 @@ class MainManager(Singleton):
             icepap_driver.mode = unicode(IcepapMode.CONFIG)
             icepap_driver.addConfiguration(new_cfg)
             return True
-    
+
+    def startConfiguringDriver(self, icepap_driver):
+        self._ctrl_icepap.startConfiguringDriver(icepap_driver.icepapsystem_name, icepap_driver)
+
+    def endConfiguringDriver(self, icepap_driver):
+        self._ctrl_icepap.endConfiguringDriver(icepap_driver.icepapsystem_name, icepap_driver)
+        
     def discardDriverChanges(self, icepap_driver):
         icepap_driver.setStartupCfg()
-        self._ctrl_icepap.discardDriverCfg(icepap_driver.icepapsystem_name, icepap_driver.addr)
+        #self._ctrl_icepap.discardDriverCfg(icepap_driver.icepapsystem_name, icepap_driver.addr)
+        pass
         
         
     def undoDriverConfiguration(self, icepap_driver):

@@ -156,7 +156,7 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
         
         if icepap_system.conflict == Conflict.NO_CONNECTION or no_expand:
             return
-        drivers = icepap_system.getDrivers(True)
+        drivers = icepap_system.getDrivers(in_memory=True)
         drivers.sort()
         for driver in drivers:
             addr = driver.addr
@@ -257,6 +257,7 @@ class TreeItem:
                 self.role = IcepapTreeModel.DRIVER_MOVED
             elif self.itemData.mode == IcepapMode.CONFIG:
                 self.role = IcepapTreeModel.DRIVER_CFG
+        return self.role
         
         
     def appendChild(self, child, index = None):

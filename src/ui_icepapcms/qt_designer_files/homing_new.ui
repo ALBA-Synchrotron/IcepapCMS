@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>250</width>
-    <height>329</height>
+    <width>274</width>
+    <height>314</height>
    </rect>
   </property>
   <property name="sizePolicy" >
@@ -74,7 +74,7 @@
          </widget>
         </item>
         <item row="0" column="1" >
-         <widget class="QComboBox" name="cfgHOMESRC" >
+         <widget class="QComboBox" name="HOMESRC" >
           <property name="sizePolicy" >
            <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
             <horstretch>0</horstretch>
@@ -97,6 +97,9 @@
            <font>
             <pointsize>7</pointsize>
            </font>
+          </property>
+          <property name="editable" >
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -126,7 +129,7 @@
          </widget>
         </item>
         <item row="1" column="1" >
-         <widget class="QComboBox" name="cfgHOMETYPE" >
+         <widget class="QComboBox" name="HOMETYPE" >
           <property name="sizePolicy" >
            <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
             <horstretch>0</horstretch>
@@ -150,6 +153,9 @@
             <pointsize>7</pointsize>
            </font>
           </property>
+          <property name="editable" >
+           <bool>true</bool>
+          </property>
          </widget>
         </item>
        </layout>
@@ -162,7 +168,7 @@
         <property name="sizeType" >
          <enum>QSizePolicy::Fixed</enum>
         </property>
-        <property name="sizeHint" stdset="0" >
+        <property name="sizeHint" >
          <size>
           <width>370</width>
           <height>10</height>
@@ -209,7 +215,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QFrame" name="cfgHOMEFLAGS" >
+       <widget class="QFrame" name="flagsFrame" >
         <property name="frameShape" >
          <enum>QFrame::NoFrame</enum>
         </property>
@@ -225,7 +231,7 @@
            <property name="sizeType" >
             <enum>QSizePolicy::Maximum</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" >
             <size>
              <width>50</width>
              <height>20</height>
@@ -234,7 +240,7 @@
           </spacer>
          </item>
          <item row="0" column="1" >
-          <widget class="QCheckBox" name="cfgHOMEFLAGS_AUTODIR" >
+          <widget class="QCheckBox" name="AUTODIR" >
            <property name="sizePolicy" >
             <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
              <horstretch>0</horstretch>
@@ -266,7 +272,7 @@
            <property name="sizeType" >
             <enum>QSizePolicy::Maximum</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" >
             <size>
              <width>50</width>
              <height>20</height>
@@ -275,7 +281,7 @@
           </spacer>
          </item>
          <item row="1" column="1" >
-          <widget class="QCheckBox" name="cfgHOMEFLAGS_REVERSE" >
+          <widget class="QCheckBox" name="REVERSE" >
            <property name="sizePolicy" >
             <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
              <horstretch>0</horstretch>
@@ -307,7 +313,7 @@
            <property name="sizeType" >
             <enum>QSizePolicy::Maximum</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" >
             <size>
              <width>50</width>
              <height>20</height>
@@ -316,7 +322,7 @@
           </spacer>
          </item>
          <item row="2" column="1" >
-          <widget class="QCheckBox" name="cfgHOMEFLAGS_SETPOS" >
+          <widget class="QCheckBox" name="SETPOS" >
            <property name="sizePolicy" >
             <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
              <horstretch>0</horstretch>
@@ -348,7 +354,7 @@
            <property name="sizeType" >
             <enum>QSizePolicy::Maximum</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" >
             <size>
              <width>50</width>
              <height>20</height>
@@ -357,7 +363,7 @@
           </spacer>
          </item>
          <item row="3" column="1" >
-          <widget class="QCheckBox" name="cfgHOMEFLAGS_SLOW" >
+          <widget class="QCheckBox" name="SLOW" >
            <property name="sizePolicy" >
             <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
              <horstretch>0</horstretch>
@@ -392,7 +398,7 @@
         <property name="sizeType" >
          <enum>QSizePolicy::Fixed</enum>
         </property>
-        <property name="sizeHint" stdset="0" >
+        <property name="sizeHint" >
          <size>
           <width>370</width>
           <height>10</height>
@@ -428,7 +434,7 @@
          </widget>
         </item>
         <item row="0" column="1" >
-         <widget class="QSpinBox" name="cfgHOMEPOS" >
+         <widget class="QSpinBox" name="HOMEPOS" >
           <property name="sizePolicy" >
            <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
             <horstretch>0</horstretch>
@@ -454,9 +460,6 @@
           </property>
           <property name="text" stdset="0" >
            <string>0</string>
-          </property>
-          <property name="maximum" >
-           <number>999999999</number>
           </property>
          </widget>
         </item>
@@ -486,7 +489,7 @@
          </widget>
         </item>
         <item row="1" column="1" >
-         <widget class="QDoubleSpinBox" name="cfgHOMEVEL" >
+         <widget class="QDoubleSpinBox" name="HOMEVEL" >
           <property name="sizePolicy" >
            <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
             <horstretch>0</horstretch>
@@ -512,12 +515,6 @@
           </property>
           <property name="text" stdset="0" >
            <string>0.00</string>
-          </property>
-          <property name="maximum" >
-           <double>999999999.000000000000000</double>
-          </property>
-          <property name="singleStep" >
-           <double>0.010000000000000</double>
           </property>
          </widget>
         </item>

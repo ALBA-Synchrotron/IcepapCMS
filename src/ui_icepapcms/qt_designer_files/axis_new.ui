@@ -9,6 +9,12 @@
     <height>487</height>
    </rect>
   </property>
+  <property name="sizePolicy" >
+   <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="minimumSize" >
    <size>
     <width>410</width>
@@ -25,10 +31,22 @@
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" >
-   <property name="margin" >
+   <property name="leftMargin" >
     <number>0</number>
    </property>
-   <property name="spacing" >
+   <property name="topMargin" >
+    <number>0</number>
+   </property>
+   <property name="rightMargin" >
+    <number>0</number>
+   </property>
+   <property name="bottomMargin" >
+    <number>0</number>
+   </property>
+   <property name="horizontalSpacing" >
+    <number>0</number>
+   </property>
+   <property name="verticalSpacing" >
     <number>0</number>
    </property>
    <item row="0" column="0" >
@@ -40,10 +58,22 @@
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QGridLayout" >
-      <property name="margin" >
+      <property name="leftMargin" >
        <number>0</number>
       </property>
-      <property name="spacing" >
+      <property name="topMargin" >
+       <number>0</number>
+      </property>
+      <property name="rightMargin" >
+       <number>0</number>
+      </property>
+      <property name="bottomMargin" >
+       <number>0</number>
+      </property>
+      <property name="horizontalSpacing" >
+       <number>0</number>
+      </property>
+      <property name="verticalSpacing" >
        <number>0</number>
       </property>
       <item row="0" column="0" >
@@ -79,19 +109,28 @@
          <enum>QFrame::Raised</enum>
         </property>
         <layout class="QGridLayout" >
+         <property name="leftMargin" >
+          <number>5</number>
+         </property>
+         <property name="topMargin" >
+          <number>5</number>
+         </property>
+         <property name="rightMargin" >
+          <number>5</number>
+         </property>
+         <property name="bottomMargin" >
+          <number>5</number>
+         </property>
          <property name="horizontalSpacing" >
           <number>0</number>
          </property>
          <property name="verticalSpacing" >
           <number>6</number>
          </property>
-         <property name="margin" >
-          <number>5</number>
-         </property>
          <item row="0" column="0" >
           <layout class="QHBoxLayout" >
            <item>
-            <widget class="QCheckBox" name="cfgACTIVE" >
+            <widget class="QCheckBox" name="ACTIVE" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -125,7 +164,7 @@
              <property name="orientation" >
               <enum>Qt::Horizontal</enum>
              </property>
-             <property name="sizeHint" stdset="0" >
+             <property name="sizeHint" >
               <size>
                <width>40</width>
                <height>16</height>
@@ -164,7 +203,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="cfgPROTLEVEL" >
+            <widget class="QSpinBox" name="PROTLEVEL" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -194,9 +233,6 @@
              </property>
              <property name="autoFillBackground" >
               <bool>false</bool>
-             </property>
-             <property name="maximum" >
-              <number>999999999</number>
              </property>
              <property name="editable" stdset="0" >
               <bool>true</bool>
@@ -261,7 +297,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QCheckBox" name="cfgNAMELOCK" >
+            <widget class="QCheckBox" name="NAMELOCK" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -295,7 +331,7 @@
            <property name="sizeType" >
             <enum>QSizePolicy::Fixed</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" >
             <size>
              <width>186</width>
              <height>16</height>
@@ -373,11 +409,14 @@
              <property name="bottomMargin" >
               <number>0</number>
              </property>
-             <property name="spacing" >
+             <property name="horizontalSpacing" >
+              <number>6</number>
+             </property>
+             <property name="verticalSpacing" >
               <number>6</number>
              </property>
              <item row="0" column="0" >
-              <widget class="QSpinBox" name="cfgANSTEP" >
+              <widget class="QSpinBox" name="ANSTEP" >
                <property name="sizePolicy" >
                 <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                  <horstretch>0</horstretch>
@@ -404,9 +443,6 @@
                </property>
                <property name="wrapping" >
                 <bool>false</bool>
-               </property>
-               <property name="maximum" >
-                <number>999999999</number>
                </property>
               </widget>
              </item>
@@ -436,7 +472,7 @@
               </widget>
              </item>
              <item row="1" column="0" >
-              <widget class="QSpinBox" name="cfgANTURN" >
+              <widget class="QSpinBox" name="ANTURN" >
                <property name="sizePolicy" >
                 <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                  <horstretch>0</horstretch>
@@ -460,9 +496,6 @@
                  <width>80</width>
                  <height>16</height>
                 </size>
-               </property>
-               <property name="maximum" >
-                <number>999999999</number>
                </property>
               </widget>
              </item>
@@ -503,7 +536,7 @@
            <property name="sizeType" >
             <enum>QSizePolicy::Fixed</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" >
             <size>
              <width>186</width>
              <height>16</height>
@@ -513,7 +546,10 @@
          </item>
          <item row="5" column="0" >
           <layout class="QGridLayout" >
-           <property name="spacing" >
+           <property name="horizontalSpacing" >
+            <number>6</number>
+           </property>
+           <property name="verticalSpacing" >
             <number>6</number>
            </property>
            <item row="0" column="0" >
@@ -571,7 +607,7 @@
              <property name="orientation" >
               <enum>Qt::Horizontal</enum>
              </property>
-             <property name="sizeHint" stdset="0" >
+             <property name="sizeHint" >
               <size>
                <width>130</width>
                <height>16</height>
@@ -584,7 +620,7 @@
              <property name="orientation" >
               <enum>Qt::Horizontal</enum>
              </property>
-             <property name="sizeHint" stdset="0" >
+             <property name="sizeHint" >
               <size>
                <width>130</width>
                <height>16</height>
@@ -593,7 +629,7 @@
             </spacer>
            </item>
            <item row="0" column="1" >
-            <widget class="QComboBox" name="cfgPOSSRC" >
+            <widget class="QComboBox" name="POSSRC" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -611,11 +647,14 @@
                <width>16777215</width>
                <height>22</height>
               </size>
+             </property>
+             <property name="editable" >
+              <bool>true</bool>
              </property>
             </widget>
            </item>
            <item row="1" column="1" >
-            <widget class="QComboBox" name="cfgINDEXER" >
+            <widget class="QComboBox" name="INDEXER" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -633,6 +672,9 @@
                <width>16777215</width>
                <height>22</height>
               </size>
+             </property>
+             <property name="editable" >
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -755,7 +797,7 @@
               <enum>QFrame::Sunken</enum>
              </property>
              <property name="text" >
-              <string/>
+              <string>Stepper 200 steps</string>
              </property>
              <property name="textFormat" >
               <enum>Qt::PlainText</enum>
@@ -836,7 +878,7 @@
               <enum>QFrame::Sunken</enum>
              </property>
              <property name="text" >
-              <string/>
+              <string>2.4</string>
              </property>
              <property name="alignment" >
               <set>Qt::AlignCenter</set>
@@ -871,7 +913,7 @@
           </layout>
          </item>
          <item>
-          <widget class="QCheckBox" name="cfgPOWERON" >
+          <widget class="QCheckBox" name="POWERON" >
            <property name="sizePolicy" >
             <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
              <horstretch>0</horstretch>
@@ -923,7 +965,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="cfgMOTSENSE" >
+            <widget class="QComboBox" name="MOTSENSE" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -947,6 +989,9 @@
                <width>80</width>
                <height>16</height>
               </size>
+             </property>
+             <property name="editable" >
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -1000,7 +1045,10 @@
            </item>
            <item>
             <layout class="QGridLayout" >
-             <property name="spacing" >
+             <property name="horizontalSpacing" >
+              <number>6</number>
+             </property>
+             <property name="verticalSpacing" >
               <number>6</number>
              </property>
              <item row="0" column="0" >
@@ -1029,7 +1077,7 @@
               </widget>
              </item>
              <item row="0" column="1" >
-              <widget class="QComboBox" name="cfgLPPOL" >
+              <widget class="QComboBox" name="LPPOL" >
                <property name="sizePolicy" >
                 <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                  <horstretch>0</horstretch>
@@ -1047,11 +1095,14 @@
                  <width>16777215</width>
                  <height>22</height>
                 </size>
+               </property>
+               <property name="editable" >
+                <bool>true</bool>
                </property>
               </widget>
              </item>
              <item row="1" column="1" >
-              <widget class="QComboBox" name="cfgLMPOL" >
+              <widget class="QComboBox" name="LMPOL" >
                <property name="sizePolicy" >
                 <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                  <horstretch>0</horstretch>
@@ -1069,11 +1120,14 @@
                  <width>16777215</width>
                  <height>22</height>
                 </size>
+               </property>
+               <property name="editable" >
+                <bool>true</bool>
                </property>
               </widget>
              </item>
              <item row="2" column="1" >
-              <widget class="QComboBox" name="cfgHOMEPOL" >
+              <widget class="QComboBox" name="HOMEPOL" >
                <property name="sizePolicy" >
                 <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                  <horstretch>0</horstretch>
@@ -1091,6 +1145,9 @@
                  <width>16777215</width>
                  <height>22</height>
                 </size>
+               </property>
+               <property name="editable" >
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -1222,7 +1279,7 @@
            </widget>
           </item>
           <item row="0" column="1" colspan="2" >
-           <widget class="QDoubleSpinBox" name="cfgDEFVEL" >
+           <widget class="QDoubleSpinBox" name="DEFVEL" >
             <property name="sizePolicy" >
              <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
               <horstretch>0</horstretch>
@@ -1247,12 +1304,6 @@
               <height>16</height>
              </size>
             </property>
-            <property name="maximum" >
-             <double>999999999.000000000000000</double>
-            </property>
-            <property name="singleStep" >
-             <double>0.010000000000000</double>
-            </property>
            </widget>
           </item>
           <item row="0" column="3" >
@@ -1260,7 +1311,7 @@
             <property name="orientation" >
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeHint" stdset="0" >
+            <property name="sizeHint" >
              <size>
               <width>40</width>
               <height>20</height>
@@ -1300,7 +1351,7 @@
            </widget>
           </item>
           <item row="1" column="2" >
-           <widget class="QDoubleSpinBox" name="cfgSTRTVEL" >
+           <widget class="QDoubleSpinBox" name="STRTVEL" >
             <property name="sizePolicy" >
              <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
               <horstretch>0</horstretch>
@@ -1325,12 +1376,6 @@
               <height>16</height>
              </size>
             </property>
-            <property name="maximum" >
-             <double>999999999.000000000000000</double>
-            </property>
-            <property name="singleStep" >
-             <double>0.010000000000000</double>
-            </property>
            </widget>
           </item>
           <item row="1" column="3" >
@@ -1338,7 +1383,7 @@
             <property name="orientation" >
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeHint" stdset="0" >
+            <property name="sizeHint" >
              <size>
               <width>82</width>
               <height>20</height>
@@ -1378,7 +1423,7 @@
            </widget>
           </item>
           <item row="2" column="1" colspan="2" >
-           <widget class="QDoubleSpinBox" name="cfgDEFACCT" >
+           <widget class="QDoubleSpinBox" name="DEFACCT" >
             <property name="sizePolicy" >
              <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
               <horstretch>0</horstretch>
@@ -1403,12 +1448,6 @@
               <height>16</height>
              </size>
             </property>
-            <property name="maximum" >
-             <double>999999999.000000000000000</double>
-            </property>
-            <property name="singleStep" >
-             <double>0.010000000000000</double>
-            </property>
            </widget>
           </item>
           <item row="2" column="3" >
@@ -1416,7 +1455,7 @@
             <property name="orientation" >
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeHint" stdset="0" >
+            <property name="sizeHint" >
              <size>
               <width>40</width>
               <height>20</height>
@@ -1475,7 +1514,10 @@
          </property>
          <item>
           <layout class="QGridLayout" >
-           <property name="spacing" >
+           <property name="horizontalSpacing" >
+            <number>6</number>
+           </property>
+           <property name="verticalSpacing" >
             <number>6</number>
            </property>
            <item row="0" column="0" >
@@ -1504,7 +1546,7 @@
             </widget>
            </item>
            <item row="0" column="1" >
-            <widget class="QComboBox" name="cfgTGTENC" >
+            <widget class="QComboBox" name="TGTENC" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -1528,6 +1570,9 @@
                <width>80</width>
                <height>16</height>
               </size>
+             </property>
+             <property name="editable" >
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -1557,7 +1602,7 @@
             </widget>
            </item>
            <item row="1" column="1" >
-            <widget class="QComboBox" name="cfgSHFTENC" >
+            <widget class="QComboBox" name="SHFTENC" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -1582,13 +1627,19 @@
                <height>16</height>
               </size>
              </property>
+             <property name="editable" >
+              <bool>true</bool>
+             </property>
             </widget>
            </item>
           </layout>
          </item>
          <item>
           <layout class="QGridLayout" >
-           <property name="spacing" >
+           <property name="horizontalSpacing" >
+            <number>6</number>
+           </property>
+           <property name="verticalSpacing" >
             <number>6</number>
            </property>
            <item row="0" column="0" >
@@ -1738,7 +1789,7 @@
              <property name="orientation" >
               <enum>Qt::Horizontal</enum>
              </property>
-             <property name="sizeHint" stdset="0" >
+             <property name="sizeHint" >
               <size>
                <width>40</width>
                <height>16</height>
@@ -1751,7 +1802,7 @@
              <property name="orientation" >
               <enum>Qt::Horizontal</enum>
              </property>
-             <property name="sizeHint" stdset="0" >
+             <property name="sizeHint" >
               <size>
                <width>40</width>
                <height>16</height>

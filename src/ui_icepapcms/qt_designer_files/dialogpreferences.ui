@@ -556,7 +556,7 @@
    <item row="1" column="0" >
     <widget class="QStackedWidget" name="stackedWidget" >
      <property name="currentIndex" >
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="pageStorage" >
       <layout class="QGridLayout" >
@@ -1019,7 +1019,7 @@ p, li { white-space: pre-wrap; }
             </property>
            </widget>
           </item>
-          <item row="4" column="0" >
+          <item rowspan="3" row="4" column="0" >
            <widget class="QLabel" name="label_8" >
             <property name="text" >
              <string>Configs folder</string>
@@ -1036,46 +1036,38 @@ p, li { white-space: pre-wrap; }
             </property>
            </widget>
           </item>
-          <item row="4" column="3" >
+          <item rowspan="2" row="4" column="3" >
            <widget class="QToolButton" name="btnConfigsBrowser" >
             <property name="text" >
              <string>...</string>
             </property>
            </widget>
           </item>
+          <item rowspan="3" row="5" column="1" colspan="2" >
+           <widget class="QLineEdit" name="txtTemplatesFolder" >
+            <property name="maximumSize" >
+             <size>
+              <width>1666666</width>
+              <height>16777215</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item rowspan="2" row="6" column="3" >
+           <widget class="QToolButton" name="btnTemplatesBrowser" >
+            <property name="text" >
+             <string>...</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="0" >
+           <widget class="QLabel" name="label_9" >
+            <property name="text" >
+             <string>Templates folder</string>
+            </property>
+           </widget>
+          </item>
          </layout>
-        </widget>
-       </item>
-       <item row="1" column="0" >
-        <widget class="QGroupBox" name="groupBox_2" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize" >
-          <size>
-           <width>0</width>
-           <height>50</height>
-          </size>
-         </property>
-         <property name="title" >
-          <string>Conflicts</string>
-         </property>
-         <widget class="QCheckBox" name="chkConflictSolve" >
-          <property name="geometry" >
-           <rect>
-            <x>10</x>
-            <y>20</y>
-            <width>311</width>
-            <height>22</height>
-           </rect>
-          </property>
-          <property name="text" >
-           <string>Use database configurations as valid data</string>
-          </property>
-         </widget>
         </widget>
        </item>
        <item row="2" column="0" >

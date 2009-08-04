@@ -60,7 +60,7 @@ class IcepapController(Singleton):
                 self.iPaps[icepap_name].connect()
                 return True
             except Exception,e:
-                print "icepapcontroller: Some exception opening connection.",e
+                #print "icepapcontroller: Some exception opening connection.",e
                 return False
         
     def closeConnection(self, icepap_name):
@@ -82,7 +82,6 @@ class IcepapController(Singleton):
             Get the status of the icepap system, the drivers present, and its
             configuration.
         """
-
         driver_name = icepap_name
         if compare:
             driver_name = "compare"
@@ -138,10 +137,9 @@ class IcepapController(Singleton):
                             
         #except:
         except Exception,e:
-            print "Some exception while scanning icepap system:",e
-            print "Unexpected errors:", sys.exc_info()[1]
+            #print "Unexpected errors:", sys.exc_info()[1]
             self.closeConnection(icepap_name)
-            return {}
+            raise
 
         return driver_list
     
@@ -192,44 +190,49 @@ class IcepapController(Singleton):
         return driver_cfg
     
     def setDriverConfiguration(self, icepap_name, driver_addr, new_values, expertFlag = False):
-        try:
-            """ TO-DO STORM review"""
-            if self.iPaps[icepap_name].getMode(driver_addr) != IcepapMode.CONFIG:
-                self.iPaps[icepap_name].setConfig(driver_addr)
+        """ TO-DO STORM review"""
+        if self.iPaps[icepap_name].getMode(driver_addr) != IcepapMode.CONFIG:
+            self.iPaps[icepap_name].setConfig(driver_addr)
 
-            # THE CONFIGURATION VALUES SHOULD BE SENT IN A SPECIFIC ORDER
-            order_list = self.icepap_cfgorder[icepap_name][driver_addr]
-            params_ordered = {}
-            not_found_index = []
-            for (name,value) in new_values:
-                try:
-                    index = order_list.index(name)
-                    params_ordered[index] = (name,value)
-                except:
-                    not_found_index.append((name,value))
+        # THE CONFIGURATION VALUES SHOULD BE SENT IN A SPECIFIC ORDER
+        order_list = self.icepap_cfgorder[icepap_name][driver_addr]
+        params_ordered = {}
+        not_found_index = []
+        for (name,value) in new_values:
+            try:
+                index = order_list.index(name)
+                params_ordered[index] = (name,value)
+            except:
+                not_found_index.append((name,value))
             
-            keys = params_ordered.keys()
-            keys.sort()
-            for key in keys:
-                (name,value) = params_ordered.get(key)
-                if name != "VER":
-                    self.iPaps[icepap_name].setCfgParameter(driver_addr, name, str(value))
+        keys = params_ordered.keys()
+        keys.sort()
+        for key in keys:
+            (name,value) = params_ordered.get(key)
+            if name != "VER":
+                self.iPaps[icepap_name].setCfgParameter(driver_addr, name, str(value))
 
-            # NOW THE NOT_FOUND INDEX ORDER...
-            for (name,value) in not_found_index:
+        # NOW THE NOT_FOUND INDEX ORDER...
+        for (name,value) in not_found_index:
+            try:
                 if name == "NAME" or name == "IPAPNAME":
                     name = "NAME"
                     self.iPaps[icepap_name].writeParameter(driver_addr, name, str(value))
+                elif name in ["VER","ID"]:
+                    pass
                 else:
                     self.iPaps[icepap_name].setCfgParameter(driver_addr, name, str(value))
+            except IcePAPException,ie:
+                ##print "Exception setting driver configuartion: param:",name,"value:",value
+                print ie.msg
+            except Exception,e:
+                print "something happened when configuring the driver",e
                     
 
-            if expertFlag:
-                self.iPaps[icepap_name].setExpertFlag(driver_addr)
-            driver_cfg = self.getDriverConfiguration(icepap_name, driver_addr)    
-            return driver_cfg
-        except:
-            return None
+        if expertFlag:
+            self.iPaps[icepap_name].setExpertFlag(driver_addr)
+        driver_cfg = self.getDriverConfiguration(icepap_name, driver_addr)    
+        return driver_cfg
         
     def discardDriverCfg(self,icepap_name, driver_addr):
         if self.iPaps.has_key(icepap_name):
@@ -241,6 +244,27 @@ class IcepapController(Singleton):
                 self.iPaps[icepap_name].setConfig(driver_addr)
             self.iPaps[icepap_name].signConfig(driver_addr, signature)
    
+    def startConfiguringDriver(self, icepap_name, driver):
+        mode = self.iPaps[icepap_name].getMode(driver.addr)
+        if mode != IcepapMode.CONFIG:
+            self.iPaps[icepap_name].setConfig(driver.addr)
+        else:
+            #print "FOR SOME STRANGE REASON THE DRIVER WAS IN CONFIG MODE"
+            pass
+        driver.setMode(IcepapMode.CONFIG)
+
+    def endConfiguringDriver( self, icepap_name, driver):
+        if not self.iPaps.has_key(icepap_name):
+            return
+        mode = self.iPaps[icepap_name].getMode(driver.addr)
+        if mode != IcepapMode.OPER:
+            last_signature = self.iPaps[icepap_name].getConfig(driver.addr)
+            self.iPaps[icepap_name].signConfig(driver.addr, last_signature)
+        else:
+            #print "FOR SOME STRANGE REASON THE DRIVER WAS IN OPER MODE"
+            pass
+        driver.setMode(IcepapMode.OPER)
+
     def getDriverStatus(self, icepap_name, driver_addr):
         """
             Returns an array with the Status, Limit Switches and Current of the driver

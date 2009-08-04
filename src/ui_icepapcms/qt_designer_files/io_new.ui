@@ -185,7 +185,7 @@
             </widget>
            </item>
            <item row="1" column="1" >
-            <widget class="QComboBox" name="cfgINFOASRC" >
+            <widget class="QComboBox" name="INFOASRC" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -203,11 +203,14 @@
                <width>16777215</width>
                <height>22</height>
               </size>
+             </property>
+             <property name="editable" >
+              <bool>true</bool>
              </property>
             </widget>
            </item>
            <item row="1" column="2" >
-            <widget class="QComboBox" name="cfgINFOAPOL" >
+            <widget class="QComboBox" name="INFOAPOL" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -225,6 +228,9 @@
                <width>16777215</width>
                <height>22</height>
               </size>
+             </property>
+             <property name="editable" >
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -254,7 +260,7 @@
             </widget>
            </item>
            <item row="2" column="1" >
-            <widget class="QComboBox" name="cfgINFOBSRC" >
+            <widget class="QComboBox" name="INFOBSRC" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -272,11 +278,14 @@
                <width>16777215</width>
                <height>22</height>
               </size>
+             </property>
+             <property name="editable" >
+              <bool>true</bool>
              </property>
             </widget>
            </item>
            <item row="2" column="2" >
-            <widget class="QComboBox" name="cfgINFOBPOL" >
+            <widget class="QComboBox" name="INFOBPOL" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -294,6 +303,9 @@
                <width>16777215</width>
                <height>22</height>
               </size>
+             </property>
+             <property name="editable" >
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -323,7 +335,7 @@
             </widget>
            </item>
            <item row="3" column="1" >
-            <widget class="QComboBox" name="cfgINFOCSRC" >
+            <widget class="QComboBox" name="INFOCSRC" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -341,11 +353,14 @@
                <width>16777215</width>
                <height>22</height>
               </size>
+             </property>
+             <property name="editable" >
+              <bool>true</bool>
              </property>
             </widget>
            </item>
            <item row="3" column="2" >
-            <widget class="QComboBox" name="cfgINFOCPOL" >
+            <widget class="QComboBox" name="INFOCPOL" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -363,6 +378,9 @@
                <width>16777215</width>
                <height>22</height>
               </size>
+             </property>
+             <property name="editable" >
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -413,7 +431,7 @@
             </widget>
            </item>
            <item row="0" column="1" >
-            <widget class="QComboBox" name="cfgEXTALARM" >
+            <widget class="QComboBox" name="comboBox_7" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -436,6 +454,9 @@
               <font>
                <pointsize>7</pointsize>
               </font>
+             </property>
+             <property name="editable" >
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -465,7 +486,7 @@
             </widget>
            </item>
            <item row="1" column="1" >
-            <widget class="QComboBox" name="cfgEXTWARNING" >
+            <widget class="QComboBox" name="comboBox_8" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -488,6 +509,9 @@
               <font>
                <pointsize>7</pointsize>
               </font>
+             </property>
+             <property name="editable" >
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -542,7 +566,7 @@
             </widget>
            </item>
            <item row="0" column="1" >
-            <widget class="QComboBox" name="cfgOUTPSRC" >
+            <widget class="QComboBox" name="OUTPSRC" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -560,6 +584,9 @@
                <width>16777215</width>
                <height>22</height>
               </size>
+             </property>
+             <property name="editable" >
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -589,7 +616,7 @@
             </widget>
            </item>
            <item row="1" column="1" >
-            <widget class="QComboBox" name="cfgOUTPMODE" >
+            <widget class="QComboBox" name="OUTPMODE" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -607,6 +634,9 @@
                <width>16777215</width>
                <height>22</height>
               </size>
+             </property>
+             <property name="editable" >
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -636,7 +666,7 @@
             </widget>
            </item>
            <item row="2" column="1" >
-            <widget class="QComboBox" name="cfgOUTPSENSE" >
+            <widget class="QComboBox" name="OUTPSENSE" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -654,6 +684,9 @@
                <width>16777215</width>
                <height>22</height>
               </size>
+             </property>
+             <property name="editable" >
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -683,7 +716,7 @@
             </widget>
            </item>
            <item row="3" column="1" >
-            <widget class="QComboBox" name="cfgOUTPPULSE" >
+            <widget class="QComboBox" name="OUTPPULSE" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -701,6 +734,9 @@
                <width>16777215</width>
                <height>22</height>
               </size>
+             </property>
+             <property name="editable" >
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -835,7 +871,7 @@
            <item>
             <layout class="QVBoxLayout" >
              <item>
-              <widget class="QComboBox" name="cfgOUTPAUXSRC" >
+              <widget class="QComboBox" name="OUTPAUXSRC" >
                <property name="sizePolicy" >
                 <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                  <horstretch>0</horstretch>
@@ -858,11 +894,14 @@
                 <font>
                  <pointsize>7</pointsize>
                 </font>
+               </property>
+               <property name="editable" >
+                <bool>true</bool>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QComboBox" name="cfgOUTPAUXPOL" >
+              <widget class="QComboBox" name="OUTPAUXPOL" >
                <property name="sizePolicy" >
                 <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                  <horstretch>0</horstretch>
@@ -885,6 +924,9 @@
                 <font>
                  <pointsize>7</pointsize>
                 </font>
+               </property>
+               <property name="editable" >
+                <bool>true</bool>
                </property>
               </widget>
              </item>
