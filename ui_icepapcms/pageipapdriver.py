@@ -1708,9 +1708,20 @@ class PageiPapDriver(QtGui.QWidget):
 
     # ---------------------- Templates Catalog Widget -------------------
     def setTemplateParams(self,template_name,params):
+        QtGui.QApplication.instance().setOverrideCursor(QtGui.QCursor(QtCore.Qt.WaitCursor))
+        self._disconnectHighlighting()
         for param in params.keys():
             value = params.get(param)
-            if self.var_dict.has_key(param):
-                [nsection, element] = self.var_dict[param]
-                self._setWidgetValue(element, value)
-        #print "THE TEMPLATE LABEL IS NOT YET IMPLEMENTED. Selected type: '%s'" % template_name
+            if self.param_to_widgets.has_key(param):
+                widgets = self.param_to_widgets.get(param)
+                self._setWidgetsValue(widgets, value, set_default=False)
+            elif param == 'IPAPNAME':
+                self._setWidgetsValue(self.param_to_widgets.get('DriverName'), value, set_default=False)
+        # SHOULD DO SOMETHING WITH THE TEMPLATE NAME
+        self.highlightTabs()
+        self._connectHighlighting()
+        QtGui.QApplication.instance().restoreOverrideCursor()
+         ##   if self.var_dict.has_key(param):
+         ##       [nsection, element] = self.var_dict[param]
+         ##       self._setWidgetValue(element, value)
+         ###print "THE TEMPLATE LABEL IS NOT YET IMPLEMENTED. Selected type: '%s'" % template_name
