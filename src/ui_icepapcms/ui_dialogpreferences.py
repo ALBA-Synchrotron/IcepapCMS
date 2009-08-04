@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'dialogpreferences.ui'
 #
-# Created: Mon Aug  3 17:26:45 2009
+# Created: Tue Aug  4 15:08:46 2009
 #      by: PyQt4 UI code generator 4.4.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -169,7 +169,7 @@ class Ui_DialogPreferences(object):
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.AlternateBase, brush)
         DialogPreferences.setPalette(palette)
         icon = QtGui.QIcon()
-        icon.addFile(":/icons/IcepapCfg Icons/preferences-system.png")
+        icon.addPixmap(QtGui.QPixmap(":/icons/IcepapCfg Icons/preferences-system.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         DialogPreferences.setWindowIcon(icon)
         self.gridlayout = QtGui.QGridLayout(DialogPreferences)
         self.gridlayout.setObjectName("gridlayout")
@@ -191,11 +191,11 @@ class Ui_DialogPreferences(object):
         self.listWidget.setUniformItemSizes(False)
         self.listWidget.setObjectName("listWidget")
         icon1 = QtGui.QIcon()
-        icon1.addFile(":/icons/IcepapCfg Icons/database.png")
+        icon1.addPixmap(QtGui.QPixmap(":/icons/IcepapCfg Icons/database.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         item = QtGui.QListWidgetItem(self.listWidget)
         item.setIcon(icon1)
         icon2 = QtGui.QIcon()
-        icon2.addFile(":/small_icons/IcepapCfg Icons/Icepapicon.png")
+        icon2.addPixmap(QtGui.QPixmap(":/small_icons/IcepapCfg Icons/Icepapicon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         item = QtGui.QListWidgetItem(self.listWidget)
         item.setIcon(icon2)
         self.gridlayout.addWidget(self.listWidget, 0, 0, 1, 1)
@@ -300,21 +300,21 @@ class Ui_DialogPreferences(object):
         self.rbsqlite = QtGui.QRadioButton(self.pageStorage)
         self.rbsqlite.setLayoutDirection(QtCore.Qt.LeftToRight)
         icon3 = QtGui.QIcon()
-        icon3.addFile(":/icons/IcepapCfg Icons/sqlite.png")
+        icon3.addPixmap(QtGui.QPixmap(":/icons/IcepapCfg Icons/sqlite.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.rbsqlite.setIcon(icon3)
         self.rbsqlite.setIconSize(QtCore.QSize(50, 50))
         self.rbsqlite.setObjectName("rbsqlite")
         self.hboxlayout1.addWidget(self.rbsqlite)
         self.rbmysql = QtGui.QRadioButton(self.pageStorage)
         icon4 = QtGui.QIcon()
-        icon4.addFile(":/icons/IcepapCfg Icons/mysql.gif")
+        icon4.addPixmap(QtGui.QPixmap(":/icons/IcepapCfg Icons/mysql.gif"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.rbmysql.setIcon(icon4)
         self.rbmysql.setIconSize(QtCore.QSize(50, 50))
         self.rbmysql.setObjectName("rbmysql")
         self.hboxlayout1.addWidget(self.rbmysql)
         self.rbpostgres = QtGui.QRadioButton(self.pageStorage)
         icon5 = QtGui.QIcon()
-        icon5.addFile(":/icons/IcepapCfg Icons/postgresql.png")
+        icon5.addPixmap(QtGui.QPixmap(":/icons/IcepapCfg Icons/postgresql.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.rbpostgres.setIcon(icon5)
         self.rbpostgres.setIconSize(QtCore.QSize(40, 40))
         self.rbpostgres.setObjectName("rbpostgres")
@@ -400,7 +400,7 @@ class Ui_DialogPreferences(object):
         self.hboxlayout2.addItem(spacerItem5)
         self.closeButton = QtGui.QPushButton(DialogPreferences)
         icon6 = QtGui.QIcon()
-        icon6.addFile(":/icons/IcepapCfg Icons/close.png")
+        icon6.addPixmap(QtGui.QPixmap(":/icons/IcepapCfg Icons/close.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.closeButton.setIcon(icon6)
         self.closeButton.setIconSize(QtCore.QSize(22, 22))
         self.closeButton.setObjectName("closeButton")
@@ -409,7 +409,7 @@ class Ui_DialogPreferences(object):
 
         self.retranslateUi(DialogPreferences)
         self.listWidget.setCurrentRow(-1)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(DialogPreferences)
         DialogPreferences.setTabOrder(self.rbsqlite, self.rbmysql)
         DialogPreferences.setTabOrder(self.rbmysql, self.rbpostgres)

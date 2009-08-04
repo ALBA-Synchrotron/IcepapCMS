@@ -668,8 +668,11 @@ class PageiPapDriver(QtGui.QWidget):
         desc_cfg_name = self.icepap_driver.name
         desc_cfg_version = self.icepap_driver.current_cfg.getParameter('VER',True)
         hwversion = IcepapController().readIcepapParameters(desc_cfg_system, desc_cfg_addr,[['VER','PCB']])
+        cfg_db = ConfigManager().config["database"]["database"]
         desc_cfg_hwversion = hwversion[0][1]
         desc_cfg_dbhost = ConfigManager().config["database"]["server"]
+        if cfg_db == 'sqlite':
+            desc_cfg_dbhost = ConfigManager().config["database"]["folder"]
         desc_cfg_date = 'NO_DATE'
         desc_cfg_user = 'NO_USER'
         desc_cfg_host = 'NO_HOST'
