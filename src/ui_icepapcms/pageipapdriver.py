@@ -783,7 +783,8 @@ class PageiPapDriver(QtGui.QWidget):
                     modelindex = self._mainwin.ui.treeView.currentIndex()
                     drivernode = self._mainwin._tree_model.item(modelindex)
                     label = str(self.icepap_driver.addr)+" "+self.icepap_driver.name
-                    drivernode.changeLabel([label])
+                    if drivernode is not None:
+                        drivernode.changeLabel([label])
             else:
                 unknownParams = True
                 self.addUnknownWidget(name, value)
