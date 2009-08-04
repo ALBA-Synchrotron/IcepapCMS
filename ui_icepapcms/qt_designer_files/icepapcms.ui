@@ -6,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>1100</width>
-    <height>801</height>
+    <height>804</height>
    </rect>
   </property>
   <property name="sizePolicy" >
@@ -56,120 +56,17 @@
    <string>Icepap configuration</string>
   </property>
   <property name="windowIcon" >
-   <iconset resource="icepapcms.qrc" >:/small_icons/IcepapCfg Icons/Icepapicon.png</iconset>
+   <iconset resource="icepapcms.qrc" >
+    <normaloff>:/small_icons/IcepapCfg Icons/Icepapicon.png</normaloff>:/small_icons/IcepapCfg Icons/Icepapicon.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget" >
    <layout class="QVBoxLayout" >
     <property name="spacing" >
      <number>1</number>
     </property>
-    <property name="leftMargin" >
+    <property name="margin" >
      <number>1</number>
     </property>
-    <property name="topMargin" >
-     <number>1</number>
-    </property>
-    <property name="rightMargin" >
-     <number>1</number>
-    </property>
-    <property name="bottomMargin" >
-     <number>1</number>
-    </property>
-    <item>
-     <widget class="QFrame" name="frLocationBar" >
-      <property name="frameShape" >
-       <enum>QFrame::NoFrame</enum>
-      </property>
-      <property name="frameShadow" >
-       <enum>QFrame::Raised</enum>
-      </property>
-      <layout class="QVBoxLayout" >
-       <property name="spacing" >
-        <number>1</number>
-       </property>
-       <property name="leftMargin" >
-        <number>1</number>
-       </property>
-       <property name="topMargin" >
-        <number>1</number>
-       </property>
-       <property name="rightMargin" >
-        <number>1</number>
-       </property>
-       <property name="bottomMargin" >
-        <number>1</number>
-       </property>
-       <item>
-        <widget class="QFrame" name="frLocationBarText" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize" >
-          <size>
-           <width>16</width>
-           <height>40</height>
-          </size>
-         </property>
-         <property name="maximumSize" >
-          <size>
-           <width>16777215</width>
-           <height>40</height>
-          </size>
-         </property>
-         <property name="frameShape" >
-          <enum>QFrame::NoFrame</enum>
-         </property>
-         <property name="frameShadow" >
-          <enum>QFrame::Raised</enum>
-         </property>
-         <layout class="QHBoxLayout" >
-          <property name="spacing" >
-           <number>6</number>
-          </property>
-          <property name="leftMargin" >
-           <number>9</number>
-          </property>
-          <property name="topMargin" >
-           <number>9</number>
-          </property>
-          <property name="rightMargin" >
-           <number>9</number>
-          </property>
-          <property name="bottomMargin" >
-           <number>9</number>
-          </property>
-          <item>
-           <widget class="QLabel" name="lblLocation" >
-            <property name="maximumSize" >
-             <size>
-              <width>58</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="text" >
-             <string>Location:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="txtLocation" />
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="Line" name="line" >
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
     <item>
      <widget class="QStackedWidget" name="stackedWidget" >
       <property name="minimumSize" >
@@ -186,16 +83,7 @@
         <property name="spacing" >
          <number>6</number>
         </property>
-        <property name="leftMargin" >
-         <number>9</number>
-        </property>
-        <property name="topMargin" >
-         <number>9</number>
-        </property>
-        <property name="rightMargin" >
-         <number>9</number>
-        </property>
-        <property name="bottomMargin" >
+        <property name="margin" >
          <number>9</number>
         </property>
         <item>
@@ -203,7 +91,7 @@
           <property name="orientation" >
            <enum>Qt::Horizontal</enum>
           </property>
-          <property name="sizeHint" >
+          <property name="sizeHint" stdset="0" >
            <size>
             <width>40</width>
             <height>20</height>
@@ -226,7 +114,7 @@
           <property name="orientation" >
            <enum>Qt::Horizontal</enum>
           </property>
-          <property name="sizeHint" >
+          <property name="sizeHint" stdset="0" >
            <size>
             <width>40</width>
             <height>20</height>
@@ -246,7 +134,7 @@
      <x>0</x>
      <y>0</y>
      <width>1100</width>
-     <height>28</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp" >
@@ -299,7 +187,6 @@
    <addaction name="menuView" />
    <addaction name="menuHelp" />
   </widget>
-  <widget class="QStatusBar" name="statusbar" />
   <widget class="QToolBar" name="toolBar" >
    <property name="sizePolicy" >
     <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
@@ -350,18 +237,18 @@
   <widget class="QDockWidget" name="dockTree" >
    <property name="minimumSize" >
     <size>
-     <width>150</width>
-     <height>16</height>
+     <width>260</width>
+     <height>278</height>
     </size>
    </property>
    <property name="maximumSize" >
     <size>
-     <width>16777215</width>
-     <height>16777215</height>
+     <width>524287</width>
+     <height>524287</height>
     </size>
    </property>
    <property name="features" >
-    <set>QDockWidget::AllDockWidgetFeatures</set>
+    <set>QDockWidget::NoDockWidgetFeatures</set>
    </property>
    <property name="allowedAreas" >
     <set>Qt::LeftDockWidgetArea</set>
@@ -373,169 +260,134 @@
     <number>1</number>
    </attribute>
    <widget class="QWidget" name="dockWidgetContents" >
-    <layout class="QVBoxLayout" >
-     <property name="spacing" >
-      <number>6</number>
-     </property>
-     <property name="leftMargin" >
-      <number>9</number>
-     </property>
-     <property name="topMargin" >
-      <number>9</number>
-     </property>
-     <property name="rightMargin" >
-      <number>9</number>
-     </property>
-     <property name="bottomMargin" >
-      <number>9</number>
-     </property>
-     <item>
-      <layout class="QGridLayout" >
-       <property name="leftMargin" >
-        <number>2</number>
-       </property>
-       <property name="topMargin" >
-        <number>2</number>
-       </property>
-       <property name="rightMargin" >
-        <number>2</number>
-       </property>
-       <property name="bottomMargin" >
-        <number>2</number>
-       </property>
-       <property name="horizontalSpacing" >
-        <number>4</number>
-       </property>
-       <property name="verticalSpacing" >
-        <number>4</number>
-       </property>
-       <item row="0" column="0" >
-        <widget class="QLabel" name="label" >
-         <property name="text" >
-          <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
-p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-size:8pt; text-decoration: underline;">Location&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
-         </property>
-         <property name="alignment" >
-          <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="2" >
-        <widget class="QToolButton" name="btnDeleteLocation" >
-         <property name="text" >
-          <string>...</string>
-         </property>
-         <property name="icon" >
-          <iconset resource="icepapcms.qrc" >:/small_icons/IcepapCFG Icons Petits/process-stop.png</iconset>
-         </property>
-         <property name="iconSize" >
-          <size>
-           <width>16</width>
-           <height>16</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1" >
-        <widget class="QToolButton" name="btnAddLocation" >
-         <property name="text" >
-          <string>...</string>
-         </property>
-         <property name="icon" >
-          <iconset resource="icepapcms.qrc" >:/small_icons/IcepapCFG Icons Petits/template.png</iconset>
-         </property>
-         <property name="iconSize" >
-          <size>
-           <width>16</width>
-           <height>16</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0" colspan="3" >
-        <widget class="QComboBox" name="cbLocation" >
-         <property name="editable" >
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
+    <layout class="QGridLayout" name="gridLayout_2" >
+     <item row="0" column="0" >
       <widget class="QFrame" name="frame" >
-       <property name="frameShape" >
-        <enum>QFrame::NoFrame</enum>
-       </property>
-       <property name="frameShadow" >
-        <enum>QFrame::Raised</enum>
-       </property>
-       <layout class="QHBoxLayout" >
+       <layout class="QGridLayout" name="gridLayout" >
+        <property name="margin" >
+         <number>2</number>
+        </property>
         <property name="spacing" >
-         <number>4</number>
+         <number>2</number>
         </property>
-        <property name="leftMargin" >
-         <number>4</number>
-        </property>
-        <property name="topMargin" >
-         <number>4</number>
-        </property>
-        <property name="rightMargin" >
-         <number>4</number>
-        </property>
-        <property name="bottomMargin" >
-         <number>4</number>
-        </property>
-        <item>
-         <widget class="QToolButton" name="btnTreeAdd" >
-          <property name="text" >
-           <string>...</string>
-          </property>
-          <property name="icon" >
-           <iconset resource="icepapcms.qrc" >:/small_icons/IcepapCFG Icons Petits/list-add.png</iconset>
-          </property>
-          <property name="iconSize" >
-           <size>
-            <width>16</width>
-            <height>16</height>
-           </size>
-          </property>
-         </widget>
+        <item row="0" column="0" >
+         <layout class="QHBoxLayout" name="horizontalLayout" >
+          <item>
+           <widget class="QLabel" name="label" >
+            <property name="maximumSize" >
+             <size>
+              <width>51</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text" >
+             <string>Location</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_2" >
+            <property name="orientation" >
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0" >
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QComboBox" name="cbLocation" >
+            <property name="minimumSize" >
+             <size>
+              <width>100</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize" >
+             <size>
+              <width>141</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="editable" >
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
-        <item>
-         <widget class="QToolButton" name="btnTreeRemove" >
-          <property name="text" >
-           <string>...</string>
-          </property>
-          <property name="icon" >
-           <iconset resource="icepapcms.qrc" >:/small_icons/IcepapCFG Icons Petits/list-remove.png</iconset>
-          </property>
-          <property name="iconSize" >
-           <size>
-            <width>16</width>
-            <height>16</height>
-           </size>
-          </property>
-         </widget>
+        <item row="2" column="0" >
+         <layout class="QHBoxLayout" name="horizontalLayout_2" >
+          <item>
+           <widget class="QLabel" name="label_2" >
+            <property name="text" >
+             <string>Add / Remove Icepap System</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="spacer" >
+            <property name="orientation" >
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0" >
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QToolButton" name="btnTreeAdd" >
+            <property name="text" >
+             <string/>
+            </property>
+            <property name="icon" >
+             <iconset resource="icepapcms.qrc" >
+              <normaloff>:/small_icons/IcepapCFG Icons Petits/list-add.png</normaloff>:/small_icons/IcepapCFG Icons Petits/list-add.png</iconset>
+            </property>
+            <property name="iconSize" >
+             <size>
+              <width>16</width>
+              <height>16</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="btnTreeRemove" >
+            <property name="text" >
+             <string>...</string>
+            </property>
+            <property name="icon" >
+             <iconset resource="icepapcms.qrc" >
+              <normaloff>:/small_icons/IcepapCFG Icons Petits/list-remove.png</normaloff>:/small_icons/IcepapCFG Icons Petits/list-remove.png</iconset>
+            </property>
+            <property name="iconSize" >
+             <size>
+              <width>16</width>
+              <height>16</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
-        <item>
-         <spacer>
+        <item row="1" column="0" >
+         <widget class="Line" name="line" >
           <property name="orientation" >
            <enum>Qt::Horizontal</enum>
           </property>
-          <property name="sizeHint" >
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
+         </widget>
         </item>
        </layout>
       </widget>
      </item>
-     <item>
+     <item row="1" column="0" >
       <widget class="QTreeView" name="treeView" >
        <property name="iconSize" >
         <size>
@@ -547,6 +399,17 @@ p, li { white-space: pre-wrap; }
      </item>
     </layout>
    </widget>
+  </widget>
+  <widget class="QStatusBar" name="statusbar" >
+   <property name="sizePolicy" >
+    <sizepolicy vsizetype="MinimumExpanding" hsizetype="Preferred" >
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="sizeGripEnabled" >
+    <bool>true</bool>
+   </property>
   </widget>
   <action name="actionAbout" >
    <property name="text" >
@@ -569,7 +432,8 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionGoNext" >
    <property name="icon" >
-    <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/go-next.png</iconset>
+    <iconset resource="icepapcms.qrc" >
+     <normaloff>:/icons/IcepapCfg Icons/go-next.png</normaloff>:/icons/IcepapCfg Icons/go-next.png</iconset>
    </property>
    <property name="text" >
     <string>Go Next</string>
@@ -586,7 +450,8 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionGoPrevious" >
    <property name="icon" >
-    <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/go-previous.png</iconset>
+    <iconset resource="icepapcms.qrc" >
+     <normaloff>:/icons/IcepapCfg Icons/go-previous.png</normaloff>:/icons/IcepapCfg Icons/go-previous.png</iconset>
    </property>
    <property name="text" >
     <string>Go Previous</string>
@@ -597,7 +462,8 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionGoUp" >
    <property name="icon" >
-    <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/go-up.png</iconset>
+    <iconset resource="icepapcms.qrc" >
+     <normaloff>:/icons/IcepapCfg Icons/go-up.png</normaloff>:/icons/IcepapCfg Icons/go-up.png</iconset>
    </property>
    <property name="text" >
     <string>Go Up</string>
@@ -608,7 +474,8 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionRefresh" >
    <property name="icon" >
-    <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/view-refresh.png</iconset>
+    <iconset resource="icepapcms.qrc" >
+     <normaloff>:/icons/IcepapCfg Icons/view-refresh.png</normaloff>:/icons/IcepapCfg Icons/view-refresh.png</iconset>
    </property>
    <property name="text" >
     <string>Refresh</string>
@@ -619,7 +486,8 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionPreferences" >
    <property name="icon" >
-    <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/gnome-settings.png</iconset>
+    <iconset resource="icepapcms.qrc" >
+     <normaloff>:/icons/IcepapCfg Icons/gnome-settings.png</normaloff>:/icons/IcepapCfg Icons/gnome-settings.png</iconset>
    </property>
    <property name="text" >
     <string>Preferences</string>
@@ -627,7 +495,8 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionHelp" >
    <property name="icon" >
-    <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/help-browser.png</iconset>
+    <iconset resource="icepapcms.qrc" >
+     <normaloff>:/icons/IcepapCfg Icons/help-browser.png</normaloff>:/icons/IcepapCfg Icons/help-browser.png</iconset>
    </property>
    <property name="text" >
     <string>Help</string>
@@ -638,7 +507,8 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionExport" >
    <property name="icon" >
-    <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/gnome-dev-floppy.png</iconset>
+    <iconset resource="icepapcms.qrc" >
+     <normaloff>:/icons/IcepapCfg Icons/gnome-dev-floppy.png</normaloff>:/icons/IcepapCfg Icons/gnome-dev-floppy.png</iconset>
    </property>
    <property name="text" >
     <string>Export configuration</string>
@@ -655,7 +525,8 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionImport" >
    <property name="icon" >
-    <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/folder.png</iconset>
+    <iconset resource="icepapcms.qrc" >
+     <normaloff>:/icons/IcepapCfg Icons/folder.png</normaloff>:/icons/IcepapCfg Icons/folder.png</iconset>
    </property>
    <property name="text" >
     <string>Import configuration</string>
@@ -672,7 +543,8 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionQuit" >
    <property name="icon" >
-    <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/gnome-logout.png</iconset>
+    <iconset resource="icepapcms.qrc" >
+     <normaloff>:/icons/IcepapCfg Icons/gnome-logout.png</normaloff>:/icons/IcepapCfg Icons/gnome-logout.png</iconset>
    </property>
    <property name="text" >
     <string>Quit</string>
@@ -703,7 +575,8 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionSaveConfig" >
    <property name="icon" >
-    <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/sign.png</iconset>
+    <iconset resource="icepapcms.qrc" >
+     <normaloff>:/icons/IcepapCfg Icons/sign.png</normaloff>:/icons/IcepapCfg Icons/sign.png</iconset>
    </property>
    <property name="text" >
     <string>Save Configuration</string>
@@ -720,7 +593,8 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionFirmwareUpgrade" >
    <property name="icon" >
-    <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/gnome-cpu.png</iconset>
+    <iconset resource="icepapcms.qrc" >
+     <normaloff>:/icons/IcepapCfg Icons/gnome-cpu.png</normaloff>:/icons/IcepapCfg Icons/gnome-cpu.png</iconset>
    </property>
    <property name="text" >
     <string>Firmware upgrade</string>
@@ -731,7 +605,8 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionConsole" >
    <property name="icon" >
-    <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/gnome-terminal.png</iconset>
+    <iconset resource="icepapcms.qrc" >
+     <normaloff>:/icons/IcepapCfg Icons/gnome-terminal.png</normaloff>:/icons/IcepapCfg Icons/gnome-terminal.png</iconset>
    </property>
    <property name="text" >
     <string>Console</string>
@@ -745,7 +620,8 @@ p, li { white-space: pre-wrap; }
     <bool>true</bool>
    </property>
    <property name="icon" >
-    <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/calendar.png</iconset>
+    <iconset resource="icepapcms.qrc" >
+     <normaloff>:/icons/IcepapCfg Icons/calendar.png</normaloff>:/icons/IcepapCfg Icons/calendar.png</iconset>
    </property>
    <property name="text" >
     <string>Historic Configurations</string>
@@ -762,7 +638,8 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionTemplates" >
    <property name="icon" >
-    <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/notes.png</iconset>
+    <iconset resource="icepapcms.qrc" >
+     <normaloff>:/icons/IcepapCfg Icons/notes.png</normaloff>:/icons/IcepapCfg Icons/notes.png</iconset>
    </property>
    <property name="text" >
     <string>Templates</string>
@@ -776,7 +653,8 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionAddIcepap" >
    <property name="icon" >
-    <iconset resource="icepapcms.qrc" >:/small_icons/IcepapCFG Icons Petits/list-add.png</iconset>
+    <iconset resource="icepapcms.qrc" >
+     <normaloff>:/small_icons/IcepapCFG Icons Petits/list-add.png</normaloff>:/small_icons/IcepapCFG Icons Petits/list-add.png</iconset>
    </property>
    <property name="text" >
     <string>Add Icepap</string>
@@ -787,7 +665,8 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionDeleteIcepap" >
    <property name="icon" >
-    <iconset resource="icepapcms.qrc" >:/small_icons/IcepapCFG Icons Petits/list-remove.png</iconset>
+    <iconset resource="icepapcms.qrc" >
+     <normaloff>:/small_icons/IcepapCFG Icons Petits/list-remove.png</normaloff>:/small_icons/IcepapCFG Icons Petits/list-remove.png</iconset>
    </property>
    <property name="text" >
     <string>Delete Icepap</string>
@@ -808,7 +687,8 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionAddLocation" >
    <property name="icon" >
-    <iconset resource="icepapcms.qrc" >:/small_icons/IcepapCFG Icons Petits/template.png</iconset>
+    <iconset resource="icepapcms.qrc" >
+     <normaloff>:/small_icons/IcepapCFG Icons Petits/template.png</normaloff>:/small_icons/IcepapCFG Icons Petits/template.png</iconset>
    </property>
    <property name="text" >
     <string>Add location</string>
@@ -822,7 +702,8 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionDeleteLocation" >
    <property name="icon" >
-    <iconset resource="icepapcms.qrc" >:/small_icons/IcepapCFG Icons Petits/process-stop.png</iconset>
+    <iconset resource="icepapcms.qrc" >
+     <normaloff>:/small_icons/IcepapCFG Icons Petits/process-stop.png</normaloff>:/small_icons/IcepapCFG Icons Petits/process-stop.png</iconset>
    </property>
    <property name="text" >
     <string>Delete location</string>

@@ -6,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>291</width>
-    <height>386</height>
+    <height>336</height>
    </rect>
   </property>
   <property name="sizePolicy" >
@@ -141,7 +141,7 @@
             </widget>
            </item>
            <item row="0" column="1" >
-            <widget class="QComboBox" name="cfgPCLOOP" >
+            <widget class="QComboBox" name="PCLOOP_2" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -159,6 +159,9 @@
                <width>16777215</width>
                <height>22</height>
               </size>
+             </property>
+             <property name="editable" >
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -188,7 +191,7 @@
             </widget>
            </item>
            <item row="1" column="1" >
-            <widget class="QDoubleSpinBox" name="cfgPCLTAU" >
+            <widget class="QDoubleSpinBox" name="PCLTAU" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -206,12 +209,6 @@
                <width>16777215</width>
                <height>22</height>
               </size>
-             </property>
-             <property name="maximum" >
-              <double>999999999.000000000000000</double>
-             </property>
-             <property name="singleStep" >
-              <double>0.010000000000000</double>
              </property>
             </widget>
            </item>
@@ -241,7 +238,7 @@
             </widget>
            </item>
            <item row="2" column="1" >
-            <widget class="QSpinBox" name="cfgPCLERROR" >
+            <widget class="QSpinBox" name="PCLERROR" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -259,9 +256,6 @@
                <width>16777215</width>
                <height>22</height>
               </size>
-             </property>
-             <property name="maximum" >
-              <number>999999999</number>
              </property>
             </widget>
            </item>
@@ -291,7 +285,7 @@
             </widget>
            </item>
            <item row="3" column="1" >
-            <widget class="QSpinBox" name="cfgPCLDEADBD" >
+            <widget class="QSpinBox" name="PCLDEADBD" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -309,9 +303,6 @@
                <width>16777215</width>
                <height>22</height>
               </size>
-             </property>
-             <property name="maximum" >
-              <number>999999999</number>
              </property>
             </widget>
            </item>
@@ -341,7 +332,7 @@
             </widget>
            </item>
            <item row="4" column="1" >
-            <widget class="QSpinBox" name="cfgPCLSETLW" >
+            <widget class="QSpinBox" name="PCLSETLW" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -359,9 +350,6 @@
                <width>16777215</width>
                <height>22</height>
               </size>
-             </property>
-             <property name="maximum" >
-              <number>999999999</number>
              </property>
             </widget>
            </item>
@@ -391,7 +379,7 @@
             </widget>
            </item>
            <item row="5" column="1" >
-            <widget class="QDoubleSpinBox" name="cfgPCLSETLT" >
+            <widget class="QDoubleSpinBox" name="PCLSETLT" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -409,12 +397,6 @@
                <width>16777215</width>
                <height>22</height>
               </size>
-             </property>
-             <property name="maximum" >
-              <double>1000000000.000000000000000</double>
-             </property>
-             <property name="singleStep" >
-              <double>0.010000000000000</double>
              </property>
             </widget>
            </item>
@@ -503,7 +485,7 @@
             </widget>
            </item>
            <item row="0" column="1" >
-            <widget class="QComboBox" name="cfgCTRLENC" >
+            <widget class="QComboBox" name="CTRLENC" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -521,6 +503,9 @@
                <width>16777215</width>
                <height>22</height>
               </size>
+             </property>
+             <property name="editable" >
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -550,7 +535,7 @@
             </widget>
            </item>
            <item row="1" column="1" >
-            <widget class="QSpinBox" name="cfgCTRLERROR" >
+            <widget class="QSpinBox" name="CTRLERROR" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -568,9 +553,6 @@
                <width>16777215</width>
                <height>22</height>
               </size>
-             </property>
-             <property name="maximum" >
-              <number>999999999</number>
              </property>
             </widget>
            </item>

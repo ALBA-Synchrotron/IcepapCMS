@@ -73,18 +73,18 @@ class IcepapDriver(Storm):
         # IN THE DATABASE FIRST, AND IF NO ERRORS, THEN COMMUNICATE THE DRIVER
         # THAT THE VALUES SHOULD BE SIGNED.
         try:
-            db = StormManager()
-            db.commitTransaction()
             #signature = socket.gethostname() #+ "_" + str(time.time())
             user = self.getSystemUserName()
             host = socket.gethostname()
             signature = user+"@"+host+"_"+str(hex(int(time.time())))
             IcepapController().signDriverConfiguration(self.icepapsystem_name, self.addr, signature)
+            self.mode = unicode(IcepapMode.OPER)
+            db = StormManager()
+            db.commitTransaction()
             self.current_cfg.name = unicode(time.ctime())
             self.current_cfg.setSignature(signature)        
             self.startup_cfg = self.current_cfg
             self.conflict = Conflict.NO_CONFLICT
-            self.mode = unicode(IcepapMode.OPER)
         except Exception,e:
             print "some exception while trying to sign the driver",e
 

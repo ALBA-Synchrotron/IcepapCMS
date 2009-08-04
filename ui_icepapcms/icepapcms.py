@@ -10,6 +10,11 @@ from pageipapsystem import PageiPapSystem
 from dialogaddicepap import DialogAddIcepap
 from dialogaddlocation import DialogAddLocation
 from dialogdriverconflict import DialogDriverConflict
+
+from dialogconflictdriver_nonexpert import DialogConflictNonExpert
+from dialogconflictdriver_expert import DialogConflictExpert
+from dialognewdriver import DialogNewDriver
+
 from dialogpreferences import DialogPreferences
 from dialogipapprogram import DialogIcepapProgram
 from ipapconsole import IcepapConsole
@@ -93,7 +98,7 @@ class IcepapCMS(QtGui.QMainWindow):
         self.connect(self.ui.treeView, 
                      QtCore.SIGNAL("customContextMenuRequested(const QPoint &)"),
                      self.__contextMenu)
-        QtCore.QObject.connect(self.ui.txtLocation,QtCore.SIGNAL("returnPressed()"),self.txtLocation_on_return)
+###        QtCore.QObject.connect(self.ui.txtLocation,QtCore.SIGNAL("returnPressed()"),self.txtLocation_on_return)
         QtCore.QObject.connect(self.ui.btnTreeAdd,QtCore.SIGNAL("clicked()"),self.btnTreeAdd_on_click)
         QtCore.QObject.connect(self.ui.btnTreeRemove,QtCore.SIGNAL("clicked()"),self.btnTreeRemove_on_click)
         QtCore.QObject.connect(self.ui.actionAddIcepap ,QtCore.SIGNAL("triggered()"),self.btnTreeAdd_on_click)         
@@ -101,8 +106,8 @@ class IcepapCMS(QtGui.QMainWindow):
         #QtCore.QObject.connect(self.ui.btnTreeRefresh,QtCore.SIGNAL("clicked()"),self.btnTreeRefresh_on_click)
         QtCore.QObject.connect(self.ui.menuView,QtCore.SIGNAL("aboutToShow()"),self.menuView_before_show)
         QtCore.QObject.connect(self.ui.cbLocation,QtCore.SIGNAL("activated  (const QString&)"),self.locationChanged)
-        QtCore.QObject.connect(self.ui.btnAddLocation,QtCore.SIGNAL("clicked()"),self.addLocation)
-        QtCore.QObject.connect(self.ui.btnDeleteLocation,QtCore.SIGNAL("clicked()"),self.deleteLocation)
+###        QtCore.QObject.connect(self.ui.btnAddLocation,QtCore.SIGNAL("clicked()"),self.addLocation)
+###        QtCore.QObject.connect(self.ui.btnDeleteLocation,QtCore.SIGNAL("clicked()"),self.deleteLocation)
         QtCore.QObject.connect(self.ui.actionAddLocation,QtCore.SIGNAL("triggered()"),self.addLocation)         
         QtCore.QObject.connect(self.ui.actionDeleteLocation,QtCore.SIGNAL("triggered()"),self.deleteLocation)
         QtCore.QObject.connect(self.ui.actionAbout,QtCore.SIGNAL("triggered()"),self.about)
@@ -129,7 +134,7 @@ class IcepapCMS(QtGui.QMainWindow):
         self.ui.actionTemplates.setEnabled(False)
         self.ui.treeView.setItemsExpandable(True)        
         self.ui.stackedWidget.setCurrentIndex(0)
-        self.ui.txtLocation.setText("")
+###        self.ui.txtLocation.setText("")
      
         #    def buildTree(self):
         #        expand_system = self.performSystemScan()
@@ -282,9 +287,7 @@ class IcepapCMS(QtGui.QMainWindow):
             data = dlg.getData()
             self.ui.cbLocation.setCurrentIndex(self.ui.cbLocation.findText(data[3], QtCore.Qt.MatchFixedString))
             icepap_system = self._manager.addIcepapSystem(data[0], data[1], data[2])
-            if icepap_system is None:
-                MessageDialogs.showErrorMessage(self, "Add Icepap", "Error adding Icepap: '"+data[0]+"'")
-            else:
+            if icepap_system is not None:
                 self._tree_model.addIcepapSystem(icepap_system.name, icepap_system, False)
                 self._manager.checkFirmwareVersions(icepap_system)
                 self.expandAll(icepap_system.name)
@@ -343,7 +346,7 @@ class IcepapCMS(QtGui.QMainWindow):
             self.ui.pageiPapDriver.stopTesting()
             if not self.refreshTimer is None:
                 self.refreshTimer.stop()
-                self.ui.txtLocation.setText("")
+###                self.ui.txtLocation.setText("")
                 self.ui.stackedWidget.setCurrentIndex(0)
                 self._manager.stopIcepap(icepap_system)
                 self._tree_model.updateIcepapSystem(icepap_system, True)
@@ -392,7 +395,10 @@ class IcepapCMS(QtGui.QMainWindow):
             MessageDialogs.showInformationMessage(self, "Solved conflicts", "Drivers configuration load from DB:\n"+ solved_drivers)
 
     def getDriverDBValues(self,icepap_system,driver_addr):
-        return StormManager().getIcepapSystem(icepap_system).getDriver(driver_addr).current_cfg
+        dbIcepapSystem = StormManager().getIcepapSystem(icepap_system)
+        return dbIcepapSystem.getDriver(driver_addr,in_memory=False).startup_cfg
+
+        #return StormManager().getIcepapSystem(icepap_system).getDriver(driver_addr).current_cfg
 
     def getDriverValues(self,icepap_system,driver_addr):
         return self._manager.getDriverConfiguration(icepap_system,driver_addr)
@@ -431,35 +437,97 @@ class IcepapCMS(QtGui.QMainWindow):
         system = driver.icepapsystem_name
         addr = driver.addr
         expert = self._manager._ctrl_icepap.iPaps[system].isExpertFlagSet(addr)
+        expertFlag = (expert == 'YES')
         message = "%s.%d: Set DataBase values?" % (system,addr)
-        if expert == 'YES':
+        if expertFlag:
             message = "%s.%d: Set Driver Values?\n" %(system,addr)
             message = message + "FOUND CONFIG WITH EXPERT = YES"
 
 
         params_modified,params_new_in_driver,params_old_in_db = self.get_driver_param_conflicts(system,addr)
+
+        widget, table = self.ui.pageiPapDriver.createTableWidget(["Parameter\nname","Value in\ndatabase","Value in\ndriver board"])
+        more_info_dialog = QtGui.QDialog(self)
+        more_info_dialog.resize(420,300)
+        grid_layout = QtGui.QGridLayout()
+        grid_layout.addWidget(widget)
+        more_info_dialog.setModal(True)
+        more_info_dialog.setLayout(grid_layout)
+
         if len(params_modified)>0:
-            message = message + "\n\nModified parameters:"
+            #message = message + "\n\nModified parameters:"
             for param,db_value,driver_value in params_modified:
-                message = message + "\n     "+param+"_DB("+db_value+")   "+param+"_DR("+driver_value+")"
+                #message = message + "\n     "+param+"_DB("+db_value+")   "+param+"_DR("+driver_value+")"
+                row = table.rowCount()
+                table.insertRow(row)
+
+                param_item = QtGui.QTableWidgetItem()
+                param_item.setText(param)
+                table.setItem(row, 0, param_item)
+
+                db_item = QtGui.QTableWidgetItem()
+                db_item.setText(db_value)
+                table.setItem(row, 1, db_item)
+
+                driver_item = QtGui.QTableWidgetItem()
+                driver_item.setText(driver_value)
+                table.setItem(row, 2, driver_item)
+
         if len(params_new_in_driver)>0:
-            message = message + "\n\nNew parameters:"
+            #message = message + "\n\nNew parameters:"
             for param,driver_value in params_new_in_driver:
-                message = message + "\n     "+param+"_DR("+driver_value+")"
+                #message = message + "\n     "+param+"_DR("+driver_value+")"
+                row = table.rowCount()
+                table.insertRow(row)
+
+                param_item = QtGui.QTableWidgetItem()
+                param_item.setText(param)
+                table.setItem(row, 0, param_item)
+
+                db_item = QtGui.QTableWidgetItem()
+                db_item.setText("---")
+                table.setItem(row, 1, db_item)
+
+                driver_item = QtGui.QTableWidgetItem()
+                driver_item.setText(driver_value)
+                table.setItem(row, 2, driver_item)
                 
         if len(params_old_in_db)>0:
-            message = message + "\n\nOld parameters:"
+            #message = message + "\n\nOld parameters:"
             for param,db_value in params_old_in_db:
-                message = message + "\n     "+param+"_DB("+db_value+")"
-                
+                #message = message + "\n     "+param+"_DB("+db_value+")"
+                row = table.rowCount()
+                table.insertRow(row)
+
+                param_item = QtGui.QTableWidgetItem()
+                param_item.setText(param)
+                table.setItem(row, 0, param_item)
+
+                db_item = QtGui.QTableWidgetItem()
+                db_item.setText(db_value)
+                table.setItem(row, 1, db_item)
+
+                driver_item = QtGui.QTableWidgetItem()
+                driver_item.setText("---")
+                table.setItem(row, 2, driver_item)
         
-        yes = MessageDialogs.showYesNoMessage(self, "Conflict Resolution",message)
+        #yes = MessageDialogs.showYesNoMessage(self, "Conflict Resolution",message)
+        dialog = None
+        if not expertFlag:
+            dialog = DialogConflictNonExpert(self, more_info_dialog)
+        else:
+            dialog = DialogConflictExpert(self, more_info_dialog)
+
+        dialog.exec_()
+
+        yes = dialog.result()
+
         if yes:
             if expert == 'YES':
                 driver_values = self.getDriverValues(system,addr)
+                driver.addConfiguration(driver_values)
                 db = StormManager()
                 db.store(driver_values)
-                driver.addConfiguration(driver_values)
             else:
                 self._manager.saveValuesInIcepap(driver,driver.current_cfg.toList())
             driver.signDriver()
@@ -478,9 +546,47 @@ class IcepapCMS(QtGui.QMainWindow):
         
 
     def solveNewDriver(self, item):
-        cfg_default = MessageDialogs.showYesNoMessage(self, "Reset Driver to Defaults", "Do you want to reset the driver configuration to default values?")
-        if cfg_default:
+        #cfg_default = MessageDialogs.showYesNoMessage(self, "Reset Driver to Defaults", "Do you want to reset the driver configuration to default values?")
+        driver = item.itemData
+        system = driver.icepapsystem_name
+        addr = driver.addr
+
+        widget, table = self.ui.pageiPapDriver.createTableWidget(["Parameter\nname","Value in\ndriver board"])
+        more_info_dialog = QtGui.QDialog(self)
+        more_info_dialog.resize(320,600)
+        grid_layout = QtGui.QGridLayout()
+        grid_layout.addWidget(widget)
+        more_info_dialog.setModal(True)
+        more_info_dialog.setLayout(grid_layout)
+
+        driver_values = self.getDriverValues(system,addr)
+        driver_values_list = driver_values.toList()
+        if len(driver_values_list)>0:
+            #message = message + "\n\nModified parameters:"
+            for param,driver_value in driver_values_list:
+                row = table.rowCount()
+                table.insertRow(row)
+
+                param_item = QtGui.QTableWidgetItem()
+                param_item.setText(param)
+                table.setItem(row, 0, param_item)
+
+                driver_item = QtGui.QTableWidgetItem()
+                driver_item.setText(driver_value)
+                table.setItem(row, 1, driver_item)
+        
+        expert = self._manager._ctrl_icepap.iPaps[system].isExpertFlagSet(addr)
+        expertFlag = (expert == 'YES')
+        dialog = DialogNewDriver(self, more_info_dialog, expertFlag)
+        dialog.exec_()
+
+        answer = dialog.result()
+        if answer not in ["DEFAULT","DRIVER"]:
+            return
+
+        if answer == "DEFAULT":
             self._manager.configDriverToDefaults(item.itemData)
+        
         self._manager.updateDriverConfig(item.itemData)
         item.solveConflict()
         driver = item.itemData
@@ -513,7 +619,7 @@ class IcepapCMS(QtGui.QMainWindow):
         self.ui.pageiPapDriver.stopTesting()
         if not self.refreshTimer is None:
             self.refreshTimer.stop()
-        self.ui.txtLocation.setText("")
+###        self.ui.txtLocation.setText("")
         self._manager.reset(self)
         #if not self._manager.dbStatusOK:
         #    MessageDialogs.showErrorMessage(self, "Storage", "Error accessing storage.\nCheck storage preferences.")
@@ -544,13 +650,16 @@ class IcepapCMS(QtGui.QMainWindow):
         self.locationsPrevious.extend(self.locationsNext)
         item = self._tree_model.item(modelindex)
         if item.role == IcepapTreeModel.DRIVER_WARNING:
-            self.solveConflict(item)
+            userContinues = self.solveConflict(item)
         elif item.role == IcepapTreeModel.DRIVER_NEW:
             self.solveNewDriver(item)
         elif item.role == IcepapTreeModel.DRIVER_ERROR:
             self.deleteDriverError(item)
         elif item.role == IcepapTreeModel.SYSTEM_OFFLINE or item.role == IcepapTreeModel.SYSTEM_ERROR:
             self.scanIcepap(item.itemData)
+
+        if item.role == IcepapTreeModel.DRIVER and item.itemData.conflict == Conflict.NO_CONFLICT:
+            self.treeview_on_click(modelindex)
             
         
     def treeview_on_click(self, modelindex):
@@ -559,13 +668,13 @@ class IcepapCMS(QtGui.QMainWindow):
         self.addToPrevious(self.currentLocation)
         self.treeSelectByIndex(modelindex)
             
-    def txtLocation_on_return(self):
-        self.locationsPrevious.extend(self.locationsNext)
-        self.locationsNext =  []
-        self.addToPrevious(self.currentLocation)
-        location = str(self.ui.txtLocation.text())
-        location = location.rstrip('/')
-        self.treeSelectByLocation(location)
+###    def txtLocation_on_return(self):
+###        self.locationsPrevious.extend(self.locationsNext)
+###        self.locationsNext =  []
+###        self.addToPrevious(self.currentLocation)
+###        location = str(self.ui.txtLocation.text())
+###        location = location.rstrip('/')
+###        self.treeSelectByLocation(location)
      
     
     def treeSelectByLocation(self, location):
@@ -581,7 +690,7 @@ class IcepapCMS(QtGui.QMainWindow):
     
     def treeSelectByIndex(self, modelindex):
         item = self._tree_model.item(modelindex)
-        self.ui.txtLocation.setText(item.location) 
+###        self.ui.txtLocation.setText(item.location) 
         self.currentLocation = item.location
         self.ui.actionExport.setEnabled(False)
         self.ui.actionImport.setEnabled(False)
@@ -592,21 +701,25 @@ class IcepapCMS(QtGui.QMainWindow):
         self.ui.pageiPapDriver.stopTesting()
         if not self.refreshTimer is None:
             self.refreshTimer.stop()
+
+        # BEFORE CHANGING THE TREE NODE, WE SHOULD CHECK IF THE LAST DRIVER
+        # CAN BE SET BACK TO MODE 'OPER' OR NOT
+        self.ui.pageiPapDriver.checkSaveConfigPending()
+
         if item.role == IcepapTreeModel.DRIVER or item.role == IcepapTreeModel.DRIVER_CFG:
+
+            # THE FILLDATA METHOD KNOWS IF THE BUTTON HAS TO BE ENABLED OR NOT
+            self.ui.actionSaveConfig.setEnabled(False)
             self.ui.pageiPapDriver.fillData(item.itemData)
             self.ui.stackedWidget.setCurrentIndex(3)
             self.ui.actionExport.setEnabled(True)
             self.ui.actionImport.setEnabled(True)
             self.ui.actionHistoricCfg.setEnabled(True)
             self.ui.actionTemplates.setEnabled(True)
-            self.ui.actionSaveConfig.setEnabled(True)
             self.ui.actionSetExpertFlag.setEnabled(True)
             #if self.historicDlg.isVisible():
             #    self.historicDlg.fillDriverData(item.itemData)
-            if item.role == IcepapTreeModel.DRIVER_CFG:
-                self.ui.actionSaveConfig.setEnabled(True)
-            else:
-                self.ui.actionSaveConfig.setEnabled(False)
+
         elif item.role == IcepapTreeModel.SYSTEM or item.role == IcepapTreeModel.SYSTEM_WARNING:
             self.ui.pageiPapSystem.fillData(item.itemData)      
             self.ui.stackedWidget.setCurrentIndex(1)
@@ -621,7 +734,8 @@ class IcepapCMS(QtGui.QMainWindow):
             self.refreshTimer.start(2000)
         else:
             self.ui.stackedWidget.setCurrentIndex(0)
-        self.expandIndex(modelindex)    
+
+        self.expandIndex(modelindex)
            
     
     def actionGoPrevious(self):
@@ -650,7 +764,7 @@ class IcepapCMS(QtGui.QMainWindow):
         self.locationsPrevious = []
         self.locationsNext = []
         self.checkGoPreviousActions()
-        self.ui.txtLocation.setText("") 
+###        self.ui.txtLocation.setText("") 
     
     def checkGoPreviousActions(self):
         if len(self.locationsPrevious) == 0:
@@ -691,14 +805,20 @@ class IcepapCMS(QtGui.QMainWindow):
       
         self.refreshTimer.stop()
         self.ui.stackedWidget.setCurrentIndex(0)
-        signList = self._manager.getDriversToSign()
-        if len(signList) > 0:
+        # Before closing, if any driver was in config mode, be sure if it can be set back to oper mode
+        # or some signature is pending
+
+        if self.ui.pageiPapDriver.checkSaveConfigPending():
+        ###if len(signList) > 0:
+            signList = self._manager.getDriversToSign()
             if MessageDialogs.showYesNoMessage(self, "Sign Drivers", "The are drivers pending to be signed.\nAll changes will be lost\nSign drivers?."):
                 for driver in signList:
                     driver.signDriver()
             else:
                 for driver in signList:
                     self._manager.discardDriverChanges(driver)
+                    self._manager.endConfiguringDriver(driver)
+
         
 
         if not self._manager.closeAllConnections():
@@ -755,12 +875,13 @@ class IcepapCMS(QtGui.QMainWindow):
         dlg = DialogIcepapProgram(self)
         dlg.exec_()
     
-    def addDriverToSign(self, driver):
-        location = str(self.ui.txtLocation.text())
-        location = location.rstrip('/')
-        self._tree_model.changeItemIcon(location, IcepapTreeModel.DRIVER_CFG)
-        #driver.conflict = Conflict.DRIVER_CFG
-        self.ui.actionSaveConfig.setEnabled(True)
+###    def addDriverToSign(self, driver):
+###        print "OUPS WE NEED THE LOCATION...."
+###        location = str(self.ui.txtLocation.text())
+###        location = location.rstrip('/')
+###        self._tree_model.changeItemIcon(location, IcepapTreeModel.DRIVER_CFG)
+###        #driver.conflict = Conflict.DRIVER_CFG
+###        self.ui.actionSaveConfig.setEnabled(True)
          
     def actionSaveConfig(self):
         QtGui.QApplication.instance().setOverrideCursor(QtGui.QCursor(QtCore.Qt.WaitCursor))
@@ -782,9 +903,6 @@ class IcepapCMS(QtGui.QMainWindow):
             elif self.ui.stackedWidget.currentIndex() == 3:
                 #sign driver
                 self.ui.pageiPapDriver.signDriver()
-                location = str(self.ui.txtLocation.text())
-                location = location.rstrip('/')
-                self._tree_model.changeItemIcon(location, IcepapTreeModel.DRIVER)
                 self.ui.actionSaveConfig.setEnabled(False)
 
         except Exception,e:

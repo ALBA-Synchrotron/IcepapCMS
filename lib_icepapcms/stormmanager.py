@@ -72,7 +72,7 @@ class StormManager(Singleton):
     def closeDB(self):
         try:
             if self.dbOK:
-                self._store.commit()
+                #self._store.commit()
                 self._store.close()
             return True
         except:
@@ -94,7 +94,8 @@ class StormManager(Singleton):
             self._store.add(icepap_system)
             self.commitTransaction()
             return True
-        except:
+        except Exception,e:
+            print "some exception trying to store the icepap system",e
             return False
     
     def deleteLocation(self, location):

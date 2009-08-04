@@ -1,4 +1,41 @@
-IcepapCMS 1.16 2009/01/??
+IcepapCMS 1.18 2009/12/xx
+-------------------------------------------------------------------------
+
+
+IcepapCMS 1.17 2009/08/04
+-------------------------------------------------------------------------
++) The new axis config xml file does not have sections any more. There is compatibility with old configs.
++) New dialog for new driver has been integrated taking into account the expert flag
++) New conflict dialogs have been integrated with extra table info for values, and checking expert flag
++) As suggested, there is a highlight in the text of the tabs if some parameter is pending to send/save
++) Added more info when restoring values from database if there is an exception
++) Support for all types of unknown parameters and do not show the tab if not needed
++) Fixed bug in send/save/action-save that was more times enabled than needed
++) Fixed bug when adding systems sometimes they appeared as 'NEW' the second time the application started
++) Location management has been redesigned and add/remove locations is only possible through the File menu
++) Tree Explorer is not closable/movable/floatable any more
++) Removed the location bar and all the logic that was used for the navigation through the tree
++) The description box has tooltip for last signature details and changes backround based on 'ACTIVE'
++) Fixed bug when discarding to sign drivers, the database was updated with wrong values
++) The command widgets like INFOASRC/POL are now highlighted in blue if the current value is
++) New ui interface in tabs has been implemented, there's pending a better layout of the widgets.
++) The tree nodes are updated when the driver name changes in the database
++) Support for FLAG_TYPE parameters usign a QFrame and checkboxes inside
++) Drivers are always in CONFIG mode if selected. They remain in CONFIG if have to be signed
++) The catalog now supports a preferences local folder for more custom sets of values
+   In addendum, it is now possible to set any parameter in the template, and use doubleclick.
++) The conflict resolution is driven only by the dialogs and the EXPERT_FLAG parameter
+   no more preference checkbox is needed
++) Adding a system without axis is now possible
++) Store configuration append '.xml' extension
++) Typo: close loop -> closed loop
++) Adapt all the code in order to avoid deprecated pyIcePAP functions
++) Blink for ten minutes instead of an hour
++) All icepap interaction with # ACK by default
++) Add user name in signature: user@host_hex(timestamp)
++) Use pyIcePAP.drivers_alive()
+
+IcepapCMS 1.16 2009/05/?? - Never released as a end-user version, always for developers
 -------------------------------------------------------------------------
 +) Added support for the new ?VER SAVED command available since 1.16
 +) Added support for the new ?_PROG command available since MCPU 0.17

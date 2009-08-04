@@ -9,6 +9,12 @@
     <height>548</height>
    </rect>
   </property>
+  <property name="sizePolicy" >
+   <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="minimumSize" >
    <size>
     <width>410</width>
@@ -19,10 +25,22 @@
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" >
-   <property name="margin" >
+   <property name="leftMargin" >
     <number>0</number>
    </property>
-   <property name="spacing" >
+   <property name="topMargin" >
+    <number>0</number>
+   </property>
+   <property name="rightMargin" >
+    <number>0</number>
+   </property>
+   <property name="bottomMargin" >
+    <number>0</number>
+   </property>
+   <property name="horizontalSpacing" >
+    <number>0</number>
+   </property>
+   <property name="verticalSpacing" >
     <number>0</number>
    </property>
    <item row="0" column="0" >
@@ -34,10 +52,22 @@
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QGridLayout" >
-      <property name="margin" >
+      <property name="leftMargin" >
        <number>0</number>
       </property>
-      <property name="spacing" >
+      <property name="topMargin" >
+       <number>0</number>
+      </property>
+      <property name="rightMargin" >
+       <number>0</number>
+      </property>
+      <property name="bottomMargin" >
+       <number>0</number>
+      </property>
+      <property name="horizontalSpacing" >
+       <number>0</number>
+      </property>
+      <property name="verticalSpacing" >
        <number>0</number>
       </property>
       <item row="0" column="0" colspan="2" >
@@ -52,7 +82,16 @@
          <property name="spacing" >
           <number>0</number>
          </property>
-         <property name="margin" >
+         <property name="leftMargin" >
+          <number>0</number>
+         </property>
+         <property name="topMargin" >
+          <number>0</number>
+         </property>
+         <property name="rightMargin" >
+          <number>0</number>
+         </property>
+         <property name="bottomMargin" >
           <number>0</number>
          </property>
          <item>
@@ -96,6 +135,14 @@
                 <height>22</height>
                </size>
               </property>
+              <property name="editable" >
+               <bool>true</bool>
+              </property>
+              <item>
+               <property name="text" >
+                <string>Stepper 200 steps</string>
+               </property>
+              </item>
              </widget>
             </item>
             <item>
@@ -120,7 +167,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QComboBox" name="cfgMOTPHASES" >
+               <widget class="QComboBox" name="MOTPHASES" >
                 <property name="sizePolicy" >
                  <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                   <horstretch>0</horstretch>
@@ -138,6 +185,9 @@
                   <width>16777215</width>
                   <height>22</height>
                  </size>
+                </property>
+                <property name="editable" >
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
@@ -165,7 +215,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QSpinBox" name="cfgMOTPOLES" >
+               <widget class="QSpinBox" name="MOTPOLES" >
                 <property name="sizePolicy" >
                  <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                   <horstretch>0</horstretch>
@@ -183,9 +233,6 @@
                   <width>16777215</width>
                   <height>22</height>
                  </size>
-                </property>
-                <property name="maximum" >
-                 <number>999999999</number>
                 </property>
                </widget>
               </item>
@@ -213,12 +260,15 @@
                </widget>
               </item>
               <item>
-               <widget class="QComboBox" name="cfgMREGMODE" >
+               <widget class="QComboBox" name="MREGMODE" >
                 <property name="minimumSize" >
                  <size>
                   <width>70</width>
                   <height>16</height>
                  </size>
+                </property>
+                <property name="editable" >
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
@@ -246,18 +296,12 @@
                </widget>
               </item>
               <item>
-               <widget class="QDoubleSpinBox" name="cfgNRES" >
+               <widget class="QDoubleSpinBox" name="NRES" >
                 <property name="minimumSize" >
                  <size>
                   <width>70</width>
                   <height>16</height>
                  </size>
-                </property>
-                <property name="maximum" >
-                 <double>999999999.000000000000000</double>
-                </property>
-                <property name="singleStep" >
-                 <double>0.010000000000000</double>
                 </property>
                </widget>
               </item>
@@ -314,7 +358,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QComboBox" name="cfgCURRGAIN" >
+                 <widget class="QComboBox" name="CURRGAIN" >
                   <property name="sizePolicy" >
                    <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                     <horstretch>0</horstretch>
@@ -332,6 +376,9 @@
                     <width>16777215</width>
                     <height>22</height>
                    </size>
+                  </property>
+                  <property name="editable" >
+                   <bool>true</bool>
                   </property>
                  </widget>
                 </item>
@@ -362,7 +409,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QDoubleSpinBox" name="cfgMREGP" >
+                 <widget class="QDoubleSpinBox" name="MREGP" >
                   <property name="sizePolicy" >
                    <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                     <horstretch>0</horstretch>
@@ -380,12 +427,6 @@
                     <width>16777215</width>
                     <height>22</height>
                    </size>
-                  </property>
-                  <property name="maximum" >
-                   <double>999999999.000000000000000</double>
-                  </property>
-                  <property name="singleStep" >
-                   <double>0.010000000000000</double>
                   </property>
                  </widget>
                 </item>
@@ -416,7 +457,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QDoubleSpinBox" name="cfgMREGI" >
+                 <widget class="QDoubleSpinBox" name="MREGI" >
                   <property name="sizePolicy" >
                    <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                     <horstretch>0</horstretch>
@@ -434,12 +475,6 @@
                     <width>16777215</width>
                     <height>22</height>
                    </size>
-                  </property>
-                  <property name="maximum" >
-                   <double>999999999.000000000000000</double>
-                  </property>
-                  <property name="singleStep" >
-                   <double>0.010000000000000</double>
                   </property>
                  </widget>
                 </item>
@@ -470,7 +505,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QDoubleSpinBox" name="cfgMREGD" >
+                 <widget class="QDoubleSpinBox" name="MREGD" >
                   <property name="sizePolicy" >
                    <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                     <horstretch>0</horstretch>
@@ -489,12 +524,6 @@
                     <height>22</height>
                    </size>
                   </property>
-                  <property name="maximum" >
-                   <double>999999999.000000000000000</double>
-                  </property>
-                  <property name="singleStep" >
-                   <double>0.010000000000000</double>
-                  </property>
                  </widget>
                 </item>
                </layout>
@@ -510,7 +539,7 @@
              <property name="sizeType" >
               <enum>QSizePolicy::Fixed</enum>
              </property>
-             <property name="sizeHint" stdset="0" >
+             <property name="sizeHint" >
               <size>
                <width>20</width>
                <height>20</height>
@@ -572,7 +601,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QDoubleSpinBox" name="cfgNVOLT" >
+            <widget class="QDoubleSpinBox" name="NVOLT" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -590,12 +619,6 @@
                <width>16777215</width>
                <height>22</height>
               </size>
-             </property>
-             <property name="maximum" >
-              <double>999999999.000000000000000</double>
-             </property>
-             <property name="singleStep" >
-              <double>0.010000000000000</double>
              </property>
             </widget>
            </item>
@@ -623,7 +646,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QDoubleSpinBox" name="cfgIVOLT" >
+            <widget class="QDoubleSpinBox" name="IVOLT" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -642,12 +665,6 @@
                <height>22</height>
               </size>
              </property>
-             <property name="maximum" >
-              <double>999999999.000000000000000</double>
-             </property>
-             <property name="singleStep" >
-              <double>0.010000000000000</double>
-             </property>
             </widget>
            </item>
           </layout>
@@ -660,7 +677,7 @@
         <property name="orientation" >
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeHint" stdset="0" >
+        <property name="sizeHint" >
          <size>
           <width>171</width>
           <height>20</height>
@@ -717,7 +734,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QDoubleSpinBox" name="cfgNCURR" >
+            <widget class="QDoubleSpinBox" name="NCURR" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -735,12 +752,6 @@
                <width>16777215</width>
                <height>22</height>
               </size>
-             </property>
-             <property name="maximum" >
-              <double>999999999.000000000000000</double>
-             </property>
-             <property name="singleStep" >
-              <double>0.010000000000000</double>
              </property>
             </widget>
            </item>
@@ -768,7 +779,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="cfgICURR" >
+            <widget class="QSpinBox" name="ICURR" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -786,9 +797,6 @@
                <width>16777215</width>
                <height>22</height>
               </size>
-             </property>
-             <property name="maximum" >
-              <number>999999999</number>
              </property>
             </widget>
            </item>
@@ -816,7 +824,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="cfgBCURR" >
+            <widget class="QSpinBox" name="BCURR" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -835,9 +843,6 @@
                <height>22</height>
               </size>
              </property>
-             <property name="maximum" >
-              <number>999999999</number>
-             </property>
             </widget>
            </item>
           </layout>
@@ -850,7 +855,7 @@
         <property name="orientation" >
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeHint" stdset="0" >
+        <property name="sizeHint" >
          <size>
           <width>171</width>
           <height>20</height>

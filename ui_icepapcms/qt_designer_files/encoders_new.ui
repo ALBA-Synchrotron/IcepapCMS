@@ -5,7 +5,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>466</width>
+    <width>516</width>
     <height>470</height>
    </rect>
   </property>
@@ -118,7 +118,7 @@
               </widget>
              </item>
              <item row="0" column="1" >
-              <widget class="QComboBox" name="cfgEINMODE" >
+              <widget class="QComboBox" name="EINMODE" >
                <property name="sizePolicy" >
                 <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                  <horstretch>0</horstretch>
@@ -136,6 +136,9 @@
                  <width>16777215</width>
                  <height>22</height>
                 </size>
+               </property>
+               <property name="editable" >
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -165,7 +168,7 @@
               </widget>
              </item>
              <item row="1" column="1" >
-              <widget class="QComboBox" name="cfgEINSENSE" >
+              <widget class="QComboBox" name="EINSENSE" >
                <property name="sizePolicy" >
                 <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                  <horstretch>0</horstretch>
@@ -183,6 +186,9 @@
                  <width>16777215</width>
                  <height>22</height>
                 </size>
+               </property>
+               <property name="editable" >
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -284,7 +290,7 @@
                 <number>6</number>
                </property>
                <item row="0" column="0" >
-                <widget class="QSpinBox" name="cfgEINNSTEP" >
+                <widget class="QSpinBox" name="EINNSTEP" >
                  <property name="sizePolicy" >
                   <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                    <horstretch>0</horstretch>
@@ -302,9 +308,6 @@
                    <width>16777215</width>
                    <height>22</height>
                   </size>
-                 </property>
-                 <property name="maximum" >
-                  <number>999999999</number>
                  </property>
                 </widget>
                </item>
@@ -334,7 +337,7 @@
                 </widget>
                </item>
                <item row="1" column="0" >
-                <widget class="QSpinBox" name="cfgEINNTURN" >
+                <widget class="QSpinBox" name="EINNTURN" >
                  <property name="sizePolicy" >
                   <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                    <horstretch>0</horstretch>
@@ -352,9 +355,6 @@
                    <width>16777215</width>
                    <height>22</height>
                   </size>
-                 </property>
-                 <property name="maximum" >
-                  <number>999999999</number>
                  </property>
                 </widget>
                </item>
@@ -418,7 +418,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QComboBox" name="cfgEINAUXPOL" >
+              <widget class="QComboBox" name="EINAUXPOL" >
                <property name="sizePolicy" >
                 <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                  <horstretch>0</horstretch>
@@ -441,6 +441,9 @@
                 <font>
                  <pointsize>7</pointsize>
                 </font>
+               </property>
+               <property name="editable" >
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -514,7 +517,7 @@
               </widget>
              </item>
              <item row="0" column="1" >
-              <widget class="QComboBox" name="cfgINPMODE" >
+              <widget class="QComboBox" name="INPMODE" >
                <property name="sizePolicy" >
                 <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                  <horstretch>0</horstretch>
@@ -532,6 +535,9 @@
                  <width>16777215</width>
                  <height>22</height>
                 </size>
+               </property>
+               <property name="editable" >
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -561,7 +567,7 @@
               </widget>
              </item>
              <item row="1" column="1" >
-              <widget class="QComboBox" name="cfgINPSENSE" >
+              <widget class="QComboBox" name="INPSENSE" >
                <property name="sizePolicy" >
                 <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                  <horstretch>0</horstretch>
@@ -579,6 +585,9 @@
                  <width>16777215</width>
                  <height>22</height>
                 </size>
+               </property>
+               <property name="editable" >
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -680,7 +689,7 @@
                 <number>5</number>
                </property>
                <item row="0" column="0" >
-                <widget class="QSpinBox" name="cfgINPNSTEP" >
+                <widget class="QSpinBox" name="INPNSTEP" >
                  <property name="sizePolicy" >
                   <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                    <horstretch>0</horstretch>
@@ -698,9 +707,6 @@
                    <width>16777215</width>
                    <height>22</height>
                   </size>
-                 </property>
-                 <property name="maximum" >
-                  <number>999999999</number>
                  </property>
                 </widget>
                </item>
@@ -730,7 +736,7 @@
                 </widget>
                </item>
                <item row="1" column="0" >
-                <widget class="QSpinBox" name="cfgINPNTURN" >
+                <widget class="QSpinBox" name="INPNTURN" >
                  <property name="sizePolicy" >
                   <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                    <horstretch>0</horstretch>
@@ -748,9 +754,6 @@
                    <width>16777215</width>
                    <height>22</height>
                   </size>
-                 </property>
-                 <property name="maximum" >
-                  <number>999999999</number>
                  </property>
                 </widget>
                </item>
@@ -830,7 +833,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QComboBox" name="cfgINPAUXPOL" >
+              <widget class="QComboBox" name="INPAUXPOL" >
                <property name="sizePolicy" >
                 <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                  <horstretch>0</horstretch>
@@ -853,6 +856,9 @@
                 <font>
                  <pointsize>7</pointsize>
                 </font>
+               </property>
+               <property name="editable" >
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -925,7 +931,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="cfgABSSENSE" >
+            <widget class="QComboBox" name="ABSSENSE" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -943,6 +949,9 @@
                <width>16777215</width>
                <height>22</height>
               </size>
+             </property>
+             <property name="editable" >
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -1028,7 +1037,7 @@
               <number>5</number>
              </property>
              <item row="0" column="0" >
-              <widget class="QSpinBox" name="cfgABSNSTEP" >
+              <widget class="QSpinBox" name="ABSNSTEP" >
                <property name="sizePolicy" >
                 <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                  <horstretch>0</horstretch>
@@ -1046,9 +1055,6 @@
                  <width>16777215</width>
                  <height>22</height>
                 </size>
-               </property>
-               <property name="maximum" >
-                <number>999999999</number>
                </property>
               </widget>
              </item>
@@ -1078,7 +1084,7 @@
               </widget>
              </item>
              <item row="1" column="0" >
-              <widget class="QSpinBox" name="cfgABSNTURN" >
+              <widget class="QSpinBox" name="ABSNTURN" >
                <property name="sizePolicy" >
                 <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                  <horstretch>0</horstretch>
@@ -1096,9 +1102,6 @@
                  <width>16777215</width>
                  <height>22</height>
                 </size>
-               </property>
-               <property name="maximum" >
-                <number>999999999</number>
                </property>
               </widget>
              </item>
@@ -1153,7 +1156,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="cfgABSOFFSET" >
+            <widget class="QSpinBox" name="ABSOFFSET" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -1171,9 +1174,6 @@
                <width>16777215</width>
                <height>22</height>
               </size>
-             </property>
-             <property name="maximum" >
-              <number>999999999</number>
              </property>
             </widget>
            </item>
@@ -1255,7 +1255,7 @@
             </widget>
            </item>
            <item row="0" column="2" >
-            <widget class="QSpinBox" name="cfgSSIDBITS" >
+            <widget class="QSpinBox" name="SSIDBITS" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -1273,9 +1273,6 @@
                <width>16777215</width>
                <height>22</height>
               </size>
-             </property>
-             <property name="maximum" >
-              <number>999999999</number>
              </property>
             </widget>
            </item>
@@ -1305,7 +1302,7 @@
             </widget>
            </item>
            <item row="1" column="1" colspan="2" >
-            <widget class="QComboBox" name="cfgSSICODE" >
+            <widget class="QComboBox" name="SSICODE" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -1323,6 +1320,9 @@
                <width>16777215</width>
                <height>22</height>
               </size>
+             </property>
+             <property name="editable" >
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -1352,7 +1352,7 @@
             </widget>
            </item>
            <item row="2" column="1" colspan="2" >
-            <widget class="QComboBox" name="cfgSSICLOCK" >
+            <widget class="QComboBox" name="SSICLOCK" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -1370,6 +1370,9 @@
                <width>16777215</width>
                <height>22</height>
               </size>
+             </property>
+             <property name="editable" >
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -1399,7 +1402,7 @@
             </widget>
            </item>
            <item row="3" column="1" colspan="2" >
-            <widget class="QComboBox" name="cfgSSIDELAY" >
+            <widget class="QComboBox" name="SSIDELAY" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -1417,6 +1420,9 @@
                <width>16777215</width>
                <height>22</height>
               </size>
+             </property>
+             <property name="editable" >
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -1446,7 +1452,7 @@
             </widget>
            </item>
            <item row="4" column="1" colspan="2" >
-            <widget class="QComboBox" name="cfgSSISTATUS" >
+            <widget class="QComboBox" name="SSISTATUS" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
@@ -1464,6 +1470,9 @@
                <width>16777215</width>
                <height>22</height>
               </size>
+             </property>
+             <property name="editable" >
+              <bool>true</bool>
              </property>
             </widget>
            </item>
