@@ -120,7 +120,8 @@ class IcepapSystem(Storm):
                 driver_cmp = driver_list[addr]
                 if not driver == driver_cmp :
                     conflictsList.append([Conflict.DRIVER_CHANGED, self, addr])
-                    self.child_conflicts += 1                   
+                    self.child_conflicts += 1
+
         ''' checking for new drivers '''        
         for addr, driver in driver_list.items():
             if self.drivers.find(IcepapDriver.addr == addr).count() == 0:
