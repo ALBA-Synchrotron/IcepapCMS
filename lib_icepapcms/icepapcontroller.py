@@ -539,7 +539,7 @@ class IcepapController(Singleton):
             print "icepapcontroller:upgradeDrivers:Some error trying to set mode PROG:",answer
             return False
         cmd = "PROG DRIVERS"
-        self.programming_ipap.sendWriteCommand(cmd)
+        self.programming_ipap.sendWriteCommand(cmd, prepend_ack=False)
         self.updateProgressBarTimer.start(2000)
         return True
 
@@ -607,7 +607,7 @@ class IcepapController(Singleton):
 
         cmd = "*PROG %s %s" %(addr, options)
         logger.addToLog(cmd)
-        ipap.sendWriteCommand(cmd)
+        ipap.sendWriteCommand(cmd, prepend_ack=False)
         
         logger.addToLog("Transferring firmware")
         ipap.sendData(struct.pack('L',startmark))
