@@ -132,6 +132,7 @@ class PyConsoleText(QTextEdit):
 
         cursor = self.textCursor()
         cursor.insertText(text)
+        self.update()
         #self.color_line()
 
 
@@ -209,6 +210,7 @@ class PyConsoleText(QTextEdit):
 
         else:
             e.ignore()
+        self.update()
 
 
     def __recall(self):
