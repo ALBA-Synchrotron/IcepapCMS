@@ -383,7 +383,9 @@ class PageiPapDriver(QtGui.QWidget):
             elif isinstance(widget, QtGui.QFrame):
                 regexp = QtCore.QRegExp('^'+widget.objectName()+"_")
                 for w in self.ui.tabWidget.findChildren(QtGui.QWidget,regexp):
-                    w_param = w.objectName().split("_")[1]
+                    w_param_str = str(w.objectName())
+                    #w_param = w_param_str.split("_")[1]
+                    w_param = "_".join(w_param_str.split("_")[1:])
                     defvalue_count = defvalue.count(w_param)
                     dbvalue_count = dbvalue.count(w_param)
                     if (w.isChecked() and (defvalue_count == 0)) or (not w.isChecked() and defvalue_count > 0):
@@ -1123,8 +1125,10 @@ class PageiPapDriver(QtGui.QWidget):
                 regexp = QtCore.QRegExp('^'+widget.objectName()+"_")
                 flags_value = []
                 for w in self.ui.tabWidget.findChildren(QtGui.QWidget,regexp):
-                    w_param = w.objectName().split("_")[1]
-                    w_param = str(w_param)
+                    #w_param = w.objectName().split("_")[1]
+                    w_param_str = str(w.objectName())
+                    #w_param = w_param_str.split("_")[1]
+                    w_param = "_".join(w_param_str.split("_")[1:])
                     if w.isChecked():
                         flags_value.append(w_param)
                 return ' '.join(flags_value)
