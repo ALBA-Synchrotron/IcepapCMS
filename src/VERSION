@@ -1,6 +1,13 @@
-IcepapCMS 1.18 2009/12/xx
+IcepapCMS 1.18 2009/10/07
 -------------------------------------------------------------------------
-
++) Extra flag for Homing: NEGEDGE_POSDIR
++) Two checkboxes removed: 'Enable closed loop' and 'Enable position control'
++) Display PopUp messages when communication errors.
++) Negative and Positive limit leds changed.
++) IcepapCMS should be _usable_ with a resolution of 800x600.
++) Icepap console updates after each keystroke
++) No warning about mismatching firmware versions. (disabled)
++) User interface more compact and not _so_ expanded
 
 IcepapCMS 1.17 2009/08/04
 -------------------------------------------------------------------------
