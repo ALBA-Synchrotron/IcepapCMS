@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'icepapcms.ui'
 #
-# Created: Tue Aug  4 15:08:46 2009
+# Created: Wed Oct  7 08:37:52 2009
 #      by: PyQt4 UI code generator 4.4.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PyQt4 import QtCore, QtGui
 class Ui_IcepapCMS(object):
     def setupUi(self, IcepapCMS):
         IcepapCMS.setObjectName("IcepapCMS")
-        IcepapCMS.resize(1100, 804)
+        IcepapCMS.resize(1024, 700)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -59,7 +59,7 @@ class Ui_IcepapCMS(object):
         self.vboxlayout.addWidget(self.stackedWidget)
         IcepapCMS.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(IcepapCMS)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1100, 24))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1024, 25))
         self.menubar.setObjectName("menubar")
         self.menuHelp = QtGui.QMenu(self.menubar)
         self.menuHelp.setObjectName("menuHelp")
@@ -83,7 +83,12 @@ class Ui_IcepapCMS(object):
         self.toolBar.setObjectName("toolBar")
         IcepapCMS.addToolBar(QtCore.Qt.TopToolBarArea, self.toolBar)
         self.dockTree = QtGui.QDockWidget(IcepapCMS)
-        self.dockTree.setMinimumSize(QtCore.QSize(260, 278))
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.dockTree.sizePolicy().hasHeightForWidth())
+        self.dockTree.setSizePolicy(sizePolicy)
+        self.dockTree.setMinimumSize(QtCore.QSize(250, 305))
         self.dockTree.setMaximumSize(QtCore.QSize(524287, 524287))
         self.dockTree.setFeatures(QtGui.QDockWidget.NoDockWidgetFeatures)
         self.dockTree.setAllowedAreas(QtCore.Qt.LeftDockWidgetArea)

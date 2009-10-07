@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'dialogconflictdriver_nonexpert.ui'
 #
-# Created: Tue Aug  4 15:08:47 2009
+# Created: Wed Oct  7 08:37:53 2009
 #      by: PyQt4 UI code generator 4.4.3
 #
 # WARNING! All changes made in this file will be lost!

@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1100</width>
-    <height>804</height>
+    <width>1024</width>
+    <height>700</height>
    </rect>
   </property>
   <property name="sizePolicy" >
@@ -133,8 +133,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1100</width>
-     <height>24</height>
+     <width>1024</width>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp" >
@@ -235,10 +235,16 @@
    <addaction name="actionQuit" />
   </widget>
   <widget class="QDockWidget" name="dockTree" >
+   <property name="sizePolicy" >
+    <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
    <property name="minimumSize" >
     <size>
-     <width>260</width>
-     <height>278</height>
+     <width>250</width>
+     <height>305</height>
     </size>
    </property>
    <property name="maximumSize" >
