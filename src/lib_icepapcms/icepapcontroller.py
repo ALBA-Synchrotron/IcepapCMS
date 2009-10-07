@@ -215,7 +215,7 @@ class IcepapController(Singleton):
                 except IcePAPException,iex:
                     msg = 'Error configuring parameter %s = %s' % (name,str(value))
                     msg += '\n'+iex.msg
-                    MessageDialogs.showErrorMessage(msg)
+                    MessageDialogs.showErrorMessage(self,'Driver conf',msg)
                     print iex.msg
                     raise iex
 
@@ -232,7 +232,7 @@ class IcepapController(Singleton):
             except IcePAPException,iex:
                 msg = 'Error configuring parameter %s = %s' % (name,str(value))
                 msg += '\n'+iex.msg
-                MessageDialogs.showErrorMessage(msg)
+                MessageDialogs.showErrorMessage(self,'Driver conf',msg)
                 print iex.msg
                 raise iex
             except Exception,e:
@@ -245,7 +245,7 @@ class IcepapController(Singleton):
         except IcePAPException,iex:
             msg = 'Error setting expert flag.'
             msg += '\n'+iex.msg
-            MessageDialogs.showErrorMessage(msg)
+            MessageDialogs.showErrorMessage(self,'Expert flag',msg)
             print iex.msg
             raise iex
 
@@ -260,7 +260,7 @@ class IcepapController(Singleton):
         except IcePAPException,iex:
             msg = 'Error signing config.'
             msg += '\n'+iex.msg
-            MessageDialogs.showErrorMessage(msg)
+            MessageDialogs.showErrorMessage(self,'config',msg)
             print iex.msg
             raise iex
         
@@ -273,7 +273,7 @@ class IcepapController(Singleton):
         except IcePAPException,iex:
             msg = 'Error signing config.'
             msg += '\n'+iex.msg
-            MessageDialogs.showErrorMessage(msg)
+            MessageDialogs.showErrorMessage(self,'sign driver',msg)
             print iex.msg
             raise iex
    
@@ -286,7 +286,7 @@ class IcepapController(Singleton):
         except IcePAPException,iex:
             msg = 'Error starting config.'
             msg += '\n'+iex.msg
-            MessageDialogs.showErrorMessage(msg)
+            MessageDialogs.showErrorMessage(self,'config',msg)
             print iex.msg
             raise iex
 
@@ -303,7 +303,7 @@ class IcepapController(Singleton):
         except IcePAPException,iex:
             msg = 'Error ending config.'
             msg += '\n'+iex.msg
-            MessageDialogs.showErrorMessage(msg)
+            MessageDialogs.showErrorMessage(self,'end config',msg)
             print iex.msg
             raise iex
 
@@ -383,7 +383,7 @@ class IcepapController(Singleton):
         except IcePAPException,iex:
             msg = 'Error reading active status.'
             msg += '\n'+iex.msg
-            MessageDialogs.showErrorMessage(msg)
+            MessageDialogs.showErrorMessage(self,'get active',msg)
             print iex.msg
             raise iex
 
@@ -401,7 +401,7 @@ class IcepapController(Singleton):
         except IcePAPException,iex:
             msg = 'Error reading parameters for driver %s.'%(str(driver_addr))
             msg += '\n'+iex.msg
-            MessageDialogs.showErrorMessage(msg)
+            MessageDialogs.showErrorMessage(self,'read param',msg)
             print iex.msg
             raise iex
 
@@ -428,7 +428,7 @@ class IcepapController(Singleton):
             except IcePAPException,iex:
                 msg = 'Error writing icepap parameter %s = %s.' % (name,str(value))
                 msg += '\n'+iex.msg
-                MessageDialogs.showErrorMessage(msg)
+                MessageDialogs.showErrorMessage(self,'write param',msg)
                 print iex.msg
                 raise iex
         
@@ -439,7 +439,7 @@ class IcepapController(Singleton):
             except IcePAPException,iex:
                 msg = 'Error writing icepap parameter %s = %s.' % (name,str(value))
                 msg += '\n'+iex.msg
-                MessageDialogs.showErrorMessage(msg)
+                MessageDialogs.showErrorMessage(self,'write param',msg)
                 print iex.msg
                 raise iex
 
@@ -450,7 +450,7 @@ class IcepapController(Singleton):
         except IcePAPException,iex:
             msg = 'Error configuring to defaults.'
             msg += '\n'+iex.msg
-            MessageDialogs.showErrorMessage(msg)
+            MessageDialogs.showErrorMessage(self,'default config',msg)
             print iex.msg
             raise iex
 
@@ -461,7 +461,7 @@ class IcepapController(Singleton):
         except IcePAPException,iex:
             msg = 'Error getting cfginfo (%s).' % (str(driver_addr))
             msg += '\n'+iex.msg
-            MessageDialogs.showErrorMessage(msg)
+            MessageDialogs.showErrorMessage(self,'cfg info',msg)
             print iex.msg
             raise iex
 
