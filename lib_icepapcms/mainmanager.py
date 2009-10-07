@@ -191,6 +191,12 @@ class MainManager(Singleton):
         return conflictsList
 
     def checkFirmwareVersions(self, icepap_system):
+        # SINCE THE SYSTEMS ARE NOT READY WITH STABLE FIRMWARE VERSION
+        # IT WILL BE DISABLED UNTIL REQUESTED
+        # THE FEATURE IS PLANNED TO BE USEFUL BUT NOW
+        # IT MESSES EVERYTHING
+        print "firmware versions are not checked"
+        return
         try:
             icepap_name = icepap_system.name
             master_version = self._ctrl_icepap.iPaps[icepap_name].getVersion(0,"DRIVER")
