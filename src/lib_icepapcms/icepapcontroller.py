@@ -210,7 +210,14 @@ class IcepapController(Singleton):
         for key in keys:
             (name,value) = params_ordered.get(key)
             if name != "VER":
-                self.iPaps[icepap_name].setCfgParameter(driver_addr, name, str(value))
+                try:
+                    self.iPaps[icepap_name].setCfgParameter(driver_addr, name, str(value))
+                except IcePAPException,iex:
+                    msg = 'Error configuring parameter %s = %s' % (name,str(value))
+                    msg += '\n'+iex.msg
+                    MessageDialogs.showErrorMessage(msg)
+                    print iex.msg
+                    raise iex
 
         # NOW THE NOT_FOUND INDEX ORDER...
         for (name,value) in not_found_index:
@@ -222,48 +229,83 @@ class IcepapController(Singleton):
                     pass
                 else:
                     self.iPaps[icepap_name].setCfgParameter(driver_addr, name, str(value))
-            except IcePAPException,ie:
-                ##print "Exception setting driver configuartion: param:",name,"value:",value
-                print ie.msg
+            except IcePAPException,iex:
+                msg = 'Error configuring parameter %s = %s' % (name,str(value))
+                msg += '\n'+iex.msg
+                MessageDialogs.showErrorMessage(msg)
+                print iex.msg
+                raise iex
             except Exception,e:
                 print "something happened when configuring the driver",e
                     
 
-        if expertFlag:
-            self.iPaps[icepap_name].setExpertFlag(driver_addr)
+        try:
+            if expertFlag:
+                self.iPaps[icepap_name].setExpertFlag(driver_addr)
+        except IcePAPException,iex:
+            msg = 'Error setting expert flag.'
+            msg += '\n'+iex.msg
+            MessageDialogs.showErrorMessage(msg)
+            print iex.msg
+            raise iex
+
+
         driver_cfg = self.getDriverConfiguration(icepap_name, driver_addr)    
         return driver_cfg
         
     def discardDriverCfg(self,icepap_name, driver_addr):
-        if self.iPaps.has_key(icepap_name):
-            self.iPaps[icepap_name].signConfig(driver_addr, "")
+        try:
+            if self.iPaps.has_key(icepap_name):
+                self.iPaps[icepap_name].signConfig(driver_addr, "")
+        except IcePAPException,iex:
+            msg = 'Error signing config.'
+            msg += '\n'+iex.msg
+            MessageDialogs.showErrorMessage(msg)
+            print iex.msg
+            raise iex
         
     def signDriverConfiguration(self,icepap_name, driver_addr, signature):
-        if self.iPaps.has_key(icepap_name):
-            if self.iPaps[icepap_name].getMode(driver_addr) != IcepapMode.CONFIG:
-                self.iPaps[icepap_name].setConfig(driver_addr)
-            self.iPaps[icepap_name].signConfig(driver_addr, signature)
+        try:
+            if self.iPaps.has_key(icepap_name):
+                if self.iPaps[icepap_name].getMode(driver_addr) != IcepapMode.CONFIG:
+                    self.iPaps[icepap_name].setConfig(driver_addr)
+                self.iPaps[icepap_name].signConfig(driver_addr, signature)
+        except IcePAPException,iex:
+            msg = 'Error signing config.'
+            msg += '\n'+iex.msg
+            MessageDialogs.showErrorMessage(msg)
+            print iex.msg
+            raise iex
    
     def startConfiguringDriver(self, icepap_name, driver):
-        mode = self.iPaps[icepap_name].getMode(driver.addr)
-        if mode != IcepapMode.CONFIG:
-            self.iPaps[icepap_name].setConfig(driver.addr)
-        else:
-            #print "FOR SOME STRANGE REASON THE DRIVER WAS IN CONFIG MODE"
-            pass
-        driver.setMode(IcepapMode.CONFIG)
+        try:
+            mode = self.iPaps[icepap_name].getMode(driver.addr)
+            if mode != IcepapMode.CONFIG:
+                self.iPaps[icepap_name].setConfig(driver.addr)
+            driver.setMode(IcepapMode.CONFIG)
+        except IcePAPException,iex:
+            msg = 'Error starting config.'
+            msg += '\n'+iex.msg
+            MessageDialogs.showErrorMessage(msg)
+            print iex.msg
+            raise iex
+
 
     def endConfiguringDriver( self, icepap_name, driver):
-        if not self.iPaps.has_key(icepap_name):
-            return
-        mode = self.iPaps[icepap_name].getMode(driver.addr)
-        if mode != IcepapMode.OPER:
-            last_signature = self.iPaps[icepap_name].getConfig(driver.addr)
-            self.iPaps[icepap_name].signConfig(driver.addr, last_signature)
-        else:
-            #print "FOR SOME STRANGE REASON THE DRIVER WAS IN OPER MODE"
-            pass
-        driver.setMode(IcepapMode.OPER)
+        try:    
+            if not self.iPaps.has_key(icepap_name):
+                return
+            mode = self.iPaps[icepap_name].getMode(driver.addr)
+            if mode != IcepapMode.OPER:
+                last_signature = self.iPaps[icepap_name].getConfig(driver.addr)
+                self.iPaps[icepap_name].signConfig(driver.addr, last_signature)
+            driver.setMode(IcepapMode.OPER)
+        except IcePAPException,iex:
+            msg = 'Error ending config.'
+            msg += '\n'+iex.msg
+            MessageDialogs.showErrorMessage(msg)
+            print iex.msg
+            raise iex
 
     def getDriverStatus(self, icepap_name, driver_addr):
         """
@@ -336,18 +378,33 @@ class IcepapController(Singleton):
         return state
         
     def getDriverActiveStatus(self, icepap_name, driver_addr):
-        return self.iPaps[icepap_name].getActive(driver_addr)
+        try:
+            return self.iPaps[icepap_name].getActive(driver_addr)
+        except IcePAPException,iex:
+            msg = 'Error reading active status.'
+            msg += '\n'+iex.msg
+            MessageDialogs.showErrorMessage(msg)
+            print iex.msg
+            raise iex
 
     def readIcepapParameters(self, icepap_name, driver_addr, par_list):
-        values = []
-        for name in par_list:
-            if type(name) == type(values):
-                value = self.iPaps[icepap_name].readParameter(driver_addr, name[0], name[1])
-            else:
-                value = self.iPaps[icepap_name].readParameter(driver_addr, name)
-            values.append([name, value])
+        try:
+           values = []
+           for name in par_list:
+               if type(name) == type(values):
+                   value = self.iPaps[icepap_name].readParameter(driver_addr, name[0], name[1])
+               else:
+                   value = self.iPaps[icepap_name].readParameter(driver_addr, name)
+               values.append([name, value])
+           
+           return values
+        except IcePAPException,iex:
+            msg = 'Error reading parameters for driver %s.'%(str(driver_addr))
+            msg += '\n'+iex.msg
+            MessageDialogs.showErrorMessage(msg)
+            print iex.msg
+            raise iex
 
-        return values
     
     def writeIcepapParameters(self, icepap_name, driver_addr, par_var_list):
         values = []
@@ -361,24 +418,53 @@ class IcepapController(Singleton):
                 params_ordered[index] = (name,value)
             except:
                 not_found_index.append((name,value))
-
+        
         keys = params_ordered.keys()
         keys.sort()
         for key in keys:
             (name,value) = params_ordered.get(key)
-            self.iPaps[icepap_name].writeParameter(driver_addr, name, value)
-
+            try:
+                self.iPaps[icepap_name].writeParameter(driver_addr, name, value)
+            except IcePAPException,iex:
+                msg = 'Error writing icepap parameter %s = %s.' % (name,str(value))
+                msg += '\n'+iex.msg
+                MessageDialogs.showErrorMessage(msg)
+                print iex.msg
+                raise iex
+        
         # NOW THE NOT FOUND INDEX ORDER...
         for (name,value) in not_found_index:
-            self.iPaps[icepap_name].writeParameter(driver_addr,name,value)
+            try:
+                self.iPaps[icepap_name].writeParameter(driver_addr,name,value)
+            except IcePAPException,iex:
+                msg = 'Error writing icepap parameter %s = %s.' % (name,str(value))
+                msg += '\n'+iex.msg
+                MessageDialogs.showErrorMessage(msg)
+                print iex.msg
+                raise iex
 
 
     def configDriverToDefaults(self,icepap_name,driver_addr):
-        self.iPaps[icepap_name].setDefaultConfig(driver_addr)
+        try:
+            self.iPaps[icepap_name].setDefaultConfig(driver_addr)
+        except IcePAPException,iex:
+            msg = 'Error configuring to defaults.'
+            msg += '\n'+iex.msg
+            MessageDialogs.showErrorMessage(msg)
+            print iex.msg
+            raise iex
 
     def getDriverCfgInfo(self,icepap_name,driver_addr):
-        cfginfo = self.iPaps[icepap_name].getCfgInfo(driver_addr)
-        return cfginfo
+        try:
+            cfginfo = self.iPaps[icepap_name].getCfgInfo(driver_addr)
+            return cfginfo
+        except IcePAPException,iex:
+            msg = 'Error getting cfginfo (%s).' % (str(driver_addr))
+            msg += '\n'+iex.msg
+            MessageDialogs.showErrorMessage(msg)
+            print iex.msg
+            raise iex
+
 
     def getDriverCfgInfoDictAndList(self, icepap_name, driver_addr):
         """
