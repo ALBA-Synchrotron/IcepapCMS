@@ -86,9 +86,9 @@ class PyConsoleText(QTextEdit):
 
         # Set the format
         cursor.setPosition(pos1, QTextCursor.KeepAnchor)
-        #format = cursor.charFormat()
-        #format.setForeground( QtGui.QBrush(QtGui.QColor(255,255,255)))
-        #cursor.setCharFormat(format)
+        format = cursor.charFormat()
+        format.setForeground( QtGui.QBrush(QtGui.QColor(255,255,255)))
+        cursor.setCharFormat(format)
 
             
     def __run(self):
