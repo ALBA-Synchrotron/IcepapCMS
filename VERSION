@@ -1,3 +1,7 @@
+IcepapCMS 1.19 2009/xx/yy
+-------------------------------------------------------------------------
++) Fixed console text did not show until disconnecting
+
 IcepapCMS 1.18 2009/10/07
 -------------------------------------------------------------------------
 +) Extra flag for Homing: NEGEDGE_POSDIR
