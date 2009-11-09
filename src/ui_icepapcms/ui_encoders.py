@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'encoders.ui'
 #
-# Created: Wed Oct  7 08:37:52 2009
+# Created: Mon Nov  9 14:12:38 2009
 #      by: PyQt4 UI code generator 4.4.3
 #
 # WARNING! All changes made in this file will be lost!
