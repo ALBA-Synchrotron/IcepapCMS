@@ -13,8 +13,6 @@ class PyConsoleText(QTextEdit):
         
         #self.colorizer = SyntaxColor()
 
-
-
         # to exit the main interpreter by a Ctrl-D if PyCute has no parent
         if parent is None:
             self.eofKey = Qt.Key_D
@@ -37,6 +35,7 @@ class PyConsoleText(QTextEdit):
 
         # user interface setup
         #self.setTextFormat(Qt.PlainText)
+        
         self.setLineWrapMode(QTextEdit.NoWrap)
         #self.setCaption('Python Shell')
 
@@ -82,13 +81,14 @@ class PyConsoleText(QTextEdit):
 
         self.cursor_pos = cursor.position()
         self.setTextCursor(cursor)
-        self.ensureCursorVisible ()
+        self.ensureCursorVisible()
 
         # Set the format
         cursor.setPosition(pos1, QTextCursor.KeepAnchor)
-        format = cursor.charFormat()
-        format.setForeground( QtGui.QBrush(QtGui.QColor(255,255,255)))
-        cursor.setCharFormat(format)
+
+        #format = cursor.charFormat()
+        #format.setForeground( QtGui.QBrush(QtGui.QColor(255,255,255)))
+        #cursor.setCharFormat(format)
 
             
     def __run(self):
