@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ipapconsole.ui'
 #
-# Created: Wed Oct  7 08:37:52 2009
+# Created: Mon Nov  9 14:12:37 2009
 #      by: PyQt4 UI code generator 4.4.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -34,7 +34,7 @@ class Ui_IpapConsole(object):
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Highlight, brush)
         IpapConsole.setPalette(palette)
         icon = QtGui.QIcon()
-        icon.addFile(":/icons/IcepapCfg Icons/gnome-terminal.png")
+        icon.addPixmap(QtGui.QPixmap(":/icons/IcepapCfg Icons/gnome-terminal.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         IpapConsole.setWindowIcon(icon)
         self.gridlayout = QtGui.QGridLayout(IpapConsole)
         self.gridlayout.setMargin(3)
@@ -50,23 +50,26 @@ class Ui_IpapConsole(object):
         self.gridlayout.addWidget(self.txtHost, 0, 1, 1, 1)
         self.btnDisconnect = QtGui.QPushButton(IpapConsole)
         icon1 = QtGui.QIcon()
-        icon1.addFile(":/icons/IcepapCfg Icons/disconnect.png")
+        icon1.addPixmap(QtGui.QPixmap(":/icons/IcepapCfg Icons/disconnect.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.btnDisconnect.setIcon(icon1)
         self.btnDisconnect.setIconSize(QtCore.QSize(24, 24))
         self.btnDisconnect.setObjectName("btnDisconnect")
         self.gridlayout.addWidget(self.btnDisconnect, 0, 4, 1, 1)
         self.btnConnect = QtGui.QPushButton(IpapConsole)
         icon2 = QtGui.QIcon()
-        icon2.addFile(":/icons/IcepapCfg Icons/connect.png")
+        icon2.addPixmap(QtGui.QPixmap(":/icons/IcepapCfg Icons/connect.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.btnConnect.setIcon(icon2)
         self.btnConnect.setIconSize(QtCore.QSize(24, 24))
         self.btnConnect.setObjectName("btnConnect")
         self.gridlayout.addWidget(self.btnConnect, 0, 3, 1, 1)
         self.console = PyConsoleText(IpapConsole)
+        self.console.setProperty("cursor", QtCore.QVariant(QtCore.Qt.IBeamCursor))
+        self.console.setFocusPolicy(QtCore.Qt.ClickFocus)
         self.console.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
         self.console.setUndoRedoEnabled(False)
         self.console.setLineWrapMode(QtGui.QTextEdit.WidgetWidth)
         self.console.setAcceptRichText(False)
+        self.console.setCursorWidth(5)
         self.console.setObjectName("console")
         self.gridlayout.addWidget(self.console, 1, 0, 1, 5)
 
@@ -81,9 +84,6 @@ class Ui_IpapConsole(object):
         self.label.setText(QtGui.QApplication.translate("IpapConsole", "Icepap host", None, QtGui.QApplication.UnicodeUTF8))
         self.btnDisconnect.setText(QtGui.QApplication.translate("IpapConsole", "Disconnect", None, QtGui.QApplication.UnicodeUTF8))
         self.btnConnect.setText(QtGui.QApplication.translate("IpapConsole", "Connect", None, QtGui.QApplication.UnicodeUTF8))
-        self.console.setStyleSheet(QtGui.QApplication.translate("IpapConsole", "QTextEdit { \n"
-"background-color: rgba(0, 0, 0, 100%)\n"
-"}", None, QtGui.QApplication.UnicodeUTF8))
 
 from pyconsoletext import PyConsoleText
 import icepapcms_rc
