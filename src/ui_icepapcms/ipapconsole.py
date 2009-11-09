@@ -53,14 +53,11 @@ class IcepapConsole(QtGui.QDialog):
                 MessageDialogs.showInformationMessage(None,"Host connection","It is not allowed to connect to %s"%host)
                 return
             self.prompt = str(host) + " > "   
-            self.ui.console.setPrompt(self.prompt)
             log_folder = None
             if self.debug:
                 log_folder = self.log_folder
             self.ipap = EthIcePAP(host , port, log_path = log_folder)
             self.ipap.connect()
-            self.ui.console.clear()
-            self.writeConsole("Connected to Icepap :  " + addr)
             #try:
             #    rsp = self.ipap.sendWriteReadCommand("?_help")
             #    self.writeConsole(rsp)
@@ -69,8 +66,11 @@ class IcepapConsole(QtGui.QDialog):
             self.ui.btnDisconnect.setDisabled(False)
             self.ui.btnConnect.setDisabled(True)
             self.ui.console.setDisabled(False)
-            self.writePrompt()
             self.ui.console.setFocus()
+            self.ui.console.clear()
+            self.writeConsole("Connected to Icepap :  " + addr)
+            self.ui.console.setPrompt(self.prompt)
+            self.writePrompt()
         except:
             MessageDialogs.showErrorMessage(None, "Connection error", "Error connecting to " + addr)
             
@@ -82,6 +82,7 @@ class IcepapConsole(QtGui.QDialog):
             pass
         self.ui.btnDisconnect.setDisabled(True)
         self.ui.btnConnect.setDisabled(False)
+        self.ui.console.clear()
         self.ui.console.setDisabled(True)
         self.ui.txtHost.setFocus()
         
@@ -110,6 +111,7 @@ class IcepapConsole(QtGui.QDialog):
                 self.ipap.sendWriteCommand(cmd)
         except Exception,e:
             self.writeConsole("Some exception issuing command '%s'." % cmd)
+            self.writeConsole("                 Error is: '%s'." % str(e))
 
     
     def closeEvent(self, event):
