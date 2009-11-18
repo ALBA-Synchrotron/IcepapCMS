@@ -28,14 +28,12 @@ class IcepapConsole(QtGui.QDialog):
         self.log_folder = None
         self._config = ConfigManager()
         try:
-            
             self.debug = self._config.config[self._config.icepap]["debug_enabled"] == str(True)
             self.log_folder = self._config.config[self._config.icepap]["log_folder"]
             if not os.path.exists(self.log_folder):
                 os.mkdir(self.log_folder)
         except:
             print "icepapconsole_init():", sys.exc_info()
-            pass
         
     def btnConnect_on_click(self):
         try:
@@ -48,10 +46,14 @@ class IcepapConsole(QtGui.QDialog):
                 host = addr
                 port = "5000"
 
-            ipapcontroller = IcepapController()
-            if not ipapcontroller.host_in_same_subnet(host):
-                MessageDialogs.showInformationMessage(None,"Host connection","It is not allowed to connect to %s"%host)
-                return
+            if hasattr(self._config,'_options'):
+                ipapcontroller = IcepapController()
+                if not ipapcontroller.host_in_same_subnet(host):
+                    MessageDialogs.showInformationMessage(None,"Host connection","It is not allowed to connect to %s"%host)
+                    return
+            else:
+                # JUST RUNNING AS A STAND-ALONE
+                pass
             self.prompt = str(host) + " > "   
             log_folder = None
             if self.debug:
@@ -71,8 +73,8 @@ class IcepapConsole(QtGui.QDialog):
             self.writeConsole("Connected to Icepap :  " + addr)
             self.ui.console.setPrompt(self.prompt)
             self.writePrompt()
-        except:
-            MessageDialogs.showErrorMessage(None, "Connection error", "Error connecting to " + addr)
+        except Exception,e:
+            MessageDialogs.showErrorMessage(None, "Connection error", "Error connecting to " + addr+"\n"+str(e))
             
     
     def btnDisconnect_on_click(self):
