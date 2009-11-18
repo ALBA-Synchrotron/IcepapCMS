@@ -233,12 +233,12 @@ class PyConsoleText(QTextEdit):
 #             return 0
 #         return QTextEdit.focusNextPrevChild(self, next)
 
-    def mousePressEvent(self, e):
-        """
-        Keep the cursor after the last prompt.
-        """
-        if e.button() == Qt.LeftButton:
-            self.moveCursor(QTextCursor.End)
+    #def mousePressEvent(self, e):
+    #    """
+    #    Keep the cursor after the last prompt.
+    #    """
+    #    if e.button() == Qt.LeftButton:
+    #        self.moveCursor(QTextCursor.End)
             
 
     def contentsContextMenuEvent(self,ev):
