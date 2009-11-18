@@ -1,6 +1,9 @@
-IcepapCMS 1.19 2009/xx/yy
+IcepapCMS 1.19 2009/11/18
 -------------------------------------------------------------------------
 +) Fixed console text did not show until disconnecting
++) Changed console text background to white to see the blocking cursor properly and clearer text
++) Allow text selection in the console
++) New launcher for just the console called: ipapconsole
 
 IcepapCMS 1.18 2009/10/07
 -------------------------------------------------------------------------
