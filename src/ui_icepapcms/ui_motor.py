@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'motor.ui'
 #
-# Created: Mon Nov  9 14:12:38 2009
+# Created: Thu Dec 17 11:52:49 2009
 #      by: PyQt4 UI code generator 4.4.3
 #
 # WARNING! All changes made in this file will be lost!

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'homing.ui'
 #
-# Created: Mon Nov  9 14:12:39 2009
+# Created: Thu Dec 17 11:52:50 2009
 #      by: PyQt4 UI code generator 4.4.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -176,16 +176,16 @@ class Ui_homing(object):
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
         spacerItem5 = QtGui.QSpacerItem(50, 20, QtGui.QSizePolicy.Maximum, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout_5.addItem(spacerItem5)
-        self.cfgHOMEFLAGS_NEGEDGE_POSDIR = QtGui.QCheckBox(self.cfgHOMEFLAGS)
+        self.cfgHOMEFLAGS_NEGEDGE = QtGui.QCheckBox(self.cfgHOMEFLAGS)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.cfgHOMEFLAGS_NEGEDGE_POSDIR.sizePolicy().hasHeightForWidth())
-        self.cfgHOMEFLAGS_NEGEDGE_POSDIR.setSizePolicy(sizePolicy)
-        self.cfgHOMEFLAGS_NEGEDGE_POSDIR.setMinimumSize(QtCore.QSize(329, 22))
-        self.cfgHOMEFLAGS_NEGEDGE_POSDIR.setMaximumSize(QtCore.QSize(16777215, 22))
-        self.cfgHOMEFLAGS_NEGEDGE_POSDIR.setObjectName("cfgHOMEFLAGS_NEGEDGE_POSDIR")
-        self.horizontalLayout_5.addWidget(self.cfgHOMEFLAGS_NEGEDGE_POSDIR)
+        sizePolicy.setHeightForWidth(self.cfgHOMEFLAGS_NEGEDGE.sizePolicy().hasHeightForWidth())
+        self.cfgHOMEFLAGS_NEGEDGE.setSizePolicy(sizePolicy)
+        self.cfgHOMEFLAGS_NEGEDGE.setMinimumSize(QtCore.QSize(329, 22))
+        self.cfgHOMEFLAGS_NEGEDGE.setMaximumSize(QtCore.QSize(16777215, 22))
+        self.cfgHOMEFLAGS_NEGEDGE.setObjectName("cfgHOMEFLAGS_NEGEDGE")
+        self.horizontalLayout_5.addWidget(self.cfgHOMEFLAGS_NEGEDGE)
         self.verticalLayout.addLayout(self.horizontalLayout_5)
         self.gridLayout.addWidget(self.cfgHOMEFLAGS, 4, 0, 1, 1)
         spacerItem6 = QtGui.QSpacerItem(370, 10, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Fixed)
@@ -262,7 +262,7 @@ class Ui_homing(object):
         self.cfgHOMEFLAGS_REVERSE.setText(QtGui.QApplication.translate("homing", "reverse search", None, QtGui.QApplication.UnicodeUTF8))
         self.cfgHOMEFLAGS_SETPOS.setText(QtGui.QApplication.translate("homing", "set axis position", None, QtGui.QApplication.UnicodeUTF8))
         self.cfgHOMEFLAGS_SLOW.setText(QtGui.QApplication.translate("homing", "slow search mode", None, QtGui.QApplication.UnicodeUTF8))
-        self.cfgHOMEFLAGS_NEGEDGE_POSDIR.setText(QtGui.QApplication.translate("homing", "ref pos in a falling edge when moving positive", None, QtGui.QApplication.UnicodeUTF8))
+        self.cfgHOMEFLAGS_NEGEDGE.setText(QtGui.QApplication.translate("homing", "ref pos in a falling edge when moving positive", None, QtGui.QApplication.UnicodeUTF8))
         self.label_7.setText(QtGui.QApplication.translate("homing", "Home position", None, QtGui.QApplication.UnicodeUTF8))
         self.label_8.setText(QtGui.QApplication.translate("homing", "search velocity", None, QtGui.QApplication.UnicodeUTF8))
 
