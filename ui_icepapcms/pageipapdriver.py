@@ -63,7 +63,7 @@ class PageiPapDriver(QtGui.QWidget):
         self.tab_frames = [axis_frame,motor_frame,encoders_frame,closedloop_frame,homing_frame,io_frame]
         self.tab_labels = ["Axis","Motor","Encoders","Closed loop","Homing","I/O"]
 
-        for index in range(6):
+        for index in range(len(self.tab_labels)):
             widget = self.tab_frames[index]
             label = self.tab_labels[index]
             self.ui.tabWidget.insertTab(index,widget,label)
@@ -107,7 +107,7 @@ class PageiPapDriver(QtGui.QWidget):
         self.saveConfigPending = []
         self.tabs_modified = {}
         self.tabs_configPending = {}
-        self.ui.tabWidget.setCurrentIndex(0)
+        self.ui.tabWidget.setCurrentIndex(self.lastTabSelected)
             
         #self.ui.toolBox.setItemIcon(self.ui.toolBox.indexOf(self.ui.page_test), QtGui.QIcon(":/icons/IcepapCfg Icons/ipapdriver.png"))
         #self.ui.toolBox.setItemIcon(self.ui.toolBox.indexOf(self.ui.page_cfg), QtGui.QIcon(":/icons/IcepapCfg Icons/preferences-system.png"))
@@ -763,11 +763,12 @@ class PageiPapDriver(QtGui.QWidget):
         unknownParams = False
         self.unknown_table_widget.clear()
         self.unknown_table_widget.setRowCount(0)
-        # WE ADD THE UNKNOWN TAB SO THE WIDGETS HAVE A CORRECT widget.tab_index VALUE
-        unknown_index = self.ui.tabWidget.indexOf(self.unknown_tab)
-        if unknown_index == -1:
-            unknown_index = self.ui.tabWidget.count() - 1
-        self.ui.tabWidget.insertTab(unknown_index, self.unknown_tab, "Unknown")
+
+        ## WE ADD THE UNKNOWN TAB SO THE WIDGETS HAVE A CORRECT widget.tab_index VALUE
+        #unknown_index = self.ui.tabWidget.indexOf(self.unknown_tab)
+        #if unknown_index == -1:
+        #    unknown_index = self.ui.tabWidget.count()
+        #self.ui.tabWidget.insertTab(unknown_index, self.unknown_tab, "Unknown")
 
         for name, value in icepap_driver.current_cfg.toList():
             if self.param_to_widgets.has_key(name):
@@ -792,14 +793,16 @@ class PageiPapDriver(QtGui.QWidget):
                 self.addUnknownWidget(name, value)
 
         unknown_index = self.ui.tabWidget.indexOf(self.unknown_tab)
+
         if unknownParams:
             if unknown_index == -1:
-                unknown_index = self.ui.tabWidget.count() - 1
-            self.ui.tabWidget.insertTab(unknown_index, self.unknown_tab, "Unknown")
+                unknown_index = self.ui.tabWidget.count()
+                self.ui.tabWidget.insertTab(unknown_index, self.unknown_tab, "Unknown")
         elif unknown_index != -1:
             self.ui.tabWidget.removeTab(unknown_index)
 
         self.highlightTabs()
+
 
 
 
@@ -913,11 +916,13 @@ class PageiPapDriver(QtGui.QWidget):
                 if "INTEGER" == cfginfo[0]:
                     #param_desc = "INTEGER value"
                     widget = QtGui.QSpinBox()
-                    widget.setMaximum(9999999999999)
+                    widget.setMaximum(sys.maxint)
+                    widget.setMinimum(-1*sys.maxint)
                 elif "FLOAT" == cfginfo[0]:
                     #param_desc = "DOUBLE value"
                     widget = QtGui.QDoubleSpinBox()
-                    widget.setMaximum(9999999999999)
+                    widget.setMaximum(sys.maxint)
+                    widget.setMinimum(-1*sys.maxint)
                 elif cfginfo[0].startswith("["):
                     #param_desc = "FLAGS value"
                     param_tooltip = "FLAGS:"
@@ -1168,6 +1173,7 @@ class PageiPapDriver(QtGui.QWidget):
                 tab_bar.setTabTextColor(index,QtGui.QColor(255,206,162))
             else:
                 tab_bar.setTabTextColor(index,QtGui.QColor(0,0,0))
+
 
 
     def btnSendCfg_on_click(self, skip_fillData=False):
