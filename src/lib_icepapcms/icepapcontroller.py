@@ -659,11 +659,12 @@ class IcepapController(Singleton):
         data = array.array('H', data)
         f.close()
         nwordata = (len(data)) 
-        
         chksum = sum(data) 
+        startmark = 0xa5aa555a
+        maskedchksum = chksum & 0xffffffff
+
         logger.addToLog("File size: "+ str(len(data))+ " bytes, checksum: "+str(chksum)+" ("+str(hex(chksum & 0xffffffff)+")"))
         
-        startmark = 0xa5aa555a
         if serial:
             ipap = SerialIcePAP(dst, 0)
         else:
@@ -698,8 +699,11 @@ class IcepapController(Singleton):
         logger.addToLog("Transferring firmware")
         ipap.sendData(struct.pack('L',startmark))
         ipap.sendData(struct.pack('L',nwordata))
-        maskedchksum = chksum & 0xffffffff
         ipap.sendData(struct.pack('L',maskedchksum))
+        # BUGFIX FOR 64-BIT MACHINES
+        ipap.sendData(struct.pack('L',startmark)[:4])
+        ipap.sendData(struct.pack('L',nwordata)[:4])
+        ipap.sendData(struct.pack('L',maskedchksum)[:4])
         
         #ipap.sendData(data.tostring())
         for i in range(len(data)):
