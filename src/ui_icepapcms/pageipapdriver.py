@@ -1474,10 +1474,10 @@ class PageiPapDriver(QtGui.QWidget):
         speed = self.ui.txtSpeed.text()
         acc = self.ui.txtAcceleration.text()
         if speed == "":
-            speed = "100"
+            speed = "1000"
             self.ui.txtSpeed.setText(speed)
         if acc == "":
-            acc = "0.20"
+            acc = "0.25"
             self.ui.txtAcceleration.setText(acc)
         try:
             self._manager.setDriverMotionValues(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, [float(speed), float(acc)])
