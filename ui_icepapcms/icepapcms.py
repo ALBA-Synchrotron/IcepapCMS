@@ -36,6 +36,8 @@ class IcepapApp(QtGui.QApplication):
                           action="store_true", dest="expert", help="Full expert interface. False by default")
         parser.add_option("","--all-networks",
                           action="store_true", dest="allnets", help="Allow all available icepap systems. False by default")
+        parser.add_option("","--ldap",
+                          action="store_true", dest="ldap", help="Force LDAP login to get username. False by default")
         (options, args) = parser.parse_args()
 
 
@@ -55,9 +57,31 @@ class IcepapCMS(QtGui.QMainWindow):
         QtGui.QMainWindow.__init__(self, parent)
         self.ui = Ui_IcepapCMS()
         self.ui.setupUi(self)
+
         self._config = ConfigManager()
         self._config._options = options
         self._config._args = args
+
+        self._config.username = 'NotValidated'
+        if os.name is 'posix': #this works for linux and macOSX
+            self._config.username = os.getenv('USER')
+        elif os.name is 'nt': #win NT, XP... (and Vista?)
+            self._config.username = os.getenv('USERNAME')    
+
+        if self._config._options.ldap:
+            # FORCE AN LDAP LOGIN TO GET CORRECT USER NAMES IN THE DRIVER SIGNATURES
+            try:
+                import ldap_login
+                login_dlg = ldap_login.LdapLogin(self)
+                login_dlg.exec_()
+                if login_dlg.result() == QtGui.QDialog.Accepted:
+                    self._config.username = login_dlg.username
+                else:
+                    print '\n\nSorry, we only allow validated users to save configs to Icepap drivers.\n'
+                    sys.exit(-1)
+            except Exception,e:
+                print 'Using IcepapCMS with the system\'s username:%s' % self._config.username
+        
         self.checkTimer = Qt.QTimer(self)        
         self.initGUI()
         self.ui.pageiPapSystem = PageiPapSystem(self)
