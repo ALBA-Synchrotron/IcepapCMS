@@ -689,8 +689,15 @@ class PageiPapDriver(QtGui.QWidget):
                     desc_cfg_user = aux2[0]
                     desc_cfg_host = aux2[1]
                 hex_epoch = aux[1]
-                desc_cfg_date = datetime.datetime.fromtimestamp(int(hex_epoch,16)).ctime()
-            except:
+                try:
+                    desc_cfg_date = datetime.datetime.fromtimestamp(int(hex_epoch,16)).ctime()
+                    # AS OF VERSION 1.20, SIGNATURE HAS NOT HEX TIMESTAMP BUT A MORE READABLE ONE
+                except:
+                    desc_cfg_date = datetime.datetime.strptime(aux[1]+'_'+aux[2],'%Y/%m/%d_%H:%M:%S').ctime()
+                
+                
+            except Exception,e:
+                print 'wtf',str(e)
                 pass
         else:            
             signature = None
