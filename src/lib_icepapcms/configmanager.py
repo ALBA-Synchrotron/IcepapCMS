@@ -15,6 +15,8 @@ class ConfigManager(Singleton):
     firmware_folder = os.path.expanduser('~/.icepapcms/firmware')
     configs_folder = os.path.expanduser('~/.icepapcms/configs')
     templates_folder = os.path.expanduser('~/.icepapcms/templates')
+
+    username = 'NotValidated'
         
     defaults = '''
     [database]
