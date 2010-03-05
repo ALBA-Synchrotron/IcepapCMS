@@ -1,4 +1,4 @@
 #!/bin/bash
 # front script for icepapcms (to be installed in sicilia and put on the path)
 
-python $SICILIA/applications/icepapcms/icepapcms $*
+python $SICILIA/applications/icepapcms/icepapcms --ldap $*
