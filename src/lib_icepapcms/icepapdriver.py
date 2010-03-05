@@ -6,6 +6,7 @@ from icepapcontroller import IcepapController
 from stormmanager import StormManager
 import os
 import time
+from datetime import datetime
 import socket
 from pyIcePAP import IcepapMode
 
@@ -74,9 +75,9 @@ class IcepapDriver(Storm):
         # THAT THE VALUES SHOULD BE SIGNED.
         try:
             #signature = socket.gethostname() #+ "_" + str(time.time())
-            user = self.getSystemUserName()
+            user = ConfigManager().username
             host = socket.gethostname()
-            signature = user+"@"+host+"_"+str(hex(int(time.time())))
+            signature = user+"@"+host+"_"+datetime.now().strftime('%Y/%m/%d_%H:%M:%S')
             IcepapController().signDriverConfiguration(self.icepapsystem_name, self.addr, signature)
             self.mode = unicode(IcepapMode.OPER)
             db = StormManager()
@@ -87,16 +88,6 @@ class IcepapDriver(Storm):
             self.conflict = Conflict.NO_CONFLICT
         except Exception,e:
             print "some exception while trying to sign the driver",e
-
-    def getSystemUserName(self):
-        username=''
-        if os.name is 'posix': #this works for linux and macOSX
-            username = os.getenv('USER')
-        elif os.name is 'nt': #win NT, XP... (and Vista?)
-            username = os.getenv('USERNAME')    
-        if username is '':
-            username = "UNKNOWN_USER"
-        return username
 
     
     def setStartupCfg(self):
