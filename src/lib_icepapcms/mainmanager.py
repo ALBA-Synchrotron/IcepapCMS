@@ -403,8 +403,10 @@ class MainManager(Singleton):
     def disableDriver(self, icepap_name, driver_addr):
         self._ctrl_icepap.disableDriver(icepap_name, driver_addr)
 
-    def saveValuesInIcepap(self, icepap_driver, new_values, expertFlag = False):
+    def saveValuesInIcepap(self, icepap_driver, new_values, expertFlag = False, ignore_values=[]):
         """ Stores the new configuration in the icepap, and sets the mode of the driver to CONFIG """
+        for param,db_value in ignore_values:
+            new_values.remove((param,db_value))
         new_cfg = self._ctrl_icepap.setDriverConfiguration(icepap_driver.icepapsystem_name, icepap_driver.addr, new_values, expertFlag = expertFlag)
         if new_cfg is None:
             #self._form.checkIcepapConnection()
