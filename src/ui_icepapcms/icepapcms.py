@@ -553,7 +553,7 @@ class IcepapCMS(QtGui.QMainWindow):
                 db = StormManager()
                 db.store(driver_values)
             else:
-                self._manager.saveValuesInIcepap(driver,driver.current_cfg.toList())
+                self._manager.saveValuesInIcepap(driver,driver.current_cfg.toList(), ignore_values=params_old_in_db)
             driver.signDriver()
             item.solveConflict()
 
