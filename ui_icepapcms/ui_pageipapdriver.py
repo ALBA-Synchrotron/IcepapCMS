@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'pageipapdriver.ui'
 #
-# Created: Thu Dec 17 11:52:47 2009
+# Created: Fri Mar 26 13:02:53 2010
 #      by: PyQt4 UI code generator 4.4.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -858,6 +858,7 @@ class Ui_PageiPapDriver(object):
         self.retranslateUi(PageiPapDriver)
         self.stackedWidget.setCurrentIndex(0)
         self.tabWidget.setCurrentIndex(0)
+        self.cb_enc_sel.setCurrentIndex(5)
         QtCore.QMetaObject.connectSlotsByName(PageiPapDriver)
 
     def retranslateUi(self, PageiPapDriver):
