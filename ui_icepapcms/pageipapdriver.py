@@ -1525,7 +1525,7 @@ class PageiPapDriver(QtGui.QWidget):
         self.ui.btnGORelativePos.setEnabled(True)
         if self.mode == 0:
             self.ui.btnGO.setEnabled(True)
-            """ Jog not working now """
+            # Jog not working now
             #self.ui.sliderJog.setEnabled(True)
         else:
             self.ui.btnGO.setEnabled(False)
