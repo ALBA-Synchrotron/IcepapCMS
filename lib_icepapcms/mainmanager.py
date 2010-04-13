@@ -318,8 +318,8 @@ class MainManager(Singleton):
             MessageDialogs.showErrorMessage(self._form, "GetDriverTestStatus Icepap error", "%s Connection error:%s" % (icepap_name,error.msg))
             self._form.refreshTree() 
             return (-1,-1, [-1,-1])        
-        except:
-            print "mainmanager:getDriverTestStatus:Unexpected error while getting driver test status."
+        except Exception,e:
+            print "mainmanager:getDriverTestStatus:Unexpected error while getting driver test status.\n",str(e)
             #print "mainmanager:getDriverTestStatus:Unexpected error:", sys.exc_info()
             return (-1,-1, [-1,-1])
             
