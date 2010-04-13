@@ -74,14 +74,16 @@ class IcepapCMS(QtGui.QMainWindow):
                 import ldap_login
                 login_dlg = ldap_login.LdapLogin(self)
                 login_dlg.exec_()
+                valid_ldap_login = False
                 if login_dlg.result() == QtGui.QDialog.Accepted:
-                    self._config.username = login_dlg.username
-                else:
+                    if login_dlg.username.lower() not in ('sicilia', 'operator'):
+                        self._config.username = login_dlg.username
+                        valid_ldap_login = True
+                if not valid_ldap_login:
                     print '\n\nSorry, we only allow validated users to save configs to Icepap drivers.\n'
                     sys.exit(-1)
             except Exception,e:
-                print 'Using IcepapCMS with the system\'s username:%s' % self._config.username
-        
+                print 'Using IcepapCMS with the system\'s username: %s' % self._config.username
         self.checkTimer = Qt.QTimer(self)        
         self.initGUI()
         self.ui.pageiPapSystem = PageiPapSystem(self)
