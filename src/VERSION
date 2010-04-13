@@ -1,3 +1,16 @@
+IcepapCMS 1.22 2010/mm/dd
+-------------------------------------------------------------------------
+
+IcepapCMS 1.21 2010/04/14
+-------------------------------------------------------------------------
++) Fixed bug Icepap Console now puts the prompt at the end of the document when clicked
++) Fixed bug Default Enc register is now 'EncIn' instead of Axis
++) Fixed bug Enocer tab 'resoluion' typo
++) Fixed bug in firmware upgrade 64 bits, problem packaging the 'tocho'
++) Fixed bug in firmware upgrade, if no serial ports
++) Fixed bug in ldap check, generic accounts 'sicilia' and 'operator' not allowed
++) Fixed bug which could not downgrade if 'old values in db' where not in the downgraded version
+
 IcepapCMS 1.20 2010/03/05
 -------------------------------------------------------------------------
 +) LDAP login support
