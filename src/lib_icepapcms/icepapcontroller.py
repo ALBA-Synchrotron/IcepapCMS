@@ -357,7 +357,7 @@ class IcepapController(Singleton):
         disabled = IcepapStatus.isDisabled(register)
         if disabled <> 1:
             # only if driver is active
-            position = self.iPaps[icepap_name].getPosition(driver_addr, pos_sel)
+            position = self.iPaps[icepap_name].getPositionFromBoard(driver_addr, pos_sel)
             encoder = self.iPaps[icepap_name].getEncoder(driver_addr, enc_sel)
             power = self.iPaps[icepap_name].getPower(driver_addr)
             power = (power == IcepapAnswers.ON)
@@ -609,7 +609,7 @@ class IcepapController(Singleton):
         try:
             return IcePAP.serialScan()
         except:
-            return None
+            return []
 
     def upgradeDrivers(self,icepap_name,progress_dialog):
         if self.programming_ipap is not None:
@@ -697,17 +697,17 @@ class IcepapController(Singleton):
         ipap.sendWriteCommand(cmd, prepend_ack=False)
         
         logger.addToLog("Transferring firmware")
-        ipap.sendData(struct.pack('L',startmark))
-        ipap.sendData(struct.pack('L',nwordata))
-        ipap.sendData(struct.pack('L',maskedchksum))
+        #ipap.sendData(struct.pack('L',startmark))
+        #ipap.sendData(struct.pack('L',nwordata))
+        #ipap.sendData(struct.pack('L',maskedchksum))
         # BUGFIX FOR 64-BIT MACHINES
         ipap.sendData(struct.pack('L',startmark)[:4])
         ipap.sendData(struct.pack('L',nwordata)[:4])
         ipap.sendData(struct.pack('L',maskedchksum)[:4])
         
-        #ipap.sendData(data.tostring())
-        for i in range(len(data)):
-            ipap.sendData(struct.pack('H',data[i]))
+        ipap.sendData(data.tostring())
+        #for i in range(len(data)):
+        #    ipap.sendData(struct.pack('H',data[i]))
         # THIS SLEEP IS NECESSARY TO LET THE TRITON COMPUTE THE CHECKSUM AND STORE IF "SAVE"
         time.sleep(7)
         logger.addToLog("Firmware sent.")
