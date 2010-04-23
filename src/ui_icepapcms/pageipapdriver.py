@@ -694,10 +694,9 @@ class PageiPapDriver(QtGui.QWidget):
                     # AS OF VERSION 1.20, SIGNATURE HAS NOT HEX TIMESTAMP BUT A MORE READABLE ONE
                 except:
                     desc_cfg_date = datetime.datetime.strptime(aux[1]+'_'+aux[2],'%Y/%m/%d_%H:%M:%S').ctime()
-                
-                
+
             except Exception,e:
-                print 'wtf',str(e)
+                print 'Signature does not have user@host_DATE, which is not from IcepapCMS:"'+signature+'"',str(e)
                 pass
         else:            
             signature = None
