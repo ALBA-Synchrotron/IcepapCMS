@@ -98,6 +98,9 @@ class IcepapConsole(QtGui.QDialog):
         try:
             cmd = str(cmd)
             # determine if the command has an answer
+            if len(cmd) == 0:
+                # DO NOTHING...
+                return
             cmd = cmd.upper()
             if cmd == "QUIT" or cmd == "CLOSE" or cmd == "EXIT":
                 self.btnDisconnect_on_click()
