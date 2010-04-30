@@ -3,6 +3,7 @@ IcepapCMS 1.22 2010/mm/dd
 
 IcepapCMS 1.21 2010/04/14
 -------------------------------------------------------------------------
++) Fixed bug Icepap Console does not report an error if <ENTER> is pressed without a command
 +) Fixed bug Icepap Console now puts the prompt at the end of the document when clicked
 +) Fixed bug Default Enc register is now 'EncIn' instead of Axis
 +) Fixed bug Enocer tab 'resoluion' typo
