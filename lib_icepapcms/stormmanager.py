@@ -123,7 +123,6 @@ class StormManager(Singleton):
     def getAllLocations(self):
         try:
             locations = self._store.find(Location)
-            locations.order_by(Location.name)
             location_dict = {}
             for l in locations:
                 location_dict[l.name] = l
