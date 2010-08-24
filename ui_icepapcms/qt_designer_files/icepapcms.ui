@@ -164,6 +164,10 @@
     <addaction name="separator" />
     <addaction name="actionExport" />
     <addaction name="actionImport" />
+    <addaction name="separator" />
+    <addaction name="actionCopy" />
+    <addaction name="actionPaste" />
+    <addaction name="separator" />
     <addaction name="actionSetExpertFlag" />
    </widget>
    <widget class="QMenu" name="menuFile" >
@@ -243,8 +247,8 @@
    </property>
    <property name="minimumSize" >
     <size>
-     <width>250</width>
-     <height>305</height>
+     <width>281</width>
+     <height>317</height>
     </size>
    </property>
    <property name="maximumSize" >
@@ -727,6 +731,22 @@
    </property>
    <property name="text" >
     <string>Set Expert Flag</string>
+   </property>
+  </action>
+  <action name="actionCopy" >
+   <property name="text" >
+    <string>Copy configuration</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+C</string>
+   </property>
+  </action>
+  <action name="actionPaste" >
+   <property name="text" >
+    <string>Paste configuration</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+V</string>
    </property>
   </action>
  </widget>
