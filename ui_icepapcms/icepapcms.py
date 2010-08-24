@@ -24,7 +24,7 @@ from templatescatalogwidget import TemplatesCatalogWidget
 #from dialogtemplate import DialogTemplate
 from optparse import OptionParser
 
-__version__ = "1.21"
+__version__ = "1.22"
 
 class IcepapApp(QtGui.QApplication):    
     def __init__(self, *args):
@@ -34,6 +34,8 @@ class IcepapApp(QtGui.QApplication):
         parser = OptionParser(usage)
         parser.add_option("-e", "--expert",
                           action="store_true", dest="expert", help="Full expert interface. False by default")
+        parser.add_option("-s", "--skip-versioncheck",
+                          action="store_true", dest="skipversioncheck", help="Skip the version mismatch check. False by default")
         parser.add_option("","--all-networks",
                           action="store_true", dest="allnets", help="Allow all available icepap systems. False by default")
         parser.add_option("","--ldap",
@@ -55,9 +57,9 @@ class IcepapApp(QtGui.QApplication):
 class IcepapCMS(QtGui.QMainWindow):
     def __init__(self, options,args,parent=None):
         QtGui.QMainWindow.__init__(self, parent)
+
         self.ui = Ui_IcepapCMS()
         self.ui.setupUi(self)
-
         self._config = ConfigManager()
         self._config._options = options
         self._config._args = args
@@ -85,7 +87,9 @@ class IcepapCMS(QtGui.QMainWindow):
             except Exception,e:
                 print 'Using IcepapCMS with the system\'s username: %s' % self._config.username
         self.checkTimer = Qt.QTimer(self)        
+
         self.initGUI()
+
         self.ui.pageiPapSystem = PageiPapSystem(self)
         self.ui.stackedWidget.addWidget(self.ui.pageiPapSystem)
         self.ui.pageiPapCrate = PageiPapCrate(self)
@@ -113,6 +117,8 @@ class IcepapCMS(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.actionSaveConfig,QtCore.SIGNAL("triggered()"),self.actionSaveConfig)
         QtCore.QObject.connect(self.ui.actionHistoricCfg,QtCore.SIGNAL("triggered()"),self.actionHistoricCfg)
         #QtCore.QObject.connect(self.ui.actionSetExpertFlag,QtCore.SIGNAL("triggered()"),self.actionSetExpertFlag)
+        QtCore.QObject.connect(self.ui.actionCopy,QtCore.SIGNAL("triggered()"),self.actionCopy)
+        QtCore.QObject.connect(self.ui.actionPaste,QtCore.SIGNAL("triggered()"),self.actionPaste)
 
         QtCore.QObject.connect(self.ui.actionHelp,QtCore.SIGNAL("triggered()"),self.actionHelp)
         QtCore.QObject.connect(self.ui.actionUser_manual,QtCore.SIGNAL("triggered()"),self.actionUser_Manual)
@@ -159,6 +165,7 @@ class IcepapCMS(QtGui.QMainWindow):
         self.ui.actionSetExpertFlag.setEnabled(False)
         self.ui.actionTemplates.setEnabled(False)
         self.ui.treeView.setItemsExpandable(True)        
+        self.ui.actionSaveConfig.setEnabled(False)
         self.ui.stackedWidget.setCurrentIndex(0)
 ###        self.ui.txtLocation.setText("")
      
@@ -178,6 +185,9 @@ class IcepapCMS(QtGui.QMainWindow):
         dlg.exec_()
         if dlg.result():
             location = dlg.getData()
+            if location == '':
+                MessageDialogs.showErrorMessage(self, "Add location", "Location must have a name")
+                return
             if self._manager.addLocation(location):
                 self.ui.cbLocation.addItem(location)
                 if self.ui.cbLocation.count() == 1:
@@ -200,10 +210,11 @@ class IcepapCMS(QtGui.QMainWindow):
         self.ui.cbLocation.clear()
         self.ui.treeView.setModel(None)
         #self.ui.treeView.reset()
+
         keys = self._manager.locationList.keys()
         keys.sort()                
         for location_name in keys:
-            self.ui.cbLocation.addItem(location_name)        
+            self.ui.cbLocation.addItem(location_name)
         first_location = self.ui.cbLocation.itemText(0)
         activate = False
         if self.ui.cbLocation.count() > 0:
@@ -243,7 +254,7 @@ class IcepapCMS(QtGui.QMainWindow):
             """self.menu.addAction("Finish Icepap system configuration", self.contextIcepapStop)""",
             """self.menu.addSeparator()""",
             """self.menu.addAction("Edit Icepap system information", self.contextEditIcepap)""",
-            """self.menu.addAction("Delete Icepap system configuration", self.btnTreeRemove_on_click)"""  
+            """self.menu.addAction("Delete Icepap system configuration", self.btnTreeRemove_on_click)""",
             ]
             self.menu = Qt.QMenu(self)
             font = QtGui.QFont()
@@ -317,7 +328,13 @@ class IcepapCMS(QtGui.QMainWindow):
                 self._tree_model.addIcepapSystem(icepap_system.name, icepap_system, False)
                 self._manager.checkFirmwareVersions(icepap_system)
                 self.expandAll(icepap_system.name)
-    
+
+    def actionCopy(self):
+        self.ui.pageiPapDriver.doCopy()
+        
+    def actionPaste(self):
+        self.ui.pageiPapDriver.doPaste()
+        
     def editIcepap(self, item):
         location = self.ui.cbLocation.currentText()
         dlg = DialogAddIcepap(self, location)
@@ -384,6 +401,7 @@ class IcepapCMS(QtGui.QMainWindow):
         """This function scans and Icepap. This means comparing 
         the database configurations and the ones in the hardware """
         self.setStatusMessage("Scanning ...")
+
         conflicts_list = []
         solved_drivers = ""
         conflicts_list.extend(self._manager.scanIcepap(icepap_system))
@@ -445,8 +463,7 @@ class IcepapCMS(QtGui.QMainWindow):
             elif driver_value == None:
                 params_old_in_db.append((str(db_param),str(db_value)))
             else:
-                if db_param != "VER":
-                    params_modified.append((str(db_param),str(db_value),str(driver_value)))
+                params_modified.append((str(db_param),str(db_value),str(driver_value)))
 
         for driver_param,driver_value in driver_values.toList():
             db_value = driver_db_values.getParameter(driver_param,True)
@@ -722,15 +739,18 @@ class IcepapCMS(QtGui.QMainWindow):
         self.ui.actionImport.setEnabled(False)
         self.ui.actionHistoricCfg.setEnabled(False)
         self.ui.actionTemplates.setEnabled(False)
-        self.ui.actionSaveConfig.setEnabled(True)
+        self.ui.actionSaveConfig.setEnabled(False)
         self.ui.actionSetExpertFlag.setEnabled(False)
+        self.ui.actionCopy.setEnabled(False)
+        self.ui.actionPaste.setEnabled(False)
         self.ui.pageiPapDriver.stopTesting()
         if not self.refreshTimer is None:
             self.refreshTimer.stop()
 
         # BEFORE CHANGING THE TREE NODE, WE SHOULD CHECK IF THE LAST DRIVER
         # CAN BE SET BACK TO MODE 'OPER' OR NOT
-        self.ui.pageiPapDriver.checkSaveConfigPending()
+        if self.ui.pageiPapDriver.checkSaveConfigPending():
+            self.ui.actionSaveConfig.setEnabled(True)
 
         if item.role == IcepapTreeModel.DRIVER or item.role == IcepapTreeModel.DRIVER_CFG:
 
@@ -743,6 +763,9 @@ class IcepapCMS(QtGui.QMainWindow):
             self.ui.actionHistoricCfg.setEnabled(True)
             self.ui.actionTemplates.setEnabled(True)
             self.ui.actionSetExpertFlag.setEnabled(True)
+            # ENABLE THE COPY & PASTE ACTIONS
+            self.ui.actionCopy.setEnabled(True)
+            self.ui.actionPaste.setEnabled(True)
             #if self.historicDlg.isVisible():
             #    self.historicDlg.fillDriverData(item.itemData)
 
