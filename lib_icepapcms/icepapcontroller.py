@@ -90,57 +90,36 @@ class IcepapController(Singleton):
         self.icepap_cfginfos[icepap_name] = {}
         self.icepap_cfgorder[icepap_name] = {}
         try:
-#            sys_status = self.iPaps[icepap_name].getSysStatus()
-#            sys_status = int(sys_status, 16)
-#            for crate in range(16):
-#                if (sys_status & (1<<crate)) > 0:
-#                    crate_status =  self.iPaps[icepap_name].getRackStatus(crate)[1]
-#                    crate_status = int(crate_status, 16)
-#                    for driver in range(8):
-#                        if (crate_status & (1<<driver)) > 0:
-#                            addr = self._getDriverAddr(crate, driver+1)
-#                            pass
-#                            driver = icepapdriver.IcepapDriver(driver_name, addr)
-#                            driver_cfg = self.getDriverConfiguration(icepap_name, addr)
-#                            driver.addConfiguration(driver_cfg)
-#                            driver.setName(driver_cfg.getParameter(unicode("IPAPNAME"),True))
-#                            #print driver_cfg.getParameter(unicode("IPAPNAME"),True)
-#                            #print driver_cfg.getParameter(unicode("VER"),True)
-#                            #print driver_cfg.getParameter(unicode("ID"),True)
-#
-#                            # CFGINFO IS ALSO SPECIFIC FOR EACH DRIVER    
-#                            cfginfo_dict,order_list = self.getDriverCfgInfoDictAndList(icepap_name,addr)
-#                            self.icepap_cfginfos[icepap_name][addr] = cfginfo_dict    
-#                            self.icepap_cfgorder[icepap_name][addr] = order_list
-#
-#                            driver.setName(self.iPaps[icepap_name].getName(addr))
-#                            driver.setMode(self.iPaps[icepap_name].getMode(addr))
-#                            driver_list[addr] = driver
+            # IMPROVE OF SPEED BY SAVING CFGINFOS BY VERSION
+            cfginfos_version_dict = {}
             for addr in self.iPaps[icepap_name].getDriversAlive():
                 """ TO-DO STORM review"""
                 driver = icepapdriver.IcepapDriver(driver_name, addr)
                 driver_cfg = self.getDriverConfiguration(icepap_name, addr)
                 driver.addConfiguration(driver_cfg)
-                driver.setName(driver_cfg.getParameter(unicode("IPAPNAME"),True))
-                #print driver_cfg.getParameter(unicode("IPAPNAME"),True)
-                #print driver_cfg.getParameter(unicode("VER"),True)
-                #print driver_cfg.getParameter(unicode("ID"),True)
 
-                # CFGINFO IS ALSO SPECIFIC FOR EACH DRIVER    
-                cfginfo_dict,order_list = self.getDriverCfgInfoDictAndList(icepap_name,addr)
+                # CFGINFO IS ALSO SPECIFIC FOR EACH DRIVER
+                # To improve speed, this is true but instead of 'each driver', better each version
+                driver_version = driver_cfg.getParameter(unicode('VER'),True)
+                if not cfginfos_version_dict.has_key(driver_version):
+                    cfginfo_dict,order_list = self.getDriverCfgInfoDictAndList(icepap_name,addr)
+                    cfginfos_version_dict[driver_version] = (cfginfo_dict, order_list)
+
+                # GET CFGINFO FROM CACHED DICT INSTEAD OF QUERYING EACH TIME
+                #cfginfo_dict,order_list = self.getDriverCfgInfoDictAndList(icepap_name,addr)
+                cfginfo_dict,order_list = cfginfos_version_dict[driver_version]
+                
                 self.icepap_cfginfos[icepap_name][addr] = cfginfo_dict    
                 self.icepap_cfgorder[icepap_name][addr] = order_list
 
-                driver.setName(self.iPaps[icepap_name].getName(addr))
+                driver.setName(driver_cfg.getParameter(unicode("IPAPNAME"),True))
                 driver.setMode(self.iPaps[icepap_name].getMode(addr))
                 driver_list[addr] = driver
                             
-        #except:
         except Exception,e:
-            #print "Unexpected errors:", sys.exc_info()[1]
             self.closeConnection(icepap_name)
+            print 'exception:',e
             raise
-
         return driver_list
     
     def getDriverConfiguration(self, icepap_name, driver_addr):
@@ -161,18 +140,6 @@ class IcepapController(Singleton):
         driver_cfg.setParameter(unicode("ID"), ipap_id)
         driver_cfg.setParameter(unicode("IPAPNAME"), ipap_name)
         
-        ###for name in self.config_parameters:
-        ###    #print name
-        ###    try:
-        ###        value = self.iPaps[icepap_name].getCfgParameter(driver_addr, name)
-        ###        #CHECK THAT THE VALUE COULD BE READ (ASCII PROBLEMS)
-        ###        #print "I COULD READ THE VALUE "+str(value)
-        ###    except:
-        ###        value = "ERROR"
-        ###    #print value
-        ###    #value = value.lstrip()
-        ###    #value = value.lstrip(name)
-        ###    driver_cfg.setParameter(name, value)
         # INSTEAD OF READING PARAM BY PARAM, WE SHOULD ASK THE ICEPAP FOR ALL THE CONFIGURATION
         # WITH THE #N?:CFG COMMAND, USING SOME .getCfg() METHOD.
         config = self.iPaps[icepap_name].getCfg(driver_addr)
@@ -224,7 +191,12 @@ class IcepapController(Singleton):
             try:
                 if name == "NAME" or name == "IPAPNAME":
                     name = "NAME"
+                    # IN CASE OF NAMELOCK SET TO YES, UNLOCK FIRST
+                    namelock = self.iPaps[icepap_name].getCfgParameter(driver_addr,'NAMELOCK')
+                    if namelock == 'YES':
+                        self.iPaps[icepap_name].setCfgParameter(driver_addr,'NAMELOCK','NO')
                     self.iPaps[icepap_name].writeParameter(driver_addr, name, str(value))
+                    self.iPaps[icepap_name].setCfgParameter(driver_addr,'NAMELOCK',namelock)
                 elif name in ["VER","ID"]:
                     pass
                 else:
@@ -280,6 +252,8 @@ class IcepapController(Singleton):
     def startConfiguringDriver(self, icepap_name, driver):
         try:
             mode = self.iPaps[icepap_name].getMode(driver.addr)
+            if mode == IcepapMode.PROG:
+                return mode
             if mode != IcepapMode.CONFIG:
                 self.iPaps[icepap_name].setConfig(driver.addr)
             driver.setMode(IcepapMode.CONFIG)
@@ -289,6 +263,7 @@ class IcepapController(Singleton):
             MessageDialogs.showErrorMessage(None,'config',msg)
             print iex.msg
             raise iex
+        return mode
 
 
     def endConfiguringDriver( self, icepap_name, driver):
@@ -296,6 +271,8 @@ class IcepapController(Singleton):
             if not self.iPaps.has_key(icepap_name):
                 return
             mode = self.iPaps[icepap_name].getMode(driver.addr)
+            if mode == IcepapMode.PROG:
+                return
             if mode != IcepapMode.OPER:
                 last_signature = self.iPaps[icepap_name].getConfig(driver.addr)
                 self.iPaps[icepap_name].signConfig(driver.addr, last_signature)
@@ -327,8 +304,7 @@ class IcepapController(Singleton):
             disabled = IcepapStatus.isDisabled(register)
             if disabled <> 1:
                 # only if driver is active
-                power = self.iPaps[icepap_name].getPower(driver_addr)
-                power = (power == IcepapAnswers.ON)
+                power = (disabled == 0)
             else:
                 power = False
             
@@ -359,8 +335,7 @@ class IcepapController(Singleton):
             # only if driver is active
             position = self.iPaps[icepap_name].getPositionFromBoard(driver_addr, pos_sel)
             encoder = self.iPaps[icepap_name].getEncoder(driver_addr, enc_sel)
-            power = self.iPaps[icepap_name].getPower(driver_addr)
-            power = (power == IcepapAnswers.ON)
+            power = (disabled == 0)
             try:
                 encoder = float(encoder)
             except:
@@ -536,7 +511,9 @@ class IcepapController(Singleton):
             # CMOVE ONLY ALLOWS ABSOLUTE POSITIONS, IT SHOULD BE CALCULATED
             #self.iPaps[icepap_name].cmove(driver_addr, steps)
             pos = self.iPaps[icepap_name].getPosition(driver_addr)
+            print '*'*40,pos
             new_pos = int(pos) + int(steps)
+            print '*'*40,new_pos
             self.iPaps[icepap_name].cmove(driver_addr, new_pos)
         else:
             self.iPaps[icepap_name].rmove(driver_addr, steps)
@@ -557,7 +534,7 @@ class IcepapController(Singleton):
         self.iPaps[icepap_name].blink(driver_addr,secs)
     
     def jogDriver(self, icepap_name, driver_addr, speed):
-        self.iPaps[icepap_name].jog(driver_addr, speed)
+        self.iPaps[icepap_name].cjog(driver_addr, speed)
     
     def enableDriver(self, icepap_name, driver_addr):
         self.iPaps[icepap_name].enable(driver_addr)
