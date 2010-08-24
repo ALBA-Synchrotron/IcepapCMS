@@ -45,6 +45,6 @@ class IcepapDriverCfg(Persistent):
                         #print name + " = " + value + " not " + other.parList[name]
                         equals = False
             else:
-                return false
+                return False
                 
         return equals
