@@ -301,13 +301,8 @@ class IcepapController(Singleton):
             else:
                 register = int(register)
             
-            disabled = IcepapStatus.isDisabled(register)
-            if disabled <> 1:
-                # only if driver is active
-                power = (disabled == 0)
-            else:
-                power = False
-            
+            power = IcepapStatus.isPowerOn(register)
+
             current = self.iPaps[icepap_name].getCurrent(driver_addr)
             
             state = (int(register), power, float(current))
@@ -330,24 +325,25 @@ class IcepapController(Singleton):
             register = int(register,16)
         else:
             register = int(register)
-        disabled = IcepapStatus.isDisabled(register)
-        if disabled <> 1:
-            # only if driver is active
-            position = self.iPaps[icepap_name].getPositionFromBoard(driver_addr, pos_sel)
-            encoder = self.iPaps[icepap_name].getEncoder(driver_addr, enc_sel)
-            power = (disabled == 0)
-            try:
-                encoder = float(encoder)
-            except:
-                encoder = -1
-            try:
-                position = float(position)
-            except:
-                position = -1
-            posarray = [position, encoder]
-        else:
-            posarray = [-1, -1]
-            power = False
+
+        power = False
+        position = -1
+        encoder = -1
+
+        power = IcepapStatus.isPowerOn(register)
+
+        position = self.iPaps[icepap_name].getPositionFromBoard(driver_addr, pos_sel)
+        encoder = self.iPaps[icepap_name].getEncoder(driver_addr, enc_sel)
+
+        try:
+            encoder = float(encoder)
+        except:
+            encoder = -1
+        try:
+            position = float(position)
+        except:
+            position = -1
+        posarray = [position, encoder]
             
         state = (int(register), power, posarray)
         return state
