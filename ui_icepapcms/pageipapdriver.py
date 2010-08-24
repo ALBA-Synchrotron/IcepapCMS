@@ -1,4 +1,5 @@
 from PyQt4 import QtCore, QtGui, Qt
+from pyIcePAP import *
 from ui_pageipapdriver import Ui_PageiPapDriver
 from ui_axis import Ui_axis
 from ui_motor import Ui_motor
@@ -19,6 +20,7 @@ import os
 from qvalidatelineedit import QValidateLineEdit
 import time
 import datetime
+import tempfile
 from historiccfgwidget import HistoricCfgWidget
 
 class PageiPapDriver(QtGui.QWidget):
@@ -263,9 +265,10 @@ class PageiPapDriver(QtGui.QWidget):
         #QtCore.QObject.connect(self.ui.listPredefined, QtCore.SIGNAL("currentTextChanged (const QString&)"), self.loadPredefinedSignalCfg)
         #QtCore.QObject.connect(self.ui.btnClear,QtCore.SIGNAL("clicked()"),self.resetSignalsTab)
         
-        #QtCore.QObject.connect(self.ui.sliderJog,QtCore.SIGNAL("sliderMoved(int)"),self.startJogging)
-        #QtCore.QObject.connect(self.ui.sliderJog,QtCore.SIGNAL("valueChanged(int)"),self.sliderChanged)
-        #QtCore.QObject.connect(self.ui.sliderJog,QtCore.SIGNAL("sliderReleased()"),self.stopJogging)
+        QtCore.QObject.connect(self.ui.sliderJog,QtCore.SIGNAL("sliderMoved(int)"),self.startJogging)
+        QtCore.QObject.connect(self.ui.sliderJog,QtCore.SIGNAL("valueChanged(int)"),self.sliderChanged)
+        QtCore.QObject.connect(self.ui.sliderJog,QtCore.SIGNAL("sliderReleased()"),self.stopJogging)
+        QtCore.QObject.connect(self.ui.sliderJog,QtCore.SIGNAL("valueChanged(int)"),self.sliderChanged)
         
         QtCore.QObject.connect(self.sliderTimer,QtCore.SIGNAL("timeout()"),self.resetSlider)
         
@@ -310,8 +313,8 @@ class PageiPapDriver(QtGui.QWidget):
             defvalue = ""
 
 
-        ##if param == 'HOMEFLAGS':
-        ##    print "WIDGET:%s PARAM:%s DB(%s) DEFAULT(%s) WIDGET(%s)" % (widget.objectName(),param,str(dbvalue),str(defvalue),str(wvalue))
+        #if param == 'CATENTRY':
+        #    print "WIDGET:%s PARAM:%s DB(%s) DEFAULT(%s) WIDGET(%s)" % (widget.objectName(),param,str(dbvalue),str(defvalue),str(wvalue))
         
         try:
             if isinstance(widget, QtGui.QDoubleSpinBox) or isinstance(widget, QtGui.QSpinBox):
@@ -409,7 +412,7 @@ class PageiPapDriver(QtGui.QWidget):
                 self.widgets_modified.remove(widget)
 
         driver_key = self.icepap_driver.icepapsystem_name+"_"+str(self.icepap_driver.addr)
-        if saveConfig and driver_key not in self.saveConfigPending:            
+        if saveConfig and driver_key not in self.saveConfigPending:
             self.saveConfigPending.append(driver_key)
 
         tab_index = widget.tab_index
@@ -696,8 +699,8 @@ class PageiPapDriver(QtGui.QWidget):
                     desc_cfg_date = datetime.datetime.strptime(aux[1]+'_'+aux[2],'%Y/%m/%d_%H:%M:%S').ctime()
 
             except Exception,e:
-                print 'Signature does not have user@host_DATE, which is not from IcepapCMS:"'+signature+'"',str(e)
-                pass
+                msg = 'Not standard signature of driver '+str(desc_cfg_addr)+'.\nIt does not match (user@host_DATE).\nValue is:'+str(signature)
+                MessageDialogs.showWarningMessage(self, "Not standard signature", msg)
         else:            
             signature = None
 
@@ -901,8 +904,14 @@ class PageiPapDriver(QtGui.QWidget):
         self._connectHighlighting()
 
         # ALWAYS PUT THE DRIVER IN CONFIG MODE
-        self._manager.startConfiguringDriver(self.icepap_driver)
-        
+        # It may happen that the driver is in PROG MODE
+        mode = self._manager.startConfiguringDriver(self.icepap_driver)
+        if mode != IcepapMode.PROG:
+            self.ui.tabWidget.setEnabled(True)
+        else:
+            # MAY BE ALSO GOOD FOR THE SHUTTER MODE
+            MessageDialogs.showErrorMessage(None,'Start configuring driver','It is not possible to configure the driver\nwhile it is in mode PROG.')
+            self.ui.tabWidget.setEnabled(False)
         QtGui.QApplication.instance().restoreOverrideCursor()
 
 
@@ -922,13 +931,13 @@ class PageiPapDriver(QtGui.QWidget):
                 if "INTEGER" == cfginfo[0]:
                     #param_desc = "INTEGER value"
                     widget = QtGui.QSpinBox()
-                    widget.setMaximum(sys.maxint)
-                    widget.setMinimum(-1*sys.maxint)
+                    widget.setMaximum(999999999)
+                    widget.setMinimum(-999999999)
                 elif "FLOAT" == cfginfo[0]:
                     #param_desc = "DOUBLE value"
                     widget = QtGui.QDoubleSpinBox()
-                    widget.setMaximum(sys.maxint)
-                    widget.setMinimum(-1*sys.maxint)
+                    widget.setMaximum(999999999)
+                    widget.setMinimum(-999999999)
                 elif cfginfo[0].startswith("["):
                     #param_desc = "FLAGS value"
                     param_tooltip = "FLAGS:"
@@ -962,6 +971,7 @@ class PageiPapDriver(QtGui.QWidget):
                 self.unknown_table_widget.setCellWidget(row, 2, widget)
 
                 self._setWidgetsValue([widget],param_value)
+                
                 self._connectWidgetToSignalMap(widget)
 
 
@@ -1382,10 +1392,8 @@ class PageiPapDriver(QtGui.QWidget):
                 self._setWidgetsValue(self.param_to_widgets.get('DriverName'), param_value, set_default=False)
         self.highlightTabs()
         self._connectHighlighting()
-        QtGui.QApplication.instance().restoreOverrideCursor()
-                    
-                     
-                    
+        QtGui.QApplication.instance().restoreOverrideCursor()                                      
+
     def doExport(self):
         folder = ConfigManager().config["icepap"]["configs_folder"]
         fn = QtGui.QFileDialog.getSaveFileName(self,"Save Config File",QtCore.QString(folder),QtCore.QString("*.xml"))
@@ -1395,8 +1403,6 @@ class PageiPapDriver(QtGui.QWidget):
         if filename.find('.xml') == -1:
             filename = filename + '.xml'
         self.exportToFile(filename)
-        #except:
-        #    MessageDialogs.showWarningMessage(self, "File", "Error saving file\n")
     
     def exportToFile(self, filename):
         output = open(filename, "w")
@@ -1414,32 +1420,6 @@ class PageiPapDriver(QtGui.QWidget):
             param_element.setAttribute("name", param)
             param_element.setAttribute("value", str(value))
             doc.documentElement.appendChild(param_element)
-
-###        esection = newdoc.createElement("section")
-###        esection.setAttribute("name", "main")
-###        for name, [nsection, widget] in self.var_dict.items():
-###            if nsection == 0:
-###                value = self._getWidgetValue(widget)
-###                #print name + " _ " + str(value)
-###                epar = new
-###                epar.setAttribute("name", name)
-###                epar.setAttribute("value", str(value))
-###                esection.appendChild(epar)
-###        newdoc.documentElement.appendChild(esection)
-###         
-###        for tableWidget in self.sectionTables.itervalues():
-###            esection = newdoc.createElement("section")
-###            esection.setAttribute("name", tableWidget.objectName())
-###            for row in range(tableWidget.rowCount()):
-###                val = tableWidget.item(row,1).text()
-###                if not val == "":
-###                    name = str(tableWidget.item(row,0).text())
-###                epar = newdoc.createElement("par")
-###                epar.setAttribute("name", name)
-###                epar.setAttribute("value", val)
-###                esection.appendChild(epar)
-###            newdoc.documentElement.appendChild(esection)    
-###        return newdoc
         return doc
 
     def signDriver(self):
@@ -1447,7 +1427,19 @@ class PageiPapDriver(QtGui.QWidget):
         self.icepap_driver.signDriver()
         self.fillData(self.icepap_driver)
 
-               
+    def doCopy(self):
+        self.temp_file = tempfile.TemporaryFile('w')
+        data = self.getXmlData()
+        self.temp_file.writelines(data.toprettyxml())
+        self.temp_file.flush()
+        self.temp_file.seek(0)
+
+    def doPaste(self):
+        if self.temp_file == None:
+            return
+        self.temp_file.seek(0)
+        self.fillFileData(self.temp_file)
+
 # ------------------------------  Testing ----------------------------------------------------------            
     def startTesting(self):
         if not self.icepap_driver is None:
@@ -1524,15 +1516,12 @@ class PageiPapDriver(QtGui.QWidget):
         self.ui.btnGORelativePos.setEnabled(True)
         if self.mode == 0:
             self.ui.btnGO.setEnabled(True)
-            # Jog not working now
-            #self.ui.sliderJog.setEnabled(True)
+            self.ui.sliderJog.setEnabled(True)
         else:
             self.ui.btnGO.setEnabled(False)
             self.ui.sliderJog.setEnabled(False)
         self.ui.btnEnable.setEnabled(True)
         self.ui.btnStopMotor.setEnabled(True)
-        ## BTW, tab_3 has been renamed to tab_TuneAndTesting
-        #self.ui.tab_3.setEnabled(True)
         
                 
     def updateTestStatus(self):  
@@ -1647,6 +1636,7 @@ class PageiPapDriver(QtGui.QWidget):
         
     def btnStopMotor_on_click(self):
         self._manager.stopDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr)
+        self.ui.sliderJog.setValue(0)
         
 
     def btnBlink_on_press(self):
@@ -1660,24 +1650,26 @@ class PageiPapDriver(QtGui.QWidget):
             self.startJogging(div)
             
     def startJogging(self, div):
-        #try:
         if div <> 0:
             if not self.ui.btnEnable.isChecked():
                 self._manager.enableDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr)
             speed = float(self.ui.txtSpeed.text())
             factor = (self.ui.sliderJog.maximum() - abs(div)) + 1 
             speed = int(speed / factor)
-            dir = (div > 0)
-            self._manager.jogDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, str(speed), dir)
+            if div < 0:
+                speed = -1 * speed
+            try:
+                QtGui.QToolTip.showText(self.cursor().pos(),str(speed),self.ui.sliderJog)
+                self._manager.jogDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, speed)
+            except Exception,e:
+                MessageDialogs.showWarningMessage(self, "Jog Driver", "Error while trying to jog:\n"+str(e))
+                self.ui.sliderJog.setValue(0)
         else:
             self.stopJogging()
-        #except:
-        #    pass
     
     def stopJogging(self):
-        self._manager.jogDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, "0", True)
-        #self._manager.stopDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr)
-        
+        self._manager.stopDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr)
+        self.ui.sliderJog.setValue(0)
         self.sliderTimer.start()
         
     
