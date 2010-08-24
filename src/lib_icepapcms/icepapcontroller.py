@@ -511,9 +511,7 @@ class IcepapController(Singleton):
             # CMOVE ONLY ALLOWS ABSOLUTE POSITIONS, IT SHOULD BE CALCULATED
             #self.iPaps[icepap_name].cmove(driver_addr, steps)
             pos = self.iPaps[icepap_name].getPosition(driver_addr)
-            print '*'*40,pos
             new_pos = int(pos) + int(steps)
-            print '*'*40,new_pos
             self.iPaps[icepap_name].cmove(driver_addr, new_pos)
         else:
             self.iPaps[icepap_name].rmove(driver_addr, steps)
