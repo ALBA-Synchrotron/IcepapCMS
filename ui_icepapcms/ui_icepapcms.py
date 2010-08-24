@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'icepapcms.ui'
 #
-# Created: Fri Mar 26 13:02:54 2010
+# Created: Tue Jul 20 17:24:11 2010
 #      by: PyQt4 UI code generator 4.4.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -88,7 +88,7 @@ class Ui_IcepapCMS(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.dockTree.sizePolicy().hasHeightForWidth())
         self.dockTree.setSizePolicy(sizePolicy)
-        self.dockTree.setMinimumSize(QtCore.QSize(250, 305))
+        self.dockTree.setMinimumSize(QtCore.QSize(281, 317))
         self.dockTree.setMaximumSize(QtCore.QSize(524287, 524287))
         self.dockTree.setFeatures(QtGui.QDockWidget.NoDockWidgetFeatures)
         self.dockTree.setAllowedAreas(QtCore.Qt.LeftDockWidgetArea)
@@ -265,6 +265,10 @@ class Ui_IcepapCMS(object):
         self.actionSetExpertFlag = QtGui.QAction(IcepapCMS)
         self.actionSetExpertFlag.setCheckable(True)
         self.actionSetExpertFlag.setObjectName("actionSetExpertFlag")
+        self.actionCopy = QtGui.QAction(IcepapCMS)
+        self.actionCopy.setObjectName("actionCopy")
+        self.actionPaste = QtGui.QAction(IcepapCMS)
+        self.actionPaste.setObjectName("actionPaste")
         self.menuHelp.addAction(self.actionUser_manual)
         self.menuHelp.addAction(self.actionHardware_manual)
         self.menuHelp.addAction(self.actionHelp)
@@ -278,6 +282,10 @@ class Ui_IcepapCMS(object):
         self.menuDriver.addSeparator()
         self.menuDriver.addAction(self.actionExport)
         self.menuDriver.addAction(self.actionImport)
+        self.menuDriver.addSeparator()
+        self.menuDriver.addAction(self.actionCopy)
+        self.menuDriver.addAction(self.actionPaste)
+        self.menuDriver.addSeparator()
         self.menuDriver.addAction(self.actionSetExpertFlag)
         self.menuFile.addAction(self.actionAddLocation)
         self.menuFile.addAction(self.actionDeleteLocation)
@@ -381,5 +389,9 @@ class Ui_IcepapCMS(object):
         self.actionDeleteLocation.setIconText(QtGui.QApplication.translate("IcepapCMS", "Delete location", None, QtGui.QApplication.UnicodeUTF8))
         self.actionDeleteLocation.setToolTip(QtGui.QApplication.translate("IcepapCMS", "Delete location", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSetExpertFlag.setText(QtGui.QApplication.translate("IcepapCMS", "Set Expert Flag", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionCopy.setText(QtGui.QApplication.translate("IcepapCMS", "Copy configuration", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionCopy.setShortcut(QtGui.QApplication.translate("IcepapCMS", "Ctrl+C", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionPaste.setText(QtGui.QApplication.translate("IcepapCMS", "Paste configuration", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionPaste.setShortcut(QtGui.QApplication.translate("IcepapCMS", "Ctrl+V", None, QtGui.QApplication.UnicodeUTF8))
 
 import icepapcms_rc
