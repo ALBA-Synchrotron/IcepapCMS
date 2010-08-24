@@ -26,7 +26,7 @@ class ConfigManager(Singleton):
     user = string(default=icepapcms)
     database = string(default=sqlite)
     [icepap]
-    debug_enabled = string(default=True)
+    debug_enabled = string(default=False)
     debug_level = string(default=1)
     log_folder = string(default=''' + log_folder + ''')
     firmware_folder = string(default=''' + firmware_folder + ''')
