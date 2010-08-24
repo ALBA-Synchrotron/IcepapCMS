@@ -38,6 +38,9 @@ class IcepapConsole(QtGui.QDialog):
     def btnConnect_on_click(self):
         try:
             addr = str(self.ui.txtHost.text())
+            if addr == '':
+                MessageDialogs.showErrorMessage(None,'Host connection','Please, write a host name to connect to.')
+                return
             if addr.find(":") >= 0:
                 aux = addr.split(':')
                 host = aux[0]
