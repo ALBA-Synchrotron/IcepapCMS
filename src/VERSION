@@ -1,5 +1,25 @@
-IcepapCMS 1.22 2010/mm/dd
+IcepapCMS 1.23 2010/mm/dd
 -------------------------------------------------------------------------
++)
+
+IcepapCMS 1.22 2010/08/24
+-------------------------------------------------------------------------
++) JOG driver using the slider is now implemented
++) Implemented actions for Copy&Paste driver configuration with shortcuts CTRL+C and CTRL+V
++) Only if a driver is left in state 'save pending' the Save Config action button is enabled
++) IcepapCMS handles icepap drivers in PROG mode and disables the edition of parameters
++) Icepap console does not try to connect if the host text is empty
++) Button to set power ON/OFF now updates it's text if the power state is changed by another process
++) Fixed bug that sometimes the driver was left in a state of 'save pending'
++) NAMELOCK parameter does not interfere any more when setting the name
++) Driver ID does not trigger any conflict
++) Added the command line option '--skip-versioncheck' == '-s' to avoid firmware version checks
++) By default, log is not enabled
++) Locations must have at least one character
++) ?_FSTATUS and ?_FPOS used for single axis queries (old ?FSTATUS and ?FPOS are used as a fallback)
++) Imporved the scan time by only asking cfginfo for unknown versions 48 axis lasted 12 secs, now 5 secs
++) Check if the driver is with power ON using the status register instead of another call N:?POWER
++) Do not print the warning about not standard signature
 
 IcepapCMS 1.21 2010/04/14
 -------------------------------------------------------------------------
