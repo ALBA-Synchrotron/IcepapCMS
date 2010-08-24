@@ -13,7 +13,7 @@ from pyIcePAP import *
 from ui_icepapcms.messagedialogs import MessageDialogs
 import sys
 from stormmanager import StormManager
-
+from configmanager import ConfigManager
 
 class MainManager(Singleton):
 
@@ -21,7 +21,8 @@ class MainManager(Singleton):
         pass
 
     def init(self, *args):
-        self.IcepapSystemList = {}              
+        self.IcepapSystemList = {}
+        
         self._ctrl_icepap = IcepapController()
         self._db = StormManager()
         
@@ -191,12 +192,10 @@ class MainManager(Singleton):
         return conflictsList
 
     def checkFirmwareVersions(self, icepap_system):
-        # SINCE THE SYSTEMS ARE NOT READY WITH STABLE FIRMWARE VERSION
-        # IT WILL BE DISABLED UNTIL REQUESTED
-        # THE FEATURE IS PLANNED TO BE USEFUL BUT NOW
-        # IT MESSES EVERYTHING
-        print "firmware versions are not checked"
-        return
+        config = ConfigManager()
+        if config._options.skipversioncheck == True:
+            print "Firmware versions are not checked."
+            return
         try:
             icepap_name = icepap_system.name
             master_version = self._ctrl_icepap.iPaps[icepap_name].getVersion(0,"DRIVER")
@@ -386,15 +385,13 @@ class MainManager(Singleton):
             self._ctrl_icepap.stopDriver(icepap_name, addr)
         except:
             MessageDialogs.showWarningMessage(self._form, "StopDriver Icepap error", "Connection error")
+
     def blinkDriver(self, icepap_name, driver_addr,secs):
         self._ctrl_icepap.blinkDriver(icepap_name, driver_addr,secs)
 
 
-    def jogDriver(self, icepap_name, addr, speed, dir):
-        try:
-            self._ctrl_icepap.jogDriver(icepap_name, addr, speed, dir)
-        except:
-            MessageDialogs.showWarningMessage(self._form, "JogDriver error", "Connection error")
+    def jogDriver(self, icepap_name, addr, speed):
+        self._ctrl_icepap.jogDriver(icepap_name, addr, speed)
             
     
     def enableDriver(self, icepap_name, driver_addr):
@@ -417,7 +414,7 @@ class MainManager(Singleton):
             return True
 
     def startConfiguringDriver(self, icepap_driver):
-        self._ctrl_icepap.startConfiguringDriver(icepap_driver.icepapsystem_name, icepap_driver)
+        return self._ctrl_icepap.startConfiguringDriver(icepap_driver.icepapsystem_name, icepap_driver)
 
     def endConfiguringDriver(self, icepap_driver):
         self._ctrl_icepap.endConfiguringDriver(icepap_driver.icepapsystem_name, icepap_driver)
