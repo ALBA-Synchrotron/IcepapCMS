@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'pageipapdriver.ui'
 #
-# Created: Tue Jul 20 17:24:10 2010
+# Created: Thu Jan 20 10:55:48 2011
 #      by: PyQt4 UI code generator 4.4.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -885,7 +885,7 @@ class Ui_PageiPapDriver(object):
         self.textLabel1_3.setText(QtGui.QApplication.translate("PageiPapDriver", "Move absolute", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox.setTitle(QtGui.QApplication.translate("PageiPapDriver", "Jog", None, QtGui.QApplication.UnicodeUTF8))
         self.btnSendCfg.setText(QtGui.QApplication.translate("PageiPapDriver", "Send Config to board", None, QtGui.QApplication.UnicodeUTF8))
-        self.btnSaveCfg.setText(QtGui.QApplication.translate("PageiPapDriver", "Save Config", None, QtGui.QApplication.UnicodeUTF8))
+        self.btnSaveCfg.setText(QtGui.QApplication.translate("PageiPapDriver", "Validate Config", None, QtGui.QApplication.UnicodeUTF8))
         self.btnUndo.setText(QtGui.QApplication.translate("PageiPapDriver", "Discard changes", None, QtGui.QApplication.UnicodeUTF8))
         self.btnRestore.setText(QtGui.QApplication.translate("PageiPapDriver", "Reload board config", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_13.setTitle(QtGui.QApplication.translate("PageiPapDriver", "Info Signals", None, QtGui.QApplication.UnicodeUTF8))
