@@ -297,6 +297,7 @@ class PageiPapDriver(QtGui.QWidget):
             return
 
         highlight = False
+        sendConfig = False
         saveConfig = False
         
         param = widget.param
@@ -320,6 +321,7 @@ class PageiPapDriver(QtGui.QWidget):
             if isinstance(widget, QtGui.QDoubleSpinBox) or isinstance(widget, QtGui.QSpinBox):
                 if widget.defaultvalue != wvalue:
                     highlight = True
+                    sendConfig = True
                     widget.setPalette(self.base_yellow_palette)
                 elif abs(float(wvalue) - float(dbvalue)) > 0.01:
                     saveConfig = True
@@ -330,6 +332,7 @@ class PageiPapDriver(QtGui.QWidget):
             elif isinstance(widget, QtGui.QCheckBox):
                 if widget.defaultvalue != wvalue:
                     highlight = True
+                    sendConfig = True
                     widget.setPalette(self.base_yellow_palette)
                 elif wvalue != dbvalue:
                     saveConfig = True
@@ -346,6 +349,7 @@ class PageiPapDriver(QtGui.QWidget):
                         widget.defaultvalue = ""
                     elif defvalue != wvalue:
                         highlight = True
+                        sendConfig = True
                         widget.setPalette(self.button_yellow_palette)
                         # SPECIAL CASE WITH COMMAND WIDGETS
                         if widget.isCommand:
@@ -376,6 +380,7 @@ class PageiPapDriver(QtGui.QWidget):
 
                 if defvalue != wvalue:
                     highlight = True
+                    sendConfig = True
                     widget.setPalette(self.base_yellow_palette)
                 elif wvalue != dbvalue:
                     saveConfig = True
@@ -393,6 +398,7 @@ class PageiPapDriver(QtGui.QWidget):
                     dbvalue_count = dbvalue.count(w_param)
                     if (w.isChecked() and (defvalue_count == 0)) or (not w.isChecked() and defvalue_count > 0):
                         highlight = True
+                        sendConfig = True
                         w.setPalette(self.base_yellow_palette)
                     elif (w.isChecked() and (dbvalue_count == 0)) or (not w.isChecked() and dbvalue_count > 0):
                         saveConfig = True
@@ -443,10 +449,17 @@ class PageiPapDriver(QtGui.QWidget):
                         self.tabs_configPending.pop(tab_index)
 
         # ONLY ALLOW SEND/SAVE CONFIG BUTTONS IF CONFIG NEEDED
-        enable_send_and_save = (len(self.widgets_modified) > 0) or (driver_key in self.saveConfigPending)
-        self.ui.btnSendCfg.setEnabled(enable_send_and_save)
-        self.ui.btnSaveCfg.setEnabled(enable_send_and_save)
-        self._mainwin.ui.actionSaveConfig.setEnabled(enable_send_and_save)
+        #enable_send_and_save = (len(self.widgets_modified) > 0) or (driver_key in self.saveConfigPending)
+        #self.ui.btnSendCfg.setEnabled(enable_send_and_save)
+        #self.ui.btnSaveCfg.setEnabled(enable_send_and_save)
+        #self._mainwin.ui.actionSaveConfig.setEnabled(enable_send_and_save)
+        # Change behaviour in version 1.23
+        enable_send = len(self.widgets_modified) > 0
+        enable_save = driver_key in self.saveConfigPending and not sendConfig
+        self.ui.btnSendCfg.setEnabled(enable_send)
+        self.ui.btnSaveCfg.setEnabled(enable_save)
+        self._mainwin.ui.actionSaveConfig.setEnabled(enable_save)
+        
 
     def _connectHighlighting(self):
         #clear previous state
@@ -905,7 +918,10 @@ class PageiPapDriver(QtGui.QWidget):
 
         # ALWAYS PUT THE DRIVER IN CONFIG MODE
         # It may happen that the driver is in PROG MODE
-        mode = self._manager.startConfiguringDriver(self.icepap_driver)
+
+        # NOT VALID ANY MORE (SINCE VERSION 1.23 ONLY IN CONFIG IF NECESSARY
+        #mode = self._manager.startConfiguringDriver(self.icepap_driver)
+        mode = self.icepap_driver.mode
         if mode != IcepapMode.PROG:
             self.ui.tabWidget.setEnabled(True)
         else:
