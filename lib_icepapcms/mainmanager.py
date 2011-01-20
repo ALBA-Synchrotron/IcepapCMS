@@ -421,6 +421,8 @@ class MainManager(Singleton):
         
     def discardDriverChanges(self, icepap_driver):
         icepap_driver.setStartupCfg()
+        self._ctrl_icepap.setDriverConfiguration(icepap_driver.icepapsystem_name, icepap_driver.addr, icepap_driver.current_cfg.toList())
+
         #self._ctrl_icepap.discardDriverCfg(icepap_driver.icepapsystem_name, icepap_driver.addr)
         pass
         
