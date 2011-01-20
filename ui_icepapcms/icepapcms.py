@@ -24,7 +24,7 @@ from templatescatalogwidget import TemplatesCatalogWidget
 #from dialogtemplate import DialogTemplate
 from optparse import OptionParser
 
-__version__ = "1.22"
+__version__ = "1.23"
 
 class IcepapApp(QtGui.QApplication):    
     def __init__(self, *args):
@@ -625,10 +625,16 @@ class IcepapCMS(QtGui.QMainWindow):
 
         answer = dialog.result()
         if answer not in ["DEFAULT","DRIVER"]:
-            return
+            # Since version 1.23, cancelling new driver keeps the system as before
+            icepap_system = item.getIcepapSystem()
+            icepap_system.removeDriver(item.itemData.addr)
+            item.solveConflict()
+            self._tree_model.deleteItem(item)
+            return False
 
         if answer == "DEFAULT":
             self._manager.configDriverToDefaults(item.itemData)
+
         
         self._manager.updateDriverConfig(item.itemData)
         item.solveConflict()
@@ -640,6 +646,7 @@ class IcepapCMS(QtGui.QMainWindow):
         ##if moved_sys != imported_sys:
         ##    self.scanIcepap(moved_sys)         
         ##self.scanIcepap(imported_sys)
+        return True
     
     def deleteDriverError(self, item):
         ##moved_sys = self._manager.importMovedDriver(item.itemData, True)
@@ -695,7 +702,9 @@ class IcepapCMS(QtGui.QMainWindow):
         if item.role == IcepapTreeModel.DRIVER_WARNING:
             userContinues = self.solveConflict(item)
         elif item.role == IcepapTreeModel.DRIVER_NEW:
-            self.solveNewDriver(item)
+            solved = self.solveNewDriver(item)
+            if not solved:
+                return
         elif item.role == IcepapTreeModel.DRIVER_ERROR:
             self.deleteDriverError(item)
         elif item.role == IcepapTreeModel.SYSTEM_OFFLINE or item.role == IcepapTreeModel.SYSTEM_ERROR:
@@ -860,7 +869,7 @@ class IcepapCMS(QtGui.QMainWindow):
         if self.ui.pageiPapDriver.checkSaveConfigPending():
         ###if len(signList) > 0:
             signList = self._manager.getDriversToSign()
-            if MessageDialogs.showYesNoMessage(self, "Sign Drivers", "The are drivers pending to be signed.\nAll changes will be lost\nSign drivers?."):
+            if MessageDialogs.showYesNoMessage(self, "Validate Drivers config", "There are driver configurations pending to be validated.\nAll changes may be lost\nValidate driver configs?."):
                 for driver in signList:
                     driver.signDriver()
             else:
