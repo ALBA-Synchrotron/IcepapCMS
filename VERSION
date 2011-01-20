@@ -1,6 +1,15 @@
-IcepapCMS 1.23 2010/mm/dd
+IcepapCMS 1.24 2011/mm/dd
 -------------------------------------------------------------------------
 +)
+
+IcepapCMS 1.23 2011/01/20
+-------------------------------------------------------------------------
++) Solved NEW driver management: leave the system as before if 'Cancel'
++) CONFIG mode only while configuring driver: Send clicked and Save pending
++) 'SAVE' button only when 'SEND' is done (send pending to be committed)
++) Exit application dialog message changed sign word for validate
++) Save config button text changed to 'Validate Config'
++) Bug solved, when exiting the application if discarding changes restore config
 
 IcepapCMS 1.22 2010/08/24
 -------------------------------------------------------------------------
