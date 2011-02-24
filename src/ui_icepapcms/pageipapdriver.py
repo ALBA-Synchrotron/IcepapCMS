@@ -1125,12 +1125,14 @@ class PageiPapDriver(QtGui.QWidget):
         tab_bar = self.ui.tabWidget.tabBar()
         for index in range(self.ui.tabWidget.count()):
             if self.tabs_modified.has_key(index):
-                tab_bar.setTabTextColor(index,QtGui.QColor(255,255,0))
+                #tab_bar.setTabTextColor(index,QtGui.QColor(255,255,0))
+                tab_bar.setTabIcon(index, QtGui.QIcon(":/icons/IcepapCfg Icons/ipapdrivermodified.png"))
             elif self.tabs_configPending.has_key(index):
-                tab_bar.setTabTextColor(index,QtGui.QColor(255,206,162))
+                #tab_bar.setTabTextColor(index,QtGui.QColor(255,206,162))
+                tab_bar.setTabIcon(index, QtGui.QIcon(":/icons/IcepapCfg Icons/ipapdrivercfg.png"))                
             else:
-                tab_bar.setTabTextColor(index,QtGui.QColor(0,0,0))
-
+                #tab_bar.setTabTextColor(index,QtGui.QColor(0,0,0))
+                tab_bar.setTabIcon(index, QtGui.QIcon(""))
 
 
     def btnSendCfg_on_click(self, skip_fillData=False):
