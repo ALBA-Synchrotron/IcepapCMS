@@ -115,31 +115,15 @@ class PageiPapDriver(QtGui.QWidget):
         #self.ui.toolBox.setItemIcon(self.ui.toolBox.indexOf(self.ui.page_cfg), QtGui.QIcon(":/icons/IcepapCfg Icons/preferences-system.png"))
         #self.ui.tabWidget.removeTab(0)
 
-###        self.sectionTables = {}
-        
-        # Dictionary of input/output signals configurations
-        # key = configuration name
-        # item = [[type, [cfg]], ...] 
-###        self.inout_cfgs = {}
-        # Dictionary of variables
-        # key = variable name
-        # item = [section, widget (section = 0) or row (section > 0)
-###        self.var_dict = {}
-###        self.test_var_dict = {}
-###        self.unknown_var_dict = {}
-###        self.main_modified = []
-###        self.test_var_modified = []
         
         self.refreshTimer = Qt.QTimer(self)
         self.sliderTimer = Qt.QTimer(self)
         self.sliderTimer.setInterval(100)
         
         self.signalConnections()
-        
-###        pathname = os.path.dirname(sys.argv[0])
-###        path = os.path.abspath(pathname)
-###        self.config_template = path+'/templates/driverparameters.xml'
-###        self._readConfigTemplate()
+
+        self._setWidgetToolTips()
+
         self._manager = MainManager()
         self.ui.btnUndo.setEnabled(False)
 
@@ -147,7 +131,6 @@ class PageiPapDriver(QtGui.QWidget):
         self.icepap_driver = None
         self.inMotion = -1
         self.status = -1
-        self.setScrollBars()  
 
         self.ui.historicWidget.setCfgPage(self)
         self.hideHistoricWidget()
@@ -199,39 +182,6 @@ class PageiPapDriver(QtGui.QWidget):
         self.dbStartupConfig = None
 
 
-        
-    def setScrollBars(self):
-        pass
-###        self.ui.sahboxlayout = QtGui.QHBoxLayout(self.ui.tab_connectors)
-###        self.ui.sahboxlayout.setMargin(9)
-###        self.ui.sahboxlayout.setSpacing(6)
-###        self.ui.sahboxlayout.setObjectName("sahboxlayout")
-###        self.ui.sa = QtGui.QScrollArea(self.ui.tab_connectors) 
-###        self.ui.sa.setAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignHCenter)
-###        self.ui.labels_widget.setParent(None)
-###        self.ui.sa.setWidget(self.ui.labels_widget)
-###        self.ui.sa.setHorizontalScrollBarPolicy(Qt.Qt.ScrollBarAsNeeded)
-###        self.ui.sa.setVerticalScrollBarPolicy(Qt.Qt.ScrollBarAsNeeded)
-###        self.ui.sa.setFrameStyle(QtGui.QFrame.NoFrame)
-###        self.ui.sahboxlayout.addWidget(self.ui.sa)
-###        
-###        
-###        self.ui.sahboxlayout2 = QtGui.QHBoxLayout(self.ui.tab_InOut)
-###        self.ui.sahboxlayout2.setMargin(9)
-###        self.ui.sahboxlayout2.setSpacing(6)
-###        self.ui.sahboxlayout2.setObjectName("sahboxlayout2")
-###        self.ui.sa2 = QtGui.QScrollArea(self.ui.tab_InOut) 
-###        self.ui.sa2.setAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignHCenter)
-###        self.ui.inOut_widget.setParent(None)
-###        self.ui.sa2.setWidget(self.ui.inOut_widget)
-###        self.ui.sa2.setHorizontalScrollBarPolicy(Qt.Qt.ScrollBarAsNeeded)
-###        self.ui.sa2.setVerticalScrollBarPolicy(Qt.Qt.ScrollBarAsNeeded)
-###        self.ui.sa2.setFrameStyle(QtGui.QFrame.NoFrame)
-###        self.ui.sahboxlayout2.addWidget(self.ui.sa2)
-###        
-###
-###        
-###        #self.ui.txtDriverName.setValidator(QtGui.QIntValidator(1,100,self))
         
     def signalConnections(self):
         QtCore.QObject.connect(self.ui.btnBlink,QtCore.SIGNAL("pressed()"),self.btnBlink_on_press)
@@ -508,78 +458,53 @@ class PageiPapDriver(QtGui.QWidget):
 ###        else:
 ###            widget.setPalette(self.base_white_palette)
         
-# ------------------------------  Configuration ----------------------------------------------------------    
-###    def _readConfigTemplate(self):
-###        """ Reads the configuration template file to map the different widgets of the user interface,
-###        with the configuration parameters"""
-###        
-###        doc = minidom.parse(self.config_template)
-###        root  = doc.documentElement
-###        row = 0
-###        nsection = 0
-###        for section in root.getElementsByTagName("section"):
-###            if section.nodeType == Node.ELEMENT_NODE:
-###                    section_name =  section.attributes.get('name').value
-###            inMainSection = (section_name == "main")
-###            inTestSection =  (section_name == "test")
-###            if not inMainSection and not inTestSection:
-###                self._addSectionTab(section_name)
-###                
-###            for pars in section.getElementsByTagName("par"):
-###                if pars.nodeType == Node.ELEMENT_NODE:
-###                    parid =  pars.attributes.get('id').value
-###                    parid = parid.strip()
-###                    parname =  pars.attributes.get('name').value
-###                    parname = parname.strip()
-###                    partype =  pars.attributes.get('type').value
-###                    partype = partype.strip()
-###                    if partype != "BOOL" and partype != "STRING" and partype != "ARRAY":
-###                        parmin =  pars.attributes.get('min').value
-###                        parmin = parmin.strip()
-###                        parmax =  pars.attributes.get('max').value
-###                        parmax = parmax.strip()
-###                        
-###                    pardesc = self._getText(pars.getElementsByTagName("description")[0].firstChild)
-###                    # SHOULD I USE pardesc as the tooltip?
-###                    if inMainSection or inTestSection:
-###                        widget = None
-###                        try:
-###                            widget = getattr(self.ui, parid)
-###                        except:
-###                            pass
-###
-###                        if widget == None:
-###                            print "THE GUI ELEMENT '"+str(parid)+"' DOES NOT EXIST"
-###                        else:
-###                            widget.setToolTip(pardesc)
-###                            self._connectWidgetToSignalMap(widget)
-###                            if inMainSection:
-###                                widget.isTest = False                            
-###                                self.var_dict[parname] = [nsection, widget]
-###                            else:
-###                                widget.isTest = True
-###                                if partype == "ARRAY":
-###                                    if not self.test_var_dict.has_key(parname):
-###                                        widget_list = []
-###                                        widget_list.append(widget)
-###                                    else:
-###                                        widget_list = self.test_var_dict[parname]
-###                                        widget_list.append(widget)
-###                                    self.test_var_dict[parname] = widget_list
-###                                else:
-###                                    self.test_var_dict[parname] = widget
-###                    else:
-###                        self.var_dict[parname] = [nsection, row]
-###                        
-###                    
-###                    if not inMainSection and not inTestSection:
-###                        self.sectionTables[nsection].insertRow(row)
-###                        self._addItemToTable(nsection, row, 0, parname, False)
-###                        self._addWidgetToTable(nsection, row, 2, partype, parmin, parmax)
-###                        self._addItemToTable(nsection, row, 3, pardesc, False)
-###                        row = row + 1
-###            row = 0
-###            nsection = nsection + 1
+
+    def _setWidgetToolTips(self):
+        """ Reads the driverparameters file and sets the tooltips"""
+
+        UI_PARS = self.param_to_widgets.keys()
+        FOUND_PARS = []
+        NOT_FOUND_PARS = []
+        MISSING_TOOLTIPS = []
+        
+        pathname = os.path.dirname(sys.argv[0])
+        path = os.path.abspath(pathname)
+        driverparameters = path+'/templates/driverparameters.xml'
+
+        doc = minidom.parse(driverparameters)
+        root  = doc.documentElement
+        for section in root.getElementsByTagName("section"):
+            for pars in section.getElementsByTagName("par"):
+                if pars.nodeType == Node.ELEMENT_NODE:
+                    parid =  pars.attributes.get('id').value
+                    parid = parid.strip()
+                    parname =  pars.attributes.get('name').value
+                    parname = parname.strip()
+                    pardesc = self._getText(pars.getElementsByTagName("description")[0].firstChild)
+
+                    # SHOULD I USE pardesc as the tooltip?
+                    try:
+                        if self.param_to_widgets.has_key(parid):
+                            widgets = self.param_to_widgets[parid]
+                            for w in widgets:
+                                w.setToolTip(pardesc)
+                            FOUND_PARS.append(parid)
+                        else:
+                            NOT_FOUND_PARS.append(parid)
+                    except Exception,e:
+                        print 'Exception was',e
+                else:
+                    print 'what is happening?'
+
+        DEBUG_MISSING_TOOLTIPS = False
+
+        if DEBUG_MISSING_TOOLTIPS:
+            for p in UI_PARS:
+                if p not in FOUND_PARS and p not in NOT_FOUND_PARS:
+                    MISSING_TOOLTIPS.append(p)
+            print '\n\nfound:',FOUND_PARS
+            print '\n\nnot found:',NOT_FOUND_PARS
+            print '\n\nmissing:',MISSING_TOOLTIPS
           
             
         
