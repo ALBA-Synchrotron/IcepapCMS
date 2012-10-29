@@ -1371,7 +1371,7 @@ class PageiPapDriver(QtGui.QWidget):
         self.fillData(self.icepap_driver)
 
     def doCopy(self):
-        self.temp_file = tempfile.TemporaryFile('w')
+        self.temp_file = tempfile.TemporaryFile()
         data = self.getXmlData()
         self.temp_file.writelines(data.toprettyxml())
         self.temp_file.flush()
