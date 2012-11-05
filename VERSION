@@ -1,6 +1,10 @@
-IcepapCMS 1.24 2011/mm/dd
+IcepapCMS 1.24 2012/11/05
 -------------------------------------------------------------------------
-+)
++) ISG 022: Icon in tabs to notify about modified or validate pending parameters
++) ISG 021: Parameter tooltips visible again
++) ISG 010: If driver name contains 'ERROR' change it to ''
++) If driver name has a non-ascii character (exception), continue the loop with the rest of the drivers
+
 
 IcepapCMS 1.23 2011/01/20
 -------------------------------------------------------------------------
