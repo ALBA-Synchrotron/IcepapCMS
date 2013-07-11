@@ -24,7 +24,7 @@ from templatescatalogwidget import TemplatesCatalogWidget
 #from dialogtemplate import DialogTemplate
 from optparse import OptionParser
 
-__version__ = "1.24"
+__version__ = "1.25"
 
 class IcepapApp(QtGui.QApplication):    
     def __init__(self, *args):
@@ -413,17 +413,35 @@ class IcepapCMS(QtGui.QMainWindow):
                 if conflict[0] == Conflict.NO_CONNECTION:
                     icepap_system.setConflict(conflict[0])
                     self.setStatusMessage(icepap_system.name + ": Connection Error")
+
+                elif conflict[0] in [Conflict.DRIVER_AUTOSOLVE, Conflict.DRIVER_AUTOSOLVE_EXPERT]:
+                    driver = icepap_system.getDriver(conflict[2])
+
+                    if conflict[0] == Conflict.DRIVER_AUTOSOLVE:
+                        params_modified,params_new_in_driver,params_old_in_db = self.get_driver_param_conflicts(driver.icepapsystem_name, driver.addr)
+                        self._manager.saveValuesInIcepap(driver,driver.current_cfg.toList(), ignore_values=params_old_in_db)
+                        solved_drivers = solved_drivers + "%s:%d DB->DSP\n" % (driver.icepapsystem_name, driver.addr)
+                        
+                    elif conflict[0] == Conflict.DRIVER_AUTOSOLVE_EXPERT:
+                        driver_values = self.getDriverValues(driver.icepapsystem_name, driver.addr)
+                        driver.addConfiguration(driver_values)
+                        db = StormManager()
+                        db.store(driver_values)
+                        solved_drivers = solved_drivers + "%s:%d DB<-DSP\n" % (driver.icepapsystem_name, driver.addr)
+                        # @TODO NOTE: I KNOW IT IS STILL PENDING TO UPDATE THE LABEL AUTOMATICALLY
+                        # BUT YOU WILL GET THE NEW NAME BY JUST CLICKING ON THE TREE ITEM
+                        ### current_cfg = driver.current_cfg
+                        ### label = str(driver.addr)+" "+current_cfg.getParameter(unicode("IPAPNAME"), True)
+                        ### item.changeLabel([label])
+                        
+                    driver.signDriver()    
+                    driver.setConflict(Conflict.NO_CONFLICT)
+                    icepap_system.child_conflicts -= 1
+
                 else:
                     if not conflict[2] is None:
-
                         self.setStatusMessage("Configuration conflicts found.")
                         driver = icepap_system.getDriver(conflict[2])
-                        ## THIS IS NOT NEEDED ANY MORE, THE EXPERT FLAG ALLOWS TO SOLVE THE CONFLICTS
-                        ##if conflict[0] == Conflict.DRIVER_CHANGED and driver.conflict == Conflict.DRIVER_FROM_DB:
-                        ##    icepap_system.child_conflicts -= 1
-                        ##    solved_drivers = solved_drivers + "%s:%d \n" % (driver.icepapsystem_name, driver.addr)
-                        ##else:
-                        ##    driver.setConflict(conflict[0])
                         driver.setConflict(conflict[0])
         else:
             self.setStatusMessage("Scanning complete!. No conflicts found")
@@ -436,7 +454,7 @@ class IcepapCMS(QtGui.QMainWindow):
         self.expandAll(icepap_system.name)
         self.treeSelectByLocation(icepap_system.name)
         if solved_drivers != "":
-            MessageDialogs.showInformationMessage(self, "Solved conflicts", "Drivers configuration load from DB:\n"+ solved_drivers)
+            MessageDialogs.showInformationMessage(self, "Solved conflicts", "Auto-solved conflicts in drivers:\n"+ solved_drivers)
 
     def getDriverDBValues(self,icepap_system,driver_addr):
         dbIcepapSystem = StormManager().getIcepapSystem(icepap_system)
@@ -471,7 +489,7 @@ class IcepapCMS(QtGui.QMainWindow):
                 params_new_in_driver.append((str(driver_param),str(driver_value)))
 
         return params_modified,params_new_in_driver,params_old_in_db
-    
+
     def solveConflict(self, item):
         #dlg = DialogDriverConflict(self, item.itemData)
         #dlg.exec_()

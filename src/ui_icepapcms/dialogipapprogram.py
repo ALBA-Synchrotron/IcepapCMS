@@ -72,7 +72,7 @@ class DialogIcepapProgram(QtGui.QDialog):
             self.addToLog(str(sys.exc_info()[0]))
     
     def startProgramming(self):
-        file = str(self.ui.txtFirmwareFile.text())
+        filename = str(self.ui.txtFirmwareFile.text())
         serial = self.ui.rbSerial.isChecked()
         dst = str(self.ui.txtHost.text())
         if serial :
@@ -84,7 +84,7 @@ class DialogIcepapProgram(QtGui.QDialog):
         
         if self.ui.chkForce.isChecked():
             options = options + " FORCE"
-        self._ipapctrl.upgradeFirmware(serial, dst, file, addr, options, self)
+        self._ipapctrl.upgradeFirmware(serial, dst, filename, addr, options, self)
         
     def addToLog(self, text):    
         t = datetime.datetime.now().strftime("%H:%M:%S")

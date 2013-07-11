@@ -191,6 +191,7 @@ class MainManager(Singleton):
 
         return conflictsList
 
+
     def checkFirmwareVersions(self, icepap_system):
         config = ConfigManager()
         if config._options.skipversioncheck == True:

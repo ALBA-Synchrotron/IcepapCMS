@@ -1,6 +1,9 @@
-IcepapCMS 1.25 2012/mm/dd
+IcepapCMS 1.25 2013/07/11
 -------------------------------------------------------------------------
-+) 
++) ISG 053: Fixed, new hook available in src/lib_icepapcms/icepapsystem.py method checkAutoSolvedConflict()
++) Catalog search engine uses <space> to join word with an 'OR' operator
++) Added the possibility to edit STRING? param types with a QLineEdit
++) Added _MANUALLY_ 'LINKED' as an 'INDEXER' option, because it is missing in CFGINFO, some day should be removed
 
 IcepapCMS 1.24 2012/11/05
 -------------------------------------------------------------------------
