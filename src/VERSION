@@ -1,3 +1,6 @@
+IcepapCMS 1.25 2013/mm/dd
+-------------------------------------------------------------------------
+
 IcepapCMS 1.25 2013/07/11
 -------------------------------------------------------------------------
 +) ISG 053: Fixed, new hook available in src/lib_icepapcms/icepapsystem.py method checkAutoSolvedConflict()
