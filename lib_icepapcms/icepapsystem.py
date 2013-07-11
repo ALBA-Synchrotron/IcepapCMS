@@ -119,7 +119,12 @@ class IcepapSystem(Storm):
             else:
                 driver_cmp = driver_list[addr]
                 if not driver == driver_cmp :
-                    conflictsList.append([Conflict.DRIVER_CHANGED, self, addr])
+                    # HOOK TO CHECK AUTO-SOLVE CONFLICTS
+                    #conflictsList.append([Conflict.DRIVER_CHANGED, self, addr])
+                    dsp_cfg = driver_cmp.current_cfg
+                    db_cfg = driver.current_cfg
+                    conflict = self.checkAutoSolvedConflict(dsp_cfg, db_cfg)
+                    conflictsList.append([conflict, self, addr])
                     self.child_conflicts += 1
 
         ''' checking for new drivers '''        
@@ -141,6 +146,36 @@ class IcepapSystem(Storm):
             ##    conflictsList.append([Conflict.NEW_DRIVER, self, addr])
             
         return conflictsList
+
+    def checkAutoSolvedConflict(self, dsp_cfg, db_cfg):
+        # 20130710 ESRF ASKED FOR A HOOK TO 'SKIP' SOME CONFLICTS
+        # ISSUE 053 in WIKI MINUTES
+        # http://wikiserv.esrf.fr/esl/index.php/IcePAP_minute_130708
+        #
+        # TWO NEW CONFLICT TYPES ADDED: DRIVER_AUTOSOLVE, DRIVER_AUTOSOLVE_EXPERT
+        # Since there is the possibility to keep current behaviour, the method can return also DRIVER_CHANGED
+
+        # NOTE: u'VER' and u'IPAPNAME' are also available to resolve conflicts...
+
+        # NOTE: configs have the .getParameter(par) method
+        #       BUT dsp values are not stored in the database, so in_memory has to be set to True
+        ### par = u'VER'
+        ### print 'dsp', par, dsp_cfg.getParameter(par, in_memory=True)
+        ### print 'db', par, db_cfg.getParameter(par)
+
+        # NOTE: it is also possible to operate with lists:
+        ###dsp_values = dsp_cfg.toList()
+        ###db_values = db_cfg.toList()
+        ###for p,v in dsp_values:
+        ###    if p == par:
+        ###        print 'dsp', p, v
+        ###for p,v in db_values:
+        ###    if p == par:
+        ###        print 'db', p, v
+
+        #return Conflict.DRIVER_AUTOSOLVE
+        #return Conflict.DRIVER_AUTOSOLVE_EXPERT
+        return Conflict.DRIVER_CHANGED
 
 from icepapdriver import IcepapDriver
 
