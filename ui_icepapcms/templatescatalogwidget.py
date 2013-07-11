@@ -172,8 +172,16 @@ class TemplatesCatalogWidget(QtGui.QDialog):
     def filterRegExpChanged(self):
         caseSensitivity = QtCore.Qt.CaseInsensitive
         syntax = QtCore.QRegExp.PatternSyntax(QtCore.QRegExp.RegExp)
-        regExp = QtCore.QRegExp(self.filterPatternLineEdit.text(),
-                                caseSensitivity,syntax)
+        # Requested to use 'space' for joining words in an 'OR' operator
+        filtertext = str(self.filterPatternLineEdit.text())
+        filtertext = filtertext.lstrip().rstrip()
+        words = filtertext.split(' ')
+        if len(words) > 1:
+            filtertext = '(' + ' | '.join(words) + ')'
+            #print 'filtering with',filtertext
+        regExp = QtCore.QRegExp(QtCore.QString(filtertext), caseSensitivity, syntax)
+        ###regExp = QtCore.QRegExp(self.filterPatternLineEdit.text(), caseSensitivity, syntax)
+        
         self.proxyModel.setFilterRegExp(regExp)
         # In case of just one match, auto-select it
         if self.proxyView.model().rowCount() == 1:

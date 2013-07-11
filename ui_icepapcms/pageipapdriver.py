@@ -889,9 +889,16 @@ class PageiPapDriver(QtGui.QWidget):
                         param_tooltip += " "+flag
                     widget = QtGui.QLineEdit()
                     widget.setToolTip(param_tooltip)
+                elif cfginfo[0].startswith("STRING"):
+                    widget = QtGui.QLineEdit()
+                    param_tooltip = str(cfginfo)
+                    widget.setToolTip(param_tooltip)
                 else:
                     #param_desc = "OPTIONS value"
                     widget = QtGui.QComboBox()
+                    param_tooltip = str(cfginfo)
+                    widget.setToolTip(param_tooltip)
+                    
 
             #widget = self.createUnknownParamWidget(param_type, cfginfo)
 
@@ -1005,6 +1012,10 @@ class PageiPapDriver(QtGui.QWidget):
                     if options != None:
                         for option in options:
                             widget.addItem(QtCore.QString(option))
+                        # 20130412 IT SEEMS THAT INDEXER COMMAND SHOULD HAVE ALSO LINKED
+                        #          AS AN OPTION, BUT IT IS NOT PROVIDED BY CFGINFO...
+                        #          I WILL ADD IT MANUALLY BUT IT MAY BE REMOVED LATER
+                        widget.addItem('LINKED')
 
                     # SPECIAL CASE TO THE TEST WIDGETS
                     if widget.isCommand:
@@ -1371,7 +1382,7 @@ class PageiPapDriver(QtGui.QWidget):
         self.fillData(self.icepap_driver)
 
     def doCopy(self):
-        self.temp_file = tempfile.TemporaryFile()
+        self.temp_file = tempfile.TemporaryFile('w')
         data = self.getXmlData()
         self.temp_file.writelines(data.toprettyxml())
         self.temp_file.flush()
