@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'historiccfgwidget.ui'
 #
-# Created: Thu Jan 20 10:55:49 2011
+# Created: Wed Feb 26 18:21:29 2014
 #      by: PyQt4 UI code generator 4.4.3
 #
 # WARNING! All changes made in this file will be lost!
