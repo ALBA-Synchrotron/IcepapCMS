@@ -202,9 +202,9 @@ class IcepapSystem(Storm):
                 if p == 'VER':
                    continue
                 if not p in ['EXTDISABLE','PCLMODE','EXTBUSY','POSUPDATE','LNKNAME','EXTPOWER','OUTPSRC']:
-                   print "DSP VERSION: ",dsp_cfg_ver
-                   print "DB  VERSION: ",db_cfg_ver
-                   print "Auto resolving conflicts: Unexpected paramater: ",p
+                   #print "DSP VERSION: ",dsp_cfg_ver
+                   #print "DB  VERSION: ",db_cfg_ver
+                   #print "Auto resolving conflicts: Unexpected paramater: ",p
                    return Conflict.DRIVER_CHANGED
             return Conflict.DRIVER_AUTOSOLVE
 
