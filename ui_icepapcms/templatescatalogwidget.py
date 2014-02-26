@@ -74,9 +74,9 @@ class TemplatesCatalogWidget(QtGui.QDialog):
         self.connect(self.filterColumnComboBox,
                      QtCore.SIGNAL("currentIndexChanged(int)"),self.filterColumnChanged)
 
-        self.btnSelectTemplate = QtGui.QPushButton("Select")
-        self.connect(self.btnSelectTemplate,
-                     QtCore.SIGNAL('clicked()'),self.applySelection)
+        #self.btnSelectTemplate = QtGui.QPushButton("Select")
+        #self.connect(self.btnSelectTemplate,
+        #             QtCore.SIGNAL('clicked()'),self.applySelection)
 
         self.chkAutoClose = QtGui.QCheckBox("Auto close")
         self.chkAutoClose.setChecked(True)
@@ -85,8 +85,8 @@ class TemplatesCatalogWidget(QtGui.QDialog):
 
         self.proxyLayout.addWidget(self.filterColumnLabel, 0, 0)
         self.proxyLayout.addWidget(self.filterColumnComboBox, 0, 1)
-        self.proxyLayout.addWidget(self.filterPatternLineEdit, 0, 2)
-        self.proxyLayout.addWidget(self.btnSelectTemplate,0,3)
+        self.proxyLayout.addWidget(self.filterPatternLineEdit, 0, 2, 1, 2)
+        #self.proxyLayout.addWidget(self.btnSelectTemplate,0,3)
         self.proxyLayout.addWidget(self.chkAutoClose,0,4)
 
         self.proxyLayout.addWidget(self.proxyView, 1, 0, 1, 5)
@@ -116,7 +116,18 @@ class TemplatesCatalogWidget(QtGui.QDialog):
         # FIRST IT WAS DESIGNED TO NOT CLOSE
         # NOW, WE SHOULD RELY ON THE VALUE OF THE CHECKBOX
         # SO THE OPTION PARAMETER COULD BE REMOVED
-        self.applySelection(please_close=True)
+
+        template_name = str(modelindex.sibling(row,0).data().toString())
+
+        # 20140221 NOT WORKING AT THE ESRF....
+        #self.applySelection(please_close=True)
+
+        params = self.catalog.get(template_name)
+        self.pageipapdriver.setTemplateParams(template_name,params)
+        if self.chkAutoClose.isChecked():
+            self.close()
+
+        
         
     def buildCatalog(self,catalog):
         doc = minidom.parse(catalog)
@@ -195,15 +206,20 @@ class TemplatesCatalogWidget(QtGui.QDialog):
             self.filterColumnComboBox.currentIndex())
 
 
-    def applySelection(self, please_close=True):
-        indexes = self.proxyView.selectedIndexes()
-        if len(indexes) > 0:
-            template_name = str(indexes[0].data().toString())
-            params = self.catalog.get(template_name)
-            self.pageipapdriver.setTemplateParams(template_name,params)
-
-            if please_close and self.chkAutoClose.isChecked():
-                self.close()
+    ### def applySelection(self, please_close=True):
+    ### 
+    ###     indexes = self.proxyView.selectedIndexes()
+    ###     print indexes
+    ###     if len(indexes) > 0:
+    ###         print 3
+    ###         template_name = str(indexes[0].data().toString())
+    ###         print 4
+    ###         params = self.catalog.get(template_name)
+    ###         print 5
+    ###         self.pageipapdriver.setTemplateParams(template_name,params)
+    ###         print 6
+    ###         if please_close and self.chkAutoClose.isChecked():
+    ###             self.close()
 
 
     def closeEvent(self, event):
