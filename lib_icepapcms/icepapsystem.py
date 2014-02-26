@@ -17,6 +17,8 @@ class Location(Storm):
         
     def __storm_loaded__(self):
         self.initialize()
+
+    def loadSystemsfromDB(self):
         for system in self.systems:
             self._inmemory_systems[system.name] = system
     
@@ -55,6 +57,9 @@ class IcepapSystem(Storm):
     
     def __storm_loaded__(self):
         self.initialize()
+
+        
+    def loadDriversfromDB(self):
         for driver in self.drivers:
             self._inmemory_drivers[driver.addr] = driver
         
@@ -76,6 +81,8 @@ class IcepapSystem(Storm):
     def getDrivers(self, in_memory = True):
         #return self.drivers.order_by(IcepapDriver.addr)
         if in_memory:
+            if len(self._inmemory_drivers) == 0:
+                self.loadDriversfromDB()
             return self._inmemory_drivers.values()
         else:
             return self.drivers
