@@ -1,5 +1,11 @@
-IcepapCMS 1.25 2013/mm/dd
+IcepapCMS 1.26 2014/02/26
 -------------------------------------------------------------------------
++) Better IcepapCMS starting time.
++) Added LNKNAME option in INDEXER command, and command disabled
++) Removed forced uppercase driver name and lnkname
++) Catalog template management available for Qt 4.7
++) Position control register updated in axis tab
++) AbsEnc offset allows negative values
 
 IcepapCMS 1.25 2013/07/11
 -------------------------------------------------------------------------
