@@ -24,7 +24,7 @@ from templatescatalogwidget import TemplatesCatalogWidget
 #from dialogtemplate import DialogTemplate
 from optparse import OptionParser
 
-__version__ = "1.25"
+__version__ = "1.26"
 
 class IcepapApp(QtGui.QApplication):    
     def __init__(self, *args):
@@ -402,6 +402,9 @@ class IcepapCMS(QtGui.QMainWindow):
         the database configurations and the ones in the hardware """
         self.setStatusMessage("Scanning ...")
 
+        # STORM ACCESS TO ALL DRIVERS FROM THE SYSTEM
+        icepap_system.loadDriversfromDB()
+        
         conflicts_list = []
         solved_drivers = ""
         conflicts_list.extend(self._manager.scanIcepap(icepap_system))
