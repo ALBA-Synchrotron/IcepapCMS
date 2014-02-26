@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'axis.ui'
 #
-# Created: Thu Jan 20 10:55:50 2011
+# Created: Wed Feb 26 18:21:29 2014
 #      by: PyQt4 UI code generator 4.4.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -644,24 +644,24 @@ class Ui_axis(object):
         self.label_23.setBaseSize(QtCore.QSize(100, 16))
         self.label_23.setObjectName("label_23")
         self.gridlayout3.addWidget(self.label_23, 1, 0, 1, 1)
-        self.txtPositionControl = QtGui.QLabel(self.groupBox_2)
+        self.txtCTRLENC = QtGui.QLabel(self.groupBox_2)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.txtPositionControl.sizePolicy().hasHeightForWidth())
-        self.txtPositionControl.setSizePolicy(sizePolicy)
-        self.txtPositionControl.setMinimumSize(QtCore.QSize(60, 16))
-        self.txtPositionControl.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.txtPositionControl.setBaseSize(QtCore.QSize(80, 16))
+        sizePolicy.setHeightForWidth(self.txtCTRLENC.sizePolicy().hasHeightForWidth())
+        self.txtCTRLENC.setSizePolicy(sizePolicy)
+        self.txtCTRLENC.setMinimumSize(QtCore.QSize(60, 16))
+        self.txtCTRLENC.setMaximumSize(QtCore.QSize(16777215, 20))
+        self.txtCTRLENC.setBaseSize(QtCore.QSize(80, 16))
         font = QtGui.QFont()
         font.setWeight(75)
         font.setBold(True)
-        self.txtPositionControl.setFont(font)
-        self.txtPositionControl.setFrameShape(QtGui.QFrame.WinPanel)
-        self.txtPositionControl.setFrameShadow(QtGui.QFrame.Sunken)
-        self.txtPositionControl.setAlignment(QtCore.Qt.AlignCenter)
-        self.txtPositionControl.setObjectName("txtPositionControl")
-        self.gridlayout3.addWidget(self.txtPositionControl, 1, 1, 1, 1)
+        self.txtCTRLENC.setFont(font)
+        self.txtCTRLENC.setFrameShape(QtGui.QFrame.WinPanel)
+        self.txtCTRLENC.setFrameShadow(QtGui.QFrame.Sunken)
+        self.txtCTRLENC.setAlignment(QtCore.Qt.AlignCenter)
+        self.txtCTRLENC.setObjectName("txtCTRLENC")
+        self.gridlayout3.addWidget(self.txtCTRLENC, 1, 1, 1, 1)
         self.vboxlayout.addLayout(self.gridlayout3)
         self.gridlayout.addWidget(self.groupBox_2, 1, 1, 1, 1)
         self.gridLayout_5.addWidget(self.axis_frame, 0, 0, 2, 2)
