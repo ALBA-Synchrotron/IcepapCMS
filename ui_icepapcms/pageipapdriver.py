@@ -292,9 +292,12 @@ class PageiPapDriver(QtGui.QWidget):
             
             elif isinstance(widget, QtGui.QComboBox):
                 try:
-                    dbvalue = dbvalue.upper()
-                    wvalue = wvalue.upper()
-                    defvalue = defvalue.upper()
+                    #dbvalue = dbvalue.upper()
+                    #wvalue = wvalue.upper()
+                    #defvalue = defvalue.upper()
+                    dbvalue = dbvalue
+                    wvalue = wvalue
+                    defvalue = defvalue
                     if widget.defaultvalue == None:
                         widget.defaultvalue = ""
                     elif defvalue != wvalue:
@@ -321,9 +324,12 @@ class PageiPapDriver(QtGui.QWidget):
             elif isinstance(widget, QtGui.QLineEdit):
                 if dbvalue == None:
                     dbvalue = ""
-                dbvalue = dbvalue.upper()
-                wvalue = wvalue.upper()
-                defvalue = defvalue.upper()
+                #dbvalue = dbvalue.upper()
+                #wvalue = wvalue.upper()
+                #defvalue = defvalue.upper()
+                dbvalue = dbvalue
+                wvalue = wvalue
+                defvalue = defvalue
                 if defvalue == None:
                     widget.defaultvalue = ""
                     defvalue = ""
@@ -1093,7 +1099,8 @@ class PageiPapDriver(QtGui.QWidget):
             elif isinstance(widget, QtGui.QComboBox):
                 return str(widget.currentText())
             elif isinstance(widget, QtGui.QLineEdit):
-                return str(widget.text()).upper()
+                #return str(widget.text()).upper()
+                return str(widget.text())
             elif isinstance(widget, QtGui.QFrame):
                 regexp = QtCore.QRegExp('^'+widget.objectName()+"_")
                 flags_value = []
@@ -1479,8 +1486,10 @@ class PageiPapDriver(QtGui.QWidget):
         
                 
     def updateTestStatus(self):  
-        pos_sel = str(self.ui.cb_pos_sel.currentText()).upper()
-        enc_sel = str(self.ui.cb_enc_sel.currentText()).upper()
+        #pos_sel = str(self.ui.cb_pos_sel.currentText()).upper()
+        #enc_sel = str(self.ui.cb_enc_sel.currentText()).upper()
+        pos_sel = str(self.ui.cb_pos_sel.currentText())
+        enc_sel = str(self.ui.cb_enc_sel.currentText())
         (status, power, position) = self._manager.getDriverTestStatus(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, pos_sel, enc_sel)
         
         #self.StepSize = self.ui.sbFactor.value()           
@@ -1637,7 +1646,8 @@ class PageiPapDriver(QtGui.QWidget):
             self.ui.sliderJog.triggerAction(QtGui.QSlider.SliderSingleStepAdd)
     
     def setPosition(self):
-        pos_sel = str(self.ui.cb_pos_sel.currentText()).upper()
+        #pos_sel = str(self.ui.cb_pos_sel.currentText()).upper()
+        pos_sel = str(self.ui.cb_pos_sel.currentText())
         try:
             position = int(self.ui.txtPos.text())
             self._manager.setDriverPosition(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, pos_sel, position)
@@ -1647,7 +1657,8 @@ class PageiPapDriver(QtGui.QWidget):
         
     
     def setEncoder(self):
-        enc_sel = str(self.ui.cb_enc_sel.currentText()).upper()
+        #enc_sel = str(self.ui.cb_enc_sel.currentText()).upper()
+        enc_sel = str(self.ui.cb_enc_sel.currentText())
         try:
             position = int(self.ui.txtEnc.text())
             self._manager.setDriverEncoder(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, enc_sel, position)
