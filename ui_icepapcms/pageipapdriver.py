@@ -1021,7 +1021,8 @@ class PageiPapDriver(QtGui.QWidget):
                         # 20130412 IT SEEMS THAT INDEXER COMMAND SHOULD HAVE ALSO LINKED
                         #          AS AN OPTION, BUT IT IS NOT PROVIDED BY CFGINFO...
                         #          I WILL ADD IT MANUALLY BUT IT MAY BE REMOVED LATER
-                        widget.addItem('LINKED')
+                        # 20140219 IT SEEMS _NOW_ THAT IS NOT NEEDED ANY MORE
+                        #widget.addItem('LINKED')
 
                     # SPECIAL CASE TO THE TEST WIDGETS
                     if widget.isCommand:
@@ -1037,6 +1038,9 @@ class PageiPapDriver(QtGui.QWidget):
                                 values = controller.readIcepapParameters(system_name, driver_addr,['INDEXER'])
                                 indexer_answer = values[0]
                                 value = indexer_answer[1]
+                                # 20140219 IT SEEMS _NOW_ THAT LINKED IS STILL NEEDED
+                                widget.addItem('LINKED')
+                                widget.setEnabled(False)
                             elif param.startswith('INFOA'):
                                 values = controller.readIcepapParameters(system_name, driver_addr,['INFOA'])
                                 infoa_values = values[0][1].split()
