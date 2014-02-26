@@ -180,6 +180,35 @@ class IcepapSystem(Storm):
         ###    if p == par:
         ###        print 'db', p, v
 
+        try:
+            dsp_cfg_ver = float(dsp_cfg.getParameter(unicode("VER"), 
+                                                     in_memory=True))
+        except:
+            print "ERROR: missing VERsion parameter in DSP config"
+            return Conflict.DRIVER_CHANGED
+
+        try:
+            db_cfg_ver  = float(db_cfg.getParameter(unicode("VER")))
+        except:
+            print "ERROR: missing VERsion parameter in database config"
+            return Conflict.DRIVER_CHANGED
+
+        #
+        if((dsp_cfg_ver==2.0) and (db_cfg_ver<2.0) and (db_cfg_ver>=1.22)):
+            dsp_values  = dsp_cfg.toList()
+            db_values   = db_cfg.toList()
+            diff_values = set(dsp_values).difference(db_values)
+            for p,v in diff_values:
+                if p == 'VER':
+                   continue
+                if not p in ['EXTDISABLE','PCLMODE','EXTBUSY','POSUPDATE','LNKNAME','EXTPOWER','OUTPSRC']:
+                   print "DSP VERSION: ",dsp_cfg_ver
+                   print "DB  VERSION: ",db_cfg_ver
+                   print "Auto resolving conflicts: Unexpected paramater: ",p
+                   return Conflict.DRIVER_CHANGED
+            return Conflict.DRIVER_AUTOSOLVE
+
+
         #return Conflict.DRIVER_AUTOSOLVE
         #return Conflict.DRIVER_AUTOSOLVE_EXPERT
         return Conflict.DRIVER_CHANGED
