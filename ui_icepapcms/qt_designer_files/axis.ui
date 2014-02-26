@@ -1556,7 +1556,7 @@
             </widget>
            </item>
            <item row="1" column="1" >
-            <widget class="QLabel" name="txtPositionControl" >
+            <widget class="QLabel" name="txtCTRLENC" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
                <horstretch>0</horstretch>
