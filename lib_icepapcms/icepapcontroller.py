@@ -629,23 +629,27 @@ class IcepapController(Singleton):
         ##    answer = self.programming_ipap.sendWriteReadCommand(cmd)
         ##    self.programming_ipap = None
         
-    def upgradeFirmware(self, serial, dst, filename, addr, options, logger):
-        logger.addToLog("Reading file "+ filename)
-        f = file(filename,'rb')
-        data = f.read()
-        data = array.array('H', data)
-        f.close()
-        nwordata = (len(data)) 
-        chksum = sum(data) 
-        startmark = 0xa5aa555a
-        maskedchksum = chksum & 0xffffffff
-
-        logger.addToLog("File size: "+ str(len(data))+ " bytes, checksum: "+str(chksum)+" ("+str(hex(chksum & 0xffffffff)+")"))
+    def sendFirmware(self, ipap, filename, logger, save=True):
+        logger.addToLog("Setting MODE PROG")
+        cmd = "#MODE PROG"
+        logger.addToLog(cmd)
+        ans = ipap.sendWriteReadCommand(cmd)
+        logger.addToLog(ans)
         
+        logger.addToLog("Transferring firmware")
+        ipap.sendFirmware(filename, save=save)
+
+        time.sleep(5)
+        ipap.sendWriteCommand("MODE OPER")
+        cmd = "#MODE OPER"
+        logger.addToLog(cmd)
+        ans = ipap.sendWriteReadCommand(cmd)
+        logger.addToLog(ans)
+
+    def upgradeFirmware(self, serial, dst, filename, addr, options, logger):
         if serial:
             ipap = SerialIcePAP(dst, 0)
         else:
-            
             if dst.find(":") >= 0:
                 aux = dst.split(':')
                 host = aux[0]
@@ -656,41 +660,75 @@ class IcepapController(Singleton):
             
             ipap = EthIcePAP(host , port)
             
-        addr = addr.replace("NONE","")
-        options = options.replace("NONE","")
+        addr = addr.replace("NONE", "")
+        options = options.replace("NONE", "")
         ipap.connect()
 
-        logger.addToLog("Configuring connection: "+addr+","+options)
+        if filename != '':
+            save = options == 'SAVE'
+            self.sendFirmware(ipap, filename, logger, save=save)
+        else:
+            # NO POSSIBILITY TO 'SAVE OR SL' if no filename
+            options = ''
+
+        logger.addToLog("Setting MODE PROG")
         cmd = "#MODE PROG"
         logger.addToLog(cmd)
-        answer = ipap.sendWriteReadCommand(cmd)
-        logger.addToLog("-> "+str(answer))
-        if answer != "MODE OK":
-            logger.addToLog("Exiting: The IcePAP could not be set to MODE PROG: "+str(answer))
-            return
-
-        cmd = "*PROG %s %s" %(addr, options)
+        ans = ipap.sendWriteReadCommand(cmd)
+        logger.addToLog(ans)
+        
+        
+        logger.addToLog("Configuring connection: "+addr+","+options)
+        
+        cmd = "PROG %s %s" % (addr, options)
         logger.addToLog(cmd)
         ipap.sendWriteCommand(cmd, prepend_ack=False)
         
-        logger.addToLog("Transferring firmware")
-        #ipap.sendData(struct.pack('L',startmark))
-        #ipap.sendData(struct.pack('L',nwordata))
-        #ipap.sendData(struct.pack('L',maskedchksum))
-        # BUGFIX FOR 64-BIT MACHINES
-        ipap.sendData(struct.pack('L',startmark)[:4])
-        ipap.sendData(struct.pack('L',nwordata)[:4])
-        ipap.sendData(struct.pack('L',maskedchksum)[:4])
+        shouldwait = True
+        while shouldwait:
+            p = ipap.getProgressStatus()
+            if p == 'DONE':
+                shouldwait = False
+            elif isinstance(p, int):
+                logger.addToLog('Programming %d %%' % p)
+                time.sleep(5)
         
-        ipap.sendData(data.tostring())
-        #for i in range(len(data)):
-        #    ipap.sendData(struct.pack('H',data[i]))
-        # THIS SLEEP IS NECESSARY TO LET THE TRITON COMPUTE THE CHECKSUM AND STORE IF "SAVE"
-        time.sleep(7)
-        logger.addToLog("Firmware sent.")
-        # Notify the user that the data has been sent.
-        logger.addToLog("Wait for progammming ends")
-        logger.addToLog("At the end, issue a #MODE OPER")            
+        logger.addToLog("Setting MODE OPER")
+        cmd = "#MODE OPER"
+        logger.addToLog(cmd)
+        ans = ipap.sendWriteReadCommand(cmd)
+        logger.addToLog(ans)
+
+        #if addr == 'ALL':
+        if True:
+            logger.addToLog('SHOULD BE ONLY IF %s IS ALL' % addr)
+            logger.addToLog('Wait while rebooting... (25-30) secs')
+            cmd = '#REBOOT'
+            logger.addToLog(cmd)
+            ans = ipap.sendWriteReadCommand(cmd)
+            logger.addToLog(ans)
+
+            # WE SHOULD WAIT UNTIL CONNECTION IS LOST
+            secs = 0
+            for i in range(10):
+                time.sleep(1)
+                secs += 1
+                if (secs % 5) == 0:
+                    logger.addToLog('Waiting... (%2d secs).' % secs)
+            ipap.disconnect()
+
+            # WE SHOULD WAIT UNTIL ICEPAP IS RECONNECTED
+            while not ipap.connected:
+                time.sleep(1)
+                secs += 1
+                if (secs % 5) == 0:
+                    logger.addToLog('Waiting... (%2d secs).' % secs)
+
+        cmd = '0:?VER INFO'
+        logger.addToLog(cmd)
+        ans = ipap.sendWriteReadCommand(cmd)
+        logger.addToLog(ans)
+        logger.addToLog('\n\nProgramming sequence done!')
 
     
     def testConnection(self, serial, dst):
