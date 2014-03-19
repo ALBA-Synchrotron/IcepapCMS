@@ -26,6 +26,9 @@ class DialogIcepapProgram(QtGui.QDialog):
         self._ipapctrl = IcepapController() 
         self.ui.cbSerial.addItems(self._ipapctrl.getSerialPorts())
         self.ui.rbEth.setChecked(True)
+
+        # BY DEFAULT, PROGRAMM ALL INSTEAD OF NONE
+        self.ui.cbProgram.setCurrentIndex(1)
         
         
     def btnBrowse_on_click(self):
@@ -67,7 +70,6 @@ class DialogIcepapProgram(QtGui.QDialog):
     def btnProgram_on_click(self):
         try:
             thread.start_new_thread(self.startProgramming, ())
-            MessageDialogs.showWarningMessage(self, "Upgrading firmware" , "Wait until Icepap stops programming ( 1 minute aprox. ).\nThen restart the Icepap.")
         except:
             self.addToLog(str(sys.exc_info()[0]))
     
