@@ -1,6 +1,19 @@
 IcepapCMS 2.0 2014/xx/xx
 -------------------------------------------------------------------------
 
+IcepapCMS 1.30 2014/12/11
+-------------------------------------------------------------------------
++) Some IO and ENCODER comboboxes are now wider to adjust to options length
++) ISSUE 074 [TEST] ADDED CSWITCH command input parameter (not functional)
++) ISSUE 074 [IO] EXTDISABLE, EXTBUSY and EXTPOWER parameters accessible
++) ISSUE 074 [IO] Alarm signals group renamed to Input Control Signals
++) ISSUE 074 [CLOOP] STRTVEL paramter accessible
++) ISSUE 074 [CLOOP] PCLMODE SIMPLECHK flag parameter accessible
++) ISSUE 074 [AXIS] STRTVEL moved to closed loop tab
++) ISSUE 074 [AXIS] LNKNAME parameter accessible
++) ISSUE 074 [AXIS] POSSRC paramter removed
++) ISSUE 074 [AXIS] Position Control updated
+?) renamed user manual from doc/IcePAP_UserManual_working.pdf to doc/IcePAP_UserManual.pdf
 
 IcepapCMS 1.29 2014/02/26
 IcepapCMS 1.26 2014/02/26
