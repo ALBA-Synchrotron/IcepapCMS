@@ -221,8 +221,8 @@ class PageiPapDriver(QtGui.QWidget):
         QtCore.QObject.connect(self.ui.sliderJog,QtCore.SIGNAL("valueChanged(int)"),self.sliderChanged)
         
         QtCore.QObject.connect(self.sliderTimer,QtCore.SIGNAL("timeout()"),self.resetSlider)
-        
 
+        QtCore.QObject.connect(self.ui.cmdCSWITCH,QtCore.SIGNAL("currentIndexChanged(QString)"),self.changeSwitchesSetup)
     
     
 
@@ -1034,6 +1034,10 @@ class PageiPapDriver(QtGui.QWidget):
                             if param == 'AUXPS':
                                 ## THIS VALUE DOES NOT COME IN THE CONFIGURATION
                                 pass
+                            elif param == 'CSWITCH':
+                                ## THIS VALUE DOES NOT COME NEITHER IN THE CONFIGUARTION
+                                print 'eo....cswitch'
+                                pass
                             elif param == 'INDEXER':
                                 values = controller.readIcepapParameters(system_name, driver_addr,['INDEXER'])
                                 indexer_answer = values[0]
@@ -1678,6 +1682,16 @@ class PageiPapDriver(QtGui.QWidget):
             self.ui.btnEnable.setText("ON")
             self._manager.disableDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr)
         
+
+    def changeSwitchesSetup(self, mode):
+        return
+        # SHOULD CHANGE SWITCHES SETUP... HOW? NOT IN CONFIG MODE...
+        #try:
+        #    pass
+        #    #self._manager.jogDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, speed)
+        #except Exception,e:
+        #    MessageDialogs.showWarningMessage(self, "Switches setup", "Error while trying to change switches setup:\n"+str(e))
+
 
     # ---------------------- Historic Widget -------------------
     def showHistoricWidget(self):
