@@ -450,53 +450,6 @@
          <item row="5" column="0" >
           <layout class="QGridLayout" name="gridLayout_3" >
            <item row="0" column="0" >
-            <widget class="QLabel" name="label_6" >
-             <property name="sizePolicy" >
-              <sizepolicy vsizetype="Expanding" hsizetype="Fixed" >
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize" >
-              <size>
-               <width>100</width>
-               <height>16</height>
-              </size>
-             </property>
-             <property name="baseSize" >
-              <size>
-               <width>50</width>
-               <height>16</height>
-              </size>
-             </property>
-             <property name="text" >
-              <string>Position source</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1" >
-            <widget class="QComboBox" name="cfgPOSSRC" >
-             <property name="sizePolicy" >
-              <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize" >
-              <size>
-               <width>80</width>
-               <height>22</height>
-              </size>
-             </property>
-             <property name="maximumSize" >
-              <size>
-               <width>80</width>
-               <height>22</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0" >
             <widget class="QLabel" name="label_7" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Expanding" hsizetype="Fixed" >
@@ -521,7 +474,7 @@
              </property>
             </widget>
            </item>
-           <item row="1" column="1" >
+           <item row="0" column="1" >
             <widget class="QComboBox" name="cfgINDEXER" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
@@ -539,6 +492,59 @@
               <size>
                <width>80</width>
                <height>22</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0" >
+            <widget class="QLabel" name="label_18" >
+             <property name="sizePolicy" >
+              <sizepolicy vsizetype="Expanding" hsizetype="Fixed" >
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize" >
+              <size>
+               <width>100</width>
+               <height>16</height>
+              </size>
+             </property>
+             <property name="baseSize" >
+              <size>
+               <width>50</width>
+               <height>16</height>
+              </size>
+             </property>
+             <property name="text" >
+              <string>Linked Axis name</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1" >
+            <widget class="QLineEdit" name="cfgLNKNAME" >
+             <property name="sizePolicy" >
+              <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize" >
+              <size>
+               <width>75</width>
+               <height>22</height>
+              </size>
+             </property>
+             <property name="maximumSize" >
+              <size>
+               <width>16777215</width>
+               <height>22</height>
+              </size>
+             </property>
+             <property name="baseSize" >
+              <size>
+               <width>100</width>
+               <height>20</height>
               </size>
              </property>
             </widget>
@@ -1164,71 +1170,6 @@
           </widget>
          </item>
          <item row="1" column="0" >
-          <widget class="QLabel" name="label_16" >
-           <property name="sizePolicy" >
-            <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize" >
-            <size>
-             <width>100</width>
-             <height>36</height>
-            </size>
-           </property>
-           <property name="maximumSize" >
-            <size>
-             <width>145</width>
-             <height>60</height>
-            </size>
-           </property>
-           <property name="baseSize" >
-            <size>
-             <width>70</width>
-             <height>16</height>
-            </size>
-           </property>
-           <property name="text" >
-            <string>Start Velocity (steps/s)</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1" >
-          <widget class="QDoubleSpinBox" name="cfgSTRTVEL" >
-           <property name="sizePolicy" >
-            <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize" >
-            <size>
-             <width>50</width>
-             <height>22</height>
-            </size>
-           </property>
-           <property name="maximumSize" >
-            <size>
-             <width>100</width>
-             <height>22</height>
-            </size>
-           </property>
-           <property name="baseSize" >
-            <size>
-             <width>80</width>
-             <height>16</height>
-            </size>
-           </property>
-           <property name="maximum" >
-            <double>999999999.000000000000000</double>
-           </property>
-           <property name="singleStep" >
-            <double>0.010000000000000</double>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0" >
           <widget class="QLabel" name="label_9" >
            <property name="sizePolicy" >
             <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
@@ -1259,7 +1200,7 @@
            </property>
           </widget>
          </item>
-         <item row="2" column="1" >
+         <item row="1" column="1" >
           <widget class="QDoubleSpinBox" name="cfgDEFACCT" >
            <property name="sizePolicy" >
             <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
