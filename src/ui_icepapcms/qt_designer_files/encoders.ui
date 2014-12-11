@@ -5,7 +5,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>478</width>
+    <width>509</width>
     <height>470</height>
    </rect>
   </property>
@@ -835,7 +835,7 @@ polarity</string>
        <widget class="QGroupBox" name="groupBox_3" >
         <property name="minimumSize" >
          <size>
-          <width>185</width>
+          <width>250</width>
           <height>150</height>
          </size>
         </property>
@@ -1253,7 +1253,7 @@ polarity</string>
              </property>
              <property name="minimumSize" >
               <size>
-               <width>60</width>
+               <width>80</width>
                <height>16</height>
               </size>
              </property>
