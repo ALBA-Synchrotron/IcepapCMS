@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'encoders.ui'
 #
-# Created: Wed Feb 26 18:21:30 2014
+# Created: Thu Dec 11 19:47:17 2014
 #      by: PyQt4 UI code generator 4.4.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PyQt4 import QtCore, QtGui
 class Ui_encoders(object):
     def setupUi(self, encoders):
         encoders.setObjectName("encoders")
-        encoders.resize(478, 470)
+        encoders.resize(509, 470)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -346,7 +346,7 @@ class Ui_encoders(object):
         self.vboxlayout.addWidget(self.groupBox_2)
         self.gridLayout.addLayout(self.vboxlayout, 0, 0, 1, 1)
         self.groupBox_3 = QtGui.QGroupBox(self.encoders_frame)
-        self.groupBox_3.setMinimumSize(QtCore.QSize(185, 150))
+        self.groupBox_3.setMinimumSize(QtCore.QSize(250, 150))
         self.groupBox_3.setObjectName("groupBox_3")
         self.vboxlayout3 = QtGui.QVBoxLayout(self.groupBox_3)
         self.vboxlayout3.setSpacing(10)
@@ -524,7 +524,7 @@ class Ui_encoders(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.cfgSSICODE.sizePolicy().hasHeightForWidth())
         self.cfgSSICODE.setSizePolicy(sizePolicy)
-        self.cfgSSICODE.setMinimumSize(QtCore.QSize(60, 16))
+        self.cfgSSICODE.setMinimumSize(QtCore.QSize(80, 16))
         self.cfgSSICODE.setMaximumSize(QtCore.QSize(16777215, 22))
         self.cfgSSICODE.setObjectName("cfgSSICODE")
         self.gridlayout6.addWidget(self.cfgSSICODE, 1, 1, 1, 2)
