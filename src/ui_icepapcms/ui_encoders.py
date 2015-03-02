@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'encoders.ui'
 #
-# Created: Thu Dec 11 19:47:17 2014
+# Created: Mon Mar  2 21:04:08 2015
 #      by: PyQt4 UI code generator 4.4.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,13 +12,13 @@ from PyQt4 import QtCore, QtGui
 class Ui_encoders(object):
     def setupUi(self, encoders):
         encoders.setObjectName("encoders")
-        encoders.resize(509, 470)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
+        encoders.resize(526, 470)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.MinimumExpanding, QtGui.QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(encoders.sizePolicy().hasHeightForWidth())
         encoders.setSizePolicy(sizePolicy)
-        encoders.setMinimumSize(QtCore.QSize(410, 470))
+        encoders.setMinimumSize(QtCore.QSize(526, 470))
         self.gridlayout = QtGui.QGridLayout(encoders)
         self.gridlayout.setMargin(0)
         self.gridlayout.setSpacing(0)

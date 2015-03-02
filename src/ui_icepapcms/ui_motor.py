@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'motor.ui'
 #
-# Created: Thu Dec 11 19:47:17 2014
+# Created: Mon Mar  2 21:04:07 2015
 #      by: PyQt4 UI code generator 4.4.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,8 +12,13 @@ from PyQt4 import QtCore, QtGui
 class Ui_motor(object):
     def setupUi(self, motor):
         motor.setObjectName("motor")
-        motor.resize(564, 470)
-        motor.setMinimumSize(QtCore.QSize(410, 470))
+        motor.resize(477, 470)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Minimum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(motor.sizePolicy().hasHeightForWidth())
+        motor.setSizePolicy(sizePolicy)
+        motor.setMinimumSize(QtCore.QSize(477, 470))
         self.gridlayout = QtGui.QGridLayout(motor)
         self.gridlayout.setMargin(0)
         self.gridlayout.setSpacing(0)

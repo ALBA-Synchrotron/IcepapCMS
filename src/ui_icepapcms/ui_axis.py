@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'axis.ui'
 #
-# Created: Thu Dec 11 19:47:17 2014
+# Created: Mon Mar  2 21:04:07 2015
 #      by: PyQt4 UI code generator 4.4.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -13,12 +13,12 @@ class Ui_axis(object):
     def setupUi(self, axis):
         axis.setObjectName("axis")
         axis.resize(575, 470)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.MinimumExpanding, QtGui.QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(axis.sizePolicy().hasHeightForWidth())
         axis.setSizePolicy(sizePolicy)
-        axis.setMinimumSize(QtCore.QSize(365, 365))
+        axis.setMinimumSize(QtCore.QSize(575, 470))
         axis.setSizeIncrement(QtCore.QSize(1, 1))
         self.gridLayout_5 = QtGui.QGridLayout(axis)
         self.gridLayout_5.setObjectName("gridLayout_5")
