@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'pageipapdriver.ui'
 #
-# Created: Thu Dec 11 19:47:15 2014
+# Created: Mon Mar  2 21:04:05 2015
 #      by: PyQt4 UI code generator 4.4.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,13 +12,13 @@ from PyQt4 import QtCore, QtGui
 class Ui_PageiPapDriver(object):
     def setupUi(self, PageiPapDriver):
         PageiPapDriver.setObjectName("PageiPapDriver")
-        PageiPapDriver.resize(761, 613)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
+        PageiPapDriver.resize(800, 613)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.MinimumExpanding, QtGui.QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(PageiPapDriver.sizePolicy().hasHeightForWidth())
         PageiPapDriver.setSizePolicy(sizePolicy)
-        PageiPapDriver.setMinimumSize(QtCore.QSize(665, 500))
+        PageiPapDriver.setMinimumSize(QtCore.QSize(800, 613))
         self.gridlayout = QtGui.QGridLayout(PageiPapDriver)
         self.gridlayout.setMargin(9)
         self.gridlayout.setSpacing(6)
@@ -536,7 +536,7 @@ class Ui_PageiPapDriver(object):
         self.cmdCSWITCH.addItem(QtCore.QString())
         self.cmdCSWITCH.addItem(QtCore.QString())
         self.horizontalLayout_2.addWidget(self.cmdCSWITCH)
-        self.gridlayout2.addWidget(self.groupBox_2, 8, 0, 1, 2)
+        self.gridlayout2.addWidget(self.groupBox_2, 8, 0, 1, 5)
         self.gridlayout1.addWidget(self.frame_test, 0, 0, 1, 1)
         self.stackedWidget.addWidget(self.pageTest)
         self.pageHistoric = QtGui.QWidget()
