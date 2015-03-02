@@ -1,5 +1,11 @@
-IcepapCMS 2.0 2014/xx/xx
+IcepapCMS 2.0 2015/xx/xx
 -------------------------------------------------------------------------
+
+IcepapCMS 1.31 2015/03/02 ;-D
+-------------------------------------------------------------------------
++) ISSUE ??? absolute and incremental move fields size restored (bug introduced in 1.30)
++) ISSUE ??? CJOG used when in CONFIG MODE, and JOG added when in OPER MODE
++) Set minimum size of 1200x720 to avoid fields/text overlaps
 
 IcepapCMS 1.30 2014/12/11
 -------------------------------------------------------------------------
