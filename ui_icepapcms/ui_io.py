@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'io.ui'
 #
-# Created: Thu Dec 11 19:47:19 2014
+# Created: Mon Mar  2 21:04:09 2015
 #      by: PyQt4 UI code generator 4.4.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,19 +12,19 @@ from PyQt4 import QtCore, QtGui
 class Ui_io(object):
     def setupUi(self, io):
         io.setObjectName("io")
-        io.resize(504, 308)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
+        io.resize(511, 271)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.MinimumExpanding, QtGui.QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(io.sizePolicy().hasHeightForWidth())
         io.setSizePolicy(sizePolicy)
-        io.setMinimumSize(QtCore.QSize(410, 250))
+        io.setMinimumSize(QtCore.QSize(511, 250))
         self.gridlayout = QtGui.QGridLayout(io)
         self.gridlayout.setMargin(0)
         self.gridlayout.setSpacing(0)
         self.gridlayout.setObjectName("gridlayout")
         self.io_frame = QtGui.QFrame(io)
-        self.io_frame.setMinimumSize(QtCore.QSize(0, 0))
+        self.io_frame.setMinimumSize(QtCore.QSize(280, 0))
         self.io_frame.setFrameShape(QtGui.QFrame.NoFrame)
         self.io_frame.setFrameShadow(QtGui.QFrame.Raised)
         self.io_frame.setObjectName("io_frame")
@@ -163,7 +163,7 @@ class Ui_io(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.groupBox.sizePolicy().hasHeightForWidth())
         self.groupBox.setSizePolicy(sizePolicy)
-        self.groupBox.setMinimumSize(QtCore.QSize(182, 140))
+        self.groupBox.setMinimumSize(QtCore.QSize(250, 140))
         self.groupBox.setObjectName("groupBox")
         self.gridlayout2 = QtGui.QGridLayout(self.groupBox)
         self.gridlayout2.setObjectName("gridlayout2")
@@ -459,15 +459,17 @@ class Ui_io(object):
         self.vboxlayout2.addWidget(self.cfgOUTPAUXPOL)
         self.horizontalLayout.addLayout(self.vboxlayout2)
         self.gridLayout_2.addLayout(self.horizontalLayout, 2, 0, 1, 1)
-        self.gridLayout.addWidget(self.groupBox_2, 0, 1, 2, 1)
-        spacerItem2 = QtGui.QSpacerItem(176, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.gridLayout.addItem(spacerItem2, 0, 2, 1, 1)
+        self.gridLayout.addWidget(self.groupBox_2, 0, 2, 2, 1)
+        spacerItem2 = QtGui.QSpacerItem(20, 20, QtGui.QSizePolicy.MinimumExpanding, QtGui.QSizePolicy.Minimum)
+        self.gridLayout.addItem(spacerItem2, 0, 3, 1, 1)
         spacerItem3 = QtGui.QSpacerItem(176, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.gridLayout.addItem(spacerItem3, 1, 2, 1, 1)
+        self.gridLayout.addItem(spacerItem3, 1, 3, 1, 1)
         spacerItem4 = QtGui.QSpacerItem(20, 128, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.gridLayout.addItem(spacerItem4, 2, 0, 1, 1)
         spacerItem5 = QtGui.QSpacerItem(20, 128, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
-        self.gridLayout.addItem(spacerItem5, 2, 1, 1, 1)
+        self.gridLayout.addItem(spacerItem5, 2, 2, 1, 1)
+        spacerItem6 = QtGui.QSpacerItem(20, 20, QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Minimum)
+        self.gridLayout.addItem(spacerItem6, 0, 1, 2, 1)
         self.gridlayout.addWidget(self.io_frame, 0, 0, 1, 1)
 
         self.retranslateUi(io)

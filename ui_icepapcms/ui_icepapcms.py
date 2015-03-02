@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'icepapcms.ui'
 #
-# Created: Thu Dec 11 19:47:15 2014
+# Created: Mon Mar  2 21:04:06 2015
 #      by: PyQt4 UI code generator 4.4.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,12 +12,13 @@ from PyQt4 import QtCore, QtGui
 class Ui_IcepapCMS(object):
     def setupUi(self, IcepapCMS):
         IcepapCMS.setObjectName("IcepapCMS")
-        IcepapCMS.resize(1024, 700)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
+        IcepapCMS.resize(1200, 720)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.MinimumExpanding, QtGui.QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(IcepapCMS.sizePolicy().hasHeightForWidth())
         IcepapCMS.setSizePolicy(sizePolicy)
+        IcepapCMS.setMinimumSize(QtCore.QSize(1200, 720))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(101, 148, 235))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -39,7 +40,12 @@ class Ui_IcepapCMS(object):
         self.vboxlayout.setMargin(1)
         self.vboxlayout.setObjectName("vboxlayout")
         self.stackedWidget = QtGui.QStackedWidget(self.centralwidget)
-        self.stackedWidget.setMinimumSize(QtCore.QSize(16, 16))
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.MinimumExpanding, QtGui.QSizePolicy.MinimumExpanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.stackedWidget.sizePolicy().hasHeightForWidth())
+        self.stackedWidget.setSizePolicy(sizePolicy)
+        self.stackedWidget.setMinimumSize(QtCore.QSize(800, 613))
         self.stackedWidget.setObjectName("stackedWidget")
         self.StartPage = QtGui.QWidget()
         self.StartPage.setObjectName("StartPage")
@@ -59,7 +65,7 @@ class Ui_IcepapCMS(object):
         self.vboxlayout.addWidget(self.stackedWidget)
         IcepapCMS.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(IcepapCMS)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1024, 25))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1200, 25))
         self.menubar.setObjectName("menubar")
         self.menuHelp = QtGui.QMenu(self.menubar)
         self.menuHelp.setObjectName("menuHelp")
@@ -88,7 +94,7 @@ class Ui_IcepapCMS(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.dockTree.sizePolicy().hasHeightForWidth())
         self.dockTree.setSizePolicy(sizePolicy)
-        self.dockTree.setMinimumSize(QtCore.QSize(281, 317))
+        self.dockTree.setMinimumSize(QtCore.QSize(341, 347))
         self.dockTree.setMaximumSize(QtCore.QSize(524287, 524287))
         self.dockTree.setFeatures(QtGui.QDockWidget.NoDockWidgetFeatures)
         self.dockTree.setAllowedAreas(QtCore.Qt.LeftDockWidgetArea)

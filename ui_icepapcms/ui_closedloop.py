@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'closedloop.ui'
 #
-# Created: Thu Dec 11 19:47:18 2014
+# Created: Mon Mar  2 21:04:08 2015
 #      by: PyQt4 UI code generator 4.4.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -13,12 +13,12 @@ class Ui_closedloop(object):
     def setupUi(self, closedloop):
         closedloop.setObjectName("closedloop")
         closedloop.resize(409, 397)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.MinimumExpanding, QtGui.QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(closedloop.sizePolicy().hasHeightForWidth())
         closedloop.setSizePolicy(sizePolicy)
-        closedloop.setMinimumSize(QtCore.QSize(256, 259))
+        closedloop.setMinimumSize(QtCore.QSize(409, 397))
         self.gridlayout = QtGui.QGridLayout(closedloop)
         self.gridlayout.setMargin(0)
         self.gridlayout.setSpacing(0)

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'homing.ui'
 #
-# Created: Thu Dec 11 19:47:18 2014
+# Created: Mon Mar  2 21:04:09 2015
 #      by: PyQt4 UI code generator 4.4.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,13 +12,13 @@ from PyQt4 import QtCore, QtGui
 class Ui_homing(object):
     def setupUi(self, homing):
         homing.setObjectName("homing")
-        homing.resize(462, 346)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
+        homing.resize(461, 346)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.MinimumExpanding, QtGui.QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(homing.sizePolicy().hasHeightForWidth())
         homing.setSizePolicy(sizePolicy)
-        homing.setMinimumSize(QtCore.QSize(250, 250))
+        homing.setMinimumSize(QtCore.QSize(461, 346))
         self.gridLayout_3 = QtGui.QGridLayout(homing)
         self.gridLayout_3.setObjectName("gridLayout_3")
         self.homing_frame = QtGui.QFrame(homing)
