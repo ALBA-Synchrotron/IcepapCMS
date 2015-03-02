@@ -5,13 +5,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>564</width>
+    <width>477</width>
     <height>470</height>
    </rect>
   </property>
+  <property name="sizePolicy" >
+   <sizepolicy vsizetype="Minimum" hsizetype="Minimum" >
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="minimumSize" >
    <size>
-    <width>410</width>
+    <width>477</width>
     <height>470</height>
    </size>
   </property>
