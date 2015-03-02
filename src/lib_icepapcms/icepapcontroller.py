@@ -534,7 +534,10 @@ class IcepapController(Singleton):
         self.iPaps[icepap_name].blink(driver_addr,secs)
     
     def jogDriver(self, icepap_name, driver_addr, speed):
-        self.iPaps[icepap_name].cjog(driver_addr, speed)
+        if self.iPaps[icepap_name].getMode(driver_addr) != IcepapMode.CONFIG:
+            self.iPaps[icepap_name].jog(driver_addr, speed)
+        else:
+            self.iPaps[icepap_name].cjog(driver_addr, speed)
     
     def enableDriver(self, icepap_name, driver_addr):
         self.iPaps[icepap_name].enable(driver_addr)
