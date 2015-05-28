@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'homing.ui'
 #
-# Created: Mon Mar  2 21:04:09 2015
+# Created: Thu May 28 20:12:23 2015
 #      by: PyQt4 UI code generator 4.4.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -214,6 +214,7 @@ class Ui_homing(object):
         font.setPointSize(7)
         self.cfgHOMEPOS.setFont(font)
         self.cfgHOMEPOS.setProperty("text", QtCore.QVariant(QtGui.QApplication.translate("homing", "0", None, QtGui.QApplication.UnicodeUTF8)))
+        self.cfgHOMEPOS.setMinimum(-999999999)
         self.cfgHOMEPOS.setMaximum(999999999)
         self.cfgHOMEPOS.setObjectName("cfgHOMEPOS")
         self.gridlayout1.addWidget(self.cfgHOMEPOS, 0, 1, 1, 1)
