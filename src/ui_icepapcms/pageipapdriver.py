@@ -62,6 +62,8 @@ class PageiPapDriver(QtGui.QWidget):
         self.param_to_widgets = {}
         self.ui_widgets = []
         
+        self.param_to_unknown_widgets = {}
+
         self.tab_frames = [axis_frame,motor_frame,encoders_frame,closedloop_frame,homing_frame,io_frame]
         self.tab_labels = ["Axis","Motor","Encoders","Closed loop","Homing","I/O"]
 
@@ -745,6 +747,7 @@ class PageiPapDriver(QtGui.QWidget):
                 unknownParams = True
                 self.addUnknownWidget(name, value)
 
+
         unknown_index = self.ui.tabWidget.indexOf(self.unknown_tab)
 
         if unknownParams:
@@ -924,9 +927,12 @@ class PageiPapDriver(QtGui.QWidget):
         
                 self.unknown_table_widget.setCellWidget(row, 2, widget)
 
+                self.param_to_unknown_widgets[param_name] = widget
+
                 self._setWidgetsValue([widget],param_value)
                 
                 self._connectWidgetToSignalMap(widget)
+
 
 
 
@@ -1359,6 +1365,13 @@ class PageiPapDriver(QtGui.QWidget):
                 self._setWidgetsValue(widgets, param_value, set_default=False)
             elif param_name == 'IPAPNAME':
                 self._setWidgetsValue(self.param_to_widgets.get('DriverName'), param_value, set_default=False)
+            elif param_name in ['ID','VER']:
+                pass
+            else:
+                # SINCE UNKNOWN WIDGETS ARE CREATED EVERY TIME, ANOTHER DICT HAS TO BE AVAILABLE FOR THEM
+                w = self.param_to_unknown_widgets.get(param_name)
+                self._setWidgetsValue([w], param_value, set_default=False)
+
         self.highlightTabs()
         self._connectHighlighting()
         QtGui.QApplication.instance().restoreOverrideCursor()                                      
