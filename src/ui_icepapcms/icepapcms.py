@@ -24,7 +24,7 @@ from templatescatalogwidget import TemplatesCatalogWidget
 #from dialogtemplate import DialogTemplate
 from optparse import OptionParser
 
-__version__ = "1.32"
+__version__ = "2.00"
 
 class IcepapApp(QtGui.QApplication):    
     def __init__(self, *args):
