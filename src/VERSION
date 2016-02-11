@@ -1,5 +1,10 @@
-IcepapCMS 2.0 2015/xx/xx
+IcepapCMS 2.1 2016/xx/xx
 -------------------------------------------------------------------------
++)  
+
+IcepapCMS 2.0 2016/02/11
+-------------------------------------------------------------------------
++) Support for driver conflicts when firmware >= 3.14
 +) ISSUE 076 [PROTOTYPE] - waiting input from MAX-IV and ESRF
 
 IcepapCMS 1.32 2015/05/29 ;-D
