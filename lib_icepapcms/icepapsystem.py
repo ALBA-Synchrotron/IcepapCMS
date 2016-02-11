@@ -29,9 +29,9 @@ class Location(Storm):
     def deleteSystem(self, name):
         system = self.systems.find(IcepapSystem.name == name).one()
         StormManager().deleteIcepapSystem(system)
-        del self._inmemory_systems[name]
-        
-            
+        try: del self._inmemory_systems[name]
+        except: pass
+
 
 class IcepapSystem(Storm):
     __storm_table__ = "icepapsystem"
@@ -201,6 +201,7 @@ class IcepapSystem(Storm):
             for p,v in diff_values:
                 if p == 'VER':
                    continue
+
                 if not p in ['EXTDISABLE','PCLMODE','EXTBUSY','POSUPDATE','LNKNAME','EXTPOWER','OUTPSRC']:
                    #print "DSP VERSION: ",dsp_cfg_ver
                    #print "DB  VERSION: ",db_cfg_ver
@@ -209,8 +210,32 @@ class IcepapSystem(Storm):
             return Conflict.DRIVER_AUTOSOLVE
 
 
-        #return Conflict.DRIVER_AUTOSOLVE
-        #return Conflict.DRIVER_AUTOSOLVE_EXPERT
+        #
+        if((dsp_cfg_ver>3.14) and (db_cfg_ver<=3.14) and (db_cfg_ver>=2.0)):
+            print "DSP VERSION: ",dsp_cfg_ver
+            print "DB  VERSION: ",db_cfg_ver
+            dsp_values  = dsp_cfg.toList()
+            db_values   = db_cfg.toList()
+            diff_values = set(dsp_values).difference(db_values)
+            print "diff_values", diff_values
+            for p,v in diff_values:
+                # ignore new parameters or parameters that normally change
+                if ((p == 'VER') or (p == 'HOLDTIME') or (p == 'EXTHOLD')):
+                   continue
+
+                # parameters which value is not backward compatible
+                if not p in ['INFOASRC','INFOBSRC','INFOCSRC']:
+                   return Conflict.DRIVER_CHANGED
+
+            return Conflict.DRIVER_AUTOSOLVE_EXPERT
+
+        # parameter value in DB goes to DRIVER
+        # return Conflict.DRIVER_AUTOSOLVE
+
+        # parameter value in DRIVER goes to DB
+        # return Conflict.DRIVER_AUTOSOLVE_EXPERT
+
+        # no action, prompt the user to resolve conflict
         return Conflict.DRIVER_CHANGED
 
 from icepapdriver import IcepapDriver
