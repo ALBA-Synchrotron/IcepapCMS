@@ -28,10 +28,16 @@ class Location(Storm):
     
     def deleteSystem(self, name):
         system = self.systems.find(IcepapSystem.name == name).one()
+        for driver in system.getDrivers():
+            system.removeDriver(driver.addr)
         StormManager().deleteIcepapSystem(system)
-        try: del self._inmemory_systems[name]
-        except: pass
-
+        try:
+            del self._inmemory_systems[name]
+            self._inmemory_drivers = {}
+        except:
+            pass
+        
+            
 
 class IcepapSystem(Storm):
     __storm_table__ = "icepapsystem"
@@ -208,7 +214,6 @@ class IcepapSystem(Storm):
                    #print "Auto resolving conflicts: Unexpected paramater: ",p
                    return Conflict.DRIVER_CHANGED
             return Conflict.DRIVER_AUTOSOLVE
-
 
         #
         if((dsp_cfg_ver>3.14) and (db_cfg_ver<=3.14) and (db_cfg_ver>=2.0)):
