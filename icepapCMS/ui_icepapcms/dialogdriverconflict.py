@@ -1,7 +1,7 @@
 from PyQt4 import QtCore, QtGui, Qt
 from ui_dialogdriverconflict import Ui_DialogDriverConflict
 from messagedialogs import MessageDialogs
-from lib_icepapcms import MainManager, StormManager
+from ..lib_icepapcms import MainManager, StormManager
 from xml.dom import minidom, Node
 import os
 import sys

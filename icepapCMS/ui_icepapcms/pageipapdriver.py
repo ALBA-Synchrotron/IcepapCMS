@@ -12,7 +12,7 @@ from qrc_icepapcms import *
 from xml.dom import minidom, Node
 from xml.dom.minidom import getDOMImplementation
 from Led import Led
-from lib_icepapcms import *
+from ..lib_icepapcms import *
 from messagedialogs import MessageDialogs
 #from dialogtemplate import DialogTemplate
 import sys

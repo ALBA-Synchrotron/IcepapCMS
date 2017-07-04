@@ -1,6 +1,6 @@
 from PyQt4 import QtCore, QtGui
 from ui_dialogaddicepap import Ui_DialogAddIcepap
-from lib_icepapcms import MainManager
+from ..lib_icepapcms import MainManager
 
 class DialogAddIcepap(QtGui.QDialog):
     def __init__(self, parent, location):

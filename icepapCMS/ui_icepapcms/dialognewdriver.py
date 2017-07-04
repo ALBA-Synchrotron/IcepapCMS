@@ -1,6 +1,6 @@
 from PyQt4 import QtCore, QtGui
 from ui_dialognewdriver import Ui_DialogNewDriver
-from lib_icepapcms import MainManager
+from ..lib_icepapcms import MainManager
 
 class DialogNewDriver(QtGui.QDialog):
     def __init__(self, parent, more_info, expertFlag):

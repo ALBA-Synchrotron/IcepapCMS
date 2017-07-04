@@ -1,7 +1,7 @@
 from PyQt4 import QtCore, QtGui, Qt
 from qrc_icepapcms import *
 from icepapdriver_widget import IcePapDriverWidget
-from  lib_icepapcms import IcepapDriver
+from ..lib_icepapcms import IcepapDriver
 
 
 class PageiPapSystem(QtGui.QWidget):
