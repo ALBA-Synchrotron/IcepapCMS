@@ -1,4 +1,0 @@
-#!/bin/bash
-# front script for ipapconsole (to be installed in sicilia and put on the path)
-
-python $SICILIA/applications/icepapcms/ipapconsole $*
