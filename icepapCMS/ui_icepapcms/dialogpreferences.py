@@ -1,6 +1,6 @@
 from PyQt4 import QtCore, QtGui
 from ui_dialogpreferences import Ui_DialogPreferences
-from lib_icepapcms import ConfigManager
+from ..lib_icepapcms import ConfigManager
 from messagedialogs import MessageDialogs
 from qrc_icepapcms import *
 import sys

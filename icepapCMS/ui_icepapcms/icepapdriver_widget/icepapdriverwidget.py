@@ -1,9 +1,9 @@
 from PyQt4 import QtCore, QtGui, Qt
-from ui_icepapdriverwidget import Ui_IcePapDriverWidget
-from ui_icepapdriverwidgetsmall import Ui_IcePapDriverWidgetSmall
-from ui_icepapcms.qrc_icepapcms import *
-from ui_icepapcms.Led import Led
-from  lib_icepapcms import MainManager, IcepapDriver, Conflict, IcepapMode, IcepapStatus
+from .ui_icepapdriverwidget import Ui_IcePapDriverWidget
+from .ui_icepapdriverwidgetsmall import Ui_IcePapDriverWidgetSmall
+from ...ui_icepapcms.qrc_icepapcms import *
+from ...ui_icepapcms.Led import Led
+from ...lib_icepapcms import MainManager, IcepapDriver, Conflict, IcepapMode, IcepapStatus
 
 class IcePapDriverWidget(QtGui.QWidget):
     def __init__(self, parent=None, BigSize = True):

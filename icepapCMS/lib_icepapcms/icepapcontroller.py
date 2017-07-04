@@ -11,7 +11,7 @@ from icepapdrivercfg import IcepapDriverCfg, CfgParameter
 import icepapdriver
 from conflict import Conflict
 from configmanager import ConfigManager
-from ui_icepapcms.messagedialogs import MessageDialogs
+from ..ui_icepapcms.messagedialogs import MessageDialogs
 from PyQt4 import QtCore
 from PyQt4 import QtGui
 from PyQt4 import Qt
@@ -28,7 +28,9 @@ class IcepapController(Singleton):
         self.iPaps = {}
         pathname = os.path.dirname(sys.argv[0])
         path = os.path.abspath(pathname)
-        self.config_template = path+'/templates/driverparameters.xml'
+        self.config_template = os.path.join(path,
+                                            'templates',
+                                            'driverparameters.xml')
         self._parseDriverTemplateFile()
         self._config = ConfigManager()
         self.icepap_cfginfos = {}

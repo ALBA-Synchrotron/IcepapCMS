@@ -25,7 +25,7 @@
 
 import sys
 from PyQt4 import QtCore, QtGui
-from lib_icepapcms import IcepapSystem, IcepapDriver, Conflict, IcepapMode
+from ..lib_icepapcms import IcepapSystem, IcepapDriver, Conflict, IcepapMode
 
 
 

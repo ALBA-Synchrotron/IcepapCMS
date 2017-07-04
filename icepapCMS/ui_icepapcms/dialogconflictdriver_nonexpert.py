@@ -1,6 +1,6 @@
 from PyQt4 import QtCore, QtGui
 from ui_dialogconflictdriver_nonexpert import Ui_DialogConflictNonExpert
-from lib_icepapcms import MainManager
+from ..lib_icepapcms import MainManager
 
 class DialogConflictNonExpert(QtGui.QDialog):
     def __init__(self, parent, more_info):

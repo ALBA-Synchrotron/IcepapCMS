@@ -1,8 +1,8 @@
 import sys, os, webbrowser
 from PyQt4 import QtCore, QtGui, Qt
-from ui_icepapcms import Ui_IcepapCMS
+from .ui_icepapcms import Ui_IcepapCMS
 from qrc_icepapcms import *
-from lib_icepapcms import MainManager, Conflict, ConfigManager, StormManager, Timer
+from ..lib_icepapcms import MainManager, Conflict, ConfigManager, StormManager, Timer
 from icepap_treemodel import IcepapTreeModel
 from pageipapdriver import PageiPapDriver
 from pageipapcrate import PageiPapCrate
@@ -24,7 +24,7 @@ from templatescatalogwidget import TemplatesCatalogWidget
 #from dialogtemplate import DialogTemplate
 from optparse import OptionParser
 
-__version__ = "2.01"
+__version__ = "2.1.1-alpha"
 
 class IcepapApp(QtGui.QApplication):    
     def __init__(self, *args):

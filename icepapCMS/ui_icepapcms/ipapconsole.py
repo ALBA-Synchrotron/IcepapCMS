@@ -1,7 +1,7 @@
 from PyQt4 import QtCore, QtGui, Qt
 from ui_ipapconsole import Ui_IpapConsole
 from messagedialogs import MessageDialogs
-from lib_icepapcms import ConfigManager,IcepapController
+from ..lib_icepapcms import ConfigManager,IcepapController
 from pyIcePAP import EthIcePAP, IcePAPException, IcePAP, IcepapStatus
 import sys, os
 from qrc_icepapcms import *

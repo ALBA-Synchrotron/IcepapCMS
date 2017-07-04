@@ -10,7 +10,7 @@ from PyQt4 import QtGui
 #from conflict import Conflict
 from pyIcePAP import *
 
-from ui_icepapcms.messagedialogs import MessageDialogs
+from ..ui_icepapcms.messagedialogs import MessageDialogs
 import sys
 from stormmanager import StormManager
 from configmanager import ConfigManager
