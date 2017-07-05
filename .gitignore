@@ -1,0 +1,8 @@
+MANIFEST
+/dist
+*.pyc
+/build/
+icepapCMS.egg-info/
+setup.cfg
+icepapcms.egg-info
+.idea

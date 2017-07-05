@@ -1,10 +1,8 @@
-include icepapcms
-include icepapcms.py
-include icepapicon.png
 include icepapcms.icon
-recursive-include templates *
-recursive-include doc *
-recursive-include lib_icepapcms *
-recursive-include ui_icepapcms *
-recursive-include storage *.storage
+global-exclude *.pyc
+graft icepapCMS/doc
+graft db
+recursive-include icepapCMS/templates *
+recursive-include icepapCMS/lib_icepapcms *
+recursive-include icepapCMS/ui_icepapcms *
 
