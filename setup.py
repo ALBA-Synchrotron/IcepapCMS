@@ -19,20 +19,20 @@ setup(
     description="Icepap Configuration Management System and Test Tool",
     long_description=long_description,
     author="Guifre Cuni",
-    author_email="gcuni@cells.es",
+    author_email="guifre.cuni@cells.es",
     entry_points={
         'gui_scripts': ['icepapcms = icepapCMS.icepapcms:main',
                         'ipapconsole = icepapCMS.scripts.ipapconsole:main'],
     },
-    install_requires=[
-        "storm==0.20",
-        "IPy>=0.62",
-        "PyQt4",
-        "sqlite3", # or pysqlite2 (not in pypi)
-        # "pyicepap"(not in pypi)
-        # "doctest"
-        "ldap" # needed by ldap_login (ALBA-Cells library)
-    ],
+    # install_requires=[
+    #     "storm==0.20",
+    #     "IPy>=0.62",
+    #     "PyQt4",
+    #      MySQL-python
+    #     "sqlite3", # or pysqlite2 (not in pypi)
+    #     "pyicepap" #not in pypi
+    #     "ldap" # needed by ldap_login (ALBA-Cells library)
+    # ],
     include_package_data=True,
     platforms=["Linux, Windows XP/Vista/7/8"],
     url="http://computing.cells.es/products/icepap-cms"
