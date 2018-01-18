@@ -1389,7 +1389,7 @@ class PageiPapDriver(QtGui.QWidget):
     def exportToFile(self, filename):
         output = open(filename, "w")
         newdoc = self.getXmlData()
-        output.writelines(newdoc.toprettyxml())
+        output.writelines(newdoc.toprettyxml(encoding="utf-8"))
         
     def getXmlData(self):
         doc = getDOMImplementation().createDocument(None, "Driver", None)
@@ -1412,7 +1412,7 @@ class PageiPapDriver(QtGui.QWidget):
     def doCopy(self):
         self.temp_file = tempfile.TemporaryFile()
         data = self.getXmlData()
-        self.temp_file.writelines(data.toprettyxml())
+        self.temp_file.writelines(data.toprettyxml(encoding="utf-8"))
         self.temp_file.flush()
         self.temp_file.seek(0)
 
