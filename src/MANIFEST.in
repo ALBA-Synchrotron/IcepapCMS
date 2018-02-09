@@ -1,6 +1,7 @@
 include icepapcms.icon
 global-exclude *.pyc
 graft icepapCMS/doc
+graft distribute
 graft db
 recursive-include icepapCMS/templates *
 recursive-include icepapCMS/lib_icepapcms *
