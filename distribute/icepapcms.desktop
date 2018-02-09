@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=IcepapCMS                           
+GenericName=IcepapCMS
+Exec=icepapcms
+Terminal=false
+Icon=<icepapcms_path>/doc/Icepapicon.png
+Type=Application
+Comment=Configuration and test tool for the Icepap motor controller
+Keywords=X-icepapcms;
+Categories=Graphics;
+StartupNotify=true
+
