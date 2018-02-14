@@ -67,7 +67,7 @@ class IcepapController(Singleton):
         if self.debug:
             log_folder = self.log_folder
         if not self.host_in_same_subnet(icepap_name):
-            MessageDialogs.showInformationMessage(None,"Host connection","It is not allowed to connect to %s"%host)
+            MessageDialogs.showInformationMessage(None,"Host connection","It is not allowed to connect to %s. (Check subnet)"%host)
             return False
         else:
             try:
@@ -800,8 +800,11 @@ class IcepapController(Singleton):
               fp = os.popen(ifconfig+' -a')
               configs = fp.read().split('\n\n')
               fp.close()
-              addr_pattern = r'(inet addr:) *(%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
-              mask_pattern = r'(Mask:) *(%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
+              # 180214 - Adapted to Debian9 "/sbin/ifconfig -a" output
+              #addr_pattern = r'(inet addr:) *(%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
+              #mask_pattern = r'(Mask:) *(%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
+              addr_pattern = r'(inet ) *(%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
+              mask_pattern = r'(netmask ) *(%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
           elif os.name == 'nt':
               fp = os.popen('ipconfig /all')
               configs = fp.read().split(':\r\n\r\n')
