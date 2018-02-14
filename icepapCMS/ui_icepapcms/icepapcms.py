@@ -77,11 +77,12 @@ class IcepapCMS(QtGui.QMainWindow):
         self._config._options = options
         self._config._args = args
 
-        self._config.username = 'NotValidated'
+        default_user = 'NotValidated'
+        self._config.username = default_user
         if os.name is 'posix': #this works for linux and macOSX
-            self._config.username = os.getenv('USER')
+            self._config.username = os.getenv('USER', default_user)
         elif os.name is 'nt': #win NT, XP... (and Vista?)
-            self._config.username = os.getenv('USERNAME')    
+            self._config.username = os.getenv('USERNAME', default_user)
 
         if self._config._options.ldap:
             # FORCE AN LDAP LOGIN TO GET CORRECT USER NAMES IN THE DRIVER SIGNATURES
