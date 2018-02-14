@@ -65,7 +65,7 @@ class IcepapConsole(QtGui.QDialog):
             if hasattr(self._config,'_options'):
                 ipapcontroller = IcepapController()
                 if not ipapcontroller.host_in_same_subnet(host):
-                    MessageDialogs.showInformationMessage(None,"Host connection","It is not allowed to connect to %s"%host)
+                    MessageDialogs.showInformationMessage(None,"Host connection","It is not allowed to connect to %s. (Check subnet)"%host)
                     return
             else:
                 # JUST RUNNING AS A STAND-ALONE
