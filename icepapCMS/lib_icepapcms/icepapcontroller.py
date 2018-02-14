@@ -809,7 +809,9 @@ class IcepapController(Singleton):
               fp = os.popen('ipconfig /all')
               configs = fp.read().split(':\r\n\r\n')
               fp.close()
-              addr_pattern = r'(IP Address).*: (%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
+              # 180214 - Adapted to Windows7 "ipconfig /all" output
+              #addr_pattern = r'(IP Address).*: (%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
+              addr_pattern = r'(IPv4 Address).*: (%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
               mask_pattern = r'(Subnet Mask).*: (%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
   
           if configs and addr_pattern and mask_pattern:
