@@ -151,12 +151,15 @@ class IcepapController(Singleton):
         ver = self.iPaps[icepap_name].getVersion(driver_addr,"DRIVER")
         ipap_id = self.iPaps[icepap_name].getId(driver_addr)
         ipap_name = self.iPaps[icepap_name].getName(driver_addr)
+        # FIX NON-ASCII CHARS ISSUE IN NAME:
+        if not all(ord(c) < 128 for c in ipap_name):
+            ipap_name = repr(ipap_name)
         driver_cfg.setParameter(unicode("VER"), ver)
         driver_cfg.setParameter(unicode("ID"), ipap_id)
         try:
             driver_cfg.setParameter(unicode("IPAPNAME"), ipap_name)
         except Exception,e:
-            print 'Exception when trying to read the driver name (%s):' % ipap_name
+            print 'Exception when trying to write the driver name (%s):' % ipap_name
             print e
             ipap_name = 'NON-ASCII_NAME'
             driver_cfg.setParameter(unicode("IPAPNAME"), ipap_name)
