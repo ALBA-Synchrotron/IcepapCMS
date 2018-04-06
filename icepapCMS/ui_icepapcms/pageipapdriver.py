@@ -1127,7 +1127,11 @@ class PageiPapDriver(QtGui.QWidget):
                 return str(widget.currentText())
             elif isinstance(widget, QtGui.QLineEdit):
                 #return str(widget.text()).upper()
-                return str(widget.text())
+                # FIX NON-ASCII ISSUES:
+                text = unicode(widget.text())
+                if not all(ord(c) < 128 for c in text):
+                    text = repr(text)
+                return text
             elif isinstance(widget, QtGui.QFrame):
                 regexp = QtCore.QRegExp('^'+widget.objectName()+"_")
                 flags_value = []
