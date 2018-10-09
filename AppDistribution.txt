@@ -1,0 +1,46 @@
+Creating distribution for IcepapCMS
+
+Linux -
+
+For tar.gz file:
+
+	python setup.py bdist   
+
+For rpm file:
+	python setup.py bdist_rpm
+
+
+Windows -
+
+Be sure to have installed pyIcePAP on the system [1]
+
+Before creating the installer, try to run it from the src directory
++) Fix the SVN links in ui_icepapcms:
+   1) move icepapcms_rc.py to OLD-icepapcms_rc.py
+      and copy the qrc_icepapcms.py to icepapcms_rc.py
+   2) inside icepapdriver_widget, move Led to OLD-Led
+      and icepapcms_rc.py to OLD-icepapcms_rc.py
+      and copy them from the parent directory
+
+py2exe and Inno Setup 5 are required
+
+1. run script build_win.bat
+
+2. copy the extra-DLLS directory into the dist directory
+
+3. use inno setup with wininstaller.iss to create the setup.exe
+	(in the iss file, check the path of the files included)
+
+
+[1] Installing pyIcePAP
++) Install pywin32 http://pywin32.sourceforge.net/
+   This library is required by pySerial
++) Install pySerial http://pyserial.sourceforge.net/
+   This library is required by pyIcePAP
++) Install pyIcePAP
+   1) export from svn svn+ssh://gcuni@controls01/siciliarep/svn/trunk/miscellaneous/pyIcePAP
+   2) create a pyIcePAP subdirectory and move all except:
+     - build_win.bat
+     - setup.py
+   3) execute the build_win.bat
+   4) installer will be found under the dist directory
