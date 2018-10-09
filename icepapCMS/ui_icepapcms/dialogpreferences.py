@@ -13,10 +13,11 @@
 
 from PyQt4 import QtCore, QtGui
 from ui_dialogpreferences import Ui_DialogPreferences
-from ..lib_icepapcms import ConfigManager
+from lib_icepapcms import ConfigManager
 from messagedialogs import MessageDialogs
 from qrc_icepapcms import *
 import sys
+import os
 
 MYSQL_PORT =  3306
 POSTGRES_PORT = 5432
@@ -43,14 +44,22 @@ class DialogPreferences(QtGui.QDialog):
         self._config = ConfigManager()
         self.fillConfig()
         self.ui.listWidget.setItemSelected(self.ui.listWidget.item(0), True)
+        self.setWindowTitle("Preferences (%s)" % self._config.base_folder)
         """ check imports for dbs to disable errors """
     
     def closeButton_on_click(self):
-        if self.checkPreferences():
-            self._config.saveConfig()
-            self.close()
+        if not os.path.exists(self._config.config_filename):
+            if os.access(self._config.base_folder, os.W_OK):
+                print "Creating new config file..."
+                open(self._config.config_filename, 'a').close()
+        if os.access(self._config.config_filename, os.W_OK) :
+            if self.checkPreferences():
+                self._config.saveConfig()
+                self.close()
+            else:
+                MessageDialogs.showWarningMessage(self, "Preferences", "Check configuration parameters")
         else:
-            MessageDialogs.showWarningMessage(self, "Preferences", "Check configuration parameters")
+            MessageDialogs.showWarningMessage(self, "Preferences", "You must run IcePAPCMS as superuser to change the configuration parameters, or use a local config file.")
     
 
     def listWidget_on_click(self, item):

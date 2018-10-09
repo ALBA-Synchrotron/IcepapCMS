@@ -24,7 +24,7 @@ from icepapdrivercfg import IcepapDriverCfg, CfgParameter
 import icepapdriver
 from conflict import Conflict
 from configmanager import ConfigManager
-from ..ui_icepapcms.messagedialogs import MessageDialogs
+from ui_icepapcms.messagedialogs import MessageDialogs
 from PyQt4 import QtCore
 from PyQt4 import QtGui
 from PyQt4 import Qt

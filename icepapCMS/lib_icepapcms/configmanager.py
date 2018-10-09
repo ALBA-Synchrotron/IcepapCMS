@@ -23,12 +23,18 @@ class ConfigManager(Singleton):
     Postgres = "postgres"
     database = "database"
     icepap = "icepap"
-    folder = os.path.expanduser('~/.icepapcms/sqlitedb')
-    log_folder = os.path.expanduser('~/.icepapcms/log')
-    firmware_folder = os.path.expanduser('~/.icepapcms/firmware')
-    configs_folder = os.path.expanduser('~/.icepapcms/configs')
-    templates_folder = os.path.expanduser('~/.icepapcms/templates')
+    folder = "sqlitedb"
+    log_folder = "log"
+    firmware_folder = "firmware"
+    configs_folder = "configs"
+    templates_folder = "templates"
+    docs_folder = "doc" 
 
+    base_folder = None
+    config_filename = None
+    conf_path_list = ["./", os.path.expanduser("~/.icepapcms"), "/etc/icepapcms"]
+    exe_folder = os.path.abspath(os.path.dirname(sys.argv[0]))
+    
     username = 'NotValidated'
         
     defaults = '''
@@ -45,29 +51,50 @@ class ConfigManager(Singleton):
     firmware_folder = string(default=''' + firmware_folder + ''')
     configs_folder = string(default=''' + configs_folder + ''')
     templates_folder = string(default=''' + templates_folder + ''')
+    docs_folder = string(default=''' + docs_folder + ''')
     '''
     
     defaults = defaults.splitlines()
     
-    def __init__(self):
+    def __init__(self, options=None):
         pass
     
-    
     def init(self, *args):
-        if not os.path.exists(os.path.expanduser('~/.icepapcms')):
-            os.mkdir(os.path.expanduser('~/.icepapcms'))
-        self.config_filename = os.path.expanduser('~/.icepapcms/icepapcms.conf')
+        # Manage command line arguments and options
+        if len(args):
+            options = args[0]
+            if options.config_path:
+                self.conf_path_list.insert(0,os.path.expanduser(options.config_path))
+                    
         self.configure()
     
-    def configure(self):        
+    def configure(self):
+        # General configuration
+        for loc in self.conf_path_list:
+            if os.path.exists(os.path.join(loc,"icepapcms.conf")):
+                self.base_folder = loc
+                self.config_filename = os.path.join(loc,"icepapcms.conf")
+                break
+        vdt = Validator()
         self.configspec = ConfigObj(self.defaults)
         self.config = ConfigObj(self.config_filename, configspec = self.configspec)
-        vdt = Validator()
         self.config.validate(vdt, copy=True)
-        for folder in "log_folder","firmware_folder","configs_folder","templates_folder":
-            directory = self.config["icepap"][folder]
-            if not os.path.exists(directory):
-                os.mkdir(directory)
-        
+
+	#Force the absolute path
+	self.config["database"]["folder"] = os.path.expanduser(self.config["database"]["folder"])
+
+        # Other User configuration
+        # always create base folder if not found.
+        if self.base_folder is None:
+            self.base_folder = os.path.expanduser("~/.icepapcms")
+        if self.config_filename is None:
+            self.config_filename = os.path.join(self.base_folder, "icepapcms.conf")
+            if not os.path.exists(self.base_folder):
+                os.mkdir(self.base_folder)        
+            for folder in "log_folder","firmware_folder","configs_folder","templates_folder", "docs_folder":
+                directory = os.path.join(self.base_folder, self.config["icepap"][folder])
+                if not os.path.exists(directory):
+                    os.makedirs(directory)
+
     def saveConfig(self):
         self.config.write()

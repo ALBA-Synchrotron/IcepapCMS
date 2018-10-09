@@ -13,9 +13,9 @@
 
 import sys, os, webbrowser
 from PyQt4 import QtCore, QtGui, Qt
-from .ui_icepapcms import Ui_IcepapCMS
+from ui_icepapcms import Ui_IcepapCMS
 from qrc_icepapcms import *
-from ..lib_icepapcms import MainManager, Conflict, ConfigManager, StormManager, Timer
+from lib_icepapcms import MainManager, Conflict, ConfigManager, StormManager, Timer
 from icepap_treemodel import IcepapTreeModel
 from pageipapdriver import PageiPapDriver
 from pageipapcrate import PageiPapCrate
@@ -53,6 +53,8 @@ class IcepapApp(QtGui.QApplication):
                           action="store_true", dest="allnets", help="Allow all available icepap systems. False by default")
         parser.add_option("","--ldap",
                           action="store_true", dest="ldap", help="Force LDAP login to get username. False by default")
+        parser.add_option("-c", "--config-path",
+                          action="store", type ="string", dest="config_path", help="Path to icepapcms.conf. Defaults to .icepapcms/ or /etc/icepapcms/")
         (options, args) = parser.parse_args()
 
 
@@ -73,7 +75,7 @@ class IcepapCMS(QtGui.QMainWindow):
 
         self.ui = Ui_IcepapCMS()
         self.ui.setupUi(self)
-        self._config = ConfigManager()
+        self._config = ConfigManager(options)
         self._config._options = options
         self._config._args = args
 

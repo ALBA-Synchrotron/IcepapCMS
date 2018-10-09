@@ -90,6 +90,7 @@ class IcepapDriver(Storm):
             #signature = socket.gethostname() #+ "_" + str(time.time())
             user = ConfigManager().username
             host = socket.gethostname()
+            host = host.split('.',1)[0]
             signature = user+"@"+host+"_"+datetime.now().strftime('%Y/%m/%d_%H:%M:%S')
             IcepapController().signDriverConfiguration(self.icepapsystem_name, self.addr, signature)
             self.mode = unicode(IcepapMode.OPER)

@@ -16,7 +16,7 @@ import os
 from PyQt4 import Qt, QtCore, QtGui
 from xml.dom import minidom,Node
 
-from ..lib_icepapcms import ConfigManager
+from lib_icepapcms import ConfigManager
 
 
 ################################################################################

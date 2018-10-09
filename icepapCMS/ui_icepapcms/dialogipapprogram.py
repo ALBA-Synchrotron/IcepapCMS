@@ -14,7 +14,7 @@
 from PyQt4 import QtCore, QtGui
 from ui_dialogipapprogram import Ui_DialogIcepapProgram
 from messagedialogs import MessageDialogs
-from ..lib_icepapcms import IcepapController,ConfigManager
+from lib_icepapcms import IcepapController,ConfigManager
 import sys
 from qrc_icepapcms import *
 import time
