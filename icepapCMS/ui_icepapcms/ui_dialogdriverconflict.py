@@ -2,16 +2,30 @@
 
 # Form implementation generated from reading ui file 'dialogdriverconflict.ui'
 #
-# Created: Mon Mar  2 21:04:04 2015
-#      by: PyQt4 UI code generator 4.4.3
+# Created: Fri Feb  9 13:20:38 2018
+#      by: PyQt4 UI code generator 4.10.1
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt4 import QtCore, QtGui
 
+try:
+    _fromUtf8 = QtCore.QString.fromUtf8
+except AttributeError:
+    def _fromUtf8(s):
+        return s
+
+try:
+    _encoding = QtGui.QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig)
+
 class Ui_DialogDriverConflict(object):
     def setupUi(self, DialogDriverConflict):
-        DialogDriverConflict.setObjectName("DialogDriverConflict")
+        DialogDriverConflict.setObjectName(_fromUtf8("DialogDriverConflict"))
         DialogDriverConflict.resize(347, 384)
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(16, 16, 16))
@@ -171,7 +185,7 @@ class Ui_DialogDriverConflict(object):
         self.vboxlayout = QtGui.QVBoxLayout(DialogDriverConflict)
         self.vboxlayout.setSpacing(6)
         self.vboxlayout.setMargin(9)
-        self.vboxlayout.setObjectName("vboxlayout")
+        self.vboxlayout.setObjectName(_fromUtf8("vboxlayout"))
         self.tableWidget = QtGui.QTableWidget(DialogDriverConflict)
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(16, 16, 16))
@@ -329,7 +343,7 @@ class Ui_DialogDriverConflict(object):
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.AlternateBase, brush)
         self.tableWidget.setPalette(palette)
         self.tableWidget.setAlternatingRowColors(True)
-        self.tableWidget.setObjectName("tableWidget")
+        self.tableWidget.setObjectName(_fromUtf8("tableWidget"))
         self.tableWidget.setColumnCount(3)
         self.tableWidget.setRowCount(0)
         item = QtGui.QTableWidgetItem()
@@ -342,20 +356,20 @@ class Ui_DialogDriverConflict(object):
         self.hboxlayout = QtGui.QHBoxLayout()
         self.hboxlayout.setSpacing(6)
         self.hboxlayout.setMargin(0)
-        self.hboxlayout.setObjectName("hboxlayout")
+        self.hboxlayout.setObjectName(_fromUtf8("hboxlayout"))
         self.btnStored = QtGui.QPushButton(DialogDriverConflict)
         icon = QtGui.QIcon()
-        icon.addFile(":/icons/IcepapCfg Icons/ipapsys.png")
+        icon.addFile(_fromUtf8(":/icons/IcepapCfg Icons/ipapsys.png"))
         self.btnStored.setIcon(icon)
-        self.btnStored.setObjectName("btnStored")
+        self.btnStored.setObjectName(_fromUtf8("btnStored"))
         self.hboxlayout.addWidget(self.btnStored)
         spacerItem = QtGui.QSpacerItem(131, 31, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.hboxlayout.addItem(spacerItem)
         self.btnIcepap = QtGui.QPushButton(DialogDriverConflict)
         icon1 = QtGui.QIcon()
-        icon1.addFile(":/small_icons/IcepapCfg Icons/Icepapicon.png")
+        icon1.addFile(_fromUtf8(":/small_icons/IcepapCfg Icons/Icepapicon.png"))
         self.btnIcepap.setIcon(icon1)
-        self.btnIcepap.setObjectName("btnIcepap")
+        self.btnIcepap.setObjectName(_fromUtf8("btnIcepap"))
         self.hboxlayout.addWidget(self.btnIcepap)
         self.vboxlayout.addLayout(self.hboxlayout)
 
@@ -363,11 +377,14 @@ class Ui_DialogDriverConflict(object):
         QtCore.QMetaObject.connectSlotsByName(DialogDriverConflict)
 
     def retranslateUi(self, DialogDriverConflict):
-        DialogDriverConflict.setWindowTitle(QtGui.QApplication.translate("DialogDriverConflict", "Driver conflict", None, QtGui.QApplication.UnicodeUTF8))
-        self.tableWidget.horizontalHeaderItem(0).setText(QtGui.QApplication.translate("DialogDriverConflict", "Name", None, QtGui.QApplication.UnicodeUTF8))
-        self.tableWidget.horizontalHeaderItem(1).setText(QtGui.QApplication.translate("DialogDriverConflict", "ConfigTool Value", None, QtGui.QApplication.UnicodeUTF8))
-        self.tableWidget.horizontalHeaderItem(2).setText(QtGui.QApplication.translate("DialogDriverConflict", "Icepap Value", None, QtGui.QApplication.UnicodeUTF8))
-        self.btnStored.setText(QtGui.QApplication.translate("DialogDriverConflict", "Keep stored values", None, QtGui.QApplication.UnicodeUTF8))
-        self.btnIcepap.setText(QtGui.QApplication.translate("DialogDriverConflict", "Set Icepap values", None, QtGui.QApplication.UnicodeUTF8))
+        DialogDriverConflict.setWindowTitle(_translate("DialogDriverConflict", "Driver conflict", None))
+        item = self.tableWidget.horizontalHeaderItem(0)
+        item.setText(_translate("DialogDriverConflict", "Name", None))
+        item = self.tableWidget.horizontalHeaderItem(1)
+        item.setText(_translate("DialogDriverConflict", "ConfigTool Value", None))
+        item = self.tableWidget.horizontalHeaderItem(2)
+        item.setText(_translate("DialogDriverConflict", "Icepap Value", None))
+        self.btnStored.setText(_translate("DialogDriverConflict", "Keep stored values", None))
+        self.btnIcepap.setText(_translate("DialogDriverConflict", "Set Icepap values", None))
 
 import icepapcms_rc

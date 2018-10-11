@@ -2,36 +2,51 @@
 
 # Form implementation generated from reading ui file 'dialogsystemscan.ui'
 #
-# Created: Mon Mar  2 21:04:03 2015
-#      by: PyQt4 UI code generator 4.4.3
+# Created: Fri Feb  9 13:20:38 2018
+#      by: PyQt4 UI code generator 4.10.1
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt4 import QtCore, QtGui
 
+try:
+    _fromUtf8 = QtCore.QString.fromUtf8
+except AttributeError:
+    def _fromUtf8(s):
+        return s
+
+try:
+    _encoding = QtGui.QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig)
+
 class Ui_DialogSystemScan(object):
     def setupUi(self, DialogSystemScan):
-        DialogSystemScan.setObjectName("DialogSystemScan")
+        DialogSystemScan.setObjectName(_fromUtf8("DialogSystemScan"))
         DialogSystemScan.resize(400, 379)
         self.vboxlayout = QtGui.QVBoxLayout(DialogSystemScan)
         self.vboxlayout.setSpacing(6)
         self.vboxlayout.setMargin(9)
-        self.vboxlayout.setObjectName("vboxlayout")
+        self.vboxlayout.setObjectName(_fromUtf8("vboxlayout"))
         self.hboxlayout = QtGui.QHBoxLayout()
         self.hboxlayout.setSpacing(6)
         self.hboxlayout.setMargin(0)
-        self.hboxlayout.setObjectName("hboxlayout")
+        self.hboxlayout.setObjectName(_fromUtf8("hboxlayout"))
         spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.hboxlayout.addItem(spacerItem)
         self.label = QtGui.QLabel(DialogSystemScan)
-        self.label.setPixmap(QtGui.QPixmap(":/logos/IcepapCfg Icons/IcepapMed.png"))
-        self.label.setObjectName("label")
+        self.label.setText(_fromUtf8(""))
+        self.label.setPixmap(QtGui.QPixmap(_fromUtf8(":/logos/IcepapCfg Icons/IcepapMed.png")))
+        self.label.setObjectName(_fromUtf8("label"))
         self.hboxlayout.addWidget(self.label)
         spacerItem1 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.hboxlayout.addItem(spacerItem1)
         self.vboxlayout.addLayout(self.hboxlayout)
         self.label_2 = QtGui.QLabel(DialogSystemScan)
-        self.label_2.setObjectName("label_2")
+        self.label_2.setObjectName(_fromUtf8("label_2"))
         self.vboxlayout.addWidget(self.label_2)
         self.tableLog = QtGui.QTableWidget(DialogSystemScan)
         palette = QtGui.QPalette()
@@ -189,7 +204,7 @@ class Ui_DialogSystemScan(object):
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.AlternateBase, brush)
         self.tableLog.setPalette(palette)
-        self.tableLog.setObjectName("tableLog")
+        self.tableLog.setObjectName(_fromUtf8("tableLog"))
         self.tableLog.setColumnCount(3)
         self.tableLog.setRowCount(0)
         item = QtGui.QTableWidgetItem()
@@ -202,24 +217,27 @@ class Ui_DialogSystemScan(object):
         self.hboxlayout1 = QtGui.QHBoxLayout()
         self.hboxlayout1.setSpacing(6)
         self.hboxlayout1.setMargin(0)
-        self.hboxlayout1.setObjectName("hboxlayout1")
+        self.hboxlayout1.setObjectName(_fromUtf8("hboxlayout1"))
         spacerItem2 = QtGui.QSpacerItem(131, 31, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.hboxlayout1.addItem(spacerItem2)
         self.okButton = QtGui.QPushButton(DialogSystemScan)
-        self.okButton.setObjectName("okButton")
+        self.okButton.setObjectName(_fromUtf8("okButton"))
         self.hboxlayout1.addWidget(self.okButton)
         self.vboxlayout.addLayout(self.hboxlayout1)
 
         self.retranslateUi(DialogSystemScan)
-        QtCore.QObject.connect(self.okButton, QtCore.SIGNAL("clicked()"), DialogSystemScan.accept)
+        QtCore.QObject.connect(self.okButton, QtCore.SIGNAL(_fromUtf8("clicked()")), DialogSystemScan.accept)
         QtCore.QMetaObject.connectSlotsByName(DialogSystemScan)
 
     def retranslateUi(self, DialogSystemScan):
-        DialogSystemScan.setWindowTitle(QtGui.QApplication.translate("DialogSystemScan", "Icepap System Conflicts", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_2.setText(QtGui.QApplication.translate("DialogSystemScan", "Conflicts", None, QtGui.QApplication.UnicodeUTF8))
-        self.tableLog.horizontalHeaderItem(0).setText(QtGui.QApplication.translate("DialogSystemScan", "Object", None, QtGui.QApplication.UnicodeUTF8))
-        self.tableLog.horizontalHeaderItem(1).setText(QtGui.QApplication.translate("DialogSystemScan", "Description", None, QtGui.QApplication.UnicodeUTF8))
-        self.tableLog.horizontalHeaderItem(2).setText(QtGui.QApplication.translate("DialogSystemScan", "Action", None, QtGui.QApplication.UnicodeUTF8))
-        self.okButton.setText(QtGui.QApplication.translate("DialogSystemScan", "OK", None, QtGui.QApplication.UnicodeUTF8))
+        DialogSystemScan.setWindowTitle(_translate("DialogSystemScan", "Icepap System Conflicts", None))
+        self.label_2.setText(_translate("DialogSystemScan", "Conflicts", None))
+        item = self.tableLog.horizontalHeaderItem(0)
+        item.setText(_translate("DialogSystemScan", "Object", None))
+        item = self.tableLog.horizontalHeaderItem(1)
+        item.setText(_translate("DialogSystemScan", "Description", None))
+        item = self.tableLog.horizontalHeaderItem(2)
+        item.setText(_translate("DialogSystemScan", "Action", None))
+        self.okButton.setText(_translate("DialogSystemScan", "OK", None))
 
 import icepapcms_rc

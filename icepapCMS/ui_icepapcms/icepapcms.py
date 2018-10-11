@@ -1,16 +1,3 @@
-#!/usr/bin/env python
-
-# ------------------------------------------------------------------------------
-# This file is part of icepapCMS (https://github.com/ALBA-Synchrotron/icepapcms)
-#
-# Copyright 2008-2018 CELLS / ALBA Synchrotron, Bellaterra, Spain
-#
-# Distributed under the terms of the GNU General Public License,
-# either version 3 of the License, or (at your option) any later version.
-# See LICENSE.txt for more info.
-# ------------------------------------------------------------------------------
-
-
 import sys, os, webbrowser
 from PyQt4 import QtCore, QtGui, Qt
 from ui_icepapcms import Ui_IcepapCMS
@@ -37,10 +24,11 @@ from templatescatalogwidget import TemplatesCatalogWidget
 #from dialogtemplate import DialogTemplate
 from optparse import OptionParser
 
-__version__ = "2.1.1-alpha"
+__version__ = "2.00-3"
 
 class IcepapApp(QtGui.QApplication):    
     def __init__(self, *args):
+        # type: (object) -> object
 
         # from http://docs.python.org/library/optparse.html
         usage = "usage: %prog [options] arg"
@@ -79,12 +67,11 @@ class IcepapCMS(QtGui.QMainWindow):
         self._config._options = options
         self._config._args = args
 
-        default_user = 'NotValidated'
-        self._config.username = default_user
+        self._config.username = 'NotValidated'
         if os.name is 'posix': #this works for linux and macOSX
-            self._config.username = os.getenv('USER', default_user)
+            self._config.username = os.getenv('USER')
         elif os.name is 'nt': #win NT, XP... (and Vista?)
-            self._config.username = os.getenv('USERNAME', default_user)
+            self._config.username = os.getenv('USERNAME')    
 
         if self._config._options.ldap:
             # FORCE AN LDAP LOGIN TO GET CORRECT USER NAMES IN THE DRIVER SIGNATURES
@@ -516,8 +503,7 @@ class IcepapCMS(QtGui.QMainWindow):
         driver = item.itemData
         system = driver.icepapsystem_name
         addr = driver.addr
-        expert = self._manager._ctrl_icepap.iPaps[system].isExpertFlagSet(addr)
-        expertFlag = (expert == 'YES')
+        expertFlag = self._manager._ctrl_icepap.is_expert_flag_set(system, addr)
         message = "%s.%d: Set DataBase values?" % (system,addr)
         if expertFlag:
             message = "%s.%d: Set Driver Values?\n" %(system,addr)
@@ -603,7 +589,7 @@ class IcepapCMS(QtGui.QMainWindow):
         yes = dialog.result()
 
         if yes:
-            if expert == 'YES':
+            if expertFlag:
                 driver_values = self.getDriverValues(system,addr)
                 driver.addConfiguration(driver_values)
                 db = StormManager()
@@ -655,8 +641,7 @@ class IcepapCMS(QtGui.QMainWindow):
                 driver_item.setText(driver_value)
                 table.setItem(row, 1, driver_item)
         
-        expert = self._manager._ctrl_icepap.iPaps[system].isExpertFlagSet(addr)
-        expertFlag = (expert == 'YES')
+        expertFlag = self._manager._ctrl_icepap.is_expert_flag_set(system, addr)
         dialog = DialogNewDriver(self, more_info_dialog, expertFlag)
         dialog.exec_()
 
@@ -1016,7 +1001,7 @@ class IcepapCMS(QtGui.QMainWindow):
         pathname = os.path.dirname(sys.argv[0])
         path = os.path.abspath(pathname)
         # The master catalog file
-        master_catalog_file = path+'/templates/catalog.xml'
+        master_catalog_file = path+'/../share/icepapcms/templates/catalog.xml'
 
         dlg = TemplatesCatalogWidget(master_catalog_file,self.ui.pageiPapDriver,self)
         dlg.show()
@@ -1024,17 +1009,17 @@ class IcepapCMS(QtGui.QMainWindow):
     def actionHelp(self):
         pathname = os.path.dirname(sys.argv[0])
         path = os.path.abspath(pathname)
-        webbrowser.open(path+'/doc/IcepapCMSUserManual.pdf')      
+        webbrowser.open(path+'/../share/icepapcms/doc/IcepapCMSUserManual.pdf')      
     
     def actionUser_Manual(self):
         pathname = os.path.dirname(sys.argv[0])
         path = os.path.abspath(pathname)
-        webbrowser.open(path+'/doc/IcePAP_UserManual.pdf')
+        webbrowser.open(path+'/../share/icepapcms/doc/IcePAP_UserManual.pdf')
     
     def actionHardware_Manual(self):
         pathname = os.path.dirname(sys.argv[0])
         path = os.path.abspath(pathname)
-        webbrowser.open(path+'/doc/IcePAP_HardwareManual.pdf')    
+        webbrowser.open(path+'/../share/icepapcms/doc/IcePAP_HardwareManual.pdf')    
     
 
                 

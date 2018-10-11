@@ -1,16 +1,3 @@
-#!/usr/bin/env python
-
-# ------------------------------------------------------------------------------
-# This file is part of icepapCMS (https://github.com/ALBA-Synchrotron/icepapcms)
-#
-# Copyright 2008-2018 CELLS / ALBA Synchrotron, Bellaterra, Spain
-#
-# Distributed under the terms of the GNU General Public License,
-# either version 3 of the License, or (at your option) any later version.
-# See LICENSE.txt for more info.
-# ------------------------------------------------------------------------------
-
-
 from PyQt4 import QtCore, QtGui
 from ui_dialogipapprogram import Ui_DialogIcepapProgram
 from messagedialogs import MessageDialogs
@@ -82,26 +69,24 @@ class DialogIcepapProgram(QtGui.QDialog):
     
     def btnProgram_on_click(self):
         try:
-            thread.start_new_thread(self.startProgramming, ())
+            thread.start_new_thread(self._startProgramming, ())
         except:
             self.addToLog(str(sys.exc_info()[0]))
     
-    def startProgramming(self):
-        filename = str(self.ui.txtFirmwareFile.text())
-        serial = self.ui.rbSerial.isChecked()
-        dst = str(self.ui.txtHost.text())
-        if serial :
+    def _startProgramming(self):
+        filename = self.ui.txtFirmwareFile.text()
+        use_serial = self.ui.rbSerial.isChecked()
+        dst = self.ui.txtHost.text()
+        if use_serial:
             dst = self.ui.cbSerial.currentText()
-        addr = self.ui.cbProgram.currentText()
-        if addr == "ADDR":
-            addr = str(self.ui.sbAddr.value())
-        options = self.ui.cbOptions.currentText()
-        
-        if self.ui.chkForce.isChecked():
-            options = options + " FORCE"
-        self._ipapctrl.upgradeFirmware(serial, dst, filename, addr, options, self)
-        
-    def addToLog(self, text):    
+        component = self.ui.cbProgram.currentText()
+        if component == 'ADDR':
+            component = self.ui.sbAddr.value()
+        force = self.ui.chkForce.isChecked()
+        save = self.ui.cbOptions.currentText() == 'SAVE'
+        self._ipapctrl.upgrade_firmware(use_serial, dst, filename, component, force, save, self)
+
+    def addToLog(self, text):
         t = datetime.datetime.now().strftime("%H:%M:%S")
         self.ui.txtLog.append(t+"> "+text)
         self.ui.txtLog.ensureCursorVisible()
