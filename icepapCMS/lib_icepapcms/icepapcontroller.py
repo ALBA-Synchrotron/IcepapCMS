@@ -1,3 +1,16 @@
+#!/usr/bin/env python
+
+# ------------------------------------------------------------------------------
+# This file is part of icepapCMS (https://github.com/ALBA-Synchrotron/icepapcms)
+#
+# Copyright 2008-2018 CELLS / ALBA Synchrotron, Bellaterra, Spain
+#
+# Distributed under the terms of the GNU General Public License,
+# either version 3 of the License, or (at your option) any later version.
+# See LICENSE.txt for more info.
+# ------------------------------------------------------------------------------
+
+
 from pyIcePAP import EthIcePAPController
 from pyIcePAP import Mode
 from xml.dom import minidom, Node
@@ -27,7 +40,7 @@ class IcepapController(Singleton):
         self.iPaps = {}
         pathname = os.path.dirname(sys.argv[0])
         path = os.path.abspath(pathname)
-        self.config_template = path+'/../share/icepapcms/templates/driverparameters.xml'
+        self.config_template = path+'/templates/driverparameters.xml'
         self._parseDriverTemplateFile()
         self._config = ConfigManager()
         self.icepap_cfginfos = {}
@@ -728,7 +741,7 @@ class IcepapController(Singleton):
                 networks.append(net)
         return networks
   
-    def host_in_same_subnet(self, host):
+    def host_in_same_subnet(self, host):  # Todo: Do we need to do this check?
         if self._config._options.allnets:
             return True
   
@@ -744,13 +757,18 @@ class IcepapController(Singleton):
             fp = os.popen(ifconfig + ' -a')
             configs = fp.read().split('\n\n')
             fp.close()
-            addr_pattern = r'(inet addr:) *(%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
-            mask_pattern = r'(Mask:) *(%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
+            # 180214 - Adapted to Debian9 "/sbin/ifconfig -a" output
+            #addr_pattern = r'(inet addr:) *(%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
+            #mask_pattern = r'(Mask:) *(%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
+            addr_pattern = r'(inet ) *(%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
+            mask_pattern = r'(netmask ) *(%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
         elif os.name == 'nt':
             fp = os.popen('ipconfig /all')
             configs = fp.read().split(':\r\n\r\n')
             fp.close()
-            addr_pattern = r'(IP Address).*: (%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
+            # 180214 - Adapted to Windows7 "ipconfig /all" output
+            #addr_pattern = r'(IP Address).*: (%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
+            addr_pattern = r'(IPv4 Address).*: (%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
             mask_pattern = r'(Subnet Mask).*: (%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
   
         if configs and addr_pattern and mask_pattern:
@@ -761,7 +779,7 @@ class IcepapController(Singleton):
             for net in networks:
                 if host_addr in net:
                     return True
-            return False
+            return True  # Todo: Was False
         else:
             msg = "Sorry system not yet supported.\nWe allow you access to the icepap even if it is in another subnet."
             MessageDialogs.showInformationMessage(None, "Not Posix Operating System", msg)

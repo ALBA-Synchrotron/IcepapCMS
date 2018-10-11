@@ -1,3 +1,16 @@
+#!/usr/bin/env python
+
+# ------------------------------------------------------------------------------
+# This file is part of icepapCMS (https://github.com/ALBA-Synchrotron/icepapcms)
+#
+# Copyright 2008-2018 CELLS / ALBA Synchrotron, Bellaterra, Spain
+#
+# Distributed under the terms of the GNU General Public License,
+# either version 3 of the License, or (at your option) any later version.
+# See LICENSE.txt for more info.
+# ------------------------------------------------------------------------------
+
+
 from PyQt4 import QtCore, QtGui, Qt
 from pyIcePAP import *
 from ui_pageipapdriver import Ui_PageiPapDriver
@@ -488,7 +501,7 @@ class PageiPapDriver(QtGui.QWidget):
 
         pathname = os.path.dirname(sys.argv[0])
         path = os.path.abspath(pathname)
-        driverparameters = path+'/../share/icepapcms/templates/driverparameters.xml'
+        driverparameters = path+'/templates/driverparameters.xml'
 
         doc = minidom.parse(driverparameters)
         root  = doc.documentElement
