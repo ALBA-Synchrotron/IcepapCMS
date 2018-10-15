@@ -40,7 +40,9 @@ class IcepapController(Singleton):
         self.iPaps = {}
         pathname = os.path.dirname(sys.argv[0])
         path = os.path.abspath(pathname)
-        self.config_template = path+'/templates/driverparameters.xml'
+        self.config_template = os.path.join(path,
+                                            'templates',
+                                            'driverparameters.xml')
         self._parseDriverTemplateFile()
         self._config = ConfigManager()
         self.icepap_cfginfos = {}
