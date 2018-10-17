@@ -743,10 +743,10 @@ class IcepapController(Singleton):
                 networks.append(net)
         return networks
   
-    def host_in_same_subnet(self, host):  # Todo: Do we need to do this check?
+    def host_in_same_subnet(self, host):
         if self._config._options.allnets:
             return True
-  
+
         networks = []
         configs = None
         addr_pattern = None
@@ -759,17 +759,12 @@ class IcepapController(Singleton):
             fp = os.popen(ifconfig + ' -a')
             configs = fp.read().split('\n\n')
             fp.close()
-            # 180214 - Adapted to Debian9 "/sbin/ifconfig -a" output
-            #addr_pattern = r'(inet addr:) *(%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
-            #mask_pattern = r'(Mask:) *(%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
             addr_pattern = r'(inet ) *(%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
             mask_pattern = r'(netmask ) *(%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
         elif os.name == 'nt':
             fp = os.popen('ipconfig /all')
             configs = fp.read().split(':\r\n\r\n')
             fp.close()
-            # 180214 - Adapted to Windows7 "ipconfig /all" output
-            #addr_pattern = r'(IP Address).*: (%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
             addr_pattern = r'(IPv4 Address).*: (%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
             mask_pattern = r'(Subnet Mask).*: (%s\.%s\.%s\.%s)[^0-9]' % ((digits,)*4)
   
@@ -781,7 +776,7 @@ class IcepapController(Singleton):
             for net in networks:
                 if host_addr in net:
                     return True
-            return True  # Todo: Was False
+            return False
         else:
             msg = "Sorry system not yet supported.\nWe allow you access to the icepap even if it is in another subnet."
             MessageDialogs.showInformationMessage(None, "Not Posix Operating System", msg)
