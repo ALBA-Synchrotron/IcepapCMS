@@ -117,7 +117,14 @@ class IcepapController(Singleton):
         """
         driver_cfg = IcepapDriverCfg(unicode(datetime.datetime.now()))
         axis = self.iPaps[icepap_name][driver_addr]
-        driver_cfg.setSignature(axis.config)
+        try:
+            axis_config = axis.config
+        except Exception as e:
+            msg = 'Failed to retrieve configuration for driver {}.\n{}'.format(driver_addr, e)
+            print(msg)
+            MessageDialogs.showErrorMessage(None, 'Get Driver Config', msg)
+            raise e
+        driver_cfg.setSignature(axis_config)
         ver = self.iPaps[icepap_name].ver.driver[0]
         driver_cfg.setParameter("VER", ver)
         driver_cfg.setParameter("ID", axis.id)

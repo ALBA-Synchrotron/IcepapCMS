@@ -14,7 +14,8 @@ BuildRoot:		%{_builddir}/%{name}-%{version}-%{release}
 BuildRequires:  python-setuptools
 Requires:       python-pyicepap
 Requires:       python-storm
-# ZODB3 is not yet available for el6 
+Requires:       pyqtgraph
+# ZODB3 is not yet available for el6
 %if 0%{?fedora} > 13
 Requires:       python-ZODB3
 %endif
