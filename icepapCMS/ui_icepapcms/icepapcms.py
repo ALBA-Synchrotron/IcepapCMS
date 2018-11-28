@@ -514,9 +514,9 @@ class IcepapCMS(QtGui.QMainWindow):
         driver = item.itemData
         system = driver.icepapsystem_name
         addr = driver.addr
-        expert = self._manager._ctrl_icepap.iPaps[system].isExpertFlagSet(addr)
+        expert = self._manager._ctrl_icepap.isExpertFlagSet(system, addr)
         expertFlag = (expert == 'YES')
-        message = "%s.%d: Set DataBase values?" % (system,addr)
+        message = "%s.%d: Set DataBase values?" % (system, addr)
         if expertFlag:
             message = "%s.%d: Set Driver Values?\n" %(system,addr)
             message = message + "FOUND CONFIG WITH EXPERT = YES"
@@ -653,7 +653,7 @@ class IcepapCMS(QtGui.QMainWindow):
                 driver_item.setText(driver_value)
                 table.setItem(row, 1, driver_item)
         
-        expert = self._manager._ctrl_icepap.iPaps[system].isExpertFlagSet(addr)
+        expert = self._manager._ctrl_icepap.isExpertFlagSet(system, addr)
         expertFlag = (expert == 'YES')
         dialog = DialogNewDriver(self, more_info_dialog, expertFlag)
         dialog.exec_()
