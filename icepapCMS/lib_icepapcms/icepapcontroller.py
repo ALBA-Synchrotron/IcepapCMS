@@ -23,6 +23,7 @@ from configmanager import ConfigManager
 from ..ui_icepapcms.messagedialogs import MessageDialogs
 import re
 import socket
+import collections
 from IPy import IP
 
 
@@ -90,6 +91,23 @@ class IcepapController(Singleton):
                 pass
         self.iPaps = {}
 
+    def _get_driver_cfg_info(self, icepap_name, driver_addr):
+        try:
+            cfg_info = self.iPaps[icepap_name][driver_addr].get_cfginfo()
+        except RuntimeError as e:
+            msg = 'Failed to retrieve cfginfo ' \
+                  '({0}).\n{1}'.format(driver_addr, e)
+            print(msg)
+            MessageDialogs.showErrorMessage(None, 'Driver Config Info', msg)
+            raise e
+        for key, val in cfg_info.items():
+            if val.startswith('{'):
+                val = val.replace("{", "")
+                val = val.replace("}", "")
+            val = val.split()
+            cfg_info[key] = val
+        return cfg_info
+
     def scanIcepapSystem(self, icepap_name, compare=False):
         """
         Get the status of the icepap system, the drivers present, and its
@@ -100,12 +118,12 @@ class IcepapController(Singleton):
             driver_name = "compare"
 
         driver_list = {}
-        self.icepap_cfginfos[icepap_name] = {}
-        self.icepap_cfgorder[icepap_name] = {}
+        self.icepap_cfginfos[icepap_name] = collections.OrderedDict()
+
         try:
             # IMPROVE OF SPEED BY SAVING CFGINFOS BY VERSION
             cfginfos_version_dict = {}
-            for addr in self.iPaps[icepap_name].getDriversAlive():
+            for addr in self.iPaps[icepap_name]:
                 """ TO-DO STORM review"""
                 driver = icepapdriver.IcepapDriver(driver_name, addr)
                 driver_cfg = self.getDriverConfiguration(icepap_name, addr)
@@ -116,23 +134,16 @@ class IcepapController(Singleton):
                 # better each version
                 driver_version = driver_cfg.getParameter(unicode('VER'), True)
                 if driver_version not in cfginfos_version_dict:
-                    cfginfo_dict, order_list = \
-                        self.getDriverCfgInfoDictAndList(icepap_name, addr)
-                    cfginfos_version_dict[driver_version] = (cfginfo_dict,
-                                                             order_list)
+                    cfginfos_version_dict[driver_version] = \
+                        self._get_driver_cfg_info(icepap_name, addr)
 
                 # GET CFGINFO FROM CACHED DICT INSTEAD OF QUERYING EACH TIME
-                # cfginfo_dict,order_list = \
-                #     self.getDriverCfgInfoDictAndList(icepap_name,addr)
-                cfginfo_dict, order_list = \
-                    cfginfos_version_dict[driver_version]
-
+                cfginfo_dict = cfginfos_version_dict[driver_version]
                 self.icepap_cfginfos[icepap_name][addr] = cfginfo_dict
-                self.icepap_cfgorder[icepap_name][addr] = order_list
 
                 driver.setName(driver_cfg.getParameter(
                     unicode("IPAPNAME"), True))
-                driver.setMode(self.iPaps[icepap_name].getMode(addr))
+                driver.setMode(self.iPaps[icepap_name][addr].mode)
                 driver_list[addr] = driver
 
         except Exception as e:
@@ -149,42 +160,41 @@ class IcepapController(Singleton):
 
         """ TO-DO STORM review"""
         driver_cfg = IcepapDriverCfg(unicode(datetime.datetime.now()))
-        driver_cfg.setSignature(self.iPaps[icepap_name].getConfig(driver_addr))
-        # ver = self.iPaps[icepap_name].getVersionDsp(driver_addr)
+        axis = self.iPaps[icepap_name][driver_addr]
+        try:
+            driver_cfg.setSignature(axis.config)
+        except Exception as e:
+            msg = 'Failed to retrieve configuration for ' \
+                  'driver {0}.\n{1}'.format(driver_addr, e)
+            print(msg)
+            MessageDialogs.showErrorMessage(None, 'Get Driver Config', msg)
+            raise e
+
         # THE VERSION NUMBER TO BE SHOWN IS THE DRIVER'S VERSION INSTEAD OF
         # THE DSP'S ONE.
-        ver = self.iPaps[icepap_name].getVersion(driver_addr, "DRIVER")
-        ipap_id = self.iPaps[icepap_name].getId(driver_addr)
-        ipap_name = self.iPaps[icepap_name].getName(driver_addr)
+        axis_name = axis.name
         # FIX NON-ASCII CHARS ISSUE IN NAME:
-        if not all(ord(c) < 128 for c in ipap_name):
-            ipap_name = repr(ipap_name)
-        driver_cfg.setParameter(unicode("VER"), ver)
-        driver_cfg.setParameter(unicode("ID"), ipap_id)
+        if not all(ord(c) < 128 for c in axis_name):
+            axis_name = repr(axis.name)
+        driver_cfg.setParameter(unicode("VER"), axis.ver.driver[0])
+        driver_cfg.setParameter(unicode("ID"), axis.id)
         try:
-            driver_cfg.setParameter(unicode("IPAPNAME"), ipap_name)
+            driver_cfg.setParameter(unicode("IPAPNAME"), axis_name)
         except Exception as e:
             msg = 'Exception when trying to write the driver name ' \
-                  '(%s):' % ipap_name
+                  '(%s):' % axis_name
             print msg
             print e
-            ipap_name = 'NON-ASCII_NAME'
-            driver_cfg.setParameter(unicode("IPAPNAME"), ipap_name)
+            axis_name = 'NON-ASCII_NAME'
+            driver_cfg.setParameter(unicode("IPAPNAME"), axis_name)
 
         # INSTEAD OF READING PARAM BY PARAM, WE SHOULD ASK THE ICEPAP FOR
         # ALL THE CONFIGURATION
         # WITH THE #N?:CFG COMMAND, USING SOME .getCfg() METHOD.
-        config = self.iPaps[icepap_name].getCfg(driver_addr)
-        config = config.replace('$\r\n', "")
-        config = config.replace('\r\n$', "")
-        params_list = config.split("\r\n")
-        for param_value in params_list:
-            splitted = param_value.split(" ")
-            # TRAC #38 TASK
-            param_name = splitted[0]
-            param_value = splitted[1:]
-            param_value = ' '.join(param_value)
-            driver_cfg.setParameter(param_name, param_value)
+        axis = self.iPaps[icepap_name][driver_addr]
+        cfg = axis.get_cfg()
+        for param_name, param_value in cfg.items():
+            driver_cfg.setParameter(unicode(param_name), param_value)
 
         return driver_cfg
 
