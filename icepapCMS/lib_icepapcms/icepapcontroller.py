@@ -11,8 +11,7 @@
 # ------------------------------------------------------------------------------
 
 
-from pyIcePAP import IcepapMode, IcePAPException, IcePAP, EthIcePAP, \
-    SerialIcePAP, IcepapStatus
+from pyIcePAP import EthIcePAPController, Mode
 from xml.dom import minidom, Node
 import os
 import sys
@@ -60,9 +59,10 @@ class IcepapController(Singleton):
         self.iPaps = {}
 
     def openConnection(self, icepap_name, host, port):
-        log_folder = None
-        if self.debug:
-            log_folder = self.log_folder
+        # TODO: Configure logging
+        # log_folder = None
+        # if self.debug:
+        #     log_folder = self.log_folder
         if not self.host_in_same_subnet(icepap_name):
             MessageDialogs.showInformationMessage(None, "Host connection",
                                                   "It is not allowed to "
@@ -71,9 +71,8 @@ class IcepapController(Singleton):
             return False
         else:
             try:
-                self.iPaps[icepap_name] = EthIcePAP(host, port,
-                                                    log_path=log_folder)
-                self.iPaps[icepap_name].connect()
+                # TODO: Configure logging log_path=log_folder
+                self.iPaps[icepap_name] = EthIcePAPController(host, port)
                 return True
             except Exception:
                 return False
