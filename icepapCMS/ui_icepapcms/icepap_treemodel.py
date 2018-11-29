@@ -13,7 +13,8 @@
 
 import sys
 from PyQt4 import QtCore, QtGui
-from ..lib_icepapcms import IcepapSystem, IcepapDriver, Conflict, IcepapMode
+from ..lib_icepapcms import IcepapSystem, IcepapDriver, Conflict
+from pyIcePAP import Mode
 
 
 
@@ -243,7 +244,7 @@ class TreeItem:
                 self.role = IcepapTreeModel.DRIVER_WARNING
             elif self.itemData.conflict == Conflict.DRIVER_MOVED:
                 self.role = IcepapTreeModel.DRIVER_MOVED
-            elif self.itemData.mode == IcepapMode.CONFIG:
+            elif self.itemData.mode == Mode.CONFIG:
                 self.role = IcepapTreeModel.DRIVER_CFG
         return self.role
         

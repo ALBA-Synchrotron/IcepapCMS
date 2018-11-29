@@ -15,8 +15,8 @@ from persistent import Persistent
 from icepapdrivercfg import IcepapDriverCfg
 from conflict import Conflict
 import socket, time
-from pyIcePAP import *
 import icepapcontroller
+from pyIcePAP import Mode
 
 class IcepapDriver(Persistent):
     def __init__(self, icepap_name, addr, cratenr, drivernr, name = None):
@@ -55,7 +55,7 @@ class IcepapDriver(Persistent):
         self.currentCfg.signConfig(signature)        
         self.startupCfg = self.currentCfg
         self.conflict = Conflict.NO_CONFLICT
-        self.mode = IcepapMode.OPER
+        self.mode = Mode.OPER
         self.historicCfg[(time.time())] = self.currentCfg
     
     def setStartupCfg(self):
