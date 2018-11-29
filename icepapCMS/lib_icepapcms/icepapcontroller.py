@@ -587,15 +587,14 @@ class IcepapController(Singleton):
             self.iPaps[icepap_name][driver_addr].cjog(speed)
 
     def enableDriver(self, icepap_name, driver_addr):
-        self.iPaps[icepap_name].enable(driver_addr)
+        self.iPaps[icepap_name][driver_addr].power = True
 
     def disableDriver(self, icepap_name, driver_addr):
-        self.iPaps[icepap_name].disable(driver_addr)
+        self.iPaps[icepap_name][driver_addr].power = False
 
     def checkIcepapStatus(self, icepap_name):
-        if icepap_name in self.iPaps and not self.iPaps[icepap_name].connected:
-            return False
-        if icepap_name not in self.iPaps:
+        if icepap_name not in self.iPaps \
+                or not self.iPaps[icepap_name].connected:
             return False
         return True
 
