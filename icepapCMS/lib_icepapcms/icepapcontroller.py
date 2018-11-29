@@ -17,14 +17,11 @@ from xml.dom import minidom, Node
 import os
 import sys
 from singleton import Singleton
-import time
 import datetime
 from icepapdrivercfg import IcepapDriverCfg
 import icepapdriver
 from configmanager import ConfigManager
 from ..ui_icepapcms.messagedialogs import MessageDialogs
-from PyQt4 import QtCore
-from PyQt4 import Qt
 import re
 import socket
 from IPy import IP
