@@ -16,7 +16,8 @@ from .ui_icepapdriverwidget import Ui_IcePapDriverWidget
 from .ui_icepapdriverwidgetsmall import Ui_IcePapDriverWidgetSmall
 from ...ui_icepapcms.qrc_icepapcms import *
 from ...ui_icepapcms.Led import Led
-from ...lib_icepapcms import MainManager, IcepapDriver, Conflict, IcepapMode, IcepapStatus
+from ...lib_icepapcms import MainManager, IcepapDriver, Conflict
+from pyIcePAP import Mode, State
 
 class IcePapDriverWidget(QtGui.QWidget):
     def __init__(self, parent=None, BigSize = True):
@@ -108,7 +109,7 @@ class IcePapDriverWidget(QtGui.QWidget):
             self.setPaletteColor(self.ui.frame,self.colorerror ,Qt.Qt.black)
         elif self._driver.conflict == Conflict.DRIVER_CHANGED:
             self.setPaletteColor(self.ui.frame,self.colorwarning,Qt.Qt.black)
-        elif self._driver.mode == IcepapMode.CONFIG:
+        elif self._driver.mode == Mode.CONFIG:
             self.setPaletteColor(self.ui.frame,self.colorconfig,Qt.Qt.black)
         else:
             self.setPaletteColor(self.ui.frame,self.colorok,Qt.Qt.black)
@@ -119,10 +120,11 @@ class IcePapDriverWidget(QtGui.QWidget):
             self.ui.ledStatus.changeColor(Led.RED)
             self.ui.ledStatus.on()
             return
-        
-        disabled = IcepapStatus.isDisabled(status)
-        ready = IcepapStatus.isReady(status)
-        mode = IcepapStatus.getMode(status)
+
+        axis_state = State(status)
+        disabled = axis_state.is_disabled()
+        ready = axis_state.is_ready()
+        mode = axis_state.get_mode_code()
         if self.status <> disabled or self.mode <> mode or self.power <> power or self.ready <> ready:
             if disabled == 0:
                 if power:
@@ -161,8 +163,8 @@ class IcePapDriverWidget(QtGui.QWidget):
         self.ready = ready   
         self.power = power
 
-        lower = IcepapStatus.getLimitNegative(status) 
-        upper = IcepapStatus.getLimitPositive(status)
+        lower = axis_state.is_limit_negative()
+        upper = axis_state.is_limit_positive()
         if lower:
             self.ui.ledLimitNeg.on()
         else:
