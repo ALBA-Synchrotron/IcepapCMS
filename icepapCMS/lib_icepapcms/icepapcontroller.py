@@ -337,25 +337,22 @@ class IcepapController(Singleton):
         driver
         """
         if not self.iPaps[icepap_name].connected:
-            return -1, False, -1
-
-        if self.programming_ipap is not None:
-            return -1, False, -1
-
-        try:
-            register = self.iPaps[icepap_name].getStatus(driver_addr)
-            if "x" in register:
-                register = int(register, 16)
-            else:
-                register = int(register)
-
-            power = IcepapStatus.isPowerOn(register)
-
-            current = self.iPaps[icepap_name].getCurrent(driver_addr)
-
-            state = (int(register), power, float(current))
+            state = (-1, False, -1)
             return state
+        if self.programming_ipap is not None:
+            state = (-1, False, -1)
+            return state
+        try:
+            axis_state = self.iPaps[icepap_name].get_states(driver_addr)[0]
+            power = axis_state.is_poweron()
+            cfg_current = self.iPaps[icepap_name][driver_addr].get_cfg('NCURR')
+            current = cfg_current['NCURR']
+            status_register = axis_state.status_register
+            return status_register, power, current
         except Exception:
+            msg = 'Failed to retrieve status for ' \
+                  'driver {0}.\n{1}'.format(driver_addr, e)
+            print(msg)
             return -1, False, -1
 
     def getDriverTestStatus(self, icepap_name, driver_addr, pos_sel, enc_sel):
@@ -366,40 +363,42 @@ class IcepapController(Singleton):
         if self.programming_ipap is not None:
             return -1, -1, [-1, -1]
 
-        register = self.iPaps[icepap_name].getStatus(driver_addr)
-        if "x" in register:
-            register = int(register, 16)
-        else:
-            register = int(register)
+        axis_state = self.iPaps[icepap_name].get_states(driver_addr)[0]
+        register = axis_state.status_register
+        power = axis_state.is_poweron()
 
-        power = IcepapStatus.isPowerOn(register)
-
-        position = self.iPaps[icepap_name].getPositionFromBoard(driver_addr,
-                                                                pos_sel)
-        encoder = self.iPaps[icepap_name].getEncoder(driver_addr, enc_sel)
-
+        axis = self.iPaps[icepap_name][driver_addr]
         try:
-            encoder = float(encoder)
-        except Exception:
-            encoder = -1
-        try:
-            position = float(position)
-        except Exception:
+            position = axis.get_pos(pos_sel)
+        except Exception as e:
+            msg = 'Failed to retrieve position for driver ' \
+                  '{0}.\n{1}'. format(driver_addr, e)
+            print(msg)
             position = -1
-        posarray = [position, encoder]
 
-        state = (int(register), power, posarray)
-        return state
+        try:
+            encoder = axis.get_enc(enc_sel)
+        except Exception as e:
+            msg = 'Failed to retrieve encoder for driver ' \
+                  '{0}.\n{1}'.format(driver_addr, e)
+            print(msg)
+            encoder = -1
+
+        return register, power, [position, encoder]
 
     def getDriverActiveStatus(self, icepap_name, driver_addr):
         try:
-            return self.iPaps[icepap_name].getActive(driver_addr)
-        except IcePAPException as iex:
-            msg = 'Error reading active status.'
-            msg += '\n' + iex.msg
-            MessageDialogs.showErrorMessage(None, 'get active', msg)
-            print iex.msg
-            raise iex
+            active = self.iPaps[icepap_name][driver_addr]
+            if active:
+                return 'YES'
+            else:
+                return 'NO'
+        except Exception as e:
+            msg = 'Failed to read activation status for ' \
+                  'driver {0}.\n{1}'.format(driver_addr, e)
+            print(msg)
+            MessageDialogs.showErrorMessage(None, 'Get Active', msg)
+            raise e
 
     def readIcepapParameters(self, icepap_name, driver_addr, par_list):
         try:
