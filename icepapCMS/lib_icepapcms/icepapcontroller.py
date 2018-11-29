@@ -547,12 +547,12 @@ class IcepapController(Singleton):
             return False
         return True
 
+    def isExpertFlagSet(self, icepap_name, driver_addr):
+        axis = self.iPaps[icepap_name][driver_addr]
         try:
-            return self.iPaps[icepap_name].checkDriver(driver_addr)
+            return axis.get_cfg('EXPERT')['EXPERT']
         except Exception:
-            print "Unexpected error:", sys.exc_info()[0]
-            return -1
-
+            return 'NO'
 
     def _parseDriverTemplateFile(self):
         self.config_parameters = []
