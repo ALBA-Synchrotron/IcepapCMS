@@ -439,40 +439,55 @@ class IcepapController(Singleton):
 
     def configDriverToDefaults(self, icepap_name, driver_addr):
         try:
-            self.iPaps[icepap_name].setDefaultConfig(driver_addr)
-        except IcePAPException as iex:
-            msg = 'Error configuring to defaults.'
-            msg += '\n' + iex.msg
-            MessageDialogs.showErrorMessage(None, 'default config', msg)
-            print iex.msg
-            raise iex
+            self.iPaps[icepap_name][driver_addr].set_cfg('DEFAULT')
+        except RuntimeError as e:
+            msg = 'Error configuring driver {0} to ' \
+                  'defaults.\n{1}'.format(driver_addr, e)
+            print(msg)
+            MessageDialogs.showErrorMessage(None, 'Default Config', msg)
+            raise e
 
     def getDriverMotionValues(self, icepap_name, driver_addr):
-        speed = self.iPaps[icepap_name].getSpeed(driver_addr)
-        acc = self.iPaps[icepap_name].getAcceleration(driver_addr)
-        state = (speed, acc)
-        return state
+        try:
+            speed = self.iPaps[icepap_name][driver_addr].velocity
+            acc = self.iPaps[icepap_name][driver_addr].acctime
+        except RuntimeError as e:
+            msg = 'Failed to retrieve motion values(velocity, acctime) ' \
+                  'from driver {0}.\n{1}'.format(driver_addr, e)
+            print(msg)
+            MessageDialogs.showErrorMessage(None, 'Driver Motion Values', msg)
+            raise e
+        return speed, acc
 
     def setDriverMotionValues(self, icepap_name, driver_addr, values):
         try:
-            self.iPaps[icepap_name].setSpeed(driver_addr, values[0])
-            self.iPaps[icepap_name].setAcceleration(driver_addr, values[1])
+            self.iPaps[icepap_name][driver_addr].velocity = values[0]
+            self.iPaps[icepap_name][driver_addr].acctime = values[1]
             return 0
-        except Exception:
+        except Exception as e:
+            msg = 'Failed to set motion values for ' \
+                  'driver {0}.\n{1}'.format(driver_addr, e)
+            print(msg)
             return -1
 
     def setDriverPosition(self, icepap_name, driver_addr, pos_sel, position):
         try:
-            self.iPaps[icepap_name].setPosition(driver_addr, position, pos_sel)
+            self.iPaps[icepap_name][driver_addr].set_pos(pos_sel, position)
             return 0
-        except Exception:
+        except Exception as e:
+            msg = 'Failed to set driver position for ' \
+                  'selector {0}\n{1}'.format(pos_sel, e)
+            print(msg)
             return -1
 
     def setDriverEncoder(self, icepap_name, driver_addr, enc_sel, position):
         try:
-            self.iPaps[icepap_name].setEncoder(driver_addr, position, enc_sel)
+            self.iPaps[icepap_name][driver_addr].set_enc(enc_sel, position)
             return 0
-        except Exception:
+        except Exception as e:
+            msg = 'Failed to set encoder position for ' \
+                  'selector {0}\n{1}'.format(enc_sel, e)
+            print(msg)
             return -1
 
     def moveDriver(self, icepap_name, driver_addr, steps):
@@ -532,6 +547,7 @@ class IcepapController(Singleton):
         doc = minidom.parse(self.config_template)
         root = doc.documentElement
         for section in root.getElementsByTagName("section"):
+            section_name = ''
             if section.nodeType == Node.ELEMENT_NODE:
                     section_name = section.attributes.get('name').value
             inTestSection = (section_name == "test")
