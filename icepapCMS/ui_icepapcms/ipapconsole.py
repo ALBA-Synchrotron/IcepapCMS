@@ -1,37 +1,46 @@
 #!/usr/bin/env python
 
-# ------------------------------------------------------------------------------
-# This file is part of icepapCMS (https://github.com/ALBA-Synchrotron/icepapcms)
+# -----------------------------------------------------------------------------
+# This file is part of icepapCMS
+# (https://github.com/ALBA-Synchrotron/icepapcms)
 #
 # Copyright 2008-2018 CELLS / ALBA Synchrotron, Bellaterra, Spain
 #
 # Distributed under the terms of the GNU General Public License,
 # either version 3 of the License, or (at your option) any later version.
 # See LICENSE.txt for more info.
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 
-from PyQt4 import QtCore, QtGui, Qt
+from PyQt4 import QtGui, QtCore
 from ui_ipapconsole import Ui_IpapConsole
 from messagedialogs import MessageDialogs
-from ..lib_icepapcms import ConfigManager,IcepapController
-from pyIcePAP import EthIcePAP, IcePAPException, IcePAP, IcepapStatus
-import sys, os
-from qrc_icepapcms import *
+from ..lib_icepapcms import ConfigManager, IcepapController
+from pyIcePAP import EthIcePAP
+import sys
+import os
 
 
+# TODO: Adapt to use pyIcePAP API 2.X
 class IcepapConsole(QtGui.QDialog):
     def __init__(self, parent=None):
         QtGui.QDialog.__init__(self, parent, QtCore.Qt.Window)
-        
+
         self.ui = Ui_IpapConsole()
-        
-        self.ui.setupUi(self)        
+
+        self.ui.setupUi(self)
         self.ui.btnDisconnect.setDisabled(True)
         self.ui.console.setDisabled(True)
-        QtCore.QObject.connect(self.ui.btnConnect,QtCore.SIGNAL("clicked()"),self.btnConnect_on_click)
-        QtCore.QObject.connect(self.ui.btnDisconnect,QtCore.SIGNAL("clicked()"),self.btnDisconnect_on_click)
-        QtCore.QObject.connect(self.ui.console,QtCore.SIGNAL("commandReceived(const QString &)"),self.sendWriteReadCommand)
+        QtCore.QObject.connect(self.ui.btnConnect,
+                               QtCore.SIGNAL("clicked()"),
+                               self.btnConnect_on_click)
+        QtCore.QObject.connect(self.ui.btnDisconnect,
+                               QtCore.SIGNAL("clicked()"),
+                               self.btnDisconnect_on_click)
+        QtCore.QObject.connect(self.ui.console,
+                               QtCore.SIGNAL("commandReceived(const "
+                                             "QString &)"),
+                               self.sendWriteReadCommand)
 
         self.prompt = "icepap:>"
         font = QtGui.QFont()
@@ -41,18 +50,21 @@ class IcepapConsole(QtGui.QDialog):
         self.log_folder = None
         self._config = ConfigManager()
         try:
-            self.debug = self._config.config[self._config.icepap]["debug_enabled"] == str(True)
-            self.log_folder = self._config.config[self._config.icepap]["log_folder"]
+            ipap_cfg = self._config.config[self._config.icepap]
+            self.debug = ipap_cfg["debug_enabled"] == str(True)
+            self.log_folder = ipap_cfg["log_folder"]
             if not os.path.exists(self.log_folder):
                 os.mkdir(self.log_folder)
-        except:
+        except Exception:
             print "icepapconsole_init():", sys.exc_info()
-        
+
     def btnConnect_on_click(self):
         try:
             addr = str(self.ui.txtHost.text())
             if addr == '':
-                MessageDialogs.showErrorMessage(None,'Host connection','Please, write a host name to connect to.')
+                MessageDialogs.showErrorMessage(None, 'Host connection',
+                                                'Please, write a host '
+                                                'name to connect to.')
                 return
             if addr.find(":") >= 0:
                 aux = addr.split(':')
@@ -62,25 +74,26 @@ class IcepapConsole(QtGui.QDialog):
                 host = addr
                 port = "5000"
 
-            if hasattr(self._config,'_options'):
+            if hasattr(self._config, '_options'):
                 ipapcontroller = IcepapController()
                 if not ipapcontroller.host_in_same_subnet(host):
-                    MessageDialogs.showInformationMessage(None,"Host connection","It is not allowed to connect to %s. (Check subnet)"%host)
+                    MessageDialogs.showInformationMessage(None,
+                                                          "Host connection",
+                                                          "It is not allowed "
+                                                          "to connect to %s. "
+                                                          "(Check "
+                                                          "subnet)" % host)
                     return
             else:
                 # JUST RUNNING AS A STAND-ALONE
                 pass
-            self.prompt = str(host) + " > "   
+            self.prompt = str(host) + " > "
             log_folder = None
             if self.debug:
                 log_folder = self.log_folder
-            self.ipap = EthIcePAP(host , port, log_path = log_folder)
+            self.ipap = EthIcePAP(host, port, log_path=log_folder)
             self.ipap.connect()
-            #try:
-            #    rsp = self.ipap.sendWriteReadCommand("?_help")
-            #    self.writeConsole(rsp)
-            #except:
-            #    MessageDialogs.showWarningMessage(None,"Command error", "The ?_help command is not supported at "+addr)
+
             self.ui.btnDisconnect.setDisabled(False)
             self.ui.btnConnect.setDisabled(True)
             self.ui.console.setDisabled(False)
@@ -89,27 +102,28 @@ class IcepapConsole(QtGui.QDialog):
             self.writeConsole("Connected to Icepap :  " + addr)
             self.ui.console.setPrompt(self.prompt)
             self.writePrompt()
-        except Exception,e:
-            MessageDialogs.showErrorMessage(None, "Connection error", "Error connecting to " + addr+"\n"+str(e))
-            
-    
+        except Exception as e:
+            MessageDialogs.showErrorMessage(None, "Connection error",
+                                            "Error connecting "
+                                            "to " + addr + "\n" + str(e))
+
     def btnDisconnect_on_click(self):
         try:
             self.ipap.disconnect()
-        except:
+        except Exception:
             pass
         self.ui.btnDisconnect.setDisabled(True)
         self.ui.btnConnect.setDisabled(False)
         self.ui.console.clear()
         self.ui.console.setDisabled(True)
         self.ui.txtHost.setFocus()
-        
-    def writeConsole(self,txt):
-        self.ui.console.write(txt+"\n")
-    
+
+    def writeConsole(self, txt):
+        self.ui.console.write(txt + "\n")
+
     def writePrompt(self):
         self.ui.console.write(self.prompt)
-        
+
     def sendWriteReadCommand(self, cmd):
         try:
             cmd = str(cmd)
@@ -122,19 +136,18 @@ class IcepapConsole(QtGui.QDialog):
                 self.btnDisconnect_on_click()
                 self.close()
                 return
-            if cmd.find("?") >= 0 or cmd.find("#")>= 0:
+            if cmd.find("?") >= 0 or cmd.find("#") >= 0:
                 res = self.ipap.sendWriteReadCommand(cmd)
                 self.writeConsole(res)
-            elif cmd.find("HELP")>=0:
+            elif cmd.find("HELP") >= 0:
                 res = self.ipap.sendWriteReadCommand(cmd)
                 self.writeConsole(res)
             else:
                 self.ipap.sendWriteCommand(cmd)
-        except Exception,e:
+        except Exception as e:
             self.writeConsole("Some exception issuing command '%s'." % cmd)
             self.writeConsole("                 Error is: '%s'." % str(e))
 
-    
     def closeEvent(self, event):
         self.btnDisconnect_on_click()
-        event.accept()       
+        event.accept()
