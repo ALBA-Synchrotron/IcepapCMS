@@ -42,7 +42,6 @@ class IcepapController(Singleton):
         self._parseDriverTemplateFile()
         self._config = ConfigManager()
         self.icepap_cfginfos = {}
-        self.icepap_cfgorder = {}
         self.programming_ipap = None
         try:
             ipap = self._config.icepap
@@ -201,79 +200,77 @@ class IcepapController(Singleton):
     def setDriverConfiguration(self, icepap_name, driver_addr, new_values,
                                expertFlag=False):
         """ TO-DO STORM review"""
-        if self.iPaps[icepap_name].getMode(driver_addr) != IcepapMode.CONFIG:
-            self.iPaps[icepap_name].setConfig(driver_addr)
+        axis = self.iPaps[icepap_name][driver_addr]
+        try:
+            if Mode.CONFIG not in axis.mode:
+                axis.set_config()
+        except RuntimeError as e:
+            msg = 'Failed to set driver {0} in CONFIG mode.\n{1}'.format(
+                driver_addr, e)
+            print(msg)
+            MessageDialogs.showErrorMessage(None, 'Set Driver Mode', msg)
+            raise e
+
+        # Convert the new_values list in a dictionary
+        new_values_dict = {}
+        for name, value in new_values:
+            new_values_dict[name] = value
 
         # THE CONFIGURATION VALUES SHOULD BE SENT IN A SPECIFIC ORDER
-        order_list = self.icepap_cfgorder[icepap_name][driver_addr]
-        params_ordered = {}
-        not_found_index = []
-        for (name, value) in new_values:
-            try:
-                index = order_list.index(name)
-                params_ordered[index] = (name, value)
-            except Exception:
-                not_found_index.append((name, value))
-
-        keys = params_ordered.keys()
-        keys.sort()
-        for key in keys:
-            (name, value) = params_ordered.get(key)
-            if name != "VER":
+        cfg_info = self.icepap_cfginfos[icepap_name][driver_addr]
+        for cfg_name in cfg_info:
+            if cfg_name in new_values_dict:
                 try:
-                    self.iPaps[icepap_name].setCfgParameter(driver_addr,
-                                                            name, str(value))
-                except IcePAPException as iex:
-                    msg = 'Error configuring parameter %s = %s' % (name,
-                                                                   str(value))
-                    msg += '\n'+iex.msg
-                    MessageDialogs.showErrorMessage(None, 'Driver conf', msg)
-                    print iex.msg
-                    raise iex
+                    value = str(new_values_dict.pop(cfg_name))
+                    axis.set_cfg(cfg_name, value)
+                except Exception as e:
+                    msg = 'Error configuring parameter {0} = {1} for driver ' \
+                          '{2}\n{3}'.format(cfg_name, value, driver_addr, e)
+                    print(msg)
+                    MessageDialogs.showErrorMessage(None, 'Set Driver Config',
+                                                    msg)
+                    raise e
 
-        # NOW THE NOT_FOUND INDEX ORDER...
-        for (name, value) in not_found_index:
-            try:
-                if name == "NAME" or name == "IPAPNAME":
-                    name = "NAME"
+        # The new_values will have the the not found parameter on the
+        # configuration dictionary
+        for cfg_name, value in new_values_dict.items():
+            if cfg_name.upper() in ['VER', 'ID']:
+                # Ignore the change
+                pass
+            elif cfg_name.upper() in ['NAME', 'IPAPNAME']:
+                try:
+                    have_namelock = False
+                    cfg = axis.get_cfg()
                     # IN CASE OF NAMELOCK SET TO YES, UNLOCK FIRST
-                    namelock = \
-                        self.iPaps[icepap_name].getCfgParameter(driver_addr,
-                                                                'NAMELOCK')
-                    if namelock == 'YES':
-                        self.iPaps[icepap_name].setCfgParameter(driver_addr,
-                                                                'NAMELOCK',
-                                                                'NO')
-                    self.iPaps[icepap_name].writeParameter(driver_addr,
-                                                           name, str(value))
-                    self.iPaps[icepap_name].setCfgParameter(driver_addr,
-                                                            'NAMELOCK',
-                                                            namelock)
-                elif name in ["VER", "ID"]:
-                    pass
-                else:
-                    self.iPaps[icepap_name].setCfgParameter(driver_addr,
-                                                            name,
-                                                            str(value))
-            except IcePAPException as iex:
-                msg = 'Error configuring parameter %s = %s' % (name,
-                                                               str(value))
-                msg += '\n'+iex.msg
-                MessageDialogs.showErrorMessage(None, 'Driver conf', msg)
-                print iex.msg
-                raise iex
-            except Exception as e:
-                print "something happened when configuring the driver", e
-
+                    have_namelock = cfg['NAMELOCK'].upper() == 'YES'
+                    if have_namelock:
+                        axis.set_cfg('NAMELOCK', 'NO')
+                    axis.name = value
+                except Exception as e:
+                    msg = 'Error configuring parameter ' \
+                          '{0} = {1}\n{2}'.format(cfg_name, value, e)
+                    print(msg)
+                    MessageDialogs.showErrorMessage(None, 'Set Driver Config',
+                                                    msg)
+                finally:
+                    if have_namelock:
+                        axis.set_cfg('NAMELOCK', 'YES')
+            else:
+                msg = 'Parameter {0}({1}) is not exist for the current ' \
+                      'version. Check the configuration ' \
+                      'parameter list ({2}).'.format(cfg_name, value,
+                                                    cfg_info.keys())
+                print(msg)
+                MessageDialogs.showErrorMessage(None, 'Set Driver Config', msg)
+                raise ValueError(msg)
         try:
             if expertFlag:
-                self.iPaps[icepap_name].setExpertFlag(driver_addr)
-        except IcePAPException as iex:
-            msg = 'Error setting expert flag.'
-            msg += '\n' + iex.msg
+                axis.set_cfg('EXPERT')
+        except Exception as e:
+            msg = 'Error setting expert flag.{0}\n'.format(e)
             MessageDialogs.showErrorMessage(None, 'Expert flag', msg)
-            print iex.msg
-            raise iex
+            print(msg)
+            raise e
 
         driver_cfg = self.getDriverConfiguration(icepap_name, driver_addr)
         return driver_cfg
@@ -281,61 +278,58 @@ class IcepapController(Singleton):
     def discardDriverCfg(self, icepap_name, driver_addr):
         try:
             if icepap_name in self.iPaps:
-                self.iPaps[icepap_name].signConfig(driver_addr, "")
-        except IcePAPException as iex:
-            msg = 'Error signing config.'
-            msg += '\n' + iex.msg
-            MessageDialogs.showErrorMessage(None, 'config', msg)
-            print iex.msg
-            raise iex
+                self.iPaps[icepap_name][driver_addr].set_config()
+        except RuntimeError as e:
+            msg = 'Error discarding driver config.\n{0}'.format(e)
+            print(msg)
+            MessageDialogs.showErrorMessage(None, 'Discard Driver Config', msg)
+            raise e
 
     def signDriverConfiguration(self, icepap_name, driver_addr, signature):
         try:
             if icepap_name in self.iPaps:
-                cfg = IcepapMode.CONFIG
-                if self.iPaps[icepap_name].getMode(driver_addr) != cfg:
-                    self.iPaps[icepap_name].setConfig(driver_addr)
-                self.iPaps[icepap_name].signConfig(driver_addr, signature)
-        except IcePAPException as iex:
-            msg = 'Error signing config.'
-            msg += '\n' + iex.msg
-            MessageDialogs.showErrorMessage(None, 'sign driver', msg)
-            print iex.msg
-            raise iex
+                axis = self.iPaps[icepap_name][driver_addr]
+                if Mode.CONFIG not in axis.mode:
+                    axis.set_config()
+                axis.set_config(signature)
+        except RuntimeError as e:
+            msg = 'Error signing config.\n{0}'.format(e)
+            print(msg)
+            MessageDialogs.showErrorMessage(None, 'Sign Driver', msg)
+            raise e
 
     def startConfiguringDriver(self, icepap_name, driver):
         try:
-            mode = self.iPaps[icepap_name].getMode(driver.addr)
-            if mode == IcepapMode.PROG:
-                return mode
-            if mode != IcepapMode.CONFIG:
-                self.iPaps[icepap_name].setConfig(driver.addr)
-            driver.setMode(IcepapMode.CONFIG)
-        except IcePAPException as iex:
-            msg = 'Error starting config.'
-            msg += '\n' + iex.msg
+            mode = self.iPaps[icepap_name][driver.addr].mode
+            if Mode.PROG in mode:
+                return mode[0]
+            if Mode.CONFIG not in mode:
+                self.iPaps[icepap_name][driver.addr].set_config()
+            driver.setMode(Mode.CONFIG)
+        except RuntimeError as e:
+            msg = 'Error starting config.\n{0}'.format(e)
+            print(msg)
             MessageDialogs.showErrorMessage(None, 'config', msg)
-            print iex.msg
-            raise iex
-        return mode
+            raise e
+        return mode[0]
 
     def endConfiguringDriver(self, icepap_name, driver):
+        axis = self.iPaps[icepap_name][driver.addr]
         try:
             if icepap_name not in self.iPaps:
                 return
-            mode = self.iPaps[icepap_name].getMode(driver.addr)
-            if mode == IcepapMode.PROG:
+            if Mode.PROG in axis.mode:
                 return
-            if mode != IcepapMode.OPER:
-                last_signature = self.iPaps[icepap_name].getConfig(driver.addr)
-                self.iPaps[icepap_name].signConfig(driver.addr, last_signature)
-            driver.setMode(IcepapMode.OPER)
-        except IcePAPException as iex:
-            msg = 'Error ending config.'
-            msg += '\n' + iex.msg
-            MessageDialogs.showErrorMessage(None, 'end config', msg)
-            print iex.msg
-            raise iex
+            if Mode.OPER not in axis.mode:
+                last_signature = axis.config
+                axis.set_config(last_signature)
+            driver.setMode(Mode.OPER)
+        except RuntimeError as e:
+            msg = 'Error ending config for driver ' \
+                  '{0}.\n{1}'.format(driver.addr, e)
+            print(msg)
+            MessageDialogs.showErrorMessage(None, 'End Config', msg)
+            raise e
 
     def getDriverStatus(self, icepap_name, driver_addr):
         """
