@@ -554,36 +554,37 @@ class IcepapController(Singleton):
             return -1
 
     def moveDriver(self, icepap_name, driver_addr, steps):
-
-        if self.iPaps[icepap_name].getMode(driver_addr) == IcepapMode.CONFIG:
+        axis = self.iPaps[icepap_name][driver_addr]
+        if Mode.CONFIG in axis.mode:
             # CMOVE ONLY ALLOWS ABSOLUTE POSITIONS, IT SHOULD BE CALCULATED
             # self.iPaps[icepap_name].cmove(driver_addr, steps)
-            pos = self.iPaps[icepap_name].getPosition(driver_addr)
-            new_pos = int(pos) + int(steps)
-            self.iPaps[icepap_name].cmove(driver_addr, new_pos)
+            new_pos = axis.pos + int(steps)
+            axis.cmove(new_pos)
         else:
-            self.iPaps[icepap_name].rmove(driver_addr, steps)
+            axis.rmove(steps)
 
     def moveDriverAbsolute(self, icepap_name, driver_addr, pos):
-        if self.iPaps[icepap_name].getMode(driver_addr) == IcepapMode.CONFIG:
-            self.iPaps[icepap_name].cmove(driver_addr, pos)
+        axis = self.iPaps[icepap_name][driver_addr]
+        if Mode.CONFIG in axis.mode:
+            axis.cmove(pos)
         else:
-            self.iPaps[icepap_name].move(driver_addr, pos)
+            axis.move(pos)
 
     def stopDriver(self, icepap_name, driver_addr):
-        self.iPaps[icepap_name].stop(driver_addr)
+        self.iPaps[icepap_name][driver_addr].stop()
 
     def abortDriver(self, icepap_name, driver_addr):
-        self.iPaps[icepap_name].abort(driver_addr)
+        self.iPaps[icepap_name][driver_addr].abort()
 
     def blinkDriver(self, icepap_name, driver_addr, secs):
-        self.iPaps[icepap_name].blink(driver_addr, secs)
+        self.iPaps[icepap_name][driver_addr].blink(secs)
 
     def jogDriver(self, icepap_name, driver_addr, speed):
-        if self.iPaps[icepap_name].getMode(driver_addr) != IcepapMode.CONFIG:
-            self.iPaps[icepap_name].jog(driver_addr, speed)
+        axis =self.iPaps[icepap_name][driver_addr]
+        if Mode.CONFIG not in axis.mode:
+            self.iPaps[icepap_name][driver_addr].jog(speed)
         else:
-            self.iPaps[icepap_name].cjog(driver_addr, speed)
+            self.iPaps[icepap_name][driver_addr].cjog(speed)
 
     def enableDriver(self, icepap_name, driver_addr):
         self.iPaps[icepap_name].enable(driver_addr)
