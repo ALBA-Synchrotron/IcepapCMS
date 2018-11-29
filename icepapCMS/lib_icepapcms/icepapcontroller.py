@@ -401,67 +401,41 @@ class IcepapController(Singleton):
             raise e
 
     def readIcepapParameters(self, icepap_name, driver_addr, par_list):
+        axis = self.iPaps[icepap_name][driver_addr]
         try:
             values = []
             for name in par_list:
                 if type(name) == type(values):
-                    value = self.iPaps[icepap_name].readParameter(driver_addr,
-                                                                  name[0],
-                                                                  name[1])
+                    cmd = '?{0} {1}'.format(name[0], name[1])
                 else:
-                    value = self.iPaps[icepap_name].readParameter(
-                        driver_addr, name)
+                    cmd = '?{0}'.format(name)
+
+                value = ' '.join(axis.send_cmd(cmd))
                 values.append([name, value])
 
             return values
-        except IcePAPException as iex:
-            msg = 'Error reading parameters for driver %s.' % (str(
-                driver_addr))
-            msg += '\n' + iex.msg
-            MessageDialogs.showErrorMessage(None, 'read param', msg)
-            print iex.msg
-            raise iex
+        except Exception as e:
+            msg = 'Failed to read parameter {0} ' \
+                  'for driver {1}.\n{2}'.format(name, driver_addr, e)
+            print(msg)
+            MessageDialogs.showErrorMessage(None, 'Read Param', msg)
+            raise e
 
     def writeIcepapParameters(self, icepap_name, driver_addr, par_var_list):
-        # THE CONFIGURATION VALUES SHOULD BE SENT IN A SPECIFIC ORDER
-        order_list = self.icepap_cfgorder[icepap_name][driver_addr]
-        params_ordered = {}
-        not_found_index = []
-        for (name, value) in par_var_list:
+        # This method is only called with the command widgets changes, not with
+        # the configuration widgets changes. For that reason it is not
+        # needed to send the parameter in any specific order.
+        axis = self.iPaps[icepap_name][driver_addr]
+        for param, value in par_var_list:
+            cmd = '{0} {1}'.format(param, value)
             try:
-                index = order_list.index(name)
-                params_ordered[index] = (name, value)
-            except Exception:
-                not_found_index.append((name, value))
-
-        keys = params_ordered.keys()
-        keys.sort()
-        for key in keys:
-            (name, value) = params_ordered.get(key)
-            try:
-                self.iPaps[icepap_name].writeParameter(driver_addr, name,
-                                                       value)
-            except IcePAPException as iex:
-                msg = 'Error writing icepap parameter %s = %s.' % (name,
-                                                                   str(value))
-                msg += '\n'+iex.msg
-                MessageDialogs.showErrorMessage(None, 'write param', msg)
-                print iex.msg
-                raise iex
-
-        # NOW THE NOT FOUND INDEX ORDER...
-        for (name, value) in not_found_index:
-            try:
-                self.iPaps[icepap_name].writeParameter(driver_addr,
-                                                       name,
-                                                       value)
-            except IcePAPException as iex:
-                msg = 'Error writing icepap parameter %s = %s.' % (name,
-                                                                   str(value))
-                msg += '\n' + iex.msg
-                MessageDialogs.showErrorMessage(None, 'write param', msg)
-                print iex.msg
-                raise iex
+                axis.send_cmd(cmd)
+            except Exception as e:
+                msg = 'Failed to write icepap ' \
+                      'parameter {0} = {1}\n{2}'.format(param, value, e)
+                print(msg)
+                MessageDialogs.showErrorMessage(None, 'Write Param', msg)
+                raise e
 
     def configDriverToDefaults(self, icepap_name, driver_addr):
         try:
