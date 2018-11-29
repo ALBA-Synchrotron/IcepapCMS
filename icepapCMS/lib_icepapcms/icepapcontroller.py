@@ -474,61 +474,6 @@ class IcepapController(Singleton):
             print iex.msg
             raise iex
 
-    def getDriverCfgInfo(self, icepap_name, driver_addr):
-        try:
-            cfginfo = self.iPaps[icepap_name].getCfgInfo(driver_addr)
-            return cfginfo
-        except IcePAPException as iex:
-            msg = 'Error getting cfginfo (%s).' % (str(driver_addr))
-            msg += '\n' + iex.msg
-            MessageDialogs.showErrorMessage(None, 'cfg info', msg)
-            print iex.msg
-            raise iex
-
-    def getDriverCfgInfoDictAndList(self, icepap_name, driver_addr):
-        """
-        Returns a dictionary with all the Driver params cfginfo
-        """
-
-        """ TO-DO STORM review"""
-        # THE AVAILABLE OPTIONS FOR EACH PARAMETER ARE ALSO GIVEN BY THE
-        # DRIVER INSTEAD OF FIXED VALUES FROM THE APPLICATION
-        # THE CFGINFO IS NEEDED TO POPULATE THE QComboBoxes with correct
-        # available values
-        cfginfo_str = self.getDriverCfgInfo(icepap_name, driver_addr)
-        cfginfo_str = cfginfo_str.replace('$\r\n', "")
-        cfginfo_str = cfginfo_str.replace('\r\n$', "")
-        cfginfo_list = cfginfo_str.split("\r\n")
-        cfginfo_dict = {}
-        order_list = []
-        for param_cfg in cfginfo_list:
-            split = param_cfg.split(" ", 1)
-            if len(split) > 1:
-                param = split[0]
-                values = split[1]
-                values = values.replace("{", "")
-                values = values.replace("}", "")
-                cfginfo_dict[split[0]] = values.split()
-                order_list.append(param)
-            else:
-                print("THE CONTROLLER DID NOT RECEIVE ALL THE CFGINFO FOR "
-                      "THE DRIVER "+str(driver_addr))
-                print("PLEASE, TRY TO RECONNECT TO THE " +
-                      str(icepap_name)+" ICEPAP SYSTEM")
-                print "AND REPORT THIS OUTPUT TO THE MANTAINER\n\n\n"
-
-                msg = "Could not retrive all the CFGINFO for the driver "\
-                      + str(driver_addr)\
-                      + ". Please, try to reconnect to "\
-                      + str(icepap_name)+"."
-                MessageDialogs.showWarningMessage(None,
-                                                  "Driver configuration",
-                                                  msg)
-                # print "ALL INFO WAS (str): "+str(cfginfo_str)
-                # print "ALL INFO WAS (list): "+str(cfginfo_list)
-                # print "SOME ERROR GETTING CFGINFO: "+str(param_cfg)
-        return cfginfo_dict, order_list
-
     def getDriverMotionValues(self, icepap_name, driver_addr):
         speed = self.iPaps[icepap_name].getSpeed(driver_addr)
         acc = self.iPaps[icepap_name].getAcceleration(driver_addr)
@@ -602,24 +547,12 @@ class IcepapController(Singleton):
             return False
         return True
 
-    def _checkDriverStatus(self, icepap_name, driver_addr):
-        """
-            Check the status of a Icepap Driver
-             0 - Disabled
-             1 - Enabled
-            -1 - Not Present
-        """
         try:
             return self.iPaps[icepap_name].checkDriver(driver_addr)
         except Exception:
             print "Unexpected error:", sys.exc_info()[0]
             return -1
 
-    def _getDriverAddr(self, cratenr, drivernr):
-        """
-            returns (cratenr * 10) + drivernr
-        """
-        return (cratenr * 10) + drivernr
 
     def _parseDriverTemplateFile(self):
         self.config_parameters = []
