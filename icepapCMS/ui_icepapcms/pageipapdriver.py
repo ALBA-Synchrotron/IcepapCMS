@@ -12,7 +12,6 @@
 
 
 from PyQt4 import QtCore, QtGui, Qt
-from pyIcePAP import *
 from ui_pageipapdriver import Ui_PageiPapDriver
 from ui_axis import Ui_axis
 from ui_motor import Ui_motor
@@ -35,6 +34,7 @@ import time
 import datetime
 import tempfile
 from historiccfgwidget import HistoricCfgWidget
+from pyIcePAP import State, Mode
 
 class PageiPapDriver(QtGui.QWidget):
     """ Widget that manages all the information related to an icepap driver. Configuration, testing and historic configurations """
@@ -869,7 +869,7 @@ class PageiPapDriver(QtGui.QWidget):
         # NOT VALID ANY MORE (SINCE VERSION 1.23 ONLY IN CONFIG IF NECESSARY
         #mode = self._manager.startConfiguringDriver(self.icepap_driver)
         mode = self.icepap_driver.mode
-        if mode != IcepapMode.PROG:
+        if mode != Mode.PROG:
             self.ui.tabWidget.setEnabled(True)
         else:
             # MAY BE ALSO GOOD FOR THE SHUTTER MODE
@@ -1530,11 +1530,12 @@ class PageiPapDriver(QtGui.QWidget):
         enc_sel = str(self.ui.cb_enc_sel.currentText())
         (status, power, position) = self._manager.getDriverTestStatus(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, pos_sel, enc_sel)
         
-        #self.StepSize = self.ui.sbFactor.value()           
-        disabled = IcepapStatus.isDisabled(status)
-        moving = IcepapStatus.isMoving(status)
-        ready = IcepapStatus.isReady(status)
-        mode = IcepapStatus.getMode(status)
+        #self.StepSize = self.ui.sbFactor.value()
+        axis_state = State(status)
+        disabled = axis_state.is_disabled()
+        moving = axis_state.is_moving()
+        ready = axis_state.is_ready()
+        mode = axis_state.get_mode_code()
         if self.inMotion <> moving:
             if moving == 1:
                 self.refreshTimer.setInterval(700)
@@ -1582,13 +1583,13 @@ class PageiPapDriver(QtGui.QWidget):
         self.power = power 
             
         #position =  position / self.StepSize
-        if IcepapStatus.inHome(status):
+        if axis_state.is_inhome():
             self.ui.LedHome.on()
         else:
             self.ui.LedHome.off()
         
-        lower = IcepapStatus.getLimitNegative(status) 
-        upper = IcepapStatus.getLimitPositive(status)
+        lower = axis_state.is_limit_negative()
+        upper = axis_state.is_limit_positive()
         if lower:
             self.ui.LedLimitNeg.on()
         else:

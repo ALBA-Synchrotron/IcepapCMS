@@ -21,7 +21,7 @@ import os
 import time
 from datetime import datetime
 import socket
-from pyIcePAP import IcepapMode
+from pyIcePAP import Mode
 
 
 class IcepapDriver(Storm):
@@ -92,7 +92,7 @@ class IcepapDriver(Storm):
             host = socket.gethostname()
             signature = user+"@"+host+"_"+datetime.now().strftime('%Y/%m/%d_%H:%M:%S')
             IcepapController().signDriverConfiguration(self.icepapsystem_name, self.addr, signature)
-            self.mode = unicode(IcepapMode.OPER)
+            self.mode = unicode(Mode.OPER)
             db = StormManager()
             db.commitTransaction()
             self.current_cfg.name = unicode(time.ctime())
