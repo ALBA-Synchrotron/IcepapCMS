@@ -27,6 +27,7 @@ from Led import Led
 from ..lib_icepapcms import *
 from messagedialogs import MessageDialogs
 #from dialogtemplate import DialogTemplate
+from dialoghomesrch import DialogHomeSrch
 import sys
 import os
 from qvalidatelineedit import QValidateLineEdit
@@ -238,6 +239,7 @@ class PageiPapDriver(QtGui.QWidget):
         QtCore.QObject.connect(self.sliderTimer,QtCore.SIGNAL("timeout()"),self.resetSlider)
 
         QtCore.QObject.connect(self.ui.cmdCSWITCH,QtCore.SIGNAL("currentIndexChanged(QString)"),self.changeSwitchesSetup)
+        self.ui.btnHomeSrch.clicked.connect(self._display_home_srch_dialog)
     
     
 
@@ -1723,6 +1725,14 @@ class PageiPapDriver(QtGui.QWidget):
         #except Exception,e:
         #    MessageDialogs.showWarningMessage(self, "Switches setup", "Error while trying to change switches setup:\n"+str(e))
 
+    def enable_home_srch_button(self):
+        """Enables the HOME/SRCH button."""
+        self.ui.btnHomeSrch.setDisabled(False)
+
+    def _display_home_srch_dialog(self):
+        self.ui.btnHomeSrch.setDisabled(True)
+        dlg = DialogHomeSrch(self)
+        dlg.show()
 
     # ---------------------- Historic Widget -------------------
     def showHistoricWidget(self):
