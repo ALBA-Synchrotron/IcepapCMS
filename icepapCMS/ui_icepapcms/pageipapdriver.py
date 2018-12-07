@@ -1730,9 +1730,16 @@ class PageiPapDriver(QtGui.QWidget):
         self.ui.btnHomeSrch.setDisabled(False)
 
     def _display_home_srch_dialog(self):
-        self.ui.btnHomeSrch.setDisabled(True)
-        dlg = DialogHomeSrch(self)
+        system = self.icepap_driver.icepapsystem_name
+        addr = self.icepap_driver.addr
+        axis = IcepapController().iPaps[system][addr]
+        if Mode.CONFIG in axis.mode:
+            msg = 'Axis is in config mode. Aborting'
+            print(msg)
+            MessageDialogs.showErrorMessage(None, 'HOME/SRCH', msg)
+        dlg = DialogHomeSrch(self, axis)
         dlg.show()
+        self.ui.btnHomeSrch.setDisabled(True)
 
     # ---------------------- Historic Widget -------------------
     def showHistoricWidget(self):
