@@ -89,9 +89,15 @@
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="btnGo">
+        <widget class="QPushButton" name="btnGoStop">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
          <property name="text">
-          <string>GO</string>
+          <string/>
          </property>
         </widget>
        </item>
@@ -100,56 +106,56 @@
      <item>
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="3" column="1">
-        <widget class="QLCDNumber" name="lcdEncinPos">
+        <widget class="QLCDNumber" name="lcdPosEncin">
          <property name="numDigits">
           <number>12</number>
          </property>
         </widget>
        </item>
        <item row="2" column="2">
-        <widget class="QLCDNumber" name="lcdTgtencEnc">
+        <widget class="QLCDNumber" name="lcdEncTgtenc">
          <property name="numDigits">
           <number>12</number>
          </property>
         </widget>
        </item>
        <item row="5" column="2">
-        <widget class="QLCDNumber" name="lcdAbsencEnc">
+        <widget class="QLCDNumber" name="lcdEncAbsenc">
          <property name="numDigits">
           <number>12</number>
          </property>
         </widget>
        </item>
        <item row="5" column="1">
-        <widget class="QLCDNumber" name="lcdAbsencPos">
+        <widget class="QLCDNumber" name="lcdPosAbsenc">
          <property name="numDigits">
           <number>12</number>
          </property>
         </widget>
        </item>
        <item row="4" column="1">
-        <widget class="QLCDNumber" name="lcdInposPos">
+        <widget class="QLCDNumber" name="lcdPosInpos">
          <property name="numDigits">
           <number>12</number>
          </property>
         </widget>
        </item>
        <item row="3" column="2">
-        <widget class="QLCDNumber" name="lcdEncinEnc">
+        <widget class="QLCDNumber" name="lcdEncEncin">
          <property name="numDigits">
           <number>12</number>
          </property>
         </widget>
        </item>
        <item row="1" column="2">
-        <widget class="QLCDNumber" name="lcdAxisEnc">
+        <widget class="QLCDNumber" name="lcdEncAxis">
          <property name="numDigits">
           <number>12</number>
          </property>
         </widget>
        </item>
        <item row="4" column="2">
-        <widget class="QLCDNumber" name="lcdEnc">
+        <widget class="QLCDNumber" name="lcdEncInpos">
          <property name="numDigits">
           <number>12</number>
          </property>
@@ -200,14 +206,14 @@
         </widget>
        </item>
        <item row="2" column="1">
-        <widget class="QLCDNumber" name="lcdTgtencPos">
+        <widget class="QLCDNumber" name="lcdPosTgtenc">
          <property name="numDigits">
           <number>12</number>
          </property>
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QLCDNumber" name="lcdAxisPos">
+        <widget class="QLCDNumber" name="lcdPosAxis">
          <property name="numDigits">
           <number>12</number>
          </property>
@@ -324,7 +330,7 @@
         </widget>
        </item>
        <item row="0" column="0">
-        <widget class="QGraphicsView" name="graphicsView">
+        <widget class="QGraphicsView" name="gvIndicator">
          <property name="enabled">
           <bool>true</bool>
          </property>
