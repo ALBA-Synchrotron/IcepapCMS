@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'dialoghomesrch.ui'
 #
-# Created: Fri Dec  7 12:47:51 2018
+# Created: Fri Dec  7 12:55:43 2018
 #      by: PyQt4 UI code generator 4.10.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -65,6 +65,8 @@ class Ui_DialogHomeSrch(object):
         self.verticalLayout_2.addWidget(self.btnGoStop)
         self.horizontalLayout.addLayout(self.verticalLayout_2)
         self.frameValues = QtGui.QFrame(DialogHomeSrch)
+        self.frameValues.setFrameShape(QtGui.QFrame.Box)
+        self.frameValues.setFrameShadow(QtGui.QFrame.Sunken)
         self.frameValues.setObjectName(_fromUtf8("frameValues"))
         self.gridLayout_2 = QtGui.QGridLayout(self.frameValues)
         self.gridLayout_2.setObjectName(_fromUtf8("gridLayout_2"))
