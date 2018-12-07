@@ -38,7 +38,7 @@ class DialogHomeSrch(QDialog):
         self.ui.cbHomeSearch.currentIndexChanged.connect(self._cb_hs_changed)
         self.ui.cbHsOptions.currentIndexChanged.connect(self._update_access)
         self.ui.btnGoStop.clicked.connect(self._btn_go_stop_clicked)
-        self.close_button.clicked.connect(self._close_dialog)
+        self.close_button.clicked.connect(self.close)
         self.ticker.timeout.connect(self._tick_status)
 
     def _update_access(self):
@@ -142,5 +142,6 @@ class DialogHomeSrch(QDialog):
             print(msg)
             MessageDialogs.showErrorMessage(None, 'HOME/SRCH', msg)
 
-    def _close_dialog(self):
+    def closeEvent(self, event):
         self.parent.enable_home_srch_button()
+        event.accept()
