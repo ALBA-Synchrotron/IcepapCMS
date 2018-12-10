@@ -178,7 +178,7 @@ class IcepapController(Singleton):
         # THE DSP'S ONE.
         axis_name = axis.name
         # FIX NON-ASCII CHARS ISSUE IN NAME:
-        if not all(ord(c) < 128 for c in axis_name):
+        if axis_name is not None and not all(ord(c) < 128 for c in axis_name):
             axis_name = repr(axis.name)
         driver_cfg.setParameter(unicode("VER"), axis.ver.driver[0])
         driver_cfg.setParameter(unicode("ID"), axis.id)
