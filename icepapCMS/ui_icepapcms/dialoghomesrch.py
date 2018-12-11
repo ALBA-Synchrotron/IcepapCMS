@@ -11,8 +11,7 @@
 # ------------------------------------------------------------------------------
 
 
-from PyQt4.QtGui import QDialog
-from PyQt4.QtGui import QDialogButtonBox
+from PyQt4.QtGui import QDialog, QGraphicsScene
 from PyQt4.QtCore import QTimer
 from ui_dialoghomesrch import Ui_DialogHomeSrch
 from messagedialogs import MessageDialogs
@@ -26,29 +25,22 @@ class DialogHomeSrch(QDialog):
         self.ui.setupUi(self)
         self.parent = parent
         self.axis = axis
-        self.close_button = self.ui.bbClose.button(QDialogButtonBox.Close)
+        self._setup_arrow()
         self.motor_moving = False
         self._set_go_stop_btn_layout()
-        self._cb_hs_changed()
+        self._hs_changed()
         self.tick_interval = 200  # [milliseconds]
         self.ticker = QTimer()
         self._connect_signals()
 
     def _connect_signals(self):
-        self.ui.cbHomeSearch.currentIndexChanged.connect(self._cb_hs_changed)
-        self.ui.cbHsOptions.currentIndexChanged.connect(self._update_access)
+        self.ui.cbHomeSearch.currentIndexChanged.connect(self._hs_changed)
+        self.ui.cbHsOptions.currentIndexChanged.connect(self._hsopt_changed)
         self.ui.btnGoStop.clicked.connect(self._btn_go_stop_clicked)
-        self.close_button.clicked.connect(self.close)
         self.ticker.timeout.connect(self._tick_status)
 
-    def _update_access(self):
-        have_home = self.ui.cbHomeSearch.currentText() == 'HOME'
-        have_limit = self.ui.cbHsOptions.currentText() in ['Lim-', 'Lim+']
-        disable = have_home or have_limit
-        self.ui.cbEdge.setDisabled(disable)
-        self.ui.cbDirection.setDisabled(disable)
-
-    def _cb_hs_changed(self):
+    def _hs_changed(self):
+        self._clear_indicator()
         home_selected = self.ui.cbHomeSearch.currentText() == 'HOME'
         if home_selected:
             items = ['-1', '0', '+1']
@@ -56,14 +48,20 @@ class DialogHomeSrch(QDialog):
             items = ['Lim-', 'Lim+', 'Home', 'EncAux', 'InpAux']
         self.ui.cbHsOptions.clear()
         self.ui.cbHsOptions.addItems(items)
-        self._update_access()
+        self._hsopt_changed()
+
+    def _hsopt_changed(self):
+        self._clear_indicator()
+        have_home = self.ui.cbHomeSearch.currentText() == 'HOME'
+        have_limit = self.ui.cbHsOptions.currentText() in ['Lim-', 'Lim+']
+        disable = have_home or have_limit
+        self.ui.cbEdge.setDisabled(disable)
+        self.ui.cbDirection.setDisabled(disable)
 
     def _set_go_stop_btn_layout(self):
         if self.motor_moving:
-            self.ui.btnGoStop.setStyleSheet("background-color: red")
             self.ui.btnGoStop.setText('STOP')
         else:
-            self.ui.btnGoStop.setStyleSheet("background-color: green")
             self.ui.btnGoStop.setText('GO')
 
     def _btn_go_stop_clicked(self):
@@ -91,6 +89,8 @@ class DialogHomeSrch(QDialog):
             print(msg)
             MessageDialogs.showErrorMessage(None, 'HOME/SRCH', msg)
             return
+        self.ui.cbHomeSearch.setDisabled(True)
+        self.ui.cbHsOptions.setDisabled(True)
         self.ticker.start(self.tick_interval)
 
     def _tick_status(self):
@@ -106,25 +106,19 @@ class DialogHomeSrch(QDialog):
             if status == 'MOVING':
                 ss = "background-color: yellow"
                 self.ui.gvIndicator.setStyleSheet(ss)
-                if direction == -1:
-                    pass
-                elif direction == 1:
-                    pass
-                else:
-                    self.axis.stop()
-                    msg = 'Internal Error: Bad direction'
-                    print(msg)
-                    MessageDialogs.showErrorMessage(None, 'HOME/SRCH', msg)
-                    return
-                self.ticker.start(self.tick_interval)
+                self._draw_arrow(direction == -1)
             elif status == 'NOTFOUND':
+                self.ticker.stop()
                 ss = "background-color: red"
                 self.ui.gvIndicator.setStyleSheet(ss)
+                self._clear_arrow()
                 self.motor_moving = False
                 self._set_go_stop_btn_layout()
-            else:
+            elif status == 'FOUND':
+                self.ticker.stop()
                 ss = "background-color: green"
                 self.ui.gvIndicator.setStyleSheet(ss)
+                self._draw_arrow(direction == -1)
                 self.motor_moving = False
                 self._set_go_stop_btn_layout()
                 self.ui.lcdPosAxis.display(f1('AXIS'))
@@ -141,7 +135,28 @@ class DialogHomeSrch(QDialog):
             msg = 'HOME/SRCH failed:\n{}'.format(e)
             print(msg)
             MessageDialogs.showErrorMessage(None, 'HOME/SRCH', msg)
+            self.ticker.stop()
+            self.axis.stop()
+            self.motor_moving = False
+            self._set_go_stop_btn_layout()
+            self._clear_indicator()
+        self.ui.cbHomeSearch.setDisabled(self.motor_moving)
+        self.ui.cbHsOptions.setDisabled(self.motor_moving)
 
-    def closeEvent(self, event):
-        self.parent.enable_home_srch_button()
-        event.accept()
+    def _setup_arrow(self):
+        self.scene = QGraphicsScene()
+        self.ui.gvIndicator.setScene(self.scene)
+
+    def _draw_arrow(self, is_left):
+        self._clear_arrow()
+        if is_left:
+            self.scene.addText("<--")
+        else:
+            self.scene.addText("-->")
+
+    def _clear_arrow(self):
+        self.scene.clear()
+
+    def _clear_indicator(self):
+        self.ui.gvIndicator.setStyleSheet("")
+        self._clear_arrow()

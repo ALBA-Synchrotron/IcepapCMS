@@ -1725,10 +1725,6 @@ class PageiPapDriver(QtGui.QWidget):
         #except Exception,e:
         #    MessageDialogs.showWarningMessage(self, "Switches setup", "Error while trying to change switches setup:\n"+str(e))
 
-    def enable_home_srch_button(self):
-        """Enables the HOME/SRCH button."""
-        self.ui.btnHomeSrch.setDisabled(False)
-
     def _display_home_srch_dialog(self):
         system = self.icepap_driver.icepapsystem_name
         addr = self.icepap_driver.addr
@@ -1739,7 +1735,6 @@ class PageiPapDriver(QtGui.QWidget):
             MessageDialogs.showErrorMessage(None, 'HOME/SRCH', msg)
         dlg = DialogHomeSrch(self, axis)
         dlg.show()
-        self.ui.btnHomeSrch.setDisabled(True)
 
     # ---------------------- Historic Widget -------------------
     def showHistoricWidget(self):
