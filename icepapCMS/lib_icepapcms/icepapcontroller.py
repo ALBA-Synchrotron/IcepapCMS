@@ -264,7 +264,7 @@ class IcepapController(Singleton):
                 msg = 'Parameter {0}({1}) is not exist for the current ' \
                       'version. Check the configuration ' \
                       'parameter list ({2}).'.format(cfg_name, value,
-                                                    cfg_info.keys())
+                                                     cfg_info.keys())
                 print(msg)
                 MessageDialogs.showErrorMessage(None, 'Set Driver Config', msg)
                 raise ValueError(msg)
@@ -354,7 +354,7 @@ class IcepapController(Singleton):
             current = cfg_current['NCURR']
             status_register = axis_state.status_register
             return status_register, power, current
-        except Exception:
+        except Exception as e:
             msg = 'Failed to retrieve status for ' \
                   'driver {0}.\n{1}'.format(driver_addr, e)
             print(msg)
@@ -522,7 +522,7 @@ class IcepapController(Singleton):
         self.iPaps[icepap_name][driver_addr].blink(secs)
 
     def jogDriver(self, icepap_name, driver_addr, speed):
-        axis =self.iPaps[icepap_name][driver_addr]
+        axis = self.iPaps[icepap_name][driver_addr]
         if Mode.CONFIG not in axis.mode:
             self.iPaps[icepap_name][driver_addr].jog(speed)
         else:
