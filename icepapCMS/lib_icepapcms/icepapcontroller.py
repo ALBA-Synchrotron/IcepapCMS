@@ -349,7 +349,8 @@ class IcepapController(Singleton):
             return state
         try:
             axis_state = self.iPaps[icepap_name].get_states(driver_addr)[0]
-            power = axis_state.is_poweron()
+            # TODO: Change the ui to use boolean instead of integers
+            power = int(axis_state.is_poweron())
             cfg_current = self.iPaps[icepap_name][driver_addr].get_cfg('NCURR')
             current = cfg_current['NCURR']
             status_register = axis_state.status_register
@@ -370,7 +371,7 @@ class IcepapController(Singleton):
 
         axis_state = self.iPaps[icepap_name].get_states(driver_addr)[0]
         register = axis_state.status_register
-        power = axis_state.is_poweron()
+        power = int(axis_state.is_poweron())
 
         axis = self.iPaps[icepap_name][driver_addr]
         try:

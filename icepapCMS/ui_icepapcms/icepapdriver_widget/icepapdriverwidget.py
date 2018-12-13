@@ -122,9 +122,10 @@ class IcePapDriverWidget(QtGui.QWidget):
             return
 
         axis_state = State(status)
-        disabled = axis_state.is_disabled()
-        ready = axis_state.is_ready()
-        mode = axis_state.get_mode_code()
+        disabled = axis_state.get_disable_code()
+        # TODO: use boolean instead of integers
+        ready = int(axis_state.is_ready())
+        mode = int(axis_state.get_mode_code())
         if self.status <> disabled or self.mode <> mode or self.power <> power or self.ready <> ready:
             if disabled == 0:
                 if power:
