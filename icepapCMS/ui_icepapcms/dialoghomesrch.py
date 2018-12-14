@@ -72,7 +72,7 @@ class DialogHomeSrch(QDialog):
                 self.axis.home(direction)
             else:
                 edge = self.ui.cbEdge.currentText()
-                direction = self.ui.cbDirection.currentText()
+                direction = int(self.ui.cbDirection.currentText())
                 self.axis.srch(opt, edge, direction)
         except RuntimeError as e:
             msg = 'HOME/SRCH failed:\n{}'.format(e)
