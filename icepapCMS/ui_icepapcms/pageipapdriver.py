@@ -1532,9 +1532,10 @@ class PageiPapDriver(QtGui.QWidget):
         
         #self.StepSize = self.ui.sbFactor.value()
         axis_state = State(status)
-        disabled = axis_state.is_disabled()
-        moving = axis_state.is_moving()
-        ready = axis_state.is_ready()
+        disabled = axis_state.get_disable_code()
+        # TODO: use boolean instead of integers
+        moving = int(axis_state.is_moving())
+        ready = int(axis_state.is_ready())
         mode = axis_state.get_mode_code()
         if self.inMotion <> moving:
             if moving == 1:

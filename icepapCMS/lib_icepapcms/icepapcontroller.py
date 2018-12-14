@@ -264,7 +264,7 @@ class IcepapController(Singleton):
                 msg = 'Parameter {0}({1}) is not exist for the current ' \
                       'version. Check the configuration ' \
                       'parameter list ({2}).'.format(cfg_name, value,
-                                                    cfg_info.keys())
+                                                     cfg_info.keys())
                 print(msg)
                 MessageDialogs.showErrorMessage(None, 'Set Driver Config', msg)
                 raise ValueError(msg)
@@ -349,12 +349,13 @@ class IcepapController(Singleton):
             return state
         try:
             axis_state = self.iPaps[icepap_name].get_states(driver_addr)[0]
-            power = axis_state.is_poweron()
+            # TODO: Change the ui to use boolean instead of integers
+            power = int(axis_state.is_poweron())
             cfg_current = self.iPaps[icepap_name][driver_addr].get_cfg('NCURR')
             current = cfg_current['NCURR']
             status_register = axis_state.status_register
             return status_register, power, current
-        except Exception:
+        except Exception as e:
             msg = 'Failed to retrieve status for ' \
                   'driver {0}.\n{1}'.format(driver_addr, e)
             print(msg)
@@ -370,7 +371,7 @@ class IcepapController(Singleton):
 
         axis_state = self.iPaps[icepap_name].get_states(driver_addr)[0]
         register = axis_state.status_register
-        power = axis_state.is_poweron()
+        power = int(axis_state.is_poweron())
 
         axis = self.iPaps[icepap_name][driver_addr]
         try:
@@ -522,7 +523,7 @@ class IcepapController(Singleton):
         self.iPaps[icepap_name][driver_addr].blink(secs)
 
     def jogDriver(self, icepap_name, driver_addr, speed):
-        axis =self.iPaps[icepap_name][driver_addr]
+        axis = self.iPaps[icepap_name][driver_addr]
         if Mode.CONFIG not in axis.mode:
             self.iPaps[icepap_name][driver_addr].jog(speed)
         else:
