@@ -28,6 +28,8 @@ class DialogHomeSrch(QDialog):
         self._setup_arrow()
         self._set_go_stop_btn_layout()
         self._hs_changed()
+        self.haveShaftEncoder = False
+        self.haveTargetEncoder = False
         self.tick_interval = 200  # [milliseconds]
         self.ticker = QTimer()
         self._connect_signals()
@@ -109,15 +111,21 @@ class DialogHomeSrch(QDialog):
                 self._draw_arrow(direction == -1)
                 self._set_go_stop_btn_layout()
                 self.ui.lcdPosAxis.display(f1('AXIS'))
-                self.ui.lcdPosTgtenc.display(f1('TGTENC'))
-                self.ui.lcdPosEncin.display(f1('ENCIN'))
-                self.ui.lcdPosInpos.display(f1('INPOS'))
-                self.ui.lcdPosAbsenc.display(f1('ABSENC'))
                 self.ui.lcdEncAxis.display(f2('AXIS'))
-                self.ui.lcdEncTgtenc.display(f2('TGTENC'))
+                if self.haveShaftEncoder:
+                    self.ui.lcdPosShftenc.display(f1('SHFTENC'))
+                    self.ui.lcdEncShftenc.display(f2('SHFTENC'))
+                if self.haveTargetEncoder:
+                    self.ui.lcdPosTgtenc.display(f1('TGTENC'))
+                    self.ui.lcdEncTgtenc.display(f2('TGTENC'))
+                self.ui.lcdPosEncin.display(f1('ENCIN'))
                 self.ui.lcdEncEncin.display(f2('ENCIN'))
+                self.ui.lcdPosInpos.display(f1('INPOS'))
                 self.ui.lcdEncInpos.display(f2('INPOS'))
+                self.ui.lcdPosAbsenc.display(f1('ABSENC'))
                 self.ui.lcdEncAbsenc.display(f2('ABSENC'))
+                self.ui.lcdPosMotor.display(f1('MOTOR'))
+                self.ui.lcdEncMotor.display(f2('MOTOR'))
         except RuntimeError as e:
             msg = 'HOME/SRCH failed:\n{}'.format(e)
             print(msg)
