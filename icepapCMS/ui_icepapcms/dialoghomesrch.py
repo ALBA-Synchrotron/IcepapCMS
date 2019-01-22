@@ -55,6 +55,12 @@ class DialogHomeSrch(QDialog):
         self.ui.cbEdge.setDisabled(home_selected)
         self.ui.cbDirection.setDisabled(home_selected)
 
+    def update_selector_status(self):
+        self.ui.cbHomeSearch.setDisabled(self.axis.state_moving)
+        self.ui.cbHsOptions.setDisabled(self.axis.state_moving)
+        self.ui.cbEdge.setDisabled(self.axis.state_moving)
+        self.ui.cbDirection.setDisabled(self.axis.state_moving)
+
     def set_go_stop_btn_layout(self):
         if self.axis.state_moving:
             self.ui.btnGoStop.setText('STOP')
@@ -166,9 +172,3 @@ class DialogHomeSrch(QDialog):
     def clear_indicator(self):
         self.ui.gvIndicator.setStyleSheet("")
         self.clear_arrow()
-
-    def update_selector_status(self):
-        self.ui.cbHomeSearch.setDisabled(self.axis.state_moving)
-        self.ui.cbHsOptions.setDisabled(self.axis.state_moving)
-        self.ui.cbEdge.setDisabled(self.axis.state_moving)
-        self.ui.cbDirection.setDisabled(self.axis.state_moving)
