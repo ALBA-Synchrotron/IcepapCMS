@@ -1736,6 +1736,9 @@ class PageiPapDriver(QtGui.QWidget):
         dlg = DialogHomeSrch(self, axis)
         dlg.show()
 
+    def enable_home_srch_button(self, enabled=True):
+        self.ui.btnHomeSrch.setEnabled(enabled)
+
     # ---------------------- Historic Widget -------------------
     def showHistoricWidget(self):
         self.ui.stackedWidget.setCurrentIndex(1)

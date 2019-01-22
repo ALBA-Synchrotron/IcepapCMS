@@ -31,12 +31,17 @@ class DialogHomeSrch(QDialog):
         self.tick_interval = 200  # [milliseconds]
         self.ticker = QTimer()
         self._connect_signals()
+        self.parent.enable_home_srch_button(False)
 
     def _connect_signals(self):
         self.ui.cbHomeSearch.currentIndexChanged.connect(self._hs_changed)
         self.ui.cbHsOptions.currentIndexChanged.connect(self._clear_indicator)
         self.ui.btnGoStop.clicked.connect(self._btn_go_stop_clicked)
         self.ticker.timeout.connect(self._tick_status)
+
+    def done(self, r):
+        self.parent.enable_home_srch_button(True)
+        QDialog.done(self, r)
 
     def _hs_changed(self):
         self._clear_indicator()
