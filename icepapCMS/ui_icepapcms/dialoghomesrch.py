@@ -35,7 +35,6 @@ class DialogHomeSrch(QDialog):
 
     def connect_signals(self):
         self.ui.cbHomeSearch.currentIndexChanged.connect(self.hs_changed)
-        self.ui.cbHsOptions.currentIndexChanged.connect(self.clear_indicator)
         self.ui.btnGoStop.clicked.connect(self.btn_go_stop_clicked)
         self.ticker.timeout.connect(self.tick_status)
 
@@ -44,7 +43,6 @@ class DialogHomeSrch(QDialog):
         QDialog.done(self, r)
 
     def hs_changed(self):
-        self.clear_indicator()
         home_selected = self.ui.cbHomeSearch.currentText() == 'HOME'
         if home_selected:
             items = ['-1', '0', '+1']
@@ -56,10 +54,17 @@ class DialogHomeSrch(QDialog):
         self.ui.cbDirection.setDisabled(home_selected)
 
     def set_selectors(self):
-        self.ui.cbHomeSearch.setDisabled(self.axis.state_moving)
-        self.ui.cbHsOptions.setDisabled(self.axis.state_moving)
-        self.ui.cbEdge.setDisabled(self.axis.state_moving)
-        self.ui.cbDirection.setDisabled(self.axis.state_moving)
+        if self.axis.state_moving:
+            self.ui.cbHomeSearch.setDisabled(True)
+            self.ui.cbHsOptions.setDisabled(True)
+            self.ui.cbEdge.setDisabled(True)
+            self.ui.cbDirection.setDisabled(True)
+        else:
+            self.ui.cbHomeSearch.setDisabled(False)
+            self.ui.cbHsOptions.setDisabled(False)
+            home_selected = self.ui.cbHomeSearch.currentText() == 'HOME'
+            self.ui.cbEdge.setDisabled(home_selected)
+            self.ui.cbDirection.setDisabled(home_selected)
 
     def set_go_stop_btn_layout(self):
         if self.axis.state_moving:
