@@ -55,7 +55,7 @@ class DialogHomeSrch(QDialog):
         self.ui.cbEdge.setDisabled(home_selected)
         self.ui.cbDirection.setDisabled(home_selected)
 
-    def update_selector_status(self):
+    def set_selectors(self):
         self.ui.cbHomeSearch.setDisabled(self.axis.state_moving)
         self.ui.cbHsOptions.setDisabled(self.axis.state_moving)
         self.ui.cbEdge.setDisabled(self.axis.state_moving)
@@ -90,7 +90,7 @@ class DialogHomeSrch(QDialog):
             print(msg)
             MessageDialogs.showErrorMessage(None, 'HOME/SRCH', msg)
             return
-        self.update_selector_status()
+        self.set_selectors()
         self.ticker.start(self.tick_interval)
 
     def tick_status(self):
@@ -153,7 +153,7 @@ class DialogHomeSrch(QDialog):
             self.axis.stop()
             self.set_go_stop_btn_layout()
             self.clear_indicator()
-        self.update_selector_status()
+        self.set_selectors()
 
     def setup_arrow(self):
         self.scene = QGraphicsScene()
