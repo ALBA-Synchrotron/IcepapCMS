@@ -25,26 +25,26 @@ class DialogHomeSrch(QDialog):
         self.ui.setupUi(self)
         self.parent = parent
         self.axis = axis
-        self._setup_arrow()
-        self._set_go_stop_btn_layout()
-        self._hs_changed()
+        self.setup_arrow()
+        self.set_go_stop_btn_layout()
+        self.hs_changed()
         self.tick_interval = 200  # [milliseconds]
         self.ticker = QTimer()
-        self._connect_signals()
+        self.connect_signals()
         self.parent.enable_home_srch_button(False)
 
-    def _connect_signals(self):
-        self.ui.cbHomeSearch.currentIndexChanged.connect(self._hs_changed)
-        self.ui.cbHsOptions.currentIndexChanged.connect(self._clear_indicator)
-        self.ui.btnGoStop.clicked.connect(self._btn_go_stop_clicked)
-        self.ticker.timeout.connect(self._tick_status)
+    def connect_signals(self):
+        self.ui.cbHomeSearch.currentIndexChanged.connect(self.hs_changed)
+        self.ui.cbHsOptions.currentIndexChanged.connect(self.clear_indicator)
+        self.ui.btnGoStop.clicked.connect(self.btn_go_stop_clicked)
+        self.ticker.timeout.connect(self.tick_status)
 
     def done(self, r):
         self.parent.enable_home_srch_button(True)
         QDialog.done(self, r)
 
-    def _hs_changed(self):
-        self._clear_indicator()
+    def hs_changed(self):
+        self.clear_indicator()
         home_selected = self.ui.cbHomeSearch.currentText() == 'HOME'
         if home_selected:
             items = ['-1', '0', '+1']
@@ -55,20 +55,20 @@ class DialogHomeSrch(QDialog):
         self.ui.cbEdge.setDisabled(home_selected)
         self.ui.cbDirection.setDisabled(home_selected)
 
-    def _set_go_stop_btn_layout(self):
+    def set_go_stop_btn_layout(self):
         if self.axis.state_moving:
             self.ui.btnGoStop.setText('STOP')
         else:
             self.ui.btnGoStop.setText('GO')
 
-    def _btn_go_stop_clicked(self):
+    def btn_go_stop_clicked(self):
         if self.axis.state_moving:
             self.axis.stop()
         else:
-            self._start_motor()
-        self._set_go_stop_btn_layout()
+            self.start_motor()
+        self.set_go_stop_btn_layout()
 
-    def _start_motor(self):
+    def start_motor(self):
         cmd = self.ui.cbHomeSearch.currentText()
         opt = self.ui.cbHsOptions.currentText()
         try:
@@ -84,10 +84,10 @@ class DialogHomeSrch(QDialog):
             print(msg)
             MessageDialogs.showErrorMessage(None, 'HOME/SRCH', msg)
             return
-        self._update_selector_status()
+        self.update_selector_status()
         self.ticker.start(self.tick_interval)
 
-    def _tick_status(self):
+    def tick_status(self):
         try:
             if self.ui.cbHomeSearch.currentText() == 'HOME':
                 status, direction = self.axis.homestat
@@ -100,19 +100,19 @@ class DialogHomeSrch(QDialog):
             if status == 'MOVING':
                 ss = "background-color: yellow"
                 self.ui.gvIndicator.setStyleSheet(ss)
-                self._draw_arrow(direction == -1)
+                self.draw_arrow(direction == -1)
             elif status == 'NOTFOUND':
                 self.ticker.stop()
                 ss = "background-color: red"
                 self.ui.gvIndicator.setStyleSheet(ss)
-                self._clear_arrow()
-                self._set_go_stop_btn_layout()
+                self.clear_arrow()
+                self.set_go_stop_btn_layout()
             elif status == 'FOUND':
                 self.ticker.stop()
                 ss = "background-color: green"
                 self.ui.gvIndicator.setStyleSheet(ss)
-                self._draw_arrow(direction == -1)
-                self._set_go_stop_btn_layout()
+                self.draw_arrow(direction == -1)
+                self.set_go_stop_btn_layout()
                 self.ui.lcdPosAxis.display(f1('AXIS'))
                 self.ui.lcdEncAxis.display(f2('AXIS'))
                 if self.axis.get_cfg('SHFTENC')['SHFTENC'] == 'NONE':
@@ -145,29 +145,29 @@ class DialogHomeSrch(QDialog):
             MessageDialogs.showErrorMessage(None, 'HOME/SRCH', msg)
             self.ticker.stop()
             self.axis.stop()
-            self._set_go_stop_btn_layout()
-            self._clear_indicator()
-        self._update_selector_status()
+            self.set_go_stop_btn_layout()
+            self.clear_indicator()
+        self.update_selector_status()
 
-    def _setup_arrow(self):
+    def setup_arrow(self):
         self.scene = QGraphicsScene()
         self.ui.gvIndicator.setScene(self.scene)
 
-    def _draw_arrow(self, is_left):
-        self._clear_arrow()
+    def draw_arrow(self, is_left):
+        self.clear_arrow()
         if is_left:
             self.scene.addText("<--")
         else:
             self.scene.addText("-->")
 
-    def _clear_arrow(self):
+    def clear_arrow(self):
         self.scene.clear()
 
-    def _clear_indicator(self):
+    def clear_indicator(self):
         self.ui.gvIndicator.setStyleSheet("")
-        self._clear_arrow()
+        self.clear_arrow()
 
-    def _update_selector_status(self):
+    def update_selector_status(self):
         self.ui.cbHomeSearch.setDisabled(self.axis.state_moving)
         self.ui.cbHsOptions.setDisabled(self.axis.state_moving)
         self.ui.cbEdge.setDisabled(self.axis.state_moving)
