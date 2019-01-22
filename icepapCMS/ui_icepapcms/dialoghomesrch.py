@@ -28,8 +28,6 @@ class DialogHomeSrch(QDialog):
         self._setup_arrow()
         self._set_go_stop_btn_layout()
         self._hs_changed()
-        self.haveShaftEncoder = False
-        self.haveTargetEncoder = False
         self.tick_interval = 200  # [milliseconds]
         self.ticker = QTimer()
         self._connect_signals()
@@ -112,10 +110,20 @@ class DialogHomeSrch(QDialog):
                 self._set_go_stop_btn_layout()
                 self.ui.lcdPosAxis.display(f1('AXIS'))
                 self.ui.lcdEncAxis.display(f2('AXIS'))
-                if self.haveShaftEncoder:
+                if self.axis.get_cfg('SHFTENC')['SHFTENC'] == 'NONE':
+                    self.ui.lcdPosShftenc.setDisabled(True)
+                    self.ui.lcdEncShftenc.setDisabled(True)
+                else:
+                    self.ui.lcdPosShftenc.setDisabled(False)
+                    self.ui.lcdEncShftenc.setDisabled(False)
                     self.ui.lcdPosShftenc.display(f1('SHFTENC'))
                     self.ui.lcdEncShftenc.display(f2('SHFTENC'))
-                if self.haveTargetEncoder:
+                if self.axis.get_cfg('TGTENC')['TGTENC'] == 'NONE':
+                    self.ui.lcdPosTgtenc.setDisabled(True)
+                    self.ui.lcdEncTgtenc.setDisabled(True)
+                else:
+                    self.ui.lcdPosTgtenc.setDisabled(False)
+                    self.ui.lcdEncTgtenc.setDisabled(False)
                     self.ui.lcdPosTgtenc.display(f1('TGTENC'))
                     self.ui.lcdEncTgtenc.display(f2('TGTENC'))
                 self.ui.lcdPosEncin.display(f1('ENCIN'))
