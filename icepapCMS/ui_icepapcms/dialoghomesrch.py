@@ -25,7 +25,8 @@ class DialogHomeSrch(QDialog):
         self.ui.setupUi(self)
         self.parent = parent
         self.axis = axis
-        self.setup_arrow()
+        self.scene = QGraphicsScene()
+        self.ui.gvIndicator.setScene(self.scene)
         self.set_go_stop_btn_layout()
         self.hs_changed()
         self.tick_interval = 200  # [milliseconds]
@@ -159,10 +160,6 @@ class DialogHomeSrch(QDialog):
             self.set_go_stop_btn_layout()
             self.clear_indicator()
         self.set_selectors()
-
-    def setup_arrow(self):
-        self.scene = QGraphicsScene()
-        self.ui.gvIndicator.setScene(self.scene)
 
     def draw_arrow(self, is_left):
         self.clear_arrow()
