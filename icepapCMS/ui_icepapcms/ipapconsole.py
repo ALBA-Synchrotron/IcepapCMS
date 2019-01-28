@@ -16,12 +16,11 @@ from PyQt4 import QtGui, QtCore
 from ui_ipapconsole import Ui_IpapConsole
 from messagedialogs import MessageDialogs
 from ..lib_icepapcms import ConfigManager, IcepapController
-from pyIcePAP import EthIcePAP
+from pyIcePAP import EthIcePAPController
 import sys
 import os
 
 
-# TODO: Adapt to use pyIcePAP API 2.X
 class IcepapConsole(QtGui.QDialog):
     def __init__(self, parent=None):
         QtGui.QDialog.__init__(self, parent, QtCore.Qt.Window)
@@ -40,8 +39,9 @@ class IcepapConsole(QtGui.QDialog):
         QtCore.QObject.connect(self.ui.console,
                                QtCore.SIGNAL("commandReceived(const "
                                              "QString &)"),
-                               self.sendWriteReadCommand)
+                               self.send_command)
 
+        self.ipap = None
         self.prompt = "icepap:>"
         font = QtGui.QFont()
         font.setPointSize(8)
@@ -59,8 +59,8 @@ class IcepapConsole(QtGui.QDialog):
             print "icepapconsole_init():", sys.exc_info()
 
     def btnConnect_on_click(self):
+        addr = str(self.ui.txtHost.text())
         try:
-            addr = str(self.ui.txtHost.text())
             if addr == '':
                 MessageDialogs.showErrorMessage(None, 'Host connection',
                                                 'Please, write a host '
@@ -69,10 +69,10 @@ class IcepapConsole(QtGui.QDialog):
             if addr.find(":") >= 0:
                 aux = addr.split(':')
                 host = aux[0]
-                port = aux[1]
+                port = int(aux[1])
             else:
                 host = addr
-                port = "5000"
+                port = 5000
 
             if hasattr(self._config, '_options'):
                 ipapcontroller = IcepapController()
@@ -88,11 +88,17 @@ class IcepapConsole(QtGui.QDialog):
                 # JUST RUNNING AS A STAND-ALONE
                 pass
             self.prompt = str(host) + " > "
-            log_folder = None
-            if self.debug:
-                log_folder = self.log_folder
-            self.ipap = EthIcePAP(host, port, log_path=log_folder)
-            self.ipap.connect()
+
+            try:
+                self.ipap = EthIcePAPController(host, port, timeout=3)
+            except Exception as e:
+                msg = 'Failed to instantiate master controller.\nHost: ' \
+                      '{}\nPort: {}\n{}'.format(host, port, e)
+                raise Exception(msg)
+            if not self.ipap:
+                msg = 'IcePAP system {} has no active drivers! ' \
+                      'Aborting.'.format(host)
+                raise Exception(msg)
 
             self.ui.btnDisconnect.setDisabled(False)
             self.ui.btnConnect.setDisabled(True)
@@ -124,7 +130,7 @@ class IcepapConsole(QtGui.QDialog):
     def writePrompt(self):
         self.ui.console.write(self.prompt)
 
-    def sendWriteReadCommand(self, cmd):
+    def send_command(self, cmd):
         try:
             cmd = str(cmd)
             # determine if the command has an answer
@@ -137,13 +143,11 @@ class IcepapConsole(QtGui.QDialog):
                 self.close()
                 return
             if cmd.find("?") >= 0 or cmd.find("#") >= 0:
-                res = self.ipap.sendWriteReadCommand(cmd)
-                self.writeConsole(res)
-            elif cmd.find("HELP") >= 0:
-                res = self.ipap.sendWriteReadCommand(cmd)
-                self.writeConsole(res)
+                res = self.ipap.send_cmd(cmd)
+                for r in res:
+                    self.writeConsole(r)
             else:
-                self.ipap.sendWriteCommand(cmd)
+                self.ipap.send_cmd(cmd)
         except Exception as e:
             self.writeConsole("Some exception issuing command '%s'." % cmd)
             self.writeConsole("                 Error is: '%s'." % str(e))
