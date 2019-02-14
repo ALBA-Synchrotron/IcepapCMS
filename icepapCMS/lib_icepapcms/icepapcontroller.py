@@ -165,14 +165,14 @@ class IcepapController(Singleton):
         """ TO-DO STORM review"""
         driver_cfg = IcepapDriverCfg(unicode(datetime.datetime.now()))
         axis = self.iPaps[icepap_name][driver_addr]
-        #try:
-        #    driver_cfg.setSignature(axis.config)
-        #except Exception as e:
-        #    msg = 'Failed to retrieve configuration for ' \
-        #          'driver {0}.\n{1}'.format(driver_addr, e)
-        #    print(msg)
-        #    MessageDialogs.showErrorMessage(None, 'Get Driver Config', msg)
-        #    raise e
+        try:
+            driver_cfg.setSignature(axis.config)
+        except Exception as e:
+            msg = 'Failed to retrieve configuration for ' \
+                  'driver {0}.\n{1}'.format(driver_addr, e)
+            print(msg)
+            MessageDialogs.showErrorMessage(None, 'Get Driver Config', msg)
+            raise e
 
         # THE VERSION NUMBER TO BE SHOWN IS THE DRIVER'S VERSION INSTEAD OF
         # THE DSP'S ONE.
