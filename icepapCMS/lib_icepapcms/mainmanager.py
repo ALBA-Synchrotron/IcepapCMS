@@ -99,6 +99,7 @@ class MainManager(Singleton):
                 return None            
             location = self.location.name
             try:
+                port = int(port)
                 icepap_system = IcepapSystem(icepap_name, host, port, location, description)
 
                 # JUST IN CASE A USER WANTS TO RE-ADD A SYSTEM !?!?!?!?
