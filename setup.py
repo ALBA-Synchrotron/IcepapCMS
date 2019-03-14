@@ -8,7 +8,7 @@ Icepap motor controller"""
 
 # The version is updated automatically with bumpversion
 # Do not update manually
-__version = '2.3.3'
+__version = '2.3.4'
 
 
 # Setup
