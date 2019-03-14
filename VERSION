@@ -3,6 +3,7 @@ IcepapCMS 2.3.X 2018/11/29
 +) Update to use pyIcePAP API 2.0
 +) Fix error on the version generation.
 +) Fix bug on power button.
++) Add protection on add new system
 
 IcepapCMS 2.x.x 2018/xx/xx
 -------------------------------------------------------------------------
