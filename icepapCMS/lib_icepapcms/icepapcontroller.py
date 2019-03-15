@@ -394,7 +394,7 @@ class IcepapController(Singleton):
 
     def getDriverActiveStatus(self, icepap_name, driver_addr):
         try:
-            active = self.iPaps[icepap_name][driver_addr]
+            active = self.iPaps[icepap_name][driver_addr].active
             if active:
                 return 'YES'
             else:
