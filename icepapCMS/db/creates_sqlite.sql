@@ -1,7 +1,7 @@
--- 
+--
 -- Created by SQL::Translator::Producer::SQLite
 -- Created on Mon Oct  8 14:33:24 2007
--- 
+--
 
 
 --
@@ -43,7 +43,7 @@ CREATE TABLE icepapdrivercfg (
   driver_addr int(10),
   name varchar(40) NOT NULL DEFAULT '',
   description varchar(255),
-  signature varchar(40),
+  signature varchar(100),
   date datetime NOT NULL DEFAULT ''
 );
 
