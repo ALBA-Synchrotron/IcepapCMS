@@ -8,6 +8,7 @@ Fixed:
 +) Fix error on the version generation.
 +) Fix bug on power button.
 +) Fix exception raising on activate/deactivate axis
++) Fix ipapconsole launcher
 
 IcepapCMS 2.x.x 2018/xx/xx
 -------------------------------------------------------------------------
