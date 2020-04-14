@@ -31,12 +31,10 @@ class IcepapDriver(Storm):
     addr = Int()
     name = Unicode()
     mode = Unicode()
-    #currentcfg_id = Int()
     """ references """
     icepap_system = Reference(icepapsystem_name, "IcepapSystem.name")
     historic_cfgs = ReferenceSet((icepapsystem_name, addr), ("IcepapDriverCfg.icepapsystem_name", "IcepapDriverCfg.driver_addr"))
-    #current_cfg = Reference(currentcfg_id, "IcepapDriverCfg.id")
-    
+
     
     def __init__(self, icepap_name, addr):
         self.icepapsystem_name = unicode(icepap_name)        
@@ -83,7 +81,6 @@ class IcepapDriver(Storm):
         # IN THE DATABASE FIRST, AND IF NO ERRORS, THEN COMMUNICATE THE DRIVER
         # THAT THE VALUES SHOULD BE SIGNED.
         try:
-            #signature = socket.gethostname() #+ "_" + str(time.time())
             user = ConfigManager().username
             host = socket.gethostname()
             signature = user+"@"+host+"_"+datetime.now().strftime('%Y/%m/%d_%H:%M:%S')
@@ -120,7 +117,6 @@ class IcepapDriver(Storm):
 
     
     def deleteHistoricCfg(self, cfg):
-        #self.historic_cfgs.remove(self.historic_cfgs.find(IcepapDriverCfg.date == date).one())
         self.historic_cfgs.remove(cfg)
 
     def __cmp__(self, other):
@@ -128,18 +124,6 @@ class IcepapDriver(Storm):
             self.setConflict(Conflict.NO_CONFLICT)
             return 0
 
-        # THIS IS NOT NEEDED ANY MORE, ALL CONFLICTS ARE MANAGED BY THE EXPERT FLAG
-        #config = ConfigManager()
-        #"""solve_conflicts: If true if conflict appears, automatically will load data from db """
-        #solve_conflicts = config.config[config.icepap]["conflict_solve"] == str(True)
-        #if solve_conflicts:
-        #    from mainmanager import MainManager
-        #    MainManager().saveValuesInIcepap(self, self.current_cfg.toList())
-        #    self.signDriver()
-        #    self.setConflict(Conflict.DRIVER_FROM_DB)
-        #    return 0
-        #else:
-        #    self.setConflict(Conflict.DRIVER_CHANGED)
         self.setConflict(Conflict.DRIVER_CHANGED)
 
         return -1
