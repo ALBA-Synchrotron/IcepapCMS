@@ -10,8 +10,8 @@
 # See LICENSE.txt for more info.
 # ------------------------------------------------------------------------------
 
-
-import thread
+# TODO use threading module instead of _thread
+import _thread
 import time
 
 ################################################################################
@@ -20,7 +20,7 @@ class Timer:
 
     # Create Timer Object
     def __init__(self, interval, function, *args, **kwargs):
-        self.__lock = thread.allocate_lock()
+        self.__lock = _thread.allocate_lock()
         self.__interval = interval
         self.__function = function
         self.__args = args
@@ -34,7 +34,7 @@ class Timer:
         if not self.__alive:
             self.__loop = True
             self.__alive = True
-            thread.start_new_thread(self.__run, ())
+            _thread.start_new_thread(self.__run, ())
         self.__lock.release()
 
     # Stop Timer Object
