@@ -11,15 +11,15 @@
 # ------------------------------------------------------------------------------
 
 
-from singleton import Singleton
+from .singleton import Singleton
 from PyQt4 import QtCore
 from PyQt4 import QtGui
 from pyIcePAP import Mode
 
 from ..ui_icepapcms.messagedialogs import MessageDialogs
 import sys
-from stormmanager import StormManager
-from configmanager import ConfigManager
+from .stormmanager import StormManager
+from .configmanager import ConfigManager
 
 class MainManager(Singleton):
 
@@ -43,32 +43,32 @@ class MainManager(Singleton):
     def addLocation(self, location_name):
         """ Adds a location in the database """
         try:
-            if self.locationList.has_key(unicode(location_name)):
+            if str(location_name) in self.locationList:
                 return False
-            location = Location(unicode(location_name))
+            location = Location(str(location_name))
             self._db.store(location)
             self._db.commitTransaction()
-            self.locationList[unicode(location_name)] = location
+            self.locationList[str(location_name)] = location
             return True
         except:
-            print "addLocation:", sys.exc_info()
+            print("addLocation:", sys.exc_info())
             return False
         
         
     def deleteLocation(self, location_name):
         """ Deletes a location in the database """
-        location = self.locationList[unicode(location_name)]
+        location = self.locationList[str(location_name)]
         self._db.deleteLocation(location) 
-        del self.locationList[unicode(location_name)]
+        del self.locationList[str(location_name)]
         self.IcepapSystemList = {}
         
     def changeLocation(self, location):
         """ Close the connection from all the icepaps in one location.
         And gets all the icepaps from the selected location """
         
-        self.location = self.locationList[unicode(location)]
+        self.location = self.locationList[str(location)]
         self._ctrl_icepap.closeAllConnections()
-        self.IcepapSystemList = self._db.getLocationIcepapSystem(unicode(location))
+        self.IcepapSystemList = self._db.getLocationIcepapSystem(str(location))
         
     def reset(self, form):
         self._ctrl_icepap.reset()
@@ -89,7 +89,7 @@ class MainManager(Singleton):
         try:
             icepap_name = host
             """ *TO-DO STORM review"""
-            if self.IcepapSystemList.has_key(icepap_name):
+            if icepap_name in self.IcepapSystemList:
                 return None            
             location = self.location.name
             try:
@@ -109,7 +109,7 @@ class MainManager(Singleton):
                 self._db.addIcepapSystem(icepap_system)
                 self.IcepapSystemList[icepap_name] = icepap_system
                 self.location.addSystem(icepap_system)
-                for driver in driver_list.values():
+                for driver in list(driver_list.values()):
                     icepap_system.addDriver(driver)
                     self._db.store(driver)
                 self._db.commitTransaction()
@@ -119,11 +119,11 @@ class MainManager(Singleton):
                 return icepap_system
             except Exception as ie:
                 MessageDialogs.showErrorMessage(None, "Scanning Icepap Error", "Could not scan the '"+icepap_name+"' Icepap System.\nPlease make sure that the system '"+(icepap_name)+"' is in your subnetwork.\nException:\n\t"+str(ie))
-            except Exception,e:
-                print "Unknown exception:",e
+            except Exception as e:
+                print("Unknown exception:",e)
             
         except:
-            print "addIcepapSystem:", sys.exc_info()[1]
+            print("addIcepapSystem:", sys.exc_info()[1])
         QtGui.QApplication.instance().restoreOverrideCursor()
         return None
 
@@ -141,7 +141,7 @@ class MainManager(Singleton):
             
     
     def getIcepapSystem(self, icepap_name):
-        if self.IcepapSystemList.has_key(icepap_name):
+        if icepap_name in self.IcepapSystemList:
             return self.IcepapSystemList[icepap_name]
         return None
     
@@ -152,7 +152,7 @@ class MainManager(Singleton):
         network or not. These function is used to perform automatic reconnection """
         
         changed_list = []
-        for icepap_system in self.IcepapSystemList.values():            
+        for icepap_system in list(self.IcepapSystemList.values()):            
             connected = self._ctrl_icepap.checkIcepapStatus(icepap_system.name)
 
             if connected:                
@@ -173,7 +173,7 @@ class MainManager(Singleton):
         except Exception as error:
             MessageDialogs.showErrorMessage(self._form, "Stop Icepap error", "%s Connection error:%s" % (icepap_name,error.msg))
         except:
-            print "mainmanager:stopIcepap:Unexpected error:", sys.exc_info()   
+            print("mainmanager:stopIcepap:Unexpected error:", sys.exc_info())   
                 
     def scanIcepap(self, icepap_system):
         """ Searches for configuration conflicts.
@@ -190,7 +190,7 @@ class MainManager(Singleton):
         except Exception as error:
             MessageDialogs.showErrorMessage(None, "Scanning Icepap Error", "Could not scan the '"+icepap_name+"' Icepap System.\nPlease make sure that the system '"+(icepap_name)+"' is in your subnetwork.\nException:"+str(error))
         except:
-            print "mainmanager:scanIcepap:Unexpected error:", sys.exc_info()
+            print("mainmanager:scanIcepap:Unexpected error:", sys.exc_info())
             conflictsList.append([Conflict.NO_CONNECTION, icepap_system, 0])
 
         QtGui.QApplication.instance().restoreOverrideCursor()
@@ -201,7 +201,7 @@ class MainManager(Singleton):
     def checkFirmwareVersions(self, icepap_system):
         config = ConfigManager()
         if config._options.skipversioncheck == True:
-            print "Firmware versions are not checked."
+            print("Firmware versions are not checked.")
             return
         try:
             icepap_name = icepap_system.name
@@ -270,7 +270,7 @@ class MainManager(Singleton):
     def getDriversToSign(self):
         """ Gets the all drivers to be signed """
         signList = []
-        for icepap_system in self.IcepapSystemList.values():
+        for icepap_system in list(self.IcepapSystemList.values()):
             """ TO-DO STORM review"""
             for driver in icepap_system.getDrivers():
                 if driver.mode == Mode.CONFIG:
@@ -307,7 +307,7 @@ class MainManager(Singleton):
             MessageDialogs.showErrorMessage(self._form, "GetDriverStatus Icepap error", "%s,%d Connection timeout" % (icepap_name,addr))
             self._form.refreshTree()
             return (-1, False, -1) 
-        except Exception,e:
+        except Exception as e:
             MessageDialogs.showWarningMessage(self._form, "GetDriverStatus error", "Connection error")
             self._form.checkIcepapConnection()
             return (-1, False, -1)
@@ -321,8 +321,8 @@ class MainManager(Singleton):
             MessageDialogs.showErrorMessage(self._form, "GetDriverTestStatus Icepap error", "%s Connection error:%s" % (icepap_name,error.msg))
             self._form.refreshTree() 
             return (-1,-1, [-1,-1])        
-        except Exception,e:
-            print "mainmanager:getDriverTestStatus:Unexpected error while getting driver test status.\n",str(e)
+        except Exception as e:
+            print("mainmanager:getDriverTestStatus:Unexpected error while getting driver test status.\n",str(e))
             return (-1,-1, [-1,-1])
             
     def readIcepapParameters(self, icepap_name, addr, par_list):
@@ -332,8 +332,8 @@ class MainManager(Singleton):
         except Exception as  error:
             MessageDialogs.showErrorMessage(self._form, "ReadIcepapParamenters Icepap error", "%s Connection error:%s" % (icepap_name,error.msg))
         except:
-            print "mainmanager:readIcepapParameters:Unexpected error:", sys.exc_info()
-            print "error in : %s %d" % (icepap_name,addr)
+            print("mainmanager:readIcepapParameters:Unexpected error:", sys.exc_info())
+            print("error in : %s %d" % (icepap_name,addr))
             return []
         
     
@@ -371,7 +371,7 @@ class MainManager(Singleton):
         except Exception as error:
             MessageDialogs.showErrorMessage(self._form, "MoveDriver Icepap error", "%s Connection error:%s" % (icepap_name,error.msg))
         except:
-            print "mainmanager:moveDriver:Unexpected error:", sys.exc_info()
+            print("mainmanager:moveDriver:Unexpected error:", sys.exc_info())
             MessageDialogs.showWarningMessage(self._form, "MoveDriver error", "Connection error")
             
     def moveDriverAbsolute(self, icepap_name, addr, position):
@@ -380,7 +380,7 @@ class MainManager(Singleton):
         except Exception as error:
             MessageDialogs.showErrorMessage(self._form, "MoveDriverAbsolute Icepap error", "%s Connection error:%s" % (icepap_name,error.msg))
         except:
-            print "mainmanager:moveDriverAbsolute:Unexpected error:", sys.exc_info()
+            print("mainmanager:moveDriverAbsolute:Unexpected error:", sys.exc_info())
             MessageDialogs.showWarningMessage(self._form, "MoveDriverAbsolute error", "Connection error")
     
     def stopDriver(self, icepap_name, addr):
@@ -411,7 +411,7 @@ class MainManager(Singleton):
         if new_cfg is None:
             return False
         else:
-            icepap_driver.mode = unicode(Mode.CONFIG)
+            icepap_driver.mode = str(Mode.CONFIG)
             icepap_driver.addConfiguration(new_cfg)
             return True
 
@@ -461,10 +461,10 @@ class MainManager(Singleton):
         icepap_driver.addConfiguration(driver_cfg)
 
 
-from icepapsystem import IcepapSystem, Location
-from icepapdriver import IcepapDriver
-from conflict import *
-from icepapcontroller import *    
+from .icepapsystem import IcepapSystem, Location
+from .icepapdriver import IcepapDriver
+from .conflict import *
+from .icepapcontroller import *    
 
 
 
