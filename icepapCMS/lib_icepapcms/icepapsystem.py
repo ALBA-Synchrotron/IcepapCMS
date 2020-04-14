@@ -12,9 +12,9 @@
 
 
 from storm.locals import *
-from conflict import Conflict
+from .conflict import Conflict
 import sys
-from stormmanager import StormManager
+from .stormmanager import StormManager
 
  
 class Location(Storm):
@@ -65,12 +65,12 @@ class IcepapSystem(Storm):
     location = ReferenceSet(location_name, "Location.name")
     
     def __init__(self, name, host, port, location_name, description = None):
-        self.name = unicode(name)
+        self.name = str(name)
         if description == None:
-            description = unicode("")
-        self.description = unicode(description)
+            description = str("")
+        self.description = str(description)
         self.location_name = location_name
-        self.host = unicode(host)
+        self.host = str(host)
         self.port = int(port)
         self.initialize()
     
@@ -90,7 +90,7 @@ class IcepapSystem(Storm):
      
     def getDriver(self, addr, in_memory = True):
         if in_memory:
-            if self._inmemory_drivers.has_key(addr):
+            if addr in self._inmemory_drivers:
                 return self._inmemory_drivers[addr]
             else:
                 return None
@@ -102,7 +102,7 @@ class IcepapSystem(Storm):
         if in_memory:
             if len(self._inmemory_drivers) == 0:
                 self.loadDriversfromDB()
-            return self._inmemory_drivers.values()
+            return list(self._inmemory_drivers.values())
         else:
             return self.drivers
     
@@ -111,7 +111,7 @@ class IcepapSystem(Storm):
         self._inmemory_drivers[driver.addr] = driver
         
     def addDriverList(self, driver_list):
-        for driver in driver_list.values():
+        for driver in list(driver_list.values()):
             self.addDriver(driver)
     
     def removeDriver(self, addr):
@@ -139,7 +139,7 @@ class IcepapSystem(Storm):
         ''' comparing drivers '''
         for driver in self.drivers:
             addr = driver.addr
-            if not driver_list.has_key(addr):
+            if addr not in driver_list:
                 conflictsList.append([Conflict.DRIVER_NOT_PRESENT, self, addr])
                 self.child_conflicts += 1
             else:
@@ -153,7 +153,7 @@ class IcepapSystem(Storm):
                     self.child_conflicts += 1
 
         ''' checking for new drivers '''        
-        for addr, driver in driver_list.items():
+        for addr, driver in list(driver_list.items()):
             if self.drivers.find(IcepapDriver.addr == addr).count() == 0:
                 self.addDriver(driver)
                 ''' determine if it is a new driver or if it has been moved '''
@@ -189,16 +189,16 @@ class IcepapSystem(Storm):
         ###        print 'db', p, v
 
         try:
-            dsp_cfg_ver = float(dsp_cfg.getParameter(unicode("VER"), 
+            dsp_cfg_ver = float(dsp_cfg.getParameter(str("VER"), 
                                                      in_memory=True))
         except:
-            print "ERROR: missing VERsion parameter in DSP config"
+            print("ERROR: missing VERsion parameter in DSP config")
             return Conflict.DRIVER_CHANGED
 
         try:
-            db_cfg_ver  = float(db_cfg.getParameter(unicode("VER")))
+            db_cfg_ver  = float(db_cfg.getParameter(str("VER")))
         except:
-            print "ERROR: missing VERsion parameter in database config"
+            print("ERROR: missing VERsion parameter in database config")
             return Conflict.DRIVER_CHANGED
 
         #
@@ -216,12 +216,12 @@ class IcepapSystem(Storm):
 
         #
         if((dsp_cfg_ver>3.14) and (db_cfg_ver<=3.14) and (db_cfg_ver>=2.0)):
-            print "DSP VERSION: ",dsp_cfg_ver
-            print "DB  VERSION: ",db_cfg_ver
+            print("DSP VERSION: ",dsp_cfg_ver)
+            print("DB  VERSION: ",db_cfg_ver)
             dsp_values  = dsp_cfg.toList()
             db_values   = db_cfg.toList()
             diff_values = set(dsp_values).difference(db_values)
-            print "diff_values", diff_values
+            print("diff_values", diff_values)
             for p,v in diff_values:
                 # ignore new parameters or parameters that normally change
                 if ((p == 'VER') or (p == 'HOLDTIME') or (p == 'EXTHOLD')):
@@ -235,5 +235,5 @@ class IcepapSystem(Storm):
 
         return Conflict.DRIVER_CHANGED
 
-from icepapdriver import IcepapDriver
+from .icepapdriver import IcepapDriver
 
