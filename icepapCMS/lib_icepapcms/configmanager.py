@@ -11,7 +11,7 @@
 # -----------------------------------------------------------------------------
 
 
-from singleton import Singleton
+from .singleton import Singleton
 import os
 from configobj import ConfigObj
 from validate import Validator
