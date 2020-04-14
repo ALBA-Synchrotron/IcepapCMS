@@ -12,11 +12,11 @@
 
 
 from storm.locals import *
-from icepapdrivercfg import IcepapDriverCfg
-from conflict import Conflict
-from configmanager import ConfigManager
-from icepapcontroller import IcepapController
-from stormmanager import StormManager
+from .icepapdrivercfg import IcepapDriverCfg
+from .conflict import Conflict
+from .configmanager import ConfigManager
+from .icepapcontroller import IcepapController
+from .stormmanager import StormManager
 import os
 import time
 from datetime import datetime
@@ -37,7 +37,7 @@ class IcepapDriver(Storm):
 
     
     def __init__(self, icepap_name, addr):
-        self.icepapsystem_name = unicode(icepap_name)        
+        self.icepapsystem_name = str(icepap_name)        
         self.addr = addr
         self.current_cfg = None
         self.initialize()
@@ -71,10 +71,10 @@ class IcepapDriver(Storm):
         return self.name
 
     def setName(self, name):
-        self.name = unicode(name)
+        self.name = str(name)
     
     def setMode(self, mode):
-        self.mode = unicode(mode)
+        self.mode = str(mode)
     
     def signDriver(self):
         # AS ESRF SAYS, WHEN SIGNING THE DRIVER CONFIG, THE COMMIT SHOULD BE DONE
@@ -85,15 +85,15 @@ class IcepapDriver(Storm):
             host = socket.gethostname()
             signature = user+"@"+host+"_"+datetime.now().strftime('%Y/%m/%d_%H:%M:%S')
             IcepapController().signDriverConfiguration(self.icepapsystem_name, self.addr, signature)
-            self.mode = unicode(Mode.OPER)
+            self.mode = str(Mode.OPER)
             db = StormManager()
             db.commitTransaction()
-            self.current_cfg.name = unicode(time.ctime())
+            self.current_cfg.name = str(time.ctime())
             self.current_cfg.setSignature(signature)        
             self.startup_cfg = self.current_cfg
             self.conflict = Conflict.NO_CONFLICT
-        except Exception,e:
-            print "some exception while trying to sign the driver",e
+        except Exception as e:
+            print("some exception while trying to sign the driver",e)
 
     
     def setStartupCfg(self):
@@ -112,8 +112,8 @@ class IcepapDriver(Storm):
         return len(self._undo_list) > 0
     
     def saveHistoricCfg(self, now, name, desc):
-        self.current_cfg.name = unicode(name)
-        self.current_cfg.description = unicode(desc)
+        self.current_cfg.name = str(name)
+        self.current_cfg.description = str(desc)
 
     
     def deleteHistoricCfg(self, cfg):
