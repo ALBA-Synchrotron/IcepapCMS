@@ -23,6 +23,8 @@ from .icepapsystem import IcepapSystem, Location
 from .conflict import Conflict
 from .icepapcontroller import IcepapController
 
+__all__ = ['MainManager']
+
 
 class MainManager(Singleton):
 

@@ -16,6 +16,8 @@ from .conflict import Conflict
 from .stormmanager import StormManager
 from .icepapdriver import IcepapDriver
 
+__all__ = ['IcepapSystem', 'Location']
+
 
 class Location(Storm):
     __storm_table__ = "location"

@@ -10,6 +10,8 @@
 # See LICENSE.txt for more info.
 # -----------------------------------------------------------------------------
 
+__all__ = ['Conflict']
+
 
 class Conflict:
     NO_CONFLICT, DRIVER_NOT_PRESENT, NEW_DRIVER, DRIVER_CHANGED, \

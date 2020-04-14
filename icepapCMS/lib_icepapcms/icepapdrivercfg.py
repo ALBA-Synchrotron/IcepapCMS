@@ -14,6 +14,8 @@
 from storm.locals import Storm, Int, Unicode, ReferenceSet, Reference, DateTime
 import datetime
 
+__all__ = ['IcepapDriverCfg']
+
 
 class IcepapDriverCfg(Storm):
     __storm_table__ = "icepapdrivercfg"

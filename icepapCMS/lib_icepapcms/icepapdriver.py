@@ -21,6 +21,8 @@ from datetime import datetime
 import socket
 from icepap import Mode
 
+__all__ = ['IcepapDriver']
+
 
 class IcepapDriver(Storm):
     __storm_table__ = "icepapdriver"

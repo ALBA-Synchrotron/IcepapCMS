@@ -16,6 +16,8 @@ import os
 from configobj import ConfigObj
 from validate import Validator
 
+__all__ = ['ConfigManager']
+
 
 class ConfigManager(Singleton):
     Sqlite = "sqlite"

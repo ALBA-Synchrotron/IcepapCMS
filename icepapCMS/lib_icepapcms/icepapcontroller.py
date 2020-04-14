@@ -26,6 +26,7 @@ import socket
 import collections
 from IPy import IP
 
+__all__ = ['IcepapController']
 
 class IcepapController(Singleton):
 

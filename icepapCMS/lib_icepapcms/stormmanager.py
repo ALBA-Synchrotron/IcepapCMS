@@ -18,6 +18,7 @@ import os
 import re
 import sys
 
+__all__ = ['StormManager']
 
 class StormManager(Singleton):
     def __init__(self):

@@ -10,6 +10,8 @@
 # See LICENSE.txt for more info.
 # -----------------------------------------------------------------------------
 
+__all__ = ['Singleton']
+
 
 class Singleton(object):
     def __new__(cls, *p, **k):
