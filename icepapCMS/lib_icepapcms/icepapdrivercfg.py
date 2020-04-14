@@ -30,9 +30,9 @@ class IcepapDriverCfg(Storm):
     
     def __init__(self,name, description = None):
         if description == None:
-            description = unicode("")
-        self.description = unicode(description)
-        self.name = unicode(name)
+            description = str("")
+        self.description = str(description)
+        self.name = str(name)
         self.date = datetime.datetime.now()
         self.initialize()
     
@@ -53,14 +53,14 @@ class IcepapDriverCfg(Storm):
         self.driver_addr = None
         
     def setSignature(self, signature):
-        self.signature = unicode(signature)
+        self.signature = str(signature)
     
     def getSignature(self):
         return str(self.signature)
     
     def setParameter(self, name, value):
-        name = unicode(name)
-        value = unicode(value)        
+        name = str(name)
+        value = str(value)        
         cfgpar = None
         try:
             cfgpar = self.parameters.find(CfgParameter.name == name).one()
@@ -71,12 +71,12 @@ class IcepapDriverCfg(Storm):
             self.parameters.add(cfgpar)
         else:            
             cfgpar.value = value        
-        self._inmemory_parameters[unicode(name)] = cfgpar
+        self._inmemory_parameters[str(name)] = cfgpar
     
     def getParameter(self, name, in_memory = False):
         if in_memory:
-            if self._inmemory_parameters.has_key(unicode(name)):                
-                return self._inmemory_parameters[unicode(name)].value
+            if str(name) in self._inmemory_parameters:                
+                return self._inmemory_parameters[str(name)].value
             else:
                 return None
         else:
@@ -88,7 +88,7 @@ class IcepapDriverCfg(Storm):
     
     def toList(self):
         list = []
-        for cfgpar in self._inmemory_parameters.values():
+        for cfgpar in list(self._inmemory_parameters.values()):
             list.append((cfgpar.name, cfgpar.value))
         return list
     
@@ -126,9 +126,9 @@ class CfgParameter(Storm):
     driver_cfg = Reference(cfg_id, "IcepapDriverCfg.id")    
     def __init__(self, cfg, name, value):
         self.driver_cfg = cfg
-        self.name = unicode(name)
-        self.value = unicode(value)
+        self.name = str(name)
+        self.value = str(value)
 
-from icepapdriver import *
+from .icepapdriver import *
         
         
