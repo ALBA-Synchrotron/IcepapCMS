@@ -15,11 +15,11 @@ from pyIcePAP import EthIcePAPController, Mode
 from xml.dom import minidom, Node
 import os
 import sys
-from singleton import Singleton
+from .singleton import Singleton
 import datetime
-from icepapdrivercfg import IcepapDriverCfg
-import icepapdriver
-from configmanager import ConfigManager
+from .icepapdrivercfg import IcepapDriverCfg
+from . import icepapdriver
+from .configmanager import ConfigManager
 from ..ui_icepapcms.messagedialogs import MessageDialogs
 import re
 import socket
@@ -51,7 +51,7 @@ class IcepapController(Singleton):
             if not os.path.exists(self.log_folder):
                 os.mkdir(self.log_folder)
         except Exception:
-            print "icepapcontroller_init():", sys.exc_info()
+            print("icepapcontroller_init():", sys.exc_info())
             pass
 
     def reset(self):
@@ -88,7 +88,7 @@ class IcepapController(Singleton):
             del self.iPaps[icepap_name]
 
     def closeAllConnections(self):
-        for iPap in self.iPaps.values():
+        for iPap in list(self.iPaps.values()):
             try:
                 iPap.disconnect()
             except Exception:
@@ -104,7 +104,7 @@ class IcepapController(Singleton):
             print(msg)
             MessageDialogs.showErrorMessage(None, 'Driver Config Info', msg)
             raise e
-        for key, val in cfg_info.items():
+        for key, val in list(cfg_info.items()):
             if val.startswith('{'):
                 val = val.replace("{", "")
                 val = val.replace("}", "")
@@ -136,7 +136,7 @@ class IcepapController(Singleton):
                 # CFGINFO IS ALSO SPECIFIC FOR EACH DRIVER
                 # To improve speed, this is true but instead of 'each driver',
                 # better each version
-                driver_version = driver_cfg.getParameter(unicode('VER'), True)
+                driver_version = driver_cfg.getParameter(str('VER'), True)
                 if driver_version not in cfginfos_version_dict:
                     cfginfos_version_dict[driver_version] = \
                         self._get_driver_cfg_info(icepap_name, addr)
@@ -146,13 +146,13 @@ class IcepapController(Singleton):
                 self.icepap_cfginfos[icepap_name][addr] = cfginfo_dict
 
                 driver.setName(driver_cfg.getParameter(
-                    unicode("IPAPNAME"), True))
+                    str("IPAPNAME"), True))
                 driver.setMode(self.iPaps[icepap_name][addr].mode)
                 driver_list[addr] = driver
 
         except Exception as e:
             self.closeConnection(icepap_name)
-            print 'exception:', e
+            print('exception:', e)
             raise
         return driver_list
 
@@ -163,7 +163,7 @@ class IcepapController(Singleton):
         """
 
         """ TO-DO STORM review"""
-        driver_cfg = IcepapDriverCfg(unicode(datetime.datetime.now()))
+        driver_cfg = IcepapDriverCfg(str(datetime.datetime.now()))
         axis = self.iPaps[icepap_name][driver_addr]
         try:
             driver_cfg.setSignature(axis.config)
@@ -180,25 +180,25 @@ class IcepapController(Singleton):
         # FIX NON-ASCII CHARS ISSUE IN NAME:
         if axis_name is not None and not all(ord(c) < 128 for c in axis_name):
             axis_name = repr(axis.name)
-        driver_cfg.setParameter(unicode("VER"), axis.ver.driver[0])
-        driver_cfg.setParameter(unicode("ID"), axis.id)
+        driver_cfg.setParameter(str("VER"), axis.ver.driver[0])
+        driver_cfg.setParameter(str("ID"), axis.id)
         try:
-            driver_cfg.setParameter(unicode("IPAPNAME"), axis_name)
+            driver_cfg.setParameter(str("IPAPNAME"), axis_name)
         except Exception as e:
             msg = 'Exception when trying to write the driver name ' \
                   '(%s):' % axis_name
-            print msg
-            print e
+            print(msg)
+            print(e)
             axis_name = 'NON-ASCII_NAME'
-            driver_cfg.setParameter(unicode("IPAPNAME"), axis_name)
+            driver_cfg.setParameter(str("IPAPNAME"), axis_name)
 
         # INSTEAD OF READING PARAM BY PARAM, WE SHOULD ASK THE ICEPAP FOR
         # ALL THE CONFIGURATION
         # WITH THE #N?:CFG COMMAND, USING SOME .getCfg() METHOD.
         axis = self.iPaps[icepap_name][driver_addr]
         cfg = axis.get_cfg()
-        for param_name, param_value in cfg.items():
-            driver_cfg.setParameter(unicode(param_name), param_value)
+        for param_name, param_value in list(cfg.items()):
+            driver_cfg.setParameter(str(param_name), param_value)
 
         return driver_cfg
 
@@ -238,7 +238,7 @@ class IcepapController(Singleton):
 
         # The new_values will have the the not found parameter on the
         # configuration dictionary
-        for cfg_name, value in new_values_dict.items():
+        for cfg_name, value in list(new_values_dict.items()):
             if cfg_name.upper() in ['VER', 'ID']:
                 # Ignore the change
                 pass
@@ -264,7 +264,7 @@ class IcepapController(Singleton):
                 msg = 'Parameter {0}({1}) is not exist for the current ' \
                       'version. Check the configuration ' \
                       'parameter list ({2}).'.format(cfg_name, value,
-                                                     cfg_info.keys())
+                                                     list(cfg_info.keys()))
                 print(msg)
                 MessageDialogs.showErrorMessage(None, 'Set Driver Config', msg)
                 raise ValueError(msg)
@@ -770,7 +770,7 @@ class IcepapController(Singleton):
         if os.name == 'posix':
             ifconfigs = ['/sbin/ifconfig', '/usr/sbin/ifconfig',
                          '/bin/ifconfig', '/usr/bin/ifconfig']
-            ifconfig = filter(os.path.exists, ifconfigs)[0]
+            ifconfig = list(filter(os.path.exists, ifconfigs))[0]
             fp = os.popen(ifconfig+' -a')
             configs = fp.read().split('\n\n')
             fp.close()
