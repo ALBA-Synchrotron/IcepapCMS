@@ -555,7 +555,7 @@ class IcepapController(Singleton):
         for section in root.getElementsByTagName("section"):
             section_name = ''
             if section.nodeType == Node.ELEMENT_NODE:
-                    section_name = section.attributes.get('name').value
+                section_name = section.attributes.get('name').value
             inTestSection = (section_name == "test")
             if not inTestSection:
                 for pars in section.getElementsByTagName("par"):
