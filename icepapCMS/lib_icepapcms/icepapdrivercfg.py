@@ -129,6 +129,3 @@ class CfgParameter(Storm):
         self.driver_cfg = cfg
         self.name = str(name)
         self.value = str(value)
-
-
-
