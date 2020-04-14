@@ -20,13 +20,6 @@ from ..lib_icepapcms import IcepapDriver
 class PageiPapSystem(QtGui.QWidget):
     def __init__(self, mainwin):
         QtGui.QWidget.__init__(self, None)
-        #self.resize(QtCore.QSize(QtCore.QRect(0,0,800,607).size()).expandedTo(self.minimumSizeHint()))
-        #sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Policy(7),QtGui.QSizePolicy.Policy(7))
-        #self.setMinimumSize(QtCore.QSize(800,201))
-        #sizePolicy.setHorizontalStretch(0)
-        #sizePolicy.setVerticalStretch(0)
-        #sizePolicy.setHeightForWidth(self.sizePolicy().hasHeightForWidth())
-        #self.setSizePolicy(sizePolicy)
         self._colSize = [94, 94]
         self._rowSize = [74, 200]
         self.mainwin = mainwin       
@@ -187,7 +180,6 @@ class PageiPapSystem(QtGui.QWidget):
     
                     else:
                         if not driver_widget.refresh():
-                            #return
                             break
         if not size == None:
             for col in range(self.tableWidget.columnCount()):

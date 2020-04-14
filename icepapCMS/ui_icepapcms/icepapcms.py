@@ -33,8 +33,6 @@ from dialogipapprogram import DialogIcepapProgram
 from ipapconsole import IcepapConsole
 from messagedialogs import MessageDialogs
 from templatescatalogwidget import TemplatesCatalogWidget
-#from dialoghistoriccfg import DialogHistoricCfg
-#from dialogtemplate import DialogTemplate
 from optparse import OptionParser
 
 __version__ = '2.3.6'
@@ -56,7 +54,6 @@ class IcepapApp(QtGui.QApplication):
         (options, args) = parser.parse_args()
 
 
-        #QtGui.QApplication.__init__(self, *args)
         QtGui.QApplication.__init__(self,[])
         self.setStyle("plastique")
         splash_pxmap = QtGui.QPixmap(":/logos/IcepapCfg Icons/IcepapMed.png")
@@ -130,7 +127,6 @@ class IcepapCMS(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.actionFirmwareUpgrade,QtCore.SIGNAL("triggered()"),self.actionFimwareUpgrade)         
         QtCore.QObject.connect(self.ui.actionSaveConfig,QtCore.SIGNAL("triggered()"),self.actionSaveConfig)
         QtCore.QObject.connect(self.ui.actionHistoricCfg,QtCore.SIGNAL("triggered()"),self.actionHistoricCfg)
-        #QtCore.QObject.connect(self.ui.actionSetExpertFlag,QtCore.SIGNAL("triggered()"),self.actionSetExpertFlag)
         QtCore.QObject.connect(self.ui.actionCopy,QtCore.SIGNAL("triggered()"),self.actionCopy)
         QtCore.QObject.connect(self.ui.actionPaste,QtCore.SIGNAL("triggered()"),self.actionPaste)
 
@@ -144,17 +140,13 @@ class IcepapCMS(QtGui.QMainWindow):
         self.connect(self.ui.treeView, 
                      QtCore.SIGNAL("customContextMenuRequested(const QPoint &)"),
                      self.__contextMenu)
-###        QtCore.QObject.connect(self.ui.txtLocation,QtCore.SIGNAL("returnPressed()"),self.txtLocation_on_return)
         QtCore.QObject.connect(self.ui.btnTreeAdd,QtCore.SIGNAL("clicked()"),self.btnTreeAdd_on_click)
         QtCore.QObject.connect(self.ui.btnTreeRemove,QtCore.SIGNAL("clicked()"),self.btnTreeRemove_on_click)
         QtCore.QObject.connect(self.ui.actionAddIcepap ,QtCore.SIGNAL("triggered()"),self.btnTreeAdd_on_click)         
         QtCore.QObject.connect(self.ui.actionDeleteIcepap,QtCore.SIGNAL("triggered()"),self.btnTreeRemove_on_click)
-        #QtCore.QObject.connect(self.ui.btnTreeRefresh,QtCore.SIGNAL("clicked()"),self.btnTreeRefresh_on_click)
         QtCore.QObject.connect(self.ui.menuView,QtCore.SIGNAL("aboutToShow()"),self.menuView_before_show)
         QtCore.QObject.connect(self.ui.cbLocation,QtCore.SIGNAL("activated  (const QString&)"),self.locationChanged)
-###        QtCore.QObject.connect(self.ui.btnAddLocation,QtCore.SIGNAL("clicked()"),self.addLocation)
-###        QtCore.QObject.connect(self.ui.btnDeleteLocation,QtCore.SIGNAL("clicked()"),self.deleteLocation)
-        QtCore.QObject.connect(self.ui.actionAddLocation,QtCore.SIGNAL("triggered()"),self.addLocation)         
+        QtCore.QObject.connect(self.ui.actionAddLocation,QtCore.SIGNAL("triggered()"),self.addLocation)
         QtCore.QObject.connect(self.ui.actionDeleteLocation,QtCore.SIGNAL("triggered()"),self.deleteLocation)
         QtCore.QObject.connect(self.ui.actionAbout,QtCore.SIGNAL("triggered()"),self.about)
         
@@ -164,8 +156,7 @@ class IcepapCMS(QtGui.QMainWindow):
         if not self._manager.dbStatusOK:
             MessageDialogs.showErrorMessage(self, "Storage", "Error accessing database.\nCheck storage preferences.")
         
-        #self.buildTree()
-        
+
         self.buildLocationCombo()
         self.checkTimer.start(5000)        
         self.locationsNext = []
@@ -181,14 +172,6 @@ class IcepapCMS(QtGui.QMainWindow):
         self.ui.treeView.setItemsExpandable(True)        
         self.ui.actionSaveConfig.setEnabled(False)
         self.ui.stackedWidget.setCurrentIndex(0)
-###        self.ui.txtLocation.setText("")
-     
-        #    def buildTree(self):
-        #        expand_system = self.performSystemScan()
-        #        self._tree_model = IcepapTreeModel(self._manager.IcepapSystemList)
-        #        self.ui.treeView.setModel(self._tree_model)
-        #        for name in expand_system.keys():
-        #            self.expandAll(name)
 
 
     def about(self):
@@ -223,7 +206,6 @@ class IcepapCMS(QtGui.QMainWindow):
     def buildLocationCombo(self):
         self.ui.cbLocation.clear()
         self.ui.treeView.setModel(None)
-        #self.ui.treeView.reset()
 
         keys = self._manager.locationList.keys()
         keys.sort()                
@@ -246,8 +228,7 @@ class IcepapCMS(QtGui.QMainWindow):
         self.buildInitialTree()
         for icepap_system in self._manager.IcepapSystemList.values():
             self.stopIcepap(icepap_system)
-        ###self.ui.stackedWidget.setCurrentIndex(0)
-    
+
     def buildInitialTree(self):        
         self._tree_model = IcepapTreeModel(self._manager.IcepapSystemList, True)
         self.ui.treeView.setModel(self._tree_model)
@@ -361,34 +342,7 @@ class IcepapCMS(QtGui.QMainWindow):
             item.changeLabel([data[0], data[2]])
             self.ui.stackedWidget.setCurrentIndex(0)
             self.ui.cbLocation.setCurrentIndex(self.ui.cbLocation.findText(data[3], QtCore.Qt.MatchFixedString))            
-                      
-#    def performSystemScan(self):
-#        icepap_list = self._manager.getIcepapList()
-#        self.current_icepap = 0
-#        expand_system = {}
-#        conflicts_list = []
-#        for icepap_name, icepap_system in icepap_list.items():
-#            self.setStatusMessage("Scanning ... " + icepap_name)
-#            expand_system[icepap_system.name] = icepap_system            
-#            conflicts_list.extend(self._manager.scanIcepap(icepap_system))
-#        
-#        if len(conflicts_list) > 0:
-#            self.setStatusMessage("Configuration conflicts found.")
-#            for conflict in conflicts_list:
-#                icepap_system = conflict[1]
-#                #expand_system[icepap_system.name] = icepap_system
-#                if conflict[0] == Conflict.NO_CONNECTION:
-#                    icepap_system.setConflict(conflict[0])
-#                    self.setStatusMessage(icepap_system.name + ": Connection Error")
-#                else:
-#                    if not conflict[2] is None:
-#                        self.setStatusMessage("Configuration conflicts found.")
-#                        driver = icepap_system.getDriver(conflict[2])
-#                        driver.setConflict(conflict[0])
-#        else:
-#            self.setStatusMessage("Scanning complete!. No conflicts found")
-#        return expand_system
-    
+
     def checkIcepapConnection(self):
         """ this function checks the icepap connection, notifying the user for
         losing or getting connection """
@@ -403,7 +357,6 @@ class IcepapCMS(QtGui.QMainWindow):
             self.ui.pageiPapDriver.stopTesting()
             if not self.refreshTimer is None:
                 self.refreshTimer.stop()
-###                self.ui.txtLocation.setText("")
                 self.ui.stackedWidget.setCurrentIndex(0)
                 self._manager.stopIcepap(icepap_system)
                 self._tree_model.updateIcepapSystem(icepap_system, True)
@@ -426,7 +379,6 @@ class IcepapCMS(QtGui.QMainWindow):
             self.setStatusMessage("Configuration conflicts found.")
             for conflict in conflicts_list:
                 icepap_system = conflict[1]
-                #expand_system[icepap_system.name] = icepap_system
                 if conflict[0] == Conflict.NO_CONNECTION:
                     icepap_system.setConflict(conflict[0])
                     self.setStatusMessage(icepap_system.name + ": Connection Error")
@@ -477,7 +429,6 @@ class IcepapCMS(QtGui.QMainWindow):
         dbIcepapSystem = StormManager().getIcepapSystem(icepap_system)
         return dbIcepapSystem.getDriver(driver_addr,in_memory=False).startup_cfg
 
-        #return StormManager().getIcepapSystem(icepap_system).getDriver(driver_addr).current_cfg
 
     def getDriverValues(self,icepap_system,driver_addr):
         return self._manager.getDriverConfiguration(icepap_system,driver_addr)
@@ -508,9 +459,6 @@ class IcepapCMS(QtGui.QMainWindow):
         return params_modified,params_new_in_driver,params_old_in_db
 
     def solveConflict(self, item):
-        #dlg = DialogDriverConflict(self, item.itemData)
-        #dlg.exec_()
-        #if dlg.result():
         driver = item.itemData
         system = driver.icepapsystem_name
         addr = driver.addr
@@ -533,9 +481,7 @@ class IcepapCMS(QtGui.QMainWindow):
         more_info_dialog.setLayout(grid_layout)
 
         if len(params_modified)>0:
-            #message = message + "\n\nModified parameters:"
             for param,db_value,driver_value in params_modified:
-                #message = message + "\n     "+param+"_DB("+db_value+")   "+param+"_DR("+driver_value+")"
                 row = table.rowCount()
                 table.insertRow(row)
 
@@ -552,9 +498,7 @@ class IcepapCMS(QtGui.QMainWindow):
                 table.setItem(row, 2, driver_item)
 
         if len(params_new_in_driver)>0:
-            #message = message + "\n\nNew parameters:"
             for param,driver_value in params_new_in_driver:
-                #message = message + "\n     "+param+"_DR("+driver_value+")"
                 row = table.rowCount()
                 table.insertRow(row)
 
@@ -571,9 +515,7 @@ class IcepapCMS(QtGui.QMainWindow):
                 table.setItem(row, 2, driver_item)
                 
         if len(params_old_in_db)>0:
-            #message = message + "\n\nOld parameters:"
             for param,db_value in params_old_in_db:
-                #message = message + "\n     "+param+"_DB("+db_value+")"
                 row = table.rowCount()
                 table.insertRow(row)
 
@@ -589,7 +531,6 @@ class IcepapCMS(QtGui.QMainWindow):
                 driver_item.setText("---")
                 table.setItem(row, 2, driver_item)
         
-        #yes = MessageDialogs.showYesNoMessage(self, "Conflict Resolution",message)
         dialog = None
         if not expertFlag:
             dialog = DialogConflictNonExpert(self, more_info_dialog)
@@ -624,7 +565,6 @@ class IcepapCMS(QtGui.QMainWindow):
         
 
     def solveNewDriver(self, item):
-        #cfg_default = MessageDialogs.showYesNoMessage(self, "Reset Driver to Defaults", "Do you want to reset the driver configuration to default values?")
         driver = item.itemData
         system = driver.icepapsystem_name
         addr = driver.addr
@@ -640,7 +580,6 @@ class IcepapCMS(QtGui.QMainWindow):
         driver_values = self.getDriverValues(system,addr)
         driver_values_list = driver_values.toList()
         if len(driver_values_list)>0:
-            #message = message + "\n\nModified parameters:"
             for param,driver_value in driver_values_list:
                 row = table.rowCount()
                 table.insertRow(row)
@@ -675,24 +614,9 @@ class IcepapCMS(QtGui.QMainWindow):
         item.solveConflict()
         driver = item.itemData
         driver.signDriver()
-        #self.scanIcepap(item.getIcepapSystem())
-        ##imported_sys = item.itemData.icepap_system
-        ##moved_sys = self._manager.importMovedDriver(item.itemData)        
-        ##if moved_sys != imported_sys:
-        ##    self.scanIcepap(moved_sys)         
-        ##self.scanIcepap(imported_sys)
         return True
     
     def deleteDriverError(self, item):
-        ##moved_sys = self._manager.importMovedDriver(item.itemData, True)
-        ##or_sys = item.itemData.icepap_system
-        ##if moved_sys:
-        ##    if moved_sys != or_sys:
-        ##        self.scanIcepap(moved_sys)
-        ##    self.scanIcepap(or_sys)
-        ##item.solveConflict()
-        ##self._tree_model.deleteItem(item)
-        ##self.scanIcepap(or_sys)
         delete = MessageDialogs.showYesNoMessage(self, "Driver error", "Driver not present.\nRemove driver from DB?")
         if delete:
             icepap_system = item.getIcepapSystem()
@@ -704,17 +628,10 @@ class IcepapCMS(QtGui.QMainWindow):
         self.ui.pageiPapDriver.stopTesting()
         if not self.refreshTimer is None:
             self.refreshTimer.stop()
-###        self.ui.txtLocation.setText("")
         self._manager.reset(self)
-        #if not self._manager.dbStatusOK:
-        #    MessageDialogs.showErrorMessage(self, "Storage", "Error accessing storage.\nCheck storage preferences.")
-        self.initGUI()        
-        #self.buildTree()
+        self.initGUI()
         self.ui.stackedWidget.setCurrentIndex(0)
-    
-   
- 
-              
+
     def btnTreeRemove_on_click(self):
         selectmodel = self.ui.treeView.selectionModel()
         indexes = selectmodel.selectedIndexes()
@@ -755,15 +672,6 @@ class IcepapCMS(QtGui.QMainWindow):
         self.addToPrevious(self.currentLocation)
         self.treeSelectByIndex(modelindex)
             
-###    def txtLocation_on_return(self):
-###        self.locationsPrevious.extend(self.locationsNext)
-###        self.locationsNext =  []
-###        self.addToPrevious(self.currentLocation)
-###        location = str(self.ui.txtLocation.text())
-###        location = location.rstrip('/')
-###        self.treeSelectByLocation(location)
-     
-    
     def treeSelectByLocation(self, location):
         self.currentLocation = location
         modelindex = self._tree_model.indexByLocation(location)
@@ -777,7 +685,6 @@ class IcepapCMS(QtGui.QMainWindow):
     
     def treeSelectByIndex(self, modelindex):
         item = self._tree_model.item(modelindex)
-###        self.ui.txtLocation.setText(item.location) 
         self.currentLocation = item.location
         self.ui.actionExport.setEnabled(False)
         self.ui.actionImport.setEnabled(False)
@@ -810,8 +717,6 @@ class IcepapCMS(QtGui.QMainWindow):
             # ENABLE THE COPY & PASTE ACTIONS
             self.ui.actionCopy.setEnabled(True)
             self.ui.actionPaste.setEnabled(True)
-            #if self.historicDlg.isVisible():
-            #    self.historicDlg.fillDriverData(item.itemData)
 
         elif item.role == IcepapTreeModel.SYSTEM or item.role == IcepapTreeModel.SYSTEM_WARNING:
             self.ui.pageiPapSystem.fillData(item.itemData)      
@@ -857,8 +762,7 @@ class IcepapCMS(QtGui.QMainWindow):
         self.locationsPrevious = []
         self.locationsNext = []
         self.checkGoPreviousActions()
-###        self.ui.txtLocation.setText("") 
-    
+
     def checkGoPreviousActions(self):
         if len(self.locationsPrevious) == 0:
             self.ui.actionGoPrevious.setEnabled(False)
@@ -902,7 +806,6 @@ class IcepapCMS(QtGui.QMainWindow):
         # or some signature is pending
 
         if self.ui.pageiPapDriver.checkSaveConfigPending():
-        ###if len(signList) > 0:
             signList = self._manager.getDriversToSign()
             if MessageDialogs.showYesNoMessage(self, "Validate Drivers config", "There are driver configurations pending to be validated.\nAll changes may be lost\nValidate driver configs?."):
                 for driver in signList:
@@ -952,8 +855,6 @@ class IcepapCMS(QtGui.QMainWindow):
     
     def actionConsole(self):
         dlg = IcepapConsole(self)
-        #dlg.exec_()
-        #dlg = IcepapConsole()
         dlg.show()
         
     def actionPreferences(self):
@@ -967,15 +868,7 @@ class IcepapCMS(QtGui.QMainWindow):
         self.clearLocationBar()
         dlg = DialogIcepapProgram(self)
         dlg.exec_()
-    
-###    def addDriverToSign(self, driver):
-###        print "OUPS WE NEED THE LOCATION...."
-###        location = str(self.ui.txtLocation.text())
-###        location = location.rstrip('/')
-###        self._tree_model.changeItemIcon(location, IcepapTreeModel.DRIVER_CFG)
-###        #driver.conflict = Conflict.DRIVER_CFG
-###        self.ui.actionSaveConfig.setEnabled(True)
-         
+
     def actionSaveConfig(self):
         QtGui.QApplication.instance().setOverrideCursor(QtGui.QCursor(QtCore.Qt.WaitCursor))
         try:

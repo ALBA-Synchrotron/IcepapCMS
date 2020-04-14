@@ -23,10 +23,8 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
     def __init__(self, IcepapsList, no_expand = False, parent=None):
         QtCore.QAbstractItemModel.__init__(self, parent)
         
-        #self.item_dict = {}
         self.item_location = {}
         
-        #rootData = [QtCore.QVariant("Icepaps"), QtCore.QVariant("Description")]
         rootData = [QtCore.QVariant("IcepapCMS DB")]
         self.rootItem = TreeItem(rootData, IcepapTreeModel.ROOT, "DB")        
         
@@ -123,9 +121,6 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
         return parentItem.childCount()
         
     def setupModelData(self, IcepapsList, parent, no_expand):
-        #print str(type(IcepapsList))
-        #print str(IcepapsList.keys())
-        #for icepap_name, icepap_system in IcepapsList.items():
         keys = IcepapsList.keys()
         keys.sort()
         for icepap_name in keys:
@@ -154,7 +149,6 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
                 location = "%s/%s" % (icepap_name, crate)
                 new_item_crate = self.addItem([QtCore.QVariant(driver.cratenr)], IcepapTreeModel.CRATE, location,None, new_item_system)
             location = "%s/%s/%s" % (icepap_name, crate, addr)
-            #self.addItem([QtCore.QVariant(str(addr)+" "+driver.getName())], IcepapTreeModel.DRIVER, location, driver, new_item_crate)
             self.addItem([QtCore.QVariant(str(addr)+" "+driver.name)], IcepapTreeModel.DRIVER, location, driver, new_item_crate)
             
     def deleteIcepapSystem(self, icepap_name):
@@ -169,9 +163,6 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
         
     def addItem(self, labels, role, location, data, parent, tree_index = None):
         new_item = TreeItem(labels, role, location, data, parent)
-        #self.item_dict[id(new_item)] = new_item
-        
-        #parent.appendChild(new_item)
         parent.appendChild(new_item,tree_index)
             
 
@@ -201,7 +192,6 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
     def deleteItem(self, item):
         index = self.indexByLocation(item.location)
         self.beginRemoveRows(self.parent(index), index.row(), index.row())
-        #del self.item_dict[id(item)]
         del self.item_location[item.location]
         item.parentItem.removeChild(index.row())
         self.endRemoveRows()

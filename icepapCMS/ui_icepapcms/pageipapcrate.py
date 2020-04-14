@@ -19,14 +19,7 @@ from icepapdriver_widget import IcePapDriverWidget
 class PageiPapCrate(QtGui.QWidget):
     def __init__(self, mainwin):
         QtGui.QWidget.__init__(self, None)
-        #self.resize(QtCore.QSize(QtCore.QRect(0,0,800,607).size()).expandedTo(self.minimumSizeHint()))
-        #sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Policy(7),QtGui.QSizePolicy.Policy(7))
-        #self.setMinimumSize(QtCore.QSize(800,201))
-        #sizePolicy.setHorizontalStretch(0)
-        #sizePolicy.setVerticalStretch(0)
-        #sizePolicy.setHeightForWidth(self.sizePolicy().hasHeightForWidth())
-        #self.setSizePolicy(sizePolicy)
-        self.mainwin = mainwin  
+        self.mainwin = mainwin
         self.vboxlayout = QtGui.QVBoxLayout(self)
         self.vboxlayout.setMargin(9)
         self.vboxlayout.setSpacing(6)
@@ -136,8 +129,6 @@ class PageiPapCrate(QtGui.QWidget):
                     if not adriver is None:                                         
                         wdriver = IcePapDriverWidget(self)
                         wdriver.fillData(adriver)
-                        #if not wdriver.fillData(adriver):
-                        #    return
                         self.driverswidgets[addr]  = wdriver
                         self.tableWidget.setCellWidget(row, drivernr, wdriver)
                         QtCore.QObject.connect(wdriver,QtCore.SIGNAL("icepapDoubleClicked(PyQt_PyObject)"),self.driverDoubleclick)

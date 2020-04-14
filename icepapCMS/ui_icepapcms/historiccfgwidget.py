@@ -52,8 +52,6 @@ class HistoricCfgWidget(QtGui.QWidget):
         for cfg in self.icepap_driver.historic_cfgs:
             datetime = cfg.date            
             
-            #datetime = time.localtime(date)
-            #qdate = QtCore.QDate(datetime.tm_year,datetime.tm_mon,datetime.tm_mday)
             qdate = QtCore.QDate(datetime.year,datetime.month,datetime.day)
             cfgdate = qdate.toPyDate().ctime()
             if self.selectedDays.has_key(cfgdate):
@@ -117,13 +115,10 @@ class HistoricCfgWidget(QtGui.QWidget):
         if name == "" or not self.selectedCfg:
             MessageDialogs.showWarningMessage(self, "Store historic configuration", "Fill all required data.")
             return
-        #now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         if MessageDialogs.showYesNoMessage(self, "Store historic configuration", "Save configuration information?"):
             self.selectedCfg[1].name = name
             self.selectedCfg[1].description = desc
-            #self.icepap_driver.saveHistoricCfg(time.time(), name, desc)
-            #self.fillData(self.icepap_driver)
-        
+
         
         
         

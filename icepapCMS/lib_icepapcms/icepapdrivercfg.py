@@ -29,8 +29,6 @@ class IcepapDriverCfg(Storm):
     parameters = ReferenceSet(id, "CfgParameter.cfg_id")
     
     def __init__(self,name, description = None):
-        #self.icepapsystem_name = icepapsystem_name
-        #self.driver_addr = driver_addr
         if description == None:
             description = unicode("")
         self.description = unicode(description)

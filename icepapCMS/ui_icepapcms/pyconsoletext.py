@@ -24,7 +24,6 @@ class PyConsoleText(QTextEdit):
     def __init__(self, parent=None):
         QTextEdit.__init__(self, parent)
         
-        #self.colorizer = SyntaxColor()
 
         # to exit the main interpreter by a Ctrl-D if PyCute has no parent
         if parent is None:
@@ -47,10 +46,8 @@ class PyConsoleText(QTextEdit):
         self.cursor_pos   = 0
 
         # user interface setup
-        #self.setTextFormat(Qt.PlainText)
-        
+
         self.setLineWrapMode(QTextEdit.NoWrap)
-        #self.setCaption('Python Shell')
 
         
     def setPrompt(self, text):
@@ -99,9 +96,6 @@ class PyConsoleText(QTextEdit):
         # Set the format
         cursor.setPosition(pos1, QTextCursor.KeepAnchor)
 
-        #format = cursor.charFormat()
-        #format.setForeground( QtGui.QBrush(QtGui.QColor(255,255,255)))
-        #cursor.setCharFormat(format)
 
             
     def __run(self):
@@ -146,7 +140,6 @@ class PyConsoleText(QTextEdit):
         cursor = self.textCursor()
         cursor.insertText(text)
         self.update()
-        #self.color_line()
 
 
     def keyPressEvent(self, e):
@@ -161,8 +154,7 @@ class PyConsoleText(QTextEdit):
                 cursor = self.textCursor()
                 cursor.movePosition(QTextCursor.PreviousCharacter, QTextCursor.KeepAnchor)
                 cursor.removeSelectedText()
-                #self.color_line()
-            
+
                 self.point -= 1 
                 self.line.remove(self.point, 1)
 
@@ -170,8 +162,7 @@ class PyConsoleText(QTextEdit):
             cursor = self.textCursor()
             cursor.movePosition(QTextCursor.NextCharacter, QTextCursor.KeepAnchor)
             cursor.removeSelectedText()
-            #self.color_line()
-                        
+
             self.line.remove(self.point, 1)
             
         elif key == Qt.Key_Return or key == Qt.Key_Enter:
@@ -237,14 +228,6 @@ class PyConsoleText(QTextEdit):
         self.write(self.prompt)
         self.__insertText(self.history[self.pointer])
 
-        
-#     def focusNextPrevChild(self, next):
-#         """
-#         Suppress tabbing to the next window in multi-line commands. 
-#         """
-#         if next and self.more:
-#             return 0
-#         return QTextEdit.focusNextPrevChild(self, next)
 
     def mousePressEvent(self, e):
         """
@@ -259,33 +242,6 @@ class PyConsoleText(QTextEdit):
         """
         pass
 
-#    
-#    def color_line(self):
-#        """ Color the current line """
-#        
-#        cursor = self.textCursor()
-#        cursor.movePosition(QTextCursor.StartOfLine)
-#
-#        newpos = cursor.position()
-#        pos = -1
-#        
-#        while(newpos != pos):
-#            cursor.movePosition(QTextCursor.NextWord)
-#
-#            pos = newpos
-#            newpos = cursor.position()
-#
-#            cursor.select(QTextCursor.WordUnderCursor)
-#            word = str(cursor.selectedText ().toAscii())
-#
-#            if(not word) : continue
-#            
-#            (R,G,B) = self.colorizer.get_color(word)
-#            
-#            format = cursor.charFormat()
-#            format.setForeground( QtGui.QBrush(QtGui.QColor(R,G,B)))
-#            cursor.setCharFormat(format)
-            
 
 
 
@@ -322,12 +278,6 @@ class SyntaxColor:
     def is_python_string(self, str):
         """ Return True if str is enclosed by a string mark """
 
-#         return (
-#             (str.startswith("'''") and str.endswith("'''")) or
-#             (str.startswith('"""') and str.endswith('"""')) or
-#             (str.startswith("'") and str.endswith("'")) or
-#             (str.startswith('"') and str.endswith('"')) 
-#             )
         return False
         
         

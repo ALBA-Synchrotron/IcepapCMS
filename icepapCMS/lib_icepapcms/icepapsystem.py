@@ -146,7 +146,6 @@ class IcepapSystem(Storm):
                 driver_cmp = driver_list[addr]
                 if not driver == driver_cmp :
                     # HOOK TO CHECK AUTO-SOLVE CONFLICTS
-                    #conflictsList.append([Conflict.DRIVER_CHANGED, self, addr])
                     dsp_cfg = driver_cmp.current_cfg
                     db_cfg = driver.current_cfg
                     conflict = self.checkAutoSolvedConflict(dsp_cfg, db_cfg)
@@ -160,17 +159,7 @@ class IcepapSystem(Storm):
                 ''' determine if it is a new driver or if it has been moved '''
                 # ALWAYS TREAT AS NEW DRIVER, 'MOVED' HAS NO SENSE
                 conflictsList.append([Conflict.NEW_DRIVER, self, addr])
-                ###id = driver.current_cfg.getParameter("ID", True)
-                ###db = StormManager()
-                ###if db.existsDriver(driver, id):                    
-                ###    conflictsList.append([Conflict.DRIVER_MOVED, self, addr])                
-                ###else:                    
-                ###    conflictsList.append([Conflict.NEW_DRIVER, self, addr])
 
-            ##if addr == 12:
-            ##    print "SETTING NEW_DRIVER CONFLICTS... THIS IS JUST FOR TESTING THE CFG DEFAULT"
-            ##    conflictsList.append([Conflict.NEW_DRIVER, self, addr])
-            
         return conflictsList
 
     def checkAutoSolvedConflict(self, dsp_cfg, db_cfg):
@@ -222,9 +211,6 @@ class IcepapSystem(Storm):
                    continue
 
                 if not p in ['EXTDISABLE','PCLMODE','EXTBUSY','POSUPDATE','LNKNAME','EXTPOWER','OUTPSRC']:
-                   #print "DSP VERSION: ",dsp_cfg_ver
-                   #print "DB  VERSION: ",db_cfg_ver
-                   #print "Auto resolving conflicts: Unexpected paramater: ",p
                    return Conflict.DRIVER_CHANGED
             return Conflict.DRIVER_AUTOSOLVE
 
@@ -247,13 +233,6 @@ class IcepapSystem(Storm):
 
             return Conflict.DRIVER_AUTOSOLVE_EXPERT
 
-        # parameter value in DB goes to DRIVER
-        # return Conflict.DRIVER_AUTOSOLVE
-
-        # parameter value in DRIVER goes to DB
-        # return Conflict.DRIVER_AUTOSOLVE_EXPERT
-
-        # no action, prompt the user to resolve conflict
         return Conflict.DRIVER_CHANGED
 
 from icepapdriver import IcepapDriver

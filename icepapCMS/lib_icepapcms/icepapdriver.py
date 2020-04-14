@@ -47,7 +47,6 @@ class IcepapDriver(Storm):
     
     def __storm_loaded__(self):
         self.current_cfg = self.historic_cfgs.order_by("date").last()
-        #print "%d : %s" %(self.addr, str(self.current_cfg.date))        
         self.initialize()
     
     def initialize(self):
@@ -66,16 +65,13 @@ class IcepapDriver(Storm):
             self.current_cfg = cfg
             cfg.setDriver(self)
         self.historic_cfgs.add(cfg)
-        #db = StormManager()
-        #db.commitTransaction()
 
     def setConflict(self, conflict):
         self.conflict = conflict
         
     def getName(self):
         return self.name
-        #return self.current_cfg.getParameter(unicode("IPAPNAME"))
-    
+
     def setName(self, name):
         self.name = unicode(name)
     
@@ -111,8 +107,7 @@ class IcepapDriver(Storm):
         self.addConfiguration(config)
         # THE CURRENT CONFIGURATION SHOULD NOT BE IN THE UNDO LIST
         return self._undo_list.pop()
-        #self.current_cfg = config    
-        
+
     def getUndoList(self):
         return self._undo_list.pop()
     
@@ -129,12 +124,6 @@ class IcepapDriver(Storm):
         self.historic_cfgs.remove(cfg)
 
     def __cmp__(self, other):
-        #self.mode = other.mode
-        #db = StormManager()
-        #cfg = other.current_cfg
-        #cfg.resetDriver()
-        #other.historic_cfgs.remove(cfg)
-        #db.store(cfg)
         if self.current_cfg == other.current_cfg:
             self.setConflict(Conflict.NO_CONFLICT)
             return 0

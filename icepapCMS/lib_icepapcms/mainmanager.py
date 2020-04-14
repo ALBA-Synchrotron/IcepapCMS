@@ -12,15 +12,9 @@
 
 
 from singleton import Singleton
-#from icepapsystem import *
-#from icepapdriver import *
-#from icepapcontroller import IcepapController
-#from icepapdrivertemplate import IcepapDriverTemplate
-#from zodbmanager import ZODBManager
 from PyQt4 import QtCore
 from PyQt4 import QtGui
 from pyIcePAP import Mode
-#from conflict import Conflict
 
 from ..ui_icepapcms.messagedialogs import MessageDialogs
 import sys
@@ -138,8 +132,7 @@ class MainManager(Singleton):
         """ deletes and Icepap in the database """
         del self.IcepapSystemList[icepap_name]
         self.location.deleteSystem(icepap_name)
-        #self._db.deleteIcepapSystem(self.IcepapSystemList[icepap_name])        
-        
+
            
     def closeAllConnections(self):
         """ Close all the openned connections to the icepaps """
@@ -293,8 +286,7 @@ class MainManager(Singleton):
         
         except:
             MessageDialogs.showErrorMessage(self._form, "GetDriverConfiguration Icepap error", "%s Connection error" % icepap_name)
-            #self._form.checkIcepapConnection()
-            
+
     
     def getDriverStatus(self, icepap_name, addr):
         """ Driver Status used in the System and crate view
@@ -318,8 +310,6 @@ class MainManager(Singleton):
         except Exception,e:
             MessageDialogs.showWarningMessage(self._form, "GetDriverStatus error", "Connection error")
             self._form.checkIcepapConnection()
-            #print "Unexpected error:", sys.exc_info()
-            #print "error getting status : %s %d" % (icepap_name,addr) 
             return (-1, False, -1)
     
     def getDriverTestStatus(self, icepap_name, addr, pos_sel, enc_sel):
@@ -333,7 +323,6 @@ class MainManager(Singleton):
             return (-1,-1, [-1,-1])        
         except Exception,e:
             print "mainmanager:getDriverTestStatus:Unexpected error while getting driver test status.\n",str(e)
-            #print "mainmanager:getDriverTestStatus:Unexpected error:", sys.exc_info()
             return (-1,-1, [-1,-1])
             
     def readIcepapParameters(self, icepap_name, addr, par_list):
@@ -420,7 +409,6 @@ class MainManager(Singleton):
             new_values.remove((param,db_value))
         new_cfg = self._ctrl_icepap.setDriverConfiguration(icepap_driver.icepapsystem_name, icepap_driver.addr, new_values, expertFlag = expertFlag)
         if new_cfg is None:
-            #self._form.checkIcepapConnection()
             return False
         else:
             icepap_driver.mode = unicode(Mode.CONFIG)
@@ -437,7 +425,6 @@ class MainManager(Singleton):
         icepap_driver.setStartupCfg()
         self._ctrl_icepap.setDriverConfiguration(icepap_driver.icepapsystem_name, icepap_driver.addr, icepap_driver.current_cfg.toList())
 
-        #self._ctrl_icepap.discardDriverCfg(icepap_driver.icepapsystem_name, icepap_driver.addr)
         pass
         
         
@@ -446,7 +433,6 @@ class MainManager(Singleton):
         new_cfg = self._ctrl_icepap.setDriverConfiguration(icepap_driver.icepapsystem_name, icepap_driver.addr, undo_cfg.toList())
         if new_cfg is None:
             MessageDialogs.showWarningMessage(self._form, "undoDriverConfig error", "Connection error")
-            #self._form.checkIcepapConnection()
         else:
             icepap_driver.undo(new_cfg)
             return True
