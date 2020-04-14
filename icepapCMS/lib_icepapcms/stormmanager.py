@@ -12,9 +12,9 @@
 
 
 
-from configmanager import ConfigManager
+from .configmanager import ConfigManager
 from storm.locals import *
-from singleton import Singleton
+from .singleton import Singleton
 import os, re
 import sys
 import time
@@ -57,7 +57,7 @@ class StormManager(Singleton):
             else:
                 self.dbOK = True
         except:
-            print "Unexpected error:", sys.exc_info()
+            print("Unexpected error:", sys.exc_info())
             self.dbOK = False
     
     def createSqliteDB(self):
@@ -79,7 +79,7 @@ class StormManager(Singleton):
             self._store.commit()
             return True
         except:
-            print "Unexpected error:", sys.exc_info()
+            print("Unexpected error:", sys.exc_info())
             return False
         
     def closeDB(self):
@@ -89,7 +89,7 @@ class StormManager(Singleton):
                 self._store.close()
             return True
         except:
-            print "Unexpected error:", sys.exc_info()
+            print("Unexpected error:", sys.exc_info())
             self.dbOK = False
             return False
             
@@ -107,8 +107,8 @@ class StormManager(Singleton):
             self._store.add(icepap_system)
             self.commitTransaction()
             return True
-        except Exception,e:
-            print "some exception trying to store the icepap system",e
+        except Exception as e:
+            print("some exception trying to store the icepap system",e)
             return False
     
     def deleteLocation(self, location):
@@ -141,7 +141,7 @@ class StormManager(Singleton):
                 location_dict[l.name] = l
             return location_dict
         except:
-            print "getAllLocations:", sys.exc_info()[1]
+            print("getAllLocations:", sys.exc_info()[1])
             return {}
    
     def getLocation(self, name):
@@ -153,7 +153,7 @@ class StormManager(Singleton):
     def existsDriver(self, mydriver, id):
         drivers = self._store.find(IcepapDriver, IcepapDriver.addr == IcepapDriverCfg.driver_addr,
                             IcepapDriverCfg.id == CfgParameter.cfg_id,
-                            CfgParameter.name == unicode("ID"), CfgParameter.value == id)
+                            CfgParameter.name == str("ID"), CfgParameter.value == id)
         if drivers:
             for driver in drivers:                
                 if driver.addr != mydriver.addr: 
@@ -171,7 +171,7 @@ class StormManager(Singleton):
                 ipapdict[ipap_sys.name] = ipap_sys
             return ipapdict
         except:
-            print "getLocationIcepapSystem:", sys.exc_info()[1]
+            print("getLocationIcepapSystem:", sys.exc_info()[1])
             return {}
     
     
@@ -185,9 +185,9 @@ class StormManager(Singleton):
         except:
             return False
 
-from icepapsystem import *
-from icepapdriver import *
-from icepapdrivercfg import *
+from .icepapsystem import *
+from .icepapdriver import *
+from .icepapdrivercfg import *
 
     
     
