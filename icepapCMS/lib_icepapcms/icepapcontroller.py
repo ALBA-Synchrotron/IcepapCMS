@@ -11,7 +11,7 @@
 # ------------------------------------------------------------------------------
 
 
-from pyIcePAP import EthIcePAPController, Mode
+from icepap import IcePAPController as EthIcePAPController, Mode
 from xml.dom import minidom, Node
 import os
 import sys
@@ -27,6 +27,7 @@ import collections
 from IPy import IP
 
 __all__ = ['IcepapController']
+
 
 class IcepapController(Singleton):
 

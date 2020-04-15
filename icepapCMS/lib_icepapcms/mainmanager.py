@@ -189,7 +189,7 @@ class MainManager(Singleton):
         except Exception as error:
             MessageDialogs.showErrorMessage(
                 self._form, "Stop Icepap error",
-                "%s Connection error:%s" % (icepap_system.name, error.msg))
+                "%s Connection error:%s" % (icepap_system.name, str(error)))
         except Exception:
             print("mainmanager:stopIcepap:Unexpected error:", sys.exc_info())
 
@@ -372,7 +372,7 @@ class MainManager(Singleton):
         except Exception as error:
             MessageDialogs.showErrorMessage(
                 self._form, "GetDriverTestStatus Icepap error",
-                "%s Connection error:%s" % (icepap_name, error.msg))
+                "%s Connection error:%s" % (icepap_name, str(error)))
             self._form.refreshTree()
             return -1, -1, [-1, -1]
         except Exception as e:
@@ -388,7 +388,7 @@ class MainManager(Singleton):
         except Exception as error:
             MessageDialogs.showErrorMessage(
                 self._form, "ReadIcepapParamenters Icepap error",
-                "%s Connection error:%s" % (icepap_name, error.msg))
+                "%s Connection error:%s" % (icepap_name, str(error)))
         except Exception:
             print("mainmanager:readIcepapParameters:Unexpected error:",
                   sys.exc_info())
@@ -434,7 +434,7 @@ class MainManager(Singleton):
         except Exception as error:
             MessageDialogs.showErrorMessage(
                 self._form, "MoveDriver Icepap error",
-                "%s Connection error:%s" % (icepap_name, error.msg))
+                "%s Connection error:%s" % (icepap_name, str(error)))
         except Exception:
             print("mainmanager:moveDriver:Unexpected error:", sys.exc_info())
             MessageDialogs.showWarningMessage(self._form, "MoveDriver error",
@@ -446,7 +446,7 @@ class MainManager(Singleton):
         except Exception as error:
             MessageDialogs.showErrorMessage(
                 self._form, "MoveDriverAbsolute Icepap error",
-                "%s Connection error:%s" % (icepap_name, error.msg))
+                "%s Connection error:%s" % (icepap_name, str(error)))
         except Exception:
             print("mainmanager:moveDriverAbsolute:Unexpected error:",
                   sys.exc_info())
