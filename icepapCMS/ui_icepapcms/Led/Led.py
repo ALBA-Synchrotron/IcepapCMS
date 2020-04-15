@@ -17,22 +17,41 @@
 
 
 import sys
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtWidgets, Qt
+from pkg_resources import resource_filename
 
 
-class Led(QtGui.QWidget):
+__all__ = ['Led']
+
+
+LED_IMAGES = {}
+LED_COLORS = ["ledblueoff", "ledblue", "ledgreenoff", "ledgreen",
+              "ledredoff", "ledred", "ledyellowoff", "ledyellow",
+              "ledorangeoff", "ledorange"]
+
+# Load led images:
+for size in ['s24', 's48']:
+    LED_IMAGES[size] = {}
+    if size == 's24':
+        module_name = 'icepapCMS.ui_icepapcms.Led.images24'
+    else:
+        module_name = 'icepapCMS.ui_icepapcms.Led.images48'
+    for color in LED_COLORS:
+        image_filename = '{}.png'.format(color)
+        LED_IMAGES[size][color] = Qt.QImage(resource_filename(module_name,
+                                                              image_filename))
+
+
+class Led(QtWidgets.QWidget):
 
     BLUE, GREEN, RED, YELLOW, ORANGE = list(range(5))
     ON, OFF = list(range(2))
     S24, S48 = list(range(2))
-    colors = ["ledblueoff", "ledblue", "ledgreenoff", "ledgreen",
-              "ledredoff", "ledred", "ledyellowoff", "ledyellow",
-              "ledorangeoff", "ledorange"]
-    directory = [":leds24/images24/", ":/leds48/images48/"]
+    colors = LED_COLORS
 
     def __init__(self, parent=None, ledsize=S24, ledcolor=GREEN):
 
-        QtGui.QWidget.__init__(self, parent)
+        QtWidgets.QWidget.__init__(self, parent)
         self.ledsize = ledsize
         if ledsize == Led.S48:
             lsize = 48
@@ -42,8 +61,8 @@ class Led(QtGui.QWidget):
         self.setObjectName("Led")
         size = QtCore.QSize(QtCore.QRect(0, 0, lsize, lsize).size())
         self.resize(size.expandedTo(self.minimumSizeHint()))
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Policy(0),
-                                       QtGui.QSizePolicy.Policy(0))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy(0),
+                                           QtWidgets.QSizePolicy.Policy(0))
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.sizePolicy().hasHeightForWidth())
@@ -51,11 +70,11 @@ class Led(QtGui.QWidget):
         self.setMinimumSize(QtCore.QSize(lsize, lsize))
         self.setMaximumSize(QtCore.QSize(lsize, lsize))
 
-        self.label = QtGui.QLabel(self)
+        self.label = QtWidgets.QLabel(self)
         self.label.setGeometry(QtCore.QRect(0, 0, lsize, lsize))
 
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Policy(0),
-                                       QtGui.QSizePolicy.Policy(0))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy(0),
+                                           QtWidgets.QSizePolicy.Policy(0))
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(
@@ -70,9 +89,10 @@ class Led(QtGui.QWidget):
 
         QtCore.QMetaObject.connectSlotsByName(self)
 
-    def tr(self, string):
-        return QtGui.QApplication.translate("Led", string, None,
-                                            QtGui.QApplication.UnicodeUTF8)
+    # TODO investigate if this method is needed
+    # def tr(self, string):
+    #     return QtWidgets.QApplication.translate(
+    #         "Led", string, None,)
 
     def retranslateUi(self, Led):
         Led.setWindowTitle(self.tr("Form"))
@@ -80,21 +100,23 @@ class Led(QtGui.QWidget):
     def on(self):
         if self.status == Led.OFF:
             self.status = Led.ON
-            self.label.setPixmap(self.onled)
+            self.label.setPixmap(Qt.QPixmap.fromImage(self.onled))
 
     def off(self):
         if self.status == Led.ON:
             self.status = Led.OFF
-            self.label.setPixmap(self.offled)
+            self.label.setPixmap(Qt.QPixmap.fromImage(self.offled))
 
     def changeColor(self, LedColor):
         ledoffcolor = int(LedColor) * 2
         ledoncolor = (int(LedColor) * 2) + 1
-        self.offled = QtGui.QPixmap(
-            Led.directory[self.ledsize]+Led.colors[ledoffcolor]+".png")
+        if self.ledsize == Led.S24:
+            size = 's24'
+        else:
+            size = 's48'
+        self.offled = LED_IMAGES[size][Led.colors[ledoffcolor]]
+        self.onled = LED_IMAGES[size][Led.colors[ledoncolor]]
 
-        self.onled = QtGui.QPixmap(
-            Led.directory[self.ledsize]+Led.colors[ledoncolor]+".png")
         if self.status == Led.OFF:
             self.status = Led.ON
             self.off()
@@ -104,7 +126,8 @@ class Led(QtGui.QWidget):
 
 
 if __name__ == "__main__":
-    app = QtGui.QApplication(sys.argv)
-    lw = Led(None, Led.S24, Led.ORANGE)
+    app = QtWidgets.QApplication(sys.argv)
+    lw = Led(None, Led.S48, Led.ORANGE)
     lw.show()
+    lw.on()
     sys.exit(app.exec_())
