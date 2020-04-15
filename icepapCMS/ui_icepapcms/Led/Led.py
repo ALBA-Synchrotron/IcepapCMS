@@ -18,13 +18,13 @@
 
 import sys
 from PyQt4 import QtCore, QtGui
-from Ledqrc import *
+from .Ledqrc import *
 
 class Led(QtGui.QWidget):
 
-    BLUE, GREEN, RED, YELLOW, ORANGE = range(5)
-    ON, OFF = range(2)
-    S24, S48 = range(2)
+    BLUE, GREEN, RED, YELLOW, ORANGE = list(range(5))
+    ON, OFF = list(range(2))
+    S24, S48 = list(range(2))
     colors = ["ledblueoff", "ledblue", "ledgreenoff", "ledgreen", "ledredoff", "ledred", "ledyellowoff", "ledyellow", "ledorangeoff", "ledorange"]
     directory = [":leds24/images24/", ":/leds48/images48/"]
     def __init__(self, parent = None, ledsize = S24, ledcolor = GREEN):
