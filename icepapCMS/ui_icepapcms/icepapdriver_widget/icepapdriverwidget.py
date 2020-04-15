@@ -100,7 +100,7 @@ class IcePapDriverWidget(QtGui.QWidget):
     def fillStatus(self):
         if self._driver.getName() == None:
             self.ui.lblName.setText("- %d -" % self._driver.addr)
-        elif self._driver.getName() <> "":
+        elif self._driver.getName() != "":
             self.ui.lblName.setText("%d- %s" % (self._driver.addr,self._driver.getName()))
         else:
             self.ui.lblName.setText("- %d -" % self._driver.addr)
@@ -126,7 +126,7 @@ class IcePapDriverWidget(QtGui.QWidget):
         # TODO: use boolean instead of integers
         ready = int(axis_state.is_ready())
         mode = int(axis_state.get_mode_code())
-        if self.status <> disabled or self.mode <> mode or self.power <> power or self.ready <> ready:
+        if self.status != disabled or self.mode != mode or self.power != power or self.ready != ready:
             if disabled == 0:
                 if power:
                     self.ui.ledStatus.changeColor(Led.GREEN)
