@@ -11,8 +11,7 @@
 # -----------------------------------------------------------------------------
 
 from .singleton import Singleton
-from PyQt4 import QtCore
-from PyQt4 import QtGui
+from PyQt5 import QtCore, QtGui, QtWidgets
 from icepap import Mode
 
 from ..ui_icepapcms.messagedialogs import MessageDialogs
@@ -87,7 +86,7 @@ class MainManager(Singleton):
         the hostname, port and description, this function checks if the
         icepap is available, the gets all the configuration of all the
         driver and stores all these information in the database """
-        QtGui.QApplication.instance().setOverrideCursor(
+        QtWidgets.QApplication.instance().setOverrideCursor(
             QtGui.QCursor(QtCore.Qt.WaitCursor))
         try:
             icepap_name = host
@@ -109,7 +108,7 @@ class MainManager(Singleton):
                         self._form, "Adding Icepap System error",
                         "The icepap system is already in "
                         "location: '%s'" % (db_icepap_system.location_name))
-                    QtGui.QApplication.instance().restoreOverrideCursor()
+                    QtWidgets.QApplication.instance().restoreOverrideCursor()
                     return None
 
                 self._ctrl_icepap.openConnection(icepap_name, host, port)
@@ -121,7 +120,7 @@ class MainManager(Singleton):
                     icepap_system.addDriver(driver)
                     self._db.store(driver)
                 self._db.commitTransaction()
-                QtGui.QApplication.instance().restoreOverrideCursor()
+                QtWidgets.QApplication.instance().restoreOverrideCursor()
                 if len(driver_list) == 0:
                     msg = 'The icepap system "{}" has ZERO drivers.\n' \
                           'Please make sure sure that the CAN BUS TERMINATOR' \
@@ -143,7 +142,7 @@ class MainManager(Singleton):
 
         except Exception:
             print("addIcepapSystem:", sys.exc_info()[1])
-        QtGui.QApplication.instance().restoreOverrideCursor()
+        QtWidgets.QApplication.instance().restoreOverrideCursor()
         return None
 
     def deleteIcepapSystem(self, icepap_name):
@@ -198,7 +197,7 @@ class MainManager(Singleton):
         """ Searches for configuration conflicts.
         Returns the conflicts list. That is composed by elements of
         [Conflict code, icepap_system, icepap_driver_addr] """
-        QtGui.QApplication.instance().setOverrideCursor(
+        QtWidgets.QApplication.instance().setOverrideCursor(
             QtGui.QCursor(QtCore.Qt.WaitCursor))
         icepap_name = icepap_system.name
         conflictsList = []
@@ -223,7 +222,7 @@ class MainManager(Singleton):
             print("mainmanager:scanIcepap:Unexpected error:", sys.exc_info())
             conflictsList.append([Conflict.NO_CONNECTION, icepap_system, 0])
 
-        QtGui.QApplication.instance().restoreOverrideCursor()
+        QtWidgets.QApplication.instance().restoreOverrideCursor()
 
         return conflictsList
 
@@ -262,8 +261,8 @@ class MainManager(Singleton):
                 upgrade = MessageDialogs.showYesNoMessage(
                     self._form, "Firmware mismatch", msg)
                 if upgrade:
-                    progress_dialog = QtGui.QProgressDialog(self._form)
-                    progress_dialog.setLabel(QtGui.QLabel(
+                    progress_dialog = QtWidgets.QProgressDialog(self._form)
+                    progress_dialog.setLabel(QtWidgets.QLabel(
                         "Icepap: %s\nUpgrading drivers' firmware "
                         "to %s" % (icepap_name, saved_version)))
                     progress_dialog.setCancelButton(None)
