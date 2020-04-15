@@ -77,7 +77,7 @@ p, li { white-space: pre-wrap; }
       <string/>
      </property>
      <property name="pixmap" >
-      <pixmap resource="icepapcms.qrc" >:/small_icons/IcepapCfg Icons/redpixel.png</pixmap>
+      <pixmap resource="icepapcms.qrc" >:/small_icons/icons/redpixel.png</pixmap>
      </property>
     </widget>
    </item>
@@ -225,7 +225,7 @@ p, li { white-space: pre-wrap; }
           <string/>
          </property>
          <property name="icon" >
-          <iconset resource="icepapcms.qrc" >:/small_icons/IcepapCFG Icons Petits/go-relative2.png</iconset>
+          <iconset resource="icepapcms.qrc" >:/small_icons/small_icons/go-relative2.png</iconset>
          </property>
         </widget>
        </item>
@@ -270,7 +270,7 @@ p, li { white-space: pre-wrap; }
         <string>Update</string>
        </property>
        <property name="icon" >
-        <iconset resource="icepapcms.qrc" >:/small_icons/IcepapCFG Icons Petits/save.png</iconset>
+        <iconset resource="icepapcms.qrc" >:/small_icons/small_icons/save.png</iconset>
        </property>
       </widget>
      </item>
@@ -280,7 +280,7 @@ p, li { white-space: pre-wrap; }
         <string>Delete</string>
        </property>
        <property name="icon" >
-        <iconset resource="icepapcms.qrc" >:/small_icons/IcepapCFG Icons Petits/process-stop.png</iconset>
+        <iconset resource="icepapcms.qrc" >:/small_icons/small_icons/process-stop.png</iconset>
        </property>
       </widget>
      </item>

@@ -63,7 +63,7 @@
   </property>
   <property name="windowIcon" >
    <iconset resource="icepapcms.qrc" >
-    <normaloff>:/small_icons/IcepapCfg Icons/Icepapicon.png</normaloff>:/small_icons/IcepapCfg Icons/Icepapicon.png</iconset>
+    <normaloff>:/small_icons/icons/Icepapicon.png</normaloff>:/small_icons/icons/Icepapicon.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget" >
    <layout class="QVBoxLayout" >
@@ -117,7 +117,7 @@
            <string/>
           </property>
           <property name="pixmap" >
-           <pixmap resource="icepapcms.qrc" >:/logos/IcepapCfg Icons/IcepapBig.png</pixmap>
+           <pixmap resource="icepapcms.qrc" >:/logos/icons/IcepapBig.png</pixmap>
           </property>
          </widget>
         </item>
@@ -370,7 +370,7 @@
             </property>
             <property name="icon" >
              <iconset resource="icepapcms.qrc" >
-              <normaloff>:/small_icons/IcepapCFG Icons Petits/list-add.png</normaloff>:/small_icons/IcepapCFG Icons Petits/list-add.png</iconset>
+              <normaloff>:/small_icons/small_icons/list-add.png</normaloff>:/small_icons/small_icons/list-add.png</iconset>
             </property>
             <property name="iconSize" >
              <size>
@@ -387,7 +387,7 @@
             </property>
             <property name="icon" >
              <iconset resource="icepapcms.qrc" >
-              <normaloff>:/small_icons/IcepapCFG Icons Petits/list-remove.png</normaloff>:/small_icons/IcepapCFG Icons Petits/list-remove.png</iconset>
+              <normaloff>:/small_icons/small_icons/list-remove.png</normaloff>:/small_icons/small_icons/list-remove.png</iconset>
             </property>
             <property name="iconSize" >
              <size>
@@ -455,7 +455,7 @@
   <action name="actionGoNext" >
    <property name="icon" >
     <iconset resource="icepapcms.qrc" >
-     <normaloff>:/icons/IcepapCfg Icons/go-next.png</normaloff>:/icons/IcepapCfg Icons/go-next.png</iconset>
+     <normaloff>:/icons/icons/go-next.png</normaloff>:/icons/icons/go-next.png</iconset>
    </property>
    <property name="text" >
     <string>Go Next</string>
@@ -473,7 +473,7 @@
   <action name="actionGoPrevious" >
    <property name="icon" >
     <iconset resource="icepapcms.qrc" >
-     <normaloff>:/icons/IcepapCfg Icons/go-previous.png</normaloff>:/icons/IcepapCfg Icons/go-previous.png</iconset>
+     <normaloff>:/icons/icons/go-previous.png</normaloff>:/icons/icons/go-previous.png</iconset>
    </property>
    <property name="text" >
     <string>Go Previous</string>
@@ -485,7 +485,7 @@
   <action name="actionGoUp" >
    <property name="icon" >
     <iconset resource="icepapcms.qrc" >
-     <normaloff>:/icons/IcepapCfg Icons/go-up.png</normaloff>:/icons/IcepapCfg Icons/go-up.png</iconset>
+     <normaloff>:/icons/icons/go-up.png</normaloff>:/icons/icons/go-up.png</iconset>
    </property>
    <property name="text" >
     <string>Go Up</string>
@@ -497,7 +497,7 @@
   <action name="actionRefresh" >
    <property name="icon" >
     <iconset resource="icepapcms.qrc" >
-     <normaloff>:/icons/IcepapCfg Icons/view-refresh.png</normaloff>:/icons/IcepapCfg Icons/view-refresh.png</iconset>
+     <normaloff>:/icons/icons/view-refresh.png</normaloff>:/icons/icons/view-refresh.png</iconset>
    </property>
    <property name="text" >
     <string>Refresh</string>
@@ -509,7 +509,7 @@
   <action name="actionPreferences" >
    <property name="icon" >
     <iconset resource="icepapcms.qrc" >
-     <normaloff>:/icons/IcepapCfg Icons/gnome-settings.png</normaloff>:/icons/IcepapCfg Icons/gnome-settings.png</iconset>
+     <normaloff>:/icons/icons/gnome-settings.png</normaloff>:/icons/icons/gnome-settings.png</iconset>
    </property>
    <property name="text" >
     <string>Preferences</string>
@@ -518,7 +518,7 @@
   <action name="actionHelp" >
    <property name="icon" >
     <iconset resource="icepapcms.qrc" >
-     <normaloff>:/icons/IcepapCfg Icons/help-browser.png</normaloff>:/icons/IcepapCfg Icons/help-browser.png</iconset>
+     <normaloff>:/icons/icons/help-browser.png</normaloff>:/icons/icons/help-browser.png</iconset>
    </property>
    <property name="text" >
     <string>Help</string>
@@ -530,7 +530,7 @@
   <action name="actionExport" >
    <property name="icon" >
     <iconset resource="icepapcms.qrc" >
-     <normaloff>:/icons/IcepapCfg Icons/gnome-dev-floppy.png</normaloff>:/icons/IcepapCfg Icons/gnome-dev-floppy.png</iconset>
+     <normaloff>:/icons/icons/gnome-dev-floppy.png</normaloff>:/icons/icons/gnome-dev-floppy.png</iconset>
    </property>
    <property name="text" >
     <string>Export configuration</string>
@@ -548,7 +548,7 @@
   <action name="actionImport" >
    <property name="icon" >
     <iconset resource="icepapcms.qrc" >
-     <normaloff>:/icons/IcepapCfg Icons/folder.png</normaloff>:/icons/IcepapCfg Icons/folder.png</iconset>
+     <normaloff>:/icons/icons/folder.png</normaloff>:/icons/icons/folder.png</iconset>
    </property>
    <property name="text" >
     <string>Import configuration</string>
@@ -566,7 +566,7 @@
   <action name="actionQuit" >
    <property name="icon" >
     <iconset resource="icepapcms.qrc" >
-     <normaloff>:/icons/IcepapCfg Icons/gnome-logout.png</normaloff>:/icons/IcepapCfg Icons/gnome-logout.png</iconset>
+     <normaloff>:/icons/icons/gnome-logout.png</normaloff>:/icons/icons/gnome-logout.png</iconset>
    </property>
    <property name="text" >
     <string>Quit</string>
@@ -598,7 +598,7 @@
   <action name="actionSaveConfig" >
    <property name="icon" >
     <iconset resource="icepapcms.qrc" >
-     <normaloff>:/icons/IcepapCfg Icons/sign.png</normaloff>:/icons/IcepapCfg Icons/sign.png</iconset>
+     <normaloff>:/icons/icons/sign.png</normaloff>:/icons/icons/sign.png</iconset>
    </property>
    <property name="text" >
     <string>Save Configuration</string>
@@ -616,7 +616,7 @@
   <action name="actionFirmwareUpgrade" >
    <property name="icon" >
     <iconset resource="icepapcms.qrc" >
-     <normaloff>:/icons/IcepapCfg Icons/gnome-cpu.png</normaloff>:/icons/IcepapCfg Icons/gnome-cpu.png</iconset>
+     <normaloff>:/icons/icons/gnome-cpu.png</normaloff>:/icons/icons/gnome-cpu.png</iconset>
    </property>
    <property name="text" >
     <string>Firmware upgrade</string>
@@ -628,7 +628,7 @@
   <action name="actionConsole" >
    <property name="icon" >
     <iconset resource="icepapcms.qrc" >
-     <normaloff>:/icons/IcepapCfg Icons/gnome-terminal.png</normaloff>:/icons/IcepapCfg Icons/gnome-terminal.png</iconset>
+     <normaloff>:/icons/icons/gnome-terminal.png</normaloff>:/icons/icons/gnome-terminal.png</iconset>
    </property>
    <property name="text" >
     <string>Console</string>
@@ -643,7 +643,7 @@
    </property>
    <property name="icon" >
     <iconset resource="icepapcms.qrc" >
-     <normaloff>:/icons/IcepapCfg Icons/calendar.png</normaloff>:/icons/IcepapCfg Icons/calendar.png</iconset>
+     <normaloff>:/icons/icons/calendar.png</normaloff>:/icons/icons/calendar.png</iconset>
    </property>
    <property name="text" >
     <string>Historic Configurations</string>
@@ -661,7 +661,7 @@
   <action name="actionTemplates" >
    <property name="icon" >
     <iconset resource="icepapcms.qrc" >
-     <normaloff>:/icons/IcepapCfg Icons/notes.png</normaloff>:/icons/IcepapCfg Icons/notes.png</iconset>
+     <normaloff>:/icons/icons/notes.png</normaloff>:/icons/icons/notes.png</iconset>
    </property>
    <property name="text" >
     <string>Templates</string>
@@ -676,7 +676,7 @@
   <action name="actionAddIcepap" >
    <property name="icon" >
     <iconset resource="icepapcms.qrc" >
-     <normaloff>:/small_icons/IcepapCFG Icons Petits/list-add.png</normaloff>:/small_icons/IcepapCFG Icons Petits/list-add.png</iconset>
+     <normaloff>:/small_icons/small_icons/list-add.png</normaloff>:/small_icons/small_icons/list-add.png</iconset>
    </property>
    <property name="text" >
     <string>Add Icepap</string>
@@ -688,7 +688,7 @@
   <action name="actionDeleteIcepap" >
    <property name="icon" >
     <iconset resource="icepapcms.qrc" >
-     <normaloff>:/small_icons/IcepapCFG Icons Petits/list-remove.png</normaloff>:/small_icons/IcepapCFG Icons Petits/list-remove.png</iconset>
+     <normaloff>:/small_icons/small_icons/list-remove.png</normaloff>:/small_icons/small_icons/list-remove.png</iconset>
    </property>
    <property name="text" >
     <string>Delete Icepap</string>
@@ -710,7 +710,7 @@
   <action name="actionAddLocation" >
    <property name="icon" >
     <iconset resource="icepapcms.qrc" >
-     <normaloff>:/small_icons/IcepapCFG Icons Petits/template.png</normaloff>:/small_icons/IcepapCFG Icons Petits/template.png</iconset>
+     <normaloff>:/small_icons/small_icons/template.png</normaloff>:/small_icons/small_icons/template.png</iconset>
    </property>
    <property name="text" >
     <string>Add location</string>
@@ -725,7 +725,7 @@
   <action name="actionDeleteLocation" >
    <property name="icon" >
     <iconset resource="icepapcms.qrc" >
-     <normaloff>:/small_icons/IcepapCFG Icons Petits/process-stop.png</normaloff>:/small_icons/IcepapCFG Icons Petits/process-stop.png</iconset>
+     <normaloff>:/small_icons/small_icons/process-stop.png</normaloff>:/small_icons/small_icons/process-stop.png</iconset>
    </property>
    <property name="text" >
     <string>Delete location</string>

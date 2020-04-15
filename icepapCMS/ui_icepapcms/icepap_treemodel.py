@@ -29,18 +29,18 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
         self.rootItem = TreeItem(rootData, IcepapTreeModel.ROOT, "DB")        
         
         self.setupModelData(IcepapsList, self.rootItem, no_expand)
-        self._dec_roles = (QtGui.QPixmap(":/icons/IcepapCfg Icons/ipapsys.png"),
-                           QtGui.QPixmap(":/icons/IcepapCfg Icons/ipapdriver.png"),
-                           QtGui.QPixmap(":/icons/IcepapCfg Icons/ipapsyswarning.png"),
-                           QtGui.QPixmap(":/icons/IcepapCfg Icons/ipapdriverwarning.png"),
-                           QtGui.QPixmap(":/icons/IcepapCfg Icons/ipapsyserror.png"),
-                           QtGui.QPixmap(":/icons/IcepapCfg Icons/ipapdrivererror.png"),
-                           QtGui.QPixmap(":/icons/IcepapCfg Icons/ipapcrate.png"),
-                           QtGui.QPixmap(":/icons/IcepapCfg Icons/ipapdrivernew.png"), 
-                           QtGui.QPixmap(":/icons/IcepapCfg Icons/ipapdrivercfg.png"),
-                           QtGui.QPixmap(":/icons/IcepapCfg Icons/ipapsysoffline.png"),
-                           QtGui.QPixmap(":/icons/IcepapCfg Icons/ipapdrivermoved.png"),
-                           QtGui.QPixmap(":/icons/IcepapCfg Icons/gnome-nettool.png"))
+        self._dec_roles = (QtGui.QPixmap(":/icons/icons/ipapsys.png"),
+                           QtGui.QPixmap(":/icons/icons/ipapdriver.png"),
+                           QtGui.QPixmap(":/icons/icons/ipapsyswarning.png"),
+                           QtGui.QPixmap(":/icons/icons/ipapdriverwarning.png"),
+                           QtGui.QPixmap(":/icons/icons/ipapsyserror.png"),
+                           QtGui.QPixmap(":/icons/icons/ipapdrivererror.png"),
+                           QtGui.QPixmap(":/icons/icons/ipapcrate.png"),
+                           QtGui.QPixmap(":/icons/icons/ipapdrivernew.png"),
+                           QtGui.QPixmap(":/icons/icons/ipapdrivercfg.png"),
+                           QtGui.QPixmap(":/icons/icons/ipapsysoffline.png"),
+                           QtGui.QPixmap(":/icons/icons/ipapdrivermoved.png"),
+                           QtGui.QPixmap(":/icons/icons/gnome-nettool.png"))
         
     def columnCount(self, parent=QtCore.QModelIndex()):
         if parent.isValid():

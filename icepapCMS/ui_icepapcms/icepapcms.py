@@ -56,7 +56,7 @@ class IcepapApp(QtGui.QApplication):
 
         QtGui.QApplication.__init__(self,[])
         self.setStyle("plastique")
-        splash_pxmap = QtGui.QPixmap(":/logos/IcepapCfg Icons/IcepapMed.png")
+        splash_pxmap = QtGui.QPixmap(":/logos/icons/IcepapMed.png")
         splash = QtGui.QSplashScreen(splash_pxmap)
         splash.show()
         icepapcms = IcepapCMS(options,args)

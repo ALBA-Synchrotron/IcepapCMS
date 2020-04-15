@@ -78,7 +78,8 @@
   </property>
   <property name="windowIcon" >
    <iconset resource="icepapcms.qrc" >
-    <normaloff>:/icons/IcepapCfg Icons/gnome-terminal.png</normaloff>:/icons/IcepapCfg Icons/gnome-terminal.png</iconset>
+    <normaloff>:/icons/icons/gnome-terminal.png</normaloff>:/icons/icons/gnome
+    -terminal.png</iconset>
   </property>
   <property name="styleSheet" >
    <string notr="true" />
@@ -120,7 +121,7 @@
      </property>
      <property name="icon" >
       <iconset resource="icepapcms.qrc" >
-       <normaloff>:/icons/IcepapCfg Icons/disconnect.png</normaloff>:/icons/IcepapCfg Icons/disconnect.png</iconset>
+       <normaloff>:/icons/icons/disconnect.png</normaloff>:/icons/icons/disconnect.png</iconset>
      </property>
      <property name="iconSize" >
       <size>
@@ -137,7 +138,7 @@
      </property>
      <property name="icon" >
       <iconset resource="icepapcms.qrc" >
-       <normaloff>:/icons/IcepapCfg Icons/connect.png</normaloff>:/icons/IcepapCfg Icons/connect.png</iconset>
+       <normaloff>:/icons/icons/connect.png</normaloff>:/icons/icons/connect.png</iconset>
      </property>
      <property name="iconSize" >
       <size>

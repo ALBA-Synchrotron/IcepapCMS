@@ -19,7 +19,7 @@
    <string>Add location</string>
   </property>
   <property name="windowIcon" >
-   <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/connect.png</iconset>
+   <iconset resource="icepapcms.qrc" >:/icons/icons/connect.png</iconset>
   </property>
   <layout class="QGridLayout" >
    <property name="leftMargin" >
@@ -565,7 +565,7 @@
       <string/>
      </property>
      <property name="pixmap" >
-      <pixmap resource="icepapcms.qrc" >:/small_icons/IcepapCfg Icons/redpixel.png</pixmap>
+      <pixmap resource="icepapcms.qrc" >:/small_icons/icons/redpixel.png</pixmap>
      </property>
     </widget>
    </item>

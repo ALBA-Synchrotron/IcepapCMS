@@ -179,7 +179,7 @@
          <string/>
         </property>
         <property name="pixmap" >
-         <pixmap resource="icepapcms.qrc" >:/logos/IcepapCfg Icons/Icepap.png</pixmap>
+         <pixmap resource="icepapcms.qrc" >:/logos/icons/Icepap.png</pixmap>
         </property>
         <property name="alignment" >
          <set>Qt::AlignCenter</set>
@@ -294,7 +294,7 @@
                </property>
                <property name="icon" >
                 <iconset resource="icepapcms.qrc" >
-                 <normaloff>:/small_icons/IcepapCFG Icons Petits/go-absolute.png</normaloff>:/small_icons/IcepapCFG Icons Petits/go-absolute.png</iconset>
+                 <normaloff>:/small_icons/small_icons/go-absolute.png</normaloff>:/small_icons/small_icons/go-absolute.png</iconset>
                </property>
                <property name="iconSize" >
                 <size>
@@ -996,7 +996,7 @@ p, li { white-space: pre-wrap; }
                </property>
                <property name="icon" >
                 <iconset resource="icepapcms.qrc" >
-                 <normaloff>:/icons/IcepapCfg Icons/gnome-session-halt.png</normaloff>:/icons/IcepapCfg Icons/gnome-session-halt.png</iconset>
+                 <normaloff>:/icons/icons/gnome-session-halt.png</normaloff>:/icons/icons/gnome-session-halt.png</iconset>
                </property>
                <property name="iconSize" >
                 <size>
@@ -1254,7 +1254,7 @@ p, li { white-space: pre-wrap; }
                </property>
                <property name="icon" >
                 <iconset resource="icepapcms.qrc" >
-                 <normaloff>:/small_icons/IcepapCFG Icons Petits/go-relative.png</normaloff>:/small_icons/IcepapCFG Icons Petits/go-relative.png</iconset>
+                 <normaloff>:/small_icons/small_icons/go-relative.png</normaloff>:/small_icons/small_icons/go-relative.png</iconset>
                </property>
                <property name="iconSize" >
                 <size>
@@ -1277,7 +1277,7 @@ p, li { white-space: pre-wrap; }
                </property>
                <property name="icon" >
                 <iconset resource="icepapcms.qrc" >
-                 <normaloff>:/small_icons/IcepapCFG Icons Petits/go-relative2.png</normaloff>:/small_icons/IcepapCFG Icons Petits/go-relative2.png</iconset>
+                 <normaloff>:/small_icons/small_icons/go-relative2.png</normaloff>:/small_icons/small_icons/go-relative2.png</iconset>
                </property>
                <property name="iconSize" >
                 <size>
@@ -1496,7 +1496,7 @@ p, li { white-space: pre-wrap; }
         </property>
         <property name="icon" >
          <iconset resource="icepapcms.qrc" >
-          <normaloff>:/small_icons/IcepapCfg Icons/Icepapicon.png</normaloff>:/small_icons/IcepapCfg Icons/Icepapicon.png</iconset>
+          <normaloff>:/small_icons/icons/Icepapicon.png</normaloff>:/small_icons/icons/Icepapicon.png</iconset>
         </property>
         <property name="iconSize" >
          <size>
@@ -1513,7 +1513,7 @@ p, li { white-space: pre-wrap; }
         </property>
         <property name="icon" >
          <iconset resource="icepapcms.qrc" >
-          <normaloff>:/icons/IcepapCfg Icons/sign.png</normaloff>:/icons/IcepapCfg Icons/sign.png</iconset>
+          <normaloff>:/icons/icons/sign.png</normaloff>:/icons/icons/sign.png</iconset>
         </property>
         <property name="iconSize" >
          <size>
@@ -1530,7 +1530,7 @@ p, li { white-space: pre-wrap; }
         </property>
         <property name="icon" >
          <iconset resource="icepapcms.qrc" >
-          <normaloff>:/small_icons/IcepapCFG Icons Petits/undo.png</normaloff>:/small_icons/IcepapCFG Icons Petits/undo.png</iconset>
+          <normaloff>:/small_icons/small_icons/undo.png</normaloff>:/small_icons/small_icons/undo.png</iconset>
         </property>
         <property name="iconSize" >
          <size>
@@ -1547,7 +1547,7 @@ p, li { white-space: pre-wrap; }
         </property>
         <property name="icon" >
          <iconset resource="icepapcms.qrc" >
-          <normaloff>:/icons/IcepapCfg Icons/update-manager.png</normaloff>:/icons/IcepapCfg Icons/update-manager.png</iconset>
+          <normaloff>:/icons/icons/update-manager.png</normaloff>:/icons/icons/update-manager.png</iconset>
         </property>
         <property name="iconSize" >
          <size>

@@ -891,9 +891,9 @@ class PageiPapDriver(QtGui.QWidget):
         tab_bar = self.ui.tabWidget.tabBar()
         for index in range(self.ui.tabWidget.count()):
             if self.tabs_modified.has_key(index):
-                tab_bar.setTabIcon(index, QtGui.QIcon(":/icons/IcepapCfg Icons/ipapdrivermodified.png"))
+                tab_bar.setTabIcon(index, QtGui.QIcon(":/icons/icons/ipapdrivermodified.png"))
             elif self.tabs_configPending.has_key(index):
-                tab_bar.setTabIcon(index, QtGui.QIcon(":/icons/IcepapCfg Icons/ipapdrivercfg.png"))
+                tab_bar.setTabIcon(index, QtGui.QIcon(":/icons/icons/ipapdrivercfg.png"))
             else:
                 tab_bar.setTabIcon(index, QtGui.QIcon(""))
 

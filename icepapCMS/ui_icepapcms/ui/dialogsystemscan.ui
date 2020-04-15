@@ -64,7 +64,7 @@
         <string/>
        </property>
        <property name="pixmap" >
-        <pixmap resource="icepapcms.qrc" >:/logos/IcepapCfg Icons/IcepapMed.png</pixmap>
+        <pixmap resource="icepapcms.qrc" >:/logos/icons/IcepapMed.png</pixmap>
        </property>
       </widget>
      </item>

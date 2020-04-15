@@ -425,7 +425,7 @@ class Ui_IcePapDriverWidget(object):
         self.pushButton.setObjectName("pushButton")
         self.gridlayout.addWidget(self.pushButton, 7, 0, 1, 2)
         self.label = QtGui.QLabel(self.frame)
-        self.label.setPixmap(QtGui.QPixmap(":/logos/IcepapCfg Icons/Icepapdriverpetit.png"))
+        self.label.setPixmap(QtGui.QPixmap(":/logos/icons/Icepapdriverpetit.png"))
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setObjectName("label")
         self.gridlayout.addWidget(self.label, 0, 0, 1, 2)

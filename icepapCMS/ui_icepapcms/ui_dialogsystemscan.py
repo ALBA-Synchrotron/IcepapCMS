@@ -24,7 +24,7 @@ class Ui_DialogSystemScan(object):
         spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.hboxlayout.addItem(spacerItem)
         self.label = QtGui.QLabel(DialogSystemScan)
-        self.label.setPixmap(QtGui.QPixmap(":/logos/IcepapCfg Icons/IcepapMed.png"))
+        self.label.setPixmap(QtGui.QPixmap(":/logos/icons/IcepapMed.png"))
         self.label.setObjectName("label")
         self.hboxlayout.addWidget(self.label)
         spacerItem1 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)

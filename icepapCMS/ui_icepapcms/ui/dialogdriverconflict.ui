@@ -1011,7 +1011,7 @@
         <string>Keep stored values</string>
        </property>
        <property name="icon" >
-        <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/ipapsys.png</iconset>
+        <iconset resource="icepapcms.qrc" >:/icons/icons/ipapsys.png</iconset>
        </property>
       </widget>
      </item>
@@ -1034,7 +1034,7 @@
         <string>Set Icepap values</string>
        </property>
        <property name="icon" >
-        <iconset resource="icepapcms.qrc" >:/small_icons/IcepapCfg Icons/Icepapicon.png</iconset>
+        <iconset resource="icepapcms.qrc" >:/small_icons/icons/Icepapicon.png</iconset>
        </property>
       </widget>
      </item>

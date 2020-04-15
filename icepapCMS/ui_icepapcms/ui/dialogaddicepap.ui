@@ -19,7 +19,7 @@
    <string>Add Icepap System</string>
   </property>
   <property name="windowIcon" >
-   <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/ipapsys.png</iconset>
+   <iconset resource="icepapcms.qrc" >:/icons/icons/ipapsys.png</iconset>
   </property>
   <layout class="QGridLayout" >
    <property name="leftMargin" >
@@ -53,7 +53,7 @@
       <string/>
      </property>
      <property name="pixmap" >
-      <pixmap resource="icepapcms.qrc" >:/small_icons/IcepapCfg Icons/redpixel.png</pixmap>
+      <pixmap resource="icepapcms.qrc" >:/small_icons/icons/redpixel.png</pixmap>
      </property>
     </widget>
    </item>
@@ -73,7 +73,7 @@
       <string/>
      </property>
      <property name="pixmap" >
-      <pixmap resource="icepapcms.qrc" >:/small_icons/IcepapCfg Icons/redpixel.png</pixmap>
+      <pixmap resource="icepapcms.qrc" >:/small_icons/icons/redpixel.png</pixmap>
      </property>
     </widget>
    </item>
@@ -159,7 +159,7 @@
       <string/>
      </property>
      <property name="pixmap" >
-      <pixmap resource="icepapcms.qrc" >:/small_icons/IcepapCfg Icons/redpixel.png</pixmap>
+      <pixmap resource="icepapcms.qrc" >:/small_icons/icons/redpixel.png</pixmap>
      </property>
     </widget>
    </item>

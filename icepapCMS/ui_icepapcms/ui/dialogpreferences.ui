@@ -483,7 +483,7 @@
   </property>
   <property name="windowIcon" >
    <iconset resource="icepapcms.qrc" >
-    <normaloff>:/icons/IcepapCfg Icons/preferences-system.png</normaloff>:/icons/IcepapCfg Icons/preferences-system.png</iconset>
+    <normaloff>:/icons/icons/preferences-system.png</normaloff>:/icons/icons/preferences-system.png</iconset>
   </property>
   <layout class="QGridLayout" >
    <item row="0" column="0" >
@@ -542,7 +542,7 @@
       </property>
       <property name="icon" >
        <iconset resource="icepapcms.qrc" >
-        <normaloff>:/icons/IcepapCfg Icons/database.png</normaloff>:/icons/IcepapCfg Icons/database.png</iconset>
+        <normaloff>:/icons/icons/database.png</normaloff>:/icons/icons/database.png</iconset>
       </property>
      </item>
      <item>
@@ -551,7 +551,7 @@
       </property>
       <property name="icon" >
        <iconset resource="icepapcms.qrc" >
-        <normaloff>:/small_icons/IcepapCfg Icons/Icepapicon.png</normaloff>:/small_icons/IcepapCfg Icons/Icepapicon.png</iconset>
+        <normaloff>:/small_icons/icons/Icepapicon.png</normaloff>:/small_icons/icons/Icepapicon.png</iconset>
       </property>
      </item>
     </widget>
@@ -836,7 +836,7 @@ p, li { white-space: pre-wrap; }
            </property>
            <property name="icon" >
             <iconset resource="icepapcms.qrc" >
-             <normaloff>:/icons/IcepapCfg Icons/sqlite.png</normaloff>:/icons/IcepapCfg Icons/sqlite.png</iconset>
+             <normaloff>:/icons/icons/sqlite.png</normaloff>:/icons/icons/sqlite.png</iconset>
            </property>
            <property name="iconSize" >
             <size>
@@ -853,7 +853,7 @@ p, li { white-space: pre-wrap; }
            </property>
            <property name="icon" >
             <iconset resource="icepapcms.qrc" >
-             <normaloff>:/icons/IcepapCfg Icons/mysql.gif</normaloff>:/icons/IcepapCfg Icons/mysql.gif</iconset>
+             <normaloff>:/icons/icons/mysql.gif</normaloff>:/icons/icons/mysql.gif</iconset>
            </property>
            <property name="iconSize" >
             <size>
@@ -870,7 +870,7 @@ p, li { white-space: pre-wrap; }
            </property>
            <property name="icon" >
             <iconset resource="icepapcms.qrc" >
-             <normaloff>:/icons/IcepapCfg Icons/postgresql.png</normaloff>:/icons/IcepapCfg Icons/postgresql.png</iconset>
+             <normaloff>:/icons/icons/postgresql.png</normaloff>:/icons/icons/postgresql.png</iconset>
            </property>
            <property name="iconSize" >
             <size>
@@ -1079,7 +1079,7 @@ p, li { white-space: pre-wrap; }
        </property>
        <property name="icon" >
         <iconset resource="icepapcms.qrc" >
-         <normaloff>:/icons/IcepapCfg Icons/close.png</normaloff>:/icons/IcepapCfg Icons/close.png</iconset>
+         <normaloff>:/icons/icons/close.png</normaloff>:/icons/icons/close.png</iconset>
        </property>
        <property name="iconSize" >
         <size>

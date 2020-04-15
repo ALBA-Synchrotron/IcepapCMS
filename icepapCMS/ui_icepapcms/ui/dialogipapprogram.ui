@@ -50,7 +50,7 @@
    <string>Icepap Program</string>
   </property>
   <property name="windowIcon" >
-   <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/gnome-cpu.png</iconset>
+   <iconset resource="icepapcms.qrc" >:/icons/icons/gnome-cpu.png</iconset>
   </property>
   <layout class="QGridLayout" >
    <property name="leftMargin" >
@@ -109,7 +109,7 @@
       <string>Upgrade firmware</string>
      </property>
      <property name="icon" >
-      <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/gnome-cpu.png</iconset>
+      <iconset resource="icepapcms.qrc" >:/icons/icons/gnome-cpu.png</iconset>
      </property>
     </widget>
    </item>
@@ -136,7 +136,7 @@
       <string>OK</string>
      </property>
      <property name="icon" >
-      <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/close.png</iconset>
+      <iconset resource="icepapcms.qrc" >:/icons/icons/close.png</iconset>
      </property>
     </widget>
    </item>
@@ -160,7 +160,7 @@
       <string>Test connection</string>
      </property>
      <property name="icon" >
-      <iconset resource="icepapcms.qrc" >:/icons/IcepapCfg Icons/gnome-nettool.png</iconset>
+      <iconset resource="icepapcms.qrc" >:/icons/icons/gnome-nettool.png</iconset>
      </property>
     </widget>
    </item>
