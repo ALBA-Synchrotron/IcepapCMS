@@ -11,7 +11,8 @@
 # -----------------------------------------------------------------------------
 
 
-from PyQt4 import QtCore, QtGui, Qt
+from PyQt5 import QtWidgets
+
 
 class MessageDialogs:
 
