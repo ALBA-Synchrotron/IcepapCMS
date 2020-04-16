@@ -11,12 +11,11 @@
 # -----------------------------------------------------------------------------
 
 
-from PyQt5 import QtGui, Qt, QtWidgets, uic, QtCore
+from PyQt5 import QtGui, Qt, QtWidgets, uic
 from pkg_resources import resource_filename
-from ...ui_icepapcms.Led import Led
-from ...lib_icepapcms import MainManager, Conflict
+from .Led import Led
+from ..lib_icepapcms import MainManager, Conflict
 from icepap import Mode, State
-from ..icepapcms_rc1 import *
 
 
 class IcePapDriverWidget(QtWidgets.QWidget):
@@ -47,8 +46,8 @@ class IcePapDriverWidget(QtWidgets.QWidget):
             ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
                                             'icepapdriverwidgetsmall.ui')
 
-        module_path = resource_filename('icepapCMS.ui_icepapcms.ui', 'Led')
-        uic.loadUi(ui_filename, baseinstance=self.ui, package=module_path)
+        uic.loadUi(ui_filename, baseinstance=self.ui,
+                   package='icepapCMS.ui_icepapcms.Led')
         if Big:
             self.setPaletteColor(self.ui.lcdCurrent, self.coloroff,
                                  QtGui.QColor(Qt.Qt.white))
