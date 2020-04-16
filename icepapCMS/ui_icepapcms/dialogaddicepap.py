@@ -12,7 +12,7 @@
 
 
 from PyQt4 import QtCore, QtGui
-from ui_dialogaddicepap import Ui_DialogAddIcepap
+from .ui_dialogaddicepap import Ui_DialogAddIcepap
 from ..lib_icepapcms import MainManager
 
 class DialogAddIcepap(QtGui.QDialog):
@@ -26,15 +26,15 @@ class DialogAddIcepap(QtGui.QDialog):
         
     
     def buildLocationCombo(self, location):        
-        for location_name in MainManager().locationList.keys():
+        for location_name in list(MainManager().locationList.keys()):
             self.ui.cbLocation.addItem(location_name)
         self.ui.cbLocation.setCurrentIndex(self.ui.cbLocation.findText(location, QtCore.Qt.MatchFixedString))  
 
     def getData(self):
-        host = unicode(self.ui.txtHost.text())
-        port = unicode(self.ui.txtPort.text())
-        desc = unicode(self.ui.txtDescription.toPlainText())
-        location = unicode(self.ui.cbLocation.currentText())
+        host = str(self.ui.txtHost.text())
+        port = str(self.ui.txtPort.text())
+        desc = str(self.ui.txtDescription.toPlainText())
+        location = str(self.ui.cbLocation.currentText())
         return [host, port, desc, location]
     
     def setData(self, name, host, port, description, location):
