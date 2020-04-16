@@ -2541,7 +2541,7 @@ p, li { white-space: pre-wrap; }
   <customwidget>
    <class>Led</class>
    <extends>QLabel</extends>
-   <header>Led.h</header>
+   <header>.Led</header>
   </customwidget>
   <customwidget>
    <class>HistoricCfgWidget</class>

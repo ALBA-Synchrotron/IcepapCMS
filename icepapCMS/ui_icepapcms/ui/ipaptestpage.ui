@@ -3394,7 +3394,7 @@
   <customwidget>
    <class>Led</class>
    <extends>QLabel</extends>
-   <header>Led.h</header>
+   <header>.Led</header>
   </customwidget>
  </customwidgets>
  <resources/>
