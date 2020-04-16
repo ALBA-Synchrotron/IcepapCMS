@@ -11,31 +11,27 @@
 # -----------------------------------------------------------------------------
 
 
-from PyQt4 import QtCore, QtGui
-from .ui_dialogconflictdriver_expert import Ui_DialogConflictExpert
+from PyQt5 import QtWidgets, uic
+from pkg_resources import resource_filename
 
 
-class DialogConflictExpert(QtGui.QDialog):
+class DialogConflictExpert(QtWidgets.QDialog):
     def __init__(self, parent, more_info):
-        QtGui.QDialog.__init__(self, parent)
-        self.ui = Ui_DialogConflictExpert()
+        QtWidgets.QDialog.__init__(self, parent)
+        ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
+                                        'dialogconflictdriver_expert.ui')
+        self.ui = self
+        uic.loadUi(ui_filename, baseinstance=self.ui)
         self.modal = True
-        self.ui.setupUi(self)
         self.more_info = more_info
         self.ui.btnCancel.setDefault(True)
 
         self.connectSignals()
 
     def connectSignals(self):
-        QtCore.QObject.connect(
-            self.ui.btnUpdate, QtCore.SIGNAL("pressed()"),
-            self.btnUpdate_clicked)
-        QtCore.QObject.connect(
-            self.ui.btnCancel, QtCore.SIGNAL("pressed()"),
-            self.btnCancel_clicked)
-        QtCore.QObject.connect(
-            self.ui.btnMoreInfo, QtCore.SIGNAL("pressed()"),
-            self.btnMoreInfo_clicked)
+        self.ui.btnUpdate.clicked.connect(self.btnUpdate_clicked)
+        self.ui.btnCancel.clicked.connect(self.btnCancel_clicked)
+        self.ui.btnMoreInfo.clicked.connect(self.btnMoreInfo_clicked)
 
     def btnUpdate_clicked(self):
         self.accept()
@@ -45,3 +41,12 @@ class DialogConflictExpert(QtGui.QDialog):
 
     def btnMoreInfo_clicked(self):
         self.more_info.show()
+
+
+if __name__ == '__main__':
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    d = QtWidgets.QWidget()
+    w = DialogConflictExpert(None, d)
+    w.show()
+    sys.exit(app.exec_())
