@@ -11,68 +11,49 @@
 # -----------------------------------------------------------------------------
 
 
-from PyQt4 import QtCore, QtGui
-from .ui_dialogipapprogram import Ui_DialogIcepapProgram
-from .messagedialogs import MessageDialogs
-from ..lib_icepapcms import IcepapController, ConfigManager
-import sys
-from qrc_icepapcms import *
+from PyQt5 import QtWidgets, uic
+from pkg_resources import resource_filename
 import datetime
 # TODO use threading
 import _thread
+from .messagedialogs import MessageDialogs
+from ..lib_icepapcms import IcepapController, ConfigManager
 
 
-class DialogIcepapProgram(QtGui.QDialog):
-    def __init__(self, parent):
-        QtGui.QDialog.__init__(self, parent)
-        self.ui = Ui_DialogIcepapProgram()
-        self.ui.setupUi(self)
-        QtCore.QObject.connect(
-            self.ui.btnBrowser,
-            QtCore.SIGNAL("clicked()"),
-            self.btnBrowse_on_click)
-        QtCore.QObject.connect(
-            self.ui.btnClose,
-            QtCore.SIGNAL("clicked()"),
-            self.btnClose_on_click)
-        QtCore.QObject.connect(
-            self.ui.btnTest,
-            QtCore.SIGNAL("clicked()"),
-            self.btnTest_on_click)
-        QtCore.QObject.connect(
-            self.ui.btnProgram,
-            QtCore.SIGNAL("clicked()"),
-            self.btnProgram_on_click)
-        QtCore.QObject.connect(
-            self.ui.cbProgram,
-            QtCore.SIGNAL("currentIndexChanged(QString)"),
-            self.cbProgram_changed)
-        QtCore.QObject.connect(
-            self.ui.rbSerial,
-            QtCore.SIGNAL("toggled(bool)"),
-            self.rbSerial_toogled)
-        QtCore.QObject.connect(
-            self.ui.rbEth,
-            QtCore.SIGNAL("toggled(bool)"),
-            self.rbEth_toogled)
+class DialogIcepapProgram(QtWidgets.QDialog):
+    def __init__(self, parent, test_mode=False):
+        QtWidgets.QDialog.__init__(self, parent)
+        ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
+                                        'dialogipapprogram.ui')
+        self.ui = self
+        uic.loadUi(ui_filename, baseinstance=self.ui)
+
+        # Signals
+        self.ui.btnBrowser.clicked.connect(self.btnBrowse_on_click)
+        self.ui.btnClose.clicked.connect(self.btnClose_on_click)
+        self.ui.btnTest.clicked.connect(self.btnTest_on_click)
+        self.ui.btnProgram.clicked.connect(self.btnProgram_on_click)
+        self.ui.cbProgram.currentIndexChanged.connect(self.cbProgram_changed)
+        self.ui.rbSerial.toggled.connect(self.rbSerial_toogled)
+        self.ui.rbEth.toggled.connect(self.rbEth_toogled)
+
         self.ui.sbAddr.setDisabled(True)
-        self._ipapctrl = IcepapController()
-        self.ui.cbSerial.addItems(self._ipapctrl.getSerialPorts())
         self.ui.rbEth.setChecked(True)
-
         # BY DEFAULT, PROGRAMM ALL INSTEAD OF NONE
         self.ui.cbProgram.setCurrentIndex(1)
 
+        if test_mode:
+            return
+        self._ipapctrl = IcepapController()
+        self.ui.cbSerial.addItems(self._ipapctrl.getSerialPorts())
+
     def btnBrowse_on_click(self):
         folder = ConfigManager().config["icepap"]["firmware_folder"]
-        fn = QtGui.QFileDialog.getOpenFileName(
-            self,
-            "Open Firmware File",
-            QtCore.QString(folder),
-            QtCore.QString("*.*"))
-        if fn.isEmpty():
+        fn = QtWidgets.QFileDialog.getOpenFileName(self, "Open Firmware File",
+            str(folder), str("*.*"))
+        if fn[0] == '':
             return
-        filename = str(fn)
+        filename = str(fn[0])
         self.ui.txtFirmwareFile.setText(filename)
 
     def cbProgram_changed(self, text):
@@ -130,3 +111,12 @@ class DialogIcepapProgram(QtGui.QDialog):
         t = datetime.datetime.now().strftime("%H:%M:%S")
         self.ui.txtLog.append(t + "> " + text)
         self.ui.txtLog.ensureCursorVisible()
+
+
+if __name__ == '__main__':
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+
+    w = DialogIcepapProgram(None, True)
+    w.show()
+    sys.exit(app.exec_())
