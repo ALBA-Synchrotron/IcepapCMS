@@ -12,7 +12,7 @@
 
 
 from PyQt4 import QtCore, QtGui
-from ui_dialogconflictdriver_expert import Ui_DialogConflictExpert
+from .ui_dialogconflictdriver_expert import Ui_DialogConflictExpert
 from ..lib_icepapcms import MainManager
 
 class DialogConflictExpert(QtGui.QDialog):
