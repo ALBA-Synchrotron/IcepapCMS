@@ -12,8 +12,8 @@
 
 
 from PyQt4 import QtCore, QtGui, Qt
-from ui_dialogdriverconflict import Ui_DialogDriverConflict
-from messagedialogs import MessageDialogs
+from .ui_dialogdriverconflict import Ui_DialogDriverConflict
+from .messagedialogs import MessageDialogs
 from ..lib_icepapcms import MainManager, StormManager
 from xml.dom import minidom, Node
 import os
@@ -70,10 +70,10 @@ class DialogDriverConflict(QtGui.QDialog):
         current = False
 
         for row in range(self.ui.tableWidget.rowCount()):
-            name = unicode(self.ui.tableWidget.item(row,0).text())
+            name = str(self.ui.tableWidget.item(row,0).text())
 
             if name == "NAME":
-                name = unicode("IPAPNAME")
+                name = str("IPAPNAME")
 
             stored_value = self._driver.current_cfg.getParameter(name, True)
             if stored_value is None:
