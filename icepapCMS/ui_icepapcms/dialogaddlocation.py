@@ -10,17 +10,18 @@
 # See LICENSE.txt for more info.
 # -----------------------------------------------------------------------------
 
-from PyQt4 import QtGui
-from .ui_dialogaddlocation import Ui_DialogAddLocation
-from .qrc_icepapcms import *
+from PyQt5 import QtWidgets, uic
+from pkg_resources import resource_filename
 
 
-class DialogAddLocation(QtGui.QDialog):
+class DialogAddLocation(QtWidgets.QDialog):
     def __init__(self, parent):
-        QtGui.QDialog.__init__(self, parent)
-        self.ui = Ui_DialogAddLocation()
+        QtWidgets.QDialog.__init__(self, parent)
+        ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
+                                        'dialogaddlocation.ui')
+        self.ui = self
+        uic.loadUi(ui_filename, baseinstance=self.ui)
         self.modal = True
-        self.ui.setupUi(self)
 
     def getData(self):
         name = str(self.ui.txtName.text())
@@ -28,3 +29,12 @@ class DialogAddLocation(QtGui.QDialog):
 
     def setData(self, name):
         self.ui.txtname.setText(name)
+
+
+if __name__ == '__main__':
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+
+    w = DialogAddLocation(None)
+    w.show()
+    sys.exit(app.exec_())
