@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>DialogConflictNonExpert</class>
- <widget class="QDialog" name="DialogConflictNonExpert" >
-  <property name="geometry" >
+ <widget class="QDialog" name="DialogConflictNonExpert">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,11 +10,11 @@
     <height>220</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Configuration conflict</string>
   </property>
-  <widget class="QLabel" name="label" >
-   <property name="geometry" >
+  <widget class="QLabel" name="label">
+   <property name="geometry">
     <rect>
      <x>10</x>
      <y>0</y>
@@ -21,15 +22,15 @@
      <height>41</height>
     </rect>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>The current values in the driver board do not match the IcePAP database</string>
    </property>
-   <property name="alignment" >
+   <property name="alignment">
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="label_2" >
-   <property name="geometry" >
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
     <rect>
      <x>30</x>
      <y>50</y>
@@ -37,17 +38,17 @@
      <height>51</height>
     </rect>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>The driver board is either new or has been moved to a different slot.
 
 The current values in the driver board will be lost.</string>
    </property>
-   <property name="alignment" >
+   <property name="alignment">
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QPushButton" name="btnMoreInfo" >
-   <property name="geometry" >
+  <widget class="QPushButton" name="btnMoreInfo">
+   <property name="geometry">
     <rect>
      <x>340</x>
      <y>180</y>
@@ -55,15 +56,15 @@ The current values in the driver board will be lost.</string>
      <height>26</height>
     </rect>
    </property>
-   <property name="toolTip" >
+   <property name="toolTip">
     <string>Show values</string>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>More info ...</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="btnUpdate" >
-   <property name="geometry" >
+  <widget class="QPushButton" name="btnUpdate">
+   <property name="geometry">
     <rect>
      <x>100</x>
      <y>120</y>
@@ -71,16 +72,16 @@ The current values in the driver board will be lost.</string>
      <height>51</height>
     </rect>
    </property>
-   <property name="toolTip" >
+   <property name="toolTip">
     <string>Send database config
 to driver board</string>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>Update driver</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="btnCancel" >
-   <property name="geometry" >
+  <widget class="QPushButton" name="btnCancel">
+   <property name="geometry">
     <rect>
      <x>230</x>
      <y>120</y>
@@ -88,11 +89,11 @@ to driver board</string>
      <height>51</height>
     </rect>
    </property>
-   <property name="toolTip" >
+   <property name="toolTip">
     <string>Cancel driver
 configuration</string>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>Cancel</string>
    </property>
   </widget>

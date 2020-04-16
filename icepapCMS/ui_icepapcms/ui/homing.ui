@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>homing</class>
- <widget class="QDialog" name="homing" >
-  <property name="geometry" >
+ <widget class="QDialog" name="homing">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,143 +10,143 @@
     <height>346</height>
    </rect>
   </property>
-  <property name="sizePolicy" >
-   <sizepolicy vsizetype="MinimumExpanding" hsizetype="MinimumExpanding" >
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
-  <property name="minimumSize" >
+  <property name="minimumSize">
    <size>
     <width>461</width>
     <height>346</height>
    </size>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_3" >
-   <item row="0" column="0" >
-    <widget class="QFrame" name="homing_frame" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+  <layout class="QGridLayout" name="gridLayout_3">
+   <item row="0" column="0">
+    <widget class="QFrame" name="homing_frame">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="minimumSize" >
+     <property name="minimumSize">
       <size>
        <width>182</width>
        <height>260</height>
       </size>
      </property>
-     <property name="frameShape" >
+     <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
-     <property name="frameShadow" >
+     <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <layout class="QGridLayout" name="gridLayout" >
-      <item row="0" column="0" >
-       <layout class="QGridLayout" >
-        <item row="0" column="0" >
-         <widget class="QLabel" name="label_9" >
-          <property name="sizePolicy" >
-           <sizepolicy vsizetype="Maximum" hsizetype="Fixed" >
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <layout class="QGridLayout">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_9">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="minimumSize" >
+          <property name="minimumSize">
            <size>
             <width>100</width>
             <height>16</height>
            </size>
           </property>
-          <property name="maximumSize" >
+          <property name="maximumSize">
            <size>
             <width>16777215</width>
             <height>22</height>
            </size>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>Reference signal</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="1" >
-         <widget class="QComboBox" name="cfgHOMESRC" >
-          <property name="sizePolicy" >
-           <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
+        <item row="0" column="1">
+         <widget class="QComboBox" name="cfgHOMESRC">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="minimumSize" >
+          <property name="minimumSize">
            <size>
             <width>70</width>
             <height>22</height>
            </size>
           </property>
-          <property name="maximumSize" >
+          <property name="maximumSize">
            <size>
             <width>16777215</width>
             <height>22</height>
            </size>
           </property>
-          <property name="font" >
+          <property name="font">
            <font>
             <pointsize>7</pointsize>
            </font>
           </property>
          </widget>
         </item>
-        <item row="1" column="0" >
-         <widget class="QLabel" name="label_10" >
-          <property name="sizePolicy" >
-           <sizepolicy vsizetype="Maximum" hsizetype="Fixed" >
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_10">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="minimumSize" >
+          <property name="minimumSize">
            <size>
             <width>100</width>
             <height>16</height>
            </size>
           </property>
-          <property name="maximumSize" >
+          <property name="maximumSize">
            <size>
             <width>16777215</width>
             <height>22</height>
            </size>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>Signal type</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="1" >
-         <widget class="QComboBox" name="cfgHOMETYPE" >
-          <property name="sizePolicy" >
-           <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
+        <item row="1" column="1">
+         <widget class="QComboBox" name="cfgHOMETYPE">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="minimumSize" >
+          <property name="minimumSize">
            <size>
             <width>70</width>
             <height>22</height>
            </size>
           </property>
-          <property name="maximumSize" >
+          <property name="maximumSize">
            <size>
             <width>16777215</width>
             <height>22</height>
            </size>
           </property>
-          <property name="font" >
+          <property name="font">
            <font>
             <pointsize>7</pointsize>
            </font>
@@ -154,15 +155,15 @@
         </item>
        </layout>
       </item>
-      <item row="1" column="0" >
+      <item row="1" column="0">
        <spacer>
-        <property name="orientation" >
+        <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
-        <property name="sizeType" >
+        <property name="sizeType">
          <enum>QSizePolicy::Fixed</enum>
         </property>
-        <property name="sizeHint" stdset="0" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>370</width>
           <height>10</height>
@@ -170,76 +171,76 @@
         </property>
        </spacer>
       </item>
-      <item row="2" column="0" >
-       <widget class="QLabel" name="label_4" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Maximum" hsizetype="Fixed" >
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_4">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="minimumSize" >
+        <property name="minimumSize">
          <size>
           <width>150</width>
           <height>16</height>
          </size>
         </property>
-        <property name="maximumSize" >
+        <property name="maximumSize">
          <size>
           <width>16777215</width>
           <height>22</height>
          </size>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>Flags</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="0" >
-       <widget class="Line" name="line_2" >
-        <property name="minimumSize" >
+      <item row="3" column="0">
+       <widget class="Line" name="line_2">
+        <property name="minimumSize">
          <size>
           <width>150</width>
           <height>0</height>
          </size>
         </property>
-        <property name="orientation" >
+        <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
-      <item row="4" column="0" >
-       <widget class="QFrame" name="cfgHOMEFLAGS" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+      <item row="4" column="0">
+       <widget class="QFrame" name="cfgHOMEFLAGS">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="minimumSize" >
+        <property name="minimumSize">
          <size>
           <width>329</width>
           <height>150</height>
          </size>
         </property>
-        <property name="frameShape" >
+        <property name="frameShape">
          <enum>QFrame::NoFrame</enum>
         </property>
-        <property name="frameShadow" >
+        <property name="frameShadow">
          <enum>QFrame::Plain</enum>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout" >
+        <layout class="QVBoxLayout" name="verticalLayout">
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout" >
+          <layout class="QHBoxLayout" name="horizontalLayout">
            <item>
             <spacer>
-             <property name="orientation" >
+             <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
-             <property name="sizeType" >
+             <property name="sizeType">
               <enum>QSizePolicy::Maximum</enum>
              </property>
-             <property name="sizeHint" stdset="0" >
+             <property name="sizeHint" stdset="0">
               <size>
                <width>50</width>
                <height>20</height>
@@ -248,26 +249,26 @@
             </spacer>
            </item>
            <item>
-            <widget class="QCheckBox" name="cfgHOMEFLAGS_AUTODIR" >
-             <property name="sizePolicy" >
-              <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
+            <widget class="QCheckBox" name="cfgHOMEFLAGS_AUTODIR">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="minimumSize" >
+             <property name="minimumSize">
               <size>
                <width>150</width>
                <height>16</height>
               </size>
              </property>
-             <property name="maximumSize" >
+             <property name="maximumSize">
               <size>
                <width>16777215</width>
                <height>22</height>
               </size>
              </property>
-             <property name="text" >
+             <property name="text">
               <string>auto direction</string>
              </property>
             </widget>
@@ -275,16 +276,16 @@
           </layout>
          </item>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_2" >
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
            <item>
             <spacer>
-             <property name="orientation" >
+             <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
-             <property name="sizeType" >
+             <property name="sizeType">
               <enum>QSizePolicy::Maximum</enum>
              </property>
-             <property name="sizeHint" stdset="0" >
+             <property name="sizeHint" stdset="0">
               <size>
                <width>50</width>
                <height>20</height>
@@ -293,26 +294,26 @@
             </spacer>
            </item>
            <item>
-            <widget class="QCheckBox" name="cfgHOMEFLAGS_REVERSE" >
-             <property name="sizePolicy" >
-              <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
+            <widget class="QCheckBox" name="cfgHOMEFLAGS_REVERSE">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="minimumSize" >
+             <property name="minimumSize">
               <size>
                <width>150</width>
                <height>16</height>
               </size>
              </property>
-             <property name="maximumSize" >
+             <property name="maximumSize">
               <size>
                <width>16777215</width>
                <height>22</height>
               </size>
              </property>
-             <property name="text" >
+             <property name="text">
               <string>reverse search</string>
              </property>
             </widget>
@@ -320,16 +321,16 @@
           </layout>
          </item>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_3" >
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
            <item>
             <spacer>
-             <property name="orientation" >
+             <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
-             <property name="sizeType" >
+             <property name="sizeType">
               <enum>QSizePolicy::Maximum</enum>
              </property>
-             <property name="sizeHint" stdset="0" >
+             <property name="sizeHint" stdset="0">
               <size>
                <width>50</width>
                <height>20</height>
@@ -338,26 +339,26 @@
             </spacer>
            </item>
            <item>
-            <widget class="QCheckBox" name="cfgHOMEFLAGS_SETPOS" >
-             <property name="sizePolicy" >
-              <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
+            <widget class="QCheckBox" name="cfgHOMEFLAGS_SETPOS">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="minimumSize" >
+             <property name="minimumSize">
               <size>
                <width>150</width>
                <height>16</height>
               </size>
              </property>
-             <property name="maximumSize" >
+             <property name="maximumSize">
               <size>
                <width>16777215</width>
                <height>22</height>
               </size>
              </property>
-             <property name="text" >
+             <property name="text">
               <string>set axis position</string>
              </property>
             </widget>
@@ -365,16 +366,16 @@
           </layout>
          </item>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_4" >
+          <layout class="QHBoxLayout" name="horizontalLayout_4">
            <item>
             <spacer>
-             <property name="orientation" >
+             <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
-             <property name="sizeType" >
+             <property name="sizeType">
               <enum>QSizePolicy::Maximum</enum>
              </property>
-             <property name="sizeHint" stdset="0" >
+             <property name="sizeHint" stdset="0">
               <size>
                <width>50</width>
                <height>20</height>
@@ -383,26 +384,26 @@
             </spacer>
            </item>
            <item>
-            <widget class="QCheckBox" name="cfgHOMEFLAGS_SLOW" >
-             <property name="sizePolicy" >
-              <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
+            <widget class="QCheckBox" name="cfgHOMEFLAGS_SLOW">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="minimumSize" >
+             <property name="minimumSize">
               <size>
                <width>150</width>
                <height>16</height>
               </size>
              </property>
-             <property name="maximumSize" >
+             <property name="maximumSize">
               <size>
                <width>16777215</width>
                <height>22</height>
               </size>
              </property>
-             <property name="text" >
+             <property name="text">
               <string>slow search mode</string>
              </property>
             </widget>
@@ -410,16 +411,16 @@
           </layout>
          </item>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_5" >
+          <layout class="QHBoxLayout" name="horizontalLayout_5">
            <item>
-            <spacer name="spacer" >
-             <property name="orientation" >
+            <spacer name="spacer">
+             <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
-             <property name="sizeType" >
+             <property name="sizeType">
               <enum>QSizePolicy::Maximum</enum>
              </property>
-             <property name="sizeHint" stdset="0" >
+             <property name="sizeHint" stdset="0">
               <size>
                <width>50</width>
                <height>20</height>
@@ -428,26 +429,26 @@
             </spacer>
            </item>
            <item>
-            <widget class="QCheckBox" name="cfgHOMEFLAGS_NEGEDGE" >
-             <property name="sizePolicy" >
-              <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
+            <widget class="QCheckBox" name="cfgHOMEFLAGS_NEGEDGE">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="minimumSize" >
+             <property name="minimumSize">
               <size>
                <width>329</width>
                <height>22</height>
               </size>
              </property>
-             <property name="maximumSize" >
+             <property name="maximumSize">
               <size>
                <width>16777215</width>
                <height>22</height>
               </size>
              </property>
-             <property name="text" >
+             <property name="text">
               <string>ref pos in a falling edge when moving positive</string>
              </property>
             </widget>
@@ -457,15 +458,15 @@
         </layout>
        </widget>
       </item>
-      <item row="5" column="0" >
+      <item row="5" column="0">
        <spacer>
-        <property name="orientation" >
+        <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
-        <property name="sizeType" >
+        <property name="sizeType">
          <enum>QSizePolicy::Fixed</enum>
         </property>
-        <property name="sizeHint" stdset="0" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>370</width>
           <height>10</height>
@@ -473,126 +474,126 @@
         </property>
        </spacer>
       </item>
-      <item row="6" column="0" >
-       <layout class="QGridLayout" >
-        <item row="0" column="0" >
-         <widget class="QLabel" name="label_7" >
-          <property name="sizePolicy" >
-           <sizepolicy vsizetype="Maximum" hsizetype="Fixed" >
+      <item row="6" column="0">
+       <layout class="QGridLayout">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_7">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="minimumSize" >
+          <property name="minimumSize">
            <size>
             <width>100</width>
             <height>22</height>
            </size>
           </property>
-          <property name="maximumSize" >
+          <property name="maximumSize">
            <size>
             <width>16777215</width>
             <height>22</height>
            </size>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>Home position</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="1" >
-         <widget class="QSpinBox" name="cfgHOMEPOS" >
-          <property name="sizePolicy" >
-           <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
+        <item row="0" column="1">
+         <widget class="QSpinBox" name="cfgHOMEPOS">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="minimumSize" >
+          <property name="minimumSize">
            <size>
             <width>70</width>
             <height>22</height>
            </size>
           </property>
-          <property name="maximumSize" >
+          <property name="maximumSize">
            <size>
             <width>16777215</width>
             <height>22</height>
            </size>
           </property>
-          <property name="font" >
+          <property name="font">
            <font>
             <pointsize>7</pointsize>
            </font>
           </property>
-          <property name="text" stdset="0" >
+          <property name="text" stdset="0">
            <string>0</string>
           </property>
-          <property name="minimum" >
+          <property name="minimum">
            <number>-999999999</number>
           </property>
-          <property name="maximum" >
+          <property name="maximum">
            <number>999999999</number>
           </property>
          </widget>
         </item>
-        <item row="1" column="0" >
-         <widget class="QLabel" name="label_8" >
-          <property name="sizePolicy" >
-           <sizepolicy vsizetype="Maximum" hsizetype="Fixed" >
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_8">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="minimumSize" >
+          <property name="minimumSize">
            <size>
             <width>100</width>
             <height>22</height>
            </size>
           </property>
-          <property name="maximumSize" >
+          <property name="maximumSize">
            <size>
             <width>16777215</width>
             <height>22</height>
            </size>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>search velocity</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="1" >
-         <widget class="QDoubleSpinBox" name="cfgHOMEVEL" >
-          <property name="sizePolicy" >
-           <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
+        <item row="1" column="1">
+         <widget class="QDoubleSpinBox" name="cfgHOMEVEL">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="minimumSize" >
+          <property name="minimumSize">
            <size>
             <width>70</width>
             <height>22</height>
            </size>
           </property>
-          <property name="maximumSize" >
+          <property name="maximumSize">
            <size>
             <width>16777215</width>
             <height>22</height>
            </size>
           </property>
-          <property name="font" >
+          <property name="font">
            <font>
             <pointsize>7</pointsize>
            </font>
           </property>
-          <property name="text" stdset="0" >
+          <property name="text" stdset="0">
            <string>0.00</string>
           </property>
-          <property name="maximum" >
+          <property name="maximum">
            <double>999999999.000000000000000</double>
           </property>
-          <property name="singleStep" >
+          <property name="singleStep">
            <double>0.010000000000000</double>
           </property>
          </widget>
@@ -602,12 +603,12 @@
      </layout>
     </widget>
    </item>
-   <item row="0" column="1" >
-    <spacer name="horizontalSpacer" >
-     <property name="orientation" >
+   <item row="0" column="1">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <property name="sizeHint" stdset="0" >
+     <property name="sizeHint" stdset="0">
       <size>
        <width>41</width>
        <height>20</height>
@@ -615,12 +616,12 @@
      </property>
     </spacer>
    </item>
-   <item row="1" column="0" >
-    <spacer name="verticalSpacer" >
-     <property name="orientation" >
+   <item row="1" column="0">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
-     <property name="sizeHint" stdset="0" >
+     <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
        <height>33</height>
