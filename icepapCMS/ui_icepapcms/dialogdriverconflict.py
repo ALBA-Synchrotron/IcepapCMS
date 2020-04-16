@@ -11,27 +11,29 @@
 # -----------------------------------------------------------------------------
 
 
-from PyQt4 import QtCore, QtGui, Qt
-from .ui_dialogdriverconflict import Ui_DialogDriverConflict
+from PyQt5 import QtWidgets, QtGui, Qt, uic
+from pkg_resources import resource_filename
+from xml.dom import minidom, Node
 from .messagedialogs import MessageDialogs
 from ..lib_icepapcms import MainManager, StormManager
-from xml.dom import minidom, Node
-import os
-import sys
 
 
-class DialogDriverConflict(QtGui.QDialog):
-    def __init__(self, parent, driver):
-        QtGui.QDialog.__init__(self, parent)
-        self.ui = Ui_DialogDriverConflict()
+class DialogDriverConflict(QtWidgets.QDialog):
+    def __init__(self, parent, driver, test_mode=False):
+        QtWidgets.QDialog.__init__(self, parent)
+
+        ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
+                                        'dialogdriverconflict.ui')
+        self.ui = self
+        uic.loadUi(ui_filename, baseinstance=self.ui)
         self.modal = True
-        self.ui.setupUi(self)
         font = QtGui.QFont()
         font.setPointSize(7.5)
         self.setFont(font)
-        pathname = os.path.dirname(sys.argv[0])
-        path = os.path.abspath(pathname)
-        self.config_template = path+'/templates/driverparameters.xml'
+        self.config_template = resource_filename('icepapCMS.templates',
+                                                 'driverparameters.xml')
+        if test_mode:
+            return
         self._driver = driver
         self._manager = MainManager()
         self.ui.tableWidget.horizontalHeader().setResizeMode(
@@ -41,12 +43,10 @@ class DialogDriverConflict(QtGui.QDialog):
         self.ui.tableWidget.horizontalHeader().setResizeMode(
             2, Qt.QHeaderView.Stretch)
         self._fillTable()
-        QtCore.QObject.connect(self.ui.btnStored,
-                               QtCore.SIGNAL("clicked()"),
-                               self.btnStored_on_click)
-        QtCore.QObject.connect(self.ui.btnIcepap,
-                               QtCore.SIGNAL("clicked()"),
-                               self.btnIcepap_on_click)
+
+        # Connect Signals
+        self.ui.btnStored.clicked.connect(self.btnStored_on_click)
+        self.ui.btnIcepap.clicked.connect(self.btnIcepap_on_click)
 
     def _createTableView(self):
         self.var_dict = {}
@@ -112,9 +112,18 @@ class DialogDriverConflict(QtGui.QDialog):
         self.accept()
 
     def _addItemToTable(self, row, column, text, colored):
-        item = QtGui.QTableWidgetItem()
+        item = QtWidgets.QTableWidgetItem()
         item.setText(text)
         item.setFlags(Qt.Qt.ItemIsSelectable)
         if colored:
             item.setTextColor(QtGui.QColor(Qt.Qt.red))
         self.ui.tableWidget.setItem(row, column, item)
+
+
+if __name__ == '__main__':
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+
+    w = DialogDriverConflict(None, None, True)
+    w.show()
+    sys.exit(app.exec_())
