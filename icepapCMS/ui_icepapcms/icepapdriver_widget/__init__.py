@@ -1,1 +1,1 @@
-from icepapdriverwidget import IcePapDriverWidget
+from .icepapdriverwidget import IcePapDriverWidget

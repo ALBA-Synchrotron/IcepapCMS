@@ -11,19 +11,18 @@
 # -----------------------------------------------------------------------------
 
 
-from PyQt4 import QtCore, QtGui, Qt
-from .ui_icepapdriverwidget import Ui_IcePapDriverWidget
-from .ui_icepapdriverwidgetsmall import Ui_IcePapDriverWidgetSmall
-# from ...ui_icepapcms.qrc_icepapcms import *
+from PyQt5 import QtGui, Qt, QtWidgets, uic, QtCore
+from pkg_resources import resource_filename
 from ...ui_icepapcms.Led import Led
 from ...lib_icepapcms import MainManager, Conflict
 from icepap import Mode, State
+from ..icepapcms_rc1 import *
 
 
-class IcePapDriverWidget(QtGui.QWidget):
-    def __init__(self, parent=None, BigSize=True):
-        QtGui.QWidget.__init__(self, parent)
-        self.initView(BigSize)
+class IcePapDriverWidget(QtWidgets.QWidget):
+    def __init__(self, parent=None, BigSize=True, test_mode=False):
+        QtWidgets.QWidget.__init__(self, parent)
+        self.initView(BigSize, test_mode)
         self.MaxCurrent = 7
         self._driver = None
         self.setMouseTracking(True)
@@ -32,42 +31,48 @@ class IcePapDriverWidget(QtGui.QWidget):
         self.power = -1
         self.mode = -1
 
-    def initView(self, Big):
+    def initView(self, Big, test_mode=False):
         self.BigSize = Big
         self.coloroff = QtGui.QColor(225, 255, 200)
         self.colorerror = QtGui.QColor(255, 179, 179)
         self.colorok = QtGui.QColor(223, 223, 237)
         self.colorwarning = QtGui.QColor(255, 255, 0)
         self.colorconfig = QtGui.QColor(255, 206, 162)
+        self.ui = QtWidgets.QWidget(self)
 
         if Big:
-            self.ui = Ui_IcePapDriverWidget()
-            self.ui.setupUi(self)
+            ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
+                                            'icepapdriverwidget.ui')
+        else:
+            ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
+                                            'icepapdriverwidgetsmall.ui')
+
+        module_path = resource_filename('icepapCMS.ui_icepapcms.ui', 'Led')
+        uic.loadUi(ui_filename, baseinstance=self.ui, package=module_path)
+        if Big:
             self.setPaletteColor(self.ui.lcdCurrent, self.coloroff,
                                  QtGui.QColor(Qt.Qt.white))
-        else:
-            self.ui = Ui_IcePapDriverWidgetSmall()
-            self.ui.setupUi(self)
 
         self.ui.ledStatus.changeColor(Led.YELLOW)
         self.ui.ledLimitPos.changeColor(Led.ORANGE)
         self.ui.ledLimitNeg.changeColor(Led.GREEN)
+        if test_mode:
+            return
         self._manager = MainManager()
 
         self.setAutoFillBackground(True)
-
-        QtCore.QObject.connect(self.ui.pushButton,
-                               QtCore.SIGNAL("clicked(""bool)"),
-                               self.btnEnDis_on_click)
+        # Signals
+        self.ui.pushButton.clicked.connect(self.btnEnDis_on_click)
 
     def mouseDoubleClickEvent(self, event):
-        self.emit(QtCore.SIGNAL("icepapDoubleClicked(PyQt_PyObject)"),
-                  self._driver)
+        # TODO Change to new style
+        # self.emit(QtCore.SIGNAL("icepapDoubleClicked(PyQt_PyObject)"),
+        #           self._driver)
         event.accept()
 
     def mousePressEvent(self, event):
         tooltip = str(self._driver.current_cfg)
-        QtGui.QToolTip.showText(event.globalPos(), tooltip)
+        QtWidgets.QToolTip.showText(event.globalPos(), tooltip)
         event.accept()
 
     def mouseMoveEvent(self, event):
@@ -207,3 +212,11 @@ class IcePapDriverWidget(QtGui.QWidget):
         palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.Text, forecolor)
         widget.setPalette(palette)
         widget.show()
+
+
+if __name__ == '__main__':
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    lw = IcePapDriverWidget(BigSize=True, test_mode=True)
+    lw.show()
+    sys.exit(app.exec_())
