@@ -12,14 +12,15 @@
 
 
 from PyQt4 import QtCore, QtGui
-from ui_dialogipapprogram import Ui_DialogIcepapProgram
-from messagedialogs import MessageDialogs
+from .ui_dialogipapprogram import Ui_DialogIcepapProgram
+from .messagedialogs import MessageDialogs
 from ..lib_icepapcms import IcepapController,ConfigManager
 import sys
 from qrc_icepapcms import *
 import time
 import datetime
-import thread
+# TODO use threading
+import _thread
 
 
 
@@ -82,7 +83,7 @@ class DialogIcepapProgram(QtGui.QDialog):
     
     def btnProgram_on_click(self):
         try:
-            thread.start_new_thread(self.startProgramming, ())
+            _thread.start_new_thread(self.startProgramming, ())
         except:
             self.addToLog(str(sys.exc_info()[0]))
     
