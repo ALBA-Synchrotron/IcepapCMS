@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>347</width>
-    <height>384</height>
+    <width>359</width>
+    <height>394</height>
    </rect>
   </property>
   <property name="palette">
@@ -1023,9 +1023,17 @@
        </disabled>
       </palette>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
      <property name="alternatingRowColors">
       <bool>true</bool>
      </property>
+     <attribute name="horizontalHeaderDefaultSectionSize">
+      <number>110</number>
+     </attribute>
      <column>
       <property name="text">
        <string>Name</string>
@@ -1062,6 +1070,11 @@
      </property>
      <item>
       <widget class="QPushButton" name="btnStored">
+       <property name="font">
+        <font>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>Keep stored values</string>
        </property>
@@ -1086,6 +1099,11 @@
      </item>
      <item>
       <widget class="QPushButton" name="btnIcepap">
+       <property name="font">
+        <font>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>Set Icepap values</string>
        </property>
