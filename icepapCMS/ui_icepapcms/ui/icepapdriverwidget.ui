@@ -1218,7 +1218,7 @@
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap>:/logos/icons/Icepapdriverpetit.png</pixmap>
+         <pixmap resource="icepapcms.qrc">:/logos/icons/Icepapdriverpetit.png</pixmap>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
