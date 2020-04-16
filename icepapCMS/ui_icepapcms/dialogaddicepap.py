@@ -11,18 +11,23 @@
 # -----------------------------------------------------------------------------
 
 
-from PyQt4 import QtCore, QtGui
-from .ui_dialogaddicepap import Ui_DialogAddIcepap
+from PyQt5 import QtCore, QtWidgets, uic
+from pkg_resources import resource_filename
 from ..lib_icepapcms import MainManager
 
 
-class DialogAddIcepap(QtGui.QDialog):
-    def __init__(self, parent, location):
-        QtGui.QDialog.__init__(self, parent)
-        self.ui = Ui_DialogAddIcepap()
+class DialogAddIcepap(QtWidgets.QDialog):
+    def __init__(self, parent, location, test_mode=False):
+        QtWidgets.QDialog.__init__(self, parent)
+        ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
+                                        'dialogaddicepap.ui')
+        self.ui = self
+        uic.loadUi(ui_filename, baseinstance=self.ui)
+
         self.modal = True
-        self.ui.setupUi(self)
         self.ui.txtPort.setText("5000")
+        if test_mode:
+            return
         self.buildLocationCombo(location)
 
     def buildLocationCombo(self, location):
@@ -46,3 +51,12 @@ class DialogAddIcepap(QtGui.QDialog):
         self.ui.txtDescription.insertPlainText(description)
         self.ui.cbLocation.setCurrentIndex(
             self.ui.cbLocation.findText(location, QtCore.Qt.MatchFixedString))
+
+
+if __name__ == '__main__':
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+
+    w = DialogAddIcepap(None, 'test', True)
+    w.show()
+    sys.exit(app.exec_())
