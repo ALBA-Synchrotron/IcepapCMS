@@ -10,32 +10,28 @@
 # See LICENSE.txt for more info.
 # -----------------------------------------------------------------------------
 
+from PyQt5 import QtWidgets, uic
+from pkg_resources import resource_filename
 
-from PyQt4 import QtCore, QtGui
-from .ui_dialogconflictdriver_nonexpert import Ui_DialogConflictNonExpert
 
-
-class DialogConflictNonExpert(QtGui.QDialog):
+# TODO Use refactor to use only one DialogConflict
+class DialogConflictNonExpert(QtWidgets.QDialog):
     def __init__(self, parent, more_info):
-        QtGui.QDialog.__init__(self, parent)
-        self.ui = Ui_DialogConflictNonExpert()
+        QtWidgets.QDialog.__init__(self, parent)
+        ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
+                                        'dialogconflictdriver_nonexpert.ui')
+        self.ui = self
+        uic.loadUi(ui_filename, baseinstance=self.ui)
         self.modal = True
-        self.ui.setupUi(self)
         self.more_info = more_info
         self.ui.btnCancel.setDefault(True)
 
         self.connectSignals()
 
     def connectSignals(self):
-        QtCore.QObject.connect(
-            self.ui.btnUpdate, QtCore.SIGNAL("pressed()"),
-            self.btnUpdate_clicked)
-        QtCore.QObject.connect(
-            self.ui.btnCancel, QtCore.SIGNAL("pressed()"),
-            self.btnCancel_clicked)
-        QtCore.QObject.connect(
-            self.ui.btnMoreInfo, QtCore.SIGNAL("pressed()"),
-            self.btnMoreInfo_clicked)
+        self.ui.btnUpdate.clicked.connect(self.btnUpdate_clicked)
+        self.ui.btnCancel.clicked.connect(self.btnCancel_clicked)
+        self.ui.btnMoreInfo.clicked.connect(self.btnMoreInfo_clicked)
 
     def btnUpdate_clicked(self):
         self.accept()
@@ -45,3 +41,13 @@ class DialogConflictNonExpert(QtGui.QDialog):
 
     def btnMoreInfo_clicked(self):
         self.more_info.show()
+
+
+if __name__ == '__main__':
+    import sys
+
+    app = QtWidgets.QApplication(sys.argv)
+    d = QtWidgets.QWidget()
+    w = DialogConflictNonExpert(None, d)
+    w.show()
+    sys.exit(app.exec_())
