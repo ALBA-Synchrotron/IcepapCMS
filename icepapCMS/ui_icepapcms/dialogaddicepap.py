@@ -1,19 +1,20 @@
 #!/usr/bin/env python
 
-# ------------------------------------------------------------------------------
-# This file is part of icepapCMS (https://github.com/ALBA-Synchrotron/icepapcms)
+# -----------------------------------------------------------------------------
+# This file is part of icepapCMS https://github.com/ALBA-Synchrotron/icepapcms
 #
 # Copyright 2008-2018 CELLS / ALBA Synchrotron, Bellaterra, Spain
 #
 # Distributed under the terms of the GNU General Public License,
 # either version 3 of the License, or (at your option) any later version.
 # See LICENSE.txt for more info.
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 
 from PyQt4 import QtCore, QtGui
 from .ui_dialogaddicepap import Ui_DialogAddIcepap
 from ..lib_icepapcms import MainManager
+
 
 class DialogAddIcepap(QtGui.QDialog):
     def __init__(self, parent, location):
@@ -22,13 +23,13 @@ class DialogAddIcepap(QtGui.QDialog):
         self.modal = True
         self.ui.setupUi(self)
         self.ui.txtPort.setText("5000")
-        self.buildLocationCombo(location)                
-        
-    
-    def buildLocationCombo(self, location):        
+        self.buildLocationCombo(location)
+
+    def buildLocationCombo(self, location):
         for location_name in list(MainManager().locationList.keys()):
             self.ui.cbLocation.addItem(location_name)
-        self.ui.cbLocation.setCurrentIndex(self.ui.cbLocation.findText(location, QtCore.Qt.MatchFixedString))  
+        self.ui.cbLocation.setCurrentIndex(
+            self.ui.cbLocation.findText(location, QtCore.Qt.MatchFixedString))
 
     def getData(self):
         host = str(self.ui.txtHost.text())
@@ -36,12 +37,12 @@ class DialogAddIcepap(QtGui.QDialog):
         desc = str(self.ui.txtDescription.toPlainText())
         location = str(self.ui.cbLocation.currentText())
         return [host, port, desc, location]
-    
+
     def setData(self, name, host, port, description, location):
         self.ui.txtHost.setEnabled(False)
         self.ui.txtPort.setEnabled(False)
         self.ui.txtHost.setText(host)
         self.ui.txtPort.setText(str(port))
         self.ui.txtDescription.insertPlainText(description)
-        self.ui.cbLocation.setCurrentIndex(self.ui.cbLocation.findText(location, QtCore.Qt.MatchFixedString))
-        
+        self.ui.cbLocation.setCurrentIndex(
+            self.ui.cbLocation.findText(location, QtCore.Qt.MatchFixedString))
