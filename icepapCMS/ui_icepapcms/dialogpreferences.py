@@ -11,69 +11,48 @@
 # -----------------------------------------------------------------------------
 
 
-from PyQt4 import QtCore, QtGui
-from .ui_dialogpreferences import Ui_DialogPreferences
+from PyQt5 import QtWidgets, uic
+from pkg_resources import resource_filename
 from ..lib_icepapcms import ConfigManager
 from .messagedialogs import MessageDialogs
-from qrc_icepapcms import *
-import sys
 
+# TODO Change to properties
 MYSQL_PORT = 3306
 POSTGRES_PORT = 5432
 
 
-class DialogPreferences(QtGui.QDialog):
+# TODO: Change Debug Level widget to use more levels
+class DialogPreferences(QtWidgets.QDialog):
 
     def __init__(self, parent):
-        QtGui.QDialog.__init__(self, parent)
-        self.ui = Ui_DialogPreferences()
+        QtWidgets.QDialog.__init__(self, parent)
+
+        ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
+                                        'dialogpreferences.ui')
+        self.ui = self
+        uic.loadUi(ui_filename, baseinstance=self.ui)
         self.modal = True
-        self.ui.setupUi(self)
         self.StorageChanged = False
         self.selectedDB = ""
-        QtCore.QObject.connect(
-            self.ui.listWidget,
-            QtCore.SIGNAL("itemClicked(QListWidgetItem*)"),
-            self.listWidget_on_click)
-        QtCore.QObject.connect(
-            self.ui.btnBrowser,
-            QtCore.SIGNAL("clicked()"),
-            self.btnBrowse_on_click)
-        QtCore.QObject.connect(
-            self.ui.btnLogBrowser,
-            QtCore.SIGNAL("clicked()"),
-            self.btnLogBrowse_on_click)
-        QtCore.QObject.connect(
-            self.ui.btnFirmwareBrowser,
-            QtCore.SIGNAL("clicked()"),
+
+        # Connect Signals
+        self.ui.listWidget.itemClicked.connect(self.listWidget_on_click)
+        self.ui.btnBrowser.clicked.connect(self.btnBrowse_on_click)
+        self.ui.btnLogBrowser.clicked.connect(self.btnLogBrowse_on_click)
+        self.ui.btnFirmwareBrowser.clicked.connect(
             self.btnFirmwareBrowse_on_click)
-        QtCore.QObject.connect(
-            self.ui.btnConfigsBrowser,
-            QtCore.SIGNAL("clicked()"),
+        self.ui.btnConfigsBrowser.clicked.connect(
             self.btnConfigsBrowse_on_click)
-        QtCore.QObject.connect(
-            self.ui.btnTemplatesBrowser,
-            QtCore.SIGNAL("clicked()"),
+        self.ui.btnTemplatesBrowser.clicked.connect(
             self.btnTemplatesBrowse_on_click)
-        QtCore.QObject.connect(
-            self.ui.closeButton,
-            QtCore.SIGNAL("clicked()"),
-            self.closeButton_on_click)
-        QtCore.QObject.connect(
-            self.ui.rbmysql,
-            QtCore.SIGNAL("toggled(bool)"),
-            self.rbMySql_toogled)
-        QtCore.QObject.connect(
-            self.ui.rbpostgres,
-            QtCore.SIGNAL("toggled(bool)"),
-            self.rbPostgres_toogled)
-        QtCore.QObject.connect(
-            self.ui.rbsqlite,
-            QtCore.SIGNAL("toggled(bool)"),
-            self.rbSqlite_toogled)
+        self.ui.closeButton.clicked.connect(self.closeButton_on_click)
+        self.ui.rbmysql.toggled.connect(self.rbMySql_toogled)
+        self.ui.rbpostgres.toggled.connect(self.rbPostgres_toogled)
+        self.ui.rbsqlite.toggled.connect(self.rbSqlite_toogled)
+
         self._config = ConfigManager()
         self.fillConfig()
-        self.ui.listWidget.setItemSelected(self.ui.listWidget.item(0), True)
+        self.ui.listWidget.item(0).setSelected(True)
         """ check imports for dbs to disable errors """
 
     def closeButton_on_click(self):
@@ -110,18 +89,18 @@ class DialogPreferences(QtGui.QDialog):
 
     def btnBrowse_on_click(self):
         current_folder = self._config.config[self._config.icepap]["folder"]
-        fn = QtGui.QFileDialog.getExistingDirectory(
+        fn = QtWidgets.QFileDialog.getExistingDirectory(
             self, "Open Folder", current_folder)
-        if fn.isEmpty():
+        if fn == '':
             return
         folder = str(fn)
         self.ui.txtLocalFolder.setText(folder)
 
     def btnLogBrowse_on_click(self):
         current_folder = self._config.config[self._config.icepap]["log_folder"]
-        fn = QtGui.QFileDialog.getExistingDirectory(
+        fn = QtWidgets.QFileDialog.getExistingDirectory(
             self, "Open Log Folder", current_folder)
-        if fn.isEmpty():
+        if fn == '':
             return
         folder = str(fn)
         self.ui.txtLogFolder.setText(folder)
@@ -129,9 +108,9 @@ class DialogPreferences(QtGui.QDialog):
     def btnFirmwareBrowse_on_click(self):
         current_folder = \
             self._config.config[self._config.icepap]["firmware_folder"]
-        fn = QtGui.QFileDialog.getExistingDirectory(
+        fn = QtWidgets.QFileDialog.getExistingDirectory(
             self, "Open Firmware Folder", current_folder)
-        if fn.isEmpty():
+        if fn == '':
             return
         folder = str(fn)
         self.ui.txtFirmwareFolder.setText(folder)
@@ -139,9 +118,9 @@ class DialogPreferences(QtGui.QDialog):
     def btnConfigsBrowse_on_click(self):
         current_folder = \
             self._config.config[self._config.icepap]["configs_folder"]
-        fn = QtGui.QFileDialog.getExistingDirectory(
+        fn = QtWidgets.QFileDialog.getExistingDirectory(
             self, "Open Configs Folder", current_folder)
-        if fn.isEmpty():
+        if fn == '':
             return
         folder = str(fn)
         self.ui.txtConfigsFolder.setText(folder)
@@ -149,9 +128,9 @@ class DialogPreferences(QtGui.QDialog):
     def btnTemplatesBrowse_on_click(self):
         current_folder = \
             self._config.config[self._config.icepap]["templates_folder"]
-        fn = QtGui.QFileDialog.getExistingDirectory(
+        fn = QtWidgets.QFileDialog.getExistingDirectory(
             self, "Open Templates Folder", current_folder)
-        if fn.isEmpty():
+        if fn == '':
             return
         folder = str(fn)
         self.ui.txtTemplatesFolder.setText(folder)
@@ -268,3 +247,12 @@ class DialogPreferences(QtGui.QDialog):
         except BaseException:
             print("Unexpected error:", sys.exc_info()[1])
             return False
+
+
+if __name__ == '__main__':
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+
+    w = DialogPreferences(None)
+    w.show()
+    sys.exit(app.exec_())
