@@ -11,16 +11,19 @@
 # -----------------------------------------------------------------------------
 
 
-from PyQt4 import QtCore, QtGui
-from .ui_dialognewdriver import Ui_DialogNewDriver
+from PyQt5 import QtWidgets, uic
+from pkg_resources import resource_filename
 
 
-class DialogNewDriver(QtGui.QDialog):
+class DialogNewDriver(QtWidgets.QDialog):
     def __init__(self, parent, more_info, expertFlag):
-        QtGui.QDialog.__init__(self, parent)
-        self.ui = Ui_DialogNewDriver()
+        QtWidgets.QDialog.__init__(self, parent)
+        ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
+                                        'dialognewdriver.ui')
+        self.ui = self
+        uic.loadUi(ui_filename, baseinstance=self.ui)
+
         self.modal = True
-        self.ui.setupUi(self)
         self.more_info = more_info
         self.expertFlag = expertFlag
         self.ui.btnCancel.setDefault(True)
@@ -32,22 +35,10 @@ class DialogNewDriver(QtGui.QDialog):
         self.connectSignals()
 
     def connectSignals(self):
-        QtCore.QObject.connect(
-            self.ui.btnUseDefaults,
-            QtCore.SIGNAL("pressed()"),
-            self.btnUseDefaults_clicked)
-        QtCore.QObject.connect(
-            self.ui.btnUseDriver,
-            QtCore.SIGNAL("pressed()"),
-            self.btnUseDriver_clicked)
-        QtCore.QObject.connect(
-            self.ui.btnCancel,
-            QtCore.SIGNAL("pressed()"),
-            self.btnCancel_clicked)
-        QtCore.QObject.connect(
-            self.ui.btnMoreInfo,
-            QtCore.SIGNAL("pressed()"),
-            self.btnMoreInfo_clicked)
+        self.ui.btnUseDefaults.clicked.connect(self.btnUseDefaults_clicked)
+        self.ui.btnUseDriver.clicked.connect(self.btnUseDriver_clicked)
+        self.ui.btnCancel.clicked.connect(self.btnCancel_clicked)
+        self.ui.btnMoreInfo.clicked.connect(self.btnMoreInfo_clicked)
 
     def btnUseDefaults_clicked(self):
         self.user_result = "DEFAULT"
@@ -66,3 +57,12 @@ class DialogNewDriver(QtGui.QDialog):
 
     def result(self):
         return self.user_result
+
+
+if __name__ == '__main__':
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    d = QtWidgets.QWidget()
+    w = DialogNewDriver(None, d, expertFlag=True)
+    w.show()
+    sys.exit(app.exec_())
