@@ -12,7 +12,7 @@
 
 
 from PyQt4 import QtCore, QtGui
-from ui_dialognewdriver import Ui_DialogNewDriver
+from .ui_dialognewdriver import Ui_DialogNewDriver
 from ..lib_icepapcms import MainManager
 
 class DialogNewDriver(QtGui.QDialog):
