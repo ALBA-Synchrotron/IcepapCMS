@@ -12,9 +12,9 @@
 
 
 from PyQt4 import QtCore, QtGui
-from ui_dialogpreferences import Ui_DialogPreferences
+from .ui_dialogpreferences import Ui_DialogPreferences
 from ..lib_icepapcms import ConfigManager
-from messagedialogs import MessageDialogs
+from .messagedialogs import MessageDialogs
 from qrc_icepapcms import *
 import sys
 
@@ -229,7 +229,7 @@ class DialogPreferences(QtGui.QDialog):
             
             return True
         except:
-            print "Unexpected error:", sys.exc_info()[1]
+            print("Unexpected error:", sys.exc_info()[1])
             return False
             
             
