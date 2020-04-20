@@ -11,9 +11,9 @@
 # -----------------------------------------------------------------------------
 
 
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtGui
 from ..lib_icepapcms import Conflict
-from pyIcePAP import Mode
+from icepap import Mode
 
 
 class IcepapTreeModel(QtCore.QAbstractItemModel):
@@ -218,6 +218,7 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
         if index is not None:
             modelitem = self.item(index)
             modelitem.role = role
+            # TODO investigate the way to implement it
             self.emit(
                 QtCore.SIGNAL(
                     'dataChanged(const QModelIndex &, const QModelIndex &)'),
