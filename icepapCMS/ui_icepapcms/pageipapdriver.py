@@ -1,17 +1,24 @@
 #!/usr/bin/env python
 
-# ------------------------------------------------------------------------------
-# This file is part of icepapCMS (https://github.com/ALBA-Synchrotron/icepapcms)
+# -----------------------------------------------------------------------------
+# This file is part of icepapCMS https://github.com/ALBA-Synchrotron/icepapcms
 #
 # Copyright 2008-2018 CELLS / ALBA Synchrotron, Bellaterra, Spain
 #
 # Distributed under the terms of the GNU General Public License,
 # either version 3 of the License, or (at your option) any later version.
 # See LICENSE.txt for more info.
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 
 from PyQt4 import QtCore, QtGui, Qt
+import sys
+import os
+import datetime
+import tempfile
+from icepap import State, Mode
+from xml.dom import minidom, Node
+from xml.dom.minidom import getDOMImplementation
 from .ui_pageipapdriver import Ui_PageiPapDriver
 from .ui_axis import Ui_axis
 from .ui_motor import Ui_motor
@@ -19,39 +26,30 @@ from .ui_encoders import Ui_encoders
 from .ui_closedloop import Ui_closedloop
 from .ui_homing import Ui_homing
 from .ui_io import Ui_io
-
-from qrc_icepapcms import *
-from xml.dom import minidom, Node
-from xml.dom.minidom import getDOMImplementation
 from .Led import Led
-from ..lib_icepapcms import *
+from ..lib_icepapcms import MainManager, IcepapController, ConfigManager, \
+    StormManager
 from .messagedialogs import MessageDialogs
-#from dialogtemplate import DialogTemplate
-import sys
-import os
-from .qvalidatelineedit import QValidateLineEdit
-import time
-import datetime
-import tempfile
-from .historiccfgwidget import HistoricCfgWidget
-from pyIcePAP import State, Mode
+
 
 class PageiPapDriver(QtGui.QWidget):
-    """ Widget that manages all the information related to an icepap driver. Configuration, testing and historic configurations """
-    
+    """
+    Widget that manages all the information related to an
+    icepap driver. Configuration, testing and historic configurations
+    """
+
     def __init__(self, mainwin):
         QtGui.QWidget.__init__(self, None)
         self._mainwin = mainwin
         self.ui = Ui_PageiPapDriver()
         self.ui.setupUi(self)
 
-
         self.signalMapper = QtCore.QSignalMapper(self)
 
         self.axis = Ui_axis()
         axis_frame = QtGui.QFrame()
         self.axis.setupUi(axis_frame)
-        
+
         self.motor = Ui_motor()
         motor_frame = QtGui.QFrame()
         self.motor.setupUi(motor_frame)
@@ -74,21 +72,28 @@ class PageiPapDriver(QtGui.QWidget):
 
         self.param_to_widgets = {}
         self.ui_widgets = []
-        
+
         self.param_to_unknown_widgets = {}
 
-        self.tab_frames = [axis_frame,motor_frame,encoders_frame,closedloop_frame,homing_frame,io_frame]
-        self.tab_labels = ["Axis","Motor","Encoders","Closed loop","Homing","I/O"]
+        self.tab_frames = [
+            axis_frame,
+            motor_frame,
+            encoders_frame,
+            closedloop_frame,
+            homing_frame,
+            io_frame]
+        self.tab_labels = ["Axis", "Motor", "Encoders", "Closed loop",
+                           "Homing", "I/O"]
 
         for index in range(len(self.tab_labels)):
             widget = self.tab_frames[index]
             label = self.tab_labels[index]
-            self.ui.tabWidget.insertTab(index,widget,label)
-
+            self.ui.tabWidget.insertTab(index, widget, label)
 
         for index in range(self.ui.tabWidget.count()):
             page_widget = self.ui.tabWidget.widget(index)
-            for widget in page_widget.findChildren(QtGui.QWidget,QtCore.QRegExp('^cfg|^cmd|^txt|^chk')):
+            for widget in page_widget.findChildren(
+                    QtGui.QWidget, QtCore.QRegExp('^cfg|^cmd|^txt|^chk')):
                 widget_name = str(widget.objectName())
                 param_name = str(widget_name[3:])
                 if param_name in self.param_to_widgets:
@@ -102,26 +107,26 @@ class PageiPapDriver(QtGui.QWidget):
                 self.ui_widgets.append(widget)
                 self._connectWidgetToSignalMap(widget)
 
-        # WE CREATE THE UNKNOWN_TAB FOR NEW_PARAMETERS THE APPLICATION DOES NOT KNOW
-        self.unknown_tab, self.unknown_table_widget = self.createTableWidget(["Name", "Value", "New Value"])
+        # WE CREATE THE UNKNOWN_TAB FOR NEW_PARAMETERS THE APPLICATION DOES NOT
+        # KNOW
+        self.unknown_tab, self.unknown_table_widget = self.createTableWidget(
+            ["Name", "Value", "New Value"])
         self.lastTabSelected = 0
 
         self.widgets_modified = []
         # THIS LIST SHOULD BE POPULATED WITH DRIVERS BUT IT IS NOT SUFFICIENT
         # BECAUSE THE __cmp__ METHOD OF THE ICEPAPDRIVER SETS CONFLICTS AND WE
-        # JUST WANT TO SEARCH, INSTEAD OF THE DRIVER OBJECT IT WILL BE POPULATED
-        # BY THE KEY COMPOSED BY: ICEPAP_SYSTEM + "_" + DRIVER_ADDR
+        # JUST WANT TO SEARCH, INSTEAD OF THE DRIVER OBJECT IT WILL BE
+        # POPULATED BY THE KEY COMPOSED BY: ICEPAP_SYSTEM + "_" + DRIVER_ADDR
         self.saveConfigPending = []
         self.tabs_modified = {}
         self.tabs_configPending = {}
         self.ui.tabWidget.setCurrentIndex(self.lastTabSelected)
-            
 
-        
         self.refreshTimer = Qt.QTimer(self)
         self.sliderTimer = Qt.QTimer(self)
         self.sliderTimer.setInterval(100)
-        
+
         self.signalConnections()
 
         self._setWidgetToolTips()
@@ -140,12 +145,12 @@ class PageiPapDriver(QtGui.QWidget):
         self.ui.sliderJog.setEnabled(False)
 
         # PALETTES TO HIGHLIGHT WIDGETS
-        white_brush = QtGui.QBrush(QtGui.QColor(255,255,255))
-        grey_brush =  QtGui.QBrush(QtGui.QColor(239,235,231))
-        yellow_brush = QtGui.QBrush(QtGui.QColor(255,255,0))
-        salmon_brush = QtGui.QBrush(QtGui.QColor(255,206,162))
-        blue_brush = QtGui.QBrush(QtGui.QColor(135,206,250))
-        
+        white_brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        grey_brush = QtGui.QBrush(QtGui.QColor(239, 235, 231))
+        yellow_brush = QtGui.QBrush(QtGui.QColor(255, 255, 0))
+        salmon_brush = QtGui.QBrush(QtGui.QColor(255, 206, 162))
+        blue_brush = QtGui.QBrush(QtGui.QColor(135, 206, 250))
+
         self.base_white_palette = QtGui.QPalette()
         self.base_yellow_palette = QtGui.QPalette()
         self.base_salmon_palette = QtGui.QPalette()
@@ -154,77 +159,173 @@ class PageiPapDriver(QtGui.QWidget):
         self.button_yellow_palette = QtGui.QPalette()
         self.button_salmon_palette = QtGui.QPalette()
         self.button_blue_palette = QtGui.QPalette()
-        
-        self.base_white_palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Base,white_brush)
-        self.base_white_palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Base,white_brush)
-        self.base_yellow_palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Base,yellow_brush)
-        self.base_yellow_palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Base,yellow_brush)
-        self.base_salmon_palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Base,salmon_brush)
-        self.base_salmon_palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Base,salmon_brush)
 
-        self.button_grey_palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Button,grey_brush)
-        self.button_grey_palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Button,grey_brush)
-        self.button_yellow_palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Button,yellow_brush)
-        self.button_yellow_palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Button,yellow_brush)
-        self.button_salmon_palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Button,salmon_brush)
-        self.button_salmon_palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Button,salmon_brush)
-        self.button_blue_palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Button,blue_brush)
-        self.button_blue_palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Button,blue_brush)
+        self.base_white_palette.setBrush(
+            QtGui.QPalette.Active, QtGui.QPalette.Base, white_brush)
+        self.base_white_palette.setBrush(
+            QtGui.QPalette.Inactive,
+            QtGui.QPalette.Base,
+            white_brush)
+        self.base_yellow_palette.setBrush(
+            QtGui.QPalette.Active, QtGui.QPalette.Base, yellow_brush)
+        self.base_yellow_palette.setBrush(
+            QtGui.QPalette.Inactive,
+            QtGui.QPalette.Base,
+            yellow_brush)
+        self.base_salmon_palette.setBrush(
+            QtGui.QPalette.Active, QtGui.QPalette.Base, salmon_brush)
+        self.base_salmon_palette.setBrush(
+            QtGui.QPalette.Inactive,
+            QtGui.QPalette.Base,
+            salmon_brush)
+
+        self.button_grey_palette.setBrush(
+            QtGui.QPalette.Active, QtGui.QPalette.Button, grey_brush)
+        self.button_grey_palette.setBrush(
+            QtGui.QPalette.Inactive,
+            QtGui.QPalette.Button,
+            grey_brush)
+        self.button_yellow_palette.setBrush(
+            QtGui.QPalette.Active, QtGui.QPalette.Button, yellow_brush)
+        self.button_yellow_palette.setBrush(
+            QtGui.QPalette.Inactive,
+            QtGui.QPalette.Button,
+            yellow_brush)
+        self.button_salmon_palette.setBrush(
+            QtGui.QPalette.Active, QtGui.QPalette.Button, salmon_brush)
+        self.button_salmon_palette.setBrush(
+            QtGui.QPalette.Inactive,
+            QtGui.QPalette.Button,
+            salmon_brush)
+        self.button_blue_palette.setBrush(
+            QtGui.QPalette.Active, QtGui.QPalette.Button, blue_brush)
+        self.button_blue_palette.setBrush(
+            QtGui.QPalette.Inactive,
+            QtGui.QPalette.Button,
+            blue_brush)
 
         # PALETTES TO HIGHLIGHT THE DESCRIPTION QFRAME
-        light_blue_brush = QtGui.QBrush(QtGui.QColor(224,255,255))
+        light_blue_brush = QtGui.QBrush(QtGui.QColor(224, 255, 255))
         self.qframe_lightblue_palette = QtGui.QPalette()
         self.qframe_salmon_palette = QtGui.QPalette()
-        self.qframe_lightblue_palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Window,light_blue_brush)
-        self.qframe_lightblue_palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Window,light_blue_brush)
-        self.qframe_salmon_palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.Window,salmon_brush)
-        self.qframe_salmon_palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.Window,salmon_brush)
-
+        self.qframe_lightblue_palette.setBrush(
+            QtGui.QPalette.Active, QtGui.QPalette.Window, light_blue_brush)
+        self.qframe_lightblue_palette.setBrush(
+            QtGui.QPalette.Inactive,
+            QtGui.QPalette.Window,
+            light_blue_brush)
+        self.qframe_salmon_palette.setBrush(
+            QtGui.QPalette.Active, QtGui.QPalette.Window, salmon_brush)
+        self.qframe_salmon_palette.setBrush(
+            QtGui.QPalette.Inactive,
+            QtGui.QPalette.Window,
+            salmon_brush)
 
         self.dbStartupConfig = None
 
-
-        
     def signalConnections(self):
-        QtCore.QObject.connect(self.ui.btnBlink,QtCore.SIGNAL("pressed()"),self.btnBlink_on_press)
+        QtCore.QObject.connect(
+            self.ui.btnBlink,
+            QtCore.SIGNAL("pressed()"),
+            self.btnBlink_on_press)
 
-        QtCore.QObject.connect(self.ui.tabWidget,QtCore.SIGNAL("currentChanged(int)"),self.tabWidget_currentChanged)
-        QtCore.QObject.connect(self.ui.btnSendCfg,QtCore.SIGNAL("clicked()"),self.btnSendCfg_on_click)
-        QtCore.QObject.connect(self.ui.btnSaveCfg,QtCore.SIGNAL("clicked()"),self.btnSaveCfg_on_click)
+        QtCore.QObject.connect(
+            self.ui.tabWidget,
+            QtCore.SIGNAL("currentChanged(int)"),
+            self.tabWidget_currentChanged)
+        QtCore.QObject.connect(
+            self.ui.btnSendCfg,
+            QtCore.SIGNAL("clicked()"),
+            self.btnSendCfg_on_click)
+        QtCore.QObject.connect(
+            self.ui.btnSaveCfg,
+            QtCore.SIGNAL("clicked()"),
+            self.btnSaveCfg_on_click)
 
-        QtCore.QObject.connect(self.refreshTimer,QtCore.SIGNAL("timeout()"),self.updateTestStatus)
-        QtCore.QObject.connect(self.ui.btnEnable,QtCore.SIGNAL("clicked(bool)"),self.endisDriver)
-        QtCore.QObject.connect(self.ui.txtSpeed,QtCore.SIGNAL("editingFinished()"),self.setMotionValues)
-        QtCore.QObject.connect(self.ui.txtAcceleration,QtCore.SIGNAL("editingFinished()"),self.setMotionValues)
-        QtCore.QObject.connect(self.ui.btnGO,QtCore.SIGNAL("clicked()"),self.btnGO_on_click)
-        QtCore.QObject.connect(self.ui.btnGORelativePos,QtCore.SIGNAL("clicked()"),self.btnGORelativePos_on_click)
-        QtCore.QObject.connect(self.ui.btnGORelativeNeg,QtCore.SIGNAL("clicked()"),self.btnGORelativeNeg_on_click)
-        QtCore.QObject.connect(self.ui.btnStopMotor,QtCore.SIGNAL("clicked()"),self.btnStopMotor_on_click)
+        QtCore.QObject.connect(
+            self.refreshTimer,
+            QtCore.SIGNAL("timeout()"),
+            self.updateTestStatus)
+        QtCore.QObject.connect(
+            self.ui.btnEnable,
+            QtCore.SIGNAL("clicked(bool)"),
+            self.endisDriver)
+        QtCore.QObject.connect(
+            self.ui.txtSpeed,
+            QtCore.SIGNAL("editingFinished()"),
+            self.setMotionValues)
+        QtCore.QObject.connect(
+            self.ui.txtAcceleration,
+            QtCore.SIGNAL("editingFinished()"),
+            self.setMotionValues)
+        QtCore.QObject.connect(
+            self.ui.btnGO,
+            QtCore.SIGNAL("clicked()"),
+            self.btnGO_on_click)
+        QtCore.QObject.connect(
+            self.ui.btnGORelativePos,
+            QtCore.SIGNAL("clicked()"),
+            self.btnGORelativePos_on_click)
+        QtCore.QObject.connect(
+            self.ui.btnGORelativeNeg,
+            QtCore.SIGNAL("clicked()"),
+            self.btnGORelativeNeg_on_click)
+        QtCore.QObject.connect(
+            self.ui.btnStopMotor,
+            QtCore.SIGNAL("clicked()"),
+            self.btnStopMotor_on_click)
 
-        QtCore.QObject.connect(self.ui.btnSetPos,QtCore.SIGNAL("clicked()"),self.setPosition)
-        QtCore.QObject.connect(self.ui.btnSetEnc,QtCore.SIGNAL("clicked()"),self.setEncoder)
+        QtCore.QObject.connect(
+            self.ui.btnSetPos,
+            QtCore.SIGNAL("clicked()"),
+            self.setPosition)
+        QtCore.QObject.connect(
+            self.ui.btnSetEnc,
+            QtCore.SIGNAL("clicked()"),
+            self.setEncoder)
 
+        QtCore.QObject.connect(
+            self.ui.btnUndo,
+            QtCore.SIGNAL("clicked()"),
+            self.btnUndo_on_click)
+        QtCore.QObject.connect(
+            self.ui.btnRestore,
+            QtCore.SIGNAL("clicked()"),
+            self.btnRestore_on_click)
 
+        QtCore.QObject.connect(
+            self.ui.sliderJog,
+            QtCore.SIGNAL("sliderMoved(int)"),
+            self.startJogging)
+        QtCore.QObject.connect(
+            self.ui.sliderJog,
+            QtCore.SIGNAL("valueChanged(int)"),
+            self.sliderChanged)
+        QtCore.QObject.connect(
+            self.ui.sliderJog,
+            QtCore.SIGNAL("sliderReleased()"),
+            self.stopJogging)
+        QtCore.QObject.connect(
+            self.ui.sliderJog,
+            QtCore.SIGNAL("valueChanged(int)"),
+            self.sliderChanged)
 
-        QtCore.QObject.connect(self.ui.btnUndo,QtCore.SIGNAL("clicked()"),self.btnUndo_on_click)
-        QtCore.QObject.connect(self.ui.btnRestore,QtCore.SIGNAL("clicked()"),self.btnRestore_on_click)
+        QtCore.QObject.connect(
+            self.sliderTimer,
+            QtCore.SIGNAL("timeout()"),
+            self.resetSlider)
 
-
-        QtCore.QObject.connect(self.ui.sliderJog,QtCore.SIGNAL("sliderMoved(int)"),self.startJogging)
-        QtCore.QObject.connect(self.ui.sliderJog,QtCore.SIGNAL("valueChanged(int)"),self.sliderChanged)
-        QtCore.QObject.connect(self.ui.sliderJog,QtCore.SIGNAL("sliderReleased()"),self.stopJogging)
-        QtCore.QObject.connect(self.ui.sliderJog,QtCore.SIGNAL("valueChanged(int)"),self.sliderChanged)
-        
-        QtCore.QObject.connect(self.sliderTimer,QtCore.SIGNAL("timeout()"),self.resetSlider)
-
-        QtCore.QObject.connect(self.ui.cmdCSWITCH,QtCore.SIGNAL("currentIndexChanged(QString)"),self.changeSwitchesSetup)
-    
-    
+        QtCore.QObject.connect(
+            self.ui.cmdCSWITCH,
+            QtCore.SIGNAL("currentIndexChanged(QString)"),
+            self.changeSwitchesSetup)
 
     def highlightWidget(self, widget):
-        # AGAIN, COMMAND WIDGETS ARE ONLY CHECKED IN THE QCOMBOBOX ELIF SECTION
-        if not isinstance(widget,QtGui.QWidget):
-            print("THIS WIDGET SHOULD NOT BE INTENDED TO HIGHLIGHT... NOT A QWIDGET",widget.objectName())
+        # AGAIN, COMMAND WIDGETS ARE ONLY CHECKED IN THE QCOMBOBOX
+        # ELIF SECTION
+        if not isinstance(widget, QtGui.QWidget):
+            print("THIS WIDGET SHOULD NOT BE INTENDED TO HIGHLIGHT... "
+                  "NOT A QWIDGET", widget.objectName())
             return
 
         if widget.defaultvalue is None:
@@ -234,7 +335,8 @@ class PageiPapDriver(QtGui.QWidget):
                 # txtNCURR, txtPCLOOP
                 pass
             elif widget_name.count("_") > 0:
-                # IT IS A FLAG OF A FLAGS PARAMETER, SO IT'S PARENT SHOULD BE HIGHLIGHTED
+                # IT IS A FLAG OF A FLAGS PARAMETER, SO IT'S PARENT SHOULD BE
+                # HIGHLIGHTED
                 self.highlightWidget(widget.parent())
             else:
                 pass
@@ -243,12 +345,13 @@ class PageiPapDriver(QtGui.QWidget):
         highlight = False
         sendConfig = False
         saveConfig = False
-        
+
         param = widget.param
         if param == "DriverName":
             param = "IPAPNAME"
 
-        dbvalue = self.dbStartupConfig.getParameter(str(param),in_memory=False)
+        dbvalue = self.dbStartupConfig.getParameter(
+            str(param), in_memory=False)
         if dbvalue is None:
             dbvalue = ""
             # SPECIAL CASE IS THE FLAGS PARAMETER WHICH IS STORED
@@ -257,10 +360,9 @@ class PageiPapDriver(QtGui.QWidget):
         if defvalue is None:
             defvalue = ""
 
-
-
         try:
-            if isinstance(widget, QtGui.QDoubleSpinBox) or isinstance(widget, QtGui.QSpinBox):
+            if isinstance(widget, QtGui.QDoubleSpinBox) or isinstance(
+                    widget, QtGui.QSpinBox):
                 if widget.defaultvalue != wvalue:
                     highlight = True
                     sendConfig = True
@@ -270,7 +372,7 @@ class PageiPapDriver(QtGui.QWidget):
                     widget.setPalette(self.base_salmon_palette)
                 else:
                     widget.setPalette(self.base_white_palette)
-                
+
             elif isinstance(widget, QtGui.QCheckBox):
                 if widget.defaultvalue != wvalue:
                     highlight = True
@@ -281,13 +383,13 @@ class PageiPapDriver(QtGui.QWidget):
                     widget.setPalette(self.base_salmon_palette)
                 else:
                     widget.setPalette(self.base_white_palette)
-            
+
             elif isinstance(widget, QtGui.QComboBox):
                 try:
                     dbvalue = dbvalue
                     wvalue = wvalue
                     defvalue = defvalue
-                    if widget.defaultvalue == None:
+                    if widget.defaultvalue is None:
                         widget.defaultvalue = ""
                     elif defvalue != wvalue:
                         highlight = True
@@ -303,20 +405,21 @@ class PageiPapDriver(QtGui.QWidget):
                         if widget.isCommand:
                             saveConfig = False
                             widget.setPalette(self.button_blue_palette)
-                            
+
                     else:
                         widget.setPalette(self.button_grey_palette)
                 except Exception as e:
-                    print("some exception found trying to highlight a QComboBox!",e)
+                    print("some exception found trying to highlight a "
+                          "QComboBox!", e)
                     print("widget was %s" % widget.objectName())
-            
+
             elif isinstance(widget, QtGui.QLineEdit):
-                if dbvalue == None:
+                if dbvalue is None:
                     dbvalue = ""
                 dbvalue = dbvalue
                 wvalue = wvalue
                 defvalue = defvalue
-                if defvalue == None:
+                if defvalue is None:
                     widget.defaultvalue = ""
                     defvalue = ""
 
@@ -331,34 +434,36 @@ class PageiPapDriver(QtGui.QWidget):
                     widget.setPalette(self.base_white_palette)
 
             elif isinstance(widget, QtGui.QFrame):
-                regexp = QtCore.QRegExp('^'+widget.objectName()+"_")
-                for w in self.ui.tabWidget.findChildren(QtGui.QWidget,regexp):
+                regexp = QtCore.QRegExp('^' + widget.objectName() + "_")
+                for w in self.ui.tabWidget.findChildren(QtGui.QWidget, regexp):
                     w_param_str = str(w.objectName())
                     w_param = "_".join(w_param_str.split("_")[1:])
                     defvalue_count = defvalue.count(w_param)
                     dbvalue_count = dbvalue.count(w_param)
-                    if (w.isChecked() and (defvalue_count == 0)) or (not w.isChecked() and defvalue_count > 0):
+                    if (w.isChecked() and (defvalue_count == 0)) or (
+                            not w.isChecked() and defvalue_count > 0):
                         highlight = True
                         sendConfig = True
                         w.setPalette(self.base_yellow_palette)
-                    elif (w.isChecked() and (dbvalue_count == 0)) or (not w.isChecked() and dbvalue_count > 0):
+                    elif (w.isChecked() and (dbvalue_count == 0)) or \
+                            (not w.isChecked() and dbvalue_count > 0):
                         saveConfig = True
                         w.setPalette(self.base_salmon_palette)
                     else:
                         w.setPalette(self.base_white_palette)
 
-
         except Exception as e:
-            print("Some exception found with param",param,":",e)
-        
+            print("Some exception found with param", param, ":", e)
+
         if highlight:
-            if not widget in self.widgets_modified:
+            if widget not in self.widgets_modified:
                 self.widgets_modified.append(widget)
         else:
             if widget in self.widgets_modified:
                 self.widgets_modified.remove(widget)
 
-        driver_key = self.icepap_driver.icepapsystem_name+"_"+str(self.icepap_driver.addr)
+        driver_key = self.icepap_driver.icepapsystem_name + \
+            "_" + str(self.icepap_driver.addr)
         if saveConfig and driver_key not in self.saveConfigPending:
             self.saveConfigPending.append(driver_key)
 
@@ -396,15 +501,18 @@ class PageiPapDriver(QtGui.QWidget):
         self.ui.btnSendCfg.setEnabled(enable_send)
         self.ui.btnSaveCfg.setEnabled(enable_save)
         self._mainwin.ui.actionSaveConfig.setEnabled(enable_save)
-        
 
     def _connectHighlighting(self):
-        QtCore.QObject.connect(self.signalMapper, QtCore.SIGNAL("mapped(QWidget*)"), self.highlightWidget)
+        QtCore.QObject.connect(
+            self.signalMapper,
+            QtCore.SIGNAL("mapped(QWidget*)"),
+            self.highlightWidget)
 
-    
     def _disconnectHighlighting(self):
-        QtCore.QObject.disconnect(self.signalMapper, QtCore.SIGNAL("mapped(QWidget*)"),self.highlightWidget)
-
+        QtCore.QObject.disconnect(
+            self.signalMapper,
+            QtCore.SIGNAL("mapped(QWidget*)"),
+            self.highlightWidget)
 
     def _setWidgetToolTips(self):
         """ Reads the driverparameters file and sets the tooltips"""
@@ -413,21 +521,22 @@ class PageiPapDriver(QtGui.QWidget):
         FOUND_PARS = []
         NOT_FOUND_PARS = []
         MISSING_TOOLTIPS = []
-        
+
         pathname = os.path.dirname(sys.argv[0])
         path = os.path.abspath(pathname)
-        driverparameters = path+'/templates/driverparameters.xml'
+        driverparameters = path + '/templates/driverparameters.xml'
 
         doc = minidom.parse(driverparameters)
-        root  = doc.documentElement
+        root = doc.documentElement
         for section in root.getElementsByTagName("section"):
             for pars in section.getElementsByTagName("par"):
                 if pars.nodeType == Node.ELEMENT_NODE:
-                    parid =  pars.attributes.get('id').value
+                    parid = pars.attributes.get('id').value
                     parid = parid.strip()
-                    parname =  pars.attributes.get('name').value
+                    parname = pars.attributes.get('name').value
                     parname = parname.strip()
-                    pardesc = self._getText(pars.getElementsByTagName("description")[0].firstChild)
+                    pardesc = self._getText(
+                        pars.getElementsByTagName("description")[0].firstChild)
 
                     # SHOULD I USE pardesc as the tooltip?
                     try:
@@ -439,7 +548,7 @@ class PageiPapDriver(QtGui.QWidget):
                         else:
                             NOT_FOUND_PARS.append(parid)
                     except Exception as e:
-                        print('Exception was',e)
+                        print('Exception was', e)
                 else:
                     print('what is happening?')
 
@@ -449,26 +558,32 @@ class PageiPapDriver(QtGui.QWidget):
             for p in UI_PARS:
                 if p not in FOUND_PARS and p not in NOT_FOUND_PARS:
                     MISSING_TOOLTIPS.append(p)
-            print('\n\nfound:',FOUND_PARS)
-            print('\n\nnot found:',NOT_FOUND_PARS)
-            print('\n\nmissing:',MISSING_TOOLTIPS)
-          
-            
-        
+            print('\n\nfound:', FOUND_PARS)
+            print('\n\nnot found:', NOT_FOUND_PARS)
+            print('\n\nmissing:', MISSING_TOOLTIPS)
 
     def createTableWidget(self, column_names):
         widget = QtGui.QWidget()
         table_widget = QtGui.QTableWidget(widget)
         palette = QtGui.QPalette()
-        brush = QtGui.QBrush(QtGui.QColor(218,224,234))
+        brush = QtGui.QBrush(QtGui.QColor(218, 224, 234))
         brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active,QtGui.QPalette.AlternateBase,brush)
-        brush = QtGui.QBrush(QtGui.QColor(218,224,234))
+        palette.setBrush(
+            QtGui.QPalette.Active,
+            QtGui.QPalette.AlternateBase,
+            brush)
+        brush = QtGui.QBrush(QtGui.QColor(218, 224, 234))
         brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive,QtGui.QPalette.AlternateBase,brush)
-        brush = QtGui.QBrush(QtGui.QColor(218,224,234))
+        palette.setBrush(
+            QtGui.QPalette.Inactive,
+            QtGui.QPalette.AlternateBase,
+            brush)
+        brush = QtGui.QBrush(QtGui.QColor(218, 224, 234))
         brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled,QtGui.QPalette.AlternateBase,brush)
+        palette.setBrush(
+            QtGui.QPalette.Disabled,
+            QtGui.QPalette.AlternateBase,
+            brush)
         palette.setColor(QtGui.QPalette.Text, QtGui.QColor(Qt.Qt.black))
         table_widget.setPalette(palette)
         table_widget.setAlternatingRowColors(True)
@@ -485,7 +600,7 @@ class PageiPapDriver(QtGui.QWidget):
         for i in range(columns):
             item = QtGui.QTableWidgetItem()
             item.setText(column_names[i])
-            table_widget.setHorizontalHeaderItem(i,item)
+            table_widget.setHorizontalHeaderItem(i, item)
 
         vboxlayout = QtGui.QVBoxLayout(widget)
         vboxlayout.setMargin(9)
@@ -495,13 +610,12 @@ class PageiPapDriver(QtGui.QWidget):
 
         return (widget, table_widget)
 
-           
     def _addItemToTable(self, section, row, column, text, editable):
         pass
-        
-    def _addWidgetToTable(self, section, row, column, widget_type, min, max,unknownTab=False):
-        pass
 
+    def _addWidgetToTable(self, section, row, column,
+                          widget_type, min, max, unknownTab=False):
+        pass
 
     def setDescription(self):
         driver = self.icepap_driver
@@ -510,8 +624,10 @@ class PageiPapDriver(QtGui.QWidget):
         desc_cfg_crate = self.icepap_driver.cratenr
         desc_cfg_addr = self.icepap_driver.addr
         desc_cfg_name = self.icepap_driver.name
-        desc_cfg_version = self.icepap_driver.current_cfg.getParameter('VER',True)
-        hwversion = IcepapController().readIcepapParameters(desc_cfg_system, desc_cfg_addr,[['VER','PCB']])
+        desc_cfg_version = self.icepap_driver.current_cfg.getParameter(
+            'VER', True)
+        hwversion = IcepapController().readIcepapParameters(
+            desc_cfg_system, desc_cfg_addr, [['VER', 'PCB']])
         cfg_db = ConfigManager().config["database"]["database"]
         desc_cfg_hwversion = hwversion[0][1]
         desc_cfg_dbhost = ConfigManager().config["database"]["server"]
@@ -532,19 +648,28 @@ class PageiPapDriver(QtGui.QWidget):
                     desc_cfg_host = aux2[1]
                 hex_epoch = aux[1]
                 try:
-                    desc_cfg_date = datetime.datetime.fromtimestamp(int(hex_epoch,16)).ctime()
-                    # AS OF VERSION 1.20, SIGNATURE HAS NOT HEX TIMESTAMP BUT A MORE READABLE ONE
-                except:
-                    desc_cfg_date = datetime.datetime.strptime(aux[1]+'_'+aux[2],'%Y/%m/%d_%H:%M:%S').ctime()
+                    desc_cfg_date = datetime.datetime.fromtimestamp(
+                        int(hex_epoch, 16)).ctime()
+                    # AS OF VERSION 1.20, SIGNATURE HAS NOT HEX TIMESTAMP BUT A
+                    # MORE READABLE ONE
+                except BaseException:
+                    desc_cfg_date = datetime.datetime.strptime(
+                        aux[1] + '_' + aux[2], '%Y/%m/%d_%H:%M:%S').ctime()
 
-            except Exception as e:
-                msg = 'Not standard signature of driver '+str(desc_cfg_addr)+'.\nIt does not match (user@host_DATE).\nValue is:'+str(signature)
-                MessageDialogs.showWarningMessage(self, "Not standard signature", msg)
-        else:            
+            except Exception:
+                msg = 'Not standard signature of driver ' + \
+                    str(desc_cfg_addr) + \
+                    '.\nIt does not match (user@host_DATE).\nValue is:' + \
+                    str(signature)
+                MessageDialogs.showWarningMessage(
+                    self, "Not standard signature", msg)
+        else:
             signature = None
 
         self.ui.dscDriverName.setText(driver.name)
-        self.ui.dscActive.setText(driver.current_cfg.getParameter(str('ACTIVE')))
+        self.ui.dscActive.setText(
+            driver.current_cfg.getParameter(
+                str('ACTIVE')))
         if signature is None:
             self.ui.dscSignature.setText('NO_CONFIG')
         else:
@@ -552,27 +677,44 @@ class PageiPapDriver(QtGui.QWidget):
             html_signature = '<HTML><BODY>'
             html_signature += '<H2>More info:</H2>\n'
             html_signature += '<TABLE>\n'
-            html_signature += '<TR><H2>%s/%s/%s</H2></TR>\n' % (desc_cfg_system,desc_cfg_crate,desc_cfg_addr)
-            html_signature += '<TR><TD> </TD><TD><B>%s</B></TD><TD>%s</TD></TR>\n' % ('Axis name',desc_cfg_name)
-            html_signature += '<TR><TD> </TD><TD><B>%s</B></TD><TD>%s</TD></TR>\n' % ('Firmware version',desc_cfg_version)
-            html_signature += '<TR><TD> </TD><TD><B>%s</B></TD><TD>%s</TD></TR>\n' % ('Hardware version',desc_cfg_hwversion)
-            html_signature += '<TR><TD> </TD><TD><B>%s</B></TD><TD>%s</TD></TR>\n' % ('Database host',desc_cfg_dbhost)
-            html_signature += '<TR><TD> </TD><TD><B>%s</B></TD><TD>%s</TD></TR>\n' % ('Last saved config',desc_cfg_date)
-            html_signature += '<TR><TD> </TD><TD><B>%s</B></TD><TD>%s</TD></TR>\n' % ('User',desc_cfg_user)
-            html_signature += '<TR><TD> </TD><TD><B>%s</B></TD><TD>%s</TD></TR>\n' % ('Host',desc_cfg_host)
-            html_signature += '<TR><TD> </TD><TD><B>%s</B></TD><TD>%s</TD></TR>\n' % ('Raw',signature)
-            html_signature +='</TABLE></BODY></HTML>\n'
+            html_signature += '<TR><H2>%s/%s/%s</H2></TR>\n' % (
+                desc_cfg_system, desc_cfg_crate, desc_cfg_addr)
+            html_signature += \
+                '<TR><TD> </TD><TD><B>%s</B></TD><TD>%s</TD></TR>\n' % (
+                    'Axis name', desc_cfg_name)
+            html_signature += \
+                '<TR><TD> </TD><TD><B>%s</B></TD><TD>%s</TD></TR>\n' % (
+                    'Firmware version', desc_cfg_version)
+            html_signature += \
+                '<TR><TD> </TD><TD><B>%s</B></TD><TD>%s</TD></TR>\n' % (
+                    'Hardware version', desc_cfg_hwversion)
+            html_signature += \
+                '<TR><TD> </TD><TD><B>%s</B></TD><TD>%s</TD></TR>\n' % (
+                    'Database host', desc_cfg_dbhost)
+            html_signature += \
+                '<TR><TD> </TD><TD><B>%s</B></TD><TD>%s</TD></TR>\n' % (
+                    'Last saved config', desc_cfg_date)
+            html_signature += \
+                '<TR><TD> </TD><TD><B>%s</B></TD><TD>%s</TD></TR>\n' % (
+                    'User', desc_cfg_user)
+            html_signature += \
+                '<TR><TD> </TD><TD><B>%s</B></TD><TD>%s</TD></TR>\n' % (
+                    'Host', desc_cfg_host)
+            html_signature += \
+                '<TR><TD> </TD><TD><B>%s</B></TD><TD>%s</TD></TR>\n' % (
+                    'Raw', signature)
+            html_signature += '</TABLE></BODY></HTML>\n'
             self.ui.dscSignature.setToolTip(html_signature)
-
 
         if self.ui.dscActive.text() == 'YES':
             self.ui.frame_description.setPalette(self.qframe_lightblue_palette)
         else:
             self.ui.frame_description.setPalette(self.qframe_salmon_palette)
-    
+
     def fillData(self, icepap_driver):
         """ TO-DO STORM review"""
-        QtGui.QApplication.instance().setOverrideCursor(QtGui.QCursor(QtCore.Qt.WaitCursor))
+        QtGui.QApplication.instance().setOverrideCursor(
+            QtGui.QCursor(QtCore.Qt.WaitCursor))
         self.icepap_driver = icepap_driver
         self._disconnectHighlighting()
 
@@ -580,11 +722,14 @@ class PageiPapDriver(QtGui.QWidget):
         self.tabs_modified = {}
         self.tabs_configPending = {}
 
-        driver_key = self.icepap_driver.icepapsystem_name+"_"+str(self.icepap_driver.addr)
+        driver_key = self.icepap_driver.icepapsystem_name + \
+            "_" + str(self.icepap_driver.addr)
         if driver_key in self.saveConfigPending:
             self.saveConfigPending.remove(driver_key)
-        dbIcepapSystem = StormManager().getIcepapSystem(self.icepap_driver.icepapsystem_name)
-        self.dbStartupConfig = dbIcepapSystem.getDriver(self.icepap_driver.addr,in_memory=False).startup_cfg
+        dbIcepapSystem = StormManager().getIcepapSystem(
+            self.icepap_driver.icepapsystem_name)
+        self.dbStartupConfig = dbIcepapSystem.getDriver(
+            self.icepap_driver.addr, in_memory=False).startup_cfg
         self.icepap_driver.startup_cfg = self.dbStartupConfig
 
         unknownParams = False
@@ -593,33 +738,35 @@ class PageiPapDriver(QtGui.QWidget):
 
         for name, value in icepap_driver.current_cfg.toList():
             if name in self.param_to_widgets:
-                #print "SUCCESS!",name,'->',self.param_to_widgets.get(name)
+                # print "SUCCESS!",name,'->',self.param_to_widgets.get(name)
                 widgets = self.param_to_widgets.get(name)
-                self._setWidgetsValue(widgets,value)
-            elif name in ['IPAPNAME','VER','ID']:
+                self._setWidgetsValue(widgets, value)
+            elif name in ['IPAPNAME', 'VER', 'ID']:
                 # THESE PARAMS DO NOT COME FROM THE FIRMWARE
                 # HARDCODED DRIVER NAME
                 if name == 'IPAPNAME':
-                    self._setWidgetsValue(self.param_to_widgets.get('DriverName'), value)
+                    self._setWidgetsValue(
+                        self.param_to_widgets.get('DriverName'), value)
                     self.icepap_driver.setName(value)
                     # WE SHOULD GET THE TREE NODE AND UPDATE IT'S LABEL
-                    ## WE SHOULD ALSO SET THE DRIVER NAME
+                    # WE SHOULD ALSO SET THE DRIVER NAME
                     modelindex = self._mainwin.ui.treeView.currentIndex()
                     drivernode = self._mainwin._tree_model.item(modelindex)
-                    label = str(self.icepap_driver.addr)+" "+self.icepap_driver.name
+                    label = str(self.icepap_driver.addr) + \
+                        " " + self.icepap_driver.name
                     if drivernode is not None:
                         drivernode.changeLabel([label])
             else:
                 unknownParams = True
                 self.addUnknownWidget(name, value)
 
-
         unknown_index = self.ui.tabWidget.indexOf(self.unknown_tab)
 
         if unknownParams:
             if unknown_index == -1:
                 unknown_index = self.ui.tabWidget.count()
-                self.ui.tabWidget.insertTab(unknown_index, self.unknown_tab, "Unknown")
+                self.ui.tabWidget.insertTab(
+                    unknown_index, self.unknown_tab, "Unknown")
         elif unknown_index != -1:
             self.ui.tabWidget.removeTab(unknown_index)
 
@@ -638,26 +785,30 @@ class PageiPapDriver(QtGui.QWidget):
         # It may happen that the driver is in PROG MODE
 
         # NOT VALID ANY MORE (SINCE VERSION 1.23 ONLY IN CONFIG IF NECESSARY
-        #mode = self._manager.startConfiguringDriver(self.icepap_driver)
+        # mode = self._manager.startConfiguringDriver(self.icepap_driver)
         mode = self.icepap_driver.mode
         if mode != Mode.PROG:
             self.ui.tabWidget.setEnabled(True)
         else:
             # MAY BE ALSO GOOD FOR THE SHUTTER MODE
-            MessageDialogs.showErrorMessage(None,'Start configuring driver','It is not possible to configure the driver\nwhile it is in mode PROG.')
+            MessageDialogs.showErrorMessage(
+                None,
+                'Start configuring driver',
+                'It is not possible to configure the driver\n'
+                'while it is in mode PROG.')
             self.ui.tabWidget.setEnabled(False)
         QtGui.QApplication.instance().restoreOverrideCursor()
 
-
-
     def addUnknownWidget(self, param_name, param_value):
-        cfginfo = IcepapController().icepap_cfginfos[self.icepap_driver.icepapsystem_name][self.icepap_driver.addr].get(param_name)
+        # TODO Review this code
+        cfginfo = IcepapController().icepap_cfginfos[
+            self.icepap_driver.icepapsystem_name][
+            self.icepap_driver.addr].get(param_name)
 
-        if cfginfo != None:
+        if cfginfo is not None:
             row = self.unknown_table_widget.rowCount()
             self.unknown_table_widget.insertRow(row)
-            
-            param_desc = ""
+
             widget = None
             if len(cfginfo) > 0:
                 if "INTEGER" == cfginfo[0]:
@@ -672,9 +823,9 @@ class PageiPapDriver(QtGui.QWidget):
                     param_tooltip = "FLAGS:"
                     for flag in cfginfo:
                         # MORE EFFORT THAN NEEDED BUT...
-                        flag.replace("[","")
-                        flag.replace("]","")
-                        param_tooltip += " "+flag
+                        flag.replace("[", "")
+                        flag.replace("]", "")
+                        param_tooltip += " " + flag
                     widget = QtGui.QLineEdit()
                     widget.setToolTip(param_tooltip)
                 elif cfginfo[0].startswith("STRING"):
@@ -686,8 +837,7 @@ class PageiPapDriver(QtGui.QWidget):
                     param_tooltip = str(cfginfo)
                     widget.setToolTip(param_tooltip)
 
-
-            if widget != None:
+            if widget is not None:
                 widget.param = param_name
                 widget.isCommand = False
                 widget.tab_index = self.ui.tabWidget.indexOf(self.unknown_tab)
@@ -699,46 +849,65 @@ class PageiPapDriver(QtGui.QWidget):
                 value_item.setText(str(param_value))
                 value_item.setFlags(Qt.Qt.ItemIsSelectable)
                 self.unknown_table_widget.setItem(row, 1, value_item)
-        
+
                 self.unknown_table_widget.setCellWidget(row, 2, widget)
 
                 self.param_to_unknown_widgets[param_name] = widget
 
-                self._setWidgetsValue([widget],param_value)
-                
+                self._setWidgetsValue([widget], param_value)
+
                 self._connectWidgetToSignalMap(widget)
 
-
-        
     def checkSaveConfigPending(self):
         # THIS METHOD IS CALLED WHEN THE USER WANTED TO
         if self.icepap_driver is not None:
-            driver_key = self.icepap_driver.icepapsystem_name+"_"+str(self.icepap_driver.addr)
+            driver_key = self.icepap_driver.icepapsystem_name + \
+                "_" + str(self.icepap_driver.addr)
             if driver_key in self.saveConfigPending:
-                # IT SHOULD STILL BE EN CONFIG MODE BECAUSE SOME VALUES MISMATCH FROM DATABASE
+                # IT SHOULD STILL BE EN CONFIG MODE BECAUSE SOME VALUES
+                # MISMATCH FROM DATABASE
                 return True
             else:
                 self._manager.endConfiguringDriver(self.icepap_driver)
                 return False
-    
+
     def _connectWidgetToSignalMap(self, widget):
         self.signalMapper.setMapping(widget, widget)
-        if isinstance(widget, QtGui.QDoubleSpinBox) or isinstance(widget, QtGui.QSpinBox):
-            QtCore.QObject.connect(widget, QtCore.SIGNAL("valueChanged (const QString&)"), self.signalMapper, QtCore.SLOT("map()"))
+        if isinstance(widget, QtGui.QDoubleSpinBox) or isinstance(
+                widget, QtGui.QSpinBox):
+            QtCore.QObject.connect(
+                widget,
+                QtCore.SIGNAL("valueChanged (const QString&)"),
+                self.signalMapper,
+                QtCore.SLOT("map()"))
         elif isinstance(widget, QtGui.QCheckBox):
-            QtCore.QObject.connect(widget, QtCore.SIGNAL("stateChanged(int)"), self.signalMapper, QtCore.SLOT("map()"))
+            QtCore.QObject.connect(
+                widget,
+                QtCore.SIGNAL("stateChanged(int)"),
+                self.signalMapper,
+                QtCore.SLOT("map()"))
         elif isinstance(widget, QtGui.QComboBox):
-            QtCore.QObject.connect(widget, QtCore.SIGNAL("currentIndexChanged(const QString&)"), self.signalMapper, QtCore.SLOT("map()"))
+            QtCore.QObject.connect(
+                widget,
+                QtCore.SIGNAL("currentIndexChanged(const QString&)"),
+                self.signalMapper,
+                QtCore.SLOT("map()"))
         elif isinstance(widget, QtGui.QLineEdit):
-            QtCore.QObject.connect(widget, QtCore.SIGNAL("textChanged(const QString&)"), self.signalMapper, QtCore.SLOT("map()"))
-    
-    def _setWidgetsValue(self, widgets, value, set_default = True):
-        ### THE CMD WIDGETS RIGHT NOW ARE ONLY QCOMBOBOXES SO THE SPECIAL CODE IS JUST IN THAT ELIF SECTION
+            QtCore.QObject.connect(
+                widget,
+                QtCore.SIGNAL("textChanged(const QString&)"),
+                self.signalMapper,
+                QtCore.SLOT("map()"))
+
+    def _setWidgetsValue(self, widgets, value, set_default=True):
+        # THE CMD WIDGETS RIGHT NOW ARE ONLY QCOMBOBOXES SO THE SPECIAL CODE IS
+        # JUST IN THAT ELIF SECTION
         for widget in widgets:
             try:
                 system_name = self.icepap_driver.icepapsystem_name
                 driver_addr = self.icepap_driver.addr
-                if isinstance(widget, QtGui.QDoubleSpinBox) or isinstance(widget, QtGui.QSpinBox):
+                if isinstance(widget, QtGui.QDoubleSpinBox) or isinstance(
+                        widget, QtGui.QSpinBox):
                     widget.setValue(float(value))
                     if set_default:
                         widget.defaultvalue = widget.value()
@@ -751,61 +920,74 @@ class PageiPapDriver(QtGui.QWidget):
                     widget.clear()
                     param = widget.param
                     controller = IcepapController()
-                    driver_cfginfo = controller.icepap_cfginfos[system_name][driver_addr]
+                    driver_cfginfo = \
+                        controller.icepap_cfginfos[system_name][driver_addr]
                     options = driver_cfginfo.get(param)
-                    if options != None:
+                    if options is not None:
                         for option in options:
                             widget.addItem(QtCore.QString(option))
-                        # 20130412 IT SEEMS THAT INDEXER COMMAND SHOULD HAVE ALSO LINKED
-                        #          AS AN OPTION, BUT IT IS NOT PROVIDED BY CFGINFO...
-                        #          I WILL ADD IT MANUALLY BUT IT MAY BE REMOVED LATER
+                        # 20130412 IT SEEMS THAT INDEXER COMMAND SHOULD HAVE
+                        #          ALSO LINKED AS AN OPTION, BUT IT IS NOT
+                        #          PROVIDED BY CFGINFO... I WILL ADD IT
+                        #          MANUALLY BUT IT MAY BE REMOVED LATER
                         # 20140219 IT SEEMS _NOW_ THAT IS NOT NEEDED ANY MORE
-                        #widget.addItem('LINKED')
+                        # widget.addItem('LINKED')
 
                     # SPECIAL CASE TO THE TEST WIDGETS
                     if widget.isCommand:
-                        if controller.getDriverActiveStatus(system_name,driver_addr) == "NO":
+                        if controller.getDriverActiveStatus(
+                                system_name, driver_addr) == "NO":
                             widget.setEnabled(False)
                         else:
                             widget.setEnabled(True)
-                            # SHOULD RETRIEVE THE VALUE FROM THE DRIVER'S COMMAND
+                            # SHOULD RETRIEVE THE VALUE FROM THE DRIVER'S
+                            # COMMAND
                             if param == 'AUXPS':
-                                ## THIS VALUE DOES NOT COME IN THE CONFIGURATION
+                                # THIS VALUE DOES NOT COME IN THE CONFIGURATION
                                 pass
                             elif param == 'CSWITCH':
-                                ## THIS VALUE DOES NOT COME NEITHER IN THE CONFIGUARTION
+                                # THIS VALUE DOES NOT COME NEITHER IN THE
+                                # CONFIGUARTION
                                 print('eo....cswitch')
                                 pass
                             elif param == 'INDEXER':
-                                values = controller.readIcepapParameters(system_name, driver_addr,['INDEXER'])
+                                values = controller.readIcepapParameters(
+                                    system_name, driver_addr, ['INDEXER'])
                                 indexer_answer = values[0]
                                 value = indexer_answer[1]
-                                # 20140219 IT SEEMS _NOW_ THAT LINKED IS STILL NEEDED
+                                # 20140219 IT SEEMS _NOW_ THAT LINKED IS STILL
+                                # NEEDED
                                 widget.addItem('LINKED')
                                 widget.setEnabled(False)
                             elif param.startswith('INFOA'):
-                                values = controller.readIcepapParameters(system_name, driver_addr,['INFOA'])
+                                values = controller.readIcepapParameters(
+                                    system_name, driver_addr, ['INFOA'])
                                 infoa_values = values[0][1].split()
                                 if param.endswith('SRC'):
                                     value = infoa_values[0]
                                 else:
                                     value = infoa_values[1]
                             elif param.startswith('INFOB'):
-                                values = controller.readIcepapParameters(system_name, driver_addr,['INFOB'])
+                                values = controller.readIcepapParameters(
+                                    system_name, driver_addr, ['INFOB'])
                                 infob_values = values[0][1].split()
                                 if param.endswith('SRC'):
                                     value = infob_values[0]
                                 else:
                                     value = infob_values[1]
                             elif param.startswith('INFOC'):
-                                values = controller.readIcepapParameters(system_name, driver_addr,['INFOC'])
+                                values = controller.readIcepapParameters(
+                                    system_name, driver_addr, ['INFOC'])
                                 infoc_values = values[0][1].split()
                                 if param.endswith('SRC'):
                                     value = infoc_values[0]
                                 else:
                                     value = infoc_values[1]
-                    
-                    widget.setCurrentIndex(widget.findText(str(value), QtCore.Qt.MatchFixedString))
+
+                    widget.setCurrentIndex(
+                        widget.findText(
+                            str(value),
+                            QtCore.Qt.MatchFixedString))
                     if set_default:
                         widget.defaultvalue = str(value)
                 elif isinstance(widget, QtGui.QLineEdit):
@@ -818,8 +1000,9 @@ class PageiPapDriver(QtGui.QWidget):
                     # WE NOW HAVE TO ITERATE THROUGOUT ALL THE CHECKBOXES:
                     if set_default:
                         widget.defaultvalue = value
-                    regexp = QtCore.QRegExp('^'+widget.objectName()+"_")
-                    for w in self.ui.tabWidget.findChildren(QtGui.QWidget,regexp):
+                    regexp = QtCore.QRegExp('^' + widget.objectName() + "_")
+                    for w in self.ui.tabWidget.findChildren(
+                            QtGui.QWidget, regexp):
                         w_param = w.objectName().split("_")[1]
                         checked = False
                         if w_param in value:
@@ -828,14 +1011,13 @@ class PageiPapDriver(QtGui.QWidget):
 
                 self.highlightWidget(widget)
             except Exception as e:
-                print("_setWidgetValue():", sys.exc_info() , " " , value)
-                print("Some exception setting value",e)
+                print("_setWidgetValue():", sys.exc_info(), " ", value)
+                print("Some exception setting value", e)
 
-
-        
     def _getWidgetValue(self, widget):
         try:
-            if isinstance(widget, QtGui.QDoubleSpinBox) or isinstance(widget, QtGui.QSpinBox):
+            if isinstance(widget, QtGui.QDoubleSpinBox) or isinstance(
+                    widget, QtGui.QSpinBox):
                 return widget.value()
             elif isinstance(widget, QtGui.QCheckBox):
                 if widget.isChecked():
@@ -845,45 +1027,44 @@ class PageiPapDriver(QtGui.QWidget):
             elif isinstance(widget, QtGui.QComboBox):
                 return str(widget.currentText())
             elif isinstance(widget, QtGui.QLineEdit):
-                #return str(widget.text()).upper()
+                # return str(widget.text()).upper()
                 # FIX NON-ASCII ISSUES:
                 text = str(widget.text())
                 if not all(ord(c) < 128 for c in text):
                     text = repr(text)
                 return text
             elif isinstance(widget, QtGui.QFrame):
-                regexp = QtCore.QRegExp('^'+widget.objectName()+"_")
+                regexp = QtCore.QRegExp('^' + widget.objectName() + "_")
                 flags_value = []
-                for w in self.ui.tabWidget.findChildren(QtGui.QWidget,regexp):
+                for w in self.ui.tabWidget.findChildren(QtGui.QWidget, regexp):
                     w_param_str = str(w.objectName())
                     w_param = "_".join(w_param_str.split("_")[1:])
                     if w.isChecked():
                         flags_value.append(w_param)
                 return ' '.join(flags_value)
         except Exception as e:
-            print("error in _getWidgetValue",e)
-        
-    
+            print("error in _getWidgetValue", e)
+
     def addNewCfg(self, cfg):
-        QtGui.QApplication.instance().setOverrideCursor(QtGui.QCursor(QtCore.Qt.WaitCursor))
+        QtGui.QApplication.instance().setOverrideCursor(
+            QtGui.QCursor(QtCore.Qt.WaitCursor))
         for name, value in cfg.toList():
             if name in self.param_to_widgets:
                 widgets = self.param_to_widgets.get(name)
                 self._setWidgetsValue(widgets, value, set_default=False)
             elif name == 'IPAPNAME':
-                self._setWidgetsValue(self.param_to_widgets.get('DriverName'), value, set_default=False)
+                self._setWidgetsValue(self.param_to_widgets.get(
+                    'DriverName'), value, set_default=False)
         self.highlightTabs()
         QtGui.QApplication.instance().restoreOverrideCursor()
-        
 
     def _getText(self, node):
         rc = ""
-        if node != None:
-                rc = str(node.data)
-        return rc              
-    
+        if node is not None:
+            rc = str(node.data)
+        return rc
 
-    def tabWidget_currentChanged(self,index):
+    def tabWidget_currentChanged(self, index):
         self.lastTabSelected = index
         self.highlightTabs()
 
@@ -891,12 +1072,13 @@ class PageiPapDriver(QtGui.QWidget):
         tab_bar = self.ui.tabWidget.tabBar()
         for index in range(self.ui.tabWidget.count()):
             if index in self.tabs_modified:
-                tab_bar.setTabIcon(index, QtGui.QIcon(":/icons/icons/ipapdrivermodified.png"))
+                tab_bar.setTabIcon(index, QtGui.QIcon(
+                    ":/icons/icons/ipapdrivermodified.png"))
             elif index in self.tabs_configPending:
-                tab_bar.setTabIcon(index, QtGui.QIcon(":/icons/icons/ipapdrivercfg.png"))
+                tab_bar.setTabIcon(index, QtGui.QIcon(
+                    ":/icons/icons/ipapdrivercfg.png"))
             else:
                 tab_bar.setTabIcon(index, QtGui.QIcon(""))
-
 
     def btnSendCfg_on_click(self, skip_fillData=False):
         if len(self.widgets_modified) == 0:
@@ -906,8 +1088,8 @@ class PageiPapDriver(QtGui.QWidget):
         new_values = []
         new_command_values = []
         for widget in self.widgets_modified:
-            # SPECIAL CASE TO THE DRIVER NAME THAT IS NOT A CONFIG PARAMETER BUT
-            # IT IS TREATED AS SO, IT IS A COMMAND 'NAME' BUT IT IS STORED
+            # SPECIAL CASE TO THE DRIVER NAME THAT IS NOT A CONFIG PARAMETER
+            # BUT IT IS TREATED AS SO, IT IS A COMMAND 'NAME' BUT IT IS STORED
             # IN THE DATABASE AS A CONFIGURATION PARAMETER
             param = widget.param
             value = self._getWidgetValue(widget)
@@ -917,8 +1099,9 @@ class PageiPapDriver(QtGui.QWidget):
                 new_values.append([param, value])
             else:
                 # SINCE THE COMMAND PARAMS ARE NOT THE SAME AS THE CFG PARAMS
-                # WE NEED A WORK-AROUND HERE AND FOR INFO COMMANDS ALWAYS PROVIDE SRC AND POL
-                # IF BOTH SRC AND POL ARE MODIFIED, WE WILL SENT TWICE THE COMMAND PAIR
+                # WE NEED A WORK-AROUND HERE AND FOR INFO COMMANDS ALWAYS
+                # PROVIDE SRC AND POL IF BOTH SRC AND POL ARE MODIFIED,
+                # WE WILL SENT TWICE THE COMMAND PAIR
                 if widget.param.startswith('INFOA'):
                     param = 'INFOA'
                     src_value = None
@@ -953,110 +1136,125 @@ class PageiPapDriver(QtGui.QWidget):
                             pol_value = self._getWidgetValue(w)
                     value = src_value + " " + pol_value
                 else:
-                    #THIS IS ANOTHER cmd that should be passed...
+                    # THIS IS ANOTHER cmd that should be passed...
                     # AND BY DEFAULT DESIGN, param and value should be unique.
                     pass
                 new_command_values.append([param, value])
 
-
         if len(new_values) > 0:
             setExpertFlag = self._mainwin.ui.actionSetExpertFlag.isChecked()
-            send_ok = self._manager.saveValuesInIcepap(self.icepap_driver, new_values, expertFlag = setExpertFlag)
+            send_ok = self._manager.saveValuesInIcepap(
+                self.icepap_driver, new_values, expertFlag=setExpertFlag)
             if not send_ok:
-                MessageDialogs.showWarningMessage(self, "Driver configuration", "Wrong parameter format")
+                MessageDialogs.showWarningMessage(
+                    self, "Driver configuration", "Wrong parameter format")
                 return False
 
         if len(new_command_values) > 0:
-            self._manager.writeIcepapParameters(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, new_command_values)
+            self._manager.writeIcepapParameters(
+                self.icepap_driver.icepapsystem_name,
+                self.icepap_driver.addr,
+                new_command_values)
 
         if not skip_fillData:
             self.fillData(self.icepap_driver)
-        
+
         if self.icepap_driver.hasUndoList():
             self.ui.btnUndo.setEnabled(True)
         else:
             self.ui.btnUndo.setEnabled(False)
         return True
-        
 
     def btnSaveCfg_on_click(self):
         save_ok = True
         if len(self.widgets_modified) > 0:
             save_ok = self.btnSendCfg_on_click(skip_fillData=True)
         if not save_ok:
-            MessageDialogs.showWarningMessage(self, "Driver configuration", "Problems found saving the configuration")
+            MessageDialogs.showWarningMessage(
+                self, "Driver configuration",
+                "Problems found saving the configuration")
             return
         self._mainwin.actionSaveConfig()
-        
+
     def btnUndo_on_click(self):
         self._manager.undoDriverConfiguration(self.icepap_driver)
         self.fillData(self.icepap_driver)
         if not self.icepap_driver.hasUndoList():
             self.ui.btnUndo.setEnabled(False)
-    
+
     def btnRestore_on_click(self):
         self.fillData(self.icepap_driver)
-        
+
     def doImport(self):
         try:
             folder = ConfigManager().config["icepap"]["configs_folder"]
-            fn = QtGui.QFileDialog.getOpenFileName(self,"Open Config File",QtCore.QString(folder),QtCore.QString("*.xml"))
+            fn = QtGui.QFileDialog.getOpenFileName(
+                self, "Open Config File", QtCore.QString(folder),
+                QtCore.QString("*.xml"))
             if fn.isEmpty():
                 return
             filename = str(fn)
             self.fillFileData(filename)
         except Exception as e:
-            MessageDialogs.showWarningMessage(self, "File", "Error reading file\n")
-            print("exception: "+str(e))
-    
+            MessageDialogs.showWarningMessage(
+                self, "File", "Error reading file\n")
+            print("exception: " + str(e))
+
     def fillFileData(self, filename):
-        QtGui.QApplication.instance().setOverrideCursor(QtGui.QCursor(QtCore.Qt.WaitCursor))
+        QtGui.QApplication.instance().setOverrideCursor(
+            QtGui.QCursor(QtCore.Qt.WaitCursor))
         self._disconnectHighlighting()
         doc = minidom.parse(filename)
-        root  = doc.documentElement
         for param_element in doc.getElementsByTagName("par"):
-            param_name =  param_element.attributes.get('name').value
+            param_name = param_element.attributes.get('name').value
             param_name = param_name.strip()
-            param_value =  param_element.attributes.get('value').value
+            param_value = param_element.attributes.get('value').value
             param_value = param_value.strip()
             if param_name in self.param_to_widgets:
                 widgets = self.param_to_widgets.get(param_name)
                 self._setWidgetsValue(widgets, param_value, set_default=False)
             elif param_name == 'IPAPNAME':
-                self._setWidgetsValue(self.param_to_widgets.get('DriverName'), param_value, set_default=False)
-            elif param_name in ['ID','VER']:
+                self._setWidgetsValue(self.param_to_widgets.get(
+                    'DriverName'), param_value, set_default=False)
+            elif param_name in ['ID', 'VER']:
                 pass
             else:
-                # SINCE UNKNOWN WIDGETS ARE CREATED EVERY TIME, ANOTHER DICT HAS TO BE AVAILABLE FOR THEM
+                # SINCE UNKNOWN WIDGETS ARE CREATED EVERY TIME, ANOTHER DICT
+                # HAS TO BE AVAILABLE FOR THEM
                 w = self.param_to_unknown_widgets.get(param_name)
                 self._setWidgetsValue([w], param_value, set_default=False)
 
         self.highlightTabs()
         self._connectHighlighting()
-        QtGui.QApplication.instance().restoreOverrideCursor()                                      
+        QtGui.QApplication.instance().restoreOverrideCursor()
 
     def doExport(self):
         folder = ConfigManager().config["icepap"]["configs_folder"]
-        fn = QtGui.QFileDialog.getSaveFileName(self,"Save Config File",QtCore.QString(folder),QtCore.QString("*.xml"))
+        fn = QtGui.QFileDialog.getSaveFileName(
+            self,
+            "Save Config File",
+            QtCore.QString(folder),
+            QtCore.QString("*.xml"))
         if fn.isEmpty():
             return
         filename = str(fn)
         if filename.find('.xml') == -1:
             filename = filename + '.xml'
         self.exportToFile(filename)
-    
+
     def exportToFile(self, filename):
         output = open(filename, "w")
         newdoc = self.getXmlData()
         output.writelines(newdoc.toprettyxml(encoding="utf-8"))
-        
+
     def getXmlData(self):
         doc = getDOMImplementation().createDocument(None, "Driver", None)
-        dbIcepapSystem = StormManager().getIcepapSystem(self.icepap_driver.icepapsystem_name)
-        dbConfig = dbIcepapSystem.getDriver(self.icepap_driver.addr,in_memory=False).startup_cfg
-        config_list = dbConfig.toList()
-        config_list.sort()
-        for param,value in config_list:
+        dbIcepapSystem = StormManager().getIcepapSystem(
+            self.icepap_driver.icepapsystem_name)
+        dbConfig = dbIcepapSystem.getDriver(
+            self.icepap_driver.addr, in_memory=False).startup_cfg
+        config_list = sorted(dbConfig.toList())
+        for param, value in config_list:
             param_element = doc.createElement("par")
             param_element.setAttribute("name", param)
             param_element.setAttribute("value", str(value))
@@ -1076,14 +1274,14 @@ class PageiPapDriver(QtGui.QWidget):
         self.temp_file.seek(0)
 
     def doPaste(self):
-        if self.temp_file == None:
+        if self.temp_file is None:
             return
         self.temp_file.seek(0)
         self.fillFileData(self.temp_file)
 
-# ------------------------------  Testing ----------------------------------------------------------            
+# ------------------------------  Testing --------------------------------
     def startTesting(self):
-        if not self.icepap_driver is None:
+        if self.icepap_driver is not None:
             self.inMotion = -1
             self.status = -1
             self.ready = -1
@@ -1091,22 +1289,20 @@ class PageiPapDriver(QtGui.QWidget):
             self.power = -1
             self.updateTestStatus()
             self.refreshTimer.start(1000)
-        
+
     def stopTesting(self):
         try:
             self.refreshTimer.stop()
             self.setLedsOff()
-        except:
+        except BaseException:
             print("Unexpected error:", sys.exc_info())
-            
-        
-        
+
     def getMotionValues(self):
-        (speed, acc) = self._manager.getDriverMotionValues(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr)
+        (speed, acc) = self._manager.getDriverMotionValues(
+            self.icepap_driver.icepapsystem_name, self.icepap_driver.addr)
         self.ui.txtSpeed.setText(str(speed))
         self.ui.txtAcceleration.setText(str(acc))
-    
-    
+
     def setMotionValues(self):
         speed = self.ui.txtSpeed.text()
         acc = self.ui.txtAcceleration.text()
@@ -1117,10 +1313,13 @@ class PageiPapDriver(QtGui.QWidget):
             acc = "0.25"
             self.ui.txtAcceleration.setText(acc)
         try:
-            self._manager.setDriverMotionValues(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, [float(speed), float(acc)])
-        except:
-            MessageDialogs.showWarningMessage(self, "Driver testing", "Wrong parameter format")
-        
+            self._manager.setDriverMotionValues(
+                self.icepap_driver.icepapsystem_name, self.icepap_driver.addr,
+                [float(speed), float(acc)])
+        except BaseException:
+            MessageDialogs.showWarningMessage(
+                self, "Driver testing", "Wrong parameter format")
+
     def setLedsOff(self):
         self.ui.LedError.changeColor(Led.RED)
         self.ui.LedStep.changeColor(Led.YELLOW)
@@ -1147,7 +1346,7 @@ class PageiPapDriver(QtGui.QWidget):
     def enableAllControl(self):
         self.ui.txtSpeed.setEnabled(True)
         self.ui.txtAcceleration.setEnabled(True)
-        
+
         self.ui.btnGORelativeNeg.setEnabled(True)
         self.ui.btnGORelativePos.setEnabled(True)
         if self.mode == 0:
@@ -1158,13 +1357,14 @@ class PageiPapDriver(QtGui.QWidget):
             self.ui.sliderJog.setEnabled(False)
         self.ui.btnEnable.setEnabled(True)
         self.ui.btnStopMotor.setEnabled(True)
-        
-                
-    def updateTestStatus(self):  
+
+    def updateTestStatus(self):
         pos_sel = str(self.ui.cb_pos_sel.currentText())
         enc_sel = str(self.ui.cb_enc_sel.currentText())
-        (status, power, position) = self._manager.getDriverTestStatus(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, pos_sel, enc_sel)
-        
+        (status, power, position) = self._manager.getDriverTestStatus(
+            self.icepap_driver.icepapsystem_name, self.icepap_driver.addr,
+            pos_sel, enc_sel)
+
         axis_state = State(status)
         disabled = axis_state.get_disable_code()
         # TODO: use boolean instead of integers
@@ -1180,9 +1380,10 @@ class PageiPapDriver(QtGui.QWidget):
             else:
                 self.refreshTimer.setInterval(1000)
                 self.ui.LedStep.off()
-        self.inMotion = moving                
-        
-        if self.status != disabled or self.mode != mode or self.power != power or self.ready != ready:
+        self.inMotion = moving
+
+        if self.status != disabled or self.mode != mode or \
+                self.power != power or self.ready != ready:
             if disabled == 0:
                 if power:
                     self.ui.LedError.changeColor(Led.GREEN)
@@ -1198,7 +1399,7 @@ class PageiPapDriver(QtGui.QWidget):
                     self.ui.btnEnable.setText("ON")
                     self.ui.btnEnable.setChecked(False)
                     self.ui.LedError.changeColor(Led.RED)
-                    self.ui.LedError.on()                    
+                    self.ui.LedError.on()
             elif disabled == 1:
                 # driver is not active disable motion and enable
                 self.disableAllControl()
@@ -1211,104 +1412,125 @@ class PageiPapDriver(QtGui.QWidget):
                 self.ui.LedError.changeColor(Led.RED)
                 self.ui.LedError.on()
 
-               
-        
         self.status = disabled
-        self.ready = ready   
-        self.power = power 
-            
+        self.ready = ready
+        self.power = power
+
         if axis_state.is_inhome():
             self.ui.LedHome.on()
         else:
             self.ui.LedHome.off()
-        
+
         lower = axis_state.is_limit_negative()
         upper = axis_state.is_limit_positive()
         if lower:
             self.ui.LedLimitNeg.on()
         else:
             self.ui.LedLimitNeg.off()
-        
+
         if upper:
             self.ui.LedLimitPos.on()
         else:
             self.ui.LedLimitPos.off()
-        
+
         # read position and encoder
-                
+
         self.ui.LCDPosition.display(position[0])
         self.ui.LCDPositionTest.display(position[0])
         self.ui.LCDEncoder.display(position[1])
 
-                
     def btnGO_on_click(self):
         new_position = self.ui.txtMvAbsolute.text()
         try:
             new_position = int(new_position)
-            self._manager.moveDriverAbsolute(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, new_position)
-        except:
-            MessageDialogs.showWarningMessage(self, "Driver testing", "Wrong parameter format")
-            
+            self._manager.moveDriverAbsolute(
+                self.icepap_driver.icepapsystem_name,
+                self.icepap_driver.addr,
+                new_position)
+        except BaseException:
+            MessageDialogs.showWarningMessage(
+                self, "Driver testing", "Wrong parameter format")
+
     def btnGORelativePos_on_click(self):
         distance = self.ui.txtGORelative.text()
         try:
             distance = int(distance)
             steps = +distance
-            self._manager.moveDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, steps)
+            self._manager.moveDriver(
+                self.icepap_driver.icepapsystem_name,
+                self.icepap_driver.addr,
+                steps)
 
-        except:
-            MessageDialogs.showWarningMessage(self, "Driver testing", "Wrong parameter format")
-            
-    
+        except BaseException:
+            MessageDialogs.showWarningMessage(
+                self, "Driver testing", "Wrong parameter format")
+
     def btnGORelativeNeg_on_click(self):
         distance = self.ui.txtGORelative.text()
         try:
             distance = int(distance)
             steps = -distance
-            self._manager.moveDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, steps)
+            self._manager.moveDriver(
+                self.icepap_driver.icepapsystem_name,
+                self.icepap_driver.addr,
+                steps)
 
-        except:
-            MessageDialogs.showWarningMessage(self, "Driver testing", "Wrong parameter format")
-        
+        except BaseException:
+            MessageDialogs.showWarningMessage(
+                self, "Driver testing", "Wrong parameter format")
+
     def btnStopMotor_on_click(self):
-        self._manager.stopDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr)
+        self._manager.stopDriver(
+            self.icepap_driver.icepapsystem_name,
+            self.icepap_driver.addr)
         self.ui.sliderJog.setValue(0)
-        
 
     def btnBlink_on_press(self):
         secs = 600
         if self.ui.btnBlink.isChecked():
             secs = 0
-        self._manager.blinkDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr,secs)
-    
+        self._manager.blinkDriver(
+            self.icepap_driver.icepapsystem_name,
+            self.icepap_driver.addr,
+            secs)
+
     def sliderChanged(self, div):
         if self.ui.sliderJog.isSliderDown() or not self.sliderTimer.isActive():
             self.startJogging(div)
-            
+
     def startJogging(self, div):
         if div != 0:
             if not self.ui.btnEnable.isChecked():
-                self._manager.enableDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr)
+                self._manager.enableDriver(
+                    self.icepap_driver.icepapsystem_name,
+                    self.icepap_driver.addr)
             speed = float(self.ui.txtSpeed.text())
-            factor = (self.ui.sliderJog.maximum() - abs(div)) + 1 
+            factor = (self.ui.sliderJog.maximum() - abs(div)) + 1
             speed = int(speed / factor)
             if div < 0:
                 speed = -1 * speed
             try:
-                QtGui.QToolTip.showText(self.cursor().pos(),str(speed),self.ui.sliderJog)
-                self._manager.jogDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, speed)
+                QtGui.QToolTip.showText(
+                    self.cursor().pos(), str(speed), self.ui.sliderJog)
+                self._manager.jogDriver(
+                    self.icepap_driver.icepapsystem_name,
+                    self.icepap_driver.addr,
+                    speed)
             except Exception as e:
-                MessageDialogs.showWarningMessage(self, "Jog Driver", "Error while trying to jog:\n"+str(e))
+                MessageDialogs.showWarningMessage(
+                    self, "Jog Driver",
+                    "Error while trying to jog:\n" + str(e))
                 self.ui.sliderJog.setValue(0)
         else:
             self.stopJogging()
-    
+
     def stopJogging(self):
-        self._manager.stopDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr)
+        self._manager.stopDriver(
+            self.icepap_driver.icepapsystem_name,
+            self.icepap_driver.addr)
         self.ui.sliderJog.setValue(0)
         self.sliderTimer.start()
-        
-    
+
     def resetSlider(self):
         value = self.ui.sliderJog.value()
         if value == 0:
@@ -1317,51 +1539,64 @@ class PageiPapDriver(QtGui.QWidget):
             self.ui.sliderJog.triggerAction(QtGui.QSlider.SliderSingleStepSub)
         else:
             self.ui.sliderJog.triggerAction(QtGui.QSlider.SliderSingleStepAdd)
-    
+
     def setPosition(self):
         pos_sel = str(self.ui.cb_pos_sel.currentText())
         try:
             position = int(self.ui.txtPos.text())
-            self._manager.setDriverPosition(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, pos_sel, position)
-        except:
+            self._manager.setDriverPosition(
+                self.icepap_driver.icepapsystem_name,
+                self.icepap_driver.addr,
+                pos_sel,
+                position)
+        except BaseException:
             print("Unexpected error:", sys.exc_info())
-            MessageDialogs.showWarningMessage(self, "Set driver position", "Wrong parameter format")
-        
-    
+            MessageDialogs.showWarningMessage(
+                self, "Set driver position", "Wrong parameter format")
+
     def setEncoder(self):
         enc_sel = str(self.ui.cb_enc_sel.currentText())
         try:
             position = int(self.ui.txtEnc.text())
-            self._manager.setDriverEncoder(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, enc_sel, position)
-        except:
+            self._manager.setDriverEncoder(
+                self.icepap_driver.icepapsystem_name,
+                self.icepap_driver.addr,
+                enc_sel,
+                position)
+        except BaseException:
             print("Unexpected error:", sys.exc_info())
-            MessageDialogs.showWarningMessage(self, "Set driver encoderposition", "Wrong parameter format")
-            
+            MessageDialogs.showWarningMessage(
+                self, "Set driver encoderposition", "Wrong parameter format")
+
     def endisDriver(self, bool):
-         if bool:
+        if bool:
             self.ui.btnEnable.setText("OFF")
-            self._manager.enableDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr)
-         else:
+            self._manager.enableDriver(
+                self.icepap_driver.icepapsystem_name,
+                self.icepap_driver.addr)
+        else:
             self.ui.btnEnable.setText("ON")
-            self._manager.disableDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr)
-        
+            self._manager.disableDriver(
+                self.icepap_driver.icepapsystem_name,
+                self.icepap_driver.addr)
 
     def changeSwitchesSetup(self, mode):
         return
         # SHOULD CHANGE SWITCHES SETUP... HOW? NOT IN CONFIG MODE...
 
-
     # ---------------------- Historic Widget -------------------
+
     def showHistoricWidget(self):
         self.ui.stackedWidget.setCurrentIndex(1)
         self.ui.historicWidget.fillData(self.icepap_driver)
-        
+
     def hideHistoricWidget(self):
         self.ui.stackedWidget.setCurrentIndex(0)
 
     # ---------------------- Templates Catalog Widget -------------------
-    def setTemplateParams(self,template_name,params):
-        QtGui.QApplication.instance().setOverrideCursor(QtGui.QCursor(QtCore.Qt.WaitCursor))
+    def setTemplateParams(self, template_name, params):
+        QtGui.QApplication.instance().setOverrideCursor(
+            QtGui.QCursor(QtCore.Qt.WaitCursor))
         self._disconnectHighlighting()
         for param in list(params.keys()):
             value = params.get(param)
@@ -1369,7 +1604,8 @@ class PageiPapDriver(QtGui.QWidget):
                 widgets = self.param_to_widgets.get(param)
                 self._setWidgetsValue(widgets, value, set_default=False)
             elif param == 'IPAPNAME':
-                self._setWidgetsValue(self.param_to_widgets.get('DriverName'), value, set_default=False)
+                self._setWidgetsValue(self.param_to_widgets.get(
+                    'DriverName'), value, set_default=False)
         # SHOULD DO SOMETHING WITH THE TEMPLATE NAME
         self.highlightTabs()
         self._connectHighlighting()
