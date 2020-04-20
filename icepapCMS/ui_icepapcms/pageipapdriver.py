@@ -12,28 +12,28 @@
 
 
 from PyQt4 import QtCore, QtGui, Qt
-from ui_pageipapdriver import Ui_PageiPapDriver
-from ui_axis import Ui_axis
-from ui_motor import Ui_motor
-from ui_encoders import Ui_encoders
-from ui_closedloop import Ui_closedloop
-from ui_homing import Ui_homing
-from ui_io import Ui_io
+from .ui_pageipapdriver import Ui_PageiPapDriver
+from .ui_axis import Ui_axis
+from .ui_motor import Ui_motor
+from .ui_encoders import Ui_encoders
+from .ui_closedloop import Ui_closedloop
+from .ui_homing import Ui_homing
+from .ui_io import Ui_io
 
 from qrc_icepapcms import *
 from xml.dom import minidom, Node
 from xml.dom.minidom import getDOMImplementation
-from Led import Led
+from .Led import Led
 from ..lib_icepapcms import *
-from messagedialogs import MessageDialogs
+from .messagedialogs import MessageDialogs
 #from dialogtemplate import DialogTemplate
 import sys
 import os
-from qvalidatelineedit import QValidateLineEdit
+from .qvalidatelineedit import QValidateLineEdit
 import time
 import datetime
 import tempfile
-from historiccfgwidget import HistoricCfgWidget
+from .historiccfgwidget import HistoricCfgWidget
 from pyIcePAP import State, Mode
 
 class PageiPapDriver(QtGui.QWidget):
@@ -91,7 +91,7 @@ class PageiPapDriver(QtGui.QWidget):
             for widget in page_widget.findChildren(QtGui.QWidget,QtCore.QRegExp('^cfg|^cmd|^txt|^chk')):
                 widget_name = str(widget.objectName())
                 param_name = str(widget_name[3:])
-                if self.param_to_widgets.has_key(param_name):
+                if param_name in self.param_to_widgets:
                     self.param_to_widgets.get(param_name).append(widget)
                 else:
                     self.param_to_widgets[param_name] = [widget]
@@ -224,7 +224,7 @@ class PageiPapDriver(QtGui.QWidget):
     def highlightWidget(self, widget):
         # AGAIN, COMMAND WIDGETS ARE ONLY CHECKED IN THE QCOMBOBOX ELIF SECTION
         if not isinstance(widget,QtGui.QWidget):
-            print "THIS WIDGET SHOULD NOT BE INTENDED TO HIGHLIGHT... NOT A QWIDGET",widget.objectName()
+            print("THIS WIDGET SHOULD NOT BE INTENDED TO HIGHLIGHT... NOT A QWIDGET",widget.objectName())
             return
 
         if widget.defaultvalue is None:
@@ -248,7 +248,7 @@ class PageiPapDriver(QtGui.QWidget):
         if param == "DriverName":
             param = "IPAPNAME"
 
-        dbvalue = self.dbStartupConfig.getParameter(unicode(param),in_memory=False)
+        dbvalue = self.dbStartupConfig.getParameter(str(param),in_memory=False)
         if dbvalue is None:
             dbvalue = ""
             # SPECIAL CASE IS THE FLAGS PARAMETER WHICH IS STORED
@@ -306,9 +306,9 @@ class PageiPapDriver(QtGui.QWidget):
                             
                     else:
                         widget.setPalette(self.button_grey_palette)
-                except Exception,e:
-                    print "some exception found trying to highlight a QComboBox!",e
-                    print "widget was %s" % widget.objectName()
+                except Exception as e:
+                    print("some exception found trying to highlight a QComboBox!",e)
+                    print("widget was %s" % widget.objectName())
             
             elif isinstance(widget, QtGui.QLineEdit):
                 if dbvalue == None:
@@ -348,8 +348,8 @@ class PageiPapDriver(QtGui.QWidget):
                         w.setPalette(self.base_white_palette)
 
 
-        except Exception,e:
-            print "Some exception found with param",param,":",e
+        except Exception as e:
+            print("Some exception found with param",param,":",e)
         
         if highlight:
             if not widget in self.widgets_modified:
@@ -363,8 +363,8 @@ class PageiPapDriver(QtGui.QWidget):
             self.saveConfigPending.append(driver_key)
 
         tab_index = widget.tab_index
-        index_in_tabs_modified = self.tabs_modified.has_key(tab_index)
-        index_in_tabs_configPending = self.tabs_configPending.has_key(tab_index)
+        index_in_tabs_modified = tab_index in self.tabs_modified
+        index_in_tabs_configPending = tab_index in self.tabs_configPending
         if highlight:
             if index_in_tabs_modified:
                 self.tabs_modified.get(tab_index).append(widget)
@@ -409,7 +409,7 @@ class PageiPapDriver(QtGui.QWidget):
     def _setWidgetToolTips(self):
         """ Reads the driverparameters file and sets the tooltips"""
 
-        UI_PARS = self.param_to_widgets.keys()
+        UI_PARS = list(self.param_to_widgets.keys())
         FOUND_PARS = []
         NOT_FOUND_PARS = []
         MISSING_TOOLTIPS = []
@@ -431,17 +431,17 @@ class PageiPapDriver(QtGui.QWidget):
 
                     # SHOULD I USE pardesc as the tooltip?
                     try:
-                        if self.param_to_widgets.has_key(parid):
+                        if parid in self.param_to_widgets:
                             widgets = self.param_to_widgets[parid]
                             for w in widgets:
                                 w.setToolTip(pardesc)
                             FOUND_PARS.append(parid)
                         else:
                             NOT_FOUND_PARS.append(parid)
-                    except Exception,e:
-                        print 'Exception was',e
+                    except Exception as e:
+                        print('Exception was',e)
                 else:
-                    print 'what is happening?'
+                    print('what is happening?')
 
         DEBUG_MISSING_TOOLTIPS = False
 
@@ -449,9 +449,9 @@ class PageiPapDriver(QtGui.QWidget):
             for p in UI_PARS:
                 if p not in FOUND_PARS and p not in NOT_FOUND_PARS:
                     MISSING_TOOLTIPS.append(p)
-            print '\n\nfound:',FOUND_PARS
-            print '\n\nnot found:',NOT_FOUND_PARS
-            print '\n\nmissing:',MISSING_TOOLTIPS
+            print('\n\nfound:',FOUND_PARS)
+            print('\n\nnot found:',NOT_FOUND_PARS)
+            print('\n\nmissing:',MISSING_TOOLTIPS)
           
             
         
@@ -537,14 +537,14 @@ class PageiPapDriver(QtGui.QWidget):
                 except:
                     desc_cfg_date = datetime.datetime.strptime(aux[1]+'_'+aux[2],'%Y/%m/%d_%H:%M:%S').ctime()
 
-            except Exception,e:
+            except Exception as e:
                 msg = 'Not standard signature of driver '+str(desc_cfg_addr)+'.\nIt does not match (user@host_DATE).\nValue is:'+str(signature)
                 MessageDialogs.showWarningMessage(self, "Not standard signature", msg)
         else:            
             signature = None
 
         self.ui.dscDriverName.setText(driver.name)
-        self.ui.dscActive.setText(driver.current_cfg.getParameter(unicode('ACTIVE')))
+        self.ui.dscActive.setText(driver.current_cfg.getParameter(str('ACTIVE')))
         if signature is None:
             self.ui.dscSignature.setText('NO_CONFIG')
         else:
@@ -592,7 +592,7 @@ class PageiPapDriver(QtGui.QWidget):
         self.unknown_table_widget.setRowCount(0)
 
         for name, value in icepap_driver.current_cfg.toList():
-            if self.param_to_widgets.has_key(name):
+            if name in self.param_to_widgets:
                 #print "SUCCESS!",name,'->',self.param_to_widgets.get(name)
                 widgets = self.param_to_widgets.get(name)
                 self._setWidgetsValue(widgets,value)
@@ -774,7 +774,7 @@ class PageiPapDriver(QtGui.QWidget):
                                 pass
                             elif param == 'CSWITCH':
                                 ## THIS VALUE DOES NOT COME NEITHER IN THE CONFIGUARTION
-                                print 'eo....cswitch'
+                                print('eo....cswitch')
                                 pass
                             elif param == 'INDEXER':
                                 values = controller.readIcepapParameters(system_name, driver_addr,['INDEXER'])
@@ -827,9 +827,9 @@ class PageiPapDriver(QtGui.QWidget):
                         w.setChecked(checked)
 
                 self.highlightWidget(widget)
-            except Exception,e:
-                print "_setWidgetValue():", sys.exc_info() , " " , value
-                print "Some exception setting value",e
+            except Exception as e:
+                print("_setWidgetValue():", sys.exc_info() , " " , value)
+                print("Some exception setting value",e)
 
 
         
@@ -847,7 +847,7 @@ class PageiPapDriver(QtGui.QWidget):
             elif isinstance(widget, QtGui.QLineEdit):
                 #return str(widget.text()).upper()
                 # FIX NON-ASCII ISSUES:
-                text = unicode(widget.text())
+                text = str(widget.text())
                 if not all(ord(c) < 128 for c in text):
                     text = repr(text)
                 return text
@@ -860,14 +860,14 @@ class PageiPapDriver(QtGui.QWidget):
                     if w.isChecked():
                         flags_value.append(w_param)
                 return ' '.join(flags_value)
-        except Exception,e:
-            print "error in _getWidgetValue",e
+        except Exception as e:
+            print("error in _getWidgetValue",e)
         
     
     def addNewCfg(self, cfg):
         QtGui.QApplication.instance().setOverrideCursor(QtGui.QCursor(QtCore.Qt.WaitCursor))
         for name, value in cfg.toList():
-            if self.param_to_widgets.has_key(name):
+            if name in self.param_to_widgets:
                 widgets = self.param_to_widgets.get(name)
                 self._setWidgetsValue(widgets, value, set_default=False)
             elif name == 'IPAPNAME':
@@ -890,9 +890,9 @@ class PageiPapDriver(QtGui.QWidget):
     def highlightTabs(self):
         tab_bar = self.ui.tabWidget.tabBar()
         for index in range(self.ui.tabWidget.count()):
-            if self.tabs_modified.has_key(index):
+            if index in self.tabs_modified:
                 tab_bar.setTabIcon(index, QtGui.QIcon(":/icons/icons/ipapdrivermodified.png"))
-            elif self.tabs_configPending.has_key(index):
+            elif index in self.tabs_configPending:
                 tab_bar.setTabIcon(index, QtGui.QIcon(":/icons/icons/ipapdrivercfg.png"))
             else:
                 tab_bar.setTabIcon(index, QtGui.QIcon(""))
@@ -1005,9 +1005,9 @@ class PageiPapDriver(QtGui.QWidget):
                 return
             filename = str(fn)
             self.fillFileData(filename)
-        except Exception,e:
+        except Exception as e:
             MessageDialogs.showWarningMessage(self, "File", "Error reading file\n")
-            print "exception: "+str(e)
+            print("exception: "+str(e))
     
     def fillFileData(self, filename):
         QtGui.QApplication.instance().setOverrideCursor(QtGui.QCursor(QtCore.Qt.WaitCursor))
@@ -1019,7 +1019,7 @@ class PageiPapDriver(QtGui.QWidget):
             param_name = param_name.strip()
             param_value =  param_element.attributes.get('value').value
             param_value = param_value.strip()
-            if self.param_to_widgets.has_key(param_name):
+            if param_name in self.param_to_widgets:
                 widgets = self.param_to_widgets.get(param_name)
                 self._setWidgetsValue(widgets, param_value, set_default=False)
             elif param_name == 'IPAPNAME':
@@ -1097,7 +1097,7 @@ class PageiPapDriver(QtGui.QWidget):
             self.refreshTimer.stop()
             self.setLedsOff()
         except:
-            print "Unexpected error:", sys.exc_info()
+            print("Unexpected error:", sys.exc_info())
             
         
         
@@ -1171,7 +1171,7 @@ class PageiPapDriver(QtGui.QWidget):
         moving = int(axis_state.is_moving())
         ready = int(axis_state.is_ready())
         mode = axis_state.get_mode_code()
-        if self.inMotion <> moving:
+        if self.inMotion != moving:
             if moving == 1:
                 self.refreshTimer.setInterval(700)
                 self.ui.LedStep.on()
@@ -1182,7 +1182,7 @@ class PageiPapDriver(QtGui.QWidget):
                 self.ui.LedStep.off()
         self.inMotion = moving                
         
-        if self.status <> disabled or self.mode <> mode or self.power <> power or self.ready <> ready:
+        if self.status != disabled or self.mode != mode or self.power != power or self.ready != ready:
             if disabled == 0:
                 if power:
                     self.ui.LedError.changeColor(Led.GREEN)
@@ -1286,7 +1286,7 @@ class PageiPapDriver(QtGui.QWidget):
             self.startJogging(div)
             
     def startJogging(self, div):
-        if div <> 0:
+        if div != 0:
             if not self.ui.btnEnable.isChecked():
                 self._manager.enableDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr)
             speed = float(self.ui.txtSpeed.text())
@@ -1297,7 +1297,7 @@ class PageiPapDriver(QtGui.QWidget):
             try:
                 QtGui.QToolTip.showText(self.cursor().pos(),str(speed),self.ui.sliderJog)
                 self._manager.jogDriver(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, speed)
-            except Exception,e:
+            except Exception as e:
                 MessageDialogs.showWarningMessage(self, "Jog Driver", "Error while trying to jog:\n"+str(e))
                 self.ui.sliderJog.setValue(0)
         else:
@@ -1324,7 +1324,7 @@ class PageiPapDriver(QtGui.QWidget):
             position = int(self.ui.txtPos.text())
             self._manager.setDriverPosition(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, pos_sel, position)
         except:
-            print "Unexpected error:", sys.exc_info()
+            print("Unexpected error:", sys.exc_info())
             MessageDialogs.showWarningMessage(self, "Set driver position", "Wrong parameter format")
         
     
@@ -1334,7 +1334,7 @@ class PageiPapDriver(QtGui.QWidget):
             position = int(self.ui.txtEnc.text())
             self._manager.setDriverEncoder(self.icepap_driver.icepapsystem_name, self.icepap_driver.addr, enc_sel, position)
         except:
-            print "Unexpected error:", sys.exc_info()
+            print("Unexpected error:", sys.exc_info())
             MessageDialogs.showWarningMessage(self, "Set driver encoderposition", "Wrong parameter format")
             
     def endisDriver(self, bool):
@@ -1363,9 +1363,9 @@ class PageiPapDriver(QtGui.QWidget):
     def setTemplateParams(self,template_name,params):
         QtGui.QApplication.instance().setOverrideCursor(QtGui.QCursor(QtCore.Qt.WaitCursor))
         self._disconnectHighlighting()
-        for param in params.keys():
+        for param in list(params.keys()):
             value = params.get(param)
-            if self.param_to_widgets.has_key(param):
+            if param in self.param_to_widgets:
                 widgets = self.param_to_widgets.get(param)
                 self._setWidgetsValue(widgets, value, set_default=False)
             elif param == 'IPAPNAME':
