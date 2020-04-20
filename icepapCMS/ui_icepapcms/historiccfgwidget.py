@@ -11,41 +11,28 @@
 # -----------------------------------------------------------------------------
 
 
-from PyQt4 import QtCore, QtGui, Qt
-from .ui_historiccfgwidget import Ui_HistoricCfgWidget
+from PyQt5 import QtCore, QtGui, uic, QtWidgets
+from pkg_resources import resource_filename
 from .messagedialogs import MessageDialogs
-from qrc_icepapcms import *
 
 
-class HistoricCfgWidget(QtGui.QWidget):
+class HistoricCfgWidget(QtWidgets.QWidget):
     def __init__(self, parent=None):
-        QtGui.QWidget.__init__(self, parent)
-        self.ui = Ui_HistoricCfgWidget()
-        self.ui.setupUi(self)
+        QtWidgets.QWidget.__init__(self, parent)
+        ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
+                                        'historiccfgwidget.ui')
+        self.ui = self
+        uic.loadUi(ui_filename, baseinstance=self.ui)
         self.icepap_driver = None
         self.selectedCfg = None
         self.selectedDays = {}
 
-        QtCore.QObject.connect(
-            self.ui.calendarWidget,
-            QtCore.SIGNAL("clicked(const QDate&)"),
-            self.daySelected)
-        QtCore.QObject.connect(
-            self.ui.btnBack,
-            QtCore.SIGNAL("clicked()"),
-            self.btnBackClicked)
-        QtCore.QObject.connect(
-            self.ui.listWidget,
-            QtCore.SIGNAL("currentTextChanged (const QString&)"),
-            self.listWidgetChanged)
-        QtCore.QObject.connect(
-            self.ui.saveButton,
-            QtCore.SIGNAL("clicked()"),
-            self.saveButton_on_click)
-        QtCore.QObject.connect(
-            self.ui.deleteButton,
-            QtCore.SIGNAL("clicked()"),
-            self.deleteButton_on_click)
+        # Connect Signals
+        self.ui.calendarWidget.clicked.connect(self.daySelected)
+        self.ui.btnBack.clicked.connect(self.btnBackClicked)
+        self.ui.listWidget.currentTextChanged.connect(self.listWidgetChanged)
+        self.ui.saveButton.clicked.connect(self.saveButton_on_click)
+        self.ui.deleteButton.clicked.connect(self.deleteButton_on_click)
 
     def setCfgPage(self, pagedriver):
         self.pagedriver = pagedriver
@@ -137,3 +124,12 @@ class HistoricCfgWidget(QtGui.QWidget):
                 "Save configuration information?"):
             self.selectedCfg[1].name = name
             self.selectedCfg[1].description = desc
+
+
+if __name__ == '__main__':
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+
+    w = HistoricCfgWidget(None)
+    w.show()
+    sys.exit(app.exec_())
