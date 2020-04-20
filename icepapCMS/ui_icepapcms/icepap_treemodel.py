@@ -19,7 +19,7 @@ from pyIcePAP import Mode
 
 
 class IcepapTreeModel(QtCore.QAbstractItemModel):
-    SYSTEM, DRIVER, SYSTEM_WARNING, DRIVER_WARNING, SYSTEM_ERROR, DRIVER_ERROR, CRATE, DRIVER_NEW, DRIVER_CFG, SYSTEM_OFFLINE, DRIVER_MOVED,ROOT = range(12)
+    SYSTEM, DRIVER, SYSTEM_WARNING, DRIVER_WARNING, SYSTEM_ERROR, DRIVER_ERROR, CRATE, DRIVER_NEW, DRIVER_CFG, SYSTEM_OFFLINE, DRIVER_MOVED,ROOT = list(range(12))
     def __init__(self, IcepapsList, no_expand = False, parent=None):
         QtCore.QAbstractItemModel.__init__(self, parent)
         
@@ -121,7 +121,7 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
         return parentItem.childCount()
         
     def setupModelData(self, IcepapsList, parent, no_expand):
-        keys = IcepapsList.keys()
+        keys = list(IcepapsList.keys())
         keys.sort()
         for icepap_name in keys:
             self.addIcepapSystem(icepap_name, IcepapsList.get(icepap_name), no_expand, parent)
@@ -144,7 +144,7 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
         drivers.sort()
         for driver in drivers:
             addr = driver.addr
-            if driver.cratenr  <> crate:
+            if driver.cratenr  != crate:
                 crate = driver.cratenr
                 location = "%s/%s" % (icepap_name, crate)
                 new_item_crate = self.addItem([QtCore.QVariant(driver.cratenr)], IcepapTreeModel.CRATE, location,None, new_item_system)
@@ -173,7 +173,7 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
         return new_item
     
     def indexByLocation(self, location):
-        if self.item_location.has_key(location):
+        if location in self.item_location:
             item = self.item_location[location]
             if item:
                 return self.createIndex(item.row(), 0, item)
@@ -183,7 +183,7 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
             return None
     
     def itemByLocation(self, location):
-        if self.item_location.has_key(location):
+        if location in self.item_location:
             return self.item_location[location]
         else:
             return None        
