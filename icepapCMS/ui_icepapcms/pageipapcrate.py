@@ -11,241 +11,149 @@
 # -----------------------------------------------------------------------------
 
 
-from PyQt4 import QtCore, QtGui, Qt
-from qrc_icepapcms import *
-from icepapdriver_widget import IcePapDriverWidget
+from PyQt5 import QtCore, QtGui, Qt, uic, QtWidgets
+from .icepapdriverwidget import IcePapDriverWidget
 
 
-class PageiPapCrate(QtGui.QWidget):
+class PageiPapCrate(QtWidgets.QWidget):
     def __init__(self, mainwin):
-        QtGui.QWidget.__init__(self, None)
+        QtWidgets.QWidget.__init__(self, None)
         self.mainwin = mainwin
-        self.vboxlayout = QtGui.QVBoxLayout(self)
-        self.vboxlayout.setMargin(9)
+        self.vboxlayout = QtWidgets.QVBoxLayout(self)
+        # TODO check if the margin is for all
+        self.vboxlayout.setContentsMargins(9, 9, 9, 9)
         self.vboxlayout.setSpacing(6)
 
-        self.tableWidget = QtGui.QTableWidget(self)
+        self.tableWidget = QtWidgets.QTableWidget(self)
         palette = QtGui.QPalette()
-        palette.setColor(
-            QtGui.QPalette.Active,
-            QtGui.QPalette.ColorRole(0),
+
+        # Configure Palette Color Active
+        palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.ColorRole(0),
             QtGui.QColor(16, 16, 16))
-        palette.setColor(
-            QtGui.QPalette.Active,
-            QtGui.QPalette.ColorRole(1),
+        palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.ColorRole(1),
             QtGui.QColor(226, 228, 252))
-        palette.setColor(
-            QtGui.QPalette.Active,
-            QtGui.QPalette.ColorRole(2),
+        palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.ColorRole(2),
             QtGui.QColor(237, 237, 237))
-        palette.setColor(
-            QtGui.QPalette.Active,
-            QtGui.QPalette.ColorRole(3),
+        palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.ColorRole(3),
             QtGui.QColor(247, 245, 243))
-        palette.setColor(
-            QtGui.QPalette.Active,
-            QtGui.QPalette.ColorRole(4),
+        palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.ColorRole(4),
             QtGui.QColor(119, 117, 115))
-        palette.setColor(
-            QtGui.QPalette.Active,
-            QtGui.QPalette.ColorRole(5),
+        palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.ColorRole(5),
             QtGui.QColor(159, 157, 154))
-        palette.setColor(
-            QtGui.QPalette.Active,
-            QtGui.QPalette.ColorRole(6),
+        palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.ColorRole(6),
             QtGui.QColor(16, 16, 16))
-        palette.setColor(
-            QtGui.QPalette.Active,
-            QtGui.QPalette.ColorRole(7),
+        palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.ColorRole(7),
             QtGui.QColor(255, 255, 255))
-        palette.setColor(
-            QtGui.QPalette.Active,
-            QtGui.QPalette.ColorRole(8),
+        palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.ColorRole(8),
             QtGui.QColor(16, 16, 16))
-        palette.setColor(
-            QtGui.QPalette.Active,
-            QtGui.QPalette.ColorRole(9),
+        palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.ColorRole(9),
             QtGui.QColor(239, 235, 231))
-        palette.setColor(
-            QtGui.QPalette.Active,
-            QtGui.QPalette.ColorRole(10),
+        palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.ColorRole(10),
             QtGui.QColor(239, 235, 231))
-        palette.setColor(
-            QtGui.QPalette.Active,
-            QtGui.QPalette.ColorRole(11),
+        palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.ColorRole(11),
             QtGui.QColor(0, 0, 0))
-        palette.setColor(
-            QtGui.QPalette.Active,
-            QtGui.QPalette.ColorRole(12),
+        palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.ColorRole(12),
             QtGui.QColor(101, 148, 235))
-        palette.setColor(
-            QtGui.QPalette.Active,
-            QtGui.QPalette.ColorRole(13),
+        palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.ColorRole(13),
             QtGui.QColor(255, 255, 255))
-        palette.setColor(
-            QtGui.QPalette.Active,
-            QtGui.QPalette.ColorRole(14),
+        palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.ColorRole(14),
             QtGui.QColor(0, 0, 255))
-        palette.setColor(
-            QtGui.QPalette.Active,
-            QtGui.QPalette.ColorRole(15),
+        palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.ColorRole(15),
             QtGui.QColor(255, 0, 255))
-        palette.setColor(
-            QtGui.QPalette.Active,
-            QtGui.QPalette.ColorRole(16),
+        palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.ColorRole(16),
             QtGui.QColor(247, 245, 243))
-        palette.setColor(
-            QtGui.QPalette.Inactive,
-            QtGui.QPalette.ColorRole(0),
+
+        # Configure Palette Color Inactive
+        palette.setColor(QtGui.QPalette.Inactive, QtGui.QPalette.ColorRole(0),
             QtGui.QColor(16, 16, 16))
-        palette.setColor(
-            QtGui.QPalette.Inactive,
-            QtGui.QPalette.ColorRole(1),
+        palette.setColor(QtGui.QPalette.Inactive, QtGui.QPalette.ColorRole(1),
             QtGui.QColor(226, 228, 252))
-        palette.setColor(
-            QtGui.QPalette.Inactive,
-            QtGui.QPalette.ColorRole(2),
+        palette.setColor(QtGui.QPalette.Inactive, QtGui.QPalette.ColorRole(2),
             QtGui.QColor(237, 237, 237))
-        palette.setColor(
-            QtGui.QPalette.Inactive,
-            QtGui.QPalette.ColorRole(3),
+        palette.setColor(QtGui.QPalette.Inactive, QtGui.QPalette.ColorRole(3),
             QtGui.QColor(247, 245, 243))
-        palette.setColor(
-            QtGui.QPalette.Inactive,
-            QtGui.QPalette.ColorRole(4),
+        palette.setColor(QtGui.QPalette.Inactive, QtGui.QPalette.ColorRole(4),
             QtGui.QColor(119, 117, 115))
-        palette.setColor(
-            QtGui.QPalette.Inactive,
-            QtGui.QPalette.ColorRole(5),
+        palette.setColor(QtGui.QPalette.Inactive, QtGui.QPalette.ColorRole(5),
             QtGui.QColor(159, 157, 154))
-        palette.setColor(
-            QtGui.QPalette.Inactive,
-            QtGui.QPalette.ColorRole(6),
+        palette.setColor(QtGui.QPalette.Inactive, QtGui.QPalette.ColorRole(6),
             QtGui.QColor(16, 16, 16))
-        palette.setColor(
-            QtGui.QPalette.Inactive,
-            QtGui.QPalette.ColorRole(7),
+        palette.setColor(QtGui.QPalette.Inactive, QtGui.QPalette.ColorRole(7),
             QtGui.QColor(255, 255, 255))
-        palette.setColor(
-            QtGui.QPalette.Inactive,
-            QtGui.QPalette.ColorRole(8),
+        palette.setColor(QtGui.QPalette.Inactive, QtGui.QPalette.ColorRole(8),
             QtGui.QColor(16, 16, 16))
-        palette.setColor(
-            QtGui.QPalette.Inactive,
-            QtGui.QPalette.ColorRole(9),
+        palette.setColor(QtGui.QPalette.Inactive, QtGui.QPalette.ColorRole(9),
             QtGui.QColor(239, 235, 231))
-        palette.setColor(
-            QtGui.QPalette.Inactive,
-            QtGui.QPalette.ColorRole(10),
+        palette.setColor(QtGui.QPalette.Inactive, QtGui.QPalette.ColorRole(10),
             QtGui.QColor(239, 235, 231))
-        palette.setColor(
-            QtGui.QPalette.Inactive,
-            QtGui.QPalette.ColorRole(11),
+        palette.setColor(QtGui.QPalette.Inactive, QtGui.QPalette.ColorRole(11),
             QtGui.QColor(0, 0, 0))
-        palette.setColor(
-            QtGui.QPalette.Inactive,
-            QtGui.QPalette.ColorRole(12),
+        palette.setColor(QtGui.QPalette.Inactive, QtGui.QPalette.ColorRole(12),
             QtGui.QColor(101, 148, 235))
-        palette.setColor(
-            QtGui.QPalette.Inactive,
-            QtGui.QPalette.ColorRole(13),
+        palette.setColor(QtGui.QPalette.Inactive, QtGui.QPalette.ColorRole(13),
             QtGui.QColor(255, 255, 255))
-        palette.setColor(
-            QtGui.QPalette.Inactive,
-            QtGui.QPalette.ColorRole(14),
+        palette.setColor(QtGui.QPalette.Inactive, QtGui.QPalette.ColorRole(14),
             QtGui.QColor(0, 0, 255))
-        palette.setColor(
-            QtGui.QPalette.Inactive,
-            QtGui.QPalette.ColorRole(15),
+        palette.setColor(QtGui.QPalette.Inactive, QtGui.QPalette.ColorRole(15),
             QtGui.QColor(255, 0, 255))
-        palette.setColor(
-            QtGui.QPalette.Inactive,
-            QtGui.QPalette.ColorRole(16),
+        palette.setColor(QtGui.QPalette.Inactive, QtGui.QPalette.ColorRole(16),
             QtGui.QColor(247, 245, 243))
-        palette.setColor(
-            QtGui.QPalette.Disabled,
-            QtGui.QPalette.ColorRole(0),
+
+        # Configure Palette Color Disabled
+        palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.ColorRole(0),
             QtGui.QColor(127, 125, 123))
-        palette.setColor(
-            QtGui.QPalette.Disabled,
-            QtGui.QPalette.ColorRole(1),
+        palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.ColorRole(1),
             QtGui.QColor(226, 228, 252))
-        palette.setColor(
-            QtGui.QPalette.Disabled,
-            QtGui.QPalette.ColorRole(2),
+        palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.ColorRole(2),
             QtGui.QColor(237, 237, 237))
-        palette.setColor(
-            QtGui.QPalette.Disabled,
-            QtGui.QPalette.ColorRole(3),
+        palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.ColorRole(3),
             QtGui.QColor(247, 245, 243))
-        palette.setColor(
-            QtGui.QPalette.Disabled,
-            QtGui.QPalette.ColorRole(4),
+        palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.ColorRole(4),
             QtGui.QColor(119, 117, 115))
-        palette.setColor(
-            QtGui.QPalette.Disabled,
-            QtGui.QPalette.ColorRole(5),
+        palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.ColorRole(5),
             QtGui.QColor(159, 157, 154))
-        palette.setColor(
-            QtGui.QPalette.Disabled,
-            QtGui.QPalette.ColorRole(6),
+        palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.ColorRole(6),
             QtGui.QColor(127, 125, 123))
-        palette.setColor(
-            QtGui.QPalette.Disabled,
-            QtGui.QPalette.ColorRole(7),
+        palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.ColorRole(7),
             QtGui.QColor(255, 255, 255))
-        palette.setColor(
-            QtGui.QPalette.Disabled,
-            QtGui.QPalette.ColorRole(8),
+        palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.ColorRole(8),
             QtGui.QColor(127, 125, 123))
-        palette.setColor(
-            QtGui.QPalette.Disabled,
-            QtGui.QPalette.ColorRole(9),
+        palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.ColorRole(9),
             QtGui.QColor(255, 255, 255))
-        palette.setColor(
-            QtGui.QPalette.Disabled,
-            QtGui.QPalette.ColorRole(10),
+        palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.ColorRole(10),
             QtGui.QColor(239, 235, 231))
-        palette.setColor(
-            QtGui.QPalette.Disabled,
-            QtGui.QPalette.ColorRole(11),
+        palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.ColorRole(11),
             QtGui.QColor(0, 0, 0))
-        palette.setColor(
-            QtGui.QPalette.Disabled,
-            QtGui.QPalette.ColorRole(12),
+        palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.ColorRole(12),
             QtGui.QColor(84, 123, 196))
-        palette.setColor(
-            QtGui.QPalette.Disabled,
-            QtGui.QPalette.ColorRole(13),
+        palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.ColorRole(13),
             QtGui.QColor(255, 255, 255))
-        palette.setColor(
-            QtGui.QPalette.Disabled,
-            QtGui.QPalette.ColorRole(14),
+        palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.ColorRole(14),
             QtGui.QColor(0, 0, 255))
-        palette.setColor(
-            QtGui.QPalette.Disabled,
-            QtGui.QPalette.ColorRole(15),
+        palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.ColorRole(15),
             QtGui.QColor(255, 0, 255))
-        palette.setColor(
-            QtGui.QPalette.Disabled,
-            QtGui.QPalette.ColorRole(16),
+        palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.ColorRole(16),
             QtGui.QColor(247, 245, 243))
+
         self.tableWidget.setPalette(palette)
         self.tableWidget.setObjectName("tableWidget")
-        self.tableWidget.setSelectionMode(QtGui.QAbstractItemView.NoSelection)
+        self.tableWidget.setSelectionMode(
+            QtWidgets.QAbstractItemView.NoSelection)
         self.tableWidget.setSelectionBehavior(
-            QtGui.QAbstractItemView.SelectItems)
+            QtWidgets.QAbstractItemView.SelectItems)
         self.tableWidget.setGridStyle(QtCore.Qt.SolidLine)
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setMinimumSize(QtCore.QSize(40, 248))
         self.tableWidget.setMaximumSize(QtCore.QSize(112333, 248))
 
-        spacerItem1 = QtGui.QSpacerItem(
-            20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum,
+            QtWidgets.QSizePolicy.Expanding)
         self.vboxlayout.addItem(spacerItem1)
         self.vboxlayout.addWidget(self.tableWidget)
-        spacerItem1 = QtGui.QSpacerItem(
-            20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum,
+            QtWidgets.QSizePolicy.Expanding)
         self.vboxlayout.addItem(spacerItem1)
 
     def fillData(self, icepap_system, selected_crate):
@@ -256,7 +164,7 @@ class PageiPapCrate(QtGui.QWidget):
         self.tableWidget.verticalHeader().setUpdatesEnabled(False)
 
         for i in range(8):
-            headerItem = QtGui.QTableWidgetItem()
+            headerItem = QtWidgets.QTableWidgetItem()
             headerItem.setText(str(i + 1))
             self.tableWidget.setHorizontalHeaderItem(i, headerItem)
             self.tableWidget.horizontalHeader().resizeSection(i, 94)
@@ -274,7 +182,7 @@ class PageiPapCrate(QtGui.QWidget):
             if driver.cratenr == selected_crate:
                 crate = driver.cratenr
                 self.tableWidget.insertRow(row)
-                headerItem = QtGui.QTableWidgetItem()
+                headerItem = QtWidgets.QTableWidgetItem()
                 headerItem.setText("Crate %d" % crate)
                 self.tableWidget.setVerticalHeaderItem(row, headerItem)
                 self.tableWidget.verticalHeader().resizeSection(row, 200)
@@ -289,10 +197,7 @@ class PageiPapCrate(QtGui.QWidget):
                         wdriver.fillData(adriver)
                         self.driverswidgets[addr] = wdriver
                         self.tableWidget.setCellWidget(row, drivernr, wdriver)
-                        QtCore.QObject.connect(
-                            wdriver,
-                            QtCore.SIGNAL(
-                                "icepapDoubleClicked(PyQt_PyObject)"),
+                        wdriver.icepapDoubleClicked.connect(
                             self.driverDoubleclick)
                 break
 
@@ -312,3 +217,12 @@ class PageiPapCrate(QtGui.QWidget):
                 if driver_widget is not None:
                     if not driver_widget.refresh():
                         return
+
+
+if __name__ == '__main__':
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    main_window = QtWidgets.QMainWindow()
+    w = PageiPapCrate(main_window)
+    w.show()
+    sys.exit(app.exec_())
