@@ -12,35 +12,30 @@
 # -----------------------------------------------------------------------------
 
 
-from PyQt4 import QtGui, QtCore
-from .ui_ipapconsole import Ui_IpapConsole
+from PyQt5 import QtGui, QtCore, QtWidgets, uic
+from pkg_resources import resource_filename
+from icepap import IcePAPController as EthIcePAP
+import os
+import sys
 from .messagedialogs import MessageDialogs
 from ..lib_icepapcms import ConfigManager, IcepapController
-from pyIcePAP import EthIcePAP
-import sys
-import os
 
 
 # TODO: Adapt to use pyIcePAP API 2.X
-class IcepapConsole(QtGui.QDialog):
+class IcepapConsole(QtWidgets.QDialog):
     def __init__(self, parent=None):
-        QtGui.QDialog.__init__(self, parent, QtCore.Qt.Window)
-
-        self.ui = Ui_IpapConsole()
-
-        self.ui.setupUi(self)
+        QtWidgets.QDialog.__init__(self, parent, QtCore.Qt.Window)
+        ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
+                                        'ipapconsole.ui')
+        self.ui = self
+        uic.loadUi(ui_filename, baseinstance=self.ui)
         self.ui.btnDisconnect.setDisabled(True)
         self.ui.console.setDisabled(True)
-        QtCore.QObject.connect(self.ui.btnConnect,
-                               QtCore.SIGNAL("clicked()"),
-                               self.btnConnect_on_click)
-        QtCore.QObject.connect(self.ui.btnDisconnect,
-                               QtCore.SIGNAL("clicked()"),
-                               self.btnDisconnect_on_click)
-        QtCore.QObject.connect(self.ui.console,
-                               QtCore.SIGNAL("commandReceived(const "
-                                             "QString &)"),
-                               self.sendWriteReadCommand)
+
+        # Connect Signals
+        self.ui.btnConnect.clicked.connect(self.btnConnect_on_click)
+        self.ui.btnDisconnect.clicked.connect(self.btnDisconnect_on_click)
+        self.ui.console.commandReceived.connect(self.sendWriteReadCommand)
 
         self.prompt = "icepap:>"
         font = QtGui.QFont()
@@ -56,6 +51,7 @@ class IcepapConsole(QtGui.QDialog):
             if not os.path.exists(self.log_folder):
                 os.mkdir(self.log_folder)
         except Exception:
+            # TODO Change to use logs
             print("icepapconsole_init():", sys.exc_info())
 
     def btnConnect_on_click(self):
@@ -77,12 +73,10 @@ class IcepapConsole(QtGui.QDialog):
             if hasattr(self._config, '_options'):
                 ipapcontroller = IcepapController()
                 if not ipapcontroller.host_in_same_subnet(host):
-                    MessageDialogs.showInformationMessage(None,
-                                                          "Host connection",
-                                                          "It is not allowed "
-                                                          "to connect to %s. "
-                                                          "(Check "
-                                                          "subnet)" % host)
+                    MessageDialogs.showInformationMessage(
+                        None, "Host connection",
+                        "It is not allowed to connect to {}. "
+                        "(Check subnet)".format(host))
                     return
             else:
                 # JUST RUNNING AS A STAND-ALONE
@@ -91,8 +85,8 @@ class IcepapConsole(QtGui.QDialog):
             log_folder = None
             if self.debug:
                 log_folder = self.log_folder
-            self.ipap = EthIcePAP(host, port, log_path=log_folder)
-            self.ipap.connect()
+            # TODO configure debug folder and level
+            self.ipap = EthIcePAP(host, int(port))
 
             self.ui.btnDisconnect.setDisabled(False)
             self.ui.btnConnect.setDisabled(True)
@@ -137,17 +131,30 @@ class IcepapConsole(QtGui.QDialog):
                 self.close()
                 return
             if cmd.find("?") >= 0 or cmd.find("#") >= 0:
-                res = self.ipap.sendWriteReadCommand(cmd)
+                res = '\n'.join(self.ipap.send_cmd(cmd))
                 self.writeConsole(res)
             elif cmd.find("HELP") >= 0:
-                res = self.ipap.sendWriteReadCommand(cmd)
+                res = '\n'.join(self.ipap.send_cmd(cmd))
                 self.writeConsole(res)
             else:
-                self.ipap.sendWriteCommand(cmd)
+                res = '\n'.join(self.ipap.send_cmd(cmd))
         except Exception as e:
-            self.writeConsole("Some exception issuing command '%s'." % cmd)
-            self.writeConsole("                 Error is: '%s'." % str(e))
+            self.writeConsole("Some exception issuing command "
+                              "'{}'.".format(cmd))
+            self.writeConsole("               Error is: '{}'.".format(str(e)))
 
     def closeEvent(self, event):
         self.btnDisconnect_on_click()
         event.accept()
+
+
+def main():
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    console = IcepapConsole(None)
+    console.show()
+    sys.exit(app.exec_())
+
+
+if __name__ == '__main__':
+    main()

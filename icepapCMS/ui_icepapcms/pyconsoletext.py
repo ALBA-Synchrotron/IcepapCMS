@@ -11,25 +11,23 @@
 # -----------------------------------------------------------------------------
 
 
-from PyQt4 import QtCore, QtGui
-from PyQt4.QtGui import QTextEdit, QTextCursor
-from PyQt4.QtCore import Qt
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class PyConsoleText(QTextEdit):
-    __pyqtSignals__ = ("commandReceived(const QString &)")
+class PyConsoleText(QtWidgets.QTextEdit):
+    commandReceived = QtCore.pyqtSignal(str, name='commandReceived')
 
     def __init__(self, parent=None):
-        QTextEdit.__init__(self, parent)
+        QtWidgets.QTextEdit.__init__(self, parent)
 
         # to exit the main interpreter by a Ctrl-D if PyCute has no parent
         if parent is None:
-            self.eofKey = Qt.Key_D
+            self.eofKey = QtCore.Qt.Key_D
         else:
             self.eofKey = None
         self.prompt = ""
         # last line + last incomplete lines
-        self.line = QtCore.QString()
+        self.line = ""
         self.lines = []
         # the cursor position in the last line
         self.point = 0
@@ -44,7 +42,7 @@ class PyConsoleText(QTextEdit):
 
         # user interface setup
 
-        self.setLineWrapMode(QTextEdit.NoWrap)
+        self.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
 
     def setPrompt(self, text):
         self.prompt = text
@@ -61,13 +59,11 @@ class PyConsoleText(QTextEdit):
         """
         self.reading = 1
         self.__clearLine()
-        self.moveCursor(QTextCursor.End)
-        while self.reading:
-            qApp.processOneEvent()
-        if self.line.length() == 0:
+        self.moveCursor(QtGui.QTextCursor.End)
+        if len(self.line) == 0:
             return '\n'
         else:
-            return str(self.line)
+            return self.line
 
     def write(self, text):
 
@@ -76,7 +72,7 @@ class PyConsoleText(QTextEdit):
 
         cursor = self.textCursor()
 
-        cursor.movePosition(QTextCursor.End)
+        cursor.movePosition(QtGui.QTextCursor.End)
 
         pos1 = cursor.position()
         cursor.insertText(text)
@@ -86,7 +82,7 @@ class PyConsoleText(QTextEdit):
         self.ensureCursorVisible()
 
         # Set the format
-        cursor.setPosition(pos1, QTextCursor.KeepAnchor)
+        cursor.setPosition(pos1, QtGui.QTextCursor.KeepAnchor)
 
     def __run(self):
         """
@@ -97,17 +93,15 @@ class PyConsoleText(QTextEdit):
         (3) the interpreter fails, finds errors and writes them to sys.stderr
         """
         self.pointer = 0
-        self.history.append(QtCore.QString(self.line))
+        self.history.append(self.line)
         try:
-            self.lines.append(str(self.line))
+            self.lines.append(self.line)
         except Exception as e:
             print(e)
 
         source = '\n'.join(self.lines)
 
-        self.emit(
-            QtCore.SIGNAL("commandReceived(const QString &)"),
-            QtCore.QString(source))
+        self.commandReceived.emit(source)
         self.lines = []
         self.__clearLine()
         self.write(self.prompt)
@@ -116,7 +110,7 @@ class PyConsoleText(QTextEdit):
         """
         Clear input line buffer
         """
-        self.line.truncate(0)
+        self.line = ""
         self.point = 0
 
     def __insertText(self, text):
@@ -124,8 +118,8 @@ class PyConsoleText(QTextEdit):
         Insert text at the current cursor position.
         """
 
-        self.line.insert(self.point, text)
-        self.point += text.length()
+        self.line = self.line[:self.point] + text + self.line[self.point:]
+        self.point += len(text)
 
         cursor = self.textCursor()
         cursor.insertText(text)
@@ -138,55 +132,55 @@ class PyConsoleText(QTextEdit):
         text = e.text()
         key = e.key()
 
-        if key == Qt.Key_Backspace:
+        if key == QtCore.Qt.Key_Backspace:
             if self.point:
                 cursor = self.textCursor()
                 cursor.movePosition(
-                    QTextCursor.PreviousCharacter,
-                    QTextCursor.KeepAnchor)
+                    QtGui.QTextCursor.PreviousCharacter,
+                    QtGui.QTextCursor.KeepAnchor)
                 cursor.removeSelectedText()
 
                 self.point -= 1
-                self.line.remove(self.point, 1)
+                self.line = self.line[:self.point] + self.line[self.point+1:]
 
-        elif key == Qt.Key_Delete:
+        elif key == QtCore.Qt.Key_Delete:
             cursor = self.textCursor()
             cursor.movePosition(
-                QTextCursor.NextCharacter,
-                QTextCursor.KeepAnchor)
+                QtGui.QTextCursor.NextCharacter,
+                QtGui.QTextCursor.KeepAnchor)
             cursor.removeSelectedText()
 
-            self.line.remove(self.point, 1)
+            self.line = self.line[:self.point] + self.line[self.point+1:]
 
-        elif key == Qt.Key_Return or key == Qt.Key_Enter:
+        elif key == QtCore.Qt.Key_Return or key == QtCore.Qt.Key_Enter:
             self.write('\n')
             if self.reading:
                 self.reading = 0
             else:
                 self.__run()
 
-        elif key == Qt.Key_Tab:
+        elif key == QtCore.Qt.Key_Tab:
             self.__insertText(text)
-        elif key == Qt.Key_Left:
+        elif key == QtCore.Qt.Key_Left:
             if self.point:
-                self.moveCursor(QTextCursor.Left)
+                self.moveCursor(QtGui.QTextCursor.Left)
                 self.point -= 1
-        elif key == Qt.Key_Right:
-            if self.point < self.line.length():
-                self.moveCursor(QTextCursor.Right)
+        elif key == QtCore.Qt.Key_Right:
+            if self.point < len(self.line):
+                self.moveCursor(QtGui.QTextCursor.Right)
                 self.point += 1
 
-        elif key == Qt.Key_Home:
+        elif key == QtCore.Qt.Key_Home:
             cursor = self.textCursor()
             cursor.setPosition(self.cursor_pos)
             self.setTextCursor(cursor)
             self.point = 0
 
-        elif key == Qt.Key_End:
-            self.moveCursor(QTextCursor.EndOfLine)
-            self.point = self.line.length()
+        elif key == QtCore.Qt.Key_End:
+            self.moveCursor(QtGui.QTextCursor.EndOfLine)
+            self.point = len(self.line)
 
-        elif key == Qt.Key_Up:
+        elif key == QtCore.Qt.Key_Up:
 
             if len(self.history):
                 if self.pointer == 0:
@@ -194,14 +188,14 @@ class PyConsoleText(QTextEdit):
                 self.pointer -= 1
                 self.__recall()
 
-        elif key == Qt.Key_Down:
+        elif key == QtCore.Qt.Key_Down:
             if len(self.history):
                 self.pointer += 1
                 if self.pointer == len(self.history):
                     self.pointer = 0
                 self.__recall()
 
-        elif text.length():
+        elif len(text) > 0:
             self.__insertText(text)
             return
 
@@ -224,8 +218,8 @@ class PyConsoleText(QTextEdit):
         """
         Keep the cursor after the last prompt.
         """
-        if e.button() == Qt.LeftButton:
-            self.moveCursor(QTextCursor.End)
+        if e.button() == QtCore.Qt.LeftButton:
+            self.moveCursor(QtGui.QTextCursor.End)
 
     def contentsContextMenuEvent(self, ev):
         """
@@ -237,13 +231,11 @@ class PyConsoleText(QTextEdit):
 class SyntaxColor:
     """ Allow to color python keywords """
 
-    keywords = set(["and", "del", "from", "not", "while",
-                    "as", "elif", "global", "or", "with",
-                    "assert", "else", "if", "pass", "yield",
-                    "break", "except", "import", "print",
-                    "class", "exec", "in", "raise",
-                    "continue", "finally", "is", "return",
-                    "def", "for", "lambda", "try"])
+    keywords = {"and", "del", "from", "not", "while", "as", "elif", "global",
+                "or", "with", "assert", "else", "if", "pass", "yield", "break",
+                "except", "import", "print", "class", "exec", "in", "raise",
+                "continue", "finally", "is", "return", "def", "for", "lambda",
+                "try"}
 
     def __init__(self):
         pass
@@ -253,14 +245,14 @@ class SyntaxColor:
 
         stripped = word.strip()
 
-        if(stripped in self.keywords):
-            return (255, 132, 0)  # orange
+        if stripped in self.keywords:
+            return 255, 132, 0  # orange
 
-        elif(self.is_python_string(stripped)):
-            return (61, 120, 9)  # dark green
+        elif self.is_python_string(stripped):
+            return 61, 120, 9  # dark green
 
         else:
-            return (255, 255, 255)
+            return 255, 255, 255
 
     def is_python_string(self, str):
         """ Return True if str is enclosed by a string mark """
