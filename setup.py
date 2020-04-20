@@ -21,8 +21,9 @@ setup(
     author="Guifre Cuni",
     author_email="guifre.cuni@cells.es",
     entry_points={
-        'gui_scripts': ['icepapcms = icepapCMS.icepapcms:main',
-                        'ipapconsole = icepapCMS.ipapconsole:main'],
+        'gui_scripts': [
+            'icepapcms = icepapCMS.icepapcms:main',
+            'ipapconsole = icepapCMS.ui_icepapcms.ipapconsole:main'],
     },
     # install_requires=[
     #     "storm==0.20",
