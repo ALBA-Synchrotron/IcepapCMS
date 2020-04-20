@@ -11,24 +11,26 @@
 # -----------------------------------------------------------------------------
 
 
-from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QMessageBox
 
 
 class MessageDialogs:
 
     def showYesNoMessage(self, parent, caption, question):
-        return not QtWidgets.QMessageBox.question(parent, caption, question,
-                                                  "Yes", "No")
+        answer = QMessageBox.question(parent, caption, question,
+                                      QMessageBox.Yes | QMessageBox.No,
+                                      defaultButton=QMessageBox.No)
+        return answer == QMessageBox.Yes
     showYesNoMessage = classmethod(showYesNoMessage)
 
     def showWarningMessage(self, parent, caption, warning):
-        QtWidgets.QMessageBox.warning(parent, caption, warning)
+        QMessageBox.warning(parent, caption, warning)
     showWarningMessage = classmethod(showWarningMessage)
 
     def showInformationMessage(self, parent, caption, info):
-        QtWidgets.QMessageBox.information(parent, caption, info)
+        QMessageBox.information(parent, caption, info)
     showInformationMessage = classmethod(showInformationMessage)
 
     def showErrorMessage(self, parent, caption, error):
-        QtWidgets.QMessageBox.critical(parent, caption, error)
+        QMessageBox.critical(parent, caption, error)
     showErrorMessage = classmethod(showErrorMessage)
