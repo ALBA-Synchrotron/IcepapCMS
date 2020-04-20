@@ -12,8 +12,8 @@
 
 
 from PyQt4 import QtCore, QtGui, Qt
-from ui_historiccfgwidget import Ui_HistoricCfgWidget
-from messagedialogs import MessageDialogs
+from .ui_historiccfgwidget import Ui_HistoricCfgWidget
+from .messagedialogs import MessageDialogs
 import datetime, time
 import os
 import sys
@@ -54,7 +54,7 @@ class HistoricCfgWidget(QtGui.QWidget):
             
             qdate = QtCore.QDate(datetime.year,datetime.month,datetime.day)
             cfgdate = qdate.toPyDate().ctime()
-            if self.selectedDays.has_key(cfgdate):
+            if cfgdate in self.selectedDays:
                 self.selectedDays[cfgdate].append([cfg.date, cfg])
             else:
                 format=QtGui.QTextCharFormat()
@@ -65,7 +65,7 @@ class HistoricCfgWidget(QtGui.QWidget):
     
     def daySelected(self, qdate):
         date = qdate.toPyDate().ctime()
-        if self.selectedDays.has_key(date):
+        if date in self.selectedDays:
             daylist = self.selectedDays[date]
             if len(daylist) == 1:
                 self.fillCfgData(daylist[0])
@@ -83,7 +83,7 @@ class HistoricCfgWidget(QtGui.QWidget):
             
     def listWidgetChanged(self, name):
         name = str(name)
-        if self.listDict.has_key(name): 
+        if name in self.listDict: 
             self.fillCfgData(self.listDict[name])
     
     def fillCfgData(self, cfg):
@@ -110,8 +110,8 @@ class HistoricCfgWidget(QtGui.QWidget):
         self.ui.deleteButton.setEnabled(False)
         
     def saveButton_on_click(self):
-        name = unicode(self.ui.txtName.text())
-        desc = unicode(self.ui.txtDescription.toPlainText())
+        name = str(self.ui.txtName.text())
+        desc = str(self.ui.txtDescription.toPlainText())
         if name == "" or not self.selectedCfg:
             MessageDialogs.showWarningMessage(self, "Store historic configuration", "Fill all required data.")
             return
