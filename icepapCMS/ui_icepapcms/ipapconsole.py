@@ -13,8 +13,8 @@
 
 
 from PyQt4 import QtGui, QtCore
-from ui_ipapconsole import Ui_IpapConsole
-from messagedialogs import MessageDialogs
+from .ui_ipapconsole import Ui_IpapConsole
+from .messagedialogs import MessageDialogs
 from ..lib_icepapcms import ConfigManager, IcepapController
 from pyIcePAP import EthIcePAP
 import sys
@@ -56,7 +56,7 @@ class IcepapConsole(QtGui.QDialog):
             if not os.path.exists(self.log_folder):
                 os.mkdir(self.log_folder)
         except Exception:
-            print "icepapconsole_init():", sys.exc_info()
+            print("icepapconsole_init():", sys.exc_info())
 
     def btnConnect_on_click(self):
         try:
