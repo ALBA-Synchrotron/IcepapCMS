@@ -110,8 +110,8 @@ class PyConsoleText(QTextEdit):
         self.history.append(QtCore.QString(self.line))
         try:
             self.lines.append(str(self.line))
-        except Exception,e:
-            print e
+        except Exception as e:
+            print(e)
 
         source = '\n'.join(self.lines)
 
