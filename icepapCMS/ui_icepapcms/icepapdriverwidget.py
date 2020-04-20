@@ -11,7 +11,7 @@
 # -----------------------------------------------------------------------------
 
 
-from PyQt5 import QtGui, Qt, QtWidgets, uic
+from PyQt5 import QtGui, Qt, QtWidgets, uic, QtCore
 from pkg_resources import resource_filename
 from .Led import Led
 from ..lib_icepapcms import MainManager, Conflict
@@ -19,6 +19,8 @@ from icepap import Mode, State
 
 
 class IcePapDriverWidget(QtWidgets.QWidget):
+    icepapDoubleClicked = QtCore.pyqtSignal(object)
+
     def __init__(self, parent=None, BigSize=True, test_mode=False):
         QtWidgets.QWidget.__init__(self, parent)
         self.initView(BigSize, test_mode)
@@ -64,9 +66,7 @@ class IcePapDriverWidget(QtWidgets.QWidget):
         self.ui.pushButton.clicked.connect(self.btnEnDis_on_click)
 
     def mouseDoubleClickEvent(self, event):
-        # TODO Change to new style
-        # self.emit(QtCore.SIGNAL("icepapDoubleClicked(PyQt_PyObject)"),
-        #           self._driver)
+        self.icepapDoubleClicked.emit(event)
         event.accept()
 
     def mousePressEvent(self, event):
