@@ -121,7 +121,7 @@ class PageiPapSystem(QtGui.QWidget):
         row = 0
         for driver in icepap_system.getDrivers():
             addr = driver.addr
-            if driver.cratenr  <> crate:
+            if driver.cratenr  != crate:
                 crate = driver.cratenr 
                 self.tableWidget.insertRow(row)
                 headerItem = QtGui.QTableWidgetItem()
