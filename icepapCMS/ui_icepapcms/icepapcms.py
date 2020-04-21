@@ -16,23 +16,23 @@ from PyQt4 import QtCore, QtGui, Qt
 from .ui_icepapcms import Ui_IcepapCMS
 from qrc_icepapcms import *
 from ..lib_icepapcms import MainManager, Conflict, ConfigManager, StormManager, Timer
-from icepap_treemodel import IcepapTreeModel
-from pageipapdriver import PageiPapDriver
-from pageipapcrate import PageiPapCrate
-from pageipapsystem import PageiPapSystem
-from dialogaddicepap import DialogAddIcepap
-from dialogaddlocation import DialogAddLocation
-from dialogdriverconflict import DialogDriverConflict
+from .icepap_treemodel import IcepapTreeModel
+from .pageipapdriver import PageiPapDriver
+from .pageipapcrate import PageiPapCrate
+from .pageipapsystem import PageiPapSystem
+from .dialogaddicepap import DialogAddIcepap
+from .dialogaddlocation import DialogAddLocation
+from .dialogdriverconflict import DialogDriverConflict
 
-from dialogconflictdriver_nonexpert import DialogConflictNonExpert
-from dialogconflictdriver_expert import DialogConflictExpert
-from dialognewdriver import DialogNewDriver
+from .dialogconflictdriver_nonexpert import DialogConflictNonExpert
+from .dialogconflictdriver_expert import DialogConflictExpert
+from .dialognewdriver import DialogNewDriver
 
-from dialogpreferences import DialogPreferences
-from dialogipapprogram import DialogIcepapProgram
-from ipapconsole import IcepapConsole
-from messagedialogs import MessageDialogs
-from templatescatalogwidget import TemplatesCatalogWidget
+from .dialogpreferences import DialogPreferences
+from .dialogipapprogram import DialogIcepapProgram
+from .ipapconsole import IcepapConsole
+from .messagedialogs import MessageDialogs
+from .templatescatalogwidget import TemplatesCatalogWidget
 from optparse import OptionParser
 
 __version__ = '2.3.6'
@@ -93,10 +93,10 @@ class IcepapCMS(QtGui.QMainWindow):
                         self._config.username = login_dlg.username
                         valid_ldap_login = True
                 if not valid_ldap_login:
-                    print '\n\nSorry, we only allow validated users to save configs to Icepap drivers.\n'
+                    print('\n\nSorry, we only allow validated users to save configs to Icepap drivers.\n')
                     sys.exit(-1)
-            except Exception,e:
-                print 'Using IcepapCMS with the system\'s username: %s' % self._config.username
+            except Exception as e:
+                print('Using IcepapCMS with the system\'s username: %s' % self._config.username)
         self.checkTimer = Qt.QTimer(self)        
 
         self.initGUI()
@@ -207,7 +207,7 @@ class IcepapCMS(QtGui.QMainWindow):
         self.ui.cbLocation.clear()
         self.ui.treeView.setModel(None)
 
-        keys = self._manager.locationList.keys()
+        keys = list(self._manager.locationList.keys())
         keys.sort()                
         for location_name in keys:
             self.ui.cbLocation.addItem(location_name)
@@ -226,7 +226,7 @@ class IcepapCMS(QtGui.QMainWindow):
     def locationChanged(self, location):
         self._manager.changeLocation(location)
         self.buildInitialTree()
-        for icepap_system in self._manager.IcepapSystemList.values():
+        for icepap_system in list(self._manager.IcepapSystemList.values()):
             self.stopIcepap(icepap_system)
 
     def buildInitialTree(self):        
@@ -337,8 +337,8 @@ class IcepapCMS(QtGui.QMainWindow):
         dlg.exec_()
         if dlg.result():            
             data = dlg.getData()   
-            item.itemData.description = unicode(data[2])
-            item.itemData.location_name = unicode(data[3])
+            item.itemData.description = str(data[2])
+            item.itemData.location_name = str(data[3])
             item.changeLabel([data[0], data[2]])
             self.ui.stackedWidget.setCurrentIndex(0)
             self.ui.cbLocation.setCurrentIndex(self.ui.cbLocation.findText(data[3], QtCore.Qt.MatchFixedString))            
@@ -554,7 +554,7 @@ class IcepapCMS(QtGui.QMainWindow):
 
         # BY NOW, UPDATE THE ICEPAP NAME MANUALLY
         current_cfg = driver.current_cfg
-        label = str(driver.addr)+" "+current_cfg.getParameter(unicode("IPAPNAME"), True)
+        label = str(driver.addr)+" "+current_cfg.getParameter(str("IPAPNAME"), True)
         item.changeLabel([label])
 
         icepap_system = item.itemData.icepap_system
@@ -875,7 +875,7 @@ class IcepapCMS(QtGui.QMainWindow):
             if self.ui.stackedWidget.currentIndex() == 0:
                 #sign all drivers
                 icepap_list = self._manager.getIcepapList()
-                for icepap_name, icepap_system in icepap_list.items():
+                for icepap_name, icepap_system in list(icepap_list.items()):
                     icepap_system.signSystem()
                     self._tree_model.emit(QtCore.SIGNAL('layoutChanged ()'))
             elif self.ui.stackedWidget.currentIndex() == 1:        
@@ -891,8 +891,8 @@ class IcepapCMS(QtGui.QMainWindow):
                 self.ui.pageiPapDriver.signDriver()
                 self.ui.actionSaveConfig.setEnabled(False)
 
-        except Exception,e:
-            print "some exception while saving config:",e
+        except Exception as e:
+            print("some exception while saving config:",e)
             MessageDialogs.showInformationMessage(self, "Signature", "Some problems saving driver's configuration")
         QtGui.QApplication.instance().restoreOverrideCursor()
 
