@@ -11,14 +11,14 @@
 # -----------------------------------------------------------------------------
 
 
-from PyQt4 import QtGui, Qt
+from PyQt5 import QtGui, QtWidgets
 
 
-class QValidateLineEdit(QtGui.QLineEdit):
+class QValidateLineEdit(QtWidgets.QLineEdit):
     INTEGER, DOUBLE = list(range(2))
 
     def __init__(self, parent, type, min, max):
-        QtGui.QLineEdit.__init__(self, parent)
+        QtWidgets.QLineEdit.__init__(self, parent)
         self.type = type
         if type == QValidateLineEdit.INTEGER:
             self.myValidator = QtGui.QIntValidator(int(min),
@@ -30,13 +30,23 @@ class QValidateLineEdit(QtGui.QLineEdit):
             self.myValidator = None
 
     def keyPressEvent(self, event):
-        QtGui.QLineEdit.keyPressEvent(self, event)
+        QtWidgets.QLineEdit.keyPressEvent(self, event)
         self.setValidator(self.myValidator)
         if self.validator() != 0:
+            palette = self.palette()
             if not self.hasAcceptableInput():
-                self.palette().setColor(QtGui.QPalette.Text,
-                                        QtGui.QColor(Qt.Qt.red))
+                palette.setColor(QtGui.QPalette.Text, QtGui.QColor('red'))
+                self.setPalette(palette)
             else:
-                self.palette().setColor(QtGui.QPalette.Text,
-                                        QtGui.QColor(Qt.Qt.black))
+                palette.setColor(QtGui.QPalette.Text, QtGui.QColor('black'))
+                self.setPalette(palette)
         self.setValidator(None)
+
+
+if __name__ == '__main__':
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    m = QtWidgets.QWidget()
+    w = QValidateLineEdit(m, QValidateLineEdit.INTEGER, -10, 10)
+    m.show()
+    sys.exit(app.exec_())
