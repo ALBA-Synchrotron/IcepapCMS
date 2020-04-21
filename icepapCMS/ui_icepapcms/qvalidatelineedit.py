@@ -14,7 +14,7 @@
 from PyQt4 import QtCore, QtGui, Qt
 
 class QValidateLineEdit(QtGui.QLineEdit):
-    INTEGER, DOUBLE = range(2)
+    INTEGER, DOUBLE = list(range(2))
     def __init__(self, parent, type, min, max):
         QtGui.QLineEdit.__init__(self,parent)
         self.type = type
@@ -29,7 +29,7 @@ class QValidateLineEdit(QtGui.QLineEdit):
     def keyPressEvent(self,event):       
         QtGui.QLineEdit.keyPressEvent(self,event)
         self.setValidator(self.myValidator)
-        if self.validator() <> 0:
+        if self.validator() != 0:
             if not self.hasAcceptableInput():
                 self.palette().setColor(QtGui.QPalette.Text, QtGui.QColor(Qt.Qt.red))
             else:
