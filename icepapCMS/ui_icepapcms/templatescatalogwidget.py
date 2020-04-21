@@ -49,7 +49,7 @@ class TemplatesCatalogWidget(QtGui.QDialog):
         for local_template in local_templates:
             try:
                 self.buildCatalog(prefix+local_template)
-            except Exception,e:
+            except Exception as e:
                 #print "something happened with file",local_template,"error:",e
                 pass
 
@@ -144,7 +144,7 @@ class TemplatesCatalogWidget(QtGui.QDialog):
                 description = str(desc_node.data)
             params['description'] = description
 
-            for param in template_node.attributes.keys():
+            for param in list(template_node.attributes.keys()):
                 param_value_instance = template_node.attributes.get(param)
                 params[param] = param_value_instance.value
             self.catalog[str(template_name)] = params
@@ -155,7 +155,7 @@ class TemplatesCatalogWidget(QtGui.QDialog):
         model.setHeaderData(0, QtCore.Qt.Horizontal, QtCore.QVariant("Template"))
         model.setHeaderData(1, QtCore.Qt.Horizontal, QtCore.QVariant("Description"))
     
-        for template_name in self.catalog.keys():
+        for template_name in list(self.catalog.keys()):
             self.addTemplate(model,template_name,self.catalog[template_name]['description'])
             
         return model
