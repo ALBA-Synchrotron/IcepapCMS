@@ -12,7 +12,7 @@
 
 
 import os
-from PyQt4 import Qt, QtCore, QtGui
+from PyQt5 import Qt, QtCore, QtWidgets
 from xml.dom import minidom
 
 from ..lib_icepapcms import ConfigManager
@@ -35,11 +35,11 @@ CATALOG_PARAMS = ['MOTPHASES', 'MOTPOLES', 'MREGMODE', 'NVOLT', 'IVOLT',
 #         is possible
 
 
-class TemplatesCatalogWidget(QtGui.QDialog):
+class TemplatesCatalogWidget(QtWidgets.QDialog):
 
     def __init__(self, master_catalog_file, pageipapdriver, parent=None):
 
-        QtGui.QDialog.__init__(self, parent, QtCore.Qt.Window)
+        QtWidgets.QDialog.__init__(self, parent, QtCore.Qt.Window)
 
         self.pageipapdriver = pageipapdriver
 
@@ -56,46 +56,42 @@ class TemplatesCatalogWidget(QtGui.QDialog):
             except Exception:
                 pass
 
-        self.proxyModel = QtGui.QSortFilterProxyModel()
+        self.proxyModel = Qt.QSortFilterProxyModel()
         self.proxyModel.setDynamicSortFilter(True)
         self.proxyModel.setSourceModel(self.createModel())
 
-        self.proxyGroupBox = QtGui.QGroupBox()
+        self.proxyGroupBox = QtWidgets.QGroupBox()
         self.proxyGroupBox.setFlat(True)
 
-        self.proxyView = QtGui.QTreeView()
+        self.proxyView = QtWidgets.QTreeView()
         self.proxyView.setRootIsDecorated(False)
         self.proxyView.setAlternatingRowColors(True)
         self.proxyView.setModel(self.proxyModel)
         self.proxyView.setSortingEnabled(True)
         # AT THE ISG LAB, THIS METHOD IS NOT AVAILABLE...
-        self.connect(self.proxyView,
-                     QtCore.SIGNAL("doubleClicked(QModelIndex)"),
-                     self.rowDoubleClicked)
+        self.proxyView.doubleClicked.connect(self.rowDoubleClicked)
 
-        self.filterPatternLineEdit = QtGui.QLineEdit()
-        self.filterPatternLabel = QtGui.QLabel("&Filter pattern:")
+        self.filterPatternLineEdit = QtWidgets.QLineEdit()
+        self.filterPatternLabel = QtWidgets.QLabel("&Filter pattern:")
         self.filterPatternLabel.setBuddy(self.filterPatternLineEdit)
-        self.connect(self.filterPatternLineEdit,
-                     QtCore.SIGNAL("textChanged(const QString)"),
-                     self.filterRegExpChanged)
+        self.filterPatternLineEdit.textChanged.connect(
+            self.filterRegExpChanged)
 
-        self.filterColumnComboBox = QtGui.QComboBox()
+        self.filterColumnComboBox = QtWidgets.QComboBox()
         # ITEMS HAVE BEEN FILLED AT THE self.buildCatalog CALL
         model = self.proxyModel.sourceModel()
         for column in range(model.columnCount()):
             self.filterColumnComboBox.addItem(
                 model.horizontalHeaderItem(column).text())
-        self.filterColumnLabel = QtGui.QLabel("Filter &column:")
+        self.filterColumnLabel = QtWidgets.QLabel("Filter &column:")
         self.filterColumnLabel.setBuddy(self.filterColumnComboBox)
-        self.connect(self.filterColumnComboBox,
-                     QtCore.SIGNAL("currentIndexChanged(int)"),
-                     self.filterColumnChanged)
+        self.filterColumnComboBox.currentIndexChanged.connect(
+            self.filterColumnChanged)
 
-        self.chkAutoClose = QtGui.QCheckBox("Auto close")
+        self.chkAutoClose = QtWidgets.QCheckBox("Auto close")
         self.chkAutoClose.setChecked(True)
 
-        self.proxyLayout = QtGui.QGridLayout()
+        self.proxyLayout = QtWidgets.QGridLayout()
 
         self.proxyLayout.addWidget(self.filterColumnLabel, 0, 0)
         self.proxyLayout.addWidget(self.filterColumnComboBox, 0, 1)
@@ -106,7 +102,7 @@ class TemplatesCatalogWidget(QtGui.QDialog):
 
         self.proxyGroupBox.setLayout(self.proxyLayout)
 
-        self.mainLayout = QtGui.QVBoxLayout()
+        self.mainLayout = QtWidgets.QVBoxLayout()
         self.mainLayout.addWidget(self.proxyGroupBox)
         self.setLayout(self.mainLayout)
 
@@ -153,21 +149,15 @@ class TemplatesCatalogWidget(QtGui.QDialog):
             self.catalog[str(template_name)] = params
 
     def createModel(self, parent=None):
-        model = QtGui.QStandardItemModel(0, 2, self)
-        model.setHeaderData(
-            0,
-            QtCore.Qt.Horizontal,
-            QtCore.QVariant("Template"))
-        model.setHeaderData(
-            1,
-            QtCore.Qt.Horizontal,
-            QtCore.QVariant("Description"))
+        model = Qt.QStandardItemModel(0, 2, self)
+        model.setHeaderData(0, QtCore.Qt.Horizontal,
+                            QtCore.QVariant("Template"))
+        model.setHeaderData(1, QtCore.Qt.Horizontal,
+                            QtCore.QVariant("Description"))
 
         for template_name in list(self.catalog.keys()):
-            self.addTemplate(
-                model,
-                template_name,
-                self.catalog[template_name]['description'])
+            self.addTemplate(model, template_name,
+                             self.catalog[template_name]['description'])
 
         return model
 
@@ -187,10 +177,7 @@ class TemplatesCatalogWidget(QtGui.QDialog):
         words = filtertext.split(' ')
         if len(words) > 1:
             filtertext = '(' + ' | '.join(words) + ')'
-        regExp = QtCore.QRegExp(
-            QtCore.QString(filtertext),
-            caseSensitivity,
-            syntax)
+        regExp = QtCore.QRegExp(str(filtertext), caseSensitivity, syntax)
 
         self.proxyModel.setFilterRegExp(regExp)
         # In case of just one match, auto-select it
@@ -206,3 +193,14 @@ class TemplatesCatalogWidget(QtGui.QDialog):
     def closeEvent(self, event):
         self.close()
         event.accept()
+
+
+if __name__ == '__main__':
+    import sys
+    from pkg_resources import resource_filename
+    app = QtWidgets.QApplication(sys.argv)
+    file_name = resource_filename('icepapCMS.templates',
+                                  'catalog.xml')
+    w = TemplatesCatalogWidget(file_name, None)
+    w.show()
+    sys.exit(app.exec_())
