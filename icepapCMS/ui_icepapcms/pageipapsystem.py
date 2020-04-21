@@ -10,29 +10,27 @@
 # See LICENSE.txt for more info.
 # -----------------------------------------------------------------------------
 
-
-from PyQt4 import QtCore, QtGui, Qt
-from qrc_icepapcms import *
+from PyQt5 import QtCore, QtGui, Qt, QtWidgets
 from .icepapdriverwidget import IcePapDriverWidget
 
 
-class PageiPapSystem(QtGui.QWidget):
+class PageiPapSystem(QtWidgets.QWidget):
     def __init__(self, mainwin):
-        QtGui.QWidget.__init__(self, None)
+        QtWidgets.QWidget.__init__(self, None)
         self._colSize = [94, 94]
         self._rowSize = [74, 200]
         self.mainwin = mainwin
-        self.hboxlayout = QtGui.QVBoxLayout(self)
-        self.hboxlayout.setMargin(9)
+        self.hboxlayout = QtWidgets.QVBoxLayout(self)
+        self.hboxlayout.setContentsMargins(9, 9, 9, 9)
         self.hboxlayout.setSpacing(6)
-        self.cmbIconSize = QtGui.QComboBox()
-        self.cmbIconSize.addItems(
-            QtCore.QStringList(["Big icons", "Small Icons"]))
+        self.cmbIconSize = QtWidgets.QComboBox()
+        self.cmbIconSize.addItems(["Big icons", "Small Icons"])
         self.cmbIconSize.setMaximumWidth(100)
         self.hboxlayout.addWidget(self.cmbIconSize)
 
-        self.tableWidget = QtGui.QTableWidget(self)
+        self.tableWidget = QtWidgets.QTableWidget(self)
         palette = QtGui.QPalette()
+        # Palette Active colors
         palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.ColorRole(0),
                          QtGui.QColor(16, 16, 16))
         palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.ColorRole(1),
@@ -67,6 +65,8 @@ class PageiPapSystem(QtGui.QWidget):
                          QtGui.QColor(255, 0, 255))
         palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.ColorRole(16),
                          QtGui.QColor(247, 245, 243))
+
+        # Palette Inactive colors
         palette.setColor(QtGui.QPalette.Inactive, QtGui.QPalette.ColorRole(0),
                          QtGui.QColor(16, 16, 16))
         palette.setColor(QtGui.QPalette.Inactive, QtGui.QPalette.ColorRole(1),
@@ -101,6 +101,8 @@ class PageiPapSystem(QtGui.QWidget):
                          QtGui.QColor(255, 0, 255))
         palette.setColor(QtGui.QPalette.Inactive, QtGui.QPalette.ColorRole(16),
                          QtGui.QColor(247, 245, 243))
+
+        # Palette Disabled colors
         palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.ColorRole(0),
                          QtGui.QColor(127, 125, 123))
         palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.ColorRole(1),
@@ -137,16 +139,14 @@ class PageiPapSystem(QtGui.QWidget):
                          QtGui.QColor(247, 245, 243))
         self.tableWidget.setPalette(palette)
         self.tableWidget.setObjectName("tableWidget")
-        self.tableWidget.setSelectionMode(QtGui.QAbstractItemView.NoSelection)
+        self.tableWidget.setSelectionMode(
+            QtWidgets.QAbstractItemView.NoSelection)
         self.tableWidget.setSelectionBehavior(
-            QtGui.QAbstractItemView.SelectItems)
+            QtWidgets.QAbstractItemView.SelectItems)
         self.tableWidget.setGridStyle(QtCore.Qt.SolidLine)
         self.tableWidget.setObjectName("tableWidget")
         self.hboxlayout.addWidget(self.tableWidget)
-        QtCore.QObject.connect(
-            self.cmbIconSize,
-            QtCore.SIGNAL("currentIndexChanged(int)"),
-            self.changeSize)
+        self.cmbIconSize.currentIndexChanged.connect(self.changeSize)
         self.icepap_system = None
 
     def fillData(self, icepap_system):
@@ -162,7 +162,7 @@ class PageiPapSystem(QtGui.QWidget):
         self.tableWidget.verticalHeader().setUpdatesEnabled(False)
 
         for i in range(8):
-            headerItem = QtGui.QTableWidgetItem()
+            headerItem = QtWidgets.QTableWidgetItem()
             headerItem.setText(str(i + 1))
             self.tableWidget.setHorizontalHeaderItem(i, headerItem)
             self.tableWidget.horizontalHeader().resizeSection(
@@ -180,7 +180,7 @@ class PageiPapSystem(QtGui.QWidget):
             if driver.cratenr != crate:
                 crate = driver.cratenr
                 self.tableWidget.insertRow(row)
-                headerItem = QtGui.QTableWidgetItem()
+                headerItem = QtWidgets.QTableWidgetItem()
                 headerItem.setText("Crate %d" % crate)
                 self.tableWidget.setVerticalHeaderItem(row, headerItem)
                 self.tableWidget.verticalHeader().resizeSection(
@@ -195,14 +195,9 @@ class PageiPapSystem(QtGui.QWidget):
                     if adriver is not None:
                         wdriver = IcePapDriverWidget(self, size)
                         wdriver.fillData(adriver)
-                        # if not wdriver.fillData(adriver):
-                        #    return
                         self.driverswidgets[addr] = wdriver
                         self.tableWidget.setCellWidget(row, drivernr, wdriver)
-                        QtCore.QObject.connect(
-                            wdriver,
-                            QtCore.SIGNAL(
-                                "icepapDoubleClicked(PyQt_PyObject)"),
+                        wdriver.icepapDoubleClicked.connect(
                             self.driverDoubleclick)
                 row += 1
 
@@ -237,9 +232,7 @@ class PageiPapSystem(QtGui.QWidget):
                             return
                         driver_widget.show()
                         self.tableWidget.setCellWidget(row, col, driver_widget)
-                        QtCore.QObject.connect(
-                            driver_widget,
-                            QtCore.SIGNAL("icepapDoubleClicked(PyObject *)"),
+                        driver_widget.icepapDoubleClicked.connect(
                             self.driverDoubleclick)
 
                     else:
@@ -255,3 +248,12 @@ class PageiPapSystem(QtGui.QWidget):
         self.tableWidget.setUpdatesEnabled(True)
         self.tableWidget.horizontalHeader().setUpdatesEnabled(True)
         self.tableWidget.verticalHeader().setUpdatesEnabled(True)
+
+
+if __name__ == '__main__':
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    main_window = QtWidgets.QMainWindow()
+    w = PageiPapSystem(main_window)
+    w.show()
+    sys.exit(app.exec_())
