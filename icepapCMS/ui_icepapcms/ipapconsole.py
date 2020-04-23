@@ -28,7 +28,8 @@ class IcepapConsole(QtWidgets.QDialog):
         ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
                                         'ipapconsole.ui')
         self.ui = self
-        uic.loadUi(ui_filename, baseinstance=self.ui)
+        uic.loadUi(ui_filename, baseinstance=self.ui,
+                   package='icepapCMS.ui_icepapcms')
         self.ui.btnDisconnect.setDisabled(True)
         self.ui.console.setDisabled(True)
 
