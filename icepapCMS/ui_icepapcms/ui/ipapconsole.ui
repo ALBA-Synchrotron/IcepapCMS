@@ -188,7 +188,7 @@
   <customwidget>
    <class>PyConsoleText</class>
    <extends>QTextEdit</extends>
-   <header>.PyConsoleText</header>
+   <header>.pyconsoletext</header>
   </customwidget>
  </customwidgets>
  <tabstops>
