@@ -91,10 +91,10 @@ class IcepapDriverCfg(Storm):
                 return None
 
     def toList(self):
-        list = []
-        for cfgpar in list(self._inmemory_parameters.values()):
-            list.append((cfgpar.name, cfgpar.value))
-        return list
+        l = []
+        for cfgpar in self._inmemory_parameters.values():
+            l.append((cfgpar.name, cfgpar.value))
+        return l
 
     def __str__(self):
         text = "Configuration"
