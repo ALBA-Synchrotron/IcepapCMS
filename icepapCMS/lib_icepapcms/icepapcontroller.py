@@ -77,10 +77,12 @@ class IcepapController(Singleton):
                 if self.debug:
                     import logging
                     logging.basicConfig(level=logging.DEBUG)
-
-                self.iPaps[icepap_name] = EthIcePAPController(host, port)
+                # TODO Optimize GUI to avoid auto_axes=True
+                self.iPaps[icepap_name] = EthIcePAPController(host, int(port),
+                                                              auto_axes=True)
                 return True
-            except Exception:
+            except Exception as e:
+                print('error', e)
                 return False
 
     def closeConnection(self, icepap_name):
@@ -736,8 +738,8 @@ class IcepapController(Singleton):
             else:
                 host = dst
                 port = "5000"
-            ipap = EthIcePAPController(host, port)
-
+            # TODO Optimize GUI to avoid auto_axes=True
+            ipap = EthIcePAPController(host, int(port), auto_axes=True)
             msg = 'System {0} version: {ver[0]}'.format(
                 host, ver=ipap.ver.system)
             print(msg)
