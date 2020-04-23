@@ -34,3 +34,18 @@ class MessageDialogs:
     def showErrorMessage(self, parent, caption, error):
         QMessageBox.critical(parent, caption, error)
     showErrorMessage = classmethod(showErrorMessage)
+
+
+def catchError(msg=''):
+    def wrapper(f):
+        def _wrapper(*args, **kwargs):
+            try:
+                return f(*args, **kwargs)
+            except Exception as e:
+                if msg != '':
+                    m = '{}. Icepap Error:\n{}'.format(msg, e)
+                else:
+                    m = 'Icepap Error:\n{}}'.format(e)
+                MessageDialogs.showErrorMessage(None, 'Runtime Error', m)
+        return _wrapper
+    return wrapper

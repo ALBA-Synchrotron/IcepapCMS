@@ -25,7 +25,7 @@ import datetime
 from .icepapdrivercfg import IcepapDriverCfg
 from . import icepapdriver
 from .configmanager import ConfigManager
-from ..ui_icepapcms.messagedialogs import MessageDialogs
+from ..ui_icepapcms.messagedialogs import MessageDialogs, catchError
 
 
 __all__ = ['IcepapController']
@@ -499,6 +499,7 @@ class IcepapController(Singleton):
             print(msg)
             return -1
 
+    @catchError
     def moveDriver(self, icepap_name, driver_addr, steps):
         axis = self.iPaps[icepap_name][driver_addr]
         if Mode.CONFIG in axis.mode:
@@ -509,6 +510,7 @@ class IcepapController(Singleton):
         else:
             axis.rmove(steps)
 
+    @catchError()
     def moveDriverAbsolute(self, icepap_name, driver_addr, pos):
         axis = self.iPaps[icepap_name][driver_addr]
         if Mode.CONFIG in axis.mode:
@@ -516,15 +518,19 @@ class IcepapController(Singleton):
         else:
             axis.move(pos)
 
+    @catchError()
     def stopDriver(self, icepap_name, driver_addr):
         self.iPaps[icepap_name][driver_addr].stop()
 
+    @catchError()
     def abortDriver(self, icepap_name, driver_addr):
         self.iPaps[icepap_name][driver_addr].abort()
 
+    @catchError()
     def blinkDriver(self, icepap_name, driver_addr, secs):
         self.iPaps[icepap_name][driver_addr].blink(secs)
 
+    @catchError
     def jogDriver(self, icepap_name, driver_addr, speed):
         axis = self.iPaps[icepap_name][driver_addr]
         if Mode.CONFIG not in axis.mode:
@@ -532,12 +538,15 @@ class IcepapController(Singleton):
         else:
             self.iPaps[icepap_name][driver_addr].cjog(speed)
 
+    @catchError('Check driver status')
     def enableDriver(self, icepap_name, driver_addr):
         self.iPaps[icepap_name][driver_addr].power = True
 
+    @catchError('Check driver status')
     def disableDriver(self, icepap_name, driver_addr):
         self.iPaps[icepap_name][driver_addr].power = False
 
+    @catchError()
     def checkIcepapStatus(self, icepap_name):
         if icepap_name not in self.iPaps \
                 or not self.iPaps[icepap_name].connected:
