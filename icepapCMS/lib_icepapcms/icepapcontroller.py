@@ -12,19 +12,21 @@
 
 
 from icepap import IcePAPController as EthIcePAPController, Mode
+from pkg_resources import resource_filename
 from xml.dom import minidom, Node
 import os
 import sys
+import re
+import socket
+import collections
+from IPy import IP
 from .singleton import Singleton
 import datetime
 from .icepapdrivercfg import IcepapDriverCfg
 from . import icepapdriver
 from .configmanager import ConfigManager
 from ..ui_icepapcms.messagedialogs import MessageDialogs
-import re
-import socket
-import collections
-from IPy import IP
+
 
 __all__ = ['IcepapController']
 
@@ -36,11 +38,8 @@ class IcepapController(Singleton):
 
     def init(self, *args):
         self.iPaps = {}
-        pathname = os.path.dirname(sys.argv[0])
-        path = os.path.abspath(pathname)
-        self.config_template = os.path.join(path,
-                                            'templates',
-                                            'driverparameters.xml')
+        self.config_template = resource_filename('icepapCMS.templates',
+                                                 'driverparameters.xml')
         self._parseDriverTemplateFile()
         self._config = ConfigManager()
         self.icepap_cfginfos = {}
