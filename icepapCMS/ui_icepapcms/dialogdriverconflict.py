@@ -36,11 +36,11 @@ class DialogDriverConflict(QtWidgets.QDialog):
             return
         self._driver = driver
         self._manager = MainManager()
-        self.ui.tableWidget.horizontalHeader().setResizeMode(
+        self.ui.tableWidget.horizontalHeader().setSectionResizeMode(
             0, Qt.QHeaderView.Stretch)
-        self.ui.tableWidget.horizontalHeader().setResizeMode(
+        self.ui.tableWidget.horizontalHeader().setSectionResizeMode(
             1, Qt.QHeaderView.Stretch)
-        self.ui.tableWidget.horizontalHeader().setResizeMode(
+        self.ui.tableWidget.horizontalHeader().setSectionResizeMode(
             2, Qt.QHeaderView.Stretch)
         self._fillTable()
 
