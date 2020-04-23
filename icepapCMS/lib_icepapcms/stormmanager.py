@@ -10,7 +10,7 @@
 # See LICENSE.txt for more info.
 # -----------------------------------------------------------------------------
 
-
+from pkg_resources import resource_filename
 from .configmanager import ConfigManager
 from storm.locals import Store, create_database
 from .singleton import Singleton
@@ -63,9 +63,8 @@ class StormManager(Singleton):
 
     def createSqliteDB(self):
         try:
-            pathname = os.path.dirname(sys.argv[0])
-            path = os.path.abspath(pathname)
-            sql_file = path+'/db/creates_sqlite.sql'
+            sql_file = resource_filename('icepapCMS.db',
+                                         'creates_sqlite.sql')
             with open(sql_file, 'rb') as f:
                 sql_script = f.read()
             statements = re.compile(r";[ \t]*$", re.M)
