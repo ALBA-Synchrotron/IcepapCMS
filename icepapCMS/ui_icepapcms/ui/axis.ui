@@ -32,6 +32,32 @@
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_5">
+   <item row="2" column="0">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>9</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="2" column="1">
+    <spacer name="verticalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>9</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
    <item row="0" column="0" rowspan="2" colspan="2">
     <widget class="QFrame" name="axis_frame">
      <property name="frameShape">
@@ -856,13 +882,13 @@
              </property>
              <property name="minimumSize">
               <size>
-               <width>80</width>
+               <width>85</width>
                <height>22</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>80</width>
+               <width>85</width>
                <height>22</height>
               </size>
              </property>
@@ -962,13 +988,13 @@
                </property>
                <property name="minimumSize">
                 <size>
-                 <width>80</width>
+                 <width>85</width>
                  <height>22</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>80</width>
+                 <width>85</width>
                  <height>22</height>
                 </size>
                </property>
@@ -984,13 +1010,13 @@
                </property>
                <property name="minimumSize">
                 <size>
-                 <width>80</width>
+                 <width>85</width>
                  <height>22</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>80</width>
+                 <width>85</width>
                  <height>22</height>
                 </size>
                </property>
@@ -1006,13 +1032,13 @@
                </property>
                <property name="minimumSize">
                 <size>
-                 <width>80</width>
+                 <width>85</width>
                  <height>22</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>80</width>
+                 <width>85</width>
                  <height>22</height>
                 </size>
                </property>
@@ -1560,19 +1586,6 @@
      </layout>
     </widget>
    </item>
-   <item row="0" column="2">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>6</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
    <item row="1" column="2">
     <spacer name="horizontalSpacer_2">
      <property name="orientation">
@@ -1586,28 +1599,15 @@
      </property>
     </spacer>
    </item>
-   <item row="2" column="0">
-    <spacer name="verticalSpacer">
+   <item row="0" column="2">
+    <spacer name="horizontalSpacer">
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
+      <enum>Qt::Horizontal</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
-       <width>20</width>
-       <height>9</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="2" column="1">
-    <spacer name="verticalSpacer_2">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>9</height>
+       <width>6</width>
+       <height>20</height>
       </size>
      </property>
     </spacer>
