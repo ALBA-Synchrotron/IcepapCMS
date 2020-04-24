@@ -139,7 +139,7 @@ class IcepapController(Singleton):
                 # CFGINFO IS ALSO SPECIFIC FOR EACH DRIVER
                 # To improve speed, this is true but instead of 'each driver',
                 # better each version
-                driver_version = driver_cfg.getParameter(str('VER'), True)
+                driver_version = driver_cfg.getParameter('VER', True)
                 if driver_version not in cfginfos_version_dict:
                     cfginfos_version_dict[driver_version] = \
                         self._get_driver_cfg_info(icepap_name, addr)
@@ -148,8 +148,7 @@ class IcepapController(Singleton):
                 cfginfo_dict = cfginfos_version_dict[driver_version]
                 self.icepap_cfginfos[icepap_name][addr] = cfginfo_dict
 
-                driver.setName(driver_cfg.getParameter(
-                    str("IPAPNAME"), True))
+                driver.setName(driver_cfg.getParameter("IPAPNAME", True))
                 driver.setMode(self.iPaps[icepap_name][addr].mode)
                 driver_list[addr] = driver
 
@@ -183,17 +182,17 @@ class IcepapController(Singleton):
         # FIX NON-ASCII CHARS ISSUE IN NAME:
         if axis_name is not None and not all(ord(c) < 128 for c in axis_name):
             axis_name = repr(axis.name)
-        driver_cfg.setParameter(str("VER"), axis.ver.driver[0])
-        driver_cfg.setParameter(str("ID"), axis.id)
+        driver_cfg.setParameter("VER", axis.ver.driver[0])
+        driver_cfg.setParameter("ID", axis.id)
         try:
-            driver_cfg.setParameter(str("IPAPNAME"), axis_name)
+            driver_cfg.setParameter("IPAPNAME", axis_name)
         except Exception as e:
             msg = 'Exception when trying to write the driver name ' \
                   '(%s):' % axis_name
             print(msg)
             print(e)
             axis_name = 'NON-ASCII_NAME'
-            driver_cfg.setParameter(str("IPAPNAME"), axis_name)
+            driver_cfg.setParameter("IPAPNAME", axis_name)
 
         # INSTEAD OF READING PARAM BY PARAM, WE SHOULD ASK THE ICEPAP FOR
         # ALL THE CONFIGURATION
@@ -246,8 +245,8 @@ class IcepapController(Singleton):
                 # Ignore the change
                 pass
             elif cfg_name.upper() in ['NAME', 'IPAPNAME']:
+                have_namelock = False
                 try:
-                    have_namelock = False
                     cfg = axis.get_cfg()
                     # IN CASE OF NAMELOCK SET TO YES, UNLOCK FIRST
                     have_namelock = cfg['NAMELOCK'].upper() == 'YES'
@@ -530,7 +529,7 @@ class IcepapController(Singleton):
     def blinkDriver(self, icepap_name, driver_addr, secs):
         self.iPaps[icepap_name][driver_addr].blink(secs)
 
-    @catchError
+    @catchError()
     def jogDriver(self, icepap_name, driver_addr, speed):
         axis = self.iPaps[icepap_name][driver_addr]
         if Mode.CONFIG not in axis.mode:
