@@ -11,64 +11,73 @@
 # -----------------------------------------------------------------------------
 
 
-from PyQt4 import QtCore, QtGui, Qt
-import sys
-import os
+from PyQt5 import QtCore, QtGui, Qt, QtWidgets, uic
+from pkg_resources import resource_filename
 import datetime
 import tempfile
 from icepap import State, Mode
 from xml.dom import minidom, Node
 from xml.dom.minidom import getDOMImplementation
-from .ui_pageipapdriver import Ui_PageiPapDriver
-from .ui_axis import Ui_axis
-from .ui_motor import Ui_motor
-from .ui_encoders import Ui_encoders
-from .ui_closedloop import Ui_closedloop
-from .ui_homing import Ui_homing
-from .ui_io import Ui_io
 from .Led import Led
 from ..lib_icepapcms import MainManager, IcepapController, ConfigManager, \
     StormManager
 from .messagedialogs import MessageDialogs
 
 
-class PageiPapDriver(QtGui.QWidget):
+class PageiPapDriver(QtWidgets.QWidget):
     """
     Widget that manages all the information related to an
     icepap driver. Configuration, testing and historic configurations
     """
 
-    def __init__(self, mainwin):
-        QtGui.QWidget.__init__(self, None)
+    def __init__(self, mainwin, test_mode=False):
+        QtWidgets.QWidget.__init__(self, None)
         self._mainwin = mainwin
-        self.ui = Ui_PageiPapDriver()
-        self.ui.setupUi(self)
+        ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
+                                        'pageipapdriver.ui')
+        self.ui = self
+        uic.loadUi(ui_filename, baseinstance=self.ui,
+                   package='icepapCMS.ui_icepapcms')
 
         self.signalMapper = QtCore.QSignalMapper(self)
+        ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
+                                        'axis.ui')
+        self.axis = QtWidgets.QDialog()
+        uic.loadUi(ui_filename, baseinstance=self.axis,
+                   package='icepapCMS.ui_icepapcms')
 
-        self.axis = Ui_axis()
-        axis_frame = QtGui.QFrame()
-        self.axis.setupUi(axis_frame)
 
-        self.motor = Ui_motor()
-        motor_frame = QtGui.QFrame()
-        self.motor.setupUi(motor_frame)
+        ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
+                                        'motor.ui')
+        self.motor = QtWidgets.QDialog()
+        uic.loadUi(ui_filename, baseinstance=self.motor,
+                   package='icepapCMS.ui_icepapcms')
 
-        self.encoders = Ui_encoders()
-        encoders_frame = QtGui.QFrame()
-        self.encoders.setupUi(encoders_frame)
 
-        self.closedloop = Ui_closedloop()
-        closedloop_frame = QtGui.QFrame()
-        self.closedloop.setupUi(closedloop_frame)
+        ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
+                                        'encoders.ui')
+        self.encoders = QtWidgets.QDialog()
+        uic.loadUi(ui_filename, baseinstance=self.encoders,
+                   package='icepapCMS.ui_icepapcms')
 
-        self.homing = Ui_homing()
-        homing_frame = QtGui.QFrame()
-        self.homing.setupUi(homing_frame)
+        ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
+                                        'closedloop.ui')
+        self.closedloop = QtWidgets.QDialog()
+        uic.loadUi(ui_filename, baseinstance=self.closedloop,
+                   package='icepapCMS.ui_icepapcms')
 
-        self.io = Ui_io()
-        io_frame = QtGui.QFrame()
-        self.io.setupUi(io_frame)
+        ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
+                                        'homing.ui')
+        self.homing = QtWidgets.QDialog()
+        uic.loadUi(ui_filename, baseinstance=self.homing,
+                   package='icepapCMS.ui_icepapcms')
+
+        ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
+                                        'io.ui')
+        self.io = QtWidgets.QDialog()
+        uic.loadUi(ui_filename, baseinstance=self.io,
+                   package='icepapCMS.ui_icepapcms')
+
 
         self.param_to_widgets = {}
         self.ui_widgets = []
@@ -76,12 +85,12 @@ class PageiPapDriver(QtGui.QWidget):
         self.param_to_unknown_widgets = {}
 
         self.tab_frames = [
-            axis_frame,
-            motor_frame,
-            encoders_frame,
-            closedloop_frame,
-            homing_frame,
-            io_frame]
+            self.axis,
+            self.motor,
+            self.encoders,
+            self.closedloop,
+            self.homing,
+            self.io]
         self.tab_labels = ["Axis", "Motor", "Encoders", "Closed loop",
                            "Homing", "I/O"]
 
@@ -93,7 +102,7 @@ class PageiPapDriver(QtGui.QWidget):
         for index in range(self.ui.tabWidget.count()):
             page_widget = self.ui.tabWidget.widget(index)
             for widget in page_widget.findChildren(
-                    QtGui.QWidget, QtCore.QRegExp('^cfg|^cmd|^txt|^chk')):
+                    QtWidgets.QWidget, QtCore.QRegExp('^cfg|^cmd|^txt|^chk')):
                 widget_name = str(widget.objectName())
                 param_name = str(widget_name[3:])
                 if param_name in self.param_to_widgets:
@@ -112,6 +121,8 @@ class PageiPapDriver(QtGui.QWidget):
         self.unknown_tab, self.unknown_table_widget = self.createTableWidget(
             ["Name", "Value", "New Value"])
         self.lastTabSelected = 0
+        if test_mode:
+            return
 
         self.widgets_modified = []
         # THIS LIST SHOULD BE POPULATED WITH DRIVERS BUT IT IS NOT SUFFICIENT
@@ -224,113 +235,43 @@ class PageiPapDriver(QtGui.QWidget):
         self.dbStartupConfig = None
 
     def signalConnections(self):
-        QtCore.QObject.connect(
-            self.ui.btnBlink,
-            QtCore.SIGNAL("pressed()"),
-            self.btnBlink_on_press)
-
-        QtCore.QObject.connect(
-            self.ui.tabWidget,
-            QtCore.SIGNAL("currentChanged(int)"),
-            self.tabWidget_currentChanged)
-        QtCore.QObject.connect(
-            self.ui.btnSendCfg,
-            QtCore.SIGNAL("clicked()"),
-            self.btnSendCfg_on_click)
-        QtCore.QObject.connect(
-            self.ui.btnSaveCfg,
-            QtCore.SIGNAL("clicked()"),
-            self.btnSaveCfg_on_click)
-
-        QtCore.QObject.connect(
-            self.refreshTimer,
-            QtCore.SIGNAL("timeout()"),
-            self.updateTestStatus)
-        QtCore.QObject.connect(
-            self.ui.btnEnable,
-            QtCore.SIGNAL("clicked(bool)"),
-            self.endisDriver)
-        QtCore.QObject.connect(
-            self.ui.txtSpeed,
-            QtCore.SIGNAL("editingFinished()"),
-            self.setMotionValues)
-        QtCore.QObject.connect(
-            self.ui.txtAcceleration,
-            QtCore.SIGNAL("editingFinished()"),
-            self.setMotionValues)
-        QtCore.QObject.connect(
-            self.ui.btnGO,
-            QtCore.SIGNAL("clicked()"),
-            self.btnGO_on_click)
-        QtCore.QObject.connect(
-            self.ui.btnGORelativePos,
-            QtCore.SIGNAL("clicked()"),
+        self.ui.btnBlink.pressed.connect(self.btnBlink_on_press)
+        self.ui.tabWidget.currentChanged.connect(self.tabWidget_currentChanged)
+        self.ui.btnSendCfg.clicked.connect(self.btnSendCfg_on_click)
+        self.ui.btnSaveCfg.clicked.connect(self.btnSaveCfg_on_click)
+        self.refreshTimer.timeout.connect(self.updateTestStatus)
+        self.ui.btnEnable.clicked.connect(self.endisDriver)
+        self.ui.txtSpeed.editingFinished.connect(self.setMotionValues)
+        self.ui.txtAcceleration.editingFinished.connect(self.setMotionValues)
+        self.ui.btnGO.clicked.connect(self.btnGO_on_click)
+        self.ui.btnGORelativePos.clicked.connect(
             self.btnGORelativePos_on_click)
-        QtCore.QObject.connect(
-            self.ui.btnGORelativeNeg,
-            QtCore.SIGNAL("clicked()"),
+        self.ui.btnGORelativeNeg.clicked.connect(
             self.btnGORelativeNeg_on_click)
-        QtCore.QObject.connect(
-            self.ui.btnStopMotor,
-            QtCore.SIGNAL("clicked()"),
-            self.btnStopMotor_on_click)
-
-        QtCore.QObject.connect(
-            self.ui.btnSetPos,
-            QtCore.SIGNAL("clicked()"),
-            self.setPosition)
-        QtCore.QObject.connect(
-            self.ui.btnSetEnc,
-            QtCore.SIGNAL("clicked()"),
-            self.setEncoder)
-
-        QtCore.QObject.connect(
-            self.ui.btnUndo,
-            QtCore.SIGNAL("clicked()"),
-            self.btnUndo_on_click)
-        QtCore.QObject.connect(
-            self.ui.btnRestore,
-            QtCore.SIGNAL("clicked()"),
-            self.btnRestore_on_click)
-
-        QtCore.QObject.connect(
-            self.ui.sliderJog,
-            QtCore.SIGNAL("sliderMoved(int)"),
-            self.startJogging)
-        QtCore.QObject.connect(
-            self.ui.sliderJog,
-            QtCore.SIGNAL("valueChanged(int)"),
-            self.sliderChanged)
-        QtCore.QObject.connect(
-            self.ui.sliderJog,
-            QtCore.SIGNAL("sliderReleased()"),
-            self.stopJogging)
-        QtCore.QObject.connect(
-            self.ui.sliderJog,
-            QtCore.SIGNAL("valueChanged(int)"),
-            self.sliderChanged)
-
-        QtCore.QObject.connect(
-            self.sliderTimer,
-            QtCore.SIGNAL("timeout()"),
-            self.resetSlider)
-
-        QtCore.QObject.connect(
-            self.ui.cmdCSWITCH,
-            QtCore.SIGNAL("currentIndexChanged(QString)"),
+        self.ui.btnStopMotor.clicked.connect(self.btnStopMotor_on_click)
+        self.ui.btnSetPos.clicked.connect(self.setPosition)
+        self.ui.btnSetEnc.clicked.connect(self.setEncoder)
+        self.ui.btnUndo.clicked.connect(self.btnUndo_on_click)
+        self.ui.btnRestore.clicked.connect(self.btnRestore_on_click)
+        self.ui.sliderJog.sliderMoved.connect(self.startJogging)
+        self.ui.sliderJog.valueChanged.connect(self.sliderChanged)
+        self.ui.sliderJog.sliderReleased.connect(self.stopJogging)
+        self.ui.sliderJog.valueChanged.connect(self.sliderChanged)
+        self.sliderTimer.timeout.connect(self.resetSlider)
+        self.ui.cmdCSWITCH.currentIndexChanged.connect(
             self.changeSwitchesSetup)
 
     def highlightWidget(self, widget):
         # AGAIN, COMMAND WIDGETS ARE ONLY CHECKED IN THE QCOMBOBOX
         # ELIF SECTION
-        if not isinstance(widget, QtGui.QWidget):
+        if not isinstance(widget, QtWidgets.QWidget):
             print("THIS WIDGET SHOULD NOT BE INTENDED TO HIGHLIGHT... "
                   "NOT A QWIDGET", widget.objectName())
             return
 
         if widget.defaultvalue is None:
             widget_name = widget.objectName()
-            if widget_name.startsWith("txt"):
+            if widget_name.startswith("txt"):
                 # PASS IT IS NORMAL TO NOT HIGHLIGHT IT, JUST INFO
                 # txtNCURR, txtPCLOOP
                 pass
@@ -361,8 +302,8 @@ class PageiPapDriver(QtGui.QWidget):
             defvalue = ""
 
         try:
-            if isinstance(widget, QtGui.QDoubleSpinBox) or isinstance(
-                    widget, QtGui.QSpinBox):
+            if isinstance(widget, QtWidgets.QDoubleSpinBox) or isinstance(
+                    widget, QtWidgets.QSpinBox):
                 if widget.defaultvalue != wvalue:
                     highlight = True
                     sendConfig = True
@@ -373,7 +314,7 @@ class PageiPapDriver(QtGui.QWidget):
                 else:
                     widget.setPalette(self.base_white_palette)
 
-            elif isinstance(widget, QtGui.QCheckBox):
+            elif isinstance(widget, QtWidgets.QCheckBox):
                 if widget.defaultvalue != wvalue:
                     highlight = True
                     sendConfig = True
@@ -384,7 +325,7 @@ class PageiPapDriver(QtGui.QWidget):
                 else:
                     widget.setPalette(self.base_white_palette)
 
-            elif isinstance(widget, QtGui.QComboBox):
+            elif isinstance(widget, QtWidgets.QComboBox):
                 try:
                     dbvalue = dbvalue
                     wvalue = wvalue
@@ -413,7 +354,7 @@ class PageiPapDriver(QtGui.QWidget):
                           "QComboBox!", e)
                     print("widget was %s" % widget.objectName())
 
-            elif isinstance(widget, QtGui.QLineEdit):
+            elif isinstance(widget, QtWidgets.QLineEdit):
                 if dbvalue is None:
                     dbvalue = ""
                 dbvalue = dbvalue
@@ -433,9 +374,10 @@ class PageiPapDriver(QtGui.QWidget):
                 else:
                     widget.setPalette(self.base_white_palette)
 
-            elif isinstance(widget, QtGui.QFrame):
+            elif isinstance(widget, QtWidgets.QFrame):
                 regexp = QtCore.QRegExp('^' + widget.objectName() + "_")
-                for w in self.ui.tabWidget.findChildren(QtGui.QWidget, regexp):
+                for w in self.ui.tabWidget.findChildren(QtWidgets.QWidget,
+                                                        regexp):
                     w_param_str = str(w.objectName())
                     w_param = "_".join(w_param_str.split("_")[1:])
                     defvalue_count = defvalue.count(w_param)
@@ -503,16 +445,10 @@ class PageiPapDriver(QtGui.QWidget):
         self._mainwin.ui.actionSaveConfig.setEnabled(enable_save)
 
     def _connectHighlighting(self):
-        QtCore.QObject.connect(
-            self.signalMapper,
-            QtCore.SIGNAL("mapped(QWidget*)"),
-            self.highlightWidget)
+        self.signalMapper.mapped.connect(self.highlightWidget)
 
     def _disconnectHighlighting(self):
-        QtCore.QObject.disconnect(
-            self.signalMapper,
-            QtCore.SIGNAL("mapped(QWidget*)"),
-            self.highlightWidget)
+        self.signalMapper.mapped.connect(self.highlightWidget)
 
     def _setWidgetToolTips(self):
         """ Reads the driverparameters file and sets the tooltips"""
@@ -522,9 +458,8 @@ class PageiPapDriver(QtGui.QWidget):
         NOT_FOUND_PARS = []
         MISSING_TOOLTIPS = []
 
-        pathname = os.path.dirname(sys.argv[0])
-        path = os.path.abspath(pathname)
-        driverparameters = path + '/templates/driverparameters.xml'
+        driverparameters = resource_filename('icepapCMS.templates',
+                                             'driverparameters.xml')
 
         doc = minidom.parse(driverparameters)
         root = doc.documentElement
@@ -563,8 +498,8 @@ class PageiPapDriver(QtGui.QWidget):
             print('\n\nmissing:', MISSING_TOOLTIPS)
 
     def createTableWidget(self, column_names):
-        widget = QtGui.QWidget()
-        table_widget = QtGui.QTableWidget(widget)
+        widget = QtWidgets.QWidget()
+        table_widget = QtWidgets.QTableWidget(widget)
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(218, 224, 234))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -587,8 +522,10 @@ class PageiPapDriver(QtGui.QWidget):
         palette.setColor(QtGui.QPalette.Text, QtGui.QColor(Qt.Qt.black))
         table_widget.setPalette(palette)
         table_widget.setAlternatingRowColors(True)
-        table_widget.setSelectionMode(QtGui.QAbstractItemView.NoSelection)
-        table_widget.setSelectionBehavior(QtGui.QAbstractItemView.SelectItems)
+        table_widget.setSelectionMode(
+            QtWidgets.QAbstractItemView.NoSelection)
+        table_widget.setSelectionBehavior(
+            QtWidgets.QAbstractItemView.SelectItems)
         table_widget.setGridStyle(QtCore.Qt.SolidLine)
         table_widget.horizontalHeader().setStretchLastSection(True)
 
@@ -598,12 +535,12 @@ class PageiPapDriver(QtGui.QWidget):
         table_widget.setRowCount(0)
 
         for i in range(columns):
-            item = QtGui.QTableWidgetItem()
+            item = QtWidgets.QTableWidgetItem()
             item.setText(column_names[i])
             table_widget.setHorizontalHeaderItem(i, item)
 
-        vboxlayout = QtGui.QVBoxLayout(widget)
-        vboxlayout.setMargin(9)
+        vboxlayout = QtWidgets.QVBoxLayout(widget)
+        vboxlayout.setContentsMargins(9, 9, 9, 9)
         vboxlayout.setSpacing(6)
         vboxlayout.addWidget(table_widget)
         widget.setLayout(vboxlayout)
@@ -713,7 +650,7 @@ class PageiPapDriver(QtGui.QWidget):
 
     def fillData(self, icepap_driver):
         """ TO-DO STORM review"""
-        QtGui.QApplication.instance().setOverrideCursor(
+        QtWidgets.QApplication.instance().setOverrideCursor(
             QtGui.QCursor(QtCore.Qt.WaitCursor))
         self.icepap_driver = icepap_driver
         self._disconnectHighlighting()
@@ -797,7 +734,7 @@ class PageiPapDriver(QtGui.QWidget):
                 'It is not possible to configure the driver\n'
                 'while it is in mode PROG.')
             self.ui.tabWidget.setEnabled(False)
-        QtGui.QApplication.instance().restoreOverrideCursor()
+        QtWidgets.QApplication.instance().restoreOverrideCursor()
 
     def addUnknownWidget(self, param_name, param_value):
         # TODO Review this code
@@ -812,11 +749,11 @@ class PageiPapDriver(QtGui.QWidget):
             widget = None
             if len(cfginfo) > 0:
                 if "INTEGER" == cfginfo[0]:
-                    widget = QtGui.QSpinBox()
+                    widget = QtWidgets.QSpinBox()
                     widget.setMaximum(999999999)
                     widget.setMinimum(-999999999)
                 elif "FLOAT" == cfginfo[0]:
-                    widget = QtGui.QDoubleSpinBox()
+                    widget = QtWidgets.QDoubleSpinBox()
                     widget.setMaximum(999999999)
                     widget.setMinimum(-999999999)
                 elif cfginfo[0].startswith("["):
@@ -826,14 +763,14 @@ class PageiPapDriver(QtGui.QWidget):
                         flag.replace("[", "")
                         flag.replace("]", "")
                         param_tooltip += " " + flag
-                    widget = QtGui.QLineEdit()
+                    widget = QtWidgets.QLineEdit()
                     widget.setToolTip(param_tooltip)
                 elif cfginfo[0].startswith("STRING"):
-                    widget = QtGui.QLineEdit()
+                    widget = QtWidgets.QLineEdit()
                     param_tooltip = str(cfginfo)
                     widget.setToolTip(param_tooltip)
                 else:
-                    widget = QtGui.QComboBox()
+                    widget = QtWidgets.QComboBox()
                     param_tooltip = str(cfginfo)
                     widget.setToolTip(param_tooltip)
 
@@ -841,11 +778,11 @@ class PageiPapDriver(QtGui.QWidget):
                 widget.param = param_name
                 widget.isCommand = False
                 widget.tab_index = self.ui.tabWidget.indexOf(self.unknown_tab)
-                param_item = QtGui.QTableWidgetItem()
+                param_item = QtWidgets.QTableWidgetItem()
                 param_item.setText(param_name)
                 param_item.setFlags(Qt.Qt.ItemIsSelectable)
                 self.unknown_table_widget.setItem(row, 0, param_item)
-                value_item = QtGui.QTableWidgetItem()
+                value_item = QtWidgets.QTableWidgetItem()
                 value_item.setText(str(param_value))
                 value_item.setFlags(Qt.Qt.ItemIsSelectable)
                 self.unknown_table_widget.setItem(row, 1, value_item)
@@ -873,31 +810,16 @@ class PageiPapDriver(QtGui.QWidget):
 
     def _connectWidgetToSignalMap(self, widget):
         self.signalMapper.setMapping(widget, widget)
-        if isinstance(widget, QtGui.QDoubleSpinBox) or isinstance(
-                widget, QtGui.QSpinBox):
-            QtCore.QObject.connect(
-                widget,
-                QtCore.SIGNAL("valueChanged (const QString&)"),
-                self.signalMapper,
-                QtCore.SLOT("map()"))
-        elif isinstance(widget, QtGui.QCheckBox):
-            QtCore.QObject.connect(
-                widget,
-                QtCore.SIGNAL("stateChanged(int)"),
-                self.signalMapper,
-                QtCore.SLOT("map()"))
-        elif isinstance(widget, QtGui.QComboBox):
-            QtCore.QObject.connect(
-                widget,
-                QtCore.SIGNAL("currentIndexChanged(const QString&)"),
-                self.signalMapper,
-                QtCore.SLOT("map()"))
-        elif isinstance(widget, QtGui.QLineEdit):
-            QtCore.QObject.connect(
-                widget,
-                QtCore.SIGNAL("textChanged(const QString&)"),
-                self.signalMapper,
-                QtCore.SLOT("map()"))
+        if isinstance(widget, QtWidgets.QDoubleSpinBox) or isinstance(
+                widget, QtWidgets.QSpinBox):
+            widget.valueChanged.connect(self.signalMapper.map)
+        elif isinstance(widget, QtWidgets.QCheckBox):
+            widget.stateChanged.connect(self.signalMapper.map)
+        elif isinstance(widget, QtWidgets.QComboBox):
+            widget.currentIndexChanged.connect(self.signalMapper.map)
+        elif isinstance(widget, QtWidgets.QLineEdit):
+            widget.textChanged.connect(self.signalMapper.map)
+
 
     def _setWidgetsValue(self, widgets, value, set_default=True):
         # THE CMD WIDGETS RIGHT NOW ARE ONLY QCOMBOBOXES SO THE SPECIAL CODE IS
@@ -906,17 +828,17 @@ class PageiPapDriver(QtGui.QWidget):
             try:
                 system_name = self.icepap_driver.icepapsystem_name
                 driver_addr = self.icepap_driver.addr
-                if isinstance(widget, QtGui.QDoubleSpinBox) or isinstance(
-                        widget, QtGui.QSpinBox):
+                if isinstance(widget, QtWidgets.QDoubleSpinBox) or isinstance(
+                        widget, QtWidgets.QSpinBox):
                     widget.setValue(float(value))
                     if set_default:
                         widget.defaultvalue = widget.value()
-                elif isinstance(widget, QtGui.QCheckBox):
+                elif isinstance(widget, QtWidgets.QCheckBox):
                     state = (value == "1" or value == "YES")
                     widget.setChecked(state)
                     if set_default:
                         widget.defaultvalue = value
-                elif isinstance(widget, QtGui.QComboBox):
+                elif isinstance(widget, QtWidgets.QComboBox):
                     widget.clear()
                     param = widget.param
                     controller = IcepapController()
@@ -925,7 +847,7 @@ class PageiPapDriver(QtGui.QWidget):
                     options = driver_cfginfo.get(param)
                     if options is not None:
                         for option in options:
-                            widget.addItem(QtCore.QString(option))
+                            widget.addItem(str(option))
                         # 20130412 IT SEEMS THAT INDEXER COMMAND SHOULD HAVE
                         #          ALSO LINKED AS AN OPTION, BUT IT IS NOT
                         #          PROVIDED BY CFGINFO... I WILL ADD IT
@@ -990,19 +912,19 @@ class PageiPapDriver(QtGui.QWidget):
                             QtCore.Qt.MatchFixedString))
                     if set_default:
                         widget.defaultvalue = str(value)
-                elif isinstance(widget, QtGui.QLineEdit):
+                elif isinstance(widget, QtWidgets.QLineEdit):
                     widget.setText(str(value))
                     if set_default:
                         widget.defaultvalue = str(value)
-                elif isinstance(widget, QtGui.QLabel):
+                elif isinstance(widget, QtWidgets.QLabel):
                     widget.setText(str(value))
-                elif isinstance(widget, QtGui.QFrame):
+                elif isinstance(widget, QtWidgets.QFrame):
                     # WE NOW HAVE TO ITERATE THROUGOUT ALL THE CHECKBOXES:
                     if set_default:
                         widget.defaultvalue = value
                     regexp = QtCore.QRegExp('^' + widget.objectName() + "_")
                     for w in self.ui.tabWidget.findChildren(
-                            QtGui.QWidget, regexp):
+                            QtWidgets.QWidget, regexp):
                         w_param = w.objectName().split("_")[1]
                         checked = False
                         if w_param in value:
@@ -1011,32 +933,33 @@ class PageiPapDriver(QtGui.QWidget):
 
                 self.highlightWidget(widget)
             except Exception as e:
-                print("_setWidgetValue():", sys.exc_info(), " ", value)
+                print("_setWidgetValue():", e, " ", value)
                 print("Some exception setting value", e)
 
     def _getWidgetValue(self, widget):
         try:
-            if isinstance(widget, QtGui.QDoubleSpinBox) or isinstance(
-                    widget, QtGui.QSpinBox):
+            if isinstance(widget, QtWidgets.QDoubleSpinBox) or isinstance(
+                    widget, QtWidgets.QSpinBox):
                 return widget.value()
-            elif isinstance(widget, QtGui.QCheckBox):
+            elif isinstance(widget, QtWidgets.QCheckBox):
                 if widget.isChecked():
                     return "YES"
                 else:
                     return "NO"
-            elif isinstance(widget, QtGui.QComboBox):
+            elif isinstance(widget, QtWidgets.QComboBox):
                 return str(widget.currentText())
-            elif isinstance(widget, QtGui.QLineEdit):
+            elif isinstance(widget, QtWidgets.QLineEdit):
                 # return str(widget.text()).upper()
                 # FIX NON-ASCII ISSUES:
                 text = str(widget.text())
                 if not all(ord(c) < 128 for c in text):
                     text = repr(text)
                 return text
-            elif isinstance(widget, QtGui.QFrame):
+            elif isinstance(widget, QtWidgets.QFrame):
                 regexp = QtCore.QRegExp('^' + widget.objectName() + "_")
                 flags_value = []
-                for w in self.ui.tabWidget.findChildren(QtGui.QWidget, regexp):
+                for w in self.ui.tabWidget.findChildren(QtWidgets.QWidget,
+                                                        regexp):
                     w_param_str = str(w.objectName())
                     w_param = "_".join(w_param_str.split("_")[1:])
                     if w.isChecked():
@@ -1046,7 +969,7 @@ class PageiPapDriver(QtGui.QWidget):
             print("error in _getWidgetValue", e)
 
     def addNewCfg(self, cfg):
-        QtGui.QApplication.instance().setOverrideCursor(
+        QtWidgets.QApplication.instance().setOverrideCursor(
             QtGui.QCursor(QtCore.Qt.WaitCursor))
         for name, value in cfg.toList():
             if name in self.param_to_widgets:
@@ -1056,7 +979,7 @@ class PageiPapDriver(QtGui.QWidget):
                 self._setWidgetsValue(self.param_to_widgets.get(
                     'DriverName'), value, set_default=False)
         self.highlightTabs()
-        QtGui.QApplication.instance().restoreOverrideCursor()
+        QtWidgets.QApplication.instance().restoreOverrideCursor()
 
     def _getText(self, node):
         rc = ""
@@ -1188,12 +1111,11 @@ class PageiPapDriver(QtGui.QWidget):
     def doImport(self):
         try:
             folder = ConfigManager().config["icepap"]["configs_folder"]
-            fn = QtGui.QFileDialog.getOpenFileName(
-                self, "Open Config File", QtCore.QString(folder),
-                QtCore.QString("*.xml"))
-            if fn.isEmpty():
+            fn = QtWidgets.QFileDialog.getOpenFileName(
+                self, "Open Config File", folder, "*.xml")
+            if fn[0] == '':
                 return
-            filename = str(fn)
+            filename = str(fn[0])
             self.fillFileData(filename)
         except Exception as e:
             MessageDialogs.showWarningMessage(
@@ -1201,7 +1123,7 @@ class PageiPapDriver(QtGui.QWidget):
             print("exception: " + str(e))
 
     def fillFileData(self, filename):
-        QtGui.QApplication.instance().setOverrideCursor(
+        QtWidgets.QApplication.instance().setOverrideCursor(
             QtGui.QCursor(QtCore.Qt.WaitCursor))
         self._disconnectHighlighting()
         doc = minidom.parse(filename)
@@ -1226,26 +1148,24 @@ class PageiPapDriver(QtGui.QWidget):
 
         self.highlightTabs()
         self._connectHighlighting()
-        QtGui.QApplication.instance().restoreOverrideCursor()
+        QtWidgets.QApplication.instance().restoreOverrideCursor()
 
     def doExport(self):
         folder = ConfigManager().config["icepap"]["configs_folder"]
-        fn = QtGui.QFileDialog.getSaveFileName(
-            self,
-            "Save Config File",
-            QtCore.QString(folder),
-            QtCore.QString("*.xml"))
-        if fn.isEmpty():
+        fn = QtWidgets.QFileDialog.getSaveFileName(
+            self, "Save Config File", folder, "*.xml")
+        if fn[0] == '':
             return
-        filename = str(fn)
+        filename = str(fn[0])
         if filename.find('.xml') == -1:
             filename = filename + '.xml'
         self.exportToFile(filename)
 
     def exportToFile(self, filename):
-        output = open(filename, "w")
-        newdoc = self.getXmlData()
-        output.writelines(newdoc.toprettyxml(encoding="utf-8"))
+        with open(filename, 'w') as output:
+            newdoc = self.getXmlData()
+            data = newdoc.toprettyxml()
+            output.write(data)
 
     def getXmlData(self):
         doc = getDOMImplementation().createDocument(None, "Driver", None)
@@ -1510,7 +1430,7 @@ class PageiPapDriver(QtGui.QWidget):
             if div < 0:
                 speed = -1 * speed
             try:
-                QtGui.QToolTip.showText(
+                QtWidgets.QToolTip.showText(
                     self.cursor().pos(), str(speed), self.ui.sliderJog)
                 self._manager.jogDriver(
                     self.icepap_driver.icepapsystem_name,
@@ -1536,9 +1456,11 @@ class PageiPapDriver(QtGui.QWidget):
         if value == 0:
             self.sliderTimer.stop()
         elif value > 0:
-            self.ui.sliderJog.triggerAction(QtGui.QSlider.SliderSingleStepSub)
+            self.ui.sliderJog.triggerAction(
+                QtWidgets.QSlider.SliderSingleStepSub)
         else:
-            self.ui.sliderJog.triggerAction(QtGui.QSlider.SliderSingleStepAdd)
+            self.ui.sliderJog.triggerAction(
+                QtWidgets.QSlider.SliderSingleStepAdd)
 
     def setPosition(self):
         pos_sel = str(self.ui.cb_pos_sel.currentText())
@@ -1595,7 +1517,7 @@ class PageiPapDriver(QtGui.QWidget):
 
     # ---------------------- Templates Catalog Widget -------------------
     def setTemplateParams(self, template_name, params):
-        QtGui.QApplication.instance().setOverrideCursor(
+        QtWidgets.QApplication.instance().setOverrideCursor(
             QtGui.QCursor(QtCore.Qt.WaitCursor))
         self._disconnectHighlighting()
         for param in list(params.keys()):
@@ -1609,4 +1531,13 @@ class PageiPapDriver(QtGui.QWidget):
         # SHOULD DO SOMETHING WITH THE TEMPLATE NAME
         self.highlightTabs()
         self._connectHighlighting()
-        QtGui.QApplication.instance().restoreOverrideCursor()
+        QtWidgets.QApplication.instance().restoreOverrideCursor()
+
+
+if __name__ == '__main__':
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+
+    w = PageiPapDriver(None, True)
+    w.show()
+    sys.exit(app.exec_())
