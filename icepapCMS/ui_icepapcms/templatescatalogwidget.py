@@ -123,7 +123,7 @@ class TemplatesCatalogWidget(QtWidgets.QDialog):
         # NOW, WE SHOULD RELY ON THE VALUE OF THE CHECKBOX
         # SO THE OPTION PARAMETER COULD BE REMOVED
 
-        template_name = str(modelindex.sibling(row, 0).data().toString())
+        template_name = str(modelindex.sibling(row, 0).data())
 
         params = self.catalog.get(template_name)
         self.pageipapdriver.setTemplateParams(template_name, params)
