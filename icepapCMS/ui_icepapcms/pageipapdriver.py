@@ -445,10 +445,15 @@ class PageiPapDriver(QtWidgets.QWidget):
         self._mainwin.ui.actionSaveConfig.setEnabled(enable_save)
 
     def _connectHighlighting(self):
-        self.signalMapper.mapped.connect(self.highlightWidget)
+        self.signalMapper.mapped[QtWidgets.QWidget].connect(
+            self.highlightWidget)
 
     def _disconnectHighlighting(self):
-        self.signalMapper.mapped.connect(self.highlightWidget)
+        try:
+            self.signalMapper.mapped[QtWidgets.QWidget].disconnect(
+                self.highlightWidget)
+        except Exception:
+            pass
 
     def _setWidgetToolTips(self):
         """ Reads the driverparameters file and sets the tooltips"""
