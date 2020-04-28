@@ -1097,7 +1097,7 @@ class PageiPapDriver(QtWidgets.QWidget):
                 self, "Driver configuration",
                 "Problems found saving the configuration")
             return
-        self._mainwin.actionSaveConfig()
+        self._mainwin.actionSaveConfigMth()
 
     def btnUndo_on_click(self):
         self._manager.undoDriverConfiguration(self.icepap_driver)
