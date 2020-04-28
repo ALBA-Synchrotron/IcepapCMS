@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>868</width>
     <height>613</height>
    </rect>
   </property>
@@ -135,7 +135,7 @@
          <widget class="QLabel" name="label_3">
           <property name="maximumSize">
            <size>
-            <width>63</width>
+            <width>68</width>
             <height>26</height>
            </size>
           </property>
@@ -659,7 +659,7 @@ p, li { white-space: pre-wrap; }
                     <rect>
                      <x>137</x>
                      <y>35</y>
-                     <width>25</width>
+                     <width>41</width>
                      <height>16</height>
                     </rect>
                    </property>
@@ -2546,7 +2546,7 @@ p, li { white-space: pre-wrap; }
   <customwidget>
    <class>HistoricCfgWidget</class>
    <extends>QWidget</extends>
-   <header>historiccfgwidget.h</header>
+   <header>.historiccfgwidget</header>
   </customwidget>
  </customwidgets>
  <resources>
