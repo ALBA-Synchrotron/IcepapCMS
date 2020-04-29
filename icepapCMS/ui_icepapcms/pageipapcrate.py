@@ -168,7 +168,7 @@ class PageiPapCrate(QtWidgets.QWidget):
             headerItem.setText(str(i + 1))
             self.tableWidget.setHorizontalHeaderItem(i, headerItem)
             self.tableWidget.horizontalHeader().resizeSection(i, 94)
-            self.tableWidget.horizontalHeader().setResizeMode(
+            self.tableWidget.horizontalHeader().setSectionResizeMode(
                 i, Qt.QHeaderView.Custom)
 
         self.icepap_system = icepap_system
@@ -186,7 +186,7 @@ class PageiPapCrate(QtWidgets.QWidget):
                 headerItem.setText("Crate %d" % crate)
                 self.tableWidget.setVerticalHeaderItem(row, headerItem)
                 self.tableWidget.verticalHeader().resizeSection(row, 200)
-                self.tableWidget.verticalHeader().setResizeMode(
+                self.tableWidget.verticalHeader().setSectionResizeMode(
                     row, Qt.QHeaderView.Custom)
                 for drivernr in range(8):
                     addr = crate * 10 + drivernr + 1

@@ -168,7 +168,7 @@ class PageiPapSystem(QtWidgets.QWidget):
             self.tableWidget.horizontalHeader().resizeSection(
                 i, self._colSize[size])
 
-            self.tableWidget.horizontalHeader().setResizeMode(
+            self.tableWidget.horizontalHeader().setSectionResizeMode(
                 i, Qt.QHeaderView.Custom)
 
         self.icepap_system = icepap_system
@@ -176,7 +176,6 @@ class PageiPapSystem(QtWidgets.QWidget):
         crate = -1
         row = 0
         for driver in icepap_system.getDrivers():
-            addr = driver.addr
             if driver.cratenr != crate:
                 crate = driver.cratenr
                 self.tableWidget.insertRow(row)
@@ -185,7 +184,7 @@ class PageiPapSystem(QtWidgets.QWidget):
                 self.tableWidget.setVerticalHeaderItem(row, headerItem)
                 self.tableWidget.verticalHeader().resizeSection(
                     row, self._rowSize[size])
-                self.tableWidget.verticalHeader().setResizeMode(
+                self.tableWidget.verticalHeader().setSectionResizeMode(
                     row, Qt.QHeaderView.Custom)
 
                 for drivernr in range(8):
