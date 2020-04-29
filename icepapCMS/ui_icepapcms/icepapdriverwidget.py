@@ -13,9 +13,9 @@
 
 from PyQt5 import QtGui, Qt, QtWidgets, uic, QtCore
 from pkg_resources import resource_filename
+from icepap import Mode, State
 from .Led import Led
 from ..lib_icepapcms import MainManager, Conflict
-from icepap import Mode, State
 
 
 class IcePapDriverWidget(QtWidgets.QWidget):
@@ -191,6 +191,7 @@ class IcePapDriverWidget(QtWidgets.QWidget):
 
     def setCurrent(self, current):
         self.ui.lcdCurrent.display(current)
+        current = float(current)
         color = QtGui.QColor()
         if current < 0 or current > 7:
             color = self.coloroff
