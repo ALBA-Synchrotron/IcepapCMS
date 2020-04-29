@@ -218,12 +218,8 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
         if index is not None:
             modelitem = self.item(index)
             modelitem.role = role
-            # TODO investigate the way to implement it
-            self.emit(
-                QtCore.SIGNAL(
-                    'dataChanged(const QModelIndex &, const QModelIndex &)'),
-                index,
-                index)
+            self.dataChanged.emit(index, index)
+
 
 
 class TreeItem:
