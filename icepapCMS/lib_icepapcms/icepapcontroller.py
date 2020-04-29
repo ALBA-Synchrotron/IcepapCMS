@@ -209,7 +209,7 @@ class IcepapController(Singleton):
         """ TO-DO STORM review"""
         axis = self.iPaps[icepap_name][driver_addr]
         try:
-            if Mode.CONFIG not in axis.mode:
+            if Mode.CONFIG != axis.mode:
                 axis.set_config()
         except RuntimeError as e:
             msg = 'Failed to set driver {0} in CONFIG mode.\n{1}'.format(
@@ -296,7 +296,7 @@ class IcepapController(Singleton):
         try:
             if icepap_name in self.iPaps:
                 axis = self.iPaps[icepap_name][driver_addr]
-                if Mode.CONFIG not in axis.mode:
+                if Mode.CONFIG != axis.mode:
                     axis.set_config()
                 axis.set_config(signature)
         except RuntimeError as e:
@@ -308,9 +308,9 @@ class IcepapController(Singleton):
     def startConfiguringDriver(self, icepap_name, driver):
         try:
             mode = self.iPaps[icepap_name][driver.addr].mode
-            if Mode.PROG in mode:
+            if Mode.PROG == mode:
                 return mode[0]
-            if Mode.CONFIG not in mode:
+            if Mode.CONFIG != mode:
                 self.iPaps[icepap_name][driver.addr].set_config()
             driver.setMode(Mode.CONFIG)
         except RuntimeError as e:
@@ -325,9 +325,9 @@ class IcepapController(Singleton):
             if icepap_name not in self.iPaps:
                 return
             axis = self.iPaps[icepap_name][driver.addr]
-            if Mode.PROG in axis.mode:
+            if Mode.PROG == axis.mode:
                 return
-            if Mode.OPER not in axis.mode:
+            if Mode.OPER != axis.mode:
                 last_signature = axis.config
                 axis.set_config(last_signature)
             driver.setMode(Mode.OPER)
@@ -501,7 +501,7 @@ class IcepapController(Singleton):
     @catchError
     def moveDriver(self, icepap_name, driver_addr, steps):
         axis = self.iPaps[icepap_name][driver_addr]
-        if Mode.CONFIG in axis.mode:
+        if Mode.CONFIG == axis.mode:
             # CMOVE ONLY ALLOWS ABSOLUTE POSITIONS, IT SHOULD BE CALCULATED
             # self.iPaps[icepap_name].cmove(driver_addr, steps)
             new_pos = axis.pos + int(steps)
@@ -512,7 +512,7 @@ class IcepapController(Singleton):
     @catchError()
     def moveDriverAbsolute(self, icepap_name, driver_addr, pos):
         axis = self.iPaps[icepap_name][driver_addr]
-        if Mode.CONFIG in axis.mode:
+        if Mode.CONFIG == axis.mode:
             axis.cmove(pos)
         else:
             axis.move(pos)
@@ -532,7 +532,7 @@ class IcepapController(Singleton):
     @catchError()
     def jogDriver(self, icepap_name, driver_addr, speed):
         axis = self.iPaps[icepap_name][driver_addr]
-        if Mode.CONFIG not in axis.mode:
+        if Mode.CONFIG != axis.mode:
             self.iPaps[icepap_name][driver_addr].jog(speed)
         else:
             self.iPaps[icepap_name][driver_addr].cjog(speed)
