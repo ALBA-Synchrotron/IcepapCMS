@@ -1194,7 +1194,7 @@ class PageiPapDriver(QtWidgets.QWidget):
     def doCopy(self):
         self.temp_file = tempfile.TemporaryFile()
         data = self.getXmlData()
-        self.temp_file.writelines(data.toprettyxml(encoding="utf-8"))
+        self.temp_file.write(data.toprettyxml(encoding="utf-8"))
         self.temp_file.flush()
         self.temp_file.seek(0)
 
