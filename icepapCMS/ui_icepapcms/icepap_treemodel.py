@@ -232,8 +232,8 @@ class TreeItem:
         self.description = None
         self.itemLabel = [label[0]]
         if len(label) > 1:
-            if label[1].toString() != "":
-                self.description = label[1].toString()
+            if str(label[1].value()) != "":
+                self.description = str(label[1].value)
         self.role = role
         self.itemData = data
         self.updateRole()
