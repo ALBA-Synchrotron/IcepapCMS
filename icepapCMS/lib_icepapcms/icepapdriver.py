@@ -49,7 +49,7 @@ class IcepapDriver(Storm):
 
     def initialize(self):
         self.drivernr = self.addr % 10
-        self.cratenr = self.addr / 10
+        self.cratenr = self.addr // 10
         self._undo_list = []
         self.startup_cfg = self.current_cfg
         self.conflict = Conflict.NO_CONFLICT

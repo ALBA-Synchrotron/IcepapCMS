@@ -50,8 +50,8 @@ class StormManager(Singleton):
                 user = self._config.config[self._config.database]["user"]
                 pwd = self._config.config[self._config.database]["password"]
                 self._database = create_database(
-                    "%s://%s:%s@%s/icepapcms" % (self.db, user, pwd, server))
-
+                    "{}://{}:{}@{}/icepapcms" .format(self.db, user, pwd,
+                                                      server))
             self._store = Store(self._database)
             if create_db:
                 self.dbOK = self.createSqliteDB()
@@ -66,12 +66,12 @@ class StormManager(Singleton):
             sql_file = resource_filename('icepapCMS.db',
                                          'creates_sqlite.sql')
             with open(sql_file, 'rb') as f:
-                sql_script = f.read()
+                sql_script = f.read().decode()
             statements = re.compile(r";[ \t]*$", re.M)
-            # Find custom SQL, if it's available.
+
             for statement in statements.split(sql_script):
                 # Remove any comments from the file
-                statement = re.sub(r"--.*[\n\Z]", "", statement)
+                statement = re.sub(r"--.*[\n\\Z]", "", statement)
                 if statement.strip():
                     create = statement + ";"
                     self._store.execute(create)
@@ -133,8 +133,8 @@ class StormManager(Singleton):
         try:
             locations = self._store.find(Location)
             location_dict = {}
-            for l in locations:
-                location_dict[l.name] = l
+            for location in locations:
+                location_dict[location.name] = location
             return location_dict
         except Exception:
             print("getAllLocations:", sys.exc_info()[1])
