@@ -479,9 +479,12 @@ class MainManager(Singleton):
         the driver to CONFIG """
         for param, db_value in ignore_values:
             new_values.remove((param, db_value))
-        new_cfg = self._ctrl_icepap.setDriverConfiguration(
-            icepap_driver.icepapsystem_name, icepap_driver.addr,
-            new_values, expertFlag=expertFlag)
+        try:
+            new_cfg = self._ctrl_icepap.setDriverConfiguration(
+                icepap_driver.icepapsystem_name, icepap_driver.addr,
+                new_values, expertFlag=expertFlag)
+        except Exception:
+            new_cfg = None
         if new_cfg is None:
             return False
         else:
