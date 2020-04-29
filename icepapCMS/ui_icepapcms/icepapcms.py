@@ -18,7 +18,7 @@ from PyQt5 import QtCore, QtGui, Qt, QtWidgets, uic
 from pkg_resources import resource_filename
 from optparse import OptionParser
 from ..lib_icepapcms import MainManager, Conflict, ConfigManager, \
-    StormManager
+    StormManager, IcepapDriver
 from .icepap_treemodel import IcepapTreeModel
 from .pageipapdriver import PageiPapDriver
 from .pageipapcrate import PageiPapCrate
@@ -46,6 +46,8 @@ class IcepapApp(QtWidgets.QApplication):
         # from http://docs.python.org/library/optparse.html
         usage = "usage: %prog [options] arg"
         parser = OptionParser(usage)
+        # TODO Investigate why the expert mode does not work on previous
+        #  versions
         parser.add_option(
             "-e", "--expert", action="store_true", dest="expert",
             help="Full expert interface. False by default")
@@ -376,18 +378,16 @@ class IcepapCMS(QtWidgets.QMainWindow):
     def editIcepap(self, item):
         location = self.ui.cbLocation.currentText()
         dlg = DialogAddIcepap(self, location)
-        dlg.setData(
-            item.itemData.name,
-            item.itemData.host,
-            item.itemData.port,
-            item.itemData.description,
-            location)
+        icepap_system = item.getIcepapSystem()
+        dlg.setData(icepap_system.name, icepap_system.host, icepap_system.port,
+                    icepap_system.description, location)
         dlg.exec_()
         if dlg.result():
             data = dlg.getData()
-            item.itemData.description = str(data[2])
-            item.itemData.location_name = str(data[3])
-            item.changeLabel([data[0], data[2]])
+            icepap_system.description = str(data[2])
+            icepap_system.location_name = str(data[3])
+
+            #item.changeLabel([data[0], data[2]])
             self.ui.stackedWidget.setCurrentIndex(0)
             self.ui.cbLocation.setCurrentIndex(
                 self.ui.cbLocation.findText(
