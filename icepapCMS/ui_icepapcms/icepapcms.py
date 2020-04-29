@@ -14,9 +14,9 @@
 import sys
 import os
 import webbrowser
-from PyQt4 import QtCore, QtGui, Qt
-from .ui_icepapcms import Ui_IcepapCMS
-from qrc_icepapcms import *
+from PyQt5 import QtCore, QtGui, Qt, QtWidgets, uic
+from pkg_resources import resource_filename
+from optparse import OptionParser
 from ..lib_icepapcms import MainManager, Conflict, ConfigManager, \
     StormManager
 from .icepap_treemodel import IcepapTreeModel
@@ -35,12 +35,12 @@ from .dialogipapprogram import DialogIcepapProgram
 from .ipapconsole import IcepapConsole
 from .messagedialogs import MessageDialogs
 from .templatescatalogwidget import TemplatesCatalogWidget
-from optparse import OptionParser
+
 
 __version__ = '2.3.6'
 
 
-class IcepapApp(QtGui.QApplication):
+class IcepapApp(QtWidgets.QApplication):
     def __init__(self, *args):
 
         # from http://docs.python.org/library/optparse.html
@@ -61,10 +61,10 @@ class IcepapApp(QtGui.QApplication):
             help="Force LDAP login to get username. False by default")
         (options, args) = parser.parse_args()
 
-        QtGui.QApplication.__init__(self, [])
+        QtWidgets.QApplication.__init__(self, [])
         self.setStyle("plastique")
         splash_pxmap = QtGui.QPixmap(":/logos/icons/IcepapMed.png")
-        splash = QtGui.QSplashScreen(splash_pxmap)
+        splash = QtWidgets.QSplashScreen(splash_pxmap)
         splash.show()
         icepapcms = IcepapCMS(options, args)
         icepapcms.show()
@@ -72,12 +72,15 @@ class IcepapApp(QtGui.QApplication):
         self.exec_()
 
 
-class IcepapCMS(QtGui.QMainWindow):
+class IcepapCMS(QtWidgets.QMainWindow):
     def __init__(self, options, args, parent=None):
-        QtGui.QMainWindow.__init__(self, parent)
+        QtWidgets.QMainWindow.__init__(self, parent)
 
-        self.ui = Ui_IcepapCMS()
-        self.ui.setupUi(self)
+        ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
+                                        'icepapcms.ui')
+        self.ui = self
+        uic.loadUi(ui_filename, baseinstance=self.ui)
+
         self._config = ConfigManager()
         self._config._options = options
         self._config._args = args
@@ -97,7 +100,7 @@ class IcepapCMS(QtGui.QMainWindow):
                 login_dlg = ldap_login.LdapLogin(self)
                 login_dlg.exec_()
                 valid_ldap_login = False
-                if login_dlg.result() == QtGui.QDialog.Accepted:
+                if login_dlg.result() == QtWidgets.QDialog.Accepted:
                     if login_dlg.username.lower() not in \
                             ('sicilia', 'operator'):
                         self._config.username = login_dlg.username
@@ -121,140 +124,46 @@ class IcepapCMS(QtGui.QMainWindow):
         self.ui.stackedWidget.addWidget(self.ui.pageiPapDriver)
         self.signalConnections()
         self.refreshTimer = Qt.QTimer(self)
-        QtCore.QObject.connect(
-            self.checkTimer,
-            QtCore.SIGNAL("timeout()"),
-            self.checkIcepapConnection)
+        self.checkTimer.timeout.connect(self.checkIcepapConnection)
 
     def signalConnections(self):
-        QtCore.QObject.connect(
-            self.ui.actionQuit,
-            QtCore.SIGNAL("triggered()"),
-            self.close)
-        QtCore.QObject.connect(
-            self.ui.actionPreferences,
-            QtCore.SIGNAL("triggered()"),
-            self.actionPreferences)
-        QtCore.QObject.connect(
-            self.ui.actionGoNext,
-            QtCore.SIGNAL("triggered()"),
-            self.actionGoNext)
-        QtCore.QObject.connect(
-            self.ui.actionTree_Explorer,
-            QtCore.SIGNAL("triggered()"),
-            self.actionTreeExplorer)
-        QtCore.QObject.connect(
-            self.ui.actionToolbar,
-            QtCore.SIGNAL("triggered()"),
-            self.actionToolbar)
-        QtCore.QObject.connect(
-            self.ui.actionGoPrevious,
-            QtCore.SIGNAL("triggered()"),
-            self.actionGoPrevious)
-        QtCore.QObject.connect(
-            self.ui.actionGoUp,
-            QtCore.SIGNAL("triggered()"),
-            self.actionGoUp)
-        QtCore.QObject.connect(
-            self.ui.actionRefresh,
-            QtCore.SIGNAL("triggered()"),
-            self.actionRefresh)
-        QtCore.QObject.connect(
-            self.ui.actionExport,
-            QtCore.SIGNAL("triggered()"),
-            self.actionExport)
-        QtCore.QObject.connect(
-            self.ui.actionImport,
-            QtCore.SIGNAL("triggered()"),
-            self.actionImport)
-        QtCore.QObject.connect(
-            self.ui.actionConsole,
-            QtCore.SIGNAL("triggered()"),
-            self.actionConsole)
-        QtCore.QObject.connect(
-            self.ui.actionFirmwareUpgrade,
-            QtCore.SIGNAL("triggered()"),
-            self.actionFimwareUpgrade)
-        QtCore.QObject.connect(
-            self.ui.actionSaveConfig,
-            QtCore.SIGNAL("triggered()"),
-            self.actionSaveConfig)
-        QtCore.QObject.connect(
-            self.ui.actionHistoricCfg,
-            QtCore.SIGNAL("triggered()"),
-            self.actionHistoricCfg)
-        QtCore.QObject.connect(
-            self.ui.actionCopy,
-            QtCore.SIGNAL("triggered()"),
-            self.actionCopy)
-        QtCore.QObject.connect(
-            self.ui.actionPaste,
-            QtCore.SIGNAL("triggered()"),
-            self.actionPaste)
-
-        QtCore.QObject.connect(
-            self.ui.actionHelp,
-            QtCore.SIGNAL("triggered()"),
-            self.actionHelp)
-        QtCore.QObject.connect(
-            self.ui.actionUser_manual,
-            QtCore.SIGNAL("triggered()"),
-            self.actionUser_Manual)
-        QtCore.QObject.connect(
-            self.ui.actionHardware_manual,
-            QtCore.SIGNAL("triggered()"),
-            self.actionHardware_Manual)
-        QtCore.QObject.connect(
-            self.ui.actionTemplates,
-            QtCore.SIGNAL("triggered()"),
-            self.actionTemplates)
-        QtCore.QObject.connect(
-            self.ui.treeView,
-            QtCore.SIGNAL("clicked(QModelIndex)"),
-            self.treeview_on_click)
-        QtCore.QObject.connect(
-            self.ui.treeView,
-            QtCore.SIGNAL("doubleClicked(QModelIndex)"),
-            self.treeview_on_doubleclick)
+        self.ui.actionQuit.triggered.connect(self.close)
+        self.ui.actionPreferences.triggered.connect(self.actionPreferenceMth)
+        self.ui.actionGoNext.triggered.connect(self.actionGoNextMth)
+        self.ui.actionTree_Explorer.triggered.connect(
+            self.actionTreeExplorerMth)
+        self.ui.actionToolbar.triggered.connect(self.actionToolbarMth)
+        self.ui.actionGoPrevious.triggered.connect(self.actionGoPreviousMth)
+        self.ui.actionGoUp.triggered.connect(self.actionGoUpMth)
+        self.ui.actionRefresh.triggered.connect(self.actionRefreshMth)
+        self.ui.actionExport.triggered.connect(self.actionExportMth)
+        self.ui.actionImport.triggered.connect(self.actionImportMth)
+        self.ui.actionConsole.triggered.connect(self.actionConsoleMth)
+        self.ui.actionFirmwareUpgrade.triggered.connect(
+            self.actionFirmwareUpgradeMth)
+        self.ui.actionSaveConfig.triggered.connect(self.actionSaveConfigMth)
+        self.ui.actionHistoricCfg.triggered.connect(self.actionHistoricCfgMth)
+        self.ui.actionCopy.triggered.connect(self.actionCopyMth)
+        self.ui.actionPaste.triggered.connect(self.actionPasteMth)
+        self.ui.actionHelp.triggered.connect(self.actionHelpMth)
+        self.ui.actionUser_manual.triggered.connect(self.actionUser_ManualMth)
+        self.ui.actionHardware_manual.triggered.connect(
+            self.actionHardware_ManualMth)
+        self.ui.actionTemplates.triggered.connect(self.actionTemplatesMth)
+        self.ui.treeView.clicked.connect(self.treeview_on_click)
+        self.ui.treeView.doubleClicked.connect(self.treeview_on_doubleclick)
         self.ui.treeView.setContextMenuPolicy(Qt.Qt.CustomContextMenu)
-        self.connect(self.ui.treeView,
-                     QtCore.SIGNAL(
-                         "customContextMenuRequested(const QPoint &)"),
-                     self.__contextMenu)
-        QtCore.QObject.connect(
-            self.ui.btnTreeAdd,
-            QtCore.SIGNAL("clicked()"),
-            self.btnTreeAdd_on_click)
-        QtCore.QObject.connect(
-            self.ui.btnTreeRemove,
-            QtCore.SIGNAL("clicked()"),
+        self.ui.treeView.customContextMenuRequested.connect(self.__contextMenu)
+        self.ui.btnTreeAdd.clicked.connect(self.btnTreeAdd_on_click)
+        self.ui.btnTreeRemove.clicked.connect(self.btnTreeRemove_on_click)
+        self.ui.actionAddIcepap.triggered.connect(self.btnTreeAdd_on_click)
+        self.ui.actionDeleteIcepap.triggered.connect(
             self.btnTreeRemove_on_click)
-        QtCore.QObject.connect(
-            self.ui.actionAddIcepap,
-            QtCore.SIGNAL("triggered()"),
-            self.btnTreeAdd_on_click)
-        QtCore.QObject.connect(
-            self.ui.actionDeleteIcepap,
-            QtCore.SIGNAL("triggered()"),
-            self.btnTreeRemove_on_click)
-        QtCore.QObject.connect(
-            self.ui.menuView,
-            QtCore.SIGNAL("aboutToShow()"),
-            self.menuView_before_show)
-        QtCore.QObject.connect(self.ui.cbLocation, QtCore.SIGNAL(
-            "activated  (const QString&)"), self.locationChanged)
-        QtCore.QObject.connect(
-            self.ui.actionAddLocation,
-            QtCore.SIGNAL("triggered()"),
-            self.addLocation)
-        QtCore.QObject.connect(
-            self.ui.actionDeleteLocation,
-            QtCore.SIGNAL("triggered()"),
-            self.deleteLocation)
-        QtCore.QObject.connect(
-            self.ui.actionAbout,
-            QtCore.SIGNAL("triggered()"),
-            self.about)
+        self.ui.menuView.aboutToShow.connect(self.menuView_before_show)
+        self.ui.cbLocation.activated.connect(self.locationChanged)
+        self.ui.actionAddLocation.triggered.connect(self.addLocation)
+        self.ui.actionDeleteLocation.triggered.connect(self.deleteLocation)
+        self.ui.actionAbout.triggered.connect(self.about)
 
     def initGUI(self):
         self._manager = MainManager(self)
@@ -337,7 +246,8 @@ class IcepapCMS(QtGui.QMainWindow):
         if first_location != "":
             self.locationChanged(first_location)
 
-    def locationChanged(self, location):
+    def locationChanged(self, index):
+        location = self.ui.cbLocation.currentText()
         self._manager.changeLocation(location)
         self.buildInitialTree()
         for icepap_system in list(self._manager.IcepapSystemList.values()):
@@ -357,7 +267,7 @@ class IcepapCMS(QtGui.QMainWindow):
 
         actions = [
             """self.menu.addAction("Sign driver configuration",
-            self.actionSaveConfig)""",
+            self.actionSaveConfigMth)""",
             """self.menu.addAction("Solve driver configuration conflict",
             self.contextSolveConflict)""",
             """self.menu.addAction("Delete driver not present",
@@ -457,10 +367,10 @@ class IcepapCMS(QtGui.QMainWindow):
                 self._manager.checkFirmwareVersions(icepap_system)
                 self.expandAll(icepap_system.name)
 
-    def actionCopy(self):
+    def actionCopyMth(self):
         self.ui.pageiPapDriver.doCopy()
 
-    def actionPaste(self):
+    def actionPasteMth(self):
         self.ui.pageiPapDriver.doPaste()
 
     def editIcepap(self, item):
@@ -631,9 +541,9 @@ class IcepapCMS(QtGui.QMainWindow):
         widget, table = self.ui.pageiPapDriver.createTableWidget(
             ["Parameter\nname", "Value in\ndatabase",
              "Value in\ndriver board"])
-        more_info_dialog = QtGui.QDialog(self)
+        more_info_dialog = QtWidgets.QDialog(self)
         more_info_dialog.resize(420, 300)
-        grid_layout = QtGui.QGridLayout()
+        grid_layout = QtWidgets.QGridLayout()
         grid_layout.addWidget(widget)
         more_info_dialog.setModal(True)
         more_info_dialog.setLayout(grid_layout)
@@ -643,15 +553,15 @@ class IcepapCMS(QtGui.QMainWindow):
                 row = table.rowCount()
                 table.insertRow(row)
 
-                param_item = QtGui.QTableWidgetItem()
+                param_item = QtWidgets.QTableWidgetItem()
                 param_item.setText(param)
                 table.setItem(row, 0, param_item)
 
-                db_item = QtGui.QTableWidgetItem()
+                db_item = QtWidgets.QTableWidgetItem()
                 db_item.setText(db_value)
                 table.setItem(row, 1, db_item)
 
-                driver_item = QtGui.QTableWidgetItem()
+                driver_item = QtWidgets.QTableWidgetItem()
                 driver_item.setText(driver_value)
                 table.setItem(row, 2, driver_item)
 
@@ -660,15 +570,15 @@ class IcepapCMS(QtGui.QMainWindow):
                 row = table.rowCount()
                 table.insertRow(row)
 
-                param_item = QtGui.QTableWidgetItem()
+                param_item = QtWidgets.QTableWidgetItem()
                 param_item.setText(param)
                 table.setItem(row, 0, param_item)
 
-                db_item = QtGui.QTableWidgetItem()
+                db_item = QtWidgets.QTableWidgetItem()
                 db_item.setText("---")
                 table.setItem(row, 1, db_item)
 
-                driver_item = QtGui.QTableWidgetItem()
+                driver_item = QtWidgets.QTableWidgetItem()
                 driver_item.setText(driver_value)
                 table.setItem(row, 2, driver_item)
 
@@ -677,19 +587,18 @@ class IcepapCMS(QtGui.QMainWindow):
                 row = table.rowCount()
                 table.insertRow(row)
 
-                param_item = QtGui.QTableWidgetItem()
+                param_item = QtWidgets.QTableWidgetItem()
                 param_item.setText(param)
                 table.setItem(row, 0, param_item)
 
-                db_item = QtGui.QTableWidgetItem()
+                db_item = QtWidgets.QTableWidgetItem()
                 db_item.setText(db_value)
                 table.setItem(row, 1, db_item)
 
-                driver_item = QtGui.QTableWidgetItem()
+                driver_item = QtWidgets.QTableWidgetItem()
                 driver_item.setText("---")
                 table.setItem(row, 2, driver_item)
 
-        dialog = None
         if not expertFlag:
             dialog = DialogConflictNonExpert(self, more_info_dialog)
         else:
@@ -731,9 +640,9 @@ class IcepapCMS(QtGui.QMainWindow):
 
         widget, table = self.ui.pageiPapDriver.createTableWidget(
             ["Parameter\nname", "Value in\ndriver board"])
-        more_info_dialog = QtGui.QDialog(self)
+        more_info_dialog = QtWidgets.QDialog(self)
         more_info_dialog.resize(320, 600)
-        grid_layout = QtGui.QGridLayout()
+        grid_layout = QtWidgets.QGridLayout()
         grid_layout.addWidget(widget)
         more_info_dialog.setModal(True)
         more_info_dialog.setLayout(grid_layout)
@@ -745,11 +654,11 @@ class IcepapCMS(QtGui.QMainWindow):
                 row = table.rowCount()
                 table.insertRow(row)
 
-                param_item = QtGui.QTableWidgetItem()
+                param_item = QtWidgets.QTableWidgetItem()
                 param_item.setText(param)
                 table.setItem(row, 0, param_item)
 
-                driver_item = QtGui.QTableWidgetItem()
+                driver_item = QtWidgets.QTableWidgetItem()
                 driver_item.setText(driver_value)
                 table.setItem(row, 1, driver_item)
 
@@ -841,10 +750,10 @@ class IcepapCMS(QtGui.QMainWindow):
         self.currentLocation = location
         modelindex = self._tree_model.indexByLocation(location)
         if modelindex is not None:
-            selection = QtGui.QItemSelection(modelindex, modelindex)
+            selection = Qt.QItemSelection(modelindex, modelindex)
             selectmodel = self.ui.treeView.selectionModel()
             selectmodel.clear()
-            selectmodel.select(selection, QtGui.QItemSelectionModel.Select)
+            selectmodel.select(selection, Qt.QItemSelectionModel.Select)
             self.treeSelectByIndex(modelindex)
 
     def treeSelectByIndex(self, modelindex):
@@ -887,40 +796,36 @@ class IcepapCMS(QtGui.QMainWindow):
                 item.role == IcepapTreeModel.SYSTEM_WARNING:
             self.ui.pageiPapSystem.fillData(item.itemData)
             self.ui.stackedWidget.setCurrentIndex(1)
-            QtCore.QObject.disconnect(
-                self.refreshTimer,
-                QtCore.SIGNAL("timeout()"),
-                self.ui.pageiPapSystem.refresh)
-            QtCore.QObject.connect(
-                self.refreshTimer,
-                QtCore.SIGNAL("timeout()"),
-                self.ui.pageiPapSystem.refresh)
+            try:
+                self.refreshTimer.timeout.disconnect(
+                    self.ui.pageiPapSystem.refresh)
+            except Exception:
+                pass
+            self.refreshTimer.timeout.connect(self.ui.pageiPapSystem.refresh)
             self.refreshTimer.start(2000)
         elif item.role == IcepapTreeModel.CRATE:
             self.ui.pageiPapCrate.fillData(
                 item.getIcepapSystem(), int(
-                    item.itemLabel[0].toString()))
+                    item.itemLabel[0].value()))
             self.ui.stackedWidget.setCurrentIndex(2)
-            QtCore.QObject.disconnect(
-                self.refreshTimer,
-                QtCore.SIGNAL("timeout()"),
-                self.ui.pageiPapCrate.refresh)
-            QtCore.QObject.connect(
-                self.refreshTimer,
-                QtCore.SIGNAL("timeout()"),
-                self.ui.pageiPapCrate.refresh)
+            try:
+                self.refreshTimer.timeout.disconnect(
+                    self.ui.pageiPapCrate.refresh)
+            except Exception:
+                pass
+            self.refreshTimer.timeout.connect(self.ui.pageiPapCrate.refresh)
             self.refreshTimer.start(2000)
         else:
             self.ui.stackedWidget.setCurrentIndex(0)
 
         self.expandIndex(modelindex)
 
-    def actionGoPrevious(self):
+    def actionGoPreviousMth(self):
         location = self.locationsPrevious.pop()
         self.addToNext(self.currentLocation)
         self.treeSelectByLocation(location)
 
-    def actionGoNext(self):
+    def actionGoNextMth(self):
         location = self.locationsNext.pop()
         self.addToPrevious(self.currentLocation)
         self.treeSelectByLocation(location)
@@ -953,7 +858,7 @@ class IcepapCMS(QtGui.QMainWindow):
         else:
             self.ui.actionGoNext.setEnabled(True)
 
-    def actionGoUp(self):
+    def actionGoUpMth(self):
         selectmodel = self.ui.treeView.selectionModel()
         indexes = selectmodel.selectedIndexes()
         if len(indexes) > 0:
@@ -961,13 +866,13 @@ class IcepapCMS(QtGui.QMainWindow):
             modelindex = self._tree_model.parent(index)
             if modelindex.row() > -1:
                 self.addToPrevious(self.currentLocation)
-                selection = QtGui.QItemSelection(modelindex, modelindex)
+                selection = Qt.QItemSelection(modelindex, modelindex)
                 selectmodel = self.ui.treeView.selectionModel()
                 selectmodel.clear()
-                selectmodel.select(selection, QtGui.QItemSelectionModel.Select)
+                selectmodel.select(selection, Qt.QItemSelectionModel.Select)
                 self.treeSelectByIndex(modelindex)
 
-    def actionRefresh(self):
+    def actionRefreshMth(self):
         refresh = MessageDialogs.showYesNoMessage(
             self, "Init CMS", "Get all data from Database and lose changes?")
         if refresh:
@@ -975,7 +880,7 @@ class IcepapCMS(QtGui.QMainWindow):
 
     def closeEvent(self, event):
         for child in self.children():
-            if isinstance(child, QtGui.QDialog):
+            if isinstance(child, QtWidgets.QDialog):
                 child.done(0)
 
         self.refreshTimer.stop()
@@ -1026,32 +931,32 @@ class IcepapCMS(QtGui.QMainWindow):
             self.ui.treeView.expand(index)
             index = self._tree_model.parent(index)
 
-    def actionImport(self):
+    def actionImportMth(self):
         if self.ui.stackedWidget.currentIndex() == 3:
             self.ui.pageiPapDriver.doImport()
 
-    def actionExport(self):
+    def actionExportMth(self):
         if self.ui.stackedWidget.currentIndex() == 3:
             self.ui.pageiPapDriver.doExport()
 
-    def actionConsole(self):
+    def actionConsoleMth(self):
         dlg = IcepapConsole(self)
         dlg.show()
 
-    def actionPreferences(self):
+    def actionPreferenceMth(self):
         dlg = DialogPreferences(self)
         dlg.exec_()
         if dlg.StorageChanged:
             self._manager.reset(self)
             self.initGUI()
 
-    def actionFimwareUpgrade(self):
+    def actionFirmwareUpgradeMth(self):
         self.clearLocationBar()
         dlg = DialogIcepapProgram(self)
         dlg.exec_()
 
-    def actionSaveConfig(self):
-        QtGui.QApplication.instance().setOverrideCursor(
+    def actionSaveConfigMth(self):
+        QtWidgets.QApplication.instance().setOverrideCursor(
             QtGui.QCursor(QtCore.Qt.WaitCursor))
         try:
             if self.ui.stackedWidget.currentIndex() == 0:
@@ -1059,16 +964,16 @@ class IcepapCMS(QtGui.QMainWindow):
                 icepap_list = self._manager.getIcepapList()
                 for icepap_name, icepap_system in list(icepap_list.items()):
                     icepap_system.signSystem()
-                    self._tree_model.emit(QtCore.SIGNAL('layoutChanged ()'))
+                    self._tree_model.layoutChanged.emit()
             elif self.ui.stackedWidget.currentIndex() == 1:
                 # sign all icepap system
                 self.ui.pageiPapSystem.icepap_system.signSystem()
-                self._tree_model.emit(QtCore.SIGNAL('layoutChanged ()'))
+                self._tree_model.layoutChanged.emit()
             elif self.ui.stackedWidget.currentIndex() == 2:
                 # sign all icepap crate
                 self.ui.pageiPapCrate.icepap_system.signCrate(
                     self.ui.pageiPapCrate.cratenr)
-                self._tree_model.emit(QtCore.SIGNAL('layoutChanged ()'))
+                self._tree_model.layoutChanged.emit()
             elif self.ui.stackedWidget.currentIndex() == 3:
                 # sign driver
                 self.ui.pageiPapDriver.signDriver()
@@ -1079,51 +984,51 @@ class IcepapCMS(QtGui.QMainWindow):
             MessageDialogs.showInformationMessage(
                 self, "Signature",
                 "Some problems saving driver's configuration")
-        QtGui.QApplication.instance().restoreOverrideCursor()
+        QtWidgets.QApplication.instance().restoreOverrideCursor()
 
-    def actionHistoricCfg(self):
+    def actionHistoricCfgMth(self):
         if self.ui.actionHistoricCfg.isChecked():
             self.ui.pageiPapDriver.showHistoricWidget()
         else:
             self.ui.pageiPapDriver.hideHistoricWidget()
 
-    def actionTemplates(self):
-        pathname = os.path.dirname(sys.argv[0])
-        path = os.path.abspath(pathname)
+    def actionTemplatesMth(self):
+
         # The master catalog file
-        master_catalog_file = path + '/templates/catalog.xml'
+        master_catalog_file = resource_filename('icepapCMS.templates',
+                                                'catalog.xml')
 
         dlg = TemplatesCatalogWidget(
             master_catalog_file, self.ui.pageiPapDriver, self)
         dlg.show()
 
-    def actionHelp(self):
-        pathname = os.path.dirname(sys.argv[0])
-        path = os.path.abspath(pathname)
-        webbrowser.open(path + '/doc/IcepapCMSUserManual.pdf')
+    def actionHelpMth(self):
+        filename = resource_filename('icepapCMS.doc',
+                                     'IcepapCMSUserManual.pdf')
+        webbrowser.open(filename)
 
-    def actionUser_Manual(self):
-        pathname = os.path.dirname(sys.argv[0])
-        path = os.path.abspath(pathname)
-        webbrowser.open(path + '/doc/IcePAP_UserManual.pdf')
+    def actionUser_ManualMth(self):
+        file_name = resource_filename('icepapCMS.doc',
+                                      'IcePAP_UserManual.pdf')
+        webbrowser.open(file_name)
 
-    def actionHardware_Manual(self):
-        pathname = os.path.dirname(sys.argv[0])
-        path = os.path.abspath(pathname)
-        webbrowser.open(path + '/doc/IcePAP_HardwareManual.pdf')
+    def actionHardware_ManualMth(self):
+        file_name = resource_filename('icepapCMS.doc',
+                                      'IcePAP_HardwareManual.pdf')
+        webbrowser.open(file_name)
 
     def menuView_before_show(self):
         self.ui.actionToolbar.setChecked(not self.ui.toolBar.isHidden())
         self.ui.actionTree_Explorer.setChecked(not self.ui.dockTree.isHidden())
 
-    def actionToolbar(self):
+    def actionToolbarMth(self):
         self.ui.actionToolbar.setChecked(not self.ui.toolBar.isHidden())
         if not self.ui.actionToolbar.isChecked():
             self.ui.toolBar.show()
         else:
             self.ui.toolBar.close()
 
-    def actionTreeExplorer(self):
+    def actionTreeExplorerMth(self):
         self.ui.actionTree_Explorer.setChecked(not self.ui.dockTree.isHidden())
         if not self.ui.actionTree_Explorer.isChecked():
             self.ui.dockTree.show()
