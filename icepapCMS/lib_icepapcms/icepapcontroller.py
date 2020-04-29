@@ -321,10 +321,10 @@ class IcepapController(Singleton):
         return mode[0]
 
     def endConfiguringDriver(self, icepap_name, driver):
-        axis = self.iPaps[icepap_name][driver.addr]
         try:
             if icepap_name not in self.iPaps:
                 return
+            axis = self.iPaps[icepap_name][driver.addr]
             if Mode.PROG in axis.mode:
                 return
             if Mode.OPER not in axis.mode:
