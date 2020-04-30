@@ -144,7 +144,8 @@ class IcepapSystem(Storm):
                 self.child_conflicts += 1
             else:
                 driver_cmp = driver_list[addr]
-                if not driver == driver_cmp:
+                if driver != driver_cmp:
+
                     # HOOK TO CHECK AUTO-SOLVE CONFLICTS
                     dsp_cfg = driver_cmp.current_cfg
                     db_cfg = driver.current_cfg
@@ -205,7 +206,6 @@ class IcepapSystem(Storm):
             print("ERROR: missing VERsion parameter in database config")
             return Conflict.DRIVER_CHANGED
 
-        #
         if(dsp_cfg_ver == 2.0) and (db_cfg_ver < 2.0) and (db_cfg_ver >= 1.22):
             dsp_values = dsp_cfg.toList()
             db_values = db_cfg.toList()

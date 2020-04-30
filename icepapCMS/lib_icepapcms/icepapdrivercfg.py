@@ -102,7 +102,10 @@ class IcepapDriverCfg(Storm):
             text = text + "\n" + par.name + ":\t" + par.value
         return text
 
-    def __cmp__(self, other):
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
+    def __eq__(self, other):
         self_list = self.toList()
 
         for name, value in self_list:
@@ -111,11 +114,11 @@ class IcepapDriverCfg(Storm):
                 pass
             elif other_value is not None:
                 if value != other_value:
-                    return -1
+                    return False
             else:
-                return -1
+                return False
 
-        return 0
+        return True
 
 
 class CfgParameter(Storm):

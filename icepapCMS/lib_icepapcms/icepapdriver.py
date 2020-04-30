@@ -119,14 +119,17 @@ class IcepapDriver(Storm):
     def deleteHistoricCfg(self, cfg):
         self.historic_cfgs.remove(cfg)
 
-    def __cmp__(self, other):
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
+    def __eq__(self, other):
         if self.current_cfg == other.current_cfg:
             self.setConflict(Conflict.NO_CONFLICT)
-            return 0
+            return True
 
         self.setConflict(Conflict.DRIVER_CHANGED)
 
-        return -1
+        return False
 
     # TO SORT THE ICEPAP DRIVERS IN THE TREE
     def __lt__(self, other):
