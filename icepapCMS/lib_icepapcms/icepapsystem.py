@@ -221,12 +221,9 @@ class IcepapSystem(Storm):
 
         if(dsp_cfg_ver > 3.14) and (db_cfg_ver <= 3.14) and \
                 (db_cfg_ver >= 2.0):
-            print("DSP VERSION: ", dsp_cfg_ver)
-            print("DB  VERSION: ", db_cfg_ver)
             dsp_values = dsp_cfg.toList()
             db_values = db_cfg.toList()
             diff_values = set(dsp_values).difference(db_values)
-            print("diff_values", diff_values)
             for p, v in diff_values:
                 # ignore new parameters or parameters that normally change
                 if (p == 'VER') or (p == 'HOLDTIME') or (p == 'EXTHOLD'):
