@@ -742,15 +742,14 @@ class IcepapController(Singleton):
             if dst.find(":") >= 0:
                 aux = dst.split(':')
                 host = aux[0]
-                port = aux[1]
+                port = int(aux[1])
             else:
                 host = dst
-                port = "5000"
-            # TODO Optimize GUI to avoid auto_axes=True
-            ipap = EthIcePAPController(host, int(port), auto_axes=True)
             msg = 'System {0} version: {ver[0]}'.format(
                 host, ver=ipap.ver.system)
             print(msg)
+                port = 5000
+            ipap = EthIcePAPController(host, port)
             ipap.disconnect()
             return True
         except Exception:
