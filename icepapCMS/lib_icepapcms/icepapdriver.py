@@ -12,14 +12,16 @@
 
 
 from storm.locals import Storm, Int, Unicode, Reference, ReferenceSet
-from .conflict import Conflict
-from .configmanager import ConfigManager
-from .icepapcontroller import IcepapController
-from .stormmanager import StormManager
 import time
 from datetime import datetime
 import socket
 from icepap import Mode
+import logging
+from .conflict import Conflict
+from .configmanager import ConfigManager
+from .icepapcontroller import IcepapController
+from .stormmanager import StormManager
+
 
 __all__ = ['IcepapDriver']
 
@@ -38,6 +40,7 @@ class IcepapDriver(Storm):
                                   "IcepapDriverCfg.driver_addr"))
 
     def __init__(self, icepap_name, addr):
+        self.log = logging.getLogger('IcepapDriver')
         self.icepapsystem_name = str(icepap_name)
         self.addr = addr
         self.current_cfg = None
@@ -95,7 +98,8 @@ class IcepapDriver(Storm):
             self.startup_cfg = self.current_cfg
             self.conflict = Conflict.NO_CONFLICT
         except Exception as e:
-            print("some exception while trying to sign the driver", e)
+            self.log.error("some exception while trying to sign the driver %s",
+                           e)
 
     def setStartupCfg(self):
         self.current_cfg = self.startup_cfg

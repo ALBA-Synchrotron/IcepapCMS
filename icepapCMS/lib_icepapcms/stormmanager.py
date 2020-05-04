@@ -11,17 +11,19 @@
 # -----------------------------------------------------------------------------
 
 from pkg_resources import resource_filename
-from .configmanager import ConfigManager
 from storm.locals import Store, create_database
-from .singleton import Singleton
 import os
 import re
-import sys
+import logging
+from .singleton import Singleton
+from .configmanager import ConfigManager
 
 __all__ = ['StormManager']
 
+
 class StormManager(Singleton):
     def __init__(self):
+        self.log = logging.getLogger('StormManager')
         pass
 
     def init(self, *args):
@@ -57,8 +59,8 @@ class StormManager(Singleton):
                 self.dbOK = self.createSqliteDB()
             else:
                 self.dbOK = True
-        except Exception:
-            print("Unexpected error:", sys.exc_info())
+        except Exception as e:
+            self.log.error("Unexpected error on openDB: %s", e)
             self.dbOK = False
 
     def createSqliteDB(self):
@@ -77,8 +79,8 @@ class StormManager(Singleton):
                     self._store.execute(create)
             self._store.commit()
             return True
-        except Exception:
-            print("Unexpected error:", sys.exc_info())
+        except Exception as e:
+            self.log.error("Unexpected error on createSqliteDB: %s", e)
             return False
 
     def closeDB(self):
@@ -86,8 +88,8 @@ class StormManager(Singleton):
             if self.dbOK:
                 self._store.close()
             return True
-        except Exception:
-            print("Unexpected error:", sys.exc_info())
+        except Exception as e:
+            self.log.error("Unexpected error on closeDB:", e)
             self.dbOK = False
             return False
 
@@ -103,7 +105,8 @@ class StormManager(Singleton):
             self.commitTransaction()
             return True
         except Exception as e:
-            print("some exception trying to store the icepap system", e)
+            self.log.error("some exception trying to store the icepap system "
+                           "%s: %s", icepap_system, e)
             return False
 
     def deleteLocation(self, location):
@@ -136,8 +139,8 @@ class StormManager(Singleton):
             for location in locations:
                 location_dict[location.name] = location
             return location_dict
-        except Exception:
-            print("getAllLocations:", sys.exc_info()[1])
+        except Exception as e:
+            self.log.error("Unexpected error on getAllLocations: %s", e)
             return {}
 
     def getLocation(self, name):
@@ -169,8 +172,9 @@ class StormManager(Singleton):
             for ipap_sys in icepaps:
                 ipapdict[ipap_sys.name] = ipap_sys
             return ipapdict
-        except Exception:
-            print("getLocationIcepapSystem:", sys.exc_info()[1])
+        except Exception as e:
+            self.log.error("Unexpected error on getLocationIcepapSystem: "
+                           "%s", e)
             return {}
 
     def rollback(self):

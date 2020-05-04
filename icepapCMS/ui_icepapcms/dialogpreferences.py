@@ -13,6 +13,7 @@
 
 from PyQt5 import QtWidgets, uic
 from pkg_resources import resource_filename
+import logging
 from ..lib_icepapcms import ConfigManager
 from .messagedialogs import MessageDialogs
 
@@ -25,6 +26,7 @@ POSTGRES_PORT = 5432
 class DialogPreferences(QtWidgets.QDialog):
 
     def __init__(self, parent):
+        self.log = logging.getLogger('DialogPreferences')
         QtWidgets.QDialog.__init__(self, parent)
 
         ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
@@ -244,8 +246,8 @@ class DialogPreferences(QtWidgets.QDialog):
             config_ipap["templates_folder"] = self.ui.txtTemplatesFolder.text()
 
             return True
-        except BaseException:
-            print("Unexpected error:", sys.exc_info()[1])
+        except BaseException as e:
+            self.log.error("Unexpected error on checkPreferences: %s", e)
             return False
 
 

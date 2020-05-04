@@ -18,6 +18,7 @@ import tempfile
 from icepap import State, Mode
 from xml.dom import minidom, Node
 from xml.dom.minidom import getDOMImplementation
+import logging
 from .Led import Led
 from ..lib_icepapcms import MainManager, IcepapController, ConfigManager, \
     StormManager
@@ -31,6 +32,7 @@ class PageiPapDriver(QtWidgets.QWidget):
     """
 
     def __init__(self, mainwin, test_mode=False):
+        self.log = logging.getLogger('PageiPapDriver')
         QtWidgets.QWidget.__init__(self, None)
         self._mainwin = mainwin
         ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
@@ -265,8 +267,9 @@ class PageiPapDriver(QtWidgets.QWidget):
         # AGAIN, COMMAND WIDGETS ARE ONLY CHECKED IN THE QCOMBOBOX
         # ELIF SECTION
         if not isinstance(widget, QtWidgets.QWidget):
-            print("THIS WIDGET SHOULD NOT BE INTENDED TO HIGHLIGHT... "
-                  "NOT A QWIDGET", widget.objectName())
+            self.log.error("THIS WIDGET SHOULD NOT BE INTENDED TO "
+                           "HIGHLIGHT... NOT A QWIDGET %s",
+                           widget.objectName())
             return
 
         if widget.defaultvalue is None:
@@ -350,9 +353,9 @@ class PageiPapDriver(QtWidgets.QWidget):
                     else:
                         widget.setPalette(self.button_grey_palette)
                 except Exception as e:
-                    print("some exception found trying to highlight a "
-                          "QComboBox!", e)
-                    print("widget was %s" % widget.objectName())
+                    self.log.error("some exception found trying to "
+                                   "highlight a QComboBox %s!: %s",
+                                   widget.objectName(), e)
 
             elif isinstance(widget, QtWidgets.QLineEdit):
                 if dbvalue is None:
@@ -395,7 +398,8 @@ class PageiPapDriver(QtWidgets.QWidget):
                         w.setPalette(self.base_white_palette)
 
         except Exception as e:
-            print("Some exception found with param", param, ":", e)
+            self.log.error("Some exception found with param %s on method "
+                           "highlightWidget: %s", param, e)
 
         if highlight:
             if widget not in self.widgets_modified:
@@ -488,12 +492,14 @@ class PageiPapDriver(QtWidgets.QWidget):
                         else:
                             NOT_FOUND_PARS.append(parid)
                     except Exception as e:
-                        print('Exception was', e)
+                        self.log.error('Exception on _setWidgetToolTips: '
+                                       '%s', e)
                 else:
-                    print('what is happening?')
+                    self.log.error('_setWidgetToolTips, what is happening?')
 
         DEBUG_MISSING_TOOLTIPS = False
 
+        #TODO Evaluate how to integrate this code
         if DEBUG_MISSING_TOOLTIPS:
             for p in UI_PARS:
                 if p not in FOUND_PARS and p not in NOT_FOUND_PARS:
@@ -680,7 +686,6 @@ class PageiPapDriver(QtWidgets.QWidget):
 
         for name, value in icepap_driver.current_cfg.toList():
             if name in self.param_to_widgets:
-                # print "SUCCESS!",name,'->',self.param_to_widgets.get(name)
                 widgets = self.param_to_widgets.get(name)
                 self._setWidgetsValue(widgets, value)
             elif name in ['IPAPNAME', 'VER', 'ID']:
@@ -875,7 +880,8 @@ class PageiPapDriver(QtWidgets.QWidget):
                             elif param == 'CSWITCH':
                                 # THIS VALUE DOES NOT COME NEITHER IN THE
                                 # CONFIGUARTION
-                                print('eo....cswitch')
+                                self.log.error('_setWidgetsValue '
+                                               'eo....cswitch')
                                 pass
                             elif param == 'INDEXER':
                                 values = controller.readIcepapParameters(
@@ -938,8 +944,7 @@ class PageiPapDriver(QtWidgets.QWidget):
 
                 self.highlightWidget(widget)
             except Exception as e:
-                print("_setWidgetValue():", e, " ", value)
-                print("Some exception setting value", e)
+                self.log.error("_setWidgetValue %s error:", value, e)
 
     def _getWidgetValue(self, widget):
         try:
@@ -971,7 +976,7 @@ class PageiPapDriver(QtWidgets.QWidget):
                         flags_value.append(w_param)
                 return ' '.join(flags_value)
         except Exception as e:
-            print("error in _getWidgetValue", e)
+            self.log.error("error in _getWidgetValue: %s", e)
 
     def addNewCfg(self, cfg):
         QtWidgets.QApplication.instance().setOverrideCursor(
@@ -1114,6 +1119,7 @@ class PageiPapDriver(QtWidgets.QWidget):
         self.fillData(self.icepap_driver)
 
     def doImport(self):
+        filename = ""
         try:
             folder = ConfigManager().config["icepap"]["configs_folder"]
             fn = QtWidgets.QFileDialog.getOpenFileName(
@@ -1123,9 +1129,9 @@ class PageiPapDriver(QtWidgets.QWidget):
             filename = str(fn[0])
             self.fillFileData(filename)
         except Exception as e:
-            MessageDialogs.showWarningMessage(
-                self, "File", "Error reading file\n")
-            print("exception: " + str(e))
+            msg = "Error reading file %s: %s".format(filename, e)
+            self.log.warning(msg)
+            MessageDialogs.showWarningMessage(self, "File", msg)
 
     def fillFileData(self, filename):
         QtWidgets.QApplication.instance().setOverrideCursor(
@@ -1219,8 +1225,8 @@ class PageiPapDriver(QtWidgets.QWidget):
         try:
             self.refreshTimer.stop()
             self.setLedsOff()
-        except BaseException:
-            print("Unexpected error:", sys.exc_info())
+        except BaseException  as e:
+            self.log.error("Unexpected error on stopTesting: %s", e)
 
     def getMotionValues(self):
         (speed, acc) = self._manager.getDriverMotionValues(
@@ -1476,8 +1482,8 @@ class PageiPapDriver(QtWidgets.QWidget):
                 self.icepap_driver.addr,
                 pos_sel,
                 position)
-        except BaseException:
-            print("Unexpected error:", sys.exc_info())
+        except BaseException as e:
+            self.log.error("Unexpected error on setPosition: %s", e)
             MessageDialogs.showWarningMessage(
                 self, "Set driver position", "Wrong parameter format")
 
@@ -1490,8 +1496,8 @@ class PageiPapDriver(QtWidgets.QWidget):
                 self.icepap_driver.addr,
                 enc_sel,
                 position)
-        except BaseException:
-            print("Unexpected error:", sys.exc_info())
+        except BaseException as e:
+            self.log.error("Unexpected error on setEncoder: %s", e)
             MessageDialogs.showWarningMessage(
                 self, "Set driver encoderposition", "Wrong parameter format")
 

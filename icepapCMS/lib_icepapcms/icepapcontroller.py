@@ -20,8 +20,9 @@ import re
 import socket
 import collections
 from IPy import IP
-from .singleton import Singleton
 import datetime
+import logging
+from .singleton import Singleton
 from .icepapdrivercfg import IcepapDriverCfg
 from . import icepapdriver
 from .configmanager import ConfigManager
@@ -34,6 +35,7 @@ __all__ = ['IcepapController']
 class IcepapController(Singleton):
 
     def __init__(self):
+        self.log = logging.getLogger('IcepapController')
         pass
 
     def init(self, *args):
@@ -51,8 +53,8 @@ class IcepapController(Singleton):
             self.log_folder = self._config.config[ipap]["log_folder"]
             if not os.path.exists(self.log_folder):
                 os.mkdir(self.log_folder)
-        except Exception:
-            print("icepapcontroller_init():", sys.exc_info())
+        except Exception as e:
+            self.log.error("Init error %s", e)
             pass
 
     def reset(self):
@@ -82,7 +84,7 @@ class IcepapController(Singleton):
                                                               auto_axes=True)
                 return True
             except Exception as e:
-                print('error', e)
+                self.log.error('Open Connection error %s', e)
                 return False
 
     def closeConnection(self, icepap_name):
@@ -104,7 +106,7 @@ class IcepapController(Singleton):
         except RuntimeError as e:
             msg = 'Failed to retrieve cfginfo ' \
                   '({0}).\n{1}'.format(driver_addr, e)
-            print(msg)
+            self.log.error(msg)
             MessageDialogs.showErrorMessage(None, 'Driver Config Info', msg)
             raise e
         for key, val in list(cfg_info.items()):
@@ -154,7 +156,7 @@ class IcepapController(Singleton):
 
         except Exception as e:
             self.closeConnection(icepap_name)
-            print('exception:', e)
+            self.log.error('Scan Icepap System error: %s', e)
             raise
         return driver_list
 
@@ -172,7 +174,7 @@ class IcepapController(Singleton):
         except Exception as e:
             msg = 'Failed to retrieve configuration for ' \
                   'driver {0}.\n{1}'.format(driver_addr, e)
-            print(msg)
+            self.log.error(msg)
             MessageDialogs.showErrorMessage(None, 'Get Driver Config', msg)
             raise e
 
@@ -187,10 +189,9 @@ class IcepapController(Singleton):
         try:
             driver_cfg.setParameter("IPAPNAME", axis_name)
         except Exception as e:
-            msg = 'Exception when trying to write the driver name ' \
-                  '(%s):' % axis_name
-            print(msg)
-            print(e)
+            self.log.error('Exception when trying to write the driver name ' \
+                           '(%s): %s', axis, e)
+
             axis_name = 'NON-ASCII_NAME'
             driver_cfg.setParameter("IPAPNAME", axis_name)
 
@@ -214,7 +215,7 @@ class IcepapController(Singleton):
         except RuntimeError as e:
             msg = 'Failed to set driver {0} in CONFIG mode.\n{1}'.format(
                 driver_addr, e)
-            print(msg)
+            self.log.error(msg)
             MessageDialogs.showErrorMessage(None, 'Set Driver Mode', msg)
             raise e
 
@@ -233,7 +234,7 @@ class IcepapController(Singleton):
                 except Exception as e:
                     msg = 'Error configuring parameter {0} = {1} for driver ' \
                           '{2}\n{3}'.format(cfg_name, value, driver_addr, e)
-                    print(msg)
+                    self.log.error(msg)
                     MessageDialogs.showErrorMessage(None, 'Set Driver Config',
                                                     msg)
                     raise e
@@ -256,7 +257,7 @@ class IcepapController(Singleton):
                 except Exception as e:
                     msg = 'Error configuring parameter ' \
                           '{0} = {1}\n{2}'.format(cfg_name, value, e)
-                    print(msg)
+                    self.log.error(msg)
                     MessageDialogs.showErrorMessage(None, 'Set Driver Config',
                                                     msg)
                 finally:
@@ -267,7 +268,7 @@ class IcepapController(Singleton):
                       'version. Check the configuration ' \
                       'parameter list ({2}).'.format(cfg_name, value,
                                                      list(cfg_info.keys()))
-                print(msg)
+                self.log.error(msg)
                 MessageDialogs.showErrorMessage(None, 'Set Driver Config', msg)
                 raise ValueError(msg)
         try:
@@ -276,7 +277,7 @@ class IcepapController(Singleton):
         except Exception as e:
             msg = 'Error setting expert flag.{0}\n'.format(e)
             MessageDialogs.showErrorMessage(None, 'Expert flag', msg)
-            print(msg)
+            self.log.error(msg)
             raise e
 
         driver_cfg = self.getDriverConfiguration(icepap_name, driver_addr)
@@ -288,7 +289,7 @@ class IcepapController(Singleton):
                 self.iPaps[icepap_name][driver_addr].set_config()
         except RuntimeError as e:
             msg = 'Error discarding driver config.\n{0}'.format(e)
-            print(msg)
+            self.log.error(msg)
             MessageDialogs.showErrorMessage(None, 'Discard Driver Config', msg)
             raise e
 
@@ -301,7 +302,7 @@ class IcepapController(Singleton):
                 axis.set_config(signature)
         except RuntimeError as e:
             msg = 'Error signing config.\n{0}'.format(e)
-            print(msg)
+            self.log.error(msg)
             MessageDialogs.showErrorMessage(None, 'Sign Driver', msg)
             raise e
 
@@ -315,7 +316,7 @@ class IcepapController(Singleton):
             driver.setMode(Mode.CONFIG)
         except RuntimeError as e:
             msg = 'Error starting config.\n{0}'.format(e)
-            print(msg)
+            self.log.error(msg)
             MessageDialogs.showErrorMessage(None, 'config', msg)
             raise e
         return mode[0]
@@ -334,7 +335,7 @@ class IcepapController(Singleton):
         except RuntimeError as e:
             msg = 'Error ending config for driver ' \
                   '{0}.\n{1}'.format(driver.addr, e)
-            print(msg)
+            self.log.error(msg)
             MessageDialogs.showErrorMessage(None, 'End Config', msg)
             raise e
 
@@ -358,9 +359,8 @@ class IcepapController(Singleton):
             status_register = axis_state.status_register
             return status_register, power, current
         except Exception as e:
-            msg = 'Failed to retrieve status for ' \
-                  'driver {0}.\n{1}'.format(driver_addr, e)
-            print(msg)
+            self.log.error('Failed to retrieve status for driver %d: %s',
+                           driver_addr, e)
             return -1, False, -1
 
     def getDriverTestStatus(self, icepap_name, driver_addr, pos_sel, enc_sel):
@@ -379,17 +379,16 @@ class IcepapController(Singleton):
         try:
             position = axis.get_pos(pos_sel)
         except Exception as e:
-            msg = 'Failed to retrieve position for driver ' \
-                  '{0}.\n{1}'. format(driver_addr, e)
-            print(msg)
+            self.log.error('Failed to retrieve position for driver %d: %s',
+                           driver_addr, e)
+
             position = -1
 
         try:
             encoder = axis.get_enc(enc_sel)
         except Exception as e:
-            msg = 'Failed to retrieve encoder for driver ' \
-                  '{0}.\n{1}'.format(driver_addr, e)
-            print(msg)
+            self.log.error('Failed to retrieve encoder for driver %d: %s',
+                           driver_addr, e)
             encoder = -1
 
         return register, power, [position, encoder]
@@ -404,7 +403,7 @@ class IcepapController(Singleton):
         except Exception as e:
             msg = 'Failed to read activation status for ' \
                   'driver {0}.\n{1}'.format(driver_addr, e)
-            print(msg)
+            self.log.error(msg)
             MessageDialogs.showErrorMessage(None, 'Get Active', msg)
             raise e
 
@@ -425,7 +424,7 @@ class IcepapController(Singleton):
         except Exception as e:
             msg = 'Failed to read parameter {0} ' \
                   'for driver {1}.\n{2}'.format(name, driver_addr, e)
-            print(msg)
+            self.log.error(msg)
             MessageDialogs.showErrorMessage(None, 'Read Param', msg)
             raise e
 
@@ -441,7 +440,7 @@ class IcepapController(Singleton):
             except Exception as e:
                 msg = 'Failed to write icepap ' \
                       'parameter {0} = {1}\n{2}'.format(param, value, e)
-                print(msg)
+                self.log.error(msg)
                 MessageDialogs.showErrorMessage(None, 'Write Param', msg)
                 raise e
 
@@ -451,7 +450,7 @@ class IcepapController(Singleton):
         except RuntimeError as e:
             msg = 'Error configuring driver {0} to ' \
                   'defaults.\n{1}'.format(driver_addr, e)
-            print(msg)
+            self.log.error(msg)
             MessageDialogs.showErrorMessage(None, 'Default Config', msg)
             raise e
 
@@ -462,7 +461,7 @@ class IcepapController(Singleton):
         except RuntimeError as e:
             msg = 'Failed to retrieve motion values(velocity, acctime) ' \
                   'from driver {0}.\n{1}'.format(driver_addr, e)
-            print(msg)
+            self.log.error(msg)
             MessageDialogs.showErrorMessage(None, 'Driver Motion Values', msg)
             raise e
         return speed, acc
@@ -475,7 +474,7 @@ class IcepapController(Singleton):
         except Exception as e:
             msg = 'Failed to set motion values for ' \
                   'driver {0}.\n{1}'.format(driver_addr, e)
-            print(msg)
+            self.log.error(msg)
             return -1
 
     def setDriverPosition(self, icepap_name, driver_addr, pos_sel, position):
@@ -485,7 +484,7 @@ class IcepapController(Singleton):
         except Exception as e:
             msg = 'Failed to set driver position for ' \
                   'selector {0}\n{1}'.format(pos_sel, e)
-            print(msg)
+            self.log.error(msg)
             return -1
 
     def setDriverEncoder(self, icepap_name, driver_addr, enc_sel, position):
@@ -493,12 +492,12 @@ class IcepapController(Singleton):
             self.iPaps[icepap_name][driver_addr].set_enc(enc_sel, position)
             return 0
         except Exception as e:
-            msg = 'Failed to set encoder position for ' \
-                  'selector {0}\n{1}'.format(enc_sel, e)
-            print(msg)
+
+            self.log.error('Failed to set encoder position for selector %d: '
+                           '%s', enc_sel, e)
             return -1
 
-    @catchError
+    @catchError()
     def moveDriver(self, icepap_name, driver_addr, steps):
         axis = self.iPaps[icepap_name][driver_addr]
         if Mode.CONFIG == axis.mode:
@@ -745,11 +744,11 @@ class IcepapController(Singleton):
                 port = int(aux[1])
             else:
                 host = dst
-            msg = 'System {0} version: {ver[0]}'.format(
-                host, ver=ipap.ver.system)
-            print(msg)
                 port = 5000
             ipap = EthIcePAPController(host, port)
+            if self.log.isEnabledFor(logging.INFO):
+                self.log.info('Testing connection to: %s:%s version: %s',
+                              host, port, ipap.ver.system[0])
             ipap.disconnect()
             return True
         except Exception:

@@ -12,12 +12,14 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import logging
 
 
 class PyConsoleText(QtWidgets.QTextEdit):
     commandReceived = QtCore.pyqtSignal(str, name='commandReceived')
 
     def __init__(self, parent=None):
+        self.log = logging.getLogger('PyConsoleText')
         QtWidgets.QTextEdit.__init__(self, parent)
 
         # to exit the main interpreter by a Ctrl-D if PyCute has no parent
@@ -97,7 +99,7 @@ class PyConsoleText(QtWidgets.QTextEdit):
         try:
             self.lines.append(self.line)
         except Exception as e:
-            print(e)
+            self.log.error('Error on __run(): %s', e)
 
         source = '\n'.join(self.lines)
 

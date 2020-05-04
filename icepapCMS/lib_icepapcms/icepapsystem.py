@@ -12,6 +12,7 @@
 
 
 from storm.locals import Storm, Unicode, ReferenceSet, Int
+import logging
 from .conflict import Conflict
 from .stormmanager import StormManager
 from .icepapdriver import IcepapDriver
@@ -67,6 +68,7 @@ class IcepapSystem(Storm):
     location = ReferenceSet(location_name, "Location.name")
 
     def __init__(self, name, host, port, location_name, description=None):
+        self.log = logging.getLogger('IcepapSystem')
         self.name = str(name)
         if description is None:
             description = str("")
@@ -197,13 +199,15 @@ class IcepapSystem(Storm):
             dsp_cfg_ver = float(dsp_cfg.getParameter(str("VER"),
                                                      in_memory=True))
         except Exception:
-            print("ERROR: missing VERsion parameter in DSP config")
+            self.log.error("%s: missing VERsion parameter in DSP config",
+                           self.name)
             return Conflict.DRIVER_CHANGED
 
         try:
             db_cfg_ver = float(db_cfg.getParameter(str("VER")))
         except Exception:
-            print("ERROR: missing VERsion parameter in database config")
+            self.log.error("%s: missing VERsion parameter in database config",
+                           self.name)
             return Conflict.DRIVER_CHANGED
 
         if(dsp_cfg_ver == 2.0) and (db_cfg_ver < 2.0) and (db_cfg_ver >= 1.22):

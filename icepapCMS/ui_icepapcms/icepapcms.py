@@ -17,6 +17,7 @@ import webbrowser
 from PyQt5 import QtCore, QtGui, Qt, QtWidgets, uic
 from pkg_resources import resource_filename
 from optparse import OptionParser
+import logging
 from ..lib_icepapcms import MainManager, Conflict, ConfigManager, \
     StormManager, IcepapDriver
 from .icepap_treemodel import IcepapTreeModel
@@ -76,6 +77,7 @@ class IcepapApp(QtWidgets.QApplication):
 
 class IcepapCMS(QtWidgets.QMainWindow):
     def __init__(self, options, args, parent=None):
+        self.log = logging.getLogger('IcepapCMS')
         QtWidgets.QMainWindow.__init__(self, parent)
 
         ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
@@ -108,12 +110,13 @@ class IcepapCMS(QtWidgets.QMainWindow):
                         self._config.username = login_dlg.username
                         valid_ldap_login = True
                 if not valid_ldap_login:
-                    print('\n\nSorry, we only allow validated users to save '
-                          'configs to Icepap drivers.\n')
+                    self.log.critical('Sorry, we only allow validated users to '
+                                      'save configs to Icepap drivers.')
                     sys.exit(-1)
-            except Exception:
-                print('Using IcepapCMS with the system\'s username: %s' %
-                      self._config.username)
+            except Exception as e:
+                self.log.warning("Using IcepapCMS with the system's "
+                                 "username: %s without validation. Error: %s",
+                                 self._config.username, e)
         self.checkTimer = Qt.QTimer(self)
 
         self.initGUI()
@@ -980,10 +983,9 @@ class IcepapCMS(QtWidgets.QMainWindow):
                 self.ui.actionSaveConfig.setEnabled(False)
 
         except Exception as e:
-            print("some exception while saving config:", e)
-            MessageDialogs.showInformationMessage(
-                self, "Signature",
-                "Some problems saving driver's configuration")
+            msg = "Some problems saving driver's configuration: {}".format(e)
+            self.log.error(msg)
+            MessageDialogs.showInformationMessage(self, "Signature", msg)
         QtWidgets.QApplication.instance().restoreOverrideCursor()
 
     def actionHistoricCfgMth(self):

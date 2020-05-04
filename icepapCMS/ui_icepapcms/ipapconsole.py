@@ -16,7 +16,7 @@ from PyQt5 import QtGui, QtCore, QtWidgets, uic
 from pkg_resources import resource_filename
 from icepap import IcePAPController as EthIcePAP
 import os
-import sys
+import logging
 from .messagedialogs import MessageDialogs
 from ..lib_icepapcms import ConfigManager, IcepapController
 
@@ -24,6 +24,7 @@ from ..lib_icepapcms import ConfigManager, IcepapController
 # TODO: Adapt to use pyIcePAP API 2.X
 class IcepapConsole(QtWidgets.QDialog):
     def __init__(self, parent=None):
+        self.log = logging.getLogger('IcepapConsole')
         QtWidgets.QDialog.__init__(self, parent, QtCore.Qt.Window)
         ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
                                         'ipapconsole.ui')
@@ -51,9 +52,8 @@ class IcepapConsole(QtWidgets.QDialog):
             self.log_folder = ipap_cfg["log_folder"]
             if not os.path.exists(self.log_folder):
                 os.mkdir(self.log_folder)
-        except Exception:
-            # TODO Change to use logs
-            print("icepapconsole_init():", sys.exc_info())
+        except Exception as e:
+            self.log.error("icepapconsole_init(): %s", e)
 
     def btnConnect_on_click(self):
         try:
