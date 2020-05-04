@@ -235,17 +235,18 @@ class MainManager(Singleton):
             return
         try:
             icepap_name = icepap_system.name
-            master_version = \
-                self._ctrl_icepap.iPaps[icepap_name].getVersion(0, "DRIVER")
-            master_version = str(master_version)
+            ipap = self._ctrl_icepap.iPaps[icepap_name]
+            master_version = ipap.ver.driver[0]
             mismatched_drivers = []
             for driver in icepap_system.getDrivers():
                 # #############################################################
-                driver_version = \
-                    self._ctrl_icepap.iPaps[icepap_name].getVersion(
-                        driver.addr, "DRIVER")
-                # If the driver has been temporary removed, the error should
-                if driver_version.count("ERROR") > 0:
+                try:
+                    driver_version = ipap[driver.addr].ver.driver[0]
+                except Exception:
+                    # If the driver has been temporary removed,
+                    # the error should
+                    self.log.warning('%s[%d] is removed', icepap_name,
+                                     driver.addr)
                     driver_version = master_version
                 if master_version != driver_version:
                     mismatched_drivers.append((driver.addr,
@@ -253,12 +254,11 @@ class MainManager(Singleton):
 
             if len(mismatched_drivers) > 0:
                 msg = "Some drivers do not have the MASTER's " \
-                      "firmware version (%s):\n" % (master_version)
+                      "firmware version (%s):\n" % master_version
                 for driver, version in mismatched_drivers:
                     msg = msg + "driver %d: %s\n" % (driver, version)
-                saved_version = \
-                    self._ctrl_icepap.iPaps[icepap_name].getVersionSaved()
-                msg = msg + "Board saved version: %s\n" % (saved_version)
+                saved_version = ipap.ver_saved.driver[0]
+                msg = msg + "Board saved version: %s\n" % saved_version
                 msg = msg + "Would you like to upgrade these drivers?\n"
                 self.log.info(msg)
                 upgrade = MessageDialogs.showYesNoMessage(
@@ -282,7 +282,6 @@ class MainManager(Singleton):
         except Exception as e:
             self.log.error('Error on checking %s firmware version: %s',
                            icepap_name, e)
-            pass
 
     def importMovedDriver(self, icepap_driver, from_to=False):
         """ function to import the information from a moved driver,
