@@ -190,8 +190,6 @@ class MainManager(Singleton):
             MessageDialogs.showErrorMessage(
                 self._form, "Stop Icepap error",
                 "%s Connection error:%s" % (icepap_system.name, str(error)))
-        except Exception:
-            print("mainmanager:stopIcepap:Unexpected error:", sys.exc_info())
 
     def scanIcepap(self, icepap_system):
         """ Searches for configuration conflicts.
@@ -218,9 +216,6 @@ class MainManager(Singleton):
                                                       icepap_name,
                                                       str(error))
             MessageDialogs.showErrorMessage(None, "Scanning Icepap Error", msg)
-        except Exception:
-            print("mainmanager:scanIcepap:Unexpected error:", sys.exc_info())
-            conflictsList.append([Conflict.NO_CONNECTION, icepap_system, 0])
 
         QtWidgets.QApplication.instance().restoreOverrideCursor()
 
@@ -356,11 +351,6 @@ class MainManager(Singleton):
                 "%s,%d Connection timeout" % (icepap_name, addr))
             self._form.refreshTree()
             return -1, False, -1
-        except Exception:
-            MessageDialogs.showWarningMessage(
-                self._form, "GetDriverStatus error", "Connection error")
-            self._form.checkIcepapConnection()
-            return -1, False, -1
 
     def getDriverTestStatus(self, icepap_name, addr, pos_sel, enc_sel):
         """ Driver Status used in the System and crate view
@@ -389,11 +379,6 @@ class MainManager(Singleton):
             MessageDialogs.showErrorMessage(
                 self._form, "ReadIcepapParamenters Icepap error",
                 "%s Connection error:%s" % (icepap_name, str(error)))
-        except Exception:
-            print("mainmanager:readIcepapParameters:Unexpected error:",
-                  sys.exc_info())
-            print("error in : %s %d" % (icepap_name, addr))
-            return []
 
     def writeIcepapParameters(self, icepap_name, addr, par_var_list):
         """ Writes to a driver the values in the par_var_list """
@@ -435,10 +420,6 @@ class MainManager(Singleton):
             MessageDialogs.showErrorMessage(
                 self._form, "MoveDriver Icepap error",
                 "%s Connection error:%s" % (icepap_name, str(error)))
-        except Exception:
-            print("mainmanager:moveDriver:Unexpected error:", sys.exc_info())
-            MessageDialogs.showWarningMessage(self._form, "MoveDriver error",
-                                              "Connection error")
 
     def moveDriverAbsolute(self, icepap_name, addr, position):
         try:
