@@ -35,7 +35,6 @@ class PageiPapDriver(QtWidgets.QWidget):
 
     @loggingInfo
     def __init__(self, mainwin, test_mode=False):
-        self.log = logging.getLogger('PageiPapDriver')
         QtWidgets.QWidget.__init__(self, None)
         self._mainwin = mainwin
         ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
@@ -1035,7 +1034,7 @@ class PageiPapDriver(QtWidgets.QWidget):
                 tab_bar.setTabIcon(index, QtGui.QIcon(""))
 
     @loggingInfo
-    def btnSendCfg_on_click(self, skip_fillData=False):
+    def btnSendCfg_on_click(self, checked=False, skip_fillData=False):
         if len(self.widgets_modified) == 0:
             return True
         self._mainwin.ui.actionHistoricCfg.setChecked(False)

@@ -1,3 +1,4 @@
+import inspect
 from .ui_icepapcms.messagedialogs import MessageDialogs
 
 
@@ -6,7 +7,12 @@ def loggingInfo(f):
         try:
             f_name = f.__name__
             obj.log.info('Entering %s(%s) ', f_name, args)
-            result = f(obj, *args, **kwargs)
+            f_params = len((inspect.signature(f)).parameters)
+            if f_params == 1:
+                obj.log.info('Calling %s without params', f_name)
+                result = f(obj)
+            elif f_params >= 1:
+                result = f(obj, *args, **kwargs)
             obj.log.info('Living %s ', f_name)
             return result
         except Exception as e:
