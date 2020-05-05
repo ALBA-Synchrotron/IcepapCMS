@@ -15,6 +15,8 @@ from .singleton import Singleton
 import os
 from configobj import ConfigObj
 from validate import Validator
+import logging
+from ..helpers import loggingInfo
 
 __all__ = ['ConfigManager']
 
@@ -50,10 +52,12 @@ class ConfigManager(Singleton):
     '''
 
     defaults = defaults.splitlines()
+    log = logging.getLogger('{}.ConfigManager'.format(__name__))
 
     def __init__(self):
         pass
 
+    @loggingInfo
     def init(self, *args):
         if not os.path.exists(os.path.expanduser('~/.icepapcms')):
             os.mkdir(os.path.expanduser('~/.icepapcms'))
@@ -61,6 +65,7 @@ class ConfigManager(Singleton):
             '~/.icepapcms/icepapcms.conf')
         self.configure()
 
+    @loggingInfo
     def configure(self):
         self.configspec = ConfigObj(self.defaults)
         self.config = ConfigObj(self.config_filename,
@@ -73,5 +78,6 @@ class ConfigManager(Singleton):
             if not os.path.exists(directory):
                 os.mkdir(directory)
 
+    @loggingInfo
     def saveConfig(self):
         self.config.write()

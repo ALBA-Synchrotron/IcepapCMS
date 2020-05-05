@@ -16,6 +16,7 @@ import logging
 from .conflict import Conflict
 from .stormmanager import StormManager
 from .icepapdriver import IcepapDriver
+from ..helpers import loggingInfo
 
 __all__ = ['IcepapSystem', 'Location']
 
@@ -24,25 +25,32 @@ class Location(Storm):
     __storm_table__ = "location"
     name = Unicode(primary=True)
     systems = ReferenceSet(name, "IcepapSystem.location_name")
+    log = logging.getLogger('{}.Location'.format(__name__))
 
+    @loggingInfo
     def __init__(self, name):
         self.name = name
         self.initialize()
 
+    @loggingInfo
     def initialize(self):
         self._inmemory_systems = {}
 
+    @loggingInfo
     def __storm_loaded__(self):
         self.initialize()
 
+    @loggingInfo
     def loadSystemsfromDB(self):
         for system in self.systems:
             self._inmemory_systems[system.name] = system
 
+    @loggingInfo
     def addSystem(self, system):
         self.systems.add(system)
         self._inmemory_systems[system.name] = system
 
+    @loggingInfo
     def deleteSystem(self, name):
         system = self.systems.find(IcepapSystem.name == name).one()
         for driver in system.getDrivers():
@@ -66,9 +74,10 @@ class IcepapSystem(Storm):
     """ references """
     drivers = ReferenceSet(name, "IcepapDriver.icepapsystem_name")
     location = ReferenceSet(location_name, "Location.name")
+    log = logging.getLogger('{}.IcepapSystem'.format(__name__))
 
+    @loggingInfo
     def __init__(self, name, host, port, location_name, description=None):
-        self.log = logging.getLogger('IcepapSystem')
         self.name = str(name)
         if description is None:
             description = str("")
@@ -78,18 +87,22 @@ class IcepapSystem(Storm):
         self.port = int(port)
         self.initialize()
 
+    @loggingInfo
     def __storm_loaded__(self):
         self.initialize()
 
+    @loggingInfo
     def loadDriversfromDB(self):
         for driver in self.drivers:
             self._inmemory_drivers[driver.addr] = driver
 
+    @loggingInfo
     def initialize(self):
         self._inmemory_drivers = {}
         self.conflict = Conflict.NO_CONFLICT
         self.child_conflicts = 0
 
+    @loggingInfo
     def getDriver(self, addr, in_memory=True):
         if in_memory:
             if addr in self._inmemory_drivers:
@@ -99,6 +112,7 @@ class IcepapSystem(Storm):
         else:
             return self.drivers.find(IcepapDriver.addr == addr).one()
 
+    @loggingInfo
     def getDrivers(self, in_memory=True):
         if in_memory:
             if len(self._inmemory_drivers) == 0:
@@ -107,26 +121,32 @@ class IcepapSystem(Storm):
         else:
             return self.drivers
 
+    @loggingInfo
     def addDriver(self, driver):
         self.drivers.add(driver)
         self._inmemory_drivers[driver.addr] = driver
 
+    @loggingInfo
     def addDriverList(self, driver_list):
         for driver in list(driver_list.values()):
             self.addDriver(driver)
 
+    @loggingInfo
     def removeDriver(self, addr):
         driver = self.drivers.find(IcepapDriver.addr == addr).one()
         StormManager().deleteDriver(driver)
         del self._inmemory_drivers[addr]
 
+    @loggingInfo
     def setConflict(self, conflict):
         self.conflict = conflict
 
+    @loggingInfo
     def signSystem(self):
         for driver in self.getDrivers():
             driver.signDriver()
 
+    @loggingInfo
     def signCrate(self, cratenr):
         min_addr = cratenr * 10
         max_addr = (cratenr + 1) * 10
@@ -134,6 +154,7 @@ class IcepapSystem(Storm):
                                         IcepapDriver.addr < max_addr):
             driver.signDriver()
 
+    @loggingInfo
     def compareDriverList(self, driver_list):
         self.child_conflicts = 0
         conflictsList = []
@@ -165,6 +186,7 @@ class IcepapSystem(Storm):
 
         return conflictsList
 
+    @loggingInfo
     def checkAutoSolvedConflict(self, dsp_cfg, db_cfg):
         # 20130710 ESRF ASKED FOR A HOOK TO 'SKIP' SOME CONFLICTS
         # ISSUE 053 in WIKI MINUTES

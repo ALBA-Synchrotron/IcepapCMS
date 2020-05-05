@@ -16,6 +16,7 @@ from pkg_resources import resource_filename
 import logging
 from ..lib_icepapcms import ConfigManager
 from .messagedialogs import MessageDialogs
+from ..helpers import loggingInfo
 
 # TODO Change to properties
 MYSQL_PORT = 3306
@@ -24,9 +25,10 @@ POSTGRES_PORT = 5432
 
 # TODO: Change Debug Level widget to use more levels
 class DialogPreferences(QtWidgets.QDialog):
+    log = logging.getLogger('{}.DialogPreferences'.format(__name__))
 
+    @loggingInfo
     def __init__(self, parent):
-        self.log = logging.getLogger('DialogPreferences')
         QtWidgets.QDialog.__init__(self, parent)
 
         ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
@@ -57,6 +59,7 @@ class DialogPreferences(QtWidgets.QDialog):
         self.ui.listWidget.item(0).setSelected(True)
         """ check imports for dbs to disable errors """
 
+    @loggingInfo
     def closeButton_on_click(self):
         if self.checkPreferences():
             self._config.saveConfig()
@@ -65,16 +68,19 @@ class DialogPreferences(QtWidgets.QDialog):
             MessageDialogs.showWarningMessage(
                 self, "Preferences", "Check configuration parameters")
 
+    @loggingInfo
     def listWidget_on_click(self, item):
         index = self.ui.listWidget.row(item)
         self.ui.stackedWidget.setCurrentIndex(index)
 
+    @loggingInfo
     def rbSqlite_toogled(self, checked):
         if checked:
             self.selectedDB = self._config.Sqlite
             self.ui.gbLocal.setEnabled(True)
             self.ui.gbRemote.setEnabled(False)
 
+    @loggingInfo
     def rbPostgres_toogled(self, checked):
         if checked:
             self.selectedDB = self._config.Postgres
@@ -82,6 +88,7 @@ class DialogPreferences(QtWidgets.QDialog):
             self.ui.gbRemote.setEnabled(True)
             self.ui.txtPort.setText(str(POSTGRES_PORT))
 
+    @loggingInfo
     def rbMySql_toogled(self, checked):
         if checked:
             self.selectedDB = self._config.MySql
@@ -89,6 +96,7 @@ class DialogPreferences(QtWidgets.QDialog):
             self.ui.gbRemote.setEnabled(True)
             self.ui.txtPort.setText(str(MYSQL_PORT))
 
+    @loggingInfo
     def btnBrowse_on_click(self):
         current_folder = self._config.config[self._config.icepap]["folder"]
         fn = QtWidgets.QFileDialog.getExistingDirectory(
@@ -98,6 +106,7 @@ class DialogPreferences(QtWidgets.QDialog):
         folder = str(fn)
         self.ui.txtLocalFolder.setText(folder)
 
+    @loggingInfo
     def btnLogBrowse_on_click(self):
         current_folder = self._config.config[self._config.icepap]["log_folder"]
         fn = QtWidgets.QFileDialog.getExistingDirectory(
@@ -107,6 +116,7 @@ class DialogPreferences(QtWidgets.QDialog):
         folder = str(fn)
         self.ui.txtLogFolder.setText(folder)
 
+    @loggingInfo
     def btnFirmwareBrowse_on_click(self):
         current_folder = \
             self._config.config[self._config.icepap]["firmware_folder"]
@@ -117,6 +127,7 @@ class DialogPreferences(QtWidgets.QDialog):
         folder = str(fn)
         self.ui.txtFirmwareFolder.setText(folder)
 
+    @loggingInfo
     def btnConfigsBrowse_on_click(self):
         current_folder = \
             self._config.config[self._config.icepap]["configs_folder"]
@@ -127,6 +138,7 @@ class DialogPreferences(QtWidgets.QDialog):
         folder = str(fn)
         self.ui.txtConfigsFolder.setText(folder)
 
+    @loggingInfo
     def btnTemplatesBrowse_on_click(self):
         current_folder = \
             self._config.config[self._config.icepap]["templates_folder"]
@@ -137,6 +149,7 @@ class DialogPreferences(QtWidgets.QDialog):
         folder = str(fn)
         self.ui.txtTemplatesFolder.setText(folder)
 
+    @loggingInfo
     def checkDbEngines(self):
         module_errors = ""
         ok_sqlite = True
@@ -174,6 +187,7 @@ class DialogPreferences(QtWidgets.QDialog):
         self.ui.lblModules.setText(module_errors)
         self.ui.rbmysql.setEnabled(mysql)
 
+    @loggingInfo
     def fillConfig(self):
         ''' storage configuration'''
         self.checkDbEngines()
@@ -207,6 +221,7 @@ class DialogPreferences(QtWidgets.QDialog):
         self.ui.txtConfigsFolder.setText(configs_folder)
         self.ui.txtTemplatesFolder.setText(templates_folder)
 
+    @loggingInfo
     def checkPreferences(self):
         try:
             ''' Storage Configuration '''

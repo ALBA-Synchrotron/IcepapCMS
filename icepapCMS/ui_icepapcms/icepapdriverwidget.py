@@ -14,13 +14,17 @@
 from PyQt5 import QtGui, Qt, QtWidgets, uic, QtCore
 from pkg_resources import resource_filename
 from icepap import Mode, State
+import logging
 from .Led import Led
 from ..lib_icepapcms import MainManager, Conflict
+from ..helpers import loggingInfo
 
 
 class IcePapDriverWidget(QtWidgets.QWidget):
     icepapDoubleClicked = QtCore.pyqtSignal(object)
+    log = logging.getLogger('{}.IcePapDriverWidget'.format(__name__))
 
+    @loggingInfo
     def __init__(self, parent=None, BigSize=True, test_mode=False):
         QtWidgets.QWidget.__init__(self, parent)
         self.initView(BigSize, test_mode)
@@ -32,6 +36,7 @@ class IcePapDriverWidget(QtWidgets.QWidget):
         self.power = -1
         self.mode = -1
 
+    @loggingInfo
     def initView(self, Big, test_mode=False):
         self.BigSize = Big
         self.coloroff = QtGui.QColor(225, 255, 200)
@@ -65,18 +70,22 @@ class IcePapDriverWidget(QtWidgets.QWidget):
         # Signals
         self.ui.pushButton.clicked.connect(self.btnEnDis_on_click)
 
+    @loggingInfo
     def mouseDoubleClickEvent(self, event):
         self.icepapDoubleClicked.emit(event)
         event.accept()
 
+    @loggingInfo
     def mousePressEvent(self, event):
         tooltip = str(self._driver.current_cfg)
         QtWidgets.QToolTip.showText(event.globalPos(), tooltip)
         event.accept()
 
+    @loggingInfo
     def mouseMoveEvent(self, event):
         event.accept()
 
+    @loggingInfo
     def btnEnDis_on_click(self, bool):
         if bool:
             self.ui.pushButton.setText("power OFF")
@@ -87,9 +96,11 @@ class IcePapDriverWidget(QtWidgets.QWidget):
             self._manager.disableDriver(self._driver.icepapsystem_name,
                                         self._driver.addr)
 
+    @loggingInfo
     def getDriver(self):
         return self._driver
 
+    @loggingInfo
     def fillData(self, driver):
         self._driver = driver
         if driver is None:
@@ -99,12 +110,14 @@ class IcePapDriverWidget(QtWidgets.QWidget):
         else:
             return self.fillStatus()
 
+    @loggingInfo
     def refresh(self):
         if self._driver is not None:
             return self.fillStatus()
         else:
             return True
 
+    @loggingInfo
     def fillStatus(self):
         if self._driver.getName() is None:
             self.ui.lblName.setText("- %d -" % self._driver.addr)
@@ -189,6 +202,7 @@ class IcePapDriverWidget(QtWidgets.QWidget):
             self.setCurrent(current)
         return True
 
+    @loggingInfo
     def setCurrent(self, current):
         self.ui.lcdCurrent.display(current)
         current = float(current)
@@ -205,6 +219,7 @@ class IcePapDriverWidget(QtWidgets.QWidget):
         self.setPaletteColor(self.ui.lcdCurrent, color,
                              QtGui.QColor(Qt.Qt.black))
 
+    @loggingInfo
     def setPaletteColor(self, widget, backcolor, forecolor):
         palette = widget.palette()
         widget.setAutoFillBackground(True)

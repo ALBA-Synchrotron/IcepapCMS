@@ -11,11 +11,16 @@
 # -----------------------------------------------------------------------------
 
 
-from PyQt5 import QtCore, QtGui, Qt, uic, QtWidgets
+from PyQt5 import QtCore, QtGui, Qt, QtWidgets
+import logging
+from ..helpers import loggingInfo
 from .icepapdriverwidget import IcePapDriverWidget
 
 
 class PageiPapCrate(QtWidgets.QWidget):
+    log = logging.getLogger('{}.PageiPapCrate'.format(__name__))
+
+    @loggingInfo
     def __init__(self, mainwin):
         QtWidgets.QWidget.__init__(self, None)
         self.mainwin = mainwin
@@ -156,6 +161,7 @@ class PageiPapCrate(QtWidgets.QWidget):
             QtWidgets.QSizePolicy.Expanding)
         self.vboxlayout.addItem(spacerItem1)
 
+    @loggingInfo
     def fillData(self, icepap_system, selected_crate):
         self.tableWidget.clear()
         self.tableWidget.setColumnCount(8)
@@ -204,12 +210,14 @@ class PageiPapCrate(QtWidgets.QWidget):
         self.tableWidget.horizontalHeader().setUpdatesEnabled(True)
         self.tableWidget.verticalHeader().setUpdatesEnabled(True)
 
+    @loggingInfo
     def driverDoubleclick(self, driver):
         if driver is not None:
             location = "%s/%d/%d" % (driver.icepapsystem_name,
                                      driver.cratenr, driver.drivernr)
             self.mainwin.treeSelectByLocation(location)
 
+    @loggingInfo
     def refresh(self):
         for col in range(self.tableWidget.columnCount()):
             for row in range(self.tableWidget.rowCount()):

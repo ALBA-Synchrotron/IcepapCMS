@@ -14,11 +14,16 @@
 from PyQt5 import QtWidgets, QtGui, Qt, uic
 from pkg_resources import resource_filename
 from xml.dom import minidom, Node
+import logging
 from .messagedialogs import MessageDialogs
 from ..lib_icepapcms import MainManager, StormManager
+from ..helpers import loggingInfo
 
 
 class DialogDriverConflict(QtWidgets.QDialog):
+    log = logging.getLogger('{}.DialogDriverConflict'.format(__name__))
+
+    @loggingInfo
     def __init__(self, parent, driver, test_mode=False):
         QtWidgets.QDialog.__init__(self, parent)
 
@@ -48,6 +53,7 @@ class DialogDriverConflict(QtWidgets.QDialog):
         self.ui.btnStored.clicked.connect(self.btnStored_on_click)
         self.ui.btnIcepap.clicked.connect(self.btnIcepap_on_click)
 
+    @loggingInfo
     def _createTableView(self):
         self.var_dict = {}
         doc = minidom.parse(self.config_template)
@@ -68,6 +74,7 @@ class DialogDriverConflict(QtWidgets.QDialog):
                     self._addItemToTable(row, 0, parname, False)
                     row = row + 1
 
+    @loggingInfo
     def _fillTable(self):
         self._createTableView()
         self.icepap_values = self._manager.getDriverConfiguration(
@@ -98,6 +105,7 @@ class DialogDriverConflict(QtWidgets.QDialog):
                 self, "Driver conflict",
                 "Warning!!\nCurrent values (IN, IB, II) have changed!!\n")
 
+    @loggingInfo
     def btnIcepap_on_click(self):
         db = StormManager()
         db.store(self.icepap_values)
@@ -105,12 +113,14 @@ class DialogDriverConflict(QtWidgets.QDialog):
         self._driver.addConfiguration(self.icepap_values)
         self.accept()
 
+    @loggingInfo
     def btnStored_on_click(self):
         del self.icepap_values
         self._manager.saveValuesInIcepap(self._driver,
                                          self._driver.current_cfg.toList())
         self.accept()
 
+    @loggingInfo
     def _addItemToTable(self, row, column, text, colored):
         item = QtWidgets.QTableWidgetItem()
         item.setText(text)

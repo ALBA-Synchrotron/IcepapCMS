@@ -23,6 +23,7 @@ from .Led import Led
 from ..lib_icepapcms import MainManager, IcepapController, ConfigManager, \
     StormManager
 from .messagedialogs import MessageDialogs
+from ..helpers import loggingInfo
 
 
 class PageiPapDriver(QtWidgets.QWidget):
@@ -30,7 +31,9 @@ class PageiPapDriver(QtWidgets.QWidget):
     Widget that manages all the information related to an
     icepap driver. Configuration, testing and historic configurations
     """
+    log = logging.getLogger('{}.PageiPapDriver'.format(__name__))
 
+    @loggingInfo
     def __init__(self, mainwin, test_mode=False):
         self.log = logging.getLogger('PageiPapDriver')
         QtWidgets.QWidget.__init__(self, None)
@@ -236,6 +239,7 @@ class PageiPapDriver(QtWidgets.QWidget):
 
         self.dbStartupConfig = None
 
+    @loggingInfo
     def signalConnections(self):
         self.ui.btnBlink.pressed.connect(self.btnBlink_on_press)
         self.ui.tabWidget.currentChanged.connect(self.tabWidget_currentChanged)
@@ -263,6 +267,7 @@ class PageiPapDriver(QtWidgets.QWidget):
         self.ui.cmdCSWITCH.currentIndexChanged.connect(
             self.changeSwitchesSetup)
 
+    @loggingInfo
     def highlightWidget(self, widget):
         # AGAIN, COMMAND WIDGETS ARE ONLY CHECKED IN THE QCOMBOBOX
         # ELIF SECTION
@@ -448,10 +453,12 @@ class PageiPapDriver(QtWidgets.QWidget):
         self.ui.btnSaveCfg.setEnabled(enable_save)
         self._mainwin.ui.actionSaveConfig.setEnabled(enable_save)
 
+    @loggingInfo
     def _connectHighlighting(self):
         self.signalMapper.mapped[QtWidgets.QWidget].connect(
             self.highlightWidget)
 
+    @loggingInfo
     def _disconnectHighlighting(self):
         try:
             self.signalMapper.mapped[QtWidgets.QWidget].disconnect(
@@ -459,6 +466,7 @@ class PageiPapDriver(QtWidgets.QWidget):
         except Exception:
             pass
 
+    @loggingInfo
     def _setWidgetToolTips(self):
         """ Reads the driverparameters file and sets the tooltips"""
 
@@ -508,6 +516,7 @@ class PageiPapDriver(QtWidgets.QWidget):
             print('\n\nnot found:', NOT_FOUND_PARS)
             print('\n\nmissing:', MISSING_TOOLTIPS)
 
+    @loggingInfo
     def createTableWidget(self, column_names):
         widget = QtWidgets.QWidget()
         table_widget = QtWidgets.QTableWidget(widget)
@@ -558,13 +567,16 @@ class PageiPapDriver(QtWidgets.QWidget):
 
         return (widget, table_widget)
 
+    @loggingInfo
     def _addItemToTable(self, section, row, column, text, editable):
         pass
 
+    @loggingInfo
     def _addWidgetToTable(self, section, row, column,
                           widget_type, min, max, unknownTab=False):
         pass
 
+    @loggingInfo
     def setDescription(self):
         driver = self.icepap_driver
         signature = self.icepap_driver.current_cfg.signature
@@ -659,6 +671,7 @@ class PageiPapDriver(QtWidgets.QWidget):
         else:
             self.ui.frame_description.setPalette(self.qframe_salmon_palette)
 
+    @loggingInfo
     def fillData(self, icepap_driver):
         """ TO-DO STORM review"""
         QtWidgets.QApplication.instance().setOverrideCursor(
@@ -746,6 +759,7 @@ class PageiPapDriver(QtWidgets.QWidget):
             self.ui.tabWidget.setEnabled(False)
         QtWidgets.QApplication.instance().restoreOverrideCursor()
 
+    @loggingInfo
     def addUnknownWidget(self, param_name, param_value):
         # TODO Review this code
         cfginfo = IcepapController().icepap_cfginfos[
@@ -805,6 +819,7 @@ class PageiPapDriver(QtWidgets.QWidget):
 
                 self._connectWidgetToSignalMap(widget)
 
+    @loggingInfo
     def checkSaveConfigPending(self):
         # THIS METHOD IS CALLED WHEN THE USER WANTED TO
         if self.icepap_driver is not None:
@@ -818,6 +833,7 @@ class PageiPapDriver(QtWidgets.QWidget):
                 self._manager.endConfiguringDriver(self.icepap_driver)
                 return False
 
+    @loggingInfo
     def _connectWidgetToSignalMap(self, widget):
         self.signalMapper.setMapping(widget, widget)
         if isinstance(widget, QtWidgets.QDoubleSpinBox) or isinstance(
@@ -830,7 +846,7 @@ class PageiPapDriver(QtWidgets.QWidget):
         elif isinstance(widget, QtWidgets.QLineEdit):
             widget.textChanged.connect(self.signalMapper.map)
 
-
+    @loggingInfo
     def _setWidgetsValue(self, widgets, value, set_default=True):
         # THE CMD WIDGETS RIGHT NOW ARE ONLY QCOMBOBOXES SO THE SPECIAL CODE IS
         # JUST IN THAT ELIF SECTION
@@ -946,6 +962,7 @@ class PageiPapDriver(QtWidgets.QWidget):
             except Exception as e:
                 self.log.error("_setWidgetValue %s error:", value, e)
 
+    @loggingInfo
     def _getWidgetValue(self, widget):
         try:
             if isinstance(widget, QtWidgets.QDoubleSpinBox) or isinstance(
@@ -978,6 +995,7 @@ class PageiPapDriver(QtWidgets.QWidget):
         except Exception as e:
             self.log.error("error in _getWidgetValue: %s", e)
 
+    @loggingInfo
     def addNewCfg(self, cfg):
         QtWidgets.QApplication.instance().setOverrideCursor(
             QtGui.QCursor(QtCore.Qt.WaitCursor))
@@ -991,16 +1009,19 @@ class PageiPapDriver(QtWidgets.QWidget):
         self.highlightTabs()
         QtWidgets.QApplication.instance().restoreOverrideCursor()
 
+    @loggingInfo
     def _getText(self, node):
         rc = ""
         if node is not None:
             rc = str(node.data)
         return rc
 
+    @loggingInfo
     def tabWidget_currentChanged(self, index):
         self.lastTabSelected = index
         self.highlightTabs()
 
+    @loggingInfo
     def highlightTabs(self):
         tab_bar = self.ui.tabWidget.tabBar()
         for index in range(self.ui.tabWidget.count()):
@@ -1013,6 +1034,7 @@ class PageiPapDriver(QtWidgets.QWidget):
             else:
                 tab_bar.setTabIcon(index, QtGui.QIcon(""))
 
+    @loggingInfo
     def btnSendCfg_on_click(self, skip_fillData=False):
         if len(self.widgets_modified) == 0:
             return True
@@ -1098,6 +1120,7 @@ class PageiPapDriver(QtWidgets.QWidget):
             self.ui.btnUndo.setEnabled(False)
         return True
 
+    @loggingInfo
     def btnSaveCfg_on_click(self):
         save_ok = True
         if len(self.widgets_modified) > 0:
@@ -1109,15 +1132,18 @@ class PageiPapDriver(QtWidgets.QWidget):
             return
         self._mainwin.actionSaveConfigMth()
 
+    @loggingInfo
     def btnUndo_on_click(self):
         self._manager.undoDriverConfiguration(self.icepap_driver)
         self.fillData(self.icepap_driver)
         if not self.icepap_driver.hasUndoList():
             self.ui.btnUndo.setEnabled(False)
 
+    @loggingInfo
     def btnRestore_on_click(self):
         self.fillData(self.icepap_driver)
 
+    @loggingInfo
     def doImport(self):
         filename = ""
         try:
@@ -1133,6 +1159,7 @@ class PageiPapDriver(QtWidgets.QWidget):
             self.log.warning(msg)
             MessageDialogs.showWarningMessage(self, "File", msg)
 
+    @loggingInfo
     def fillFileData(self, filename):
         QtWidgets.QApplication.instance().setOverrideCursor(
             QtGui.QCursor(QtCore.Qt.WaitCursor))
@@ -1161,6 +1188,7 @@ class PageiPapDriver(QtWidgets.QWidget):
         self._connectHighlighting()
         QtWidgets.QApplication.instance().restoreOverrideCursor()
 
+    @loggingInfo
     def doExport(self):
         folder = ConfigManager().config["icepap"]["configs_folder"]
         fn = QtWidgets.QFileDialog.getSaveFileName(
@@ -1172,12 +1200,14 @@ class PageiPapDriver(QtWidgets.QWidget):
             filename = filename + '.xml'
         self.exportToFile(filename)
 
+    @loggingInfo
     def exportToFile(self, filename):
         with open(filename, 'w') as output:
             newdoc = self.getXmlData()
             data = newdoc.toprettyxml()
             output.write(data)
 
+    @loggingInfo
     def getXmlData(self):
         doc = getDOMImplementation().createDocument(None, "Driver", None)
         dbIcepapSystem = StormManager().getIcepapSystem(
@@ -1192,11 +1222,13 @@ class PageiPapDriver(QtWidgets.QWidget):
             doc.documentElement.appendChild(param_element)
         return doc
 
+    @loggingInfo
     def signDriver(self):
         self._disconnectHighlighting()
         self.icepap_driver.signDriver()
         self.fillData(self.icepap_driver)
 
+    @loggingInfo
     def doCopy(self):
         self.temp_file = tempfile.TemporaryFile()
         data = self.getXmlData()
@@ -1204,6 +1236,7 @@ class PageiPapDriver(QtWidgets.QWidget):
         self.temp_file.flush()
         self.temp_file.seek(0)
 
+    @loggingInfo
     def doPaste(self):
         if self.temp_file is None:
             return
@@ -1211,6 +1244,8 @@ class PageiPapDriver(QtWidgets.QWidget):
         self.fillFileData(self.temp_file)
 
 # ------------------------------  Testing --------------------------------
+
+    @loggingInfo
     def startTesting(self):
         if self.icepap_driver is not None:
             self.inMotion = -1
@@ -1221,6 +1256,7 @@ class PageiPapDriver(QtWidgets.QWidget):
             self.updateTestStatus()
             self.refreshTimer.start(1000)
 
+    @loggingInfo
     def stopTesting(self):
         try:
             self.refreshTimer.stop()
@@ -1228,12 +1264,14 @@ class PageiPapDriver(QtWidgets.QWidget):
         except BaseException  as e:
             self.log.error("Unexpected error on stopTesting: %s", e)
 
+    @loggingInfo
     def getMotionValues(self):
         (speed, acc) = self._manager.getDriverMotionValues(
             self.icepap_driver.icepapsystem_name, self.icepap_driver.addr)
         self.ui.txtSpeed.setText(str(speed))
         self.ui.txtAcceleration.setText(str(acc))
 
+    @loggingInfo
     def setMotionValues(self):
         speed = self.ui.txtSpeed.text()
         acc = self.ui.txtAcceleration.text()
@@ -1251,6 +1289,7 @@ class PageiPapDriver(QtWidgets.QWidget):
             MessageDialogs.showWarningMessage(
                 self, "Driver testing", "Wrong parameter format")
 
+    @loggingInfo
     def setLedsOff(self):
         self.ui.LedError.changeColor(Led.RED)
         self.ui.LedStep.changeColor(Led.YELLOW)
@@ -1264,6 +1303,7 @@ class PageiPapDriver(QtWidgets.QWidget):
         self.ui.LedLimitNeg.off()
         self.ui.LCDPosition.display(0)
 
+    @loggingInfo
     def disableAllControl(self):
         self.ui.txtSpeed.setEnabled(False)
         self.ui.txtAcceleration.setEnabled(False)
@@ -1274,6 +1314,7 @@ class PageiPapDriver(QtWidgets.QWidget):
         self.ui.btnEnable.setEnabled(False)
         self.ui.btnStopMotor.setEnabled(False)
 
+    @loggingInfo
     def enableAllControl(self):
         self.ui.txtSpeed.setEnabled(True)
         self.ui.txtAcceleration.setEnabled(True)
@@ -1289,6 +1330,7 @@ class PageiPapDriver(QtWidgets.QWidget):
         self.ui.btnEnable.setEnabled(True)
         self.ui.btnStopMotor.setEnabled(True)
 
+    @loggingInfo
     def updateTestStatus(self):
         pos_sel = str(self.ui.cb_pos_sel.currentText())
         enc_sel = str(self.ui.cb_enc_sel.currentText())
@@ -1370,6 +1412,7 @@ class PageiPapDriver(QtWidgets.QWidget):
         self.ui.LCDPositionTest.display(position[0])
         self.ui.LCDEncoder.display(position[1])
 
+    @loggingInfo
     def btnGO_on_click(self):
         new_position = self.ui.txtMvAbsolute.text()
         try:
@@ -1382,6 +1425,7 @@ class PageiPapDriver(QtWidgets.QWidget):
             MessageDialogs.showWarningMessage(
                 self, "Driver testing", "Wrong parameter format")
 
+    @loggingInfo
     def btnGORelativePos_on_click(self):
         distance = self.ui.txtGORelative.text()
         try:
@@ -1396,6 +1440,7 @@ class PageiPapDriver(QtWidgets.QWidget):
             MessageDialogs.showWarningMessage(
                 self, "Driver testing", "Wrong parameter format")
 
+    @loggingInfo
     def btnGORelativeNeg_on_click(self):
         distance = self.ui.txtGORelative.text()
         try:
@@ -1410,12 +1455,14 @@ class PageiPapDriver(QtWidgets.QWidget):
             MessageDialogs.showWarningMessage(
                 self, "Driver testing", "Wrong parameter format")
 
+    @loggingInfo
     def btnStopMotor_on_click(self):
         self._manager.stopDriver(
             self.icepap_driver.icepapsystem_name,
             self.icepap_driver.addr)
         self.ui.sliderJog.setValue(0)
 
+    @loggingInfo
     def btnBlink_on_press(self):
         secs = 600
         if self.ui.btnBlink.isChecked():
@@ -1425,10 +1472,12 @@ class PageiPapDriver(QtWidgets.QWidget):
             self.icepap_driver.addr,
             secs)
 
+    @loggingInfo
     def sliderChanged(self, div):
         if self.ui.sliderJog.isSliderDown() or not self.sliderTimer.isActive():
             self.startJogging(div)
 
+    @loggingInfo
     def startJogging(self, div):
         if div != 0:
             if not self.ui.btnEnable.isChecked():
@@ -1455,6 +1504,7 @@ class PageiPapDriver(QtWidgets.QWidget):
         else:
             self.stopJogging()
 
+    @loggingInfo
     def stopJogging(self):
         self._manager.stopDriver(
             self.icepap_driver.icepapsystem_name,
@@ -1462,6 +1512,7 @@ class PageiPapDriver(QtWidgets.QWidget):
         self.ui.sliderJog.setValue(0)
         self.sliderTimer.start()
 
+    @loggingInfo
     def resetSlider(self):
         value = self.ui.sliderJog.value()
         if value == 0:
@@ -1473,6 +1524,7 @@ class PageiPapDriver(QtWidgets.QWidget):
             self.ui.sliderJog.triggerAction(
                 QtWidgets.QSlider.SliderSingleStepAdd)
 
+    @loggingInfo
     def setPosition(self):
         pos_sel = str(self.ui.cb_pos_sel.currentText())
         try:
@@ -1487,6 +1539,7 @@ class PageiPapDriver(QtWidgets.QWidget):
             MessageDialogs.showWarningMessage(
                 self, "Set driver position", "Wrong parameter format")
 
+    @loggingInfo
     def setEncoder(self):
         enc_sel = str(self.ui.cb_enc_sel.currentText())
         try:
@@ -1501,6 +1554,7 @@ class PageiPapDriver(QtWidgets.QWidget):
             MessageDialogs.showWarningMessage(
                 self, "Set driver encoderposition", "Wrong parameter format")
 
+    @loggingInfo
     def endisDriver(self, bool):
         if bool:
             self.ui.btnEnable.setText("OFF")
@@ -1513,20 +1567,25 @@ class PageiPapDriver(QtWidgets.QWidget):
                 self.icepap_driver.icepapsystem_name,
                 self.icepap_driver.addr)
 
+    @loggingInfo
     def changeSwitchesSetup(self, mode):
         return
         # SHOULD CHANGE SWITCHES SETUP... HOW? NOT IN CONFIG MODE...
 
     # ---------------------- Historic Widget -------------------
 
+    @loggingInfo
     def showHistoricWidget(self):
         self.ui.stackedWidget.setCurrentIndex(1)
         self.ui.historicWidget.fillData(self.icepap_driver)
 
+    @loggingInfo
     def hideHistoricWidget(self):
         self.ui.stackedWidget.setCurrentIndex(0)
 
     # ---------------------- Templates Catalog Widget -------------------
+
+    @loggingInfo
     def setTemplateParams(self, template_name, params):
         QtWidgets.QApplication.instance().setOverrideCursor(
             QtGui.QCursor(QtCore.Qt.WaitCursor))

@@ -14,13 +14,18 @@
 from PyQt5 import QtWidgets, uic
 from pkg_resources import resource_filename
 import datetime
+import logging
 # TODO use threading
 import _thread
 from .messagedialogs import MessageDialogs
 from ..lib_icepapcms import IcepapController, ConfigManager
+from ..helpers import loggingInfo
 
 
 class DialogIcepapProgram(QtWidgets.QDialog):
+    log = logging.getLogger('{}.DialogIcepapProgram'.format(__name__))
+
+    @loggingInfo
     def __init__(self, parent, test_mode=False):
         QtWidgets.QDialog.__init__(self, parent)
         ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
@@ -47,6 +52,7 @@ class DialogIcepapProgram(QtWidgets.QDialog):
         self._ipapctrl = IcepapController()
         self.ui.cbSerial.addItems(self._ipapctrl.getSerialPorts())
 
+    @loggingInfo
     def btnBrowse_on_click(self):
         folder = ConfigManager().config["icepap"]["firmware_folder"]
         fn = QtWidgets.QFileDialog.getOpenFileName(self, "Open Firmware File",
@@ -56,23 +62,28 @@ class DialogIcepapProgram(QtWidgets.QDialog):
         filename = str(fn[0])
         self.ui.txtFirmwareFile.setText(filename)
 
+    @loggingInfo
     def cbProgram_changed(self, text):
         if text == "ADDR":
             self.ui.sbAddr.setEnabled(True)
         else:
             self.ui.sbAddr.setDisabled(True)
 
+    @loggingInfo
     def rbEth_toogled(self, state):
         self.ui.txtHost.setEnabled(state)
         self.ui.cbSerial.setEnabled(not state)
 
+    @loggingInfo
     def rbSerial_toogled(self, state):
         self.ui.cbSerial.setEnabled(state)
         self.ui.txtHost.setEnabled(not state)
 
+    @loggingInfo
     def btnClose_on_click(self):
         self.close()
 
+    @loggingInfo
     def btnTest_on_click(self):
         serial = self.ui.rbSerial.isChecked()
         dst = str(self.ui.txtHost.text())
@@ -85,12 +96,14 @@ class DialogIcepapProgram(QtWidgets.QDialog):
             MessageDialogs.showWarningMessage(
                 self, "Connection error", "Icepap not reachable.")
 
+    @loggingInfo
     def btnProgram_on_click(self):
         try:
             _thread.start_new_thread(self.startProgramming, ())
         except BaseException:
             self.addToLog(str(sys.exc_info()[0]))
 
+    @loggingInfo
     def startProgramming(self):
         filename = str(self.ui.txtFirmwareFile.text())
         serial = self.ui.rbSerial.isChecked()
@@ -107,6 +120,7 @@ class DialogIcepapProgram(QtWidgets.QDialog):
         self._ipapctrl.upgradeFirmware(
             serial, dst, filename, addr, options, self)
 
+    @loggingInfo
     def addToLog(self, text):
         t = datetime.datetime.now().strftime("%H:%M:%S")
         self.ui.txtLog.append(t + "> " + text)

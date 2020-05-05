@@ -17,23 +17,28 @@ import re
 import logging
 from .singleton import Singleton
 from .configmanager import ConfigManager
+from ..helpers import loggingInfo
 
 __all__ = ['StormManager']
 
 
 class StormManager(Singleton):
+    log = logging.getLogger('{}.StormManager'.format(__name__))
+
     def __init__(self):
-        self.log = logging.getLogger('StormManager')
         pass
 
+    @loggingInfo
     def init(self, *args):
         self.dbOK = False
         self.openDB()
 
+    @loggingInfo
     def reset(self):
         self.closeDB()
         self.openDB()
 
+    @loggingInfo
     def openDB(self):
         try:
             self._config = ConfigManager()
@@ -63,6 +68,7 @@ class StormManager(Singleton):
             self.log.error("Unexpected error on openDB: %s", e)
             self.dbOK = False
 
+    @loggingInfo
     def createSqliteDB(self):
         try:
             sql_file = resource_filename('icepapCMS.db',
@@ -83,6 +89,7 @@ class StormManager(Singleton):
             self.log.error("Unexpected error on createSqliteDB: %s", e)
             return False
 
+    @loggingInfo
     def closeDB(self):
         try:
             if self.dbOK:
@@ -93,12 +100,15 @@ class StormManager(Singleton):
             self.dbOK = False
             return False
 
+    @loggingInfo
     def store(self, obj):
         self._store.add(obj)
 
+    @loggingInfo
     def remove(self, obj):
         self._store.remove(obj)
 
+    @loggingInfo
     def addIcepapSystem(self, icepap_system):
         try:
             self._store.add(icepap_system)
@@ -109,6 +119,7 @@ class StormManager(Singleton):
                            "%s: %s", icepap_system, e)
             return False
 
+    @loggingInfo
     def deleteLocation(self, location):
         if self.db == self._config.Sqlite:
             for system in location.systems:
@@ -116,6 +127,7 @@ class StormManager(Singleton):
         self._store.remove(location)
         self.commitTransaction()
 
+    @loggingInfo
     def deleteIcepapSystem(self, icepap_system):
         if self.db == self._config.Sqlite:
             for driver in icepap_system.drivers:
@@ -123,6 +135,7 @@ class StormManager(Singleton):
         self._store.remove(icepap_system)
         self.commitTransaction()
 
+    @loggingInfo
     def deleteDriver(self, driver):
 
         for cfg in driver.historic_cfgs:
@@ -132,6 +145,7 @@ class StormManager(Singleton):
         self._store.remove(driver)
         self.commitTransaction()
 
+    @loggingInfo
     def getAllLocations(self):
         try:
             locations = self._store.find(Location)
@@ -143,12 +157,15 @@ class StormManager(Singleton):
             self.log.error("Unexpected error on getAllLocations: %s", e)
             return {}
 
+    @loggingInfo
     def getLocation(self, name):
         return self._store.get(Location, name)
 
+    @loggingInfo
     def getIcepapSystem(self, icepap_name):
         return self._store.get(IcepapSystem, icepap_name)
 
+    @loggingInfo
     def existsDriver(self, mydriver, id):
 
         drivers = self._store.find(
@@ -163,6 +180,7 @@ class StormManager(Singleton):
         else:
             return None
 
+    @loggingInfo
     def getLocationIcepapSystem(self, location):
         try:
             icepaps = self._store.find(IcepapSystem,
@@ -177,9 +195,11 @@ class StormManager(Singleton):
                            "%s", e)
             return {}
 
+    @loggingInfo
     def rollback(self):
         self._store.rollback()
 
+    @loggingInfo
     def commitTransaction(self):
         try:
             self._store.commit()

@@ -36,17 +36,3 @@ class MessageDialogs:
     showErrorMessage = classmethod(showErrorMessage)
 
 
-def catchError(msg=''):
-    def wrapper(f):
-        def _wrapper(obj, *args, **kwargs):
-            try:
-                return f(obj, *args, **kwargs)
-            except Exception as e:
-                if msg != '':
-                    m = '{}. Icepap Error:\n{}'.format(msg, e)
-                else:
-                    m = 'Icepap Error:\n{}}'.format(e)
-                obj.log.error(m)
-                MessageDialogs.showErrorMessage(None, 'Runtime Error', m)
-        return _wrapper
-    return wrapper

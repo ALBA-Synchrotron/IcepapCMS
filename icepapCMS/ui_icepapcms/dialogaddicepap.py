@@ -13,10 +13,15 @@
 
 from PyQt5 import QtCore, QtWidgets, uic
 from pkg_resources import resource_filename
+import logging
 from ..lib_icepapcms import MainManager
+from ..helpers import loggingInfo
 
 
 class DialogAddIcepap(QtWidgets.QDialog):
+    log = logging.getLogger('{}.DialogAddIcepap'.format(__name__))
+
+    @loggingInfo
     def __init__(self, parent, location, test_mode=False):
         QtWidgets.QDialog.__init__(self, parent)
         ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
@@ -30,12 +35,14 @@ class DialogAddIcepap(QtWidgets.QDialog):
             return
         self.buildLocationCombo(location)
 
+    @loggingInfo
     def buildLocationCombo(self, location):
         for location_name in list(MainManager().locationList.keys()):
             self.ui.cbLocation.addItem(location_name)
         self.ui.cbLocation.setCurrentIndex(
             self.ui.cbLocation.findText(location, QtCore.Qt.MatchFixedString))
 
+    @loggingInfo
     def getData(self):
         host = str(self.ui.txtHost.text())
         port = str(self.ui.txtPort.text())
@@ -43,6 +50,7 @@ class DialogAddIcepap(QtWidgets.QDialog):
         location = str(self.ui.cbLocation.currentText())
         return [host, port, desc, location]
 
+    @loggingInfo
     def setData(self, name, host, port, description, location):
         self.ui.txtHost.setEnabled(False)
         self.ui.txtPort.setEnabled(False)

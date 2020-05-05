@@ -19,12 +19,14 @@ import os
 import logging
 from .messagedialogs import MessageDialogs
 from ..lib_icepapcms import ConfigManager, IcepapController
+from ..helpers import loggingInfo
 
 
-# TODO: Adapt to use pyIcePAP API 2.X
 class IcepapConsole(QtWidgets.QDialog):
+    log = logging.getLogger('{}.IcepapConsole'.format(__name__))
+
+    @loggingInfo
     def __init__(self, parent=None):
-        self.log = logging.getLogger('IcepapConsole')
         QtWidgets.QDialog.__init__(self, parent, QtCore.Qt.Window)
         ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
                                         'ipapconsole.ui')
@@ -55,6 +57,7 @@ class IcepapConsole(QtWidgets.QDialog):
         except Exception as e:
             self.log.error("icepapconsole_init(): %s", e)
 
+    @loggingInfo
     def btnConnect_on_click(self):
         try:
             addr = str(self.ui.txtHost.text())
@@ -102,6 +105,7 @@ class IcepapConsole(QtWidgets.QDialog):
                                             "Error connecting "
                                             "to " + addr + "\n" + str(e))
 
+    @loggingInfo
     def btnDisconnect_on_click(self):
         try:
             self.ipap.disconnect()
@@ -113,12 +117,15 @@ class IcepapConsole(QtWidgets.QDialog):
         self.ui.console.setDisabled(True)
         self.ui.txtHost.setFocus()
 
+    @loggingInfo
     def writeConsole(self, txt):
         self.ui.console.write(txt + "\n")
 
+    @loggingInfo
     def writePrompt(self):
         self.ui.console.write(self.prompt)
 
+    @loggingInfo
     def sendWriteReadCommand(self, cmd):
         try:
             cmd = str(cmd)
@@ -144,6 +151,7 @@ class IcepapConsole(QtWidgets.QDialog):
                               "'{}'.".format(cmd))
             self.writeConsole("               Error is: '{}'.".format(str(e)))
 
+    @loggingInfo
     def closeEvent(self, event):
         self.btnDisconnect_on_click()
         event.accept()

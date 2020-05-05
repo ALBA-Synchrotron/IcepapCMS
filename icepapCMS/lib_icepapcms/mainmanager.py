@@ -21,16 +21,18 @@ from .configmanager import ConfigManager
 from .icepapsystem import IcepapSystem, Location
 from .conflict import Conflict
 from .icepapcontroller import IcepapController
+from ..helpers import loggingInfo
 
 __all__ = ['MainManager']
 
 
 class MainManager(Singleton):
+    log = logging.getLogger('{}.MainManager'.format(__name__))
 
     def __init__(self, form=None):
-        self.log = logging.getLogger('MainManager')
         pass
 
+    @loggingInfo
     def init(self, *args):
         self.IcepapSystemList = {}
 
@@ -44,6 +46,8 @@ class MainManager(Singleton):
         self.location = None
         self.IcepapSystemList = {}
 
+
+    @loggingInfo
     def addLocation(self, location_name):
         """ Adds a location in the database """
         try:
@@ -58,6 +62,8 @@ class MainManager(Singleton):
             self.log.error("Can not add location %s: %s", location_name, e)
             return False
 
+
+    @loggingInfo
     def deleteLocation(self, location_name):
         """ Deletes a location in the database """
         location = self.locationList[str(location_name)]
@@ -65,6 +71,8 @@ class MainManager(Singleton):
         del self.locationList[str(location_name)]
         self.IcepapSystemList = {}
 
+
+    @loggingInfo
     def changeLocation(self, location):
         """ Close the connection from all the icepaps in one location.
         And gets all the icepaps from the selected location """
@@ -73,6 +81,8 @@ class MainManager(Singleton):
         self._ctrl_icepap.closeAllConnections()
         self.IcepapSystemList = self._db.getLocationIcepapSystem(str(location))
 
+
+    @loggingInfo
     def reset(self, form):
         self._ctrl_icepap.reset()
         self._db.reset()
@@ -82,6 +92,8 @@ class MainManager(Singleton):
         self._form = form
         self.locationList = self._db.getAllLocations()
 
+
+    @loggingInfo
     def addIcepapSystem(self, host, port, description=None):
         """ Adds a new Icepap in the current location, the parameters are
         the hostname, port and description, this function checks if the
@@ -149,21 +161,25 @@ class MainManager(Singleton):
         QtWidgets.QApplication.instance().restoreOverrideCursor()
         return None
 
+    @loggingInfo
     def deleteIcepapSystem(self, icepap_name):
         """ deletes and Icepap in the database """
         del self.IcepapSystemList[icepap_name]
         self.location.deleteSystem(icepap_name)
 
+    @loggingInfo
     def closeAllConnections(self):
         """ Close all the openned connections to the icepaps """
         self._ctrl_icepap.closeAllConnections()
         return self._db.closeDB()
 
+    @loggingInfo
     def getIcepapSystem(self, icepap_name):
         if icepap_name in self.IcepapSystemList:
             return self.IcepapSystemList[icepap_name]
         return None
 
+    @loggingInfo
     def checkIcepapSystems(self):
         """ Checks if the icepaps for the current location are available over
         the network or not. These function is used to perform automatic
@@ -184,6 +200,7 @@ class MainManager(Singleton):
                     changed_list.append(icepap_system)
         return changed_list
 
+    @loggingInfo
     def stopIcepap(self, icepap_system):
         """ Close the connection to an icepap. And commits all the changes in
         the database """
@@ -196,6 +213,7 @@ class MainManager(Singleton):
             self.log.error(msg)
             MessageDialogs.showErrorMessage(self._form, msg)
 
+    @loggingInfo
     def scanIcepap(self, icepap_system):
         """ Searches for configuration conflicts.
         Returns the conflicts list. That is composed by elements of
@@ -228,6 +246,7 @@ class MainManager(Singleton):
 
         return conflictsList
 
+    @loggingInfo
     def checkFirmwareVersions(self, icepap_system):
         config = ConfigManager()
         if config._options.skipversioncheck is True:
@@ -283,6 +302,7 @@ class MainManager(Singleton):
             self.log.error('Error on checking %s firmware version: %s',
                            icepap_name, e)
 
+    @loggingInfo
     def importMovedDriver(self, icepap_driver, from_to=False):
         """ function to import the information from a moved driver,
         to avoid losing historic cfgs"""
@@ -318,6 +338,7 @@ class MainManager(Singleton):
         src_driver.icepap_system.removeDriver(src_driver.addr)
         return src_sys
 
+    @loggingInfo
     def getDriversToSign(self):
         """ Gets the all drivers to be signed """
         signList = []
@@ -328,6 +349,7 @@ class MainManager(Singleton):
                     signList.append(driver)
         return signList
 
+    @loggingInfo
     def getDriverConfiguration(self, icepap_name, addr):
         try:
             config = self._ctrl_icepap.getDriverConfiguration(icepap_name,
@@ -339,6 +361,7 @@ class MainManager(Singleton):
                 self._form, "GetDriverConfiguration Icepap error",
                 "%s Connection error" % icepap_name)
 
+    @loggingInfo
     def getDriverStatus(self, icepap_name, addr):
         """ Driver Status used in the System and crate view
             Returns [status register, power status, current ]"""
@@ -363,6 +386,7 @@ class MainManager(Singleton):
             self._form.refreshTree()
             return -1, False, -1
 
+    @loggingInfo
     def getDriverTestStatus(self, icepap_name, addr, pos_sel, enc_sel):
         """ Driver Status used in the System and crate view
             Returns [status register, power state, [position register value,
@@ -381,6 +405,7 @@ class MainManager(Singleton):
                            "getting driver test status. %s", e)
             return -1, -1, [-1, -1]
 
+    @loggingInfo
     def readIcepapParameters(self, icepap_name, addr, par_list):
         """ Gets from adriver the values of the parameters in par_list """
         try:
@@ -392,6 +417,7 @@ class MainManager(Singleton):
             self.log.error(msg)
             MessageDialogs.showErrorMessage(self._form, msg)
 
+    @loggingInfo
     def writeIcepapParameters(self, icepap_name, addr, par_var_list):
         """ Writes to a driver the values in the par_var_list """
         try:
@@ -400,6 +426,7 @@ class MainManager(Singleton):
         except Exception:
             pass
 
+    @loggingInfo
     def getDriverMotionValues(self, icepap_name, addr):
         """ Returns speed and acceleration of a driver """
         try:
@@ -407,6 +434,7 @@ class MainManager(Singleton):
         except Exception:
             return -1, -1
 
+    @loggingInfo
     def setDriverMotionValues(self, icepap_name, addr, values):
         """ Sets speed and acceleration to a driver """
         try:
@@ -417,14 +445,17 @@ class MainManager(Singleton):
                 self._form, "SetDriverMotionValues Icepap error",
                 "Connection error")
 
+    @loggingInfo
     def setDriverPosition(self, icepap_name, addr, pos_sel, position):
         return self._ctrl_icepap.setDriverPosition(icepap_name, addr,
                                                    pos_sel, position)
 
+    @loggingInfo
     def setDriverEncoder(self, icepap_name, addr, pos_sel, position):
         return self._ctrl_icepap.setDriverEncoder(icepap_name, addr,
                                                   pos_sel, position)
 
+    @loggingInfo
     def moveDriver(self, icepap_name, addr, steps):
         try:
             self._ctrl_icepap.moveDriver(icepap_name, addr, steps)
@@ -434,6 +465,7 @@ class MainManager(Singleton):
             self.log.error(msg)
             MessageDialogs.showErrorMessage(self._form, msg)
 
+    @loggingInfo
     def moveDriverAbsolute(self, icepap_name, addr, position):
         try:
             self._ctrl_icepap.moveDriverAbsolute(icepap_name, addr, position)
@@ -443,6 +475,7 @@ class MainManager(Singleton):
             self.log.error(msg)
             MessageDialogs.showErrorMessage(self._form, msg)
 
+    @loggingInfo
     def stopDriver(self, icepap_name, addr):
         try:
             self._ctrl_icepap.stopDriver(icepap_name, addr)
@@ -452,18 +485,27 @@ class MainManager(Singleton):
             self.log.error(msg)
             MessageDialogs.showWarningMessage(self._form, msg)
 
+    @loggingInfo
     def blinkDriver(self, icepap_name, driver_addr, secs):
         self._ctrl_icepap.blinkDriver(icepap_name, driver_addr, secs)
 
+
+    @loggingInfo
     def jogDriver(self, icepap_name, addr, speed):
         self._ctrl_icepap.jogDriver(icepap_name, addr, speed)
 
+
+    @loggingInfo
     def enableDriver(self, icepap_name, driver_addr):
         self._ctrl_icepap.enableDriver(icepap_name, driver_addr)
 
+
+    @loggingInfo
     def disableDriver(self, icepap_name, driver_addr):
         self._ctrl_icepap.disableDriver(icepap_name, driver_addr)
 
+
+    @loggingInfo
     def saveValuesInIcepap(self, icepap_driver, new_values,
                            expertFlag=False, ignore_values=[]):
         """ Stores the new configuration in the icepap, and sets the mode of
@@ -483,14 +525,18 @@ class MainManager(Singleton):
             icepap_driver.addConfiguration(new_cfg)
             return True
 
+
+    @loggingInfo
     def startConfiguringDriver(self, icepap_driver):
         return self._ctrl_icepap.startConfiguringDriver(
             icepap_driver.icepapsystem_name, icepap_driver)
 
+    @loggingInfo
     def endConfiguringDriver(self, icepap_driver):
         self._ctrl_icepap.endConfiguringDriver(icepap_driver.icepapsystem_name,
                                                icepap_driver)
 
+    @loggingInfo
     def discardDriverChanges(self, icepap_driver):
         icepap_driver.setStartupCfg()
         self._ctrl_icepap.setDriverConfiguration(
@@ -499,6 +545,7 @@ class MainManager(Singleton):
 
         pass
 
+    @loggingInfo
     def undoDriverConfiguration(self, icepap_driver):
         undo_cfg = icepap_driver.getUndoList()
         new_cfg = self._ctrl_icepap.setDriverConfiguration(
@@ -511,25 +558,31 @@ class MainManager(Singleton):
             icepap_driver.undo(new_cfg)
             return True
 
+    @loggingInfo
     def getIcepapList(self):
         return self.IcepapSystemList
 
+    @loggingInfo
     def getDriverTemplateList(self):
         return self._zodb.getAllDriverTemplate()
 
+    @loggingInfo
     def saveDriverTemplate(self, name, desc, cfg):
         pass
         # TODO investigate IcepapDriverTemple
         # self._zodb.addDriverTemplate(IcepapDriverTemplate(name, desc, cfg))
 
+    @loggingInfo
     def deleteDriverTemplate(self, name):
         self._zodb.deleteDriverTemplate(name)
 
+    @loggingInfo
     def configDriverToDefaults(self, icepap_driver):
         icepap_name = icepap_driver.icepapsystem_name
         addr = icepap_driver.addr
         self._ctrl_icepap.configDriverToDefaults(icepap_name, addr)
 
+    @loggingInfo
     def updateDriverConfig(self, icepap_driver):
         icepap_name = icepap_driver.icepapsystem_name
         addr = icepap_driver.addr

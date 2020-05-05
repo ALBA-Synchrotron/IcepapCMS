@@ -13,9 +13,14 @@
 
 from PyQt5 import QtWidgets, uic
 from pkg_resources import resource_filename
+import logging
+from ..helpers import loggingInfo
 
 
 class DialogNewDriver(QtWidgets.QDialog):
+    log = logging.getLogger('{}.DialogNewDriver'.format(__name__))
+
+    @loggingInfo
     def __init__(self, parent, more_info, expertFlag):
         QtWidgets.QDialog.__init__(self, parent)
         ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
@@ -34,27 +39,33 @@ class DialogNewDriver(QtWidgets.QDialog):
             self.ui.btnUseDriver.setVisible(False)
         self.connectSignals()
 
+    @loggingInfo
     def connectSignals(self):
         self.ui.btnUseDefaults.clicked.connect(self.btnUseDefaults_clicked)
         self.ui.btnUseDriver.clicked.connect(self.btnUseDriver_clicked)
         self.ui.btnCancel.clicked.connect(self.btnCancel_clicked)
         self.ui.btnMoreInfo.clicked.connect(self.btnMoreInfo_clicked)
 
+    @loggingInfo
     def btnUseDefaults_clicked(self):
         self.user_result = "DEFAULT"
         self.accept()
 
+    @loggingInfo
     def btnUseDriver_clicked(self):
         self.user_result = "DRIVER"
         self.accept()
 
+    @loggingInfo
     def btnCancel_clicked(self):
         self.user_result = "CANCEL"
         self.reject()
 
+    @loggingInfo
     def btnMoreInfo_clicked(self):
         self.more_info.show()
 
+    @loggingInfo
     def result(self):
         return self.user_result
 

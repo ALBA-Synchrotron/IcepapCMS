@@ -13,10 +13,15 @@
 
 from PyQt5 import QtCore, QtGui, uic, QtWidgets
 from pkg_resources import resource_filename
+import logging
+from ..helpers import loggingInfo
 from .messagedialogs import MessageDialogs
 
 
 class HistoricCfgWidget(QtWidgets.QWidget):
+    log = logging.getLogger('{}.HistoricCfgWidget'.format(__name__))
+
+    @loggingInfo
     def __init__(self, parent=None):
         QtWidgets.QWidget.__init__(self, parent)
         ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
@@ -34,9 +39,11 @@ class HistoricCfgWidget(QtWidgets.QWidget):
         self.ui.saveButton.clicked.connect(self.saveButton_on_click)
         self.ui.deleteButton.clicked.connect(self.deleteButton_on_click)
 
+    @loggingInfo
     def setCfgPage(self, pagedriver):
         self.pagedriver = pagedriver
 
+    @loggingInfo
     def fillData(self, driver):
         """ TO-DO STORM review"""
         self.ui.stackedWidget.setCurrentIndex(0)
@@ -64,6 +71,7 @@ class HistoricCfgWidget(QtWidgets.QWidget):
                 self.selectedDays[cfgdate] = [[cfg.date, cfg]]
         self.daySelected(self.ui.calendarWidget.selectedDate())
 
+    @loggingInfo
     def daySelected(self, qdate):
         date = qdate.toPyDate().ctime()
         if date in self.selectedDays:
@@ -74,6 +82,7 @@ class HistoricCfgWidget(QtWidgets.QWidget):
                 self.ui.stackedWidget.setCurrentIndex(1)
                 self.fillDayCfgs(daylist)
 
+    @loggingInfo
     def fillDayCfgs(self, cfgs):
         self.ui.listWidget.clear()
         self.listDict = {}
@@ -82,11 +91,13 @@ class HistoricCfgWidget(QtWidgets.QWidget):
             self.listDict[key] = [date, cfg]
             self.ui.listWidget.addItem(key)
 
+    @loggingInfo
     def listWidgetChanged(self, name):
         name = str(name)
         if name in self.listDict:
             self.fillCfgData(self.listDict[name])
 
+    @loggingInfo
     def fillCfgData(self, cfg):
         self.ui.saveButton.setEnabled(True)
         if self.icepap_driver.current_cfg.name == cfg[1].name:
@@ -98,9 +109,11 @@ class HistoricCfgWidget(QtWidgets.QWidget):
         self.ui.txtDescription.setText(str(cfg[1].description))
         self.pagedriver.addNewCfg(self.selectedCfg[1])
 
+    @loggingInfo
     def btnBackClicked(self):
         self.ui.stackedWidget.setCurrentIndex(0)
 
+    @loggingInfo
     def deleteButton_on_click(self):
         if MessageDialogs.showYesNoMessage(
                 self, "Historic configuration",
@@ -111,6 +124,7 @@ class HistoricCfgWidget(QtWidgets.QWidget):
         self.ui.txtDescription.clear()
         self.ui.deleteButton.setEnabled(False)
 
+    @loggingInfo
     def saveButton_on_click(self):
         name = str(self.ui.txtName.text())
         desc = str(self.ui.txtDescription.toPlainText())

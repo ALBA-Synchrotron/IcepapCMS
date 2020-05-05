@@ -13,9 +13,13 @@
 
 from PyQt5 import QtWidgets, uic
 from pkg_resources import resource_filename
-
+import logging
+from ..helpers import loggingInfo
 
 class DialogConflictExpert(QtWidgets.QDialog):
+    log = logging.getLogger('{}.DialogConflictExpert'.format(__name__))
+
+    @loggingInfo
     def __init__(self, parent, more_info):
         QtWidgets.QDialog.__init__(self, parent)
         ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
@@ -28,17 +32,21 @@ class DialogConflictExpert(QtWidgets.QDialog):
 
         self.connectSignals()
 
+    @loggingInfo
     def connectSignals(self):
         self.ui.btnUpdate.clicked.connect(self.btnUpdate_clicked)
         self.ui.btnCancel.clicked.connect(self.btnCancel_clicked)
         self.ui.btnMoreInfo.clicked.connect(self.btnMoreInfo_clicked)
 
+    @loggingInfo
     def btnUpdate_clicked(self):
         self.accept()
 
+    @loggingInfo
     def btnCancel_clicked(self):
         self.reject()
 
+    @loggingInfo
     def btnMoreInfo_clicked(self):
         self.more_info.show()
 

@@ -12,11 +12,15 @@
 
 
 from PyQt5 import QtGui, QtWidgets
+import logging
+from ..helpers import loggingInfo
 
 
 class QValidateLineEdit(QtWidgets.QLineEdit):
     INTEGER, DOUBLE = list(range(2))
+    log = logging.getLogger('{}.QValidateLineEdit'.format(__name__))
 
+    @loggingInfo
     def __init__(self, parent, type, min, max):
         QtWidgets.QLineEdit.__init__(self, parent)
         self.type = type
@@ -29,6 +33,7 @@ class QValidateLineEdit(QtWidgets.QLineEdit):
         else:
             self.myValidator = None
 
+    @loggingInfo
     def keyPressEvent(self, event):
         QtWidgets.QLineEdit.keyPressEvent(self, event)
         self.setValidator(self.myValidator)

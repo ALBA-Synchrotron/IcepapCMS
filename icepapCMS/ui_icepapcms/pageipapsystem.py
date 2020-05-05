@@ -11,10 +11,15 @@
 # -----------------------------------------------------------------------------
 
 from PyQt5 import QtCore, QtGui, Qt, QtWidgets
+import logging
 from .icepapdriverwidget import IcePapDriverWidget
+from ..helpers import loggingInfo
 
 
 class PageiPapSystem(QtWidgets.QWidget):
+    log = logging.getLogger('{}.PageiPapSystem'.format(__name__))
+
+    @loggingInfo
     def __init__(self, mainwin):
         QtWidgets.QWidget.__init__(self, None)
         self._colSize = [94, 94]
@@ -149,6 +154,7 @@ class PageiPapSystem(QtWidgets.QWidget):
         self.cmbIconSize.currentIndexChanged.connect(self.changeSize)
         self.icepap_system = None
 
+    @loggingInfo
     def fillData(self, icepap_system):
         """ TO-DO STORM review"""
         if self.icepap_system == icepap_system:
@@ -203,6 +209,7 @@ class PageiPapSystem(QtWidgets.QWidget):
         self.tableWidget.horizontalHeader().setUpdatesEnabled(True)
         self.tableWidget.verticalHeader().setUpdatesEnabled(True)
 
+    @loggingInfo
     def driverDoubleclick(self, driver):
         if driver is not None:
             location = "%s/%d/%d" % (driver.icepapsystem_name,
@@ -212,9 +219,11 @@ class PageiPapSystem(QtWidgets.QWidget):
             self.mainwin.addToPrevious(self.mainwin.currentLocation)
             self.mainwin.treeSelectByLocation(location)
 
+    @loggingInfo
     def changeSize(self, index):
         self.refresh(not(index))
 
+    @loggingInfo
     def refresh(self, size=None):
         self.tableWidget.setUpdatesEnabled(False)
         self.tableWidget.horizontalHeader().setUpdatesEnabled(False)

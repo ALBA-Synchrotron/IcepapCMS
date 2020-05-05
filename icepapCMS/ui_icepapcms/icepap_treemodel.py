@@ -12,8 +12,10 @@
 
 
 from PyQt5 import QtCore, QtGui
-from ..lib_icepapcms import Conflict
 from icepap import Mode
+import logging
+from ..helpers import loggingInfo
+from ..lib_icepapcms import Conflict
 
 
 class IcepapTreeModel(QtCore.QAbstractItemModel):
@@ -21,6 +23,9 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
         DRIVER_ERROR, CRATE, DRIVER_NEW, DRIVER_CFG, \
         SYSTEM_OFFLINE, DRIVER_MOVED, ROOT = list(range(12))
 
+    log = logging.getLogger('{}.IcepapTreeModel'.format(__name__))
+
+    @loggingInfo
     def __init__(self, IcepapsList, no_expand=False, parent=None):
         QtCore.QAbstractItemModel.__init__(self, parent)
 
@@ -44,12 +49,14 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
                            QtGui.QPixmap(":/icons/icons/ipapdrivermoved.png"),
                            QtGui.QPixmap(":/icons/icons/gnome-nettool.png"))
 
+    @loggingInfo
     def columnCount(self, parent=QtCore.QModelIndex()):
         if parent.isValid():
             return parent.internalPointer().columnCount()
         else:
             return self.rootItem.columnCount()
 
+    @loggingInfo
     def data(self, index, role):
         if not index.isValid():
             return QtCore.QVariant()
@@ -72,20 +79,24 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
         elif role != QtCore.Qt.DisplayRole:
             return QtCore.QVariant()
 
+    @loggingInfo
     def item_data(self, index):
         item = index.internalPointer()
         return item.itemData
 
+    @loggingInfo
     def item(self, index):
         item = index.internalPointer()
         return item
 
+    @loggingInfo
     def flags(self, index):
         if not index.isValid():
             return QtCore.Qt.ItemIsEnabled
 
         return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable
 
+    @loggingInfo
     def headerData(self, section, orientation, role=QtCore.Qt.DisplayRole):
         if orientation == QtCore.Qt.Horizontal and \
                 role == QtCore.Qt.DisplayRole:
@@ -93,6 +104,7 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
 
         return QtCore.QVariant()
 
+    @loggingInfo
     def index(self, row, column, parent=QtCore.QModelIndex()):
         if row < 0 or column < 0 or row >= self.rowCount(
                 parent) or column >= self.columnCount(parent):
@@ -107,6 +119,7 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
         else:
             return QtCore.QModelIndex()
 
+    @loggingInfo
     def parent(self, index):
         if not index.isValid():
             return QtCore.QModelIndex()
@@ -116,6 +129,7 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
             return QtCore.QModelIndex()
         return self.createIndex(parentItem.row(), 0, parentItem)
 
+    @loggingInfo
     def rowCount(self, parent=QtCore.QModelIndex()):
         if not parent.isValid():
             parentItem = self.rootItem
@@ -123,6 +137,7 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
             parentItem = parent.internalPointer()
         return parentItem.childCount()
 
+    @loggingInfo
     def setupModelData(self, IcepapsList, parent, no_expand):
         keys = sorted(IcepapsList.keys())
         for icepap_name in keys:
@@ -132,6 +147,7 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
                 no_expand,
                 parent)
 
+    @loggingInfo
     def addIcepapSystem(self, icepap_name, icepap_system,
                         no_expand, parent=None, index=None):
         """ TO-DO STORM review"""
@@ -165,11 +181,13 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
                          IcepapTreeModel.DRIVER, location, driver,
                          new_item_crate)
 
+    @loggingInfo
     def deleteIcepapSystem(self, icepap_name):
         item = self.itemByLocation(icepap_name)
         self.deleteItem(item)
         return item
 
+    @loggingInfo
     def updateIcepapSystem(self, icepap_system, no_expand=False):
         index = self.indexByLocation(icepap_system.name)
         item = self.deleteIcepapSystem(icepap_system.name)
@@ -180,6 +198,7 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
             item.parent(),
             index)
 
+    @loggingInfo
     def addItem(self, labels, role, location, data, parent, tree_index=None):
         new_item = TreeItem(labels, role, location, data, parent)
         parent.appendChild(new_item, tree_index)
@@ -190,6 +209,7 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
         self.endInsertRows()
         return new_item
 
+    @loggingInfo
     def indexByLocation(self, location):
         if location in self.item_location:
             item = self.item_location[location]
@@ -200,12 +220,14 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
         else:
             return None
 
+    @loggingInfo
     def itemByLocation(self, location):
         if location in self.item_location:
             return self.item_location[location]
         else:
             return None
 
+    @loggingInfo
     def deleteItem(self, item):
         index = self.indexByLocation(item.location)
         self.beginRemoveRows(self.parent(index), index.row(), index.row())
@@ -213,6 +235,7 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
         item.parentItem.removeChild(index.row())
         self.endRemoveRows()
 
+    @loggingInfo
     def changeItemIcon(self, location, role):
         index = self.indexByLocation(location)
         if index is not None:
@@ -221,8 +244,10 @@ class IcepapTreeModel(QtCore.QAbstractItemModel):
             self.dataChanged.emit(index, index)
 
 
-
 class TreeItem:
+    log = logging.getLogger('{}.TreeItem'.format(__name__))
+
+    @loggingInfo
     def __init__(self, label, role, location, data=None, parent=None):
         self.childItems = []
         self.description = None
@@ -236,6 +261,7 @@ class TreeItem:
         self.parentItem = parent
         self.location = location
 
+    @loggingInfo
     def updateRole(self):
         if self.role == IcepapTreeModel.SYSTEM:
             if self.itemData.conflict == Conflict.NO_CONNECTION:
@@ -258,30 +284,38 @@ class TreeItem:
                 self.role = IcepapTreeModel.DRIVER_CFG
         return self.role
 
+    @loggingInfo
     def appendChild(self, child, index=None):
         if index is None:
             self.childItems.append(child)
         else:
             self.childItems.insert(index.row(), child)
 
+    @loggingInfo
     def removeChild(self, row):
         del self.childItems[row]
 
+    @loggingInfo
     def child(self, row):
         return self.childItems[row]
 
+    @loggingInfo
     def childCount(self):
         return len(self.childItems)
 
+    @loggingInfo
     def columnCount(self):
         return len(self.itemLabel)
 
+    @loggingInfo
     def data(self, column):
         return self.itemLabel[column]
 
+    @loggingInfo
     def parent(self):
         return self.parentItem
 
+    @loggingInfo
     def changeLabel(self, label):
         if len(label) > 1:
             if label[1] != "":
@@ -289,11 +323,13 @@ class TreeItem:
 
         self.itemLabel = [label[0]]
 
+    @loggingInfo
     def row(self):
         if self.parentItem:
             return self.parentItem.childItems.index(self)
         return 0
 
+    @loggingInfo
     def solveConflict(self):
         if self.role == IcepapTreeModel.DRIVER_WARNING or \
                 self.role == IcepapTreeModel.DRIVER_NEW:
@@ -303,6 +339,7 @@ class TreeItem:
         elif self.role == IcepapTreeModel.DRIVER_ERROR:
             self.parentItem.notifySolvedConflict()
 
+    @loggingInfo
     def notifySolvedConflict(self):
         if self.role == IcepapTreeModel.SYSTEM_WARNING:
             self.itemData.child_conflicts -= 1
@@ -311,6 +348,7 @@ class TreeItem:
         elif self.role == IcepapTreeModel.CRATE:
             self.parentItem.notifySolvedConflict()
 
+    @loggingInfo
     def getIcepapSystem(self):
         if self.role == IcepapTreeModel.SYSTEM or \
                 self.role == IcepapTreeModel.SYSTEM_WARNING or \

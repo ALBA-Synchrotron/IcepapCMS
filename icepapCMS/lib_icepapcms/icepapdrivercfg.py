@@ -13,6 +13,8 @@
 
 from storm.locals import Storm, Int, Unicode, ReferenceSet, Reference, DateTime
 import datetime
+import logging
+from ..helpers import loggingInfo
 
 __all__ = ['IcepapDriverCfg']
 
@@ -32,6 +34,9 @@ class IcepapDriverCfg(Storm):
                                "IcepapDriver.addr"))
     parameters = ReferenceSet(id, "CfgParameter.cfg_id")
 
+    log = logging.getLogger('{}.IcepapDriverCfg'.format(__name__))
+
+    @loggingInfo
     def __init__(self, name, description=None):
         if description is None:
             description = str("")
@@ -40,28 +45,35 @@ class IcepapDriverCfg(Storm):
         self.date = datetime.datetime.now()
         self.initialize()
 
+    @loggingInfo
     def __storm_loaded__(self):
         self.initialize()
         for cfgpar in self.parameters:
             self._inmemory_parameters[cfgpar.name] = cfgpar
 
+    @loggingInfo
     def initialize(self):
         self._inmemory_parameters = {}
 
+    @loggingInfo
     def setDriver(self, driver):
         self.icepap_driver = driver
 
+    @loggingInfo
     def resetDriver(self):
         self.icepap_driver = None
         self.icepapsystem_name = None
         self.driver_addr = None
 
+    @loggingInfo
     def setSignature(self, signature):
         self.signature = str(signature)
 
+    @loggingInfo
     def getSignature(self):
         return str(self.signature)
 
+    @loggingInfo
     def setParameter(self, name, value):
         name = str(name)
         value = str(value)
@@ -77,6 +89,7 @@ class IcepapDriverCfg(Storm):
             cfgpar.value = value
         self._inmemory_parameters[str(name)] = cfgpar
 
+    @loggingInfo
     def getParameter(self, name, in_memory=False):
         if in_memory:
             if str(name) in self._inmemory_parameters:
@@ -90,21 +103,25 @@ class IcepapDriverCfg(Storm):
             else:
                 return None
 
+    @loggingInfo
     def toList(self):
         l = []
         for cfgpar in self._inmemory_parameters.values():
             l.append((cfgpar.name, cfgpar.value))
         return l
 
+    @loggingInfo
     def __str__(self):
         text = "Configuration"
         for par in self.parameters:
             text = text + "\n" + par.name + ":\t" + par.value
         return text
 
+    @loggingInfo
     def __ne__(self, other):
         return not self.__eq__(other)
 
+    @loggingInfo
     def __eq__(self, other):
         self_list = self.toList()
 
@@ -129,7 +146,9 @@ class CfgParameter(Storm):
     value = Unicode()
     """ references """
     driver_cfg = Reference(cfg_id, "IcepapDriverCfg.id")
+    log = logging.getLogger('{}.CfgParameter'.format(__name__))
 
+    @loggingInfo
     def __init__(self, cfg, name, value):
         self.driver_cfg = cfg
         self.name = str(name)

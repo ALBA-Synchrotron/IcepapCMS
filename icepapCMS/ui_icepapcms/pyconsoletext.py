@@ -13,13 +13,15 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import logging
+from ..helpers import loggingInfo
 
 
 class PyConsoleText(QtWidgets.QTextEdit):
     commandReceived = QtCore.pyqtSignal(str, name='commandReceived')
+    log = logging.getLogger('{}.PyConsoleText'.format(__name__))
 
+    @loggingInfo
     def __init__(self, parent=None):
-        self.log = logging.getLogger('PyConsoleText')
         QtWidgets.QTextEdit.__init__(self, parent)
 
         # to exit the main interpreter by a Ctrl-D if PyCute has no parent
@@ -46,15 +48,18 @@ class PyConsoleText(QtWidgets.QTextEdit):
 
         self.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
 
+    @loggingInfo
     def setPrompt(self, text):
         self.prompt = text
 
+    @loggingInfo
     def flush(self):
         """
         Simulate stdin, stdout, and stderr.
         """
         pass
 
+    @loggingInfo
     def readline(self):
         """
         Simulate stdin, stdout, and stderr.
@@ -67,6 +72,7 @@ class PyConsoleText(QtWidgets.QTextEdit):
         else:
             return self.line
 
+    @loggingInfo
     def write(self, text):
 
         # The output of self.append(text) contains to many newline characters,
@@ -86,6 +92,7 @@ class PyConsoleText(QtWidgets.QTextEdit):
         # Set the format
         cursor.setPosition(pos1, QtGui.QTextCursor.KeepAnchor)
 
+    @loggingInfo
     def __run(self):
         """
         Append the last line to the history list, let the interpreter execute
@@ -108,6 +115,7 @@ class PyConsoleText(QtWidgets.QTextEdit):
         self.__clearLine()
         self.write(self.prompt)
 
+    @loggingInfo
     def __clearLine(self):
         """
         Clear input line buffer
@@ -115,6 +123,7 @@ class PyConsoleText(QtWidgets.QTextEdit):
         self.line = ""
         self.point = 0
 
+    @loggingInfo
     def __insertText(self, text):
         """
         Insert text at the current cursor position.
@@ -127,6 +136,7 @@ class PyConsoleText(QtWidgets.QTextEdit):
         cursor.insertText(text)
         self.update()
 
+    @loggingInfo
     def keyPressEvent(self, e):
         """
         Handle user input a key at a time.
@@ -205,6 +215,7 @@ class PyConsoleText(QtWidgets.QTextEdit):
             e.ignore()
         self.update()
 
+    @loggingInfo
     def __recall(self):
         """
         Display the current item from the command history.
@@ -216,6 +227,7 @@ class PyConsoleText(QtWidgets.QTextEdit):
         self.write(self.prompt)
         self.__insertText(self.history[self.pointer])
 
+    @loggingInfo
     def mousePressEvent(self, e):
         """
         Keep the cursor after the last prompt.
@@ -223,6 +235,7 @@ class PyConsoleText(QtWidgets.QTextEdit):
         if e.button() == QtCore.Qt.LeftButton:
             self.moveCursor(QtGui.QTextCursor.End)
 
+    @loggingInfo
     def contentsContextMenuEvent(self, ev):
         """
         Suppress the right button context menu.

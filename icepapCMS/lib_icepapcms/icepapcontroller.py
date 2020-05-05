@@ -26,18 +26,19 @@ from .singleton import Singleton
 from .icepapdrivercfg import IcepapDriverCfg
 from . import icepapdriver
 from .configmanager import ConfigManager
-from ..ui_icepapcms.messagedialogs import MessageDialogs, catchError
-
+from ..ui_icepapcms.messagedialogs import MessageDialogs
+from ..helpers import loggingInfo, catchError
 
 __all__ = ['IcepapController']
 
 
 class IcepapController(Singleton):
+    log = logging.getLogger('{}.IcepapController'.format(__name__))
 
     def __init__(self):
-        self.log = logging.getLogger('IcepapController')
         pass
 
+    @loggingInfo
     def init(self, *args):
         self.iPaps = {}
         self.config_template = resource_filename('icepapCMS.templates',
@@ -57,10 +58,12 @@ class IcepapController(Singleton):
             self.log.error("Init error %s", e)
             pass
 
+    @loggingInfo
     def reset(self):
         self.closeAllConnections()
         self.iPaps = {}
 
+    @loggingInfo
     def openConnection(self, icepap_name, host, port):
         # TODO: Configure logging
         # log_folder = None
@@ -87,11 +90,13 @@ class IcepapController(Singleton):
                 self.log.error('Open Connection error %s', e)
                 return False
 
+    @loggingInfo
     def closeConnection(self, icepap_name):
         if icepap_name in self.iPaps:
             self.iPaps[icepap_name].disconnect()
             del self.iPaps[icepap_name]
 
+    @loggingInfo
     def closeAllConnections(self):
         for iPap in list(self.iPaps.values()):
             try:
@@ -100,6 +105,7 @@ class IcepapController(Singleton):
                 pass
         self.iPaps = {}
 
+    @loggingInfo
     def _get_driver_cfg_info(self, icepap_name, driver_addr):
         try:
             cfg_info = self.iPaps[icepap_name][driver_addr].get_cfginfo()
@@ -117,6 +123,7 @@ class IcepapController(Singleton):
             cfg_info[key] = val
         return cfg_info
 
+    @loggingInfo
     def scanIcepapSystem(self, icepap_name, compare=False):
         """
         Get the status of the icepap system, the drivers present, and its
@@ -160,6 +167,7 @@ class IcepapController(Singleton):
             raise
         return driver_list
 
+    @loggingInfo
     def getDriverConfiguration(self, icepap_name, driver_addr):
         """
             Returns a IcepaDriverCfg object of the attributes predefined in
@@ -205,6 +213,7 @@ class IcepapController(Singleton):
 
         return driver_cfg
 
+    @loggingInfo
     def setDriverConfiguration(self, icepap_name, driver_addr, new_values,
                                expertFlag=False):
         """ TO-DO STORM review"""
@@ -283,6 +292,7 @@ class IcepapController(Singleton):
         driver_cfg = self.getDriverConfiguration(icepap_name, driver_addr)
         return driver_cfg
 
+    @loggingInfo
     def discardDriverCfg(self, icepap_name, driver_addr):
         try:
             if icepap_name in self.iPaps:
@@ -293,6 +303,7 @@ class IcepapController(Singleton):
             MessageDialogs.showErrorMessage(None, 'Discard Driver Config', msg)
             raise e
 
+    @loggingInfo
     def signDriverConfiguration(self, icepap_name, driver_addr, signature):
         try:
             if icepap_name in self.iPaps:
@@ -306,6 +317,7 @@ class IcepapController(Singleton):
             MessageDialogs.showErrorMessage(None, 'Sign Driver', msg)
             raise e
 
+    @loggingInfo
     def startConfiguringDriver(self, icepap_name, driver):
         try:
             mode = self.iPaps[icepap_name][driver.addr].mode
@@ -321,6 +333,7 @@ class IcepapController(Singleton):
             raise e
         return mode[0]
 
+    @loggingInfo
     def endConfiguringDriver(self, icepap_name, driver):
         try:
             if icepap_name not in self.iPaps:
@@ -339,6 +352,7 @@ class IcepapController(Singleton):
             MessageDialogs.showErrorMessage(None, 'End Config', msg)
             raise e
 
+    @loggingInfo
     def getDriverStatus(self, icepap_name, driver_addr):
         """
         Returns an array with the Status, Limit Switches and Current of the
@@ -363,6 +377,7 @@ class IcepapController(Singleton):
                            driver_addr, e)
             return -1, False, -1
 
+    @loggingInfo
     def getDriverTestStatus(self, icepap_name, driver_addr, pos_sel, enc_sel):
         """
         Returns an array with the Status, Limit Switches and Position of
@@ -393,6 +408,7 @@ class IcepapController(Singleton):
 
         return register, power, [position, encoder]
 
+    @loggingInfo
     def getDriverActiveStatus(self, icepap_name, driver_addr):
         try:
             active = self.iPaps[icepap_name][driver_addr].active
@@ -407,6 +423,7 @@ class IcepapController(Singleton):
             MessageDialogs.showErrorMessage(None, 'Get Active', msg)
             raise e
 
+    @loggingInfo
     def readIcepapParameters(self, icepap_name, driver_addr, par_list):
         axis = self.iPaps[icepap_name][driver_addr]
         try:
@@ -428,6 +445,7 @@ class IcepapController(Singleton):
             MessageDialogs.showErrorMessage(None, 'Read Param', msg)
             raise e
 
+    @loggingInfo
     def writeIcepapParameters(self, icepap_name, driver_addr, par_var_list):
         # This method is only called with the command widgets changes, not with
         # the configuration widgets changes. For that reason it is not
@@ -444,6 +462,7 @@ class IcepapController(Singleton):
                 MessageDialogs.showErrorMessage(None, 'Write Param', msg)
                 raise e
 
+    @loggingInfo
     def configDriverToDefaults(self, icepap_name, driver_addr):
         try:
             self.iPaps[icepap_name][driver_addr].set_cfg('DEFAULT')
@@ -454,6 +473,7 @@ class IcepapController(Singleton):
             MessageDialogs.showErrorMessage(None, 'Default Config', msg)
             raise e
 
+    @loggingInfo
     def getDriverMotionValues(self, icepap_name, driver_addr):
         try:
             speed = self.iPaps[icepap_name][driver_addr].velocity
@@ -466,6 +486,7 @@ class IcepapController(Singleton):
             raise e
         return speed, acc
 
+    @loggingInfo
     def setDriverMotionValues(self, icepap_name, driver_addr, values):
         try:
             self.iPaps[icepap_name][driver_addr].velocity = values[0]
@@ -477,6 +498,7 @@ class IcepapController(Singleton):
             self.log.error(msg)
             return -1
 
+    @loggingInfo
     def setDriverPosition(self, icepap_name, driver_addr, pos_sel, position):
         try:
             self.iPaps[icepap_name][driver_addr].set_pos(pos_sel, position)
@@ -487,6 +509,7 @@ class IcepapController(Singleton):
             self.log.error(msg)
             return -1
 
+    @loggingInfo
     def setDriverEncoder(self, icepap_name, driver_addr, enc_sel, position):
         try:
             self.iPaps[icepap_name][driver_addr].set_enc(enc_sel, position)
@@ -551,6 +574,7 @@ class IcepapController(Singleton):
             return False
         return True
 
+    @loggingInfo
     def isExpertFlagSet(self, icepap_name, driver_addr):
         axis = self.iPaps[icepap_name][driver_addr]
         try:
@@ -558,6 +582,7 @@ class IcepapController(Singleton):
         except Exception:
             return 'NO'
 
+    @loggingInfo
     def _parseDriverTemplateFile(self):
         self.config_parameters = []
         doc = minidom.parse(self.config_template)
@@ -573,6 +598,7 @@ class IcepapController(Singleton):
                         parname = pars.attributes.get('name').value
                         self.config_parameters.append(str(parname))
 
+    @loggingInfo
     def getSerialPorts(self):
         # TODO: Implement scanning of the serials ports
         return []
@@ -581,11 +607,13 @@ class IcepapController(Singleton):
         # except Exception:
         #     return []
 
+    @loggingInfo
     def _update_error_msg(self):
         msg = 'Update driver is underdevelopment. In the meantime use ' \
               'pyIcePAP command line script to update the firmware and drivers'
         raise NotImplementedError(msg)
 
+    @loggingInfo
     def upgradeDrivers(self, icepap_name, progress_dialog):
         self._update_error_msg()
         # if self.programming_ipap is not None:
@@ -631,6 +659,7 @@ class IcepapController(Singleton):
         #     answer = self.programming_ipap.sendWriteReadCommand(cmd)
         #     self.programming_ipap = None
 
+    @loggingInfo
     def sendFirmware(self, ipap, filename, logger, save=True):
         self._update_error_msg()
         # logger.addToLog("Setting MODE PROG")
@@ -649,6 +678,7 @@ class IcepapController(Singleton):
         # ans = ipap.sendWriteReadCommand(cmd)
         # logger.addToLog(ans)
 
+    @loggingInfo
     def upgradeFirmware(self, serial, dst, filename, addr, options, logger):
         self._update_error_msg()
         # if serial:
@@ -731,6 +761,7 @@ class IcepapController(Singleton):
         # logger.addToLog(ans)
         # logger.addToLog('\n\nProgramming sequence done!')
 
+    @loggingInfo
     def testConnection(self, serial, dst):
         try:
             if serial:
@@ -754,6 +785,7 @@ class IcepapController(Singleton):
         except Exception:
             return False
 
+    @loggingInfo
     def find_networks(self, configs, addr_pattern, mask_pattern):
         addr_parse = re.compile(addr_pattern)
         mask_parse = re.compile(mask_pattern)
@@ -766,6 +798,7 @@ class IcepapController(Singleton):
                 networks.append(net)
         return networks
 
+    @loggingInfo
     def host_in_same_subnet(self, host):
         if self._config._options.allnets:
             return True

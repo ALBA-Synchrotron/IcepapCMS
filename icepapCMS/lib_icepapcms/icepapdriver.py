@@ -21,6 +21,7 @@ from .conflict import Conflict
 from .configmanager import ConfigManager
 from .icepapcontroller import IcepapController
 from .stormmanager import StormManager
+from ..helpers import loggingInfo
 
 
 __all__ = ['IcepapDriver']
@@ -39,17 +40,21 @@ class IcepapDriver(Storm):
                                  ("IcepapDriverCfg.icepapsystem_name",
                                   "IcepapDriverCfg.driver_addr"))
 
+    log = logging.getLogger('{}.IcepapDriver'.format(__name__))
+
+    @loggingInfo
     def __init__(self, icepap_name, addr):
-        self.log = logging.getLogger('IcepapDriver')
         self.icepapsystem_name = str(icepap_name)
         self.addr = addr
         self.current_cfg = None
         self.initialize()
 
+    @loggingInfo
     def __storm_loaded__(self):
         self.current_cfg = self.historic_cfgs.order_by("date").last()
         self.initialize()
 
+    @loggingInfo
     def initialize(self):
         self.drivernr = self.addr % 10
         self.cratenr = self.addr // 10
@@ -57,6 +62,7 @@ class IcepapDriver(Storm):
         self.startup_cfg = self.current_cfg
         self.conflict = Conflict.NO_CONFLICT
 
+    @loggingInfo
     def addConfiguration(self, cfg, current=True):
         if current:
             if self.current_cfg is not None:
@@ -67,18 +73,23 @@ class IcepapDriver(Storm):
             cfg.setDriver(self)
         self.historic_cfgs.add(cfg)
 
+    @loggingInfo
     def setConflict(self, conflict):
         self.conflict = conflict
 
+    @loggingInfo
     def getName(self):
         return self.name
 
+    @loggingInfo
     def setName(self, name):
         self.name = str(name)
 
+    @loggingInfo
     def setMode(self, mode):
         self.mode = str(mode)
 
+    @loggingInfo
     def signDriver(self):
         # AS ESRF SAYS, WHEN SIGNING THE DRIVER CONFIG, THE COMMIT SHOULD
         # BE DONE IN THE DATABASE FIRST, AND IF NO ERRORS, THEN COMMUNICATE
@@ -101,31 +112,39 @@ class IcepapDriver(Storm):
             self.log.error("some exception while trying to sign the driver %s",
                            e)
 
+    @loggingInfo
     def setStartupCfg(self):
         self.current_cfg = self.startup_cfg
         self.conflict = Conflict.NO_CONFLICT
 
+    @loggingInfo
     def undo(self, config):
         self.addConfiguration(config)
         # THE CURRENT CONFIGURATION SHOULD NOT BE IN THE UNDO LIST
         return self._undo_list.pop()
 
+    @loggingInfo
     def getUndoList(self):
         return self._undo_list.pop()
 
+    @loggingInfo
     def hasUndoList(self):
         return len(self._undo_list) > 0
 
+    @loggingInfo
     def saveHistoricCfg(self, now, name, desc):
         self.current_cfg.name = str(name)
         self.current_cfg.description = str(desc)
 
+    @loggingInfo
     def deleteHistoricCfg(self, cfg):
         self.historic_cfgs.remove(cfg)
 
+    @loggingInfo
     def __ne__(self, other):
         return not self.__eq__(other)
 
+    @loggingInfo
     def __eq__(self, other):
         if self.current_cfg == other.current_cfg:
             self.setConflict(Conflict.NO_CONFLICT)
@@ -136,6 +155,7 @@ class IcepapDriver(Storm):
         return False
 
     # TO SORT THE ICEPAP DRIVERS IN THE TREE
+    @loggingInfo
     def __lt__(self, other):
         if isinstance(other, IcepapDriver):
             return self.addr < other.addr

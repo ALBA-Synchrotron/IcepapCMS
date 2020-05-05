@@ -14,9 +14,9 @@
 import os
 from PyQt5 import Qt, QtCore, QtWidgets
 from xml.dom import minidom
-
+import logging
 from ..lib_icepapcms import ConfigManager
-
+from ..helpers import loggingInfo
 
 ##########################################################################
 # Templates Catalog Widget
@@ -36,7 +36,9 @@ CATALOG_PARAMS = ['MOTPHASES', 'MOTPOLES', 'MREGMODE', 'NVOLT', 'IVOLT',
 
 
 class TemplatesCatalogWidget(QtWidgets.QDialog):
+    log = logging.getLogger('{}.TemplatesCatalogWidget'.format(__name__))
 
+    @loggingInfo
     def __init__(self, master_catalog_file, pageipapdriver, parent=None):
 
         QtWidgets.QDialog.__init__(self, parent, QtCore.Qt.Window)
@@ -117,6 +119,7 @@ class TemplatesCatalogWidget(QtWidgets.QDialog):
 
         self.filterPatternLineEdit.setText("")
 
+    @loggingInfo
     def rowDoubleClicked(self, modelindex):
         row = modelindex.row()
         # FIRST IT WAS DESIGNED TO NOT CLOSE
@@ -130,6 +133,7 @@ class TemplatesCatalogWidget(QtWidgets.QDialog):
         if self.chkAutoClose.isChecked():
             self.close()
 
+    @loggingInfo
     def buildCatalog(self, catalog):
         doc = minidom.parse(catalog)
         root = doc.documentElement
@@ -148,6 +152,7 @@ class TemplatesCatalogWidget(QtWidgets.QDialog):
                 params[param] = param_value_instance.value
             self.catalog[str(template_name)] = params
 
+    @loggingInfo
     def createModel(self, parent=None):
         model = Qt.QStandardItemModel(0, 2, self)
         model.setHeaderData(0, QtCore.Qt.Horizontal,
@@ -161,6 +166,7 @@ class TemplatesCatalogWidget(QtWidgets.QDialog):
 
         return model
 
+    @loggingInfo
     def addTemplate(self, model, template_name, description):
         model.insertRow(0)
         model.setData(model.index(0, 0), QtCore.QVariant(template_name))
@@ -168,6 +174,7 @@ class TemplatesCatalogWidget(QtWidgets.QDialog):
         model.item(0, 0).setFlags(Qt.Qt.ItemIsSelectable)
         model.item(0, 1).setFlags(Qt.Qt.ItemIsSelectable)
 
+    @loggingInfo
     def filterRegExpChanged(self):
         caseSensitivity = QtCore.Qt.CaseInsensitive
         syntax = QtCore.QRegExp.PatternSyntax(QtCore.QRegExp.RegExp)
@@ -186,10 +193,12 @@ class TemplatesCatalogWidget(QtWidgets.QDialog):
         else:
             self.proxyView.selectionModel().clear()
 
+    @loggingInfo
     def filterColumnChanged(self):
         self.proxyModel.setFilterKeyColumn(
             self.filterColumnComboBox.currentIndex())
 
+    @loggingInfo
     def closeEvent(self, event):
         self.close()
         event.accept()

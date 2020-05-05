@@ -12,9 +12,14 @@
 
 from PyQt5 import QtWidgets, uic
 from pkg_resources import resource_filename
+import logging
+from ..helpers import loggingInfo
 
 
 class DialogAddLocation(QtWidgets.QDialog):
+    log = logging.getLogger('{}.DialogAddLocation'.format(__name__))
+
+    @loggingInfo
     def __init__(self, parent):
         QtWidgets.QDialog.__init__(self, parent)
         ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
@@ -23,10 +28,12 @@ class DialogAddLocation(QtWidgets.QDialog):
         uic.loadUi(ui_filename, baseinstance=self.ui)
         self.modal = True
 
+    @loggingInfo
     def getData(self):
         name = str(self.ui.txtName.text())
         return name
 
+    @loggingInfo
     def setData(self, name):
         self.ui.txtname.setText(name)
 
