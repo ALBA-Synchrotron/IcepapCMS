@@ -30,7 +30,7 @@ def catchError(msg=''):
                 if msg != '':
                     m = '{}. Icepap Error:\n{}'.format(msg, e)
                 else:
-                    m = 'Icepap Error:\n{}}'.format(e)
+                    m = 'Icepap Error:\n{}'.format(e)
                 obj.log.error(m)
                 MessageDialogs.showErrorMessage(None, 'Runtime Error', m)
         return _wrapper

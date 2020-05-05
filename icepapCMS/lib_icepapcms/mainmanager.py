@@ -208,10 +208,11 @@ class MainManager(Singleton):
             self._ctrl_icepap.closeConnection(icepap_system.name)
             self._db.commitTransaction()
         except Exception as e:
-            msg = "Unexpected error on stop icepap_system %s: " \
-                  "%s".format(icepap_system, e)
+            msg = "Unexpected error on stop icepap_system {}: " \
+                  "{}".format(icepap_system, e)
             self.log.error(msg)
-            MessageDialogs.showErrorMessage(self._form, msg)
+            MessageDialogs.showErrorMessage(self._form, 'Unexpected error',
+                                            msg)
 
     @loggingInfo
     def scanIcepap(self, icepap_system):
@@ -379,10 +380,11 @@ class MainManager(Singleton):
             status = self._ctrl_icepap.getDriverStatus(icepap_name, addr)
             return status
         except Exception:
-            msg = "GetDriverStatus Icepap error {}," \
-                  "{} Connection timeout".format(icepap_name, addr)
+            msg = "{},{} Connection timeout".format(icepap_name, addr)
             self.log.error(msg)
-            MessageDialogs.showErrorMessage(self._form, msg)
+            MessageDialogs.showErrorMessage(self._form,
+                                            'GetDriverStatus Icepap error ',
+                                            msg)
             self._form.refreshTree()
             return -1, False, -1
 
@@ -412,10 +414,11 @@ class MainManager(Singleton):
             return self._ctrl_icepap.readIcepapParameters(icepap_name,
                                                           addr, par_list)
         except Exception as error:
-            msg = "ReadIcepapParamenters Icepap error {} Connection " \
+            msg = "{} Connection " \
                   "error: {}".format(icepap_name, error)
             self.log.error(msg)
-            MessageDialogs.showErrorMessage(self._form, msg)
+            MessageDialogs.showErrorMessage(
+                self._form, 'ReadIcepapParamenters Icepap error ', msg)
 
     @loggingInfo
     def writeIcepapParameters(self, icepap_name, addr, par_var_list):
@@ -460,30 +463,30 @@ class MainManager(Singleton):
         try:
             self._ctrl_icepap.moveDriver(icepap_name, addr, steps)
         except Exception as error:
-            msg = "MoveDriver Icepap error %s Connection error: " \
-                  "%s".format(icepap_name, error)
+            msg = "{} Connection error: {}".format(icepap_name, error)
             self.log.error(msg)
-            MessageDialogs.showErrorMessage(self._form, msg)
+            MessageDialogs.showErrorMessage(self._form,
+                                            'MoveDriver Icepap error', msg)
 
     @loggingInfo
     def moveDriverAbsolute(self, icepap_name, addr, position):
         try:
             self._ctrl_icepap.moveDriverAbsolute(icepap_name, addr, position)
         except Exception as error:
-            msg = "MoveDriverAbsolute Icepap error %s Connection error: " \
-                  "%s".format(icepap_name, error)
+            msg = "{} Connection error: {}".format(icepap_name, error)
             self.log.error(msg)
-            MessageDialogs.showErrorMessage(self._form, msg)
+            MessageDialogs.showErrorMessage(self._form,
+                                            'MoveDriverAbsolute Icepap', msg)
 
     @loggingInfo
     def stopDriver(self, icepap_name, addr):
         try:
             self._ctrl_icepap.stopDriver(icepap_name, addr)
-        except Exception as e:
-            msg = "StopDriver Icepap error {} Connection error " \
-                  "{}".format(icepap_name, e)
+        except Exception as error:
+            msg = "{} Connection error: {}".format(icepap_name, error)
             self.log.error(msg)
-            MessageDialogs.showWarningMessage(self._form, msg)
+            MessageDialogs.showWarningMessage(self._form,
+                                              'StopDriver Icepap error', msg)
 
     @loggingInfo
     def blinkDriver(self, icepap_name, driver_addr, secs):
