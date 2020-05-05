@@ -65,11 +65,6 @@ class IcepapController(Singleton):
 
     @loggingInfo
     def openConnection(self, icepap_name, host, port):
-        # TODO: Configure logging
-        # log_folder = None
-        # if self.debug:
-        #     log_folder = self.log_folder
-
         if not self.host_in_same_subnet(icepap_name):
             MessageDialogs.showInformationMessage(None, "Host connection",
                                                   "It is not allowed to "
@@ -78,10 +73,6 @@ class IcepapController(Singleton):
             return False
         else:
             try:
-                # TODO: Configure logging log_path=log_folder
-                if self.debug:
-                    import logging
-                    logging.basicConfig(level=logging.DEBUG)
                 # TODO Optimize GUI to avoid auto_axes=True
                 self.iPaps[icepap_name] = EthIcePAPController(host, int(port),
                                                               auto_axes=True)

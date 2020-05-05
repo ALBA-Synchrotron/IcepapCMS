@@ -18,8 +18,10 @@ from PyQt5 import QtCore, QtGui, Qt, QtWidgets, uic
 from pkg_resources import resource_filename
 from optparse import OptionParser
 import logging
+import logging.handlers
+import queue
 from ..lib_icepapcms import MainManager, Conflict, ConfigManager, \
-    StormManager, IcepapDriver
+    StormManager
 from .icepap_treemodel import IcepapTreeModel
 from .pageipapdriver import PageiPapDriver
 from .pageipapcrate import PageiPapCrate
@@ -41,9 +43,29 @@ from ..helpers import loggingInfo
 __version__ = '2.3.6'
 
 
+def configure_logging(options, args):
+    config_manager = ConfigManager()
+
+    que = queue.Queue(-1)
+    queue_handler = logging.handlers.QueueHandler(que)
+    log_format = '%(asctime)s - %(message)s'
+    log_console = logging.StreamHandler()
+    log_console.setFormatter(logging.Formatter(log_format))
+
+    log_filename = os.path.join(config_manager.log_folder, 'log.txt')
+    log_file = logging.handlers.RotatingFileHandler(
+        log_filename, maxBytes=10000000, backupCount=5)
+    log_file.setFormatter(logging.Formatter(log_format))
+
+    listener = logging.handlers.QueueListener(que, log_console, log_file)
+
+    logging.basicConfig(level=logging.WARNING,
+                        handlers=[queue_handler])
+    return listener
+
+
 class IcepapApp(QtWidgets.QApplication):
     def __init__(self, *args):
-
         # from http://docs.python.org/library/optparse.html
         usage = "usage: %prog [options] arg"
         parser = OptionParser(usage)
@@ -64,6 +86,8 @@ class IcepapApp(QtWidgets.QApplication):
             help="Force LDAP login to get username. False by default")
         (options, args) = parser.parse_args()
 
+        listener = configure_logging(options, args)
+        listener.start()
         QtWidgets.QApplication.__init__(self, [])
         self.setStyle("plastique")
         splash_pxmap = QtGui.QPixmap(":/logos/icons/IcepapMed.png")
@@ -73,6 +97,7 @@ class IcepapApp(QtWidgets.QApplication):
         icepapcms.show()
         splash.finish(icepapcms)
         self.exec_()
+        listener.stop()
 
 
 class IcepapCMS(QtWidgets.QMainWindow):
