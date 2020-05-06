@@ -33,6 +33,8 @@ class DialogIcepapProgram(QtWidgets.QDialog):
         self.ui = self
         uic.loadUi(ui_filename, baseinstance=self.ui)
 
+        # TODO enabled btnProgram when it is ready
+        self.ui.btnProgram.setEnabled(False)
         # Signals
         self.ui.btnBrowser.clicked.connect(self.btnBrowse_on_click)
         self.ui.btnClose.clicked.connect(self.btnClose_on_click)
