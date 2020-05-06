@@ -16,10 +16,7 @@ import os
 import webbrowser
 from PyQt5 import QtCore, QtGui, Qt, QtWidgets, uic
 from pkg_resources import resource_filename
-from optparse import OptionParser
 import logging
-import logging.handlers
-import queue
 from ..lib_icepapcms import MainManager, Conflict, ConfigManager, \
     StormManager
 from .icepap_treemodel import IcepapTreeModel
@@ -43,68 +40,29 @@ from ..helpers import loggingInfo
 __version__ = '2.3.6'
 
 
-def configure_logging(options, args):
-    config_manager = ConfigManager()
-
-    que = queue.Queue(-1)
-    queue_handler = logging.handlers.QueueHandler(que)
-    log_format = '%(asctime)s - %(message)s'
-    log_console = logging.StreamHandler()
-    log_console.setFormatter(logging.Formatter(log_format))
-
-    log_filename = os.path.join(config_manager.log_folder, 'log.txt')
-    log_file = logging.handlers.RotatingFileHandler(
-        log_filename, maxBytes=10000000, backupCount=5)
-    log_file.setFormatter(logging.Formatter(log_format))
-
-    listener = logging.handlers.QueueListener(que, log_console, log_file)
-
-    logging.basicConfig(level=logging.WARNING,
-                        handlers=[queue_handler])
-    return listener
-
-
 class IcepapApp(QtWidgets.QApplication):
-    def __init__(self, *args):
-        # from http://docs.python.org/library/optparse.html
-        usage = "usage: %prog [options] arg"
-        parser = OptionParser(usage)
-        # TODO Investigate why the expert mode does not work on previous
-        #  versions
-        parser.add_option(
-            "-e", "--expert", action="store_true", dest="expert",
-            help="Full expert interface. False by default")
-        parser.add_option(
-            "-s", "--skip-versioncheck", action="store_true",
-            dest="skipversioncheck",
-            help="Skip the version mismatch check. False by default")
-        parser.add_option(
-            "", "--all-networks", action="store_true", dest="allnets",
-            help="Allow all available icepap systems. False by default")
-        parser.add_option(
-            "", "--ldap", action="store_true", dest="ldap",
-            help="Force LDAP login to get username. False by default")
-        (options, args) = parser.parse_args()
+    log = logging.getLogger('{}.IcepapApp'.format(__name__))
 
-        listener = configure_logging(options, args)
-        listener.start()
+    def __init__(self,parent=None):
         QtWidgets.QApplication.__init__(self, [])
+
+    @loggingInfo
+    def start(self):
         self.setStyle("plastique")
         splash_pxmap = QtGui.QPixmap(":/logos/icons/IcepapMed.png")
         splash = QtWidgets.QSplashScreen(splash_pxmap)
         splash.show()
-        icepapcms = IcepapCMS(options, args)
+        icepapcms = IcepapCMS()
         icepapcms.show()
         splash.finish(icepapcms)
         self.exec_()
-        listener.stop()
 
 
 class IcepapCMS(QtWidgets.QMainWindow):
     log = logging.getLogger('{}.IcepapCMS'.format(__name__))
 
     @loggingInfo
-    def __init__(self, options, args, parent=None):
+    def __init__(self, parent=None):
         QtWidgets.QMainWindow.__init__(self, parent)
 
         ui_filename = resource_filename('icepapCMS.ui_icepapcms.ui',
@@ -113,8 +71,6 @@ class IcepapCMS(QtWidgets.QMainWindow):
         uic.loadUi(ui_filename, baseinstance=self.ui)
 
         self._config = ConfigManager()
-        self._config._options = options
-        self._config._args = args
 
         default_user = 'NotValidated'
         self._config.username = default_user
@@ -1124,23 +1080,3 @@ class IcepapCMS(QtWidgets.QMainWindow):
         else:
             self.ui.dockTree.close()
 
-
-def main():
-    args = sys.argv
-    args[0] = os.path.abspath(__file__)
-
-    # Check env. var.
-    ldap = os.environ.get('ICEPAP_LDAP', "")
-    all_networks = os.environ.get('ICEPAP_ALL_NETWORKS', "")
-
-    if ldap.lower() == "yes":
-        args.append("--ldap")
-
-    if all_networks.lower() == "yes":
-        args.append("--all-networks")
-
-    app = IcepapApp(args)
-
-
-if __name__ == "__main__":
-    main()

@@ -22,7 +22,7 @@ setup(
     author_email="guifre.cuni@cells.es",
     entry_points={
         'gui_scripts': [
-            'icepapcms = icepapCMS.ui_icepapcms.icepapcms:main',
+            'icepapcms = icepapCMS.__main__:main',
             'ipapconsole = icepapCMS.ui_icepapcms.ipapconsole:main'],
     },
     # install_requires=[
