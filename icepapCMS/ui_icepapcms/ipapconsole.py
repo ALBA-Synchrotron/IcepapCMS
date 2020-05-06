@@ -138,14 +138,14 @@ class IcepapConsole(QtWidgets.QDialog):
                 self.btnDisconnect_on_click()
                 self.close()
                 return
-            if cmd.find("?") >= 0 or cmd.find("#") >= 0:
-                res = '\n'.join(self.ipap.send_cmd(cmd))
-                self.writeConsole(res)
-            elif cmd.find("HELP") >= 0:
-                res = '\n'.join(self.ipap.send_cmd(cmd))
-                self.writeConsole(res)
+            answer = self.ipap.send_cmd(cmd)
+            self.log.debug('cmd: %s, answer: %s', cmd, answer)
+            if answer is None:
+                return
             else:
-                res = '\n'.join(self.ipap.send_cmd(cmd))
+                res = '\n'.join(answer)
+                self.writeConsole(res)
+
         except Exception as e:
             self.writeConsole("Some exception issuing command "
                               "'{}'.".format(cmd))
