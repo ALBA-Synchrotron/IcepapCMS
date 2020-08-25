@@ -20,7 +20,7 @@ from .stormmanager import StormManager
 from .configmanager import ConfigManager
 from .icepapsystem import IcepapSystem, Location
 from .conflict import Conflict
-from .icepapcontroller import IcepapController
+from .icepapsmanager import IcepapsManager
 from ..helpers import loggingInfo
 
 __all__ = ['MainManager']
@@ -36,7 +36,7 @@ class MainManager(Singleton):
     def init(self, *args):
         self.IcepapSystemList = {}
 
-        self._ctrl_icepap = IcepapController()
+        self._ctrl_icepap = IcepapsManager()
         self._db = StormManager()
 
         self.dbStatusOK = self._db.dbOK

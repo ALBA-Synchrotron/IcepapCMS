@@ -11,11 +11,10 @@
 # ------------------------------------------------------------------------------
 
 
-from icepap import IcePAPController as EthIcePAPController, Mode
+from icepap import IcePAPController, Mode
 from pkg_resources import resource_filename
 from xml.dom import minidom, Node
 import os
-import sys
 import re
 import socket
 import collections
@@ -29,10 +28,10 @@ from .configmanager import ConfigManager
 from ..ui_icepapcms.messagedialogs import MessageDialogs
 from ..helpers import loggingInfo, catchError
 
-__all__ = ['IcepapController']
+__all__ = ['IcepapsManager']
 
 
-class IcepapController(Singleton):
+class IcepapsManager(Singleton):
     log = logging.getLogger('{}.IcepapController'.format(__name__))
 
     def __init__(self):
@@ -74,8 +73,8 @@ class IcepapController(Singleton):
         else:
             try:
                 # TODO Optimize GUI to avoid auto_axes=True
-                self.iPaps[icepap_name] = EthIcePAPController(host, int(port),
-                                                              auto_axes=True)
+                self.iPaps[icepap_name] = IcePAPController(host, int(port),
+                                                           auto_axes=True)
                 return True
             except Exception as e:
                 self.log.error('Open Connection error %s', e)
@@ -767,7 +766,7 @@ class IcepapController(Singleton):
             else:
                 host = dst
                 port = 5000
-            ipap = EthIcePAPController(host, port)
+            ipap = IcePAPController(host, port)
             if self.log.isEnabledFor(logging.INFO):
                 self.log.info('Testing connection to: %s:%s version: %s',
                               host, port, ipap.ver.system[0])

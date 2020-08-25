@@ -20,7 +20,7 @@ from xml.dom import minidom, Node
 from xml.dom.minidom import getDOMImplementation
 import logging
 from .Led import Led
-from ..lib_icepapcms import MainManager, IcepapController, ConfigManager, \
+from ..lib_icepapcms import MainManager, IcepapsManager, ConfigManager, \
     StormManager
 from .messagedialogs import MessageDialogs
 from ..helpers import loggingInfo
@@ -585,7 +585,7 @@ class PageiPapDriver(QtWidgets.QWidget):
         desc_cfg_name = self.icepap_driver.name
         desc_cfg_version = self.icepap_driver.current_cfg.getParameter(
             'VER', True)
-        hwversion = IcepapController().readIcepapParameters(
+        hwversion = IcepapsManager().readIcepapParameters(
             desc_cfg_system, desc_cfg_addr, [['VER', 'PCB']])
         cfg_db = ConfigManager().config["database"]["database"]
         desc_cfg_hwversion = hwversion[0][1]
@@ -761,7 +761,7 @@ class PageiPapDriver(QtWidgets.QWidget):
     @loggingInfo
     def addUnknownWidget(self, param_name, param_value):
         # TODO Review this code
-        cfginfo = IcepapController().icepap_cfginfos[
+        cfginfo = IcepapsManager().icepap_cfginfos[
             self.icepap_driver.icepapsystem_name][
             self.icepap_driver.addr].get(param_name)
 
@@ -866,7 +866,7 @@ class PageiPapDriver(QtWidgets.QWidget):
                 elif isinstance(widget, QtWidgets.QComboBox):
                     widget.clear()
                     param = widget.param
-                    controller = IcepapController()
+                    controller = IcepapsManager()
                     driver_cfginfo = \
                         controller.icepap_cfginfos[system_name][driver_addr]
                     options = driver_cfginfo.get(param)

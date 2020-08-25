@@ -18,7 +18,7 @@ import logging
 # TODO use threading
 import _thread
 from .messagedialogs import MessageDialogs
-from ..lib_icepapcms import IcepapController, ConfigManager
+from ..lib_icepapcms import IcepapsManager, ConfigManager
 from ..helpers import loggingInfo
 
 
@@ -51,7 +51,7 @@ class DialogIcepapProgram(QtWidgets.QDialog):
 
         if test_mode:
             return
-        self._ipapctrl = IcepapController()
+        self._ipapctrl = IcepapsManager()
         self.ui.cbSerial.addItems(self._ipapctrl.getSerialPorts())
 
     @loggingInfo

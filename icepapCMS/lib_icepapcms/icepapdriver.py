@@ -19,7 +19,7 @@ from icepap import Mode
 import logging
 from .conflict import Conflict
 from .configmanager import ConfigManager
-from .icepapcontroller import IcepapController
+from .icepapsmanager import IcepapsManager
 from .stormmanager import StormManager
 from ..helpers import loggingInfo
 
@@ -99,7 +99,7 @@ class IcepapDriver(Storm):
             host = socket.gethostname()
             signature = user + "@" + host + "_" + \
                 datetime.now().strftime('%Y/%m/%d_%H:%M:%S')
-            IcepapController().signDriverConfiguration(
+            IcepapsManager().signDriverConfiguration(
                 self.icepapsystem_name, self.addr, signature)
             self.mode = str(Mode.OPER)
             db = StormManager()

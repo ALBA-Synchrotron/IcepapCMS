@@ -14,11 +14,11 @@
 
 from PyQt5 import QtGui, QtCore, QtWidgets, uic
 from pkg_resources import resource_filename
-from icepap import IcePAPController as EthIcePAP
+from icepap import IcePAPController
 import os
 import logging
 from .messagedialogs import MessageDialogs
-from ..lib_icepapcms import ConfigManager, IcepapController
+from ..lib_icepapcms import ConfigManager, IcepapsManager
 from ..helpers import loggingInfo
 
 
@@ -75,7 +75,7 @@ class IcepapConsole(QtWidgets.QDialog):
                 port = "5000"
 
             if hasattr(self._config, '_options'):
-                ipapcontroller = IcepapController()
+                ipapcontroller = IcepapsManager()
                 if not ipapcontroller.host_in_same_subnet(host):
                     MessageDialogs.showInformationMessage(
                         None, "Host connection",
@@ -90,7 +90,7 @@ class IcepapConsole(QtWidgets.QDialog):
             if self.debug:
                 log_folder = self.log_folder
             # TODO configure debug folder and level
-            self.ipap = EthIcePAP(host, int(port))
+            self.ipap = IcePAPController(host, int(port))
 
             self.ui.btnDisconnect.setDisabled(False)
             self.ui.btnConnect.setDisabled(True)
