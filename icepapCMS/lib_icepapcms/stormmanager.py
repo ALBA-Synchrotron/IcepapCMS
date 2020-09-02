@@ -18,6 +18,7 @@ import logging
 from .singleton import Singleton
 from .configmanager import ConfigManager
 from ..helpers import loggingInfo
+from .stormmysql import MySQL
 
 __all__ = ['StormManager']
 
@@ -56,9 +57,14 @@ class StormManager(Singleton):
                 server = self._config.config[self._config.database]["server"]
                 user = self._config.config[self._config.database]["user"]
                 pwd = self._config.config[self._config.database]["password"]
-                self._database = create_database(
-                    "{}://{}:{}@{}/icepapcms" .format(self.db, user, pwd,
-                                                      server))
+                scheme = "{}://{}:{}@{}/icepapcms" .format(self.db, user, pwd,
+                                                           server)
+
+                if self.db == 'mysql':
+                    self._database = MySQL(scheme)
+                else:
+                    self._database = create_database(scheme)
+
             self._store = Store(self._database)
             if create_db:
                 self.dbOK = self.createSqliteDB()
