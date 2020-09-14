@@ -14,7 +14,7 @@ All changes are saved on a data base which allows to do easy rollbacks,
 identified changes and conflicts between the hardware configuration and the 
 data base configuration. 
 
-The program includes on console to communicate with raw commands.  
+The program includes one graphical console to communicate with raw commands.  
 """
 
 # The version is updated automatically with bumpversion
@@ -24,7 +24,7 @@ __version = '2.3.6'
 
 # Setup
 setup(
-    name="icepapCMS",
+    name="icepapcms",
     version=__version,
     packages=find_packages(),
     description="Icepap Configuration Management System and Test Tool",
@@ -33,8 +33,8 @@ setup(
     author_email="ctbeamlines@cells.es",
     entry_points={
         'gui_scripts': [
-            'icepapcms = icepapCMS.__main__:main',
-            'ipapconsole = icepapCMS.ui_icepapcms.ipapconsole:main'],
+            'icepapcms = icepapcms.__main__:main',
+            'ipapconsole = icepapcms.gui.ipapconsole:main'],
     },
     install_requires=[
         "storm>=0.23",
