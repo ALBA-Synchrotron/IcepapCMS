@@ -44,6 +44,9 @@ setup(
         'configobj',
 
     ],
+    package_data={
+        '': ['*.ui', '*.png', '*.svg', '*.gif', '*.xml', '*.txt', '*.sql']
+    },
     include_package_data=True,
     platforms=["Linux, Windows XP/Vista/7/8"],
     url="http://computing.cells.es/products/icepap-cms"
