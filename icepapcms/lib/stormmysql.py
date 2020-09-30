@@ -30,7 +30,6 @@ try:
     import MySQLdb
     import MySQLdb.converters
 except ImportError:
-    print('import error')
     MySQLdb = dummy
 
 from storm.expr import compile, Insert, Select, compile_select, Undef, \
