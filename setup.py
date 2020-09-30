@@ -45,7 +45,8 @@ setup(
 
     ],
     package_data={
-        '': ['*.ui', '*.png', '*.svg', '*.gif', '*.xml', '*.txt', '*.sql']
+        '': ['*.ui', '*.png', '*.svg', '*.gif', '*.xml', '*.txt', '*.sql',
+             '*.pdf']
     },
     include_package_data=True,
     platforms=["Linux, Windows XP/Vista/7/8"],
