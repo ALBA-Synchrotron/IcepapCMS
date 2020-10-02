@@ -43,7 +43,7 @@ CREATE TABLE icepapdrivercfg (
   driver_addr int(10),
   name varchar(40) NOT NULL DEFAULT '',
   description varchar(255),
-  signature varchar(40),
+  signature varchar(64),
   date datetime NOT NULL DEFAULT ''
 );
 
