@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>420</width>
+    <width>430</width>
     <height>200</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>420</width>
+    <width>430</width>
     <height>200</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>420</width>
+    <width>430</width>
     <height>200</height>
    </size>
   </property>
@@ -67,9 +67,9 @@
   <widget class="QLineEdit" name="user">
    <property name="geometry">
     <rect>
-     <x>228</x>
+     <x>230</x>
      <y>89</y>
-     <width>171</width>
+     <width>181</width>
      <height>25</height>
     </rect>
    </property>
@@ -83,9 +83,9 @@
   <widget class="QLineEdit" name="password">
    <property name="geometry">
     <rect>
-     <x>228</x>
+     <x>230</x>
      <y>120</y>
-     <width>171</width>
+     <width>181</width>
      <height>25</height>
     </rect>
    </property>
@@ -108,7 +108,7 @@
   <widget class="QDialogButtonBox" name="dialog_buttons">
    <property name="geometry">
     <rect>
-     <x>162</x>
+     <x>170</x>
      <y>167</y>
      <width>241</width>
      <height>24</height>
@@ -147,7 +147,7 @@
  <resources>
   <include location="login.qrc"/>
   <include location="login.qrc"/>
-  <include location="../../../../../../../../home/rhoms/develop/pycharm/IcepapCMS/icepapcms/gui/ldap_login/login.qrc"/>
+  <include location="login.qrc"/>
  </resources>
  <connections/>
 </ui>
