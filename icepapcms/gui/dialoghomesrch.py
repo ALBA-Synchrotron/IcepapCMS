@@ -15,7 +15,7 @@ from PyQt4.QtGui import QDialog
 from PyQt4.QtGui import QDialogButtonBox
 from PyQt4.QtCore import QTimer
 from ui_dialoghomesrch import Ui_DialogHomeSrch
-from messagedialogs import MessageDialogs
+from .messagedialogs import MessageDialogs
 
 
 class DialogHomeSrch(QDialog):
