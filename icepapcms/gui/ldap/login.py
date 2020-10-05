@@ -43,8 +43,9 @@ class DialogLdapLogin(QtWidgets.QDialog):
             self.user_not_allowed = config['not_allowed']
             self.ldap_servers = config['servers']
             self.ldap_user_template = config['user_template']
-        except Exception:
-            self.log.error('Wrong ldap configuration see docstring')
+        except Exception as e:
+            self.log.error('Wrong ldap configuration see docstring. Error %s',
+                           str(e))
             self.flag_error = True
 
         self.dialog_buttons.accepted.connect(self.ok_clicked)
