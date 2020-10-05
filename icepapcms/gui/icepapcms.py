@@ -85,7 +85,6 @@ class IcepapCMS(QtWidgets.QMainWindow):
             # SIGNATURES
             login = DialogLdapLogin(self, config=self._config.config['ldap'])
             accepted = login.exec()
-            print(accepted)
             if not accepted:
                 sys.exit(-1)
             self._config.username = login.username
