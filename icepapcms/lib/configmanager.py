@@ -51,9 +51,9 @@ class ConfigManager(Singleton):
     templates_folder = string(default=''' + templates_folder + ''')
     [ldap]
     use = boolean(default=False)
-    not_allowed = string(default=root)
-    servers = string()
-    user_template=string()
+    not_allowed = string(default='List of users no allowed to use the GUI')
+    servers = string(default='list of servers')
+    user_template=string(default='string with the configuration')
     
     
     '''
