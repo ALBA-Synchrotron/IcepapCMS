@@ -105,6 +105,12 @@
      </item>
      <item>
       <widget class="QFrame" name="frameValues">
+       <property name="frameShape">
+        <enum>QFrame::Box</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Sunken</enum>
+       </property>
        <layout class="QGridLayout" name="gridLayout_2">
         <item row="3" column="1">
          <widget class="QLCDNumber" name="lcdPosEncin">
