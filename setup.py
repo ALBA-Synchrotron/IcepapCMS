@@ -42,6 +42,7 @@ setup(
         "PyQt5",
         "icepap",
         'configobj',
+        'ldap3',
 
     ],
     package_data={

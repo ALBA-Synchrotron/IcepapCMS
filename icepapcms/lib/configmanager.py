@@ -49,6 +49,13 @@ class ConfigManager(Singleton):
     firmware_folder = string(default=''' + firmware_folder + ''')
     configs_folder = string(default=''' + configs_folder + ''')
     templates_folder = string(default=''' + templates_folder + ''')
+    [ldap]
+    use = boolean(default=False)
+    not_allowed = string(default=root)
+    servers = string()
+    user_template=string()
+    
+    
     '''
 
     defaults = defaults.splitlines()

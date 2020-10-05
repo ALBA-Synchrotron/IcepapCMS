@@ -36,6 +36,7 @@ from .ipapconsole import IcepapConsole
 from .messagedialogs import MessageDialogs
 from .templatescatalogwidget import TemplatesCatalogWidget
 from ..helpers import loggingInfo
+from ..gui.ldap.login import DialogLdapLogin
 
 __version__ = '2.3.6'
 
@@ -79,27 +80,16 @@ class IcepapCMS(QtWidgets.QMainWindow):
         elif os.name == 'nt':  # win NT, XP... (and Vista?)
             self._config.username = os.getenv('USERNAME', default_user)
 
-        if self._config._options.ldap:
+        if self._config.config['ldap']['use']:
             # FORCE AN LDAP LOGIN TO GET CORRECT USER NAMES IN THE DRIVER
             # SIGNATURES
-            try:
-                import ldap_login
-                login_dlg = ldap_login.LdapLogin(self)
-                login_dlg.exec_()
-                valid_ldap_login = False
-                if login_dlg.result() == QtWidgets.QDialog.Accepted:
-                    if login_dlg.username.lower() not in \
-                            ('sicilia', 'operator'):
-                        self._config.username = login_dlg.username
-                        valid_ldap_login = True
-                if not valid_ldap_login:
-                    self.log.critical('Sorry, we only allow validated users to '
-                                      'save configs to Icepap drivers.')
-                    sys.exit(-1)
-            except Exception as e:
-                self.log.warning("Using IcepapCMS with the system's "
-                                 "username: %s without validation. Error: %s",
-                                 self._config.username, e)
+            login = DialogLdapLogin(self, config=self._config.config['ldap'])
+            accepted = login.exec()
+            print(accepted)
+            if not accepted:
+                sys.exit(-1)
+            self._config.username = login.username
+
         self.checkTimer = Qt.QTimer(self)
 
         self.initGUI()

@@ -20,9 +20,9 @@ def get_parser():
     parser.add_argument(
         "--all-networks", action="store_true", dest="allnets",
         help="Allow all available icepap systems. False by default")
-    parser.add_argument(
-        "--ldap", action="store_true", dest="ldap",
-        help="Force LDAP login to get username. False by default")
+    # parser.add_argument(
+    #     "--ldap", action="store_true", dest="ldap",
+    #     help="Force LDAP login to get username. False by default")
     parser.add_argument("--debug-level", dest='debug_level', type=str,
                         help='Logging level used:[DEBUG, INFO, WARNING, '
                              'ERROR, CRITICAL]', default='WARNING')
@@ -67,11 +67,7 @@ def main():
     config_manager = ConfigManager()
     args = get_parser().parse_args()
 
-    # Read configuration from environment
-    ldap = os.environ.get('ICEPAP_LDAP', '')
     allnets = os.environ.get('ICEPAP_ALL_NETWORKS', '')
-    if ldap.lower() in ['yes', 'true']:
-        args.ldap = True
     if allnets.lower() in ['yes', 'true']:
         args.allnets = True
 
