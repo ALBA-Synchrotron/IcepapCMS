@@ -24,6 +24,7 @@ from ..lib import MainManager, IcepapsManager, ConfigManager, \
     StormManager
 from .messagedialogs import MessageDialogs
 from ..helpers import loggingInfo
+from .dialoghomesrch import DialogHomeSrch
 
 
 class PageiPapDriver(QtWidgets.QWidget):
@@ -265,6 +266,23 @@ class PageiPapDriver(QtWidgets.QWidget):
         self.sliderTimer.timeout.connect(self.resetSlider)
         self.ui.cmdCSWITCH.currentIndexChanged.connect(
             self.changeSwitchesSetup)
+        self.ui.btnHomeSrch.clicked.connect(self._display_home_srch_dialog)
+
+    def enable_home_srch_button(self):
+        """Enables the HOME/SRCH button."""
+        self.ui.btnHomeSrch.setDisabled(False)
+
+    def _display_home_srch_dialog(self):
+        system = self.icepap_driver.icepapsystem_name
+        addr = self.icepap_driver.addr
+        axis = IcepapsManager().iPaps[system][addr]
+        if Mode.CONFIG in axis.mode:
+            msg = 'Axis is in config mode. Aborting'
+            print(msg)
+            MessageDialogs.showErrorMessage(None, 'HOME/SRCH', msg)
+        dlg = DialogHomeSrch(self, axis)
+        dlg.show()
+        self.ui.btnHomeSrch.setDisabled(True)
 
     @loggingInfo
     def highlightWidget(self, widget):
