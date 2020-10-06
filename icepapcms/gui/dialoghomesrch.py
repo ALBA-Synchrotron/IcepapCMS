@@ -10,11 +10,10 @@
 # See LICENSE.txt for more info.
 # ------------------------------------------------------------------------------
 
-
-from PyQt4.QtGui import QDialog
-from PyQt4.QtGui import QDialogButtonBox
-from PyQt4.QtCore import QTimer
-from ui_dialoghomesrch import Ui_DialogHomeSrch
+from PyQt5.QtWidgets import QDialog, QDialogButtonBox
+from PyQt5.QtCore import QTimer
+from PyQt5 import uic
+from pkg_resources import resource_filename
 from .messagedialogs import MessageDialogs
 
 
@@ -22,8 +21,10 @@ class DialogHomeSrch(QDialog):
 
     def __init__(self, parent, axis):
         QDialog.__init__(self, parent)
-        self.ui = Ui_DialogHomeSrch()
-        self.ui.setupUi(self)
+        ui_filename = resource_filename('icepapcms.gui.ui',
+                                        'dialoghomesrch.ui')
+        self.ui = self
+        uic.loadUi(ui_filename, baseinstance=self.ui)
         self.parent = parent
         self.axis = axis
         self.close_button = self.ui.bbClose.button(QDialogButtonBox.Close)
