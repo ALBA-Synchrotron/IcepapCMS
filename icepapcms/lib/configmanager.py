@@ -54,6 +54,8 @@ class ConfigManager(Singleton):
     not_allowed = string(default='List of users no allowed to use the GUI')
     servers = string(default='list of servers')
     user_template=string(default='string with the configuration')
+    [all_networks]
+    use = boolean(default=False)
     
     
     '''

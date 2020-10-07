@@ -790,7 +790,8 @@ class IcepapsManager(Singleton):
 
     @loggingInfo
     def host_in_same_subnet(self, host):
-        if self._config._options.allnets:
+        if self._config._options.allnets or \
+                self._config.config['all_networks']['use']:
             return True
 
         networks = []

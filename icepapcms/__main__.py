@@ -67,10 +67,6 @@ def main():
     config_manager = ConfigManager()
     args = get_parser().parse_args()
 
-    allnets = os.environ.get('ICEPAP_ALL_NETWORKS', '')
-    if allnets.lower() in ['yes', 'true']:
-        args.allnets = True
-
     config_manager._options = args
     listener = configure_logging()
 
