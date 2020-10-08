@@ -15,7 +15,9 @@ import sys
 import os
 import webbrowser
 from PyQt5 import QtCore, QtGui, Qt, QtWidgets, uic
-from pkg_resources import resource_filename
+from pkg_resources import resource_filename, get_distribution, \
+    DistributionNotFound
+import subprocess
 import logging
 from ..lib import MainManager, Conflict, ConfigManager, \
     StormManager
@@ -121,6 +123,7 @@ class IcepapCMS(QtWidgets.QMainWindow):
             self.actionFirmwareUpgradeMth)
         self.ui.actionSaveConfig.triggered.connect(self.actionSaveConfigMth)
         self.ui.actionHistoricCfg.triggered.connect(self.actionHistoricCfgMth)
+        self.ui.actionOscilloscope.triggered.connect(self.action_osc_clicked)
         self.ui.actionCopy.triggered.connect(self.actionCopyMth)
         self.ui.actionPaste.triggered.connect(self.actionPasteMth)
         self.ui.actionHelp.triggered.connect(self.actionHelpMth)
@@ -161,6 +164,7 @@ class IcepapCMS(QtWidgets.QMainWindow):
         self.ui.actionExport.setEnabled(False)
         self.ui.actionImport.setEnabled(False)
         self.ui.actionHistoricCfg.setEnabled(False)
+        self.ui.actionOscilloscope.setEnabled(False)
         self.ui.actionSetExpertFlag.setEnabled(False)
         self.ui.actionTemplates.setEnabled(False)
         self.ui.treeView.setItemsExpandable(True)
@@ -771,6 +775,7 @@ class IcepapCMS(QtWidgets.QMainWindow):
         self.ui.actionExport.setEnabled(False)
         self.ui.actionImport.setEnabled(False)
         self.ui.actionHistoricCfg.setEnabled(False)
+        self.ui.actionOscilloscope.setEnabled(False)
         self.ui.actionTemplates.setEnabled(False)
         self.ui.actionSaveConfig.setEnabled(False)
         self.ui.actionSetExpertFlag.setEnabled(False)
@@ -795,6 +800,8 @@ class IcepapCMS(QtWidgets.QMainWindow):
             self.ui.actionExport.setEnabled(True)
             self.ui.actionImport.setEnabled(True)
             self.ui.actionHistoricCfg.setEnabled(True)
+            self.ui.actionOscilloscope.setEnabled(True)
+            self._axis_selected = item.itemData
             self.ui.actionTemplates.setEnabled(True)
             self.ui.actionSetExpertFlag.setEnabled(True)
             # ENABLE THE COPY & PASTE ACTIONS
@@ -980,6 +987,20 @@ class IcepapCMS(QtWidgets.QMainWindow):
         self.clearLocationBar()
         dlg = DialogIcepapProgram(self)
         dlg.exec_()
+
+    def action_osc_clicked(self):
+        print(self._axis_selected.icepapsystem_name, self._axis_selected.addr)
+        try:
+            get_distribution('icepaposc')
+        except DistributionNotFound:
+
+            MessageDialogs.showErrorMessage(self, 'IcepapOSC Error',
+                                            'IcepapOSC is not installed')
+            return
+
+        subprocess.Popen(['icepaposc', self._axis_selected.icepapsystem_name,
+                         str(self._axis_selected.addr)])
+
 
     @loggingInfo
     def actionSaveConfigMth(self):

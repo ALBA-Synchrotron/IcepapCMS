@@ -263,6 +263,7 @@
    <addaction name="actionSaveConfig"/>
    <addaction name="actionHistoricCfg"/>
    <addaction name="actionTemplates"/>
+   <addaction name="actionOscilloscope"/>
    <addaction name="separator"/>
    <addaction name="actionPreferences"/>
    <addaction name="actionConsole"/>
@@ -787,6 +788,15 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+V</string>
+   </property>
+  </action>
+  <action name="actionOscilloscope">
+   <property name="icon">
+    <iconset resource="icepapcms.qrc">
+     <normaloff>:/icons/icons/oscilloscope.svg</normaloff>:/icons/icons/oscilloscope.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Oscilloscope</string>
    </property>
   </action>
  </widget>
