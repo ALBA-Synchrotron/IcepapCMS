@@ -998,8 +998,8 @@ class IcepapCMS(QtWidgets.QMainWindow):
                                             'IcepapOSC is not installed')
             return
 
-        subprocess.Popen(['icepaposc', self._axis_selected.icepapsystem_name,
-                         str(self._axis_selected.addr)])
+        subprocess.Popen(['icepaposc', '--axis', str(self._axis_selected.addr),
+                          self._axis_selected.icepapsystem_name])
 
 
     @loggingInfo
