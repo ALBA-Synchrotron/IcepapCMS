@@ -669,7 +669,7 @@ class IcepapsManager(Singleton):
         # logger.addToLog(ans)
 
     @loggingInfo
-    def upgradeFirmware(self, serial, dst, filename, addr, options, logger):
+    def upgradeFirmware(self, dst, filename, addr, options, logger):
         self._update_error_msg()
         # if serial:
         #     ipap = SerialIcePAP(dst, 0)
@@ -752,19 +752,14 @@ class IcepapsManager(Singleton):
         # logger.addToLog('\n\nProgramming sequence done!')
 
     @loggingInfo
-    def testConnection(self, serial, dst):
+    def testConnection(self, host):
         try:
-            if serial:
-                # TODO: Implement the serial communication
-                raise NotImplementedError('The serial communication is not '
-                                          'implement yet. Sorry for the '
-                                          'inconveniences')
-            if dst.find(":") >= 0:
-                aux = dst.split(':')
+            if host.find(":") >= 0:
+                aux = host.split(':')
                 host = aux[0]
                 port = int(aux[1])
             else:
-                host = dst
+                host = host
                 port = 5000
             ipap = IcePAPController(host, port)
             if self.log.isEnabledFor(logging.INFO):

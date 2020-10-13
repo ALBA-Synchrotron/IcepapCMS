@@ -40,19 +40,15 @@ class DialogIcepapProgram(QtWidgets.QDialog):
         self.ui.btnClose.clicked.connect(self.btnClose_on_click)
         self.ui.btnTest.clicked.connect(self.btnTest_on_click)
         self.ui.btnProgram.clicked.connect(self.btnProgram_on_click)
-        self.ui.cbProgram.currentIndexChanged.connect(self.cbProgram_changed)
-        self.ui.rbSerial.toggled.connect(self.rbSerial_toogled)
-        self.ui.rbEth.toggled.connect(self.rbEth_toogled)
+        self.ui.cbProgram.currentTextChanged.connect(self.cbProgram_changed)
 
         self.ui.sbAddr.setDisabled(True)
-        self.ui.rbEth.setChecked(True)
-        # BY DEFAULT, PROGRAMM ALL INSTEAD OF NONE
+         # BY DEFAULT, PROGRAMM ALL INSTEAD OF NONE
         self.ui.cbProgram.setCurrentIndex(1)
 
         if test_mode:
             return
         self._ipapctrl = IcepapsManager()
-        self.ui.cbSerial.addItems(self._ipapctrl.getSerialPorts())
 
     @loggingInfo
     def btnBrowse_on_click(self):
@@ -72,26 +68,12 @@ class DialogIcepapProgram(QtWidgets.QDialog):
             self.ui.sbAddr.setDisabled(True)
 
     @loggingInfo
-    def rbEth_toogled(self, state):
-        self.ui.txtHost.setEnabled(state)
-        self.ui.cbSerial.setEnabled(not state)
-
-    @loggingInfo
-    def rbSerial_toogled(self, state):
-        self.ui.cbSerial.setEnabled(state)
-        self.ui.txtHost.setEnabled(not state)
-
-    @loggingInfo
     def btnClose_on_click(self):
         self.close()
 
     @loggingInfo
     def btnTest_on_click(self):
-        serial = self.ui.rbSerial.isChecked()
-        dst = str(self.ui.txtHost.text())
-        if serial:
-            dst = self.ui.cbSerial.currentText()
-        if self._ipapctrl.testConnection(serial, dst):
+        if self._ipapctrl.testConnection(self.ui.txtHost.text()):
             self.addToLog("Connection OK")
         else:
             self.addToLog("Connection error")
@@ -108,10 +90,7 @@ class DialogIcepapProgram(QtWidgets.QDialog):
     @loggingInfo
     def startProgramming(self):
         filename = str(self.ui.txtFirmwareFile.text())
-        serial = self.ui.rbSerial.isChecked()
         dst = str(self.ui.txtHost.text())
-        if serial:
-            dst = self.ui.cbSerial.currentText()
         addr = self.ui.cbProgram.currentText()
         if addr == "ADDR":
             addr = str(self.ui.sbAddr.value())
@@ -119,8 +98,7 @@ class DialogIcepapProgram(QtWidgets.QDialog):
 
         if self.ui.chkForce.isChecked():
             options = options + " FORCE"
-        self._ipapctrl.upgradeFirmware(
-            serial, dst, filename, addr, options, self)
+        self._ipapctrl.upgradeFirmware(dst, filename, addr, options, self)
 
     @loggingInfo
     def addToLog(self, text):
