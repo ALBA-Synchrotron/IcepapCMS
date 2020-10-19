@@ -21,6 +21,7 @@ import collections
 from IPy import IP
 import datetime
 import logging
+import time
 from .singleton import Singleton
 from .icepapdrivercfg import IcepapDriverCfg
 from . import icepapdriver
@@ -589,15 +590,6 @@ class IcepapsManager(Singleton):
                         self.config_parameters.append(str(parname))
 
     @loggingInfo
-    def getSerialPorts(self):
-        # TODO: Implement scanning of the serials ports
-        return []
-        # try:
-        #     #return IcePAP.serialScan()
-        # except Exception:
-        #     return []
-
-    @loggingInfo
     def _update_error_msg(self):
         msg = 'Update driver is underdevelopment. In the meantime use ' \
               'pyIcePAP command line script to update the firmware and drivers'
@@ -650,106 +642,87 @@ class IcepapsManager(Singleton):
         #     self.programming_ipap = None
 
     @loggingInfo
-    def sendFirmware(self, ipap, filename, logger, save=True):
-        self._update_error_msg()
-        # logger.addToLog("Setting MODE PROG")
-        # cmd = "#MODE PROG"
-        # logger.addToLog(cmd)
-        # ans = ipap.sendWriteReadCommand(cmd)
-        # logger.addToLog(ans)
-        #
-        # logger.addToLog("Transferring firmware")
-        # ipap.sendFirmware(filename, save=save)
-        #
-        # time.sleep(5)
-        # ipap.sendWriteCommand("MODE OPER")
-        # cmd = "#MODE OPER"
-        # logger.addToLog(cmd)
-        # ans = ipap.sendWriteReadCommand(cmd)
-        # logger.addToLog(ans)
+    def upgradeFirmware(self, dst, filename, component, options, force,
+                        logger):
+        if dst.find(":") >= 0:
+            aux = dst.split(':')
+            host = aux[0]
+            port = int(aux[1])
+        else:
+            host = dst
+            port = 5000
 
-    @loggingInfo
-    def upgradeFirmware(self, dst, filename, addr, options, logger):
-        self._update_error_msg()
-        # if serial:
-        #     ipap = SerialIcePAP(dst, 0)
-        # else:
-        #     if dst.find(":") >= 0:
-        #         aux = dst.split(':')
-        #         host = aux[0]
-        #         port = aux[1]
-        #     else:
-        #         host = dst
-        #         port = "5000"
-        #
-        #     ipap = EthIcePAP(host, port)
-        #
-        # addr = addr.replace("NONE", "")
-        # options = options.replace("NONE", "")
-        # ipap.connect()
-        #
-        # if filename != '':
-        #     save = options == 'SAVE'
-        #     self.sendFirmware(ipap, filename, logger, save=save)
-        # else:
-        #     # NO POSSIBILITY TO 'SAVE OR SL' if no filename
-        #     options = ''
-        #
-        # logger.addToLog("Setting MODE PROG")
-        # cmd = "#MODE PROG"
-        # logger.addToLog(cmd)
-        # ans = ipap.sendWriteReadCommand(cmd)
-        # logger.addToLog(ans)
-        #
-        # logger.addToLog("Configuring connection: "+addr+","+options)
-        #
-        # cmd = "PROG %s %s" % (addr, options)
-        # logger.addToLog(cmd)
-        # ipap.sendWriteCommand(cmd, prepend_ack=False)
-        #
-        # shouldwait = True
-        # while shouldwait:
-        #     p = ipap.getProgressStatus()
-        #     if p == 'DONE':
-        #         shouldwait = False
-        #     elif isinstance(p, int):
-        #         logger.addToLog('Programming %d %%' % p)
-        #         time.sleep(5)
-        #
-        # logger.addToLog("Setting MODE OPER")
-        # cmd = "#MODE OPER"
-        # logger.addToLog(cmd)
-        # ans = ipap.sendWriteReadCommand(cmd)
-        # logger.addToLog(ans)
-        #
-        # logger.addToLog('SHOULD BE ONLY IF %s IS ALL' % addr)
-        # logger.addToLog('Wait while rebooting... (25-30) secs')
-        # cmd = '#REBOOT'
-        # logger.addToLog(cmd)
-        # ans = ipap.sendWriteReadCommand(cmd)
-        # logger.addToLog(ans)
-        #
-        # # WE SHOULD WAIT UNTIL CONNECTION IS LOST
-        # secs = 0
-        # for i in range(10):
-        #     time.sleep(1)
-        #     secs += 1
-        #     if (secs % 5) == 0:
-        #         logger.addToLog('Waiting... (%2d secs).' % secs)
-        # ipap.disconnect()
-        #
-        # # WE SHOULD WAIT UNTIL ICEPAP IS RECONNECTED
-        # while not ipap.connected:
-        #     time.sleep(1)
-        #     secs += 1
-        #     if (secs % 5) == 0:
-        #         logger.addToLog('Waiting... (%2d secs).' % secs)
-        #
-        # cmd = '0:?VER INFO'
-        # logger.addToLog(cmd)
-        # ans = ipap.sendWriteReadCommand(cmd)
-        # logger.addToLog(ans)
-        # logger.addToLog('\n\nProgramming sequence done!')
+        logger.addToLog("Connecting to: {} {}".format(host, port))
+
+        ipap = IcePAPController(host, port)
+
+        try:
+            curr_ver = ipap.ver['SYSTEM']['VER'][0]
+        except Exception as e:
+            logger.addToLog('Can not read the current version. {}'.format(e))
+            curr_ver = -1
+        logger.addToLog('Current firmware version is {}'.format(curr_ver))
+
+        logger.addToLog("Setting MODE PROG")
+        ipap.mode = 'PROG'
+        logger.addToLog('Mode {}'.format(ipap.mode))
+        logger.addToLog('Programing...')
+
+        if filename != '':
+            save = False
+            if options == 'SAVE':
+                save = True
+                options = ''
+            ipap.sprog(filename, component, force, save, options)
+        else:
+            ipap.prog(component, force)
+
+        # wait process to finish
+        wait = True
+        while wait:
+            try:
+                if not ipap.connected:
+                    raise RuntimeError('No connection available')
+                status = ipap.get_prog_status()
+                if status[0].upper() != 'DONE':
+                    logger.addToLog('Programming {}%'.format(status))
+                    time.sleep(5)
+                else:
+                    wait = False
+            except RuntimeError:
+                logger.addToLog('Connection lost, waiting for reconnection...')
+                while not ipap.connected:
+                    time.sleep(0.5)
+                logger.addToLog('Reconnected!')
+
+        logger.addToLog('Waiting 5 sec to change Mode to OPER')
+        time.sleep(5)
+        logger.addToLog("Setting MODE OPER")
+        ipap.mode = 'oper'
+        if ipap.mode.lower() != 'oper':
+            logger.addToLog('It was not possible to change mode to OPER')
+        logger.addToLog('Mode {}'.format(ipap.mode))
+        logger.addToLog('Reboot system')
+        ipap.reboot()
+        logger.addToLog('Wait while rebooting... 1 minute')
+        time.sleep(60)
+        try:
+            ipap = IcePAPController(host, port)
+        except Exception:
+            logger.addToLog('*' * 30)
+            logger.addToLog('Error: Can not possible to connect after the '
+                            'restart')
+            logger.addToLog('CHECK Icepap!!!!!!')
+            return
+        logger.addToLog('Connected after to restart')
+        try:
+            curr_ver = ipap.ver['SYSTEM']['VER'][0]
+        except Exception as e:
+            logger.addToLog('Can not read the current version. {}'.format(e))
+            logger.addToLog('CHECK Icepap!!!')
+            return
+        logger.addToLog('Current version: {}'.format(curr_ver))
+        logger.addToLog('\n\nProgramming sequence done!')
 
     @loggingInfo
     def testConnection(self, host):

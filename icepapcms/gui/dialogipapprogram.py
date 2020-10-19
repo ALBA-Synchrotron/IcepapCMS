@@ -15,6 +15,7 @@ from PyQt5 import QtWidgets, uic
 from pkg_resources import resource_filename
 import datetime
 import logging
+from icepap import IcePAPController
 # TODO use threading
 import _thread
 from .messagedialogs import MessageDialogs
@@ -89,16 +90,22 @@ class DialogIcepapProgram(QtWidgets.QDialog):
 
     @loggingInfo
     def startProgramming(self):
-        filename = str(self.ui.txtFirmwareFile.text())
-        dst = str(self.ui.txtHost.text())
-        addr = self.ui.cbProgram.currentText()
-        if addr == "ADDR":
-            addr = str(self.ui.sbAddr.value())
-        options = self.ui.cbOptions.currentText()
+        filename = self.ui.txtFirmwareFile.text()
+        dst = self.ui.txtHost.text()
+        component = self.ui.cbProgram.currentText()
+        if component == "ADDR":
+            addr = self.ui.sbAddr.value()
+            if addr not in IcePAPController.ALL_AXES_VALID:
+                MessageDialogs.showErrorMessage(self, 'Wrong Axis',
+                                                'Axis value not valid')
+            component = str(addr)
 
+        options = self.ui.cbOptions.currentText()
+        force = False
         if self.ui.chkForce.isChecked():
-            options = options + " FORCE"
-        self._ipapctrl.upgradeFirmware(dst, filename, addr, options, self)
+            force = True
+        self._ipapctrl.upgradeFirmware(dst, filename, component, options,
+                                       force, self)
 
     @loggingInfo
     def addToLog(self, text):
