@@ -53,6 +53,7 @@ class DialogPreferences(QtWidgets.QDialog):
         self.ui.rbmysql.toggled.connect(self.rbMySql_toogled)
         self.ui.rbpostgres.toggled.connect(self.rbPostgres_toogled)
         self.ui.rbsqlite.toggled.connect(self.rbSqlite_toogled)
+        self.ui.btnSnapshotsBrowser.clicked.connect(self.snapshots_browser)
 
         self._config = ConfigManager()
         self.fillConfig()
@@ -149,6 +150,16 @@ class DialogPreferences(QtWidgets.QDialog):
         folder = str(fn)
         self.ui.txtTemplatesFolder.setText(folder)
 
+    def snapshots_browser(self):
+        current_folder = \
+            self._config.config[self._config.icepap]["snapshots_folder"]
+        fn = QtWidgets.QFileDialog.getExistingDirectory(
+            self, "Open Snapshots Folder", current_folder)
+        if fn == '':
+            return
+        folder = str(fn)
+        self.ui.txtTemplatesFolder.setText(folder)
+
     @loggingInfo
     def checkDbEngines(self):
         module_errors = ""
@@ -213,6 +224,7 @@ class DialogPreferences(QtWidgets.QDialog):
         firmware_folder = config["firmware_folder"]
         configs_folder = config["configs_folder"]
         templates_folder = config["templates_folder"]
+        snapshots_folder = config['snapshots_folder']
 
         self.ui.chkDebug.setChecked(debug_enabled == str(True))
         self.ui.sbDebugLevel.setValue(int(debug_level))
@@ -220,6 +232,7 @@ class DialogPreferences(QtWidgets.QDialog):
         self.ui.txtFirmwareFolder.setText(firmware_folder)
         self.ui.txtConfigsFolder.setText(configs_folder)
         self.ui.txtTemplatesFolder.setText(templates_folder)
+        self.ui.txtSnapshotsFolder.setText(snapshots_folder)
 
     @loggingInfo
     def checkPreferences(self):

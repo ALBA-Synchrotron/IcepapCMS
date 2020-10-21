@@ -40,9 +40,10 @@ setup(
         "storm>=0.23",
         "IPy>=0.62",
         "PyQt5",
-        "icepap",
+        "icepap>=3.3.0",
         'configobj',
         'ldap3',
+        'PyYAML',
 
     ],
     package_data={

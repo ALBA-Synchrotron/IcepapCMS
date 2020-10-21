@@ -32,7 +32,7 @@ class ConfigManager(Singleton):
     firmware_folder = os.path.expanduser('~/.icepapcms/firmware')
     configs_folder = os.path.expanduser('~/.icepapcms/configs')
     templates_folder = os.path.expanduser('~/.icepapcms/templates')
-
+    snapshots_folder = os.path.expanduser('~/.icepapcms/snapshots')
     username = 'NotValidated'
 
     defaults = '''
@@ -49,6 +49,7 @@ class ConfigManager(Singleton):
     firmware_folder = string(default=''' + firmware_folder + ''')
     configs_folder = string(default=''' + configs_folder + ''')
     templates_folder = string(default=''' + templates_folder + ''')
+    snapshots_folder = string(default=''' + snapshots_folder + ''')
     [ldap]
     use = boolean(default=False)
     not_allowed = string(default='List of users no allowed to use the GUI')
@@ -82,7 +83,7 @@ class ConfigManager(Singleton):
         vdt = Validator()
         self.config.validate(vdt, copy=True)
         for folder in "log_folder", "firmware_folder", "configs_folder",\
-                      "templates_folder":
+                      "templates_folder", "snapshots_folder":
             directory = self.config["icepap"][folder]
             if not os.path.exists(directory):
                 os.mkdir(directory)

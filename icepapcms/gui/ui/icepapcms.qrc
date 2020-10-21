@@ -1,6 +1,7 @@
 <RCC>
   <qresource prefix="/icons">
     <file>icons/oscilloscope.svg</file>
+    <file>icons/camera.svg</file>
     <file>icons/backup.png</file>
     <file>icons/calendar.png</file>
     <file>icons/close.png</file>

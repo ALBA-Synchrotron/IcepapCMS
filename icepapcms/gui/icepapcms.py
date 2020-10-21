@@ -34,6 +34,7 @@ from .dialognewdriver import DialogNewDriver
 
 from .dialogpreferences import DialogPreferences
 from .dialogipapprogram import DialogIcepapProgram
+from .dialogsnapshot import DialogSnapshot
 from .ipapconsole import IcepapConsole
 from .messagedialogs import MessageDialogs
 from .templatescatalogwidget import TemplatesCatalogWidget
@@ -145,6 +146,7 @@ class IcepapCMS(QtWidgets.QMainWindow):
         self.ui.actionAddLocation.triggered.connect(self.addLocation)
         self.ui.actionDeleteLocation.triggered.connect(self.deleteLocation)
         self.ui.actionAbout.triggered.connect(self.about)
+        self.ui.actionSnapshot.triggered.connect(self.snapshot)
 
     @loggingInfo
     def initGUI(self):
@@ -1089,4 +1091,20 @@ class IcepapCMS(QtWidgets.QMainWindow):
             self.ui.dockTree.show()
         else:
             self.ui.dockTree.close()
+
+    def snapshot(self):
+        selected_index = self.ui.treeView.selectedIndexes()
+        if selected_index:
+            modelindex = selected_index[0]
+            item = self._tree_model.item(modelindex)
+            icepap_system = item.getIcepapSystem()
+            host = icepap_system.host
+            port = icepap_system.port
+        else:
+            host = ''
+            port = 5000
+        snapshot = DialogSnapshot(self, host, port)
+        snapshot.setModal(True)
+        snapshot.show()
+
 
