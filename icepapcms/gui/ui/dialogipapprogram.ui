@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>477</width>
-    <height>239</height>
+    <width>544</width>
+    <height>487</height>
    </rect>
   </property>
   <property name="palette">
@@ -54,220 +54,326 @@
    <iconset resource="icepapcms.qrc">
     <normaloff>:/icons/icons/gnome-cpu.png</normaloff>:/icons/icons/gnome-cpu.png</iconset>
   </property>
-  <layout class="QGridLayout">
-   <property name="leftMargin">
-    <number>9</number>
+  <widget class="QPushButton" name="btnClose">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>440</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
    </property>
-   <property name="topMargin">
-    <number>9</number>
+   <property name="autoFillBackground">
+    <bool>false</bool>
    </property>
-   <property name="rightMargin">
-    <number>9</number>
+   <property name="text">
+    <string>Close</string>
    </property>
-   <property name="bottomMargin">
-    <number>9</number>
+   <property name="icon">
+    <iconset resource="icepapcms.qrc">
+     <normaloff>:/icons/icons/close.png</normaloff>:/icons/icons/close.png</iconset>
    </property>
-   <property name="spacing">
-    <number>6</number>
+  </widget>
+  <widget class="QTextEdit" name="txtLog">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>240</y>
+     <width>521</width>
+     <height>181</height>
+    </rect>
    </property>
-   <item row="6" column="5" colspan="3">
-    <widget class="QPushButton" name="btnClose">
-     <property name="text">
-      <string>OK</string>
-     </property>
-     <property name="icon">
-      <iconset resource="icepapcms.qrc">
-       <normaloff>:/icons/icons/close.png</normaloff>:/icons/icons/close.png</iconset>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="3">
-    <spacer>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="3" column="0" rowspan="4" colspan="4">
-    <widget class="QTextEdit" name="txtLog">
-     <property name="font">
-      <font>
-       <pointsize>7</pointsize>
-      </font>
-     </property>
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="7">
-    <widget class="QToolButton" name="btnBrowser">
-     <property name="text">
-      <string>...</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="2">
-    <widget class="QSpinBox" name="sbAddr">
-     <property name="minimum">
-      <number>1</number>
-     </property>
-     <property name="maximum">
-      <number>128</number>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="2">
-    <widget class="QCheckBox" name="chkForce">
-     <property name="text">
-      <string>Force</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="6" colspan="2">
-    <widget class="QLineEdit" name="txtHost"/>
-   </item>
-   <item row="4" column="4">
-    <spacer>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="5" column="5" colspan="3">
-    <widget class="QPushButton" name="btnProgram">
-     <property name="text">
-      <string>Upgrade firmware</string>
-     </property>
-     <property name="icon">
-      <iconset resource="icepapcms.qrc">
-       <normaloff>:/icons/icons/gnome-cpu.png</normaloff>:/icons/icons/gnome-cpu.png</iconset>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1" colspan="6">
-    <widget class="QLineEdit" name="txtFirmwareFile">
-     <property name="maximumSize">
-      <size>
-       <width>1666666</width>
-       <height>16777215</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QComboBox" name="cbProgram">
-     <item>
-      <property name="text">
-       <string>NONE</string>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QToolButton" name="btnBrowser">
+   <property name="geometry">
+    <rect>
+     <x>500</x>
+     <y>70</y>
+     <width>28</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>...</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="txtHost">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>20</y>
+     <width>301</width>
+     <height>23</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="txtFirmwareFile">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>70</y>
+     <width>401</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>1666666</width>
+     <height>16777215</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>70</y>
+     <width>77</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Firmware file</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnTest">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>20</y>
+     <width>122</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Test connection</string>
+   </property>
+   <property name="icon">
+    <iconset resource="icepapcms.qrc">
+     <normaloff>:/icons/icons/gnome-nettool.png</normaloff>:/icons/icons/gnome-nettool.png</iconset>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>20</y>
+     <width>71</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Hostname</string>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="expert">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>120</y>
+     <width>521</width>
+     <height>68</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Expert</string>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_4">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Program</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="cbProgram">
+        <item>
+         <property name="text">
+          <string>NONE</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>ALL</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>DRIVERS</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>COMM</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>MCPU0</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>MCPU1</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>MCPU2</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>ADDR</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="sbAddr">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>128</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <spacer name="horizontalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
       </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>ALL</string>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
       </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>DRIVERS</string>
+     </spacer>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <item>
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Options</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="cbOptions">
+        <item>
+         <property name="text">
+          <string>SAVE</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>SL</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>NONE</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="chkForce">
+        <property name="text">
+         <string>Force</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
       </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>COMM</string>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
       </property>
-     </item>
-     <item>
+     </spacer>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>200</y>
+     <width>523</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QPushButton" name="btnSnapshot">
       <property name="text">
-       <string>ADDR</string>
+       <string notr="true"> Take snapshot</string>
       </property>
-     </item>
-    </widget>
-   </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Firmware file</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="6">
-    <spacer>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>Program</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="label_3">
-     <property name="text">
-      <string>Options</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="5" colspan="3">
-    <widget class="QPushButton" name="btnTest">
-     <property name="text">
-      <string>Test connection</string>
-     </property>
-     <property name="icon">
-      <iconset resource="icepapcms.qrc">
-       <normaloff>:/icons/icons/gnome-nettool.png</normaloff>:/icons/icons/gnome-nettool.png</iconset>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="1">
-    <widget class="QComboBox" name="cbOptions">
-     <item>
+      <property name="icon">
+       <iconset resource="icepapcms.qrc">
+        <normaloff>:/icons/icons/camera.svg</normaloff>:/icons/icons/camera.svg</iconset>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="btnProgram">
       <property name="text">
-       <string>SAVE</string>
+       <string notr="true"> Upgrade firmware</string>
       </property>
-     </item>
-     <item>
+      <property name="icon">
+       <iconset resource="icepapcms.qrc">
+        <normaloff>:/icons/icons/gnome-cpu.png</normaloff>:/icons/icons/gnome-cpu.png</iconset>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="btnAbort">
       <property name="text">
-       <string>SL</string>
+       <string notr="true">Abort Sequence</string>
       </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>NONE</string>
+      <property name="icon">
+       <iconset resource="icepapcms.qrc">
+        <normaloff>:/icons/icons/gnome-session-halt.png</normaloff>:/icons/icons/gnome-session-halt.png</iconset>
       </property>
-     </item>
-    </widget>
-   </item>
-   <item row="2" column="5">
-    <widget class="QLabel" name="label_4">
-     <property name="text">
-      <string>Host</string>
-     </property>
-    </widget>
-   </item>
-  </layout>
+      <property name="iconSize">
+       <size>
+        <width>16</width>
+        <height>16</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
  </widget>
  <tabstops>
   <tabstop>txtFirmwareFile</tabstop>
@@ -277,7 +383,6 @@
   <tabstop>cbOptions</tabstop>
   <tabstop>txtHost</tabstop>
   <tabstop>btnTest</tabstop>
-  <tabstop>btnProgram</tabstop>
   <tabstop>btnClose</tabstop>
   <tabstop>txtLog</tabstop>
  </tabstops>

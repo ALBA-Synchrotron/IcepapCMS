@@ -641,32 +641,123 @@ class IcepapsManager(Singleton):
         #     answer = self.programming_ipap.sendWriteReadCommand(cmd)
         #     self.programming_ipap = None
 
-    @loggingInfo
-    def upgradeFirmware(self, dst, filename, component, options, force,
-                        logger):
-        if dst.find(":") >= 0:
-            aux = dst.split(':')
-            host = aux[0]
-            port = int(aux[1])
-        else:
-            host = dst
-            port = 5000
+    def _wait_programming(self, ipap, logger):
+        # wait process to finish
+        wait = True
+        while wait:
+            try:
+                if not ipap.connected:
+                    raise RuntimeError('No connection available')
+                status = ipap.get_prog_status()
+                if status[0].upper() != 'DONE':
+                    logger.put('Programming {}%'.format(status))
+                    time.sleep(5)
+                else:
+                    wait = False
+            except RuntimeError:
+                logger.put('Connection lost, waiting for reconnection...')
+                while not ipap.connected:
+                    time.sleep(0.5)
+                logger.put('Reconnected!')
 
-        logger.addToLog("Connecting to: {} {}".format(host, port))
+    def _get_ipap_and_ver(self, host, port, logger):
+
+        logger.put("Connecting to: {} {}".format(host, port))
 
         ipap = IcePAPController(host, port)
 
         try:
-            curr_ver = ipap.ver['SYSTEM']['VER'][0]
+            curr_ver = ipap.ver.system.ver[0]
         except Exception as e:
-            logger.addToLog('Can not read the current version. {}'.format(e))
+            logger.put('Can not read the current version. {}'.format(e))
             curr_ver = -1
-        logger.addToLog('Current firmware version is {}'.format(curr_ver))
+        logger.put('Current firmware version is {}'.format(curr_ver))
 
-        logger.addToLog("Setting MODE PROG")
+        logger.put("Setting MODE PROG")
         ipap.mode = 'PROG'
-        logger.addToLog('Mode {}'.format(ipap.mode))
-        logger.addToLog('Programing...')
+        logger.put('Mode {}'.format(ipap.mode))
+        logger.put('Programing...')
+
+        return ipap, curr_ver
+
+    def _end_programming(self, ipap, logger):
+        host = ipap._comm.host
+        port = ipap._comm.port
+
+        logger.put('Waiting 5 sec to change Mode to OPER')
+        time.sleep(5)
+        logger.put("Setting MODE OPER")
+        ipap.mode = 'oper'
+        if ipap.mode.lower() != 'oper':
+            logger.put('It was not possible to change mode to OPER')
+        logger.put('Mode {}'.format(ipap.mode))
+        logger.put('Reboot system')
+        ipap.reboot()
+        logger.put('Wait while rebooting... 1 minute')
+        for i in range(4):
+            time.sleep(15)
+            logger.put('Passed {} seconds'.format(15*(i+1)))
+
+        try:
+            ipap = IcePAPController(host, port)
+        except Exception:
+           logger.put('ERROR: Can not connect to the icepap after to restart')
+           return
+
+        logger.put('Connected after to restart')
+        try:
+            curr_ver = ipap.ver.system[0]
+        except Exception as e:
+            logger.put('Can not read the current version. {}'.format(e))
+            logger.put('CHECK Icepap!!!')
+            return
+        logger.put('Current version: {}'.format(curr_ver))
+        logger.put('\n\nProgramming sequence done!')
+
+    def upgradeAutomaticFirmware(self, host, port, filename, log_queue):
+        log_queue.put('Upgrade Automatic Firmware')
+
+        ipap, curr_ver = self._get_ipap_and_ver(host, port, log_queue)
+        if filename != '':
+            log_queue.put('Saving new firmware on the icepap')
+            ipap.sprog(filename, saving=True)
+        else:
+            log_queue.put('Using saved firmware on the icepap')
+            try:
+                ver_saved = ipap.ver_saved.system[0]
+                log_queue.put('Version saved: {}'.format(ver_saved))
+            except Exception:
+                log_queue.put('Can not read version saved')
+
+
+        log_queue.put('Send PROG ALL')
+        ipap.prog('ALL', force=True)
+        self._wait_programming(ipap, log_queue)
+
+        if curr_ver < 2:
+            ipap.prog('MCPU0')
+            ipap.prog('MCPU1')
+            ipap.prog('MCPU2')
+
+        time.sleep(5)
+        self._end_programming(ipap, log_queue)
+        if curr_ver < 3.21:
+            try:
+                ipap = IcePAPController(host, port)
+                new_ver = ipap.ver.system[0]
+                if new_ver >= 3.21:
+                    log_queue.put('Restarting first time absolut encoder '
+                                    'registers')
+                    ipap.send_cmd(':ISG ABSRST')
+            except Exception:
+                log_queue.put('ERROR!!!!\nCan not restart absolut enconder '
+                                'registers')
+
+    @loggingInfo
+    def upgradeFirmware(self, host, port, filename, component, options, force,
+                        log_queue):
+
+        ipap, _ = self._get_ipap_and_ver(host, port, log_queue)
 
         if filename != '':
             save = False
@@ -677,63 +768,12 @@ class IcepapsManager(Singleton):
         else:
             ipap.prog(component, force)
 
-        # wait process to finish
-        wait = True
-        while wait:
-            try:
-                if not ipap.connected:
-                    raise RuntimeError('No connection available')
-                status = ipap.get_prog_status()
-                if status[0].upper() != 'DONE':
-                    logger.addToLog('Programming {}%'.format(status))
-                    time.sleep(5)
-                else:
-                    wait = False
-            except RuntimeError:
-                logger.addToLog('Connection lost, waiting for reconnection...')
-                while not ipap.connected:
-                    time.sleep(0.5)
-                logger.addToLog('Reconnected!')
-
-        logger.addToLog('Waiting 5 sec to change Mode to OPER')
-        time.sleep(5)
-        logger.addToLog("Setting MODE OPER")
-        ipap.mode = 'oper'
-        if ipap.mode.lower() != 'oper':
-            logger.addToLog('It was not possible to change mode to OPER')
-        logger.addToLog('Mode {}'.format(ipap.mode))
-        logger.addToLog('Reboot system')
-        ipap.reboot()
-        logger.addToLog('Wait while rebooting... 1 minute')
-        time.sleep(60)
-        try:
-            ipap = IcePAPController(host, port)
-        except Exception:
-            logger.addToLog('*' * 30)
-            logger.addToLog('Error: Can not possible to connect after the '
-                            'restart')
-            logger.addToLog('CHECK Icepap!!!!!!')
-            return
-        logger.addToLog('Connected after to restart')
-        try:
-            curr_ver = ipap.ver['SYSTEM']['VER'][0]
-        except Exception as e:
-            logger.addToLog('Can not read the current version. {}'.format(e))
-            logger.addToLog('CHECK Icepap!!!')
-            return
-        logger.addToLog('Current version: {}'.format(curr_ver))
-        logger.addToLog('\n\nProgramming sequence done!')
+        self._wait_programming(ipap, log_queue)
+        self._end_programming(ipap, log_queue)
 
     @loggingInfo
-    def testConnection(self, host):
+    def testConnection(self, host, port):
         try:
-            if host.find(":") >= 0:
-                aux = host.split(':')
-                host = aux[0]
-                port = int(aux[1])
-            else:
-                host = host
-                port = 5000
             ipap = IcePAPController(host, port)
             if self.log.isEnabledFor(logging.INFO):
                 self.log.info('Testing connection to: %s:%s version: %s',
