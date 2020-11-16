@@ -667,7 +667,7 @@ class IcepapsManager(Singleton):
         ipap = IcePAPController(host, port)
 
         try:
-            curr_ver = ipap.ver.system.ver[0]
+            curr_ver = ipap.ver.system[0]
         except Exception as e:
             logger.put('Can not read the current version. {}'.format(e))
             curr_ver = -1
