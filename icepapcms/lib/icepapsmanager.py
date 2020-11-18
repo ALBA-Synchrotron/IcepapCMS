@@ -10,7 +10,8 @@
 # See LICENSE.txt for more info.
 # ------------------------------------------------------------------------------
 
-
+#Remove the QT depency on the update driver
+from PyQt5 import Qt
 from icepap import IcePAPController, Mode
 from pkg_resources import resource_filename
 from xml.dom import minidom, Node
@@ -598,48 +599,39 @@ class IcepapsManager(Singleton):
     @loggingInfo
     def upgradeDrivers(self, icepap_name, progress_dialog):
         self._update_error_msg()
-        # if self.programming_ipap is not None:
-        #     return False
-        # self.programming_ipap = self.iPaps[icepap_name]
-        # self.progress_dialog = progress_dialog
-        # self.progress_dialog.show()
-        # self.updateProgressBarTimer = Qt.QTimer()
-        # QtCore.QObject.connect(self.updateProgressBarTimer,
-        #                        QtCore.SIGNAL("timeout()"),
-        #                        self.updateProgressBar)
-        # cmd = "#MODE PROG"
-        # answer = self.programming_ipap.sendWriteReadCommand(cmd)
-        # if answer != "MODE OK":
-        #     print("icepapcontroller:upgradeDrivers:Some error trying to set "
-        #           "mode PROG:", answer)
-        #     return False
-        # cmd = "PROG DRIVERS"
-        # self.programming_ipap.sendWriteCommand(cmd, prepend_ack=False)
-        # self.updateProgressBarTimer.start(2000)
-        # return True
+        if self.programming_ipap is not None:
+            return False
+        self.programming_ipap = self.iPaps[icepap_name]
+        self.progress_dialog = progress_dialog
+        self.progress_dialog.show()
+        # TODO: Remove on the future QT depency
+        self.updateProgressBarTimer = Qt.QTimer()
+        self.updateProgressBarTimer.timeout.connect(self.updateProgressBar)
+        try:
+            self.programming_ipap.mode = 'PROG'
+        except Exception as e:
+            print("icepapcontroller:upgradeDrivers:Some error trying to set "
+                  "mode PROG:", str(e))
+            return False
+        self.programming_ipap.prog('DRIVERS')
+        self.updateProgressBarTimer.start(2000)
+        return True
 
-    # def updateProgressBar(self):
-    #     progress = self.programming_ipap.getProgressStatus()
-    #     if progress is not None:
-    #         self.progress_dialog.setValue(progress)
-    #     else:
-    #         self.progress_dialog.setValue(100)
-    #         self.updateProgressBarTimer.stop()
-    #         cmd = "#MODE OPER"
-    #         self.programming_ipap.sendWriteReadCommand(cmd)
-    #         self.programming_ipap = None
+    def updateProgressBar(self):
+        try:
+            status = self.programming_ipap.get_prog_status()
+        except Exception:
+            return
 
-        # cmd = "?PROG"
-        # answer = self.programming_ipap.sendWriteReadCommand(cmd)
-        # if answer.count("ACTIVE") > 0:
-        #     p = int(answer.split(" ")[2].split(".")[0])
-        #     self.progress_dialog.setValue(p)
-        # else:
-        #     self.progress_dialog.setValue(100)
-        #     self.updateProgressBarTimer.stop()
-        #     cmd = "#MODE OPER"
-        #     answer = self.programming_ipap.sendWriteReadCommand(cmd)
-        #     self.programming_ipap = None
+        value = status[0].upper()
+        if value == 'DONE':
+            self.progress_dialog.setValue(100)
+            self.updateProgressBarTimer.stop()
+            self.programming_ipap.mode = 'OPER'
+            self.programming_ipap = None
+        else:
+            value = float(value)
+            self.progress_dialog.setValue(value)
 
     def _wait_programming(self, ipap, logger):
         # wait process to finish
