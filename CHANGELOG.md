@@ -1,18 +1,34 @@
-IcepapCMS 3.0.0 2020/09/08
+IcepapCMS 3.0.X
 -------------------------------------------------------------------------
 Added:
-* Migrate to Python 3
-* Migrate to Qt5.
-* Migrate to storm >= 0.23
-* Migrate to icepap 3.0
+* Reorganize reorganize repository some modules and files change name to
+ avoid problems on the installation.
+* Migrate to Python >= 3.5
+* Migrate to Qt5 >= 5.15
+* Migrate to storm >= 0.23, add custom support to MySQL Databases
+* Migrate to icepap >= 3.3
+* Migrate to ldap3, pure python library
+* Add automatic firmware upgrade based on the current icepap version
+* Allow to generate snapshot of the system. All the configuration parameters
+ and some important operation register are saved on a YAML file
+* Add MCPUx on expert mode programming 
+* Add LDAP configuration on the configuration file
+* Add All-Networks flag on the configuration file in addition to the
+ launcher script.
 
 
 Fixed:
-* Sizes of some widget to show all the information.
+* Sizes of some widget to show all the information
+* Adapt programing dialog to icepap library API 3.4
+* Adapt update firmware driver dialog to icepap library API 3.4
+* Rename files with spaces
+
 
 Removed:
-* Duplicated and/or unused files. 
-
+* Duplicated and/or unused files 
+* Remove to use ICEPAP_ALL_NETWORKS environment variable, it is included on
+ the configuration file
+ 
 IcepapCMS 2.3.X 2018/11/29
 -------------------------------------------------------------------------
 Added:
