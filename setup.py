@@ -31,6 +31,19 @@ setup(
     long_description=long_description,
     author="Guifre Cuni et al.",
     author_email="ctbeamlines@cells.es",
+    license="GPLv3",
+    classifiers=[
+        'Development Status :: 5 - Production/Stable',
+        'Intended Audience :: Developers',
+        'Intended Audience :: End Users/Desktop',
+        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
+        'Natural Language :: English',
+        'Operating System :: POSIX',
+        'Operating System :: Microsoft :: Windows',
+        'Programming Language :: Python :: 3.5',
+        'Topic :: Communications',
+        'Topic :: Software Development :: Libraries',
+    ],
     entry_points={
         'gui_scripts': [
             'icepapcms = icepapcms.__main__:main',
