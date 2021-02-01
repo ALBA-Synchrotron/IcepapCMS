@@ -17,25 +17,6 @@ To use MySQL Databases you should install [mysqlclient](https://pypi.org/project
 
 To use PostgreSQL Databeses you should install [psycopg2](https://pypi.org/project/psycopg2/)
 
-### Conda
-You can install it with conda:
-```console
-conda create -n icepapcms -c conda-forge -c alba-controls icepapcms
-```
-To use MySQL Databases you should install mysqlclient:
-
-```console
-conda install -c conda-forge mysqlclient
-```
-
-To use PostgreSQL
-```console
-conda install -c conda-forge psycopg2
-```
-## Documentation
-
-The project documentation can be found 
-
 
 ## Contribute
 
