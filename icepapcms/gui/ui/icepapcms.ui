@@ -1,0 +1,824 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>IcepapCMS</class>
+ <widget class="QMainWindow" name="IcepapCMS">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1200</width>
+    <height>720</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1200</width>
+    <height>720</height>
+   </size>
+  </property>
+  <property name="palette">
+   <palette>
+    <active>
+     <colorrole role="Highlight">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>101</red>
+        <green>148</green>
+        <blue>235</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </active>
+    <inactive>
+     <colorrole role="Highlight">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>101</red>
+        <green>148</green>
+        <blue>235</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </inactive>
+    <disabled>
+     <colorrole role="Highlight">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>127</red>
+        <green>125</green>
+        <blue>123</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </disabled>
+   </palette>
+  </property>
+  <property name="windowTitle">
+   <string>Icepap configuration</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="icepapcms.qrc">
+    <normaloff>:/small_icons/icons/Icepapicon.png</normaloff>:/small_icons/icons/Icepapicon.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout">
+    <property name="spacing">
+     <number>1</number>
+    </property>
+    <property name="leftMargin">
+     <number>1</number>
+    </property>
+    <property name="topMargin">
+     <number>1</number>
+    </property>
+    <property name="rightMargin">
+     <number>1</number>
+    </property>
+    <property name="bottomMargin">
+     <number>1</number>
+    </property>
+    <item>
+     <widget class="QStackedWidget" name="stackedWidget">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>800</width>
+        <height>613</height>
+       </size>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="StartPage">
+       <layout class="QHBoxLayout">
+        <property name="spacing">
+         <number>6</number>
+        </property>
+        <property name="leftMargin">
+         <number>9</number>
+        </property>
+        <property name="topMargin">
+         <number>9</number>
+        </property>
+        <property name="rightMargin">
+         <number>9</number>
+        </property>
+        <property name="bottomMargin">
+         <number>9</number>
+        </property>
+        <item>
+         <spacer>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="lblStartPage">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="pixmap">
+           <pixmap resource="icepapcms.qrc">:/logos/icons/IcepapBig.png</pixmap>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1200</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionUser_manual"/>
+    <addaction name="actionHardware_manual"/>
+    <addaction name="actionHelp"/>
+    <addaction name="actionAbout"/>
+   </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <addaction name="actionTree_Explorer"/>
+    <addaction name="actionToolbar"/>
+   </widget>
+   <widget class="QMenu" name="menuDriver">
+    <property name="title">
+     <string>Driver</string>
+    </property>
+    <addaction name="actionSaveConfig"/>
+    <addaction name="separator"/>
+    <addaction name="actionHistoricCfg"/>
+    <addaction name="actionTemplates"/>
+    <addaction name="separator"/>
+    <addaction name="actionExport"/>
+    <addaction name="actionImport"/>
+    <addaction name="separator"/>
+    <addaction name="actionCopy"/>
+    <addaction name="actionPaste"/>
+    <addaction name="separator"/>
+    <addaction name="actionSetExpertFlag"/>
+   </widget>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionAddLocation"/>
+    <addaction name="actionDeleteLocation"/>
+    <addaction name="separator"/>
+    <addaction name="actionAddIcepap"/>
+    <addaction name="actionDeleteIcepap"/>
+    <addaction name="separator"/>
+    <addaction name="actionFirmwareUpgrade"/>
+    <addaction name="actionConsole"/>
+    <addaction name="separator"/>
+    <addaction name="actionPreferences"/>
+    <addaction name="actionQuit"/>
+   </widget>
+   <widget class="QMenu" name="menuSnapshots">
+    <property name="title">
+     <string>Snapshots</string>
+    </property>
+    <addaction name="actionSnapshot"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuDriver"/>
+   <addaction name="menuView"/>
+   <addaction name="menuSnapshots"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QToolBar" name="toolBar">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="windowTitle">
+    <string>Toolbar</string>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
+    </size>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonIconOnly</enum>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionGoPrevious"/>
+   <addaction name="actionGoNext"/>
+   <addaction name="actionGoUp"/>
+   <addaction name="actionRefresh"/>
+   <addaction name="separator"/>
+   <addaction name="actionExport"/>
+   <addaction name="actionImport"/>
+   <addaction name="actionSaveConfig"/>
+   <addaction name="actionHistoricCfg"/>
+   <addaction name="actionTemplates"/>
+   <addaction name="actionOscilloscope"/>
+   <addaction name="separator"/>
+   <addaction name="actionSnapshot"/>
+   <addaction name="actionPreferences"/>
+   <addaction name="actionConsole"/>
+   <addaction name="actionHelp"/>
+   <addaction name="actionQuit"/>
+  </widget>
+  <widget class="QDockWidget" name="dockTree">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>341</width>
+     <height>347</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>524287</width>
+     <height>524287</height>
+    </size>
+   </property>
+   <property name="features">
+    <set>QDockWidget::NoDockWidgetFeatures</set>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::LeftDockWidgetArea</set>
+   </property>
+   <property name="windowTitle">
+    <string>Tree Explorer</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents">
+    <layout class="QGridLayout" name="gridLayout_2">
+     <item row="0" column="0">
+      <widget class="QFrame" name="frame">
+       <layout class="QGridLayout" name="gridLayout">
+        <property name="leftMargin">
+         <number>2</number>
+        </property>
+        <property name="topMargin">
+         <number>2</number>
+        </property>
+        <property name="rightMargin">
+         <number>2</number>
+        </property>
+        <property name="bottomMargin">
+         <number>2</number>
+        </property>
+        <property name="spacing">
+         <number>2</number>
+        </property>
+        <item row="0" column="0">
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="maximumSize">
+             <size>
+              <width>51</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Location</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QComboBox" name="cbLocation">
+            <property name="minimumSize">
+             <size>
+              <width>100</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>141</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="editable">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="2" column="0">
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>Add / Remove Icepap System</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="spacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QToolButton" name="btnTreeAdd">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="icepapcms.qrc">
+              <normaloff>:/small_icons/small_icons/list-add.png</normaloff>:/small_icons/small_icons/list-add.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>16</width>
+              <height>16</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="btnTreeRemove">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="icepapcms.qrc">
+              <normaloff>:/small_icons/small_icons/list-remove.png</normaloff>:/small_icons/small_icons/list-remove.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>16</width>
+              <height>16</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="0">
+         <widget class="Line" name="line">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QTreeView" name="treeView">
+       <property name="iconSize">
+        <size>
+         <width>22</width>
+         <height>22</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="sizeGripEnabled">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
+  <action name="actionTree_Explorer">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Tree Explorer</string>
+   </property>
+   <property name="shortcut">
+    <string>F8</string>
+   </property>
+  </action>
+  <action name="actionGoNext">
+   <property name="icon">
+    <iconset resource="icepapcms.qrc">
+     <normaloff>:/icons/icons/go-next.png</normaloff>:/icons/icons/go-next.png</iconset>
+   </property>
+   <property name="text">
+    <string>Go Next</string>
+   </property>
+   <property name="statusTip">
+    <string>444</string>
+   </property>
+   <property name="whatsThis">
+    <string>5555</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+Right</string>
+   </property>
+  </action>
+  <action name="actionGoPrevious">
+   <property name="icon">
+    <iconset resource="icepapcms.qrc">
+     <normaloff>:/icons/icons/go-previous.png</normaloff>:/icons/icons/go-previous.png</iconset>
+   </property>
+   <property name="text">
+    <string>Go Previous</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+Left</string>
+   </property>
+  </action>
+  <action name="actionGoUp">
+   <property name="icon">
+    <iconset resource="icepapcms.qrc">
+     <normaloff>:/icons/icons/go-up.png</normaloff>:/icons/icons/go-up.png</iconset>
+   </property>
+   <property name="text">
+    <string>Go Up</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+Up</string>
+   </property>
+  </action>
+  <action name="actionRefresh">
+   <property name="icon">
+    <iconset resource="icepapcms.qrc">
+     <normaloff>:/icons/icons/view-refresh.png</normaloff>:/icons/icons/view-refresh.png</iconset>
+   </property>
+   <property name="text">
+    <string>Refresh</string>
+   </property>
+   <property name="shortcut">
+    <string>F5</string>
+   </property>
+  </action>
+  <action name="actionPreferences">
+   <property name="icon">
+    <iconset resource="icepapcms.qrc">
+     <normaloff>:/icons/icons/gnome-settings.png</normaloff>:/icons/icons/gnome-settings.png</iconset>
+   </property>
+   <property name="text">
+    <string>Preferences</string>
+   </property>
+  </action>
+  <action name="actionHelp">
+   <property name="icon">
+    <iconset resource="icepapcms.qrc">
+     <normaloff>:/icons/icons/help-browser.png</normaloff>:/icons/icons/help-browser.png</iconset>
+   </property>
+   <property name="text">
+    <string>Help</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
+   </property>
+  </action>
+  <action name="actionExport">
+   <property name="icon">
+    <iconset resource="icepapcms.qrc">
+     <normaloff>:/icons/icons/gnome-dev-floppy.png</normaloff>:/icons/icons/gnome-dev-floppy.png</iconset>
+   </property>
+   <property name="text">
+    <string>Export configuration</string>
+   </property>
+   <property name="iconText">
+    <string>Export configuration</string>
+   </property>
+   <property name="toolTip">
+    <string>Export driver configuration to file</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
+   </property>
+  </action>
+  <action name="actionImport">
+   <property name="icon">
+    <iconset resource="icepapcms.qrc">
+     <normaloff>:/icons/icons/folder.png</normaloff>:/icons/icons/folder.png</iconset>
+   </property>
+   <property name="text">
+    <string>Import configuration</string>
+   </property>
+   <property name="iconText">
+    <string>Import configuration</string>
+   </property>
+   <property name="toolTip">
+    <string>Import driver configuration from file</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+I</string>
+   </property>
+  </action>
+  <action name="actionQuit">
+   <property name="icon">
+    <iconset resource="icepapcms.qrc">
+     <normaloff>:/icons/icons/gnome-logout.png</normaloff>:/icons/icons/gnome-logout.png</iconset>
+   </property>
+   <property name="text">
+    <string>Quit</string>
+   </property>
+   <property name="statusTip">
+    <string/>
+   </property>
+   <property name="whatsThis">
+    <string/>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionToolbar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Toolbar</string>
+   </property>
+   <property name="shortcut">
+    <string>F9</string>
+   </property>
+  </action>
+  <action name="actionSaveConfig">
+   <property name="icon">
+    <iconset resource="icepapcms.qrc">
+     <normaloff>:/icons/icons/sign.png</normaloff>:/icons/icons/sign.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save Configuration</string>
+   </property>
+   <property name="toolTip">
+    <string>Save driver configuration</string>
+   </property>
+   <property name="statusTip">
+    <string>Ctrl+s</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionFirmwareUpgrade">
+   <property name="icon">
+    <iconset resource="icepapcms.qrc">
+     <normaloff>:/icons/icons/gnome-cpu.png</normaloff>:/icons/icons/gnome-cpu.png</iconset>
+   </property>
+   <property name="text">
+    <string>Firmware upgrade</string>
+   </property>
+   <property name="toolTip">
+    <string>Open Firmware upgrade dialog</string>
+   </property>
+  </action>
+  <action name="actionConsole">
+   <property name="icon">
+    <iconset resource="icepapcms.qrc">
+     <normaloff>:/icons/icons/gnome-terminal.png</normaloff>:/icons/icons/gnome-terminal.png</iconset>
+   </property>
+   <property name="text">
+    <string>Console</string>
+   </property>
+   <property name="toolTip">
+    <string>Icepap Console</string>
+   </property>
+  </action>
+  <action name="actionHistoricCfg">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="icepapcms.qrc">
+     <normaloff>:/icons/icons/calendar.png</normaloff>:/icons/icons/calendar.png</iconset>
+   </property>
+   <property name="text">
+    <string>Historic Configurations</string>
+   </property>
+   <property name="iconText">
+    <string>Historic Configurations</string>
+   </property>
+   <property name="toolTip">
+    <string>Historic configurations per driver</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+H</string>
+   </property>
+  </action>
+  <action name="actionTemplates">
+   <property name="icon">
+    <iconset resource="icepapcms.qrc">
+     <normaloff>:/icons/icons/notes.png</normaloff>:/icons/icons/notes.png</iconset>
+   </property>
+   <property name="text">
+    <string>Templates</string>
+   </property>
+   <property name="toolTip">
+    <string>Template managment</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+T</string>
+   </property>
+  </action>
+  <action name="actionAddIcepap">
+   <property name="icon">
+    <iconset resource="icepapcms.qrc">
+     <normaloff>:/small_icons/small_icons/list-add.png</normaloff>:/small_icons/small_icons/list-add.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add Icepap</string>
+   </property>
+   <property name="toolTip">
+    <string>Add Icepap System to CMS Database</string>
+   </property>
+  </action>
+  <action name="actionDeleteIcepap">
+   <property name="icon">
+    <iconset resource="icepapcms.qrc">
+     <normaloff>:/small_icons/small_icons/list-remove.png</normaloff>:/small_icons/small_icons/list-remove.png</iconset>
+   </property>
+   <property name="text">
+    <string>Delete Icepap</string>
+   </property>
+   <property name="toolTip">
+    <string>Delete Icepap System from the CMS Database</string>
+   </property>
+  </action>
+  <action name="actionUser_manual">
+   <property name="text">
+    <string>User manual</string>
+   </property>
+  </action>
+  <action name="actionHardware_manual">
+   <property name="text">
+    <string>Hardware manual</string>
+   </property>
+  </action>
+  <action name="actionAddLocation">
+   <property name="icon">
+    <iconset resource="icepapcms.qrc">
+     <normaloff>:/small_icons/small_icons/template.png</normaloff>:/small_icons/small_icons/template.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add location</string>
+   </property>
+   <property name="iconText">
+    <string>Add location</string>
+   </property>
+   <property name="toolTip">
+    <string>Add location</string>
+   </property>
+  </action>
+  <action name="actionDeleteLocation">
+   <property name="icon">
+    <iconset resource="icepapcms.qrc">
+     <normaloff>:/small_icons/small_icons/process-stop.png</normaloff>:/small_icons/small_icons/process-stop.png</iconset>
+   </property>
+   <property name="text">
+    <string>Delete location</string>
+   </property>
+   <property name="iconText">
+    <string>Delete location</string>
+   </property>
+   <property name="toolTip">
+    <string>Delete location</string>
+   </property>
+  </action>
+  <action name="actionSetExpertFlag">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Set Expert Flag</string>
+   </property>
+  </action>
+  <action name="actionCopy">
+   <property name="text">
+    <string>Copy configuration</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
+  </action>
+  <action name="actionPaste">
+   <property name="text">
+    <string>Paste configuration</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
+   </property>
+  </action>
+  <action name="actionOscilloscope">
+   <property name="icon">
+    <iconset resource="icepapcms.qrc">
+     <normaloff>:/icons/icons/oscilloscope.svg</normaloff>:/icons/icons/oscilloscope.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Oscilloscope</string>
+   </property>
+  </action>
+  <action name="actionSnapshot">
+   <property name="icon">
+    <iconset resource="icepapcms.qrc">
+     <normaloff>:/icons/icons/camera.svg</normaloff>:/icons/icons/camera.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Snapshot</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="icepapcms.qrc"/>
+ </resources>
+ <connections/>
+</ui>
