@@ -52,6 +52,6 @@ setup(
     },
     include_package_data=True,
     platforms=["Linux, Windows XP/Vista/7/8"],
-    url="http://computing.cells.es/products/icepap-cms",
+    url="https://github.com/ALBA-Synchrotron/IcepapCMS",
     python_requires='>=3.5',
 )
