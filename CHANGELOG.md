@@ -4,7 +4,7 @@ Added:
 * Reorganize reorganize repository some modules and files change name to
  avoid problems on the installation.
 * Migrate to Python >= 3.5
-* Migrate to Qt5 >= 5.15
+* Migrate to Qt5 >= 5.12
 * Migrate to storm >= 0.23, add custom support to MySQL Databases
 * Migrate to icepap >= 3.3
 * Migrate to ldap3, pure python library

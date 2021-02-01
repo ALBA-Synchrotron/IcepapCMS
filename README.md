@@ -9,8 +9,9 @@ Python module to configure, control and monitor IcePAP based systems.
 ### Pypi 
 From within your favourite python environment:
 
+NOTE: PyQT5 5.15.2 has a bug: https://bugreports.qt.io/browse/QTBUG-88688
 ```console
-pip install icepapcms
+pip install PyQT5==5.15.1 icepapcms
 ```
 
 To use MySQL Databases you should install [mysqlclient](https://pypi.org/project/mysqlclient/)
