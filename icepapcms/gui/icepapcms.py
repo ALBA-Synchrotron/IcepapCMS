@@ -41,7 +41,7 @@ from .templatescatalogwidget import TemplatesCatalogWidget
 from ..helpers import loggingInfo
 from ..gui.ldap.login import DialogLdapLogin
 
-__version__ = '2.3.6'
+__version__ = '3.0.0'
 
 
 class IcepapApp(QtWidgets.QApplication):
