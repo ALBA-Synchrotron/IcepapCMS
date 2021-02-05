@@ -591,14 +591,7 @@ class IcepapsManager(Singleton):
                         self.config_parameters.append(str(parname))
 
     @loggingInfo
-    def _update_error_msg(self):
-        msg = 'Update driver is underdevelopment. In the meantime use ' \
-              'pyIcePAP command line script to update the firmware and drivers'
-        raise NotImplementedError(msg)
-
-    @loggingInfo
     def upgradeDrivers(self, icepap_name, progress_dialog):
-        self._update_error_msg()
         if self.programming_ipap is not None:
             return False
         self.programming_ipap = self.iPaps[icepap_name]
