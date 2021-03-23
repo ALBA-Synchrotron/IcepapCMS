@@ -242,6 +242,7 @@ class MainManager(Singleton):
             self.log.error(msg)
             MessageDialogs.showErrorMessage(None, "Scanning Icepap Error", msg)
 
+            conflictsList.append([Conflict.NO_CONNECTION, icepap_system, 0])
 
         QtWidgets.QApplication.instance().restoreOverrideCursor()
 
