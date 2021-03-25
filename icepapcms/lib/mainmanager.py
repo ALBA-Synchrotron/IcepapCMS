@@ -143,14 +143,16 @@ class MainManager(Singleton):
                         None, "Scanning Icepap Warning", msg)
                 return icepap_system
             except Exception as ie:
-                msg = 'Could not scan the "{}" Icepap System.\n' \
-                      'Please make sure that the system "{}"is in your ' \
-                      'subnetwork.\nException: {}'.format(icepap_name,
-                                                          icepap_name,
-                                                          str(ie))
+                msg = 'Could not scan the "{0}" Icepap System.\n' \
+                      '1) Please make sure that the system "{0}" is in your ' \
+                      'subnetwork.\n' \
+                      '2) Run in debug mode to check communication: ' \
+                      'icepapcms -d\n' \
+                      'Exception: {1}'.format(icepap_name, str(ie))
                 self.log.warning(msg)
                 MessageDialogs.showErrorMessage(None, "Scanning Icepap Error",
                                                 msg)
+
             except Exception as e:
                 self.log.error("Error on adding Icepap System %s:%d: %s",
                                host, port, e)
@@ -234,14 +236,17 @@ class MainManager(Singleton):
                 conflictsList.append([Conflict.NO_CONNECTION, icepap_system,
                                       0])
         except Exception as error:
-            msg = 'Could not scan the "{}" Icepap System.\n' \
-                  'Please make sure that the system "{}"is in your ' \
-                  'subnetwork.\nException: {}'.format(icepap_name,
-                                                      icepap_name,
-                                                      str(error))
-            self.log.error(msg)
-            MessageDialogs.showErrorMessage(None, "Scanning Icepap Error", msg)
+            msg = 'Could not scan the "{0}" Icepap System.\n' \
+                  '1) Please make sure that the system "{0}" is in your ' \
+                  'subnetwork.\n' \
+                  '2) Run in debug mode to check communication: ' \
+                  'icepapcms -d\n' \
+                  'Exception: {1}'.format(icepap_name, str(error))
+            self.log.warning(msg)
+            MessageDialogs.showErrorMessage(None, "Scanning Icepap Error",
+                                            msg)
 
+            conflictsList.append([Conflict.NO_CONNECTION, icepap_system, 0])
 
         QtWidgets.QApplication.instance().restoreOverrideCursor()
 
@@ -256,12 +261,12 @@ class MainManager(Singleton):
         try:
             icepap_name = icepap_system.name
             ipap = self._ctrl_icepap.iPaps[icepap_name]
-            master_version = ipap.ver.driver[0]
+            master_version = ipap.fver
             mismatched_drivers = []
             for driver in icepap_system.getDrivers():
                 # #############################################################
                 try:
-                    driver_version = ipap[driver.addr].ver.driver[0]
+                    driver_version = ipap[driver.addr].fver
                 except Exception:
                     # If the driver has been temporary removed,
                     # the error should

@@ -1,4 +1,19 @@
-IcepapCMS 3.0.X
+IcepapCMS 3.1.X
+-------------------------------------------------------------------------
+Added:
+* Update to use icepap 3.6.0 to read faster the versions on the loading time.
+* Add debug command option to have direct access to the communication 
+  debugging.
+  
+Fixed:
+* Avoid GUI crashing for icepap library exceptions.
+* Change error message to avoid confusion in diagnosis.  
+* Fix wrong driver name size on DB scripts creation.
+
+Removed:
+
+ 
+IcepapCMS 3.0.1
 -------------------------------------------------------------------------
 Added:
 * Reorganize reorganize repository some modules and files change name to

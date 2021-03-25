@@ -30,6 +30,9 @@ def get_parser():
                         help='Activate the logging for this module, '
                              'eg: icepapcms.gui.ipapconsole',
                         default='')
+    parser.add_argument('-d', '--debug', action='store_true',
+                        help='Activate the logging only for the icepap '
+                             'socket communication.')
 
     return parser
 
@@ -48,10 +51,15 @@ def configure_logging():
         log_filename, maxBytes=10000000, backupCount=5)
     log_file.setFormatter(logging.Formatter(log_format))
 
-    filter = config_manager._options.debug_module
-    if filter:
-        log_file.addFilter(logging.Filter(filter))
-        log_console.addFilter(logging.Filter(filter))
+    # Check if debug_raw_cmd is active
+    if config_manager._options.debug:
+        module_filter = 'icepap.tcp'
+        config_manager._options.debug_level = 'debug'
+    else:
+        module_filter = config_manager._options.debug_module
+    if module_filter:
+        log_file.addFilter(logging.Filter(module_filter))
+        log_console.addFilter(logging.Filter(module_filter))
     listener = logging.handlers.QueueListener(que, log_console, log_file)
     debug_levels = {'debug': logging.DEBUG,
                     'info': logging.INFO,
