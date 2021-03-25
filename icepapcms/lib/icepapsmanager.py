@@ -184,7 +184,8 @@ class IcepapsManager(Singleton):
         # FIX NON-ASCII CHARS ISSUE IN NAME:
         if axis_name is not None and not all(ord(c) < 128 for c in axis_name):
             axis_name = repr(axis.name)
-        driver_cfg.setParameter("VER", axis.ver.driver[0])
+
+        driver_cfg.setParameter("VER", axis.fver)
         driver_cfg.setParameter("ID", axis.id)
         try:
             driver_cfg.setParameter("IPAPNAME", axis_name)
@@ -652,7 +653,7 @@ class IcepapsManager(Singleton):
         ipap = IcePAPController(host, port)
 
         try:
-            curr_ver = ipap.ver.system[0]
+            curr_ver = ipap.fver
         except Exception as e:
             logger.put('Can not read the current version. {}'.format(e))
             curr_ver = -1
@@ -691,7 +692,7 @@ class IcepapsManager(Singleton):
 
         logger.put('Connected after to restart')
         try:
-            curr_ver = ipap.ver.system[0]
+            curr_ver = ipap.fver
         except Exception as e:
             logger.put('Can not read the current version. {}'.format(e))
             logger.put('CHECK Icepap!!!')
@@ -729,7 +730,7 @@ class IcepapsManager(Singleton):
         if curr_ver < 3.21:
             try:
                 ipap = IcePAPController(host, port)
-                new_ver = ipap.ver.system[0]
+                new_ver = ipap.fver
                 if new_ver >= 3.21:
                     log_queue.put('Restarting first time absolut encoder '
                                     'registers')
@@ -762,7 +763,7 @@ class IcepapsManager(Singleton):
             ipap = IcePAPController(host, port)
             if self.log.isEnabledFor(logging.INFO):
                 self.log.info('Testing connection to: %s:%s version: %s',
-                              host, port, ipap.ver.system[0])
+                              host, port, ipap.fver)
             ipap.disconnect()
             return True
         except Exception:

@@ -234,12 +234,14 @@ class MainManager(Singleton):
                 conflictsList.append([Conflict.NO_CONNECTION, icepap_system,
                                       0])
         except Exception as error:
-            msg = 'Could not scan the "{}" Icepap System.\n' \
-                  'Please make sure that the system "{}"is in your ' \
-                  'subnetwork.\nException: {}'.format(icepap_name,
-                                                      icepap_name,
-                                                      str(error))
+            msg = 'Could not scan the "{}" Icepap System. Solutions:\n' \
+                  '1) Please make sure that the system "{}"is in your ' \
+                  'subnetwork.\n' \
+                  '2) Run on debug mode: "icepapcms -d"\n'\
+                  'Exception details: {}'.format(icepap_name, icepap_name,
+                                                 str(error))
             self.log.error(msg)
+            self.debug.error(error)
             MessageDialogs.showErrorMessage(None, "Scanning Icepap Error", msg)
 
             conflictsList.append([Conflict.NO_CONNECTION, icepap_system, 0])
@@ -257,12 +259,12 @@ class MainManager(Singleton):
         try:
             icepap_name = icepap_system.name
             ipap = self._ctrl_icepap.iPaps[icepap_name]
-            master_version = ipap.ver.driver[0]
+            master_version = ipap.fver
             mismatched_drivers = []
             for driver in icepap_system.getDrivers():
                 # #############################################################
                 try:
-                    driver_version = ipap[driver.addr].ver.driver[0]
+                    driver_version = ipap[driver.addr].fver
                 except Exception:
                     # If the driver has been temporary removed,
                     # the error should

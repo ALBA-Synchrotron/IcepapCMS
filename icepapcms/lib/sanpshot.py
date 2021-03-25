@@ -50,7 +50,7 @@ class AxisSnapshot:
         self.snapshot = {}
 
     def create_snapshot(self):
-        drv_ver = self.axis.ver['SYSTEM']['DRIVER']['VER'][0]
+        drv_ver = self.axis.fver
         self.snapshot['VER'] = drv_ver
 
 
