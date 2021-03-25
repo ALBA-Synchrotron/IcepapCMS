@@ -143,14 +143,16 @@ class MainManager(Singleton):
                         None, "Scanning Icepap Warning", msg)
                 return icepap_system
             except Exception as ie:
-                msg = 'Could not scan the "{}" Icepap System.\n' \
-                      'Please make sure that the system "{}"is in your ' \
-                      'subnetwork.\nException: {}'.format(icepap_name,
-                                                          icepap_name,
-                                                          str(ie))
+                msg = 'Could not scan the "{0}" Icepap System.\n' \
+                      '1) Please make sure that the system "{0}" is in your ' \
+                      'subnetwork.\n' \
+                      '2) Run in debug mode to check communication: ' \
+                      'icepapcms -d\n' \
+                      'Exception: {1}'.format(icepap_name, str(ie))
                 self.log.warning(msg)
                 MessageDialogs.showErrorMessage(None, "Scanning Icepap Error",
                                                 msg)
+
             except Exception as e:
                 self.log.error("Error on adding Icepap System %s:%d: %s",
                                host, port, e)
@@ -234,15 +236,15 @@ class MainManager(Singleton):
                 conflictsList.append([Conflict.NO_CONNECTION, icepap_system,
                                       0])
         except Exception as error:
-            msg = 'Could not scan the "{}" Icepap System. Solutions:\n' \
-                  '1) Please make sure that the system "{}"is in your ' \
+            msg = 'Could not scan the "{0}" Icepap System.\n' \
+                  '1) Please make sure that the system "{0}" is in your ' \
                   'subnetwork.\n' \
-                  '2) Run on debug mode: "icepapcms -d"\n'\
-                  'Exception details: {}'.format(icepap_name, icepap_name,
-                                                 str(error))
-            self.log.error(msg)
-            self.debug.error(error)
-            MessageDialogs.showErrorMessage(None, "Scanning Icepap Error", msg)
+                  '2) Run in debug mode to check communication: ' \
+                  'icepapcms -d\n' \
+                  'Exception: {1}'.format(icepap_name, str(error))
+            self.log.warning(msg)
+            MessageDialogs.showErrorMessage(None, "Scanning Icepap Error",
+                                            msg)
 
             conflictsList.append([Conflict.NO_CONNECTION, icepap_system, 0])
 
