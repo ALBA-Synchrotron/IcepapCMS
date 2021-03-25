@@ -29,7 +29,7 @@ CREATE TABLE cfgparameterinfo (
 CREATE TABLE icepapdriver (
   icepapsystem_name varchar(25) NOT NULL DEFAULT '',
   addr int(10) NOT NULL DEFAULT '',
-  name varchar(25),
+  name varchar(32),
   mode varchar(10),
   PRIMARY KEY (icepapsystem_name, addr)
 );

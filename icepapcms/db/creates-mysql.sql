@@ -40,7 +40,7 @@ DROP TABLE IF EXISTS `icepapcms`.`icepapdriver`;
 CREATE TABLE `icepapcms`.`icepapdriver` (
   `icepapsystem_name` VARCHAR(25) NOT NULL DEFAULT '',
   `addr` INT(10) unsigned NOT NULL,
-  `name` VARCHAR(25) NULL,
+  `name` VARCHAR(32) NULL,
   `mode` VARCHAR(10) NULL,
   PRIMARY KEY (`addr`, `icepapsystem_name`),
   INDEX `IcepapDriver_FKIndex1` (`icepapsystem_name`),
