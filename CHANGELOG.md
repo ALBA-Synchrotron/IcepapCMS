@@ -6,8 +6,9 @@ Added:
   debugging.
   
 Fixed:
-* Avoid GUI crashing for icepap library exceptions
-* Change error message to avoid confusion in diagnosis  
+* Avoid GUI crashing for icepap library exceptions.
+* Change error message to avoid confusion in diagnosis.  
+* Fix wrong driver name size on DB scripts creation.
 
 Removed:
 
