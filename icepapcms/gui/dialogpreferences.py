@@ -99,7 +99,7 @@ class DialogPreferences(QtWidgets.QDialog):
 
     @loggingInfo
     def btnBrowse_on_click(self):
-        current_folder = self._config.config[self._config.icepap]["folder"]
+        current_folder = self._config.config[self._config.database]["folder"]
         fn = QtWidgets.QFileDialog.getExistingDirectory(
             self, "Open Folder", current_folder)
         if fn == '':
@@ -158,7 +158,7 @@ class DialogPreferences(QtWidgets.QDialog):
         if fn == '':
             return
         folder = str(fn)
-        self.ui.txtTemplatesFolder.setText(folder)
+        self.ui.txtSnapshotsFolder.setText(folder)
 
     @loggingInfo
     def checkDbEngines(self):
@@ -272,6 +272,7 @@ class DialogPreferences(QtWidgets.QDialog):
             config_ipap["firmware_folder"] = self.ui.txtFirmwareFolder.text()
             config_ipap["configs_folder"] = self.ui.txtConfigsFolder.text()
             config_ipap["templates_folder"] = self.ui.txtTemplatesFolder.text()
+            config_ipap["snapshots_folder"] = self.ui.txtSnapshotsFolder.text()
 
             return True
         except BaseException as e:
