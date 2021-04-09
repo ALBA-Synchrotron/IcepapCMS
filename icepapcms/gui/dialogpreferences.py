@@ -158,7 +158,7 @@ class DialogPreferences(QtWidgets.QDialog):
         if fn == '':
             return
         folder = str(fn)
-        self.ui.txtTemplatesFolder.setText(folder)
+        self.ui.txtSnapshotsFolder.setText(folder)
 
     @loggingInfo
     def checkDbEngines(self):
