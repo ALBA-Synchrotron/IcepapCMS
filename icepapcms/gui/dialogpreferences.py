@@ -99,7 +99,7 @@ class DialogPreferences(QtWidgets.QDialog):
 
     @loggingInfo
     def btnBrowse_on_click(self):
-        current_folder = self._config.config[self._config.icepap]["folder"]
+        current_folder = self._config.config[self._config.database]["folder"]
         fn = QtWidgets.QFileDialog.getExistingDirectory(
             self, "Open Folder", current_folder)
         if fn == '':
