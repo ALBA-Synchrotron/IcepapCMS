@@ -272,6 +272,7 @@ class DialogPreferences(QtWidgets.QDialog):
             config_ipap["firmware_folder"] = self.ui.txtFirmwareFolder.text()
             config_ipap["configs_folder"] = self.ui.txtConfigsFolder.text()
             config_ipap["templates_folder"] = self.ui.txtTemplatesFolder.text()
+            config_ipap["snapshots_folder"] = self.ui.txtSnapshotsFolder.text()
 
             return True
         except BaseException as e:
