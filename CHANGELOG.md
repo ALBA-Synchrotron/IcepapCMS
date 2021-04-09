@@ -4,11 +4,16 @@ Added:
 * Update to use icepap 3.6.0 to read faster the versions on the loading time.
 * Add debug command option to have direct access to the communication 
   debugging.
-  
+* Add how to configure the all network flag and the ldap on the README file
+
 Fixed:
 * Avoid GUI crashing for icepap library exceptions.
 * Change error message to avoid confusion in diagnosis.  
 * Fix wrong driver name size on DB scripts creation.
+* Fix some error on the dialog preference:
+    * Wrong reading of the sqlite folder from icepapcms.conf file.
+    * Update templated edit dialog when change the snapshot folder.
+    * Save the snapshots folder on the icepapcms.conf file.
 
 Removed:
 
