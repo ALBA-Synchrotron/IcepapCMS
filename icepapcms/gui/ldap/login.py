@@ -14,6 +14,7 @@ from PyQt5 import QtWidgets, uic
 from pkg_resources import resource_filename
 import ldap3
 import logging
+import re
 
 
 class DialogLdapLogin(QtWidgets.QDialog):
@@ -40,9 +41,10 @@ class DialogLdapLogin(QtWidgets.QDialog):
         self.flag_error = False
 
         try:
-            self.user_not_allowed = config['not_allowed']
+            self.re_not_allowed = config['not_allowed']
             self.ldap_servers = config['servers']
             self.ldap_user_template = config['user_template']
+            self.regex = '(?:% s)' % '|'.join(self.re_not_allowed)
         except Exception as e:
             self.log.error('Wrong ldap configuration see docstring. Error %s',
                            str(e))
@@ -54,7 +56,7 @@ class DialogLdapLogin(QtWidgets.QDialog):
             self.user.textChanged.connect(self.user_change)
 
     def user_change(self, text):
-        if text in self.user_not_allowed:
+        if re.match(self.regex, text):
             self.user.setStyleSheet('color: red;')
         else:
             self.user.setStyleSheet('color: black;')
@@ -68,7 +70,7 @@ class DialogLdapLogin(QtWidgets.QDialog):
             return False
 
         user = self.user.text()
-        if user in self.user_not_allowed:
+        if re.match(self.regex, user):
             self.log.error('Try to log as %s', user)
             QtWidgets.QMessageBox.critical(self, "Login Error",
                                            "User not allowed")
