@@ -15,6 +15,7 @@ Fixed:
     * Update templated edit dialog when change the snapshot folder.
     * Save the snapshots folder on the icepapcms.conf file.
 * Fix absolute encoder offset limits to 32 bits
+* Fix ldap not user allowed matching to allow regex.
 
 Removed:
 
