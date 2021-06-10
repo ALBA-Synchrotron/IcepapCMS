@@ -715,7 +715,7 @@ class IcepapsManager(Singleton):
             except Exception:
                 log_queue.put('Can not read version saved')
 
-
+        time.sleep(15)
         log_queue.put('Send PROG ALL')
         ipap.prog('ALL', force=True)
         self._wait_programming(ipap, log_queue)
