@@ -186,6 +186,25 @@ class IcepapSystem(Storm):
 
         return conflictsList
 
+    def _auto_solved_conflict(self, dsp_cfg, db_cfg, skip_params,
+                              skip_values=None):
+        dsp_values = dsp_cfg.toList()
+        db_values = db_cfg.toList()
+        diff_values = set(dsp_values).difference(db_values)
+
+        if 'VER' not in skip_params:
+            skip_params.append('VER')
+
+        for p, v in diff_values:
+            if skip_values:
+                if p in skip_values:
+                    if v not in skip_values[p]:
+                        return Conflict.DRIVER_CHANGED
+            if p not in skip_params:
+                return Conflict.DRIVER_CHANGED
+
+        return Conflict.DRIVER_AUTOSOLVE_EXPERT
+
     @loggingInfo
     def checkAutoSolvedConflict(self, dsp_cfg, db_cfg):
         # 20130710 ESRF ASKED FOR A HOOK TO 'SKIP' SOME CONFLICTS
@@ -232,33 +251,73 @@ class IcepapSystem(Storm):
                            self.name)
             return Conflict.DRIVER_CHANGED
 
-        if(dsp_cfg_ver == 2.0) and (db_cfg_ver < 2.0) and (db_cfg_ver >= 1.22):
-            dsp_values = dsp_cfg.toList()
-            db_values = db_cfg.toList()
-            diff_values = set(dsp_values).difference(db_values)
-            for p, v in diff_values:
-                if p == 'VER':
-                    continue
+        skip_values = None
 
-                if p not in ['EXTDISABLE', 'PCLMODE', 'EXTBUSY',
-                             'POSUPDATE', 'LNKNAME', 'EXTPOWER', 'OUTPSRC']:
-                    return Conflict.DRIVER_CHANGED
-            return Conflict.DRIVER_AUTOSOLVE
+        if dsp_cfg_ver == 2.0 and 1.22 <= db_cfg_ver < 2.0:
 
-        if(dsp_cfg_ver > 3.14) and (db_cfg_ver <= 3.14) and \
-                (db_cfg_ver >= 2.0):
-            dsp_values = dsp_cfg.toList()
-            db_values = db_cfg.toList()
-            diff_values = set(dsp_values).difference(db_values)
-            for p, v in diff_values:
-                # ignore new parameters or parameters that normally change
-                if (p == 'VER') or (p == 'HOLDTIME') or (p == 'EXTHOLD'):
-                    continue
+            skip_params = ['EXTDISABLE', 'PCLMODE', 'EXTBUSY', 'POSUPDATE',
+                           'LNKNAME', 'EXTPOWER', 'OUTPSRC']
 
-                # parameters which value is not backward compatible
-                if p not in ['INFOASRC', 'INFOBSRC', 'INFOCSRC']:
-                    return Conflict.DRIVER_CHANGED
+        elif 3.14 < dsp_cfg_ver <= 3.17 and 2.0 <= db_cfg_ver <= 3.14:
 
-            return Conflict.DRIVER_AUTOSOLVE_EXPERT
+            skip_params = ['HOLDTIME', 'EXTHOLD', 'INFOASRC', 'INFOBSRC',
+                           'INFOCSRC']
 
-        return Conflict.DRIVER_CHANGED
+        elif dsp_cfg_ver == 3.35 and db_cfg_ver == 3.14:
+            # ignore new parameters or parameters that normally change
+            # ['VER', 'HOLDTIME', 'EXTHOLD']:
+            # parameters which value is not backward compatible
+            # ['INFOASRC', 'INFOBSRC', 'INFOCSRC']:
+
+            skip_params = ['SSISTRTB', 'SSILDC', 'SSIMSKNB', 'SSIEEPOL',
+                           'SSIEWPOL', 'SSIOVF', 'HOLDTIME', 'EXTHOLD',
+                           'INFOASRC', 'INFOBSRC', 'INFOCSRC']
+
+        elif (dsp_cfg_ver == 3.35) and (db_cfg_ver == 3.15):
+            # ignore new parameters or parameters that normally change
+            # [ 'SSISTRTB', 'SSILDC', 'SSIMSKNB', 'SSIEEPOL', 'SSIEWPOL',
+            # 'SSIOVF', 'HOLDTIME', 'EXTHOLD']
+            # parameters which value is not backward compatible
+            # ['CATENTRY', 'ABSMODE', 'INFOASRC', 'INFOBSRC', 'INFOCSRC']
+
+            skip_params = ['SSISTRTB', 'SSILDC', 'SSIMSKNB', 'SSIEEPOL',
+                           'SSIEWPOL', 'SSIOVF', 'HOLDTIME', 'EXTHOLD',
+                           'INFOASRC', 'INFOBSRC', 'INFOCSRC']
+
+            skip_values = {'ABSMODE': ['SSI']}
+
+        elif dsp_cfg_ver == 3.35 and db_cfg_ver in [3.17, 3.182, 3.185, 3.187]:
+            # ignore new parameters or parameters that normally change
+            # ['VER', 'SSISTRTB', 'SSILDC', 'SSIMSKNB', 'SSIEEPOL',
+            # 'SSIEWPOL', 'SSIOVF']
+
+            skip_params = ['SSISTRTB', 'SSILDC', 'SSIMSKNB', 'SSIEEPOL',
+                           'SSIEWPOL', 'SSIOVF']
+
+            return self._auto_solved_conflict(dsp_cfg, db_cfg, skip_params)
+
+        elif dsp_cfg_ver == 3.35 and db_cfg_ver in [3.192, 3.193]:
+            # ignore new parameters or parameters that normally change
+            # ['VER','SSISTRTB','SSILDC','SSIMSKNB','SSIEEPOL', 'SSIEWPOL',
+            # 'SSIOVF']
+            # parameters which value is not backward compatible
+            # ['CATENTRY','ABSMODE','SSIALDC','SSIMSKMSB',
+            # 'SSIEECHK','SSIEEPOS','SSIEWCHK', 'SSIEWPOS','SSISIGNED']
+
+            skip_params = ['SSISTRTB', 'SSILDC', 'SSIMSKNB', 'SSIEEPOL',
+                           'SSIEWPOL', 'SSIOVF', 'SSIALDC',
+                           'SSIMSKMSB', 'SSIEECHK', 'SSIEEPOS', 'SSIEWCHK',
+                           'SSIEWPOS', 'SSISIGNED']
+
+            skip_values = {'ABSMODE': ['SSI']}
+
+        elif dsp_cfg_ver == 3.35 and \
+                db_cfg_ver in [3.23, 3.25, 3.29, 3.31, 3.33]:
+            # ignore new parameters or parameters that normally change
+            # ['VER', 'SSIOVF']
+            skip_params = ['SSIOVF']
+        else:
+            skip_params = []
+
+        return self._auto_solved_conflict(dsp_cfg, db_cfg, skip_params,
+                                          skip_values)
