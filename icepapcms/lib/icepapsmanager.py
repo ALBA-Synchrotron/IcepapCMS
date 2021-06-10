@@ -706,7 +706,7 @@ class IcepapsManager(Singleton):
         ipap, curr_ver = self._get_ipap_and_ver(host, port, log_queue)
         if filename != '':
             log_queue.put('Saving new firmware on the icepap')
-            ipap.sprog(filename, saving=True)
+            ipap.sprog(filename, force=True, saving=True)
         else:
             log_queue.put('Using saved firmware on the icepap')
             try:
