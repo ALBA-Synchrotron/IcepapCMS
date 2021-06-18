@@ -186,8 +186,8 @@ class IcepapSystem(Storm):
 
         return conflictsList
 
-    def _auto_solved_conflict(self, dsp_cfg, db_cfg, skip_params,
-                              skip_values=None):
+    def _auto_solved_conflict(self, dsp_cfg, db_cfg, skip_params=[],
+                              check_db_values=None, check_dsp_values=None):
         dsp_values = dsp_cfg.toList()
         db_values = db_cfg.toList()
         diff_values = set(dsp_values).difference(db_values)
@@ -195,13 +195,24 @@ class IcepapSystem(Storm):
         if 'VER' not in skip_params:
             skip_params.append('VER')
 
-        for p, v in diff_values:
-            if skip_values:
-                if p in skip_values:
-                    if v not in skip_values[p]:
-                        return Conflict.DRIVER_CHANGED
+        # Check skip params
+        for p, _ in diff_values:
             if p not in skip_params:
                 return Conflict.DRIVER_CHANGED
+
+        # Check DB values
+        if check_db_values:
+            for p, v in db_values:
+                if p in check_db_values:
+                    if v not in check_db_values[p]:
+                        return Conflict.DRIVER_CHANGED
+
+        # Check DB values
+        if check_dsp_values:
+            for p, v in dsp_values:
+                if p in check_dsp_values:
+                    if v not in check_dsp_values[p]:
+                        return Conflict.DRIVER_CHANGED
 
         return Conflict.DRIVER_AUTOSOLVE_EXPERT
 
@@ -284,7 +295,7 @@ class IcepapSystem(Storm):
                            'SSIEWPOL', 'SSIOVF', 'HOLDTIME', 'EXTHOLD',
                            'INFOASRC', 'INFOBSRC', 'INFOCSRC']
 
-            skip_values = {'ABSMODE': ['SSI']}
+            check_db_values = {'ABSMODE': ['SSI']}
 
         elif dsp_cfg_ver == 3.35 and db_cfg_ver in [3.17, 3.182, 3.185, 3.187]:
             # ignore new parameters or parameters that normally change
@@ -309,7 +320,7 @@ class IcepapSystem(Storm):
                            'SSIMSKMSB', 'SSIEECHK', 'SSIEEPOS', 'SSIEWCHK',
                            'SSIEWPOS', 'SSISIGNED']
 
-            skip_values = {'ABSMODE': ['SSI']}
+            check_db_values = {'ABSMODE': ['SSI']}
 
         elif dsp_cfg_ver == 3.35 and \
                 db_cfg_ver in [3.23, 3.25, 3.29, 3.31, 3.33]:
@@ -320,4 +331,4 @@ class IcepapSystem(Storm):
             skip_params = []
 
         return self._auto_solved_conflict(dsp_cfg, db_cfg, skip_params,
-                                          skip_values)
+                                          check_db_values)
