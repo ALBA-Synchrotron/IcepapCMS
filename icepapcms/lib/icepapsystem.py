@@ -262,7 +262,7 @@ class IcepapSystem(Storm):
                            self.name)
             return Conflict.DRIVER_CHANGED
 
-        skip_values = None
+        check_db_values = None
 
         if dsp_cfg_ver == 2.0 and 1.22 <= db_cfg_ver < 2.0:
 
