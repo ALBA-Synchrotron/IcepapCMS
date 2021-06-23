@@ -1,4 +1,17 @@
-IcepapCMS 3.1.X
+IcepapCMS 3.2.X
+-------------------------------------------------------------------------
+Added:
+* Add auto solved conflict to migrate to 3.35 from: 2.0 to 3.14, 3.15, 3.17,
+  3.182, 3.185, 3.187, 3.192, 3.193, 3.23, 3.25, 3.29, 3.31, 3.33
+* Generic method to compare and solve conflicts.
+
+Fixed:
+* The icepap needs time to save the firmware and the automatic firmware update 
+  does not wait it and uses the previous saved firmware instead of the new one. 
+
+Removed:
+
+IcepapCMS 3.1.3
 -------------------------------------------------------------------------
 Added:
 * Update to use icepap 3.6.0 to read faster the versions on the loading time.
