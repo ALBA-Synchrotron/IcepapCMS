@@ -203,8 +203,9 @@ class PageiPapCrate(QtWidgets.QWidget):
                         wdriver.fillData(adriver)
                         self.driverswidgets[addr] = wdriver
                         self.tableWidget.setCellWidget(row, drivernr, wdriver)
-                        wdriver.icepapDoubleClicked.connect(
-                            self.driverDoubleclick)
+                        # TODO Investigate how to solve it
+                        # wdriver.icepapDoubleClicked.connect(
+                        #     self.driverDoubleclick)
                 break
 
         self.tableWidget.horizontalHeader().setUpdatesEnabled(True)
@@ -212,6 +213,8 @@ class PageiPapCrate(QtWidgets.QWidget):
 
     @loggingInfo
     def driverDoubleclick(self, driver):
+        # This method does not work. The driver object is a
+        # PyQt5.QtGui.QMouseEvent
         if driver is not None:
             location = "%s/%d/%d" % (driver.icepapsystem_name,
                                      driver.cratenr, driver.drivernr)
