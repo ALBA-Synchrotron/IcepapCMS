@@ -8,8 +8,11 @@ Added:
 Fixed:
 * The icepap needs time to save the firmware and the automatic firmware update 
   does not wait it and uses the previous saved firmware instead of the new one. 
-
+* Include the ID and the IPAPNAME parameter on the auto solved conflict method 
+  and update the DB when they change using the AUTO_SOLVED_EXPERT_CONFLICT flag
+  
 Removed:
+* Removed double click on system and crate display until solving the code. 
 
 IcepapCMS 3.1.3
 -------------------------------------------------------------------------

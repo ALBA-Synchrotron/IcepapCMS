@@ -192,8 +192,20 @@ class IcepapSystem(Storm):
         db_values = db_cfg.toList()
         diff_values = set(dsp_values).difference(db_values)
 
+        # Force to update the DB when the following parameter change. The DSP
+        # always is right: VER, IPAPNAME and ID
+
         if 'VER' not in skip_params:
             skip_params.append('VER')
+
+        if 'IPAPNAME' not in skip_params:
+            skip_params.append('IPAPNAME')
+
+        # ID previous IcepapCMS version (2.0.2) the DB only saves the ?ID HW,
+        # now the icepap library returns ('?ID HW', '?ID SN')
+
+        if 'ID' not in skip_params:
+            skip_params.append('ID')
 
         # Check skip params
         for p, _ in diff_values:
@@ -207,7 +219,7 @@ class IcepapSystem(Storm):
                     if v not in check_db_values[p]:
                         return Conflict.DRIVER_CHANGED
 
-        # Check DB values
+        # Check DSP values
         if check_dsp_values:
             for p, v in dsp_values:
                 if p in check_dsp_values:

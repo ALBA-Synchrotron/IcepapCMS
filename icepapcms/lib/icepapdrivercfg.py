@@ -127,9 +127,7 @@ class IcepapDriverCfg(Storm):
 
         for name, value in self_list:
             other_value = other.getParameter(name, True)
-            if name == 'IPAPNAME' or name == 'ID':
-                pass
-            elif other_value is not None:
+            if other_value is not None:
                 if value != other_value:
                     return False
             else:
