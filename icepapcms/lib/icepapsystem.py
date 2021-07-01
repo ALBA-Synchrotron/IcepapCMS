@@ -319,7 +319,8 @@ class IcepapSystem(Storm):
 
             return self._auto_solved_conflict(dsp_cfg, db_cfg, skip_params)
 
-        elif dsp_cfg_ver == 3.35 and db_cfg_ver in [3.192, 3.193]:
+        elif dsp_cfg_ver == 3.35 and db_cfg_ver in [3.184, 3.192, 3.193,
+                                                    3.195]:
             # ignore new parameters or parameters that normally change
             # ['VER','SSISTRTB','SSILDC','SSIMSKNB','SSIEEPOL', 'SSIEWPOL',
             # 'SSIOVF']
