@@ -17,6 +17,7 @@ import logging
 from ..lib import ConfigManager
 from .messagedialogs import MessageDialogs
 from ..helpers import loggingInfo
+import os
 
 # TODO Change to properties
 MYSQL_PORT = 3306
@@ -58,16 +59,30 @@ class DialogPreferences(QtWidgets.QDialog):
         self._config = ConfigManager()
         self.fillConfig()
         self.ui.listWidget.item(0).setSelected(True)
+        self.setWindowTitle("Preferences (%s)" % self._config.base_folder)
         """ check imports for dbs to disable errors """
 
     @loggingInfo
     def closeButton_on_click(self):
-        if self.checkPreferences():
-            self._config.saveConfig()
-            self.close()
+        print("aaaaaa")
+        if not os.path.exists(self._config.config_filename):
+            print("bbbbbb")
+            if os.access(self._config.base_folder, os.W_OK):
+                print("Creating new config file...")
+                open(self._config.config_filename, 'a').close()
+        if os.access(self._config.config_filename, os.W_OK) :
+            print("ddddd")
+            if self.checkPreferences():
+                print("eeeee", self._config.config_filename)
+                self._config.saveConfig()
+                self.close()
+            else:
+                MessageDialogs.showWarningMessage(self, "Preferences", 
+                    "Check configuration parameters")
         else:
-            MessageDialogs.showWarningMessage(
-                self, "Preferences", "Check configuration parameters")
+            MessageDialogs.showWarningMessage(self, "Preferences", 
+                "You must run IcePAPCMS as superuser to change the configuration"
+                " parameters, or use a local config file.")
 
     @loggingInfo
     def listWidget_on_click(self, item):

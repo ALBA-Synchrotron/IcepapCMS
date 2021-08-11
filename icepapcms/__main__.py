@@ -23,6 +23,10 @@ def get_parser():
     # parser.add_argument(
     #     "--ldap", action="store_true", dest="ldap",
     #     help="Force LDAP login to get username. False by default")
+    parser.add_argument('-c', '--config-path',
+                        action='store', type=str, dest='config_path', 
+                        help='Path to configuration file. '
+                             'Defaults to .icepapcms/icepapcms.conf or /etc/icepapcms/icepapcms.conf')
     parser.add_argument("--debug-level", dest='debug_level', type=str,
                         help='Logging level used:[DEBUG, INFO, WARNING, '
                              'ERROR, CRITICAL]', default='WARNING')
@@ -46,7 +50,8 @@ def configure_logging():
     log_console = logging.StreamHandler()
     log_console.setFormatter(logging.Formatter(log_format))
 
-    log_filename = os.path.join(config_manager.log_folder, 'log.txt')
+    log_filename = os.path.join(config_manager.base_folder, config_manager.log_folder, 'log.txt')
+    print("log name", log_filename)
     log_file = logging.handlers.RotatingFileHandler(
         log_filename, maxBytes=10000000, backupCount=5)
     log_file.setFormatter(logging.Formatter(log_format))
@@ -72,9 +77,9 @@ def configure_logging():
 
 
 def main():
-    config_manager = ConfigManager()
+    
     args = get_parser().parse_args()
-
+    config_manager = ConfigManager(args)
     config_manager._options = args
     listener = configure_logging()
 

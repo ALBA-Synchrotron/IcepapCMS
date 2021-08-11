@@ -13,6 +13,7 @@
 
 from .singleton import Singleton
 import os
+import sys
 from configobj import ConfigObj
 from validate import Validator
 import logging
@@ -30,9 +31,20 @@ class ConfigManager(Singleton):
     folder = os.path.expanduser('~/.icepapcms/sqlitedb')
     log_folder = os.path.expanduser('~/.icepapcms/log')
     firmware_folder = os.path.expanduser('~/.icepapcms/firmware')
-    configs_folder = os.path.expanduser('~/.icepapcms/configs')
+    #configs_folder = os.path.expanduser('~/.icepapcms/configs')
     templates_folder = os.path.expanduser('~/.icepapcms/templates')
+    #folder = "sqlitedb"
+    #log_folder = "log"
+    #firmware_folder = "firmware"
+    configs_folder = "configs"
+    #templates_folder = "templates"
     snapshots_folder = os.path.expanduser('~/.icepapcms/snapshots')
+    base_folder = os.path.expanduser('~/.icepapcms')
+    config_filename = None
+    config_filename_override = None
+    conf_path_list = ["/etc/icepapcms", "./", os.path.expanduser("~/.icepapcms")]
+    exe_folder = os.path.abspath(os.path.dirname(sys.argv[0]))
+
     username = 'NotValidated'
 
     defaults = '''
@@ -64,29 +76,71 @@ class ConfigManager(Singleton):
     defaults = defaults.splitlines()
     log = logging.getLogger('{}.ConfigManager'.format(__name__))
 
-    def __init__(self):
+    def __init__(self, options=None):
         pass
 
     @loggingInfo
     def init(self, *args):
-        if not os.path.exists(os.path.expanduser('~/.icepapcms')):
-            os.mkdir(os.path.expanduser('~/.icepapcms'))
-        self.config_filename = os.path.expanduser(
-            '~/.icepapcms/icepapcms.conf')
+        # Manage command line arguments and options
+        print("check args")
+        if len(args):
+            options = args[0]
+            print(options)
+            if options.config_path:
+                self.config_filename_override = os.path.expanduser(options.config_path)
         self.configure()
 
     @loggingInfo
     def configure(self):
+        # General configuration
+        if self.config_filename_override:
+            if os.path.exists(self.config_filename_override):
+                self.config_filename = self.config_filename_override
+                self.configs_folder = self.config_filename_override
+            else:
+                raise RuntimeError("Specified config file not found!")
+        for loc in self.conf_path_list:
+            print("loc", loc)
+            if os.path.exists(os.path.join(loc,"configs/icepapcms.conf")):
+                self.configs_folder = loc + "/configs"
+                self.config_filename = os.path.join(self.configs_folder, "icepapcms.conf")
+                print("found:", self.config_filename, "in:", self.configs_folder)
+                break
+        vdt = Validator()
         self.configspec = ConfigObj(self.defaults)
         self.config = ConfigObj(self.config_filename,
                                 configspec=self.configspec)
-        vdt = Validator()
         self.config.validate(vdt, copy=True)
-        for folder in "log_folder", "firmware_folder", "configs_folder",\
-                      "templates_folder", "snapshots_folder":
+
+        #Force the absolute path
+        self.config["database"]["folder"] = os.path.expanduser(self.config["database"]["folder"])
+
+        # Other User configuration
+        # always create base folder if not found.
+        # Using the recursive "makedirs" to create the full path.
+        for folder in "log_folder", "snapshots_folder", "firmware_folder", "templates_folder":
+            print(self.config["icepap"][folder])
             directory = self.config["icepap"][folder]
             if not os.path.exists(directory):
-                os.mkdir(directory)
+                os.makedirs(directory)
+        if self.config_filename is None:
+            print("ggggg")
+            self.configs_folder = os.path.expanduser("~/.icepapcms/configs")
+            self.config_filename = os.path.join(self.configs_folder, "icepapcms.conf")
+            if not os.path.exists(self.configs_folder):
+                os.makedirs(self.configs_folder)
+        self.config["icepap"]["configs_folder"] = self.configs_folder
+
+        print("base folder", self.base_folder)
+        #directory = os.path.join(self.base_folder, self.config["icepap"]["configs_folder"])
+        #self.config["icepap"]["configs_folder"] = directory
+        if os.access(self.config["icepap"]["configs_folder"], os.W_OK):
+            if not os.path.exists(self.config["icepap"]["configs_folder"]):
+                print("create conf folder")
+                os.makedirs(self.config["icepap"]["configs_folder"])
+        
+        print("Using config folder:", self.config["icepap"]["configs_folder"])
+
 
     @loggingInfo
     def saveConfig(self):
