@@ -79,10 +79,8 @@ class ConfigManager(Singleton):
     @loggingInfo
     def init(self, *args):
         # Manage command line arguments and options
-        print("check args")
         if len(args):
             options = args[0]
-            print(options)
             if options.config_file:
                 self.config_filename_override = os.path.expanduser(options.config_file)
             if options.user_config:
@@ -97,16 +95,16 @@ class ConfigManager(Singleton):
                 self.config_filename = self.config_filename_override
                 self.configs_folder = self.config_filename_override
             else:
+                # If we specifically ask for a particular config file,
+                # then we don't want to start if it doesn't exist.
                 raise RuntimeError("Specified config file not found!")
         else:
             if self.use_user_config:
                 self.conf_path_list = [os.path.expanduser("~/.icepapcms/configs")]
             for loc in self.conf_path_list:
-                print("loc", loc)
                 if os.path.exists(os.path.join(loc,"icepapcms.conf")):
                     self.configs_folder = loc
                     self.config_filename = os.path.join(self.configs_folder, "icepapcms.conf")
-                    print("found:", self.config_filename, "in:", self.configs_folder)
                     break
         vdt = Validator()
         self.configspec = ConfigObj(self.defaults)
@@ -121,27 +119,21 @@ class ConfigManager(Singleton):
         # always create base folder if not found.
         # Using the recursive "makedirs" to create the full path.
         for folder in "log_folder", "snapshots_folder", "firmware_folder", "templates_folder":
-            print(self.config["icepap"][folder])
             directory = os.path.expanduser(self.config["icepap"][folder])
             if not os.path.exists(directory):
                 print("Create missing directory:", directory)
                 os.makedirs(directory)
+        
+        # If config filename is still None, default to the user home dir.
         if self.config_filename is None:
-            print("ggggg")
             self.configs_folder = os.path.expanduser("~/.icepapcms/configs")
             self.config_filename = os.path.join(self.configs_folder, "icepapcms.conf")
             if not os.path.exists(self.configs_folder):
                 os.makedirs(self.configs_folder)
+
+        # Update config obj with correct filename
         self.config.filename = self.config_filename
         self.config["icepap"]["configs_folder"] = self.configs_folder
-
-        print("base folder", self.base_folder)
-        #directory = os.path.join(self.base_folder, self.config["icepap"]["configs_folder"])
-        #self.config["icepap"]["configs_folder"] = directory
-        if os.access(self.config["icepap"]["configs_folder"], os.W_OK):
-            if not os.path.exists(self.config["icepap"]["configs_folder"]):
-                print("create conf folder")
-                os.makedirs(self.config["icepap"]["configs_folder"])
         
         print("Using config folder:", self.config["icepap"]["configs_folder"])
 
