@@ -36,13 +36,14 @@ class ConfigManager(Singleton):
     #folder = "sqlitedb"
     #log_folder = "log"
     #firmware_folder = "firmware"
-    configs_folder = "configs"
+    configs_folder = ""
     #templates_folder = "templates"
     snapshots_folder = os.path.expanduser('~/.icepapcms/snapshots')
     base_folder = os.path.expanduser('~/.icepapcms')
     config_filename = None
     config_filename_override = None
-    conf_path_list = ["/etc/icepapcms", "./", os.path.expanduser("~/.icepapcms")]
+    use_user_config = False
+    conf_path_list = ["/etc/icepapcms", "./configs", os.path.expanduser("~/.icepapcms/configs")]
     exe_folder = os.path.abspath(os.path.dirname(sys.argv[0]))
 
     username = 'NotValidated'
@@ -86,8 +87,10 @@ class ConfigManager(Singleton):
         if len(args):
             options = args[0]
             print(options)
-            if options.config_path:
-                self.config_filename_override = os.path.expanduser(options.config_path)
+            if options.config_file:
+                self.config_filename_override = os.path.expanduser(options.config_file)
+            if options.user_config:
+                self.use_user_config = True
         self.configure()
 
     @loggingInfo
@@ -99,13 +102,16 @@ class ConfigManager(Singleton):
                 self.configs_folder = self.config_filename_override
             else:
                 raise RuntimeError("Specified config file not found!")
-        for loc in self.conf_path_list:
-            print("loc", loc)
-            if os.path.exists(os.path.join(loc,"configs/icepapcms.conf")):
-                self.configs_folder = loc + "/configs"
-                self.config_filename = os.path.join(self.configs_folder, "icepapcms.conf")
-                print("found:", self.config_filename, "in:", self.configs_folder)
-                break
+        else:
+            if self.use_user_config:
+                self.conf_path_list = [os.path.expanduser("~/.icepapcms/configs")]
+            for loc in self.conf_path_list:
+                print("loc", loc)
+                if os.path.exists(os.path.join(loc,"icepapcms.conf")):
+                    self.configs_folder = loc
+                    self.config_filename = os.path.join(self.configs_folder, "icepapcms.conf")
+                    print("found:", self.config_filename, "in:", self.configs_folder)
+                    break
         vdt = Validator()
         self.configspec = ConfigObj(self.defaults)
         self.config = ConfigObj(self.config_filename,

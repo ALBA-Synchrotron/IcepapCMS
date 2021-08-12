@@ -23,10 +23,14 @@ def get_parser():
     # parser.add_argument(
     #     "--ldap", action="store_true", dest="ldap",
     #     help="Force LDAP login to get username. False by default")
-    parser.add_argument('-c', '--config-path',
-                        action='store', type=str, dest='config_path', 
+    parser.add_argument('-c', '--config-file',
+                        action='store', type=str, dest='config_file', 
                         help='Path to configuration file. '
-                             'Defaults to .icepapcms/icepapcms.conf or /etc/icepapcms/icepapcms.conf')
+                             'Defaults to trying first /etc/icepapcms/icepapcms.conf, then ~/.icepapcms/icepapcms.conf')
+    parser.add_argument('-u', '--user',
+                        action='store_true', dest='user_config', 
+                        help='Ignore system-wide config, only use config in user home folder, '
+                             ' ~/.icepapcms/icepapcms.conf')
     parser.add_argument("--debug-level", dest='debug_level', type=str,
                         help='Logging level used:[DEBUG, INFO, WARNING, '
                              'ERROR, CRITICAL]', default='WARNING')

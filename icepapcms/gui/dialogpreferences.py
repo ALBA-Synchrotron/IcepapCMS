@@ -59,7 +59,7 @@ class DialogPreferences(QtWidgets.QDialog):
         self._config = ConfigManager()
         self.fillConfig()
         self.ui.listWidget.item(0).setSelected(True)
-        self.setWindowTitle("Preferences (%s)" % self._config.base_folder)
+        self.setWindowTitle("Preferences (%s)" % self._config.config_filename)
         """ check imports for dbs to disable errors """
 
     @loggingInfo
