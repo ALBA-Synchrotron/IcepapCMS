@@ -39,7 +39,7 @@ class ConfigManager(Singleton):
     config_filename_override = None
     use_user_config = False
 
-    conf_path_list = ["/etc/icepapcms", "./configs", os.path.expanduser("~/.icepapcms/configs")]
+    conf_path_list = ["/etc/icepapcms", os.path.expanduser("~/.icepapcms/configs")]
     exe_folder = os.path.abspath(os.path.dirname(sys.argv[0]))
 
     username = 'NotValidated'
@@ -100,7 +100,7 @@ class ConfigManager(Singleton):
                 raise RuntimeError("Specified config file not found!")
         else:
             if self.use_user_config:
-                self.conf_path_list = [os.path.expanduser("~/.icepapcms/configs")]
+                self.conf_path_list = self.conf_path_list[1:]
             for loc in self.conf_path_list:
                 if os.path.exists(os.path.join(loc,"icepapcms.conf")):
                     self.configs_folder = loc
