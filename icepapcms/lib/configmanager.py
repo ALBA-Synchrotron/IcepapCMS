@@ -28,21 +28,17 @@ class ConfigManager(Singleton):
     Postgres = "postgres"
     database = "database"
     icepap = "icepap"
-    folder = os.path.expanduser('~/.icepapcms/sqlitedb')
+    sqlite_folder = os.path.expanduser('~/.icepapcms/sqlitedb')
     log_folder = os.path.expanduser('~/.icepapcms/log')
     firmware_folder = os.path.expanduser('~/.icepapcms/firmware')
-    #configs_folder = os.path.expanduser('~/.icepapcms/configs')
-    templates_folder = os.path.expanduser('~/.icepapcms/templates')
-    #folder = "sqlitedb"
-    #log_folder = "log"
-    #firmware_folder = "firmware"
     configs_folder = ""
-    #templates_folder = "templates"
+    templates_folder = os.path.expanduser('~/.icepapcms/templates')
     snapshots_folder = os.path.expanduser('~/.icepapcms/snapshots')
     base_folder = os.path.expanduser('~/.icepapcms')
     config_filename = None
     config_filename_override = None
     use_user_config = False
+
     conf_path_list = ["/etc/icepapcms", "./configs", os.path.expanduser("~/.icepapcms/configs")]
     exe_folder = os.path.abspath(os.path.dirname(sys.argv[0]))
 
@@ -51,7 +47,7 @@ class ConfigManager(Singleton):
     defaults = '''
     [database]
     password = string(default=configure)
-    folder = string(default=''' + folder + ''')
+    folder = string(default=''' + sqlite_folder + ''')
     server = string(default=localhost:3306)
     user = string(default=icepapcms)
     database = string(default=sqlite)
@@ -126,8 +122,9 @@ class ConfigManager(Singleton):
         # Using the recursive "makedirs" to create the full path.
         for folder in "log_folder", "snapshots_folder", "firmware_folder", "templates_folder":
             print(self.config["icepap"][folder])
-            directory = self.config["icepap"][folder]
+            directory = os.path.expanduser(self.config["icepap"][folder])
             if not os.path.exists(directory):
+                print("Create missing directory:", directory)
                 os.makedirs(directory)
         if self.config_filename is None:
             print("ggggg")
@@ -135,6 +132,7 @@ class ConfigManager(Singleton):
             self.config_filename = os.path.join(self.configs_folder, "icepapcms.conf")
             if not os.path.exists(self.configs_folder):
                 os.makedirs(self.configs_folder)
+        self.config.filename = self.config_filename
         self.config["icepap"]["configs_folder"] = self.configs_folder
 
         print("base folder", self.base_folder)

@@ -68,12 +68,12 @@ class DialogPreferences(QtWidgets.QDialog):
         if not os.path.exists(self._config.config_filename):
             print("bbbbbb")
             if os.access(self._config.base_folder, os.W_OK):
-                print("Creating new config file...")
+                print("Creating new config file:", self._config.config_filename)
                 open(self._config.config_filename, 'a').close()
         if os.access(self._config.config_filename, os.W_OK) :
             print("ddddd")
             if self.checkPreferences():
-                print("eeeee", self._config.config_filename)
+                print("Writing config to:", self._config.config_filename)
                 self._config.saveConfig()
                 self.close()
             else:
