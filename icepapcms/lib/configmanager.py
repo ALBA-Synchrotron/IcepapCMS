@@ -33,7 +33,6 @@ class ConfigManager(Singleton):
     configs_folder = ""
     templates_folder = os.path.expanduser('~/.icepapcms/templates')
     snapshots_folder = os.path.expanduser('~/.icepapcms/snapshots')
-    base_folder = os.path.expanduser('~/.icepapcms')
     config_filename = None
     config_filename_override = None
     use_user_config = False
@@ -89,7 +88,7 @@ class ConfigManager(Singleton):
         if self.config_filename_override:
             if os.path.exists(self.config_filename_override):
                 self.config_filename = self.config_filename_override
-                self.configs_folder = self.config_filename_override
+                self.configs_folder = os.path.dirname(self.config_filename_override)
             else:
                 # If we specifically ask for a particular config file,
                 # then we don't want to start if it doesn't exist.

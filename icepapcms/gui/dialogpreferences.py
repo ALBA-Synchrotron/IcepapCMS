@@ -65,10 +65,10 @@ class DialogPreferences(QtWidgets.QDialog):
     @loggingInfo
     def closeButton_on_click(self):
         if not os.path.exists(self._config.config_filename):
-            if os.access(self._config.base_folder, os.W_OK):
+            if os.access(self._config.configs_folder, os.W_OK):
                 print("Creating new config file:", self._config.config_filename)
                 open(self._config.config_filename, 'a').close()
-        if os.access(self._config.config_filename, os.W_OK) :
+        if os.access(self._config.config_filename, os.W_OK):
             if self.checkPreferences():
                 print("Writing config to:", self._config.config_filename)
                 self._config.saveConfig()
