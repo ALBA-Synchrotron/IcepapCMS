@@ -13,7 +13,6 @@
 
 from .singleton import Singleton
 import os
-import sys
 from configobj import ConfigObj
 from validate import Validator
 import logging
@@ -40,7 +39,6 @@ class ConfigManager(Singleton):
     use_user_config = False
 
     conf_path_list = ["/etc/icepapcms", os.path.expanduser("~/.icepapcms/configs")]
-    exe_folder = os.path.abspath(os.path.dirname(sys.argv[0]))
 
     username = 'NotValidated'
 
@@ -66,8 +64,6 @@ class ConfigManager(Singleton):
     user_template=string(default='string with the configuration')
     [all_networks]
     use = boolean(default=False)
-    
-    
     '''
 
     defaults = defaults.splitlines()
