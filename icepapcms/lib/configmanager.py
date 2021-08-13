@@ -37,7 +37,10 @@ class ConfigManager(Singleton):
     config_filename_override = None
     use_user_config = False
 
-    conf_path_list = ["/etc/icepapcms", os.path.expanduser("~/.icepapcms/configs")]
+    if os.name == "nt":
+        conf_path_list = [os.path.expandvars("%systemdrive%/ProgramData/IcePAP"), os.path.expanduser("~/.icepapcms/configs")]
+    else:    
+        conf_path_list = ["/etc/icepap", os.path.expanduser("~/.icepapcms/configs")]
 
     username = 'NotValidated'
 
