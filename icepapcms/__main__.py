@@ -23,11 +23,16 @@ def get_parser():
     # parser.add_argument(
     #     "--ldap", action="store_true", dest="ldap",
     #     help="Force LDAP login to get username. False by default")
+    if os.name == "nt":
+        system_config_path = os.path.expandvars("%systemdrive%/ProgramData/IcePAP")
+    else:
+        system_config_path = "/etc/icepap"
     parser.add_argument('-c', '--config-file',
                         action='store', type=str, dest='config_file', 
                         help='Path to configuration file. '
-                             'Defaults to trying first /etc/icepapcms/icepapcms.conf,'
-                             ' then ~/.icepapcms/configs/icepapcms.conf')
+                             'Defaults to trying first {}/icepapcms.conf,'
+                             ' then ~/.icepapcms/configs/icepapcms.conf'
+                             .format(system_config_path))
     parser.add_argument('-u', '--user',
                         action='store_true', dest='user_config', 
                         help='Ignore system-wide config.'

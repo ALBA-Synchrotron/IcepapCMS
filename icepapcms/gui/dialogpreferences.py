@@ -78,8 +78,8 @@ class DialogPreferences(QtWidgets.QDialog):
                     "Check configuration parameters")
         else:
             MessageDialogs.showWarningMessage(self, "Preferences", 
-                "You must run IcePAPCMS as superuser to change the configuration"
-                " parameters, or use a local config file.")
+                "You must run IcePAPCMS as superuser to change"
+                " the configuration parameters.")
 
     @loggingInfo
     def listWidget_on_click(self, item):
