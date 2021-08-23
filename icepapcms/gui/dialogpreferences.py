@@ -46,8 +46,6 @@ class DialogPreferences(QtWidgets.QDialog):
         self.ui.btnLogBrowser.clicked.connect(self.btnLogBrowse_on_click)
         self.ui.btnFirmwareBrowser.clicked.connect(
             self.btnFirmwareBrowse_on_click)
-        self.ui.btnConfigsBrowser.clicked.connect(
-            self.btnConfigsBrowse_on_click)
         self.ui.btnTemplatesBrowser.clicked.connect(
             self.btnTemplatesBrowse_on_click)
         self.ui.closeButton.clicked.connect(self.closeButton_on_click)
@@ -59,7 +57,6 @@ class DialogPreferences(QtWidgets.QDialog):
         self._config = ConfigManager()
         self.fillConfig()
         self.ui.listWidget.item(0).setSelected(True)
-        self.setWindowTitle("Preferences (%s)" % self._config.config_filename)
         """ check imports for dbs to disable errors """
 
     @loggingInfo
@@ -139,17 +136,6 @@ class DialogPreferences(QtWidgets.QDialog):
             return
         folder = str(fn)
         self.ui.txtFirmwareFolder.setText(folder)
-
-    @loggingInfo
-    def btnConfigsBrowse_on_click(self):
-        current_folder = \
-            self._config.config[self._config.icepap]["configs_folder"]
-        fn = QtWidgets.QFileDialog.getExistingDirectory(
-            self, "Open Configs Folder", current_folder)
-        if fn == '':
-            return
-        folder = str(fn)
-        self.ui.txtConfigsFolder.setText(folder)
 
     @loggingInfo
     def btnTemplatesBrowse_on_click(self):
@@ -234,7 +220,7 @@ class DialogPreferences(QtWidgets.QDialog):
         debug_level = config["debug_level"]
         log_folder = config["log_folder"]
         firmware_folder = config["firmware_folder"]
-        configs_folder = config["configs_folder"]
+        configs_folder = self._config.configs_folder
         templates_folder = config["templates_folder"]
         snapshots_folder = config['snapshots_folder']
 
@@ -282,7 +268,6 @@ class DialogPreferences(QtWidgets.QDialog):
             config_ipap["debug_level"] = int(self.ui.sbDebugLevel.value())
             config_ipap["log_folder"] = self.ui.txtLogFolder.text()
             config_ipap["firmware_folder"] = self.ui.txtFirmwareFolder.text()
-            config_ipap["configs_folder"] = self.ui.txtConfigsFolder.text()
             config_ipap["templates_folder"] = self.ui.txtTemplatesFolder.text()
             config_ipap["snapshots_folder"] = self.ui.txtSnapshotsFolder.text()
 

@@ -1164,7 +1164,7 @@ class PageiPapDriver(QtWidgets.QWidget):
     def doImport(self):
         filename = ""
         try:
-            folder = ConfigManager().config["icepap"]["configs_folder"]
+            folder = ConfigManager().configs_folder
             fn = QtWidgets.QFileDialog.getOpenFileName(
                 self, "Open Config File", folder, "*.xml")
             if fn[0] == '':
@@ -1207,7 +1207,7 @@ class PageiPapDriver(QtWidgets.QWidget):
 
     @loggingInfo
     def doExport(self):
-        folder = ConfigManager().config["icepap"]["configs_folder"]
+        folder = ConfigManager().configs_folder
         fn = QtWidgets.QFileDialog.getSaveFileName(
             self, "Save Config File", folder, "*.xml")
         if fn[0] == '':

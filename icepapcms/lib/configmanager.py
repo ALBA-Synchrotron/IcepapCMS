@@ -56,7 +56,6 @@ class ConfigManager(Singleton):
     debug_level = string(default=1)
     log_folder = string(default=''' + log_folder + ''')
     firmware_folder = string(default=''' + firmware_folder + ''')
-    configs_folder = string(default=''' + configs_folder + ''')
     templates_folder = string(default=''' + templates_folder + ''')
     snapshots_folder = string(default=''' + snapshots_folder + ''')
     [ldap]
@@ -131,9 +130,8 @@ class ConfigManager(Singleton):
 
         # Update config obj with correct filename
         self.config.filename = self.config_filename
-        self.config["icepap"]["configs_folder"] = self.configs_folder
         
-        print("Using config folder:", self.config["icepap"]["configs_folder"])
+        print("Using config folder:", self.configs_folder)
 
 
     @loggingInfo
