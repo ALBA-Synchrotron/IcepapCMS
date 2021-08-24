@@ -170,8 +170,7 @@ class DialogPreferences(QtWidgets.QDialog):
             except ImportError:
                 ok_sqlite = False
                 module_errors = module_errors + \
-                    "Failed to import Sqlite Modules: pysqlite2, sqlite3 " \
-                    "modules\n"
+                    "Sqlite storage not available, requires one of the modules 'pysqlite2' or 'sqlite3'\n"
         self.ui.rbsqlite.setEnabled(ok_sqlite)
 
         postgres = True
@@ -180,7 +179,7 @@ class DialogPreferences(QtWidgets.QDialog):
             import psycopg2.extensions
         except BaseException:
             postgres = False
-            module_errors += "Failed to import Postgres modules:psycopg2\n"
+            module_errors += "Postgres storage not available, requires module 'psycopg2'\n"
         self.ui.rbpostgres.setEnabled(postgres)
 
         mysql = True
@@ -188,7 +187,7 @@ class DialogPreferences(QtWidgets.QDialog):
             import MySQLdb
             import MySQLdb.converters
         except BaseException:
-            module_errors += "Failed to import MySQL modules: MySQLdb\n"
+            module_errors += "MySQL storage not available, requires module 'MySQLdb'\n"
             mysql = False
         if module_errors != "":
             module_errors += "Check IcepapCMS user manual to solve these " \
