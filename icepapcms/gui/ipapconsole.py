@@ -26,7 +26,7 @@ class IcepapConsole(QtWidgets.QDialog):
     log = logging.getLogger('{}.IcepapConsole'.format(__name__))
 
     @loggingInfo
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, host=None):
         QtWidgets.QDialog.__init__(self, parent, QtCore.Qt.Window)
         ui_filename = resource_filename('icepapcms.gui.ui',
                                         'ipapconsole.ui')
@@ -48,6 +48,8 @@ class IcepapConsole(QtWidgets.QDialog):
         self.ui.console.setPrompt(self.prompt)
         self.log_folder = None
         self._config = ConfigManager()
+        if host:
+            self.ui.txtHost.setText(host)
         try:
             ipap_cfg = self._config.config[self._config.icepap]
             self.debug = ipap_cfg["debug_enabled"] == str(True)
