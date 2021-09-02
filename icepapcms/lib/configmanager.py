@@ -38,7 +38,7 @@ class ConfigManager(Singleton):
     use_user_config = False
 
     if os.name == "nt":
-        conf_path_list = [os.path.expandvars("%systemdrive%/ProgramData/IcePAP"), os.path.expanduser("~/.icepapcms/configs")]
+        conf_path_list = [os.path.expandvars("%PROGRAMDATA%/IcePAP"), os.path.expanduser("~/.icepapcms/configs")]
     else:    
         conf_path_list = ["/etc/icepap", os.path.expanduser("~/.icepapcms/configs")]
 
