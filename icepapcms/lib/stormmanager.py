@@ -48,8 +48,10 @@ class StormManager(Singleton):
             if self.db == self._config.Sqlite:
                 folder = self._config.config[self._config.database]["folder"]
                 loc = folder + '/icepapcms.db'
+                print("Using Sqlite database at %s" % loc)
                 create_db = not os.path.exists(loc)
                 if create_db:
+                    print("No database file found, creating it")
                     if not os.path.exists(folder):
                         os.mkdir(folder)
                 self._database = create_database("%s:%s" % (self.db, loc))
@@ -79,8 +81,8 @@ class StormManager(Singleton):
         try:
             sql_file = resource_filename('icepapcms.db',
                                          'creates_sqlite.sql')
-            with open(sql_file, 'rb') as f:
-                sql_script = f.read().decode()
+            with open(sql_file) as f:
+                sql_script = f.read()
             statements = re.compile(r";[ \t]*$", re.M)
 
             for statement in statements.split(sql_script):

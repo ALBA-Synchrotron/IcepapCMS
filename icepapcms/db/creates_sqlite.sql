@@ -72,4 +72,3 @@ CREATE INDEX CfgParameter_FKIndex1_cfgparam on cfgparameter (cfg_id);
 CREATE INDEX IcepapDriver_FKIndex1_icepapdr on icepapdriver (icepapsystem_name);
 CREATE INDEX IcepapDriverCfg_FKIndex1_icepa on icepapdrivercfg (driver_addr, icepapsystem_name);
 CREATE INDEX FKLocation_icepapsystem on icepapsystem (location_name);
-

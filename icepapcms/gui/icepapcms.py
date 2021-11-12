@@ -278,6 +278,9 @@ class IcepapCMS(QtWidgets.QMainWindow):
             self.contextEditIcepap)""",
             """self.menu.addAction("Delete Icepap system configuration",
             self.btnTreeRemove_on_click)""",
+            """self.menu.addSeparator()""",
+            """self.menu.addAction("Open Icepap console",
+            self.contextOpenConsole)""",
         ]
         self.menu = Qt.QMenu(self)
         font = QtGui.QFont()
@@ -286,22 +289,22 @@ class IcepapCMS(QtWidgets.QMainWindow):
         self.context_menu_item = item
         shown_actions = []
         if item.role == IcepapTreeModel.SYSTEM_OFFLINE:
-            shown_actions = [5, 8, 9, 10]
+            shown_actions = [5, 8, 9, 10, 11, 12]
         if item.role == IcepapTreeModel.DRIVER:
-            shown_actions = [6, 7, 8, 9, 10]
+            shown_actions = [6, 7, 8, 9, 10, 11, 12]
         elif item.role == IcepapTreeModel.DRIVER_CFG:
-            shown_actions = [0, 4, 6, 7, 8, 9, 10]
+            shown_actions = [0, 4, 6, 7, 8, 9, 10, 11, 12]
         elif item.role == IcepapTreeModel.DRIVER_ERROR:
-            shown_actions = [2, 4, 6, 7, 8, 9, 10]
+            shown_actions = [2, 4, 6, 7, 8, 9, 10, 11, 12]
         elif item.role == IcepapTreeModel.DRIVER_WARNING:
-            shown_actions = [1, 4, 6, 7, 8, 9, 10]
+            shown_actions = [1, 4, 6, 7, 8, 9, 10, 11, 12]
         elif item.role == IcepapTreeModel.DRIVER_NEW:
-            shown_actions = [3, 4, 6, 7, 8, 9, 10]
+            shown_actions = [3, 4, 6, 7, 8, 9, 10, 11, 12]
         elif item.role == IcepapTreeModel.SYSTEM or \
                 item.role == IcepapTreeModel.CRATE or \
                 item.role == IcepapTreeModel.SYSTEM_ERROR or \
                 item.role == IcepapTreeModel.SYSTEM_WARNING:
-            shown_actions = [6, 7, 8, 9, 10]
+            shown_actions = [6, 7, 8, 9, 10, 11, 12]
         for i in shown_actions:
             exec(actions[i])
         self.menu.popup(self.cursor().pos())
@@ -326,6 +329,17 @@ class IcepapCMS(QtWidgets.QMainWindow):
             item = self.context_menu_item
             self.editIcepap(item)
         self.context_menu_item = None
+
+    @loggingInfo
+    def contextOpenConsole(self):
+        if self.context_menu_item:
+            item = self.context_menu_item
+            icepap_system = item.getIcepapSystem()
+            addr = "%s:%s" % (icepap_system.host, icepap_system.port)
+            dlg = IcepapConsole(self, host=addr)
+            dlg.show()
+        self.context_menu_item = None
+
 
     @loggingInfo
     def contextSolveConflict(self):

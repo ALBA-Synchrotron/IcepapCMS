@@ -17,6 +17,7 @@ import logging
 from ..lib import ConfigManager
 from .messagedialogs import MessageDialogs
 from ..helpers import loggingInfo
+import os
 
 # TODO Change to properties
 MYSQL_PORT = 3306
@@ -45,8 +46,6 @@ class DialogPreferences(QtWidgets.QDialog):
         self.ui.btnLogBrowser.clicked.connect(self.btnLogBrowse_on_click)
         self.ui.btnFirmwareBrowser.clicked.connect(
             self.btnFirmwareBrowse_on_click)
-        self.ui.btnConfigsBrowser.clicked.connect(
-            self.btnConfigsBrowse_on_click)
         self.ui.btnTemplatesBrowser.clicked.connect(
             self.btnTemplatesBrowse_on_click)
         self.ui.closeButton.clicked.connect(self.closeButton_on_click)
@@ -62,12 +61,22 @@ class DialogPreferences(QtWidgets.QDialog):
 
     @loggingInfo
     def closeButton_on_click(self):
-        if self.checkPreferences():
-            self._config.saveConfig()
-            self.close()
+        if not os.path.exists(self._config.config_filename):
+            if os.access(self._config.configs_folder, os.W_OK):
+                print("Creating new config file:", self._config.config_filename)
+                open(self._config.config_filename, 'a').close()
+        if os.access(self._config.config_filename, os.W_OK):
+            if self.checkPreferences():
+                print("Writing config to:", self._config.config_filename)
+                self._config.saveConfig()
+                self.close()
+            else:
+                MessageDialogs.showWarningMessage(self, "Preferences", 
+                    "Check configuration parameters")
         else:
-            MessageDialogs.showWarningMessage(
-                self, "Preferences", "Check configuration parameters")
+            MessageDialogs.showWarningMessage(self, "Preferences", 
+                "You must run IcePAPCMS as superuser to change"
+                " the configuration parameters.")
 
     @loggingInfo
     def listWidget_on_click(self, item):
@@ -129,17 +138,6 @@ class DialogPreferences(QtWidgets.QDialog):
         self.ui.txtFirmwareFolder.setText(folder)
 
     @loggingInfo
-    def btnConfigsBrowse_on_click(self):
-        current_folder = \
-            self._config.config[self._config.icepap]["configs_folder"]
-        fn = QtWidgets.QFileDialog.getExistingDirectory(
-            self, "Open Configs Folder", current_folder)
-        if fn == '':
-            return
-        folder = str(fn)
-        self.ui.txtConfigsFolder.setText(folder)
-
-    @loggingInfo
     def btnTemplatesBrowse_on_click(self):
         current_folder = \
             self._config.config[self._config.icepap]["templates_folder"]
@@ -172,8 +170,7 @@ class DialogPreferences(QtWidgets.QDialog):
             except ImportError:
                 ok_sqlite = False
                 module_errors = module_errors + \
-                    "Failed to import Sqlite Modules: pysqlite2, sqlite3 " \
-                    "modules\n"
+                    "Sqlite storage not available, requires one of the modules 'pysqlite2' or 'sqlite3'\n"
         self.ui.rbsqlite.setEnabled(ok_sqlite)
 
         postgres = True
@@ -182,7 +179,7 @@ class DialogPreferences(QtWidgets.QDialog):
             import psycopg2.extensions
         except BaseException:
             postgres = False
-            module_errors += "Failed to import Postgres modules:psycopg2\n"
+            module_errors += "Postgres storage not available, requires module 'psycopg2'\n"
         self.ui.rbpostgres.setEnabled(postgres)
 
         mysql = True
@@ -190,7 +187,7 @@ class DialogPreferences(QtWidgets.QDialog):
             import MySQLdb
             import MySQLdb.converters
         except BaseException:
-            module_errors += "Failed to import MySQL modules: MySQLdb\n"
+            module_errors += "MySQL storage not available, requires module 'MySQLdb'\n"
             mysql = False
         if module_errors != "":
             module_errors += "Check IcepapCMS user manual to solve these " \
@@ -222,7 +219,7 @@ class DialogPreferences(QtWidgets.QDialog):
         debug_level = config["debug_level"]
         log_folder = config["log_folder"]
         firmware_folder = config["firmware_folder"]
-        configs_folder = config["configs_folder"]
+        configs_folder = self._config.configs_folder
         templates_folder = config["templates_folder"]
         snapshots_folder = config['snapshots_folder']
 
@@ -270,7 +267,6 @@ class DialogPreferences(QtWidgets.QDialog):
             config_ipap["debug_level"] = int(self.ui.sbDebugLevel.value())
             config_ipap["log_folder"] = self.ui.txtLogFolder.text()
             config_ipap["firmware_folder"] = self.ui.txtFirmwareFolder.text()
-            config_ipap["configs_folder"] = self.ui.txtConfigsFolder.text()
             config_ipap["templates_folder"] = self.ui.txtTemplatesFolder.text()
             config_ipap["snapshots_folder"] = self.ui.txtSnapshotsFolder.text()
 

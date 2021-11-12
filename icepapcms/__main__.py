@@ -23,6 +23,21 @@ def get_parser():
     # parser.add_argument(
     #     "--ldap", action="store_true", dest="ldap",
     #     help="Force LDAP login to get username. False by default")
+    if os.name == "nt":
+        system_config_path = os.path.expandvars("%systemdrive%/ProgramData/IcePAP")
+    else:
+        system_config_path = "/etc/icepap"
+    parser.add_argument('-c', '--config-file',
+                        action='store', type=str, dest='config_file', 
+                        help='Path to configuration file. '
+                             'Defaults to trying first {}/icepapcms.conf,'
+                             ' then ~/.icepapcms/configs/icepapcms.conf'
+                             .format(system_config_path))
+    parser.add_argument('-u', '--user',
+                        action='store_true', dest='user_config', 
+                        help='Ignore system-wide config.'
+                             ' Only use config in user home directory, '
+                             ' ~/.icepapcms/configs/icepapcms.conf')
     parser.add_argument("--debug-level", dest='debug_level', type=str,
                         help='Logging level used:[DEBUG, INFO, WARNING, '
                              'ERROR, CRITICAL]', default='WARNING')
@@ -47,6 +62,7 @@ def configure_logging():
     log_console.setFormatter(logging.Formatter(log_format))
 
     log_filename = os.path.join(config_manager.log_folder, 'log.txt')
+    print("Writing logs to:", log_filename)
     log_file = logging.handlers.RotatingFileHandler(
         log_filename, maxBytes=10000000, backupCount=5)
     log_file.setFormatter(logging.Formatter(log_format))
@@ -72,9 +88,9 @@ def configure_logging():
 
 
 def main():
-    config_manager = ConfigManager()
+    
     args = get_parser().parse_args()
-
+    config_manager = ConfigManager(args)
     config_manager._options = args
     listener = configure_logging()
 

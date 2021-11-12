@@ -152,6 +152,7 @@ class PageiPapDriver(QtWidgets.QWidget):
 
         self.setLedsOff()
         self.icepap_driver = None
+        self.temp_file = None
         self.inMotion = -1
         self.status = -1
 
@@ -1164,7 +1165,7 @@ class PageiPapDriver(QtWidgets.QWidget):
     def doImport(self):
         filename = ""
         try:
-            folder = ConfigManager().config["icepap"]["configs_folder"]
+            folder = ConfigManager().configs_folder
             fn = QtWidgets.QFileDialog.getOpenFileName(
                 self, "Open Config File", folder, "*.xml")
             if fn[0] == '':
@@ -1207,7 +1208,7 @@ class PageiPapDriver(QtWidgets.QWidget):
 
     @loggingInfo
     def doExport(self):
-        folder = ConfigManager().config["icepap"]["configs_folder"]
+        folder = ConfigManager().configs_folder
         fn = QtWidgets.QFileDialog.getSaveFileName(
             self, "Save Config File", folder, "*.xml")
         if fn[0] == '':
@@ -1226,6 +1227,9 @@ class PageiPapDriver(QtWidgets.QWidget):
 
     @loggingInfo
     def getXmlData(self):
+        if self.icepap_driver is None:
+            # No system selected!
+            return None
         doc = getDOMImplementation().createDocument(None, "Driver", None)
         dbIcepapSystem = StormManager().getIcepapSystem(
             self.icepap_driver.icepapsystem_name)
@@ -1247,11 +1251,12 @@ class PageiPapDriver(QtWidgets.QWidget):
 
     @loggingInfo
     def doCopy(self):
-        self.temp_file = tempfile.TemporaryFile()
         data = self.getXmlData()
-        self.temp_file.write(data.toprettyxml(encoding="utf-8"))
-        self.temp_file.flush()
-        self.temp_file.seek(0)
+        if data is not None:
+            self.temp_file = tempfile.TemporaryFile()
+            self.temp_file.write(data.toprettyxml(encoding="utf-8"))
+            self.temp_file.flush()
+            self.temp_file.seek(0)
 
     @loggingInfo
     def doPaste(self):
