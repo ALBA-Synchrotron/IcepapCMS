@@ -1,4 +1,18 @@
-IcepapCMS 3.2.X
+
+IcepapCMS 3.3.x
+-------------------------------------------------------------------------
+Added:
+* Allow to have a system-wide configuration file for all users.
+* Allow to use different configuration files.
+* Add context menu item to open directly the console.
+
+Fixed:
+  
+Removed:
+* Change configuration file from dialog.
+
+
+IcepapCMS 3.2.2
 -------------------------------------------------------------------------
 Added:
 * Add auto solved conflict to migrate to 3.35 from: 2.0 to 3.14, 3.15, 3.17,
