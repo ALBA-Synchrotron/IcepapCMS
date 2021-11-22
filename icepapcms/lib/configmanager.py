@@ -38,9 +38,9 @@ class ConfigManager(Singleton):
     use_user_config = False
 
     if os.name == "nt":
-        conf_path_list = [os.path.expandvars("%PROGRAMDATA%/IcePAP"), os.path.expanduser("~/.icepapcms/configs")]
+        conf_path_list = [os.path.expandvars("%PROGRAMDATA%/IcePAP"), os.path.expanduser("~/.icepapcms")]
     else:    
-        conf_path_list = ["/etc/icepap", os.path.expanduser("~/.icepapcms/configs")]
+        conf_path_list = ["/etc/icepap", os.path.expanduser("~/.icepapcms")]
 
     username = 'NotValidated'
 
@@ -123,7 +123,7 @@ class ConfigManager(Singleton):
         
         # If config filename is still None, default to the user home dir.
         if self.config_filename is None:
-            self.configs_folder = os.path.expanduser("~/.icepapcms/configs")
+            self.configs_folder = os.path.expanduser("~/.icepapcms")
             self.config_filename = os.path.join(self.configs_folder, "icepapcms.conf")
             if not os.path.exists(self.configs_folder):
                 os.makedirs(self.configs_folder)
