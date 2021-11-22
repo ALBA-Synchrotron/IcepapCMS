@@ -7,6 +7,7 @@ Added:
 * Add context menu item to open directly the console.
 
 Fixed:
+* Remove wrong configuration folder for user ~/.icepapcms/config/...
   
 Removed:
 * Change configuration file from dialog.
