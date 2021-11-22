@@ -31,13 +31,13 @@ def get_parser():
                         action='store', type=str, dest='config_file', 
                         help='Path to configuration file. '
                              'Defaults to trying first {}/icepapcms.conf,'
-                             ' then ~/.icepapcms/configs/icepapcms.conf'
+                             ' then ~/.icepapcms/icepapcms.conf'
                              .format(system_config_path))
     parser.add_argument('-u', '--user',
                         action='store_true', dest='user_config', 
                         help='Ignore system-wide config.'
                              ' Only use config in user home directory, '
-                             ' ~/.icepapcms/configs/icepapcms.conf')
+                             ' ~/.icepapcms/icepapcms.conf')
     parser.add_argument("--debug-level", dest='debug_level', type=str,
                         help='Logging level used:[DEBUG, INFO, WARNING, '
                              'ERROR, CRITICAL]', default='WARNING')
