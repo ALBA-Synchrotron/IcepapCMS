@@ -81,8 +81,13 @@ class IcepapCMS(QtWidgets.QMainWindow):
         self._config.username = default_user
         if os.name == 'posix':  # this works for linux and macOSX
             self._config.username = os.getenv('USER', default_user)
+            self._os_nt = False
         elif os.name == 'nt':  # win NT, XP... (and Vista?)
             self._config.username = os.getenv('USERNAME', default_user)
+            self._os_nt = True
+
+        if self._os_nt:
+            self.actionConsole.setDisabled(True)
 
         if self._config.config['ldap']['use']:
             # FORCE AN LDAP LOGIN TO GET CORRECT USER NAMES IN THE DRIVER
@@ -106,6 +111,8 @@ class IcepapCMS(QtWidgets.QMainWindow):
         self.signalConnections()
         self.refreshTimer = Qt.QTimer(self)
         self.checkTimer.timeout.connect(self.checkIcepapConnection)
+
+
 
     @loggingInfo
     def signalConnections(self):
@@ -307,6 +314,9 @@ class IcepapCMS(QtWidgets.QMainWindow):
                 item.role == IcepapTreeModel.SYSTEM_WARNING:
             shown_actions = [6, 7, 8, 9, 10, 11, 12]
         for i in shown_actions:
+            if self._os_nt and i == 12:
+                # Show console action
+                continue
             exec(actions[i])
         self.menu.popup(self.cursor().pos())
 
