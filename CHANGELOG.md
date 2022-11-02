@@ -1,5 +1,19 @@
+IcepapCMS 3.4.x
+-------------------------------------------------------------------------
+Added:
+* Use icepapctl as new console for Linux
 
-IcepapCMS 3.3.x
+Fixed:
+
+  
+Removed:
+* Original QT console
+* Console Icon is disabled on Windows OS, the icepapctl console is not 
+  supported
+
+
+
+IcepapCMS 3.3.1
 -------------------------------------------------------------------------
 Added:
 * Allow to have a system-wide configuration file for all users.
