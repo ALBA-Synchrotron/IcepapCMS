@@ -20,7 +20,7 @@ from pkg_resources import resource_filename, get_distribution, \
 import subprocess
 import logging
 from ..lib import MainManager, Conflict, ConfigManager, \
-    StormManager
+    StormManager, IcepapsManager
 from .icepap_treemodel import IcepapTreeModel
 from .pageipapdriver import PageiPapDriver
 from .pageipapcrate import PageiPapCrate
@@ -40,6 +40,7 @@ from .messagedialogs import MessageDialogs
 from .templatescatalogwidget import TemplatesCatalogWidget
 from ..helpers import loggingInfo
 from ..gui.ldap.login import DialogLdapLogin
+from icepap import IcePAPController
 
 __version__ = '3.3.1'
 
@@ -80,8 +81,13 @@ class IcepapCMS(QtWidgets.QMainWindow):
         self._config.username = default_user
         if os.name == 'posix':  # this works for linux and macOSX
             self._config.username = os.getenv('USER', default_user)
+            self._os_nt = False
         elif os.name == 'nt':  # win NT, XP... (and Vista?)
             self._config.username = os.getenv('USERNAME', default_user)
+            self._os_nt = True
+
+        if self._os_nt:
+            self.actionConsole.setDisabled(True)
 
         if self._config.config['ldap']['use']:
             # FORCE AN LDAP LOGIN TO GET CORRECT USER NAMES IN THE DRIVER
@@ -105,6 +111,8 @@ class IcepapCMS(QtWidgets.QMainWindow):
         self.signalConnections()
         self.refreshTimer = Qt.QTimer(self)
         self.checkTimer.timeout.connect(self.checkIcepapConnection)
+
+
 
     @loggingInfo
     def signalConnections(self):
@@ -306,6 +314,9 @@ class IcepapCMS(QtWidgets.QMainWindow):
                 item.role == IcepapTreeModel.SYSTEM_WARNING:
             shown_actions = [6, 7, 8, 9, 10, 11, 12]
         for i in shown_actions:
+            if self._os_nt and i == 12:
+                # Show console action
+                continue
             exec(actions[i])
         self.menu.popup(self.cursor().pos())
 
@@ -336,7 +347,7 @@ class IcepapCMS(QtWidgets.QMainWindow):
             item = self.context_menu_item
             icepap_system = item.getIcepapSystem()
             addr = "%s:%s" % (icepap_system.host, icepap_system.port)
-            dlg = IcepapConsole(self, host=addr)
+            dlg = IcepapConsole(self, addr)
             dlg.show()
         self.context_menu_item = None
 
@@ -987,7 +998,38 @@ class IcepapCMS(QtWidgets.QMainWindow):
 
     @loggingInfo
     def actionConsoleMth(self):
-        dlg = IcepapConsole(self)
+
+        addr, done = QtWidgets.QInputDialog.getText(
+            self, 'Host connection', 'Please, write a host name to '
+                                     'connect to.')
+        if not done:
+            return
+        if addr.find(":") >= 0:
+            aux = addr.split(':')
+            host = aux[0]
+            port = aux[1]
+        else:
+            host = addr
+            port = "5000"
+
+        if hasattr(self._config, '_options'):
+            ipapcontroller = IcepapsManager()
+            if not ipapcontroller.host_in_same_subnet(host):
+                MessageDialogs.showInformationMessage(
+                    None, "Host connection",
+                    "It is not allowed to connect to {}. "
+                    "(Check subnet)".format(host))
+                return
+        try:
+            IcePAPController(host, int(port))
+        except Exception as e:
+            MessageDialogs.showErrorMessage(None, "Connection error",
+                                            "Error connecting "
+                                            "to " + addr + "\n" + str(e))
+
+            return
+
+        dlg = IcepapConsole(self, addr)
         dlg.show()
 
     @loggingInfo
