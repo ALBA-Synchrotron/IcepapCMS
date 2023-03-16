@@ -874,7 +874,11 @@ class PageiPapDriver(QtWidgets.QWidget):
                 driver_addr = self.icepap_driver.addr
                 if isinstance(widget, QtWidgets.QDoubleSpinBox) or isinstance(
                         widget, QtWidgets.QSpinBox):
-                    widget.setValue(float(value))
+                    if isinstance(widget, QtWidgets.QDoubleSpinBox):
+                        value = float(value)
+                    else:
+                        value = int(value)
+                    widget.setValue(value)
                     if set_default:
                         widget.defaultvalue = widget.value()
                 elif isinstance(widget, QtWidgets.QCheckBox):
