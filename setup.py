@@ -54,7 +54,7 @@ setup(
         "IPy>=0.62",
         "PyQt5",
         "icepap>=3.7.0",
-        'configobj',
+        'configobj!=5.0.7',
         'ldap3',
         'PyYAML',
 
