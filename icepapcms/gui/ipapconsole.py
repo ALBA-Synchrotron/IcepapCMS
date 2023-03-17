@@ -5,15 +5,10 @@ class EmbTerminal(QtWidgets.QWidget):
     def __init__(self, command=""):
         super(EmbTerminal, self).__init__()
         self.process = QtCore.QProcess(self)
-        self.terminal = QtWidgets.QWidget(self)
-        layout = QtWidgets.QVBoxLayout(self)
-        layout.addWidget(self.terminal)
-
         self.process.start('xterm', ['-into', str(int(self.winId())),
                                      '-bg', 'black', '-fg', 'gray',
-                                     '-rightbar', '-geom', '150x40',
+                                     '-rightbar', '-geom', '350x100',
                                      '-e', command])
-        self.setFixedSize(800, 480)
 
 
 class IcepapConsole(QtWidgets.QDialog):
@@ -28,6 +23,7 @@ class IcepapConsole(QtWidgets.QDialog):
         self.terminal.process.finished.connect(self.close)
         lay.addWidget(self.terminal)
         self.setWindowTitle('Icepap Console <{}>'.format(addr))
+        self.setFixedSize(800, 480)
 
 
 def main():
