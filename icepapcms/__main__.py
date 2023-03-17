@@ -61,7 +61,8 @@ def configure_logging():
     log_console = logging.StreamHandler()
     log_console.setFormatter(logging.Formatter(log_format))
 
-    log_filename = os.path.join(config_manager.log_folder, 'log.txt')
+    log_filename = os.path.join(config_manager.config['icepap']['log_folder'],
+                                'log.txt')
     print("Writing logs to:", log_filename)
     log_file = logging.handlers.RotatingFileHandler(
         log_filename, maxBytes=10000000, backupCount=5)
