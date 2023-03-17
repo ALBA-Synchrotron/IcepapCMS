@@ -4,8 +4,11 @@ Added:
 * Use icepapctl as new console for Linux
 
 Fixed:
-
-  
+* Console dialog fixed to xterm size
+* Fix wrong casting value for QSpinBox to support python >= 3.10
+* Exclude configobj 5.0.7 package because introduces a regression
+* Use correct configured log folder
+ 
 Removed:
 * Original QT console
 * Console Icon is disabled on Windows OS, the icepapctl console is not 
