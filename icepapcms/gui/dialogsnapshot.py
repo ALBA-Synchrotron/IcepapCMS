@@ -15,7 +15,6 @@ from PyQt5 import QtWidgets, uic
 from pkg_resources import resource_filename
 import os
 import time
-import logging
 import threading
 from ..lib.snapshot import IcepapSnapshot
 from ..lib.configmanager import ConfigManager
