@@ -78,14 +78,11 @@ class AxisSnapshot:
         # Get Operation:
         self.snapshot['Operation'] = oper = {}
 
-        # Attributes can fail on reading, but we save it anyway with None
-        # value
+        # Basic operation attributes
         attrs = ['velocity', 'name', 'acctime', 'pcloop', 'indexer', 'infoa',
-                 'infob', 'infoc', 'pos', 'pos_measure', 'pos_shftenc',
-                 'pos_tgtenc', 'pos_ctrlenc', 'pos_encin', 'pos_inpos',
-                 'pos_absenc', 'pos_motor', 'pos_sync', 'enc', 'enc_measure',
-                 'enc_shftenc', 'enc_tgtenc', 'enc_ctrlenc', 'enc_encin',
-                 'enc_inpos', 'enc_absenc', 'enc_motor', 'enc_sync', 'id']
+                 'infob', 'infoc', 'pos', 'enc', 'pos_encin', 'enc_encin',
+                 'pos_inpos', 'enc_inpos', 'pos_absenc', 'enc_absenc',
+                 'pos_motor', 'enc_motor', 'pos_sync', 'enc_sync', 'id']
 
         # Attributes can fail on reading because they are on version 3.17
         # This attributes won on the backup file if the version is < 3
