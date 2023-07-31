@@ -17,7 +17,7 @@ import os
 import time
 import logging
 import threading
-from ..lib.sanpshot import IcepapSnapshot
+from ..lib.snapshot import IcepapSnapshot
 from ..lib.configmanager import ConfigManager
 from .messagedialogs import MessageDialogs
 
