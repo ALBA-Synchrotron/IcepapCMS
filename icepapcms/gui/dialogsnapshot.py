@@ -56,9 +56,9 @@ class DialogSnapshot(QtWidgets.QDialog):
 
     def update_progress_bar(self, ipap_snapshot):
         while ipap_snapshot.done != 100:
-            self.ui.progress_bar.setValue(ipap_snapshot.done)
+            self.ui.progress_bar.setValue(int(ipap_snapshot.done))
             time.sleep(1)
-        self.ui.progress_bar.setValue(ipap_snapshot.done)
+        self.ui.progress_bar.setValue(int(ipap_snapshot.done))
 
     def take_snapshot_clicked(self):
         try:
