@@ -42,7 +42,12 @@ class DialogSnapshot(QtWidgets.QDialog):
 
     def set_filename(self):
         if self.ui.filename.text() == '':
-            name = 'snapshot_{}.yaml'.format(time.strftime('%Y%m%d_%H%M%S'))
+            host = self.ui.host.text()
+            str_time = time.strftime('%Y%m%d_%H%M%S')
+            if host:
+                name = '{}_snapshot_{}.yaml'.format(host, str_time)
+            else:
+                name = 'snapshot_{}.yaml'.format(str_time)
             snapshots_folder = \
                 self._config.config[self._config.icepap]['snapshots_folder']
             directory = os.path.join(snapshots_folder, name)
