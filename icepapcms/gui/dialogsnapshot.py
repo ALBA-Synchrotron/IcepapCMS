@@ -91,8 +91,13 @@ class DialogSnapshot(QtWidgets.QDialog):
 
             self.ui.take_snapshot.setEnabled(False)
             thread.start()
-            ipap_snapshot.create_snapshot(filename)
+            axes_errors = ipap_snapshot.create_snapshot(filename)
             thread.join()
+            if axes_errors:
+               MessageDialogs.showErrorMessage(
+                    self, 'Error on reading values',
+                          'Check AxesError list on the file. Axes: {'
+                          '}'.format(axes_errors))
         finally:
             self.ui.take_snapshot.setEnabled(True)
 
