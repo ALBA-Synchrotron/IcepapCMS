@@ -52,10 +52,20 @@ class AxisSnapshot:
     def create_snapshot(self):
         drv_ver = self.axis.fver
         self.snapshot['VER'] = drv_ver
+        flag_error = False
+        for i in range(3):
+            try:
+                # Get Configuration
+                value = dict(self.axis.get_cfg())
+                break
+            except Exception as e:
+                self.log.error('Error on reading configuration: {}'
+                               ''.format(e))
+                value = ERROR_VALUE
 
-
-        # Get Configuration
-        self.snapshot['Configuration'] = dict(self.axis.get_cfg())
+        self.snapshot['Configuration'] = value
+        if value == ERROR_VALUE:
+            flag_error = True
 
         # Get Operation:
         self.snapshot['Operation'] = oper = {}
