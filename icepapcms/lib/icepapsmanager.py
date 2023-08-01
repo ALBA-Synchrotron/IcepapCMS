@@ -200,7 +200,17 @@ class IcepapsManager(Singleton):
         # ALL THE CONFIGURATION
         # WITH THE #N?:CFG COMMAND, USING SOME .getCfg() METHOD.
         axis = self.iPaps[icepap_name][driver_addr]
-        cfg = axis.get_cfg()
+
+        # TODO: Investigate how to mark the driver with error
+        try:
+            cfg = axis.get_cfg()
+        except Exception as e:
+            cfg = {}
+            msg = 'Can not read axis {} configuration: {}'.format(axis.axis, e)
+            self.log.error(msg)
+            MessageDialogs.showErrorMessage(None, 'Get Driver Configuration',
+                                            msg)
+
         for param_name, param_value in list(cfg.items()):
             driver_cfg.setParameter(str(param_name), param_value)
 

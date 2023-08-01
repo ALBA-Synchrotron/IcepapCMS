@@ -3,6 +3,8 @@ from icepap import IcePAPController
 import logging
 import time
 
+ERROR_VALUE = 'ERROR'
+
 
 class IcepapSnapshot:
     """
@@ -23,21 +25,25 @@ class IcepapSnapshot:
         _done = 0
         self.snapshot['Date'] = time.strftime('%Y/%m/%d %H:%M:%S +%z')
         self.snapshot['System'] = system = {}
+        self.snapshot['AxesErrors'] = axes_errors = []
         self.snapshot['Axes'] = axes = {}
         system['HOST'] = self._host
         system['PORT'] = self._port
         system['VER'] = self._ipap.ver['SYSTEM']['VER'][0]
         _done += 1
         self.done = _done * factor
+
         for axis in self._ipap.axes:
             axis_snapshot = AxisSnapshot(self._ipap[axis])
-            axis_snapshot.create_snapshot()
+            error = axis_snapshot.create_snapshot()
+            if error:
+                axes_errors.append(axis)
             axes[axis] = axis_snapshot.snapshot
             _done += 1
             self.done = _done * factor
         self._save(filename)
         self.done = 100
-
+        return axes_errors
     def _save(self, filename):
         with open(filename, 'w') as f:
             yaml.safe_dump(self.snapshot, f)
@@ -48,26 +54,35 @@ class AxisSnapshot:
     def __init__(self, axis):
         self.axis = axis
         self.snapshot = {}
+        log_name = '{}.AxisSnapshot_({})'.format(__name__, axis)
+        self.log = logging.getLogger(log_name)
 
     def create_snapshot(self):
         drv_ver = self.axis.fver
         self.snapshot['VER'] = drv_ver
+        flag_error = False
+        for i in range(3):
+            try:
+                # Get Configuration
+                value = dict(self.axis.get_cfg())
+                break
+            except Exception as e:
+                self.log.error('Error on reading configuration: {}'
+                               ''.format(e))
+                value = ERROR_VALUE
 
-
-        # Get Configuration
-        self.snapshot['Configuration'] = dict(self.axis.get_cfg())
+        self.snapshot['Configuration'] = value
+        if value == ERROR_VALUE:
+            flag_error = True
 
         # Get Operation:
         self.snapshot['Operation'] = oper = {}
 
-        # Attributes can fail on reading, but we save it anyway with None
-        # value
+        # Basic operation attributes
         attrs = ['velocity', 'name', 'acctime', 'pcloop', 'indexer', 'infoa',
-                 'infob', 'infoc', 'pos', 'pos_measure', 'pos_shftenc',
-                 'pos_tgtenc', 'pos_ctrlenc', 'pos_encin', 'pos_inpos',
-                 'pos_absenc', 'pos_motor', 'pos_sync', 'enc', 'enc_measure',
-                 'enc_shftenc', 'enc_tgtenc', 'enc_ctrlenc', 'enc_encin',
-                 'enc_inpos', 'enc_absenc', 'enc_motor', 'enc_sync', 'id']
+                 'infob', 'infoc', 'pos', 'enc', 'pos_encin', 'enc_encin',
+                 'pos_inpos', 'enc_inpos', 'pos_absenc', 'enc_absenc',
+                 'pos_motor', 'enc_motor', 'pos_sync', 'enc_sync', 'id']
 
         # Attributes can fail on reading because they are on version 3.17
         # This attributes won on the backup file if the version is < 3
@@ -85,17 +100,21 @@ class AxisSnapshot:
                     value = self.axis.__getattribute__(attr)
                     break
                 except Exception:
-                    value = None
+                    value = ERROR_VALUE
             oper[attr] = value
+            if value == ERROR_VALUE:
+                flag_error = True
 
         # External Disable. Valid for FW < 3
         if drv_ver < 3:
             try:
                 value = eval(self.axis.send_cmd('?DISDIS')[0])
             except Exception:
-                value = None
+                value = ERROR_VALUE
             oper['DISDIS'] = value
-
+            if value == ERROR_VALUE:
+                flag_error = True
+        return flag_error
 
     # def do_check(self, axes=[]):
     #     self._cfg_bkp.pop('GENERAL')

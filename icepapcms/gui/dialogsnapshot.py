@@ -15,9 +15,8 @@ from PyQt5 import QtWidgets, uic
 from pkg_resources import resource_filename
 import os
 import time
-import logging
 import threading
-from ..lib.sanpshot import IcepapSnapshot
+from ..lib.snapshot import IcepapSnapshot
 from ..lib.configmanager import ConfigManager
 from .messagedialogs import MessageDialogs
 
@@ -42,7 +41,12 @@ class DialogSnapshot(QtWidgets.QDialog):
 
     def set_filename(self):
         if self.ui.filename.text() == '':
-            name = 'snapshot_{}.yaml'.format(time.strftime('%Y%m%d_%H%M%S'))
+            host = self.ui.host.text()
+            str_time = time.strftime('%Y%m%d_%H%M%S')
+            if host:
+                name = '{}_snapshot_{}.yaml'.format(host, str_time)
+            else:
+                name = 'snapshot_{}.yaml'.format(str_time)
             snapshots_folder = \
                 self._config.config[self._config.icepap]['snapshots_folder']
             directory = os.path.join(snapshots_folder, name)
@@ -56,9 +60,9 @@ class DialogSnapshot(QtWidgets.QDialog):
 
     def update_progress_bar(self, ipap_snapshot):
         while ipap_snapshot.done != 100:
-            self.ui.progress_bar.setValue(ipap_snapshot.done)
+            self.ui.progress_bar.setValue(int(ipap_snapshot.done))
             time.sleep(1)
-        self.ui.progress_bar.setValue(ipap_snapshot.done)
+        self.ui.progress_bar.setValue(int(ipap_snapshot.done))
 
     def take_snapshot_clicked(self):
         try:
@@ -87,8 +91,13 @@ class DialogSnapshot(QtWidgets.QDialog):
 
             self.ui.take_snapshot.setEnabled(False)
             thread.start()
-            ipap_snapshot.create_snapshot(filename)
+            axes_errors = ipap_snapshot.create_snapshot(filename)
             thread.join()
+            if axes_errors:
+               MessageDialogs.showErrorMessage(
+                    self, 'Error on reading values',
+                          'Check AxesError list on the file. Axes: {'
+                          '}'.format(axes_errors))
         finally:
             self.ui.take_snapshot.setEnabled(True)
 
