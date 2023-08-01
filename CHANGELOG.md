@@ -2,18 +2,24 @@ IcepapCMS 3.4.x
 -------------------------------------------------------------------------
 Added:
 * Use icepapctl as new console for Linux
+* Include host on snapshot filename
+
 
 Fixed:
 * Console dialog fixed to xterm size
 * Fix wrong casting value for QSpinBox to support python >= 3.10
 * Exclude configobj 5.0.7 package because introduces a regression
 * Use correct configured log folder
+* Snapshot crashes with corrupted axis configuration
+* Show drives when there are corrupted axes configuration
+* Fix wrong casting value for QProgressBar to support python >= 3.10
+* Fix typo on snapshot module
  
 Removed:
 * Original QT console
 * Console Icon is disabled on Windows OS, the icepapctl console is not 
   supported
-
+* Snapshot of target, shaft and control enconders
 
 
 IcepapCMS 3.3.1
