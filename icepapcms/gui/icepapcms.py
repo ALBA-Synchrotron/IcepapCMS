@@ -13,6 +13,7 @@
 
 import sys
 import os
+import re
 import webbrowser
 from PyQt5 import QtCore, QtGui, Qt, QtWidgets, uic
 from pkg_resources import resource_filename, get_distribution, \
@@ -998,12 +999,23 @@ class IcepapCMS(QtWidgets.QMainWindow):
 
     @loggingInfo
     def actionConsoleMth(self):
+        try:
+            index = self.ui.treeView.selectionModel().selectedIndexes()[0]
+            while True:
+                data = str(index.data(QtCore.Qt.DisplayRole))
+                if re.match(r"^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$",
+                                        data):
+                    break
+                else:
+                    index = index.parent()
+            addr = data
+        except Exception:
+            addr, done = QtWidgets.QInputDialog.getText(
+                self, 'Host connection', 'Please, write a host name to '
+                                         'connect to.')
+            if not done:
+                return
 
-        addr, done = QtWidgets.QInputDialog.getText(
-            self, 'Host connection', 'Please, write a host name to '
-                                     'connect to.')
-        if not done:
-            return
         if addr.find(":") >= 0:
             aux = addr.split(':')
             host = aux[0]
