@@ -228,9 +228,13 @@ class IcepapCMS(QtWidgets.QMainWindow):
         self.ui.cbLocation.clear()
         self.ui.treeView.setModel(None)
 
+        fixed_location = self._config.config[self._config.icepap]["fixed_location"]
+        if fixed_location == "*":
+            fixed_location = None
         keys = sorted(self._manager.locationList.keys())
         for location_name in keys:
-            self.ui.cbLocation.addItem(location_name)
+            if not fixed_location or location_name in map(lambda x: x.strip(), fixed_location.split(";")):
+                self.ui.cbLocation.addItem(location_name)
         first_location = self.ui.cbLocation.itemText(0)
         activate = False
         if self.ui.cbLocation.count() > 0:

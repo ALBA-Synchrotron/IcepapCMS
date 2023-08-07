@@ -58,6 +58,7 @@ class ConfigManager(Singleton):
     firmware_folder = string(default=''' + firmware_folder + ''')
     templates_folder = string(default=''' + templates_folder + ''')
     snapshots_folder = string(default=''' + snapshots_folder + ''')
+    fixed_location = string(default=*)
     [ldap]
     use = boolean(default=False)
     not_allowed = string(default='List of users no allowed to use the GUI')
