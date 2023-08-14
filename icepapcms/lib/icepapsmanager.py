@@ -99,7 +99,8 @@ class IcepapsManager(Singleton):
         self.iPaps = {}
 
     @loggingInfo
-    def _get_driver_cfg_info(self, icepap_name, driver_addr):
+    def _get_driver_raw_cfg_info(self, icepap_name, driver_addr):
+
         try:
             cfg_info = self.iPaps[icepap_name][driver_addr].get_cfginfo()
         except RuntimeError as e:
@@ -108,6 +109,10 @@ class IcepapsManager(Singleton):
             self.log.error(msg)
             MessageDialogs.showErrorMessage(None, 'Driver Config Info', msg)
             raise e
+
+        return cfg_info
+
+    def _get_cfg_info(self, cfg_info):
         for key, val in list(cfg_info.items()):
             if val.startswith('{'):
                 val = val.replace("{", "")
@@ -152,16 +157,13 @@ class IcepapsManager(Singleton):
                 driver_version = driver_cfg.getParameter('VER', True)
                 if driver_version not in cfginfos_version_dict:
                     try:
-                        if driver_version in CFG_INFOS_DEFAULTS:
-                            cfginfos_version_dict[driver_version] = \
-                                CFG_INFOS_DEFAULTS[driver_version]
-                        else:
-                            cfginfos_version_dict[driver_version] = \
-                                self._get_driver_cfg_info(icepap_name, addr)
-                    except Exception as e:
-                        self.log.error('Can not read cfg info axis %d.'
-                                       'Error: %s', addr, e)
-                # GET CFGINFO FROM CACHED DICT INSTEAD OF QUERYING EACH TIME
+                        raw_cfg_info = CFG_INFOS_DEFAULTS[driver_version]
+                    except KeyError:
+                        raw_cfg_info = self._get_driver_raw_cfg_info(
+                            icepap_name, addr)
+
+                    cfginfos_version_dict[driver_version] = \
+                        self._get_cfg_info(raw_cfg_info)
 
                 cfginfo_dict = cfginfos_version_dict[driver_version]
                 self.icepap_cfginfos[icepap_name][addr] = cfginfo_dict
