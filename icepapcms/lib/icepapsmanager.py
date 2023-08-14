@@ -761,8 +761,8 @@ class IcepapsManager(Singleton):
                                     'registers')
                     ipap.send_cmd(':ISG ABSRST')
             except Exception:
-                log_queue.put('ERROR!!!!\nCan not restart absolut enconder '
-                                'registers')
+                log_queue.put('\nERROR!!!!!!!!!!!!!!!!!!!!!!\n'
+                              'Can not restart absolute enconder registers')
 
     @loggingInfo
     def upgradeFirmware(self, host, port, filename, component, options, force,
