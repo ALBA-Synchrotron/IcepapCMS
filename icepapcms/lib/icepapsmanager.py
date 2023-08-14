@@ -29,6 +29,7 @@ from . import icepapdriver
 from .configmanager import ConfigManager
 from ..gui.messagedialogs import MessageDialogs
 from ..helpers import loggingInfo, catchError
+from .cfginfos import CFG_INFOS_DEFAULTS
 
 __all__ = ['IcepapsManager']
 
@@ -142,9 +143,16 @@ class IcepapsManager(Singleton):
                 # better each version
                 driver_version = driver_cfg.getParameter('VER', True)
                 if driver_version not in cfginfos_version_dict:
-                    cfginfos_version_dict[driver_version] = \
-                        self._get_driver_cfg_info(icepap_name, addr)
-
+                    try:
+                        if driver_version in CFG_INFOS_DEFAULTS:
+                            cfginfos_version_dict[driver_version] = \
+                                CFG_INFOS_DEFAULTS[driver_version]
+                        else:
+                            cfginfos_version_dict[driver_version] = \
+                                self._get_driver_cfg_info(icepap_name, addr)
+                    except Exception as e:
+                        self.log.error('Can not read cfg info axis %d.'
+                                       'Error: %s', addr, e)
                 # GET CFGINFO FROM CACHED DICT INSTEAD OF QUERYING EACH TIME
                 cfginfo_dict = cfginfos_version_dict[driver_version]
                 self.icepap_cfginfos[icepap_name][addr] = cfginfo_dict
