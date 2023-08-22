@@ -29,6 +29,7 @@ from . import icepapdriver
 from .configmanager import ConfigManager
 from ..gui.messagedialogs import MessageDialogs
 from ..helpers import loggingInfo, catchError
+from .cfginfos import CFG_INFOS_DEFAULTS
 
 __all__ = ['IcepapsManager']
 
@@ -98,7 +99,8 @@ class IcepapsManager(Singleton):
         self.iPaps = {}
 
     @loggingInfo
-    def _get_driver_cfg_info(self, icepap_name, driver_addr):
+    def _get_driver_raw_cfg_info(self, icepap_name, driver_addr):
+
         try:
             cfg_info = self.iPaps[icepap_name][driver_addr].get_cfginfo()
         except RuntimeError as e:
@@ -107,6 +109,10 @@ class IcepapsManager(Singleton):
             self.log.error(msg)
             MessageDialogs.showErrorMessage(None, 'Driver Config Info', msg)
             raise e
+
+        return cfg_info
+
+    def _get_cfg_info(self, cfg_info):
         for key, val in list(cfg_info.items()):
             if val.startswith('{'):
                 val = val.replace("{", "")
@@ -131,10 +137,18 @@ class IcepapsManager(Singleton):
         try:
             # IMPROVE OF SPEED BY SAVING CFGINFOS BY VERSION
             cfginfos_version_dict = {}
+            drivers_error = []
             for addr in self.iPaps[icepap_name]:
                 """ TO-DO STORM review"""
                 driver = icepapdriver.IcepapDriver(driver_name, addr)
-                driver_cfg = self.getDriverConfiguration(icepap_name, addr)
+                try:
+                    driver_cfg = self.getDriverConfiguration(icepap_name, addr)
+                except Exception as e:
+                    self.log.error('Can not read axis %d configuration. '
+                                   'Error %s', addr, e)
+                    drivers_error.append(addr)
+                    continue
+
                 driver.addConfiguration(driver_cfg)
 
                 # CFGINFO IS ALSO SPECIFIC FOR EACH DRIVER
@@ -142,21 +156,31 @@ class IcepapsManager(Singleton):
                 # better each version
                 driver_version = driver_cfg.getParameter('VER', True)
                 if driver_version not in cfginfos_version_dict:
-                    cfginfos_version_dict[driver_version] = \
-                        self._get_driver_cfg_info(icepap_name, addr)
+                    try:
+                        raw_cfg_info = CFG_INFOS_DEFAULTS[driver_version]
+                    except KeyError:
+                        raw_cfg_info = self._get_driver_raw_cfg_info(
+                            icepap_name, addr)
 
-                # GET CFGINFO FROM CACHED DICT INSTEAD OF QUERYING EACH TIME
+                    cfginfos_version_dict[driver_version] = \
+                        self._get_cfg_info(raw_cfg_info)
+
                 cfginfo_dict = cfginfos_version_dict[driver_version]
                 self.icepap_cfginfos[icepap_name][addr] = cfginfo_dict
 
                 driver.setName(driver_cfg.getParameter("IPAPNAME", True))
                 driver.setMode(self.iPaps[icepap_name][addr].mode)
                 driver_list[addr] = driver
-
         except Exception as e:
             self.closeConnection(icepap_name)
             self.log.error('Scan Icepap System error: %s', e)
             raise
+        if drivers_error:
+            msg = 'Can not read configuration of {}. The driver(s) will ' \
+                  'show as not present. \n' \
+                  'Run "icepapcms -d" to debug.'.format(drivers_error)
+            self.log.error(msg)
+            MessageDialogs.showErrorMessage(None, 'Scan Icepap System', msg)
         return driver_list
 
     @loggingInfo
@@ -200,16 +224,7 @@ class IcepapsManager(Singleton):
         # ALL THE CONFIGURATION
         # WITH THE #N?:CFG COMMAND, USING SOME .getCfg() METHOD.
         axis = self.iPaps[icepap_name][driver_addr]
-
-        # TODO: Investigate how to mark the driver with error
-        try:
-            cfg = axis.get_cfg()
-        except Exception as e:
-            cfg = {}
-            msg = 'Can not read axis {} configuration: {}'.format(axis.axis, e)
-            self.log.error(msg)
-            MessageDialogs.showErrorMessage(None, 'Get Driver Configuration',
-                                            msg)
+        cfg = axis.get_cfg()
 
         for param_name, param_value in list(cfg.items()):
             driver_cfg.setParameter(str(param_name), param_value)
@@ -746,8 +761,8 @@ class IcepapsManager(Singleton):
                                     'registers')
                     ipap.send_cmd(':ISG ABSRST')
             except Exception:
-                log_queue.put('ERROR!!!!\nCan not restart absolut enconder '
-                                'registers')
+                log_queue.put('\nERROR!!!!!!!!!!!!!!!!!!!!!!\n'
+                              'Can not restart absolute enconder registers')
 
     @loggingInfo
     def upgradeFirmware(self, host, port, filename, component, options, force,

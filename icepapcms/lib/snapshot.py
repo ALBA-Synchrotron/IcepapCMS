@@ -58,9 +58,15 @@ class AxisSnapshot:
         self.log = logging.getLogger(log_name)
 
     def create_snapshot(self):
-        drv_ver = self.axis.fver
-        self.snapshot['VER'] = drv_ver
         flag_error = False
+        try:
+            drv_ver = self.axis.fver
+        except Exception as e:
+            self.log.error('Error on reading version:{}'.format(e))
+            drv_ver = ERROR_VALUE
+            flag_error = True
+
+        self.snapshot['VER'] = drv_ver
         for i in range(3):
             try:
                 # Get Configuration
@@ -99,7 +105,9 @@ class AxisSnapshot:
                 try:
                     value = self.axis.__getattribute__(attr)
                     break
-                except Exception:
+                except Exception as e:
+                    self.log.error('Error on reading {}: {}'
+                                   ''.format(attr, e))
                     value = ERROR_VALUE
             oper[attr] = value
             if value == ERROR_VALUE:
@@ -109,11 +117,13 @@ class AxisSnapshot:
         if drv_ver < 3:
             try:
                 value = eval(self.axis.send_cmd('?DISDIS')[0])
-            except Exception:
+            except Exception as e:
+                self.log.error('Error on reading DISDIS: {}'
+                               ''.format(e))
                 value = ERROR_VALUE
-            oper['DISDIS'] = value
-            if value == ERROR_VALUE:
                 flag_error = True
+            oper['DISDIS'] = value
+
         return flag_error
 
     # def do_check(self, axes=[]):

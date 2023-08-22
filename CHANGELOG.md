@@ -1,4 +1,16 @@
-IcepapCMS 3.4.x
+IcepapCMS 3.5.x
+-------------------------------------------------------------------------
+Added:
+* Add default cfg infos version: 1.22, 3.35
+* Mark as Not Present axes corrupted
+
+
+Fixed:
+* Snapshot crash with corrupted axis
+ 
+Removed:
+
+IcepapCMS 3.4.2
 -------------------------------------------------------------------------
 Added:
 * Use icepapctl as new console for Linux
