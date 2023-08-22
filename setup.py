@@ -19,7 +19,7 @@ The program includes one graphical console to communicate with raw commands.
 
 # The version is updated automatically with bumpversion
 # Do not update manually
-__version = '3.4.2'
+__version = '3.5.0'
 
 
 # Setup
