@@ -998,12 +998,18 @@ class IcepapCMS(QtWidgets.QMainWindow):
 
     @loggingInfo
     def actionConsoleMth(self):
+        try:
+            index = self.ui.treeView.selectionModel().selectedIndexes()[0]
+            item = self._tree_model.item(index)
+            icepap_system = item.getIcepapSystem()
+            addr = "%s:%s" % (icepap_system.host, icepap_system.port)
+        except Exception:
+            addr, done = QtWidgets.QInputDialog.getText(
+                self, 'Host connection', 'Please, write a host name to '
+                                         'connect to.')
+            if not done:
+                return
 
-        addr, done = QtWidgets.QInputDialog.getText(
-            self, 'Host connection', 'Please, write a host name to '
-                                     'connect to.')
-        if not done:
-            return
         if addr.find(":") >= 0:
             aux = addr.split(':')
             host = aux[0]
