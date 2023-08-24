@@ -13,7 +13,6 @@
 
 import sys
 import os
-import re
 import webbrowser
 from PyQt5 import QtCore, QtGui, Qt, QtWidgets, uic
 from pkg_resources import resource_filename, get_distribution, \
