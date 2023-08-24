@@ -1001,14 +1001,9 @@ class IcepapCMS(QtWidgets.QMainWindow):
     def actionConsoleMth(self):
         try:
             index = self.ui.treeView.selectionModel().selectedIndexes()[0]
-            while True:
-                data = str(index.data(QtCore.Qt.DisplayRole))
-                if re.match(r"^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$",
-                                        data):
-                    break
-                else:
-                    index = index.parent()
-            addr = data
+            item = self._tree_model.item(index)
+            icepap_system = item.getIcepapSystem()
+            addr = "%s:%s" % (icepap_system.host, icepap_system.port)
         except Exception:
             addr, done = QtWidgets.QInputDialog.getText(
                 self, 'Host connection', 'Please, write a host name to '
