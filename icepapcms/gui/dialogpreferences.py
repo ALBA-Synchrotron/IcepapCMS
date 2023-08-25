@@ -222,6 +222,7 @@ class DialogPreferences(QtWidgets.QDialog):
         configs_folder = self._config.configs_folder
         templates_folder = config["templates_folder"]
         snapshots_folder = config['snapshots_folder']
+        fixed_location = config["fixed_location"]
 
         self.ui.chkDebug.setChecked(debug_enabled == str(True))
         self.ui.sbDebugLevel.setValue(int(debug_level))
@@ -230,6 +231,7 @@ class DialogPreferences(QtWidgets.QDialog):
         self.ui.txtConfigsFolder.setText(configs_folder)
         self.ui.txtTemplatesFolder.setText(templates_folder)
         self.ui.txtSnapshotsFolder.setText(snapshots_folder)
+        self.ui.txtFixedLocationEdit.setText(fixed_location)
 
     @loggingInfo
     def checkPreferences(self):
@@ -269,6 +271,7 @@ class DialogPreferences(QtWidgets.QDialog):
             config_ipap["firmware_folder"] = self.ui.txtFirmwareFolder.text()
             config_ipap["templates_folder"] = self.ui.txtTemplatesFolder.text()
             config_ipap["snapshots_folder"] = self.ui.txtSnapshotsFolder.text()
+            config_ipap["fixed_location"] = self.ui.txtFixedLocationEdit.text()
 
             return True
         except BaseException as e:

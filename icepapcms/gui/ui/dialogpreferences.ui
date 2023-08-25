@@ -562,7 +562,7 @@
       <bool>false</bool>
      </property>
      <property name="currentRow">
-      <number>-1</number>
+      <number>0</number>
      </property>
      <item>
       <property name="text">
@@ -993,27 +993,33 @@ p, li { white-space: pre-wrap; }
        <item row="0" column="0">
         <widget class="QGroupBox" name="groupBox">
          <property name="title">
-          <string>Debugging configuration</string>
+          <string>Configuration</string>
          </property>
          <layout class="QGridLayout" name="gridLayout">
-          <item row="7" column="3">
-           <widget class="QToolButton" name="btnTemplatesBrowser">
+          <item row="4" column="3">
+           <widget class="QToolButton" name="btnFirmwareBrowser">
             <property name="text">
              <string>...</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="3">
-           <widget class="QToolButton" name="btnLogBrowser">
-            <property name="text">
-             <string>...</string>
-            </property>
-           </widget>
+          <item row="8" column="1" colspan="2">
+           <widget class="QLineEdit" name="txtSnapshotsFolder"/>
           </item>
           <item row="4" column="0">
            <widget class="QLabel" name="label_7">
             <property name="text">
              <string>Firmware folder</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1" colspan="2">
+           <widget class="QLineEdit" name="txtLogFolder">
+            <property name="maximumSize">
+             <size>
+              <width>1666666</width>
+              <height>16777215</height>
+             </size>
             </property>
            </widget>
           </item>
@@ -1037,6 +1043,16 @@ p, li { white-space: pre-wrap; }
             </property>
            </spacer>
           </item>
+          <item row="7" column="1" colspan="2">
+           <widget class="QLineEdit" name="txtTemplatesFolder">
+            <property name="maximumSize">
+             <size>
+              <width>1666666</width>
+              <height>16777215</height>
+             </size>
+            </property>
+           </widget>
+          </item>
           <item row="1" column="1">
            <widget class="QSpinBox" name="sbDebugLevel">
             <property name="sizePolicy">
@@ -1053,37 +1069,24 @@ p, li { white-space: pre-wrap; }
             </property>
            </widget>
           </item>
-          <item row="0" column="0">
-           <widget class="QCheckBox" name="chkDebug">
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_8">
             <property name="text">
-             <string>Debugging enabled</string>
+             <string>Configs folder</string>
             </property>
            </widget>
           </item>
-          <item row="7" column="1" colspan="2">
-           <widget class="QLineEdit" name="txtTemplatesFolder">
-            <property name="maximumSize">
-             <size>
-              <width>1666666</width>
-              <height>16777215</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1" colspan="2">
-           <widget class="QLineEdit" name="txtLogFolder">
-            <property name="maximumSize">
-             <size>
-              <width>1666666</width>
-              <height>16777215</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_5">
+          <item row="3" column="3">
+           <widget class="QToolButton" name="btnLogBrowser">
             <property name="text">
-             <string>Debug level</string>
+             <string>...</string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="0">
+           <widget class="QLabel" name="label_10">
+            <property name="text">
+             <string>Snapshots folder</string>
             </property>
            </widget>
           </item>
@@ -1094,10 +1097,10 @@ p, li { white-space: pre-wrap; }
             </property>
            </widget>
           </item>
-          <item row="8" column="0">
-           <widget class="QLabel" name="label_10">
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="chkDebug">
             <property name="text">
-             <string>Snapshots folder</string>
+             <string>Debugging enabled</string>
             </property>
            </widget>
           </item>
@@ -1118,29 +1121,36 @@ p, li { white-space: pre-wrap; }
             </property>
            </widget>
           </item>
-          <item row="8" column="1" colspan="2">
-           <widget class="QLineEdit" name="txtSnapshotsFolder"/>
-          </item>
-          <item row="4" column="3">
-           <widget class="QToolButton" name="btnFirmwareBrowser">
-            <property name="text">
-             <string>...</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_8">
-            <property name="text">
-             <string>Configs folder</string>
-            </property>
-           </widget>
-          </item>
           <item row="2" column="1">
            <widget class="QLabel" name="txtConfigsFolder">
             <property name="text">
              <string/>
             </property>
            </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_5">
+            <property name="text">
+             <string>Debug level</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="3">
+           <widget class="QToolButton" name="btnTemplatesBrowser">
+            <property name="text">
+             <string>...</string>
+            </property>
+           </widget>
+          </item>
+          <item row="9" column="0">
+           <widget class="QLabel" name="fixed_location_label">
+            <property name="text">
+             <string>Fixed location:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="9" column="1" colspan="2">
+           <widget class="QLineEdit" name="txtFixedLocationEdit"/>
           </item>
          </layout>
         </widget>
