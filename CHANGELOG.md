@@ -1,4 +1,17 @@
-IcepapCMS 3.5.x
+IcepapCMS 3.6.x
+-------------------------------------------------------------------------
+Added:
+* Add fixed location to filter which location are showed, Useful when there is
+  one DB with all locations.
+* Use the selected icepap when the console is opened. 
+
+
+Fixed:
+
+ 
+Removed:
+
+IcepapCMS 3.5.0
 -------------------------------------------------------------------------
 Added:
 * Add default cfg infos version: 1.22, 3.35
