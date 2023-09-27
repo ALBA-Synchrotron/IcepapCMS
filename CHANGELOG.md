@@ -7,7 +7,8 @@ Added:
 
 
 Fixed:
-
+* Can not open more than one icepap with same firmware version, bug introduced
+  with default cfg infos (3.5.0)
  
 Removed:
 
