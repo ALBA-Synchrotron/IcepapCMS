@@ -157,7 +157,7 @@ class IcepapsManager(Singleton):
                 driver_version = driver_cfg.getParameter('VER', True)
                 if driver_version not in cfginfos_version_dict:
                     try:
-                        raw_cfg_info = CFG_INFOS_DEFAULTS[driver_version]
+                        raw_cfg_info = CFG_INFOS_DEFAULTS[driver_version].copy()
                     except KeyError:
                         raw_cfg_info = self._get_driver_raw_cfg_info(
                             icepap_name, addr)
