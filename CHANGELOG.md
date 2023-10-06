@@ -1,4 +1,14 @@
-IcepapCMS 3.6.x
+IcepapCMS 3.7.x
+-------------------------------------------------------------------------
+Added:
+* Use same autofix migration for firmware 3.35 to lower than 4.00
+
+
+Fixed:
+
+Removed:
+
+IcepapCMS 3.6.2
 -------------------------------------------------------------------------
 Added:
 * Add fixed location to filter which location are showed, Useful when there is
