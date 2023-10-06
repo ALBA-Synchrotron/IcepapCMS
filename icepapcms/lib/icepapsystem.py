@@ -286,7 +286,7 @@ class IcepapSystem(Storm):
             skip_params = ['HOLDTIME', 'EXTHOLD', 'INFOASRC', 'INFOBSRC',
                            'INFOCSRC']
 
-        elif dsp_cfg_ver == 3.35 and db_cfg_ver == 3.14:
+        elif 3.35 <= dsp_cfg_ver < 4.0 and db_cfg_ver == 3.14:
             # ignore new parameters or parameters that normally change
             # ['VER', 'HOLDTIME', 'EXTHOLD']:
             # parameters which value is not backward compatible
@@ -296,7 +296,7 @@ class IcepapSystem(Storm):
                            'SSIEWPOL', 'SSIOVF', 'HOLDTIME', 'EXTHOLD',
                            'INFOASRC', 'INFOBSRC', 'INFOCSRC']
 
-        elif (dsp_cfg_ver == 3.35) and (db_cfg_ver == 3.15):
+        elif 3.35 <= dsp_cfg_ver < 4.0 and db_cfg_ver == 3.15:
             # ignore new parameters or parameters that normally change
             # [ 'SSISTRTB', 'SSILDC', 'SSIMSKNB', 'SSIEEPOL', 'SSIEWPOL',
             # 'SSIOVF', 'HOLDTIME', 'EXTHOLD']
@@ -309,7 +309,8 @@ class IcepapSystem(Storm):
 
             check_db_values = {'ABSMODE': ['SSI']}
 
-        elif dsp_cfg_ver == 3.35 and db_cfg_ver in [3.17, 3.182, 3.185, 3.187]:
+        elif 3.35 <= dsp_cfg_ver < 4.0 and \
+                db_cfg_ver in [3.17, 3.182, 3.185, 3.187]:
             # ignore new parameters or parameters that normally change
             # ['VER', 'SSISTRTB', 'SSILDC', 'SSIMSKNB', 'SSIEEPOL',
             # 'SSIEWPOL', 'SSIOVF']
@@ -319,8 +320,8 @@ class IcepapSystem(Storm):
 
             return self._auto_solved_conflict(dsp_cfg, db_cfg, skip_params)
 
-        elif dsp_cfg_ver == 3.35 and db_cfg_ver in [3.184, 3.192, 3.193,
-                                                    3.195]:
+        elif 3.35 <= dsp_cfg_ver < 4.0 and \
+                db_cfg_ver in [3.184, 3.192, 3.193, 3.195]:
             # ignore new parameters or parameters that normally change
             # ['VER','SSISTRTB','SSILDC','SSIMSKNB','SSIEEPOL', 'SSIEWPOL',
             # 'SSIOVF']
@@ -335,7 +336,7 @@ class IcepapSystem(Storm):
 
             check_db_values = {'ABSMODE': ['SSI']}
 
-        elif dsp_cfg_ver == 3.35 and \
+        elif 3.35 <= dsp_cfg_ver < 4.0 and \
                 db_cfg_ver in [3.23, 3.25, 3.29, 3.31, 3.33]:
             # ignore new parameters or parameters that normally change
             # ['VER', 'SSIOVF']
