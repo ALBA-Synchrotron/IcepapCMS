@@ -42,7 +42,7 @@ from ..helpers import loggingInfo
 from ..gui.ldap.login import DialogLdapLogin
 from icepap import IcePAPController
 
-__version__ = '3.6.2'
+__version__ = '3.7.0'
 
 
 class IcepapApp(QtWidgets.QApplication):
