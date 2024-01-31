@@ -127,7 +127,7 @@ p, li { white-space: pre-wrap; }
    <item row="2" column="0" colspan="3">
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="page_calendar">
       <layout class="QGridLayout">
@@ -147,28 +147,7 @@ p, li { white-space: pre-wrap; }
         <number>0</number>
        </property>
        <item row="0" column="0">
-        <widget class="QCalendarWidget" name="calendarWidget">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>8</pointsize>
-          </font>
-         </property>
-         <property name="firstDayOfWeek">
-          <enum>Qt::Monday</enum>
-         </property>
-         <property name="gridVisible">
-          <bool>true</bool>
-         </property>
-         <property name="verticalHeaderFormat">
-          <enum>QCalendarWidget::NoVerticalHeader</enum>
-         </property>
-        </widget>
+        <widget class="QListWidget" name="list_changed"/>
        </item>
       </layout>
      </widget>

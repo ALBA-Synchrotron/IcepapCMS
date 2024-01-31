@@ -33,7 +33,8 @@ class HistoricCfgWidget(QtWidgets.QWidget):
         self.selectedDays = {}
 
         # Connect Signals
-        self.ui.calendarWidget.clicked.connect(self.daySelected)
+        # self.ui.calendarWidget.clicked.connect(self.daySelected)
+        self.ui.list_changed.itemDoubleClicked.connect(self.daySelected)
         self.ui.btnBack.clicked.connect(self.btnBackClicked)
         self.ui.listWidget.currentTextChanged.connect(self.listWidgetChanged)
         self.ui.saveButton.clicked.connect(self.saveButton_on_click)
@@ -49,47 +50,41 @@ class HistoricCfgWidget(QtWidgets.QWidget):
         self.ui.stackedWidget.setCurrentIndex(0)
         self.ui.saveButton.setEnabled(False)
         self.ui.deleteButton.setEnabled(False)
-
-        for date in self.ui.calendarWidget.dateTextFormat():
-            self.ui.calendarWidget.setDateTextFormat(
-                date, QtGui.QTextCharFormat())
         self.selectedDays = {}
         self.icepap_driver = driver
         self.ui.txtName.setText("")
         self.ui.txtDescription.setText("")
+        self.ui.list_changed.clear()
         for cfg in self.icepap_driver.historic_cfgs:
             datetime = cfg.date
-
-            qdate = QtCore.QDate(datetime.year, datetime.month, datetime.day)
-            cfgdate = qdate.toPyDate().ctime()
+            cfgdate = datetime.strftime("%Y-%m-%d")
             if cfgdate in self.selectedDays:
                 self.selectedDays[cfgdate].append([cfg.date, cfg])
             else:
                 format = QtGui.QTextCharFormat()
                 format.setBackground(QtGui.QColor(255, 255, 0))
-                self.ui.calendarWidget.setDateTextFormat(qdate, format)
                 self.selectedDays[cfgdate] = [[cfg.date, cfg]]
-        self.daySelected(self.ui.calendarWidget.selectedDate())
+                self.ui.list_changed.addItem(cfgdate)
+        self.ui.list_changed.sortItems(QtCore.Qt.DescendingOrder)
 
     @loggingInfo
-    def daySelected(self, qdate):
-        date = qdate.toPyDate().ctime()
-        if date in self.selectedDays:
-            daylist = self.selectedDays[date]
-            if len(daylist) == 1:
-                self.fillCfgData(daylist[0])
-            else:
-                self.ui.stackedWidget.setCurrentIndex(1)
-                self.fillDayCfgs(daylist)
+    def daySelected(self, item):
+        daylist = self.selectedDays[item.text()]
+        if len(daylist) == 1:
+            self.fillCfgData(daylist[0])
+        else:
+            self.ui.stackedWidget.setCurrentIndex(1)
+            self.fillDayCfgs(daylist)
 
     @loggingInfo
     def fillDayCfgs(self, cfgs):
         self.ui.listWidget.clear()
         self.listDict = {}
         for date, cfg in cfgs:
-            key = date.ctime()
+            key = date.strftime("%Y-%m-%d %H:%M:%S.%f")
             self.listDict[key] = [date, cfg]
             self.ui.listWidget.addItem(key)
+        self.ui.listWidget.sortItems(QtCore.Qt.DescendingOrder)
 
     @loggingInfo
     def listWidgetChanged(self, name):
