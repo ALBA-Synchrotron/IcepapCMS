@@ -1119,7 +1119,7 @@ polarity</string>
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="cfgABSOFFSET">
+            <widget class="QDoubleSpinBox" name="cfgABSOFFSET">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
                <horstretch>0</horstretch>
@@ -1138,14 +1138,17 @@ polarity</string>
                <height>22</height>
               </size>
              </property>
+             <property name="decimals">
+              <number>0</number>
+             </property>
              <property name="minimum">
-              <number>-2147483647</number>
+              <double>-9223372036854775808.000000000000000</double>
              </property>
              <property name="maximum">
-              <number>2147483647</number>
+              <double>9223372036854775808.000000000000000</double>
              </property>
-             <property name="singleStep">
-              <number>1</number>
+             <property name="stepType">
+              <enum>QAbstractSpinBox::AdaptiveDecimalStepType</enum>
              </property>
             </widget>
            </item>

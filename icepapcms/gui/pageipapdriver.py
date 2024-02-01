@@ -1073,6 +1073,8 @@ class PageiPapDriver(QtWidgets.QWidget):
             if not widget.isCommand:
                 if param == 'DriverName':
                     param = 'IPAPNAME'
+                if param == 'ABSOFFSET':
+                    value = int(value)
                 new_values.append([param, value])
             else:
                 # SINCE THE COMMAND PARAMS ARE NOT THE SAME AS THE CFG PARAMS
