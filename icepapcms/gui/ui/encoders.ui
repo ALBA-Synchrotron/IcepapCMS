@@ -1504,7 +1504,7 @@ polarity</string>
               </size>
              </property>
              <property name="text">
-              <string>bissc line delay bits</string>
+              <string>BiSS-C line delay</string>
              </property>
             </widget>
            </item>
@@ -1554,7 +1554,7 @@ polarity</string>
               </size>
              </property>
              <property name="text">
-              <string>masked lsbs</string>
+              <string>masked bits</string>
              </property>
             </widget>
            </item>
@@ -1604,7 +1604,7 @@ polarity</string>
               </size>
              </property>
              <property name="text">
-              <string>biscc error bit polarity</string>
+              <string>BiSS-C error bit polarity</string>
              </property>
             </widget>
            </item>
@@ -1651,7 +1651,7 @@ polarity</string>
               </size>
              </property>
              <property name="text">
-              <string>bissc enconder bit polarity</string>
+              <string>BiSS-C warning bit polarity</string>
              </property>
             </widget>
            </item>
