@@ -512,7 +512,8 @@ class IcepapsManager(Singleton):
             return 0
         except Exception as e:
             msg = 'Failed to set motion values for ' \
-                  'driver {0}.\n{1}'.format(driver_addr, e)
+                  'driver {} (velocity {}, acctime {}).\n{}'.format(
+                driver_addr, values[0], values[1], e)
             self.log.error(msg)
             return -1
 
