@@ -620,13 +620,13 @@
              <item row="1" column="3" colspan="2">
               <widget class="QDoubleSpinBox" name="dsbAcceleration">
                <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Acceleration range: [0.0001, 320]&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Acceleration range: [0.0011, 320]&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="decimals">
                 <number>4</number>
                </property>
                <property name="minimum">
-                <double>0.000100000000000</double>
+                <double>0.001100000000000</double>
                </property>
                <property name="maximum">
                 <double>320.000000000000000</double>
