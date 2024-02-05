@@ -246,6 +246,7 @@ class PageiPapDriver(QtWidgets.QWidget):
         self.ui.tabWidget.currentChanged.connect(self.tabWidget_currentChanged)
         self.ui.btnSendCfg.clicked.connect(self.btnSendCfg_on_click)
         self.ui.btnSaveCfg.clicked.connect(self.btnSaveCfg_on_click)
+        self.ui.btnEditLastCfg.clicked.connect(self.showLastCfg)
         self.refreshTimer.timeout.connect(self.updateTestStatus)
         self.ui.btnEnable.clicked.connect(self.endisDriver)
         self.ui.dsbSpeed.editingFinished.connect(self.setMotionValues)
@@ -1629,6 +1630,10 @@ class PageiPapDriver(QtWidgets.QWidget):
     def hideHistoricWidget(self):
         self.ui.stackedWidget.setCurrentIndex(0)
 
+    def showLastCfg(self):
+        self._mainwin.ui.actionHistoricCfg.setChecked(True)
+        self.ui.stackedWidget.setCurrentIndex(1)
+        self.ui.historicWidget.selectLastCfg(self.icepap_driver)
     # ---------------------- Templates Catalog Widget -------------------
 
     @loggingInfo

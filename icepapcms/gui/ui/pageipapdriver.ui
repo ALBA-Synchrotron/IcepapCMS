@@ -1612,6 +1612,26 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="btnEditLastCfg">
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Direct access to the calendar to edit last configuration&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>Edit Last Config</string>
+        </property>
+        <property name="icon">
+         <iconset resource="icepapcms.qrc">
+          <normaloff>:/icons/icons/calendar.png</normaloff>:/icons/icons/calendar.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="btnUndo">
         <property name="text">
          <string>Discard changes</string>
