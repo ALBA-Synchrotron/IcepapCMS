@@ -728,6 +728,9 @@ class IcepapsManager(Singleton):
 
     def upgradeAutomaticFirmware(self, host, port, filename, log_queue):
         log_queue.put('Upgrade Automatic Firmware')
+        log_queue.put('Closing other connections...')
+        self.closeConnection(host)
+        time.sleep(3)
 
         ipap, curr_ver = self._get_ipap_and_ver(host, port, log_queue)
         if filename != '':
@@ -768,6 +771,10 @@ class IcepapsManager(Singleton):
     @loggingInfo
     def upgradeFirmware(self, host, port, filename, component, options, force,
                         log_queue):
+
+        log_queue.put('Closing other connections...')
+        self.closeConnection(host)
+        time.sleep(3)
 
         ipap, _ = self._get_ipap_and_ver(host, port, log_queue)
 
