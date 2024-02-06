@@ -68,20 +68,8 @@ class HistoricCfgWidget(QtWidgets.QWidget):
         if driver is not None:
             self.icepap_driver = driver
             self.selectedCfg = None
-            self.allCfgs = {}
-            self.filteredCfgs = {}
             self.selectedDay = None
-
-            for cfg in self.icepap_driver.historic_cfgs:
-                datetime = cfg.date
-                cfgdate = datetime.strftime("%Y-%m-%d")
-                if cfgdate not in self.allCfgs:
-                    self.allCfgs[cfgdate] = []
-                self.allCfgs[cfgdate].append([cfg.date, cfg])
-                if cfg.description:
-                    if cfgdate not in self.filteredCfgs:
-                        self.filteredCfgs[cfgdate] = []
-                    self.filteredCfgs[cfgdate].append([cfg.date, cfg])
+            self.update_data()
 
         self.ui.listAllCfgs.clear()
         if self.is_applied_filter():
@@ -92,6 +80,20 @@ class HistoricCfgWidget(QtWidgets.QWidget):
         for cfgdate in cfgdate_list:
             self.ui.listAllCfgs.addItem(cfgdate)
         self.ui.listAllCfgs.sortItems(QtCore.Qt.DescendingOrder)
+
+    def update_data(self):
+        self.allCfgs = {}
+        self.filteredCfgs = {}
+        for cfg in self.icepap_driver.historic_cfgs:
+            datetime = cfg.date
+            cfgdate = datetime.strftime("%Y-%m-%d")
+            if cfgdate not in self.allCfgs:
+                self.allCfgs[cfgdate] = []
+            self.allCfgs[cfgdate].append([cfg.date, cfg])
+            if cfg.description:
+                if cfgdate not in self.filteredCfgs:
+                    self.filteredCfgs[cfgdate] = []
+                self.filteredCfgs[cfgdate].append([cfg.date, cfg])
 
     def selectLastCfg(self, driver):
         self.ui.cbxFilter.setCheckState(QtCore.Qt.Unchecked)
@@ -175,6 +177,7 @@ class HistoricCfgWidget(QtWidgets.QWidget):
             self.selectedCfg.description = desc
             db = StormManager()
             db.commitTransaction()
+            self.update_data()
 
 
 if __name__ == '__main__':
