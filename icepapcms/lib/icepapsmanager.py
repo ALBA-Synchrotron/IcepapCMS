@@ -649,9 +649,14 @@ class IcepapsManager(Singleton):
             self.updateProgressBarTimer.stop()
             self.programming_ipap.mode = 'OPER'
             self.programming_ipap = None
-        else:
-            value = float(value)
-            self.progress_dialog.setValue(value)
+        elif value == 'ACTIVE':
+            try:
+                value = status[1]
+                value = float(value)
+                self.progress_dialog.setValue(value)
+            except Exception:
+                self.log.error('Can not convert to float the status value %s',
+                               value)
 
     def _wait_programming(self, ipap, logger):
         # wait process to finish
