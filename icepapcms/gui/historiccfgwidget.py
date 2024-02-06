@@ -155,7 +155,8 @@ class HistoricCfgWidget(QtWidgets.QWidget):
         if MessageDialogs.showYesNoMessage(
                 self, "Historic configuration",
                 "Delete selected configuration ?"):
-            self.icepap_driver.deleteHistoricCfg(self.selectedCfg[1])
+            self.icepap_driver.deleteHistoricCfg(self.selectedCfg)
+            self.update_data()
             self.fillData()
         self.ui.txtName.setText("")
         self.ui.txtDescription.clear()
