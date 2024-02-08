@@ -43,6 +43,7 @@ class HistoricCfgWidget(QtWidgets.QWidget):
         self.ui.saveButton.clicked.connect(self.saveButton_on_click)
         self.ui.deleteButton.clicked.connect(self.deleteButton_on_click)
         self.ui.cbxFilter.stateChanged.connect(self.applyFilter)
+        self.ui.txtDescription.textChanged.connect(self.descriptionChanged)
 
     @loggingInfo
     def setCfgPage(self, pagedriver):
@@ -179,6 +180,15 @@ class HistoricCfgWidget(QtWidgets.QWidget):
             db = StormManager()
             db.commitTransaction()
             self.update_data()
+
+    def descriptionChanged(self):
+        txt = self.ui.txtDescription.toPlainText()
+        if len(txt) > 255:
+           MessageDialogs.showWarningMessage(
+               self,"Description too long.",
+               "Max 254 characters allowed. "
+               "Excess characters will be deleted")
+           self.ui.txtDescription.setPlainText(txt[:255])
 
 
 if __name__ == '__main__':
