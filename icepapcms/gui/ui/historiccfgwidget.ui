@@ -185,6 +185,12 @@ p, li { white-space: pre-wrap; }
          <pointsize>8</pointsize>
         </font>
        </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum length 40 characters&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="maxLength">
+        <number>40</number>
+       </property>
       </widget>
      </item>
     </layout>
