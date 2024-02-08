@@ -667,7 +667,11 @@ class IcepapsManager(Singleton):
                     raise RuntimeError('No connection available')
                 status = ipap.get_prog_status()
                 if status[0].upper() != 'DONE':
-                    logger.put('Programming {}%'.format(status))
+                    if len(status) == 2:
+                        value = status[1]
+                    else:
+                        value = status
+                    logger.put('Programming {}%'.format(value))
                     time.sleep(5)
                 else:
                     wait = False
