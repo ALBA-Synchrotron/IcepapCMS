@@ -194,6 +194,11 @@ class IcepapSystem(Storm):
 
         # Force to update the DB when the following parameter change. The DSP
         # always is right: VER, IPAPNAME and ID
+        self.log.info(f'Auto solving conflicts\n'
+                      f'Skipped parameters: {skip_params}\n'
+                      f'-------------------\n'
+                      f'Different values: {diff_values}\n'
+                      f'-------------------\n')
 
         if 'VER' not in skip_params:
             skip_params.append('VER')

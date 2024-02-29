@@ -97,14 +97,16 @@ class IcepapDriver(Storm):
         try:
             user = ConfigManager().username
             host = socket.gethostname()
-            signature = user + "@" + host + "_" + \
-                datetime.now().strftime('%Y/%m/%d_%H:%M:%S')
+            date_time_cfg = datetime.now()
+            signature_date = date_time_cfg.strftime('%Y/%m/%d_%H:%M:%S')
+            cfg_name = date_time_cfg.strftime('%Y-%m-%d %H:%M:%S.%f')
+            signature = f'{user}@{host}_{signature_date}'
             IcepapsManager().signDriverConfiguration(
                 self.icepapsystem_name, self.addr, signature)
             self.mode = str(Mode.OPER)
             db = StormManager()
             db.commitTransaction()
-            self.current_cfg.name = str(time.ctime())
+            self.current_cfg.name = str(cfg_name)
             self.current_cfg.setSignature(signature)
             self.startup_cfg = self.current_cfg
             self.conflict = Conflict.NO_CONFLICT

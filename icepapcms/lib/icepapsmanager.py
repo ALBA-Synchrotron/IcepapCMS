@@ -512,7 +512,8 @@ class IcepapsManager(Singleton):
             return 0
         except Exception as e:
             msg = 'Failed to set motion values for ' \
-                  'driver {0}.\n{1}'.format(driver_addr, e)
+                  'driver {} (velocity {}, acctime {}).\n{}'.format(
+                driver_addr, values[0], values[1], e)
             self.log.error(msg)
             return -1
 
@@ -648,9 +649,14 @@ class IcepapsManager(Singleton):
             self.updateProgressBarTimer.stop()
             self.programming_ipap.mode = 'OPER'
             self.programming_ipap = None
-        else:
-            value = float(value)
-            self.progress_dialog.setValue(value)
+        elif value == 'ACTIVE':
+            try:
+                value = status[1]
+                value = float(value)
+                self.progress_dialog.setValue(value)
+            except Exception:
+                self.log.error('Can not convert to float the status value %s',
+                               value)
 
     def _wait_programming(self, ipap, logger):
         # wait process to finish
@@ -661,7 +667,11 @@ class IcepapsManager(Singleton):
                     raise RuntimeError('No connection available')
                 status = ipap.get_prog_status()
                 if status[0].upper() != 'DONE':
-                    logger.put('Programming {}%'.format(status))
+                    if len(status) == 2:
+                        value = status[1]
+                    else:
+                        value = status
+                    logger.put('Programming {}%'.format(value))
                     time.sleep(5)
                 else:
                     wait = False
@@ -727,6 +737,9 @@ class IcepapsManager(Singleton):
 
     def upgradeAutomaticFirmware(self, host, port, filename, log_queue):
         log_queue.put('Upgrade Automatic Firmware')
+        log_queue.put('Closing other connections...')
+        self.closeConnection(host)
+        time.sleep(3)
 
         ipap, curr_ver = self._get_ipap_and_ver(host, port, log_queue)
         if filename != '':
@@ -767,6 +780,10 @@ class IcepapsManager(Singleton):
     @loggingInfo
     def upgradeFirmware(self, host, port, filename, component, options, force,
                         log_queue):
+
+        log_queue.put('Closing other connections...')
+        self.closeConnection(host)
+        time.sleep(3)
 
         ipap, _ = self._get_ipap_and_ver(host, port, log_queue)
 

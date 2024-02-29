@@ -16,6 +16,7 @@ from pkg_resources import resource_filename
 import logging
 from ..helpers import loggingInfo
 from .messagedialogs import MessageDialogs
+from ..lib.stormmanager import StormManager
 
 
 class HistoricCfgWidget(QtWidgets.QWidget):
@@ -30,69 +31,106 @@ class HistoricCfgWidget(QtWidgets.QWidget):
         uic.loadUi(ui_filename, baseinstance=self.ui)
         self.icepap_driver = None
         self.selectedCfg = None
-        self.selectedDays = {}
+        self.allCfgs = {}
+        self.filteredCfgs = {}
+        self.selectedDay = None
 
         # Connect Signals
-        self.ui.calendarWidget.clicked.connect(self.daySelected)
+        # self.ui.calendarWidget.clicked.connect(self.daySelected)
+        self.ui.listAllCfgs.itemDoubleClicked.connect(self.daySelected)
         self.ui.btnBack.clicked.connect(self.btnBackClicked)
-        self.ui.listWidget.currentTextChanged.connect(self.listWidgetChanged)
+        self.ui.listDayCfgs.currentTextChanged.connect(self.selectCfg)
         self.ui.saveButton.clicked.connect(self.saveButton_on_click)
         self.ui.deleteButton.clicked.connect(self.deleteButton_on_click)
+        self.ui.cbxFilter.stateChanged.connect(self.applyFilter)
+        self.ui.txtDescription.textChanged.connect(self.descriptionChanged)
 
     @loggingInfo
     def setCfgPage(self, pagedriver):
         self.pagedriver = pagedriver
 
+    def applyFilter(self, state):
+        if self.ui.stackedWidget.currentIndex() == 0:
+            self.fillData()
+        else:
+            self.fillDayCfgs()
+
+    def is_applied_filter(self):
+        return self.ui.cbxFilter.checkState() == QtCore.Qt.Checked
+
     @loggingInfo
-    def fillData(self, driver):
+    def fillData(self, driver=None):
         """ TO-DO STORM review"""
         self.ui.stackedWidget.setCurrentIndex(0)
         self.ui.saveButton.setEnabled(False)
         self.ui.deleteButton.setEnabled(False)
-
-        for date in self.ui.calendarWidget.dateTextFormat():
-            self.ui.calendarWidget.setDateTextFormat(
-                date, QtGui.QTextCharFormat())
-        self.selectedDays = {}
-        self.icepap_driver = driver
         self.ui.txtName.setText("")
         self.ui.txtDescription.setText("")
+        if driver is not None:
+            self.icepap_driver = driver
+            self.selectedCfg = None
+            self.selectedDay = None
+            self.update_data()
+
+        self.ui.listAllCfgs.clear()
+        if self.is_applied_filter():
+            cfgdate_list = self.filteredCfgs.keys()
+        else:
+            cfgdate_list = self.allCfgs.keys()
+
+        for cfgdate in cfgdate_list:
+            self.ui.listAllCfgs.addItem(cfgdate)
+        self.ui.listAllCfgs.sortItems(QtCore.Qt.DescendingOrder)
+
+    def update_data(self):
+        self.allCfgs = {}
+        self.filteredCfgs = {}
         for cfg in self.icepap_driver.historic_cfgs:
             datetime = cfg.date
+            cfgdate = datetime.strftime("%Y-%m-%d")
+            if cfgdate not in self.allCfgs:
+                self.allCfgs[cfgdate] = []
+            self.allCfgs[cfgdate].append([cfg.date, cfg])
+            if cfg.description:
+                if cfgdate not in self.filteredCfgs:
+                    self.filteredCfgs[cfgdate] = []
+                self.filteredCfgs[cfgdate].append([cfg.date, cfg])
 
-            qdate = QtCore.QDate(datetime.year, datetime.month, datetime.day)
-            cfgdate = qdate.toPyDate().ctime()
-            if cfgdate in self.selectedDays:
-                self.selectedDays[cfgdate].append([cfg.date, cfg])
-            else:
-                format = QtGui.QTextCharFormat()
-                format.setBackground(QtGui.QColor(255, 255, 0))
-                self.ui.calendarWidget.setDateTextFormat(qdate, format)
-                self.selectedDays[cfgdate] = [[cfg.date, cfg]]
-        self.daySelected(self.ui.calendarWidget.selectedDate())
-
-    @loggingInfo
-    def daySelected(self, qdate):
-        date = qdate.toPyDate().ctime()
-        if date in self.selectedDays:
-            daylist = self.selectedDays[date]
-            if len(daylist) == 1:
-                self.fillCfgData(daylist[0])
-            else:
-                self.ui.stackedWidget.setCurrentIndex(1)
-                self.fillDayCfgs(daylist)
+    def selectLastCfg(self, driver):
+        self.ui.cbxFilter.setCheckState(QtCore.Qt.Unchecked)
+        self.fillData(driver)
+        self.ui.listAllCfgs.setCurrentRow(0)
+        self.daySelected(self.ui.listAllCfgs.item(0))
+        self.ui.listDayCfgs.setCurrentRow(0)
+        self.selectCfg(self.ui.listDayCfgs.item(0).text())
 
     @loggingInfo
-    def fillDayCfgs(self, cfgs):
-        self.ui.listWidget.clear()
+    def daySelected(self, item):
+        self.selectedDay = item.text()
+        self.ui.stackedWidget.setCurrentIndex(1)
+        self.fillDayCfgs()
+
+
+    @loggingInfo
+    def fillDayCfgs(self):
+        self.ui.listDayCfgs.clear()
         self.listDict = {}
+        if self.is_applied_filter():
+            if self.selectedDay not in self.filteredCfgs:
+                self.btnBackClicked()
+                return
+            cfgs = self.filteredCfgs[self.selectedDay]
+        else:
+            cfgs = self.allCfgs[self.selectedDay]
+
         for date, cfg in cfgs:
-            key = date.ctime()
-            self.listDict[key] = [date, cfg]
-            self.ui.listWidget.addItem(key)
+            key = date.strftime("%Y-%m-%d %H:%M:%S.%f")
+            self.listDict[key] = cfg
+            self.ui.listDayCfgs.addItem(key)
+        self.ui.listDayCfgs.sortItems(QtCore.Qt.DescendingOrder)
 
     @loggingInfo
-    def listWidgetChanged(self, name):
+    def selectCfg(self, name):
         name = str(name)
         if name in self.listDict:
             self.fillCfgData(self.listDict[name])
@@ -100,26 +138,27 @@ class HistoricCfgWidget(QtWidgets.QWidget):
     @loggingInfo
     def fillCfgData(self, cfg):
         self.ui.saveButton.setEnabled(True)
-        if self.icepap_driver.current_cfg.name == cfg[1].name:
+        if self.icepap_driver.current_cfg.name == cfg.name:
             self.ui.deleteButton.setEnabled(False)
         else:
             self.ui.deleteButton.setEnabled(True)
         self.selectedCfg = cfg
-        self.ui.txtName.setText(cfg[1].name)
-        self.ui.txtDescription.setText(str(cfg[1].description))
-        self.pagedriver.addNewCfg(self.selectedCfg[1])
+        self.ui.txtName.setText(cfg.name)
+        self.ui.txtDescription.setText(str(cfg.description))
+        self.pagedriver.addNewCfg(self.selectedCfg)
 
     @loggingInfo
     def btnBackClicked(self):
-        self.ui.stackedWidget.setCurrentIndex(0)
+        self.fillData()
 
     @loggingInfo
     def deleteButton_on_click(self):
         if MessageDialogs.showYesNoMessage(
                 self, "Historic configuration",
                 "Delete selected configuration ?"):
-            self.icepap_driver.deleteHistoricCfg(self.selectedCfg[1])
-            self.fillData(self.icepap_driver)
+            self.icepap_driver.deleteHistoricCfg(self.selectedCfg)
+            self.update_data()
+            self.fillData()
         self.ui.txtName.setText("")
         self.ui.txtDescription.clear()
         self.ui.deleteButton.setEnabled(False)
@@ -136,8 +175,20 @@ class HistoricCfgWidget(QtWidgets.QWidget):
         if MessageDialogs.showYesNoMessage(
                 self, "Store historic configuration",
                 "Save configuration information?"):
-            self.selectedCfg[1].name = name
-            self.selectedCfg[1].description = desc
+            self.selectedCfg.name = name
+            self.selectedCfg.description = desc
+            db = StormManager()
+            db.commitTransaction()
+            self.update_data()
+
+    def descriptionChanged(self):
+        txt = self.ui.txtDescription.toPlainText()
+        if len(txt) > 255:
+           MessageDialogs.showWarningMessage(
+               self,"Description too long.",
+               "Max 254 characters allowed. "
+               "Excess characters will be deleted")
+           self.ui.txtDescription.setPlainText(txt[:255])
 
 
 if __name__ == '__main__':

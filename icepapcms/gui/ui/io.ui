@@ -176,7 +176,7 @@
               </size>
              </property>
              <property name="text">
-              <string>direction</string>
+              <string>mode</string>
              </property>
             </widget>
            </item>
@@ -223,7 +223,7 @@
               </size>
              </property>
              <property name="text">
-              <string>mode</string>
+              <string>direction</string>
              </property>
             </widget>
            </item>

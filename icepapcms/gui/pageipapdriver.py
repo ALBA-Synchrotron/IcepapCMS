@@ -246,10 +246,11 @@ class PageiPapDriver(QtWidgets.QWidget):
         self.ui.tabWidget.currentChanged.connect(self.tabWidget_currentChanged)
         self.ui.btnSendCfg.clicked.connect(self.btnSendCfg_on_click)
         self.ui.btnSaveCfg.clicked.connect(self.btnSaveCfg_on_click)
+        self.ui.btnEditLastCfg.clicked.connect(self.showLastCfg)
         self.refreshTimer.timeout.connect(self.updateTestStatus)
         self.ui.btnEnable.clicked.connect(self.endisDriver)
-        self.ui.txtSpeed.editingFinished.connect(self.setMotionValues)
-        self.ui.txtAcceleration.editingFinished.connect(self.setMotionValues)
+        self.ui.dsbSpeed.editingFinished.connect(self.setMotionValues)
+        self.ui.dsbAcceleration.editingFinished.connect(self.setMotionValues)
         self.ui.btnGO.clicked.connect(self.btnGO_on_click)
         self.ui.btnGORelativePos.clicked.connect(
             self.btnGORelativePos_on_click)
@@ -1073,6 +1074,8 @@ class PageiPapDriver(QtWidgets.QWidget):
             if not widget.isCommand:
                 if param == 'DriverName':
                     param = 'IPAPNAME'
+                if param == 'ABSOFFSET':
+                    value = int(value)
                 new_values.append([param, value])
             else:
                 # SINCE THE COMMAND PARAMS ARE NOT THE SAME AS THE CFG PARAMS
@@ -1290,27 +1293,45 @@ class PageiPapDriver(QtWidgets.QWidget):
         except BaseException  as e:
             self.log.error("Unexpected error on stopTesting: %s", e)
 
+    def get_velocity_range(self):
+        part_list = [['velocity', 'min'], ['velocity', 'max']]
+        values = self._manager.readIcepapParameters(
+            self.icepap_driver.icepapsystem_name,
+            self.icepap_driver.addr, part_list)
+        min_velocity = float(values[0][1])
+        max_velocity = float(values[1][1])
+        return min_velocity, max_velocity
+
+    def get_velocity_acc(self):
+        return self._manager.getDriverMotionValues(
+            self.icepap_driver.icepapsystem_name, self.icepap_driver.addr)
     @loggingInfo
     def getMotionValues(self):
-        (speed, acc) = self._manager.getDriverMotionValues(
-            self.icepap_driver.icepapsystem_name, self.icepap_driver.addr)
-        self.ui.txtSpeed.setText(str(speed))
-        self.ui.txtAcceleration.setText(str(acc))
+        speed, acc = self.get_velocity_acc()
+
+        min_velocity, max_velocity = self.get_velocity_range()
+        tool_tip = f'Velocity range: [{min_velocity}, {max_velocity}]'
+        self.ui.dsbSpeed.setToolTip(tool_tip)
+        self.ui.dsbSpeed.setRange(min_velocity, max_velocity)
+        self.ui.dsbSpeed.setValue(speed)
+        self.ui.dsbAcceleration.setValue(acc)
+
+    def setMotionValuesTest(self):
+
+        print(self.ui.dsbSpeed.value())
 
     @loggingInfo
     def setMotionValues(self):
-        speed = self.ui.txtSpeed.text()
-        acc = self.ui.txtAcceleration.text()
-        if speed == "":
-            speed = "1000"
-            self.ui.txtSpeed.setText(speed)
-        if acc == "":
-            acc = "0.25"
-            self.ui.txtAcceleration.setText(acc)
+        new_speed = self.ui.dsbSpeed.value()
+        new_acc = self.ui.dsbAcceleration.value()
+        speed, acc = self.get_velocity_acc()
+        if speed == new_speed and acc == new_acc:
+
+            return
         try:
             self._manager.setDriverMotionValues(
                 self.icepap_driver.icepapsystem_name, self.icepap_driver.addr,
-                [float(speed), float(acc)])
+                [new_speed, new_acc])
         except BaseException:
             MessageDialogs.showWarningMessage(
                 self, "Driver testing", "Wrong parameter format")
@@ -1331,8 +1352,8 @@ class PageiPapDriver(QtWidgets.QWidget):
 
     @loggingInfo
     def disableAllControl(self):
-        self.ui.txtSpeed.setEnabled(False)
-        self.ui.txtAcceleration.setEnabled(False)
+        self.ui.dsbSpeed.setEnabled(False)
+        self.ui.dsbAcceleration.setEnabled(False)
         self.ui.btnGO.setEnabled(False)
         self.ui.btnGORelativeNeg.setEnabled(False)
         self.ui.btnGORelativePos.setEnabled(False)
@@ -1342,8 +1363,8 @@ class PageiPapDriver(QtWidgets.QWidget):
 
     @loggingInfo
     def enableAllControl(self):
-        self.ui.txtSpeed.setEnabled(True)
-        self.ui.txtAcceleration.setEnabled(True)
+        self.ui.dsbSpeed.setEnabled(True)
+        self.ui.dsbAcceleration.setEnabled(True)
 
         self.ui.btnGORelativeNeg.setEnabled(True)
         self.ui.btnGORelativePos.setEnabled(True)
@@ -1510,7 +1531,7 @@ class PageiPapDriver(QtWidgets.QWidget):
                 self._manager.enableDriver(
                     self.icepap_driver.icepapsystem_name,
                     self.icepap_driver.addr)
-            speed = float(self.ui.txtSpeed.text())
+            speed = self.ui.dsbSpeed.value()
             factor = (self.ui.sliderJog.maximum() - abs(div)) + 1
             speed = int(speed / factor)
             if div < 0:
@@ -1609,6 +1630,10 @@ class PageiPapDriver(QtWidgets.QWidget):
     def hideHistoricWidget(self):
         self.ui.stackedWidget.setCurrentIndex(0)
 
+    def showLastCfg(self):
+        self._mainwin.ui.actionHistoricCfg.setChecked(True)
+        self.ui.stackedWidget.setCurrentIndex(1)
+        self.ui.historicWidget.selectLastCfg(self.icepap_driver)
     # ---------------------- Templates Catalog Widget -------------------
 
     @loggingInfo
