@@ -1,3 +1,26 @@
+IcepapCMS 3.8.x
+-------------------------------------------------------------------------
+Added:
+* Update SSI Absolute encoder configuration from Unknown tab.
+* Button for accessing to the last configuration validated. 
+* Allow to filter configuration with description.
+* Print on console the "auto solve conflict" parameters values
+
+Changed:
+* Calendar widget: use a list widget
+* Velocity and acceleration time widgets: use numerical widgets (#62).
+* Absolute encoder offset: use 64 bit numerical widget. 
+
+Fixed:
+* Update database after to edit the configuration name and/or description. 
+* Inverted labels for OutPos mode and direction.
+* Close connection before to program a system to avoid errors message (#63).
+* Fix error on driver upgrade progress bar.
+* Add protection on the size of the configuration name and description 
+ 
+Removed:
+
+
 IcepapCMS 3.7.x
 -------------------------------------------------------------------------
 Added:
