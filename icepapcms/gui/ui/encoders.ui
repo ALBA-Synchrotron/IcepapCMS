@@ -1482,7 +1482,7 @@ polarity</string>
               </size>
              </property>
              <property name="maximum">
-              <number>999999999</number>
+              <number>512</number>
              </property>
             </widget>
            </item>
@@ -1531,8 +1531,11 @@ polarity</string>
                <height>22</height>
               </size>
              </property>
+             <property name="minimum">
+              <number>-1</number>
+             </property>
              <property name="maximum">
-              <number>999999999</number>
+              <number>4095</number>
              </property>
             </widget>
            </item>
@@ -1582,7 +1585,7 @@ polarity</string>
               </size>
              </property>
              <property name="maximum">
-              <number>999999999</number>
+              <number>48</number>
              </property>
             </widget>
            </item>

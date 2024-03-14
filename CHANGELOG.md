@@ -16,7 +16,8 @@ Fixed:
 * Inverted labels for OutPos mode and direction.
 * Close connection before to program a system to avoid errors message (#63).
 * Fix error on driver upgrade progress bar.
-* Add protection on the size of the configuration name and description 
+* Add protection on the size of the configuration name and description
+* Update SSILDC, SSISTRTB and SSIMSKNB ranges.
  
 Removed:
 
