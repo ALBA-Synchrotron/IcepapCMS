@@ -16,6 +16,7 @@ from pkg_resources import resource_filename
 import os
 import time
 import threading
+from icepap import IcePAPController
 from ..lib.snapshot import IcepapSnapshot
 from ..lib.configmanager import ConfigManager
 from .messagedialogs import MessageDialogs
@@ -81,7 +82,8 @@ class DialogSnapshot(QtWidgets.QDialog):
                 return
 
             try:
-                ipap_snapshot = IcepapSnapshot(host, port)
+                icepap = IcePAPController(host, port=port, auto_axes=True)
+                ipap_snapshot = IcepapSnapshot(icepap)
             except Exception as e:
                 MessageDialogs.showErrorMessage(self, 'Error connecting',
                                                 str(e))
