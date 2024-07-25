@@ -410,6 +410,7 @@ def create(ctx, icepap, output, axes_str):
         output = os.path.join(snapshots_folder, name)
     axes_error = snapshot.create_snapshot(output)
     echo('*' * 79)
+    echo(f'System: {icepap.host}; axes: {axes_str}')
     echo('Results:')
     echo(f'Output: {output}', level=1)
     if axes_error:
@@ -437,6 +438,8 @@ def create_from_db(ctx):
         for ipap_system in icepap_systems:
             host = ipap_system.host
             try:
+                echo('*' * 79)
+                echo(f'Creating snapshot for host: {host}')
                 ctx.invoke(create, icepap=IcePAPController.from_url(host))
             except:
                 echo(f'Error creating snapshot for {host}', color='red' )
