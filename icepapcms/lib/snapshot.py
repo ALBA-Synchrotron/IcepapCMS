@@ -158,9 +158,12 @@ class AxisSnapshot:
                     break
                 except Exception as e:
                     error = str(e).strip('\r\n')
+
                     self.log.error('Error on reading {}: {}'
                                    ''.format(attr, error))
                     value = ERROR_VALUE
+                    if 'allowed in active' in error:
+                        break
             oper[attr] = value
             if value == ERROR_VALUE:
                 flag_error = True
