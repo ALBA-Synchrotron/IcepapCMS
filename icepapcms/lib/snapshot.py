@@ -499,8 +499,9 @@ def check(filename, all):
             color = 'yellow'
         echo(f'Axis: {axis}', color=color)
         if 'Ver' in change:
-            echo(f'Version Changed: {change['Ver'][0]} -> '
-                 f'{change['Ver'][1]}', level=1, color='red')
+            ver = change['Ver'][0]
+            new_ver = change['Ver'][1]
+            echo(f'Version Changed: ver -> new_ver', level=1, color='red')
         if not change['Configuration']:
             echo(f'Configuration OK', level=1, color='green')
             
@@ -584,7 +585,7 @@ def check(filename, all):
         echo(f'Axes with error on reading: {ipap_snap.axes_errors}',
              color='yellow')
     if diff['AxesNotFound']:
-        echo(f'Axes not alive on the system: {diff['AxesNotFound']}',
+        echo(f'Axes not alive on the system: {diff["AxesNotFound"]}',
              color='red')
     echo('*' * 79)
 
