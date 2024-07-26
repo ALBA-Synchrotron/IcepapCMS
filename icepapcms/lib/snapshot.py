@@ -137,13 +137,14 @@ class AxisSnapshot:
         attrs = ['velocity', 'name', 'acctime', 'pcloop', 'indexer', 'infoa',
                  'infob', 'infoc', 'pos', 'enc', 'pos_encin', 'enc_encin',
                  'pos_inpos', 'enc_inpos', 'pos_absenc', 'enc_absenc',
-                 'pos_motor', 'enc_motor', 'pos_sync', 'enc_sync', 'id',
+                 'pos_motor', 'enc_motor', 'id',
                  'power']
 
         # Attributes can fail on reading because they are on version 3.17
         # This attributes won on the backup file if the version is < 3
         v3_attrs = ['cswitch', 'velocity_min', 'velocity_max', 'ecam',
-                    'outpos', 'outpaux', 'syncpos', 'syncaux']
+                    'outpos', 'outpaux', 'syncpos', 'syncaux',
+                    'pos_sync', 'enc_sync']
 
         attrs += v3_attrs
         attrs.sort()
