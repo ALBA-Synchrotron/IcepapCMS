@@ -553,7 +553,7 @@ def check(filename, all):
                 axes_changed.append(axis)
             echo('Operation Change: ', level=1, color='red')
             for key, value in change['Operation']['Change'].items():
-                if key not in REGISTERS:
+                if len(value) == 2:
                     echo(f'{key}: {value[0]} -> {value[1]}', level=2,
                          color='red')
                 else:
