@@ -1295,11 +1295,16 @@ class PageiPapDriver(QtWidgets.QWidget):
 
     def get_velocity_range(self):
         part_list = [['velocity', 'min'], ['velocity', 'max']]
-        values = self._manager.readIcepapParameters(
-            self.icepap_driver.icepapsystem_name,
-            self.icepap_driver.addr, part_list)
-        min_velocity = float(values[0][1])
-        max_velocity = float(values[1][1])
+        try:
+            values = self._manager.readIcepapParameters(
+                self.icepap_driver.icepapsystem_name,
+                self.icepap_driver.addr, part_list)
+            min_velocity = float(values[0][1])
+            max_velocity = float(values[1][1])
+        except Exception as e:
+            self.log.error('Error reding velocity range: %s', e)
+            min_velocity = float('-inf')
+            max_velocity = float('+inf')
         return min_velocity, max_velocity
 
     def get_velocity_acc(self):

@@ -1,3 +1,14 @@
+IcepapCMS 3.9.x
+-------------------------------------------------------------------------
+Added:
+* icepapsnapshot console script: It allows to create and check snapshots 
+
+Changed:
+
+Fixed:
+ 
+Removed:
+
 IcepapCMS 3.8.x
 -------------------------------------------------------------------------
 Added:

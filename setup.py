@@ -48,6 +48,8 @@ setup(
         'gui_scripts': [
             'icepapcms = icepapcms.__main__:main',
             'ipapconsole = icepapcms.gui.ipapconsole:main'],
+        'console_scripts': [
+            'icepapsnapshot = icepapcms.lib.snapshot:main']
     },
     install_requires=[
         "storm>=0.23",
