@@ -59,6 +59,7 @@ setup(
         'configobj!=5.0.7',
         'ldap3',
         'PyYAML',
+        'setuptools',
 
     ],
     package_data={
