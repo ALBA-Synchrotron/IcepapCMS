@@ -1,3 +1,0 @@
-remove currentcfg_id
-varchar(40) in name for driver_cfg
-seems that default 0 in AI fields, solves problem with new cfg
