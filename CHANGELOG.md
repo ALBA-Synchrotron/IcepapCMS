@@ -6,7 +6,8 @@ Added:
 Changed:
 
 Fixed:
- 
+* Add missing dependency on python 3.13
+
 Removed:
 
 IcepapCMS 3.8.x
